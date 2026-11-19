@@ -18,6 +18,19 @@ def function_key(row):
     return row["image"], int(row["vram"], 0)
 
 
+def matching_c(row):
+    """Strictly replayed C, retaining whether it was independently sourced."""
+    return row["outcome"] in {"exact", "donor"} and row["reproduced_by"] == "C"
+
+
+def contains_assembly(data):
+    # A GNU asm-name attribute changes only the emitted symbol name. It is not
+    # an assembly implementation and must not disqualify an otherwise-C body.
+    asm_name = rb'\b(?:asm|__asm|__asm__)\s*\(\s*"[$A-Za-z_][A-Za-z0-9_$]*"\s*\)'
+    data = re.sub(asm_name, b'', data)
+    return re.search(rb'\b(?:asm|__asm|__asm__|GLOBAL_ASM|INCLUDE_ASM)\s*\(', data) is not None
+
+
 def linked_functions(root, rows):
     """Read a reviewed mixed-image link result tied to the published sources."""
     path = root / "progress-linked.tsv"
@@ -25,7 +38,7 @@ def linked_functions(root, rows):
         return set()
     strict = {
         function_key(row): row for row in rows
-        if row["outcome"] == "exact" and row["reproduced_by"] == "C"
+        if matching_c(row)
     }
     linked = set()
     for entry in inventory(path):
@@ -60,7 +73,7 @@ def generate(root):
             raise ValueError(f"invalid range: {key}")
         ranges[image].append((address, address + size))
         total_bytes += size
-        if row["outcome"] != "exact" or row["reproduced_by"] != "C":
+        if not matching_c(row):
             continue
         published = matches.get(key)
         if published is None or any(
@@ -77,7 +90,7 @@ def generate(root):
         data = path.read_bytes()
         if hashlib.sha256(data).hexdigest() != row["source_sha256"]:
             raise ValueError(f"verified source digest changed: {source}")
-        if re.search(rb'\b(?:asm|__asm|__asm__|GLOBAL_ASM|INCLUDE_ASM)\s*\(', data):
+        if contains_assembly(data):
             raise ValueError(f"assembly-assisted source needs a separate disposition: {source}")
         verified.add(key)
         files.add(source)
@@ -156,7 +169,7 @@ def objdiff_report(progress, rows, linked=()):
     linked_bytes = 0
     for row in rows:
         size = int(row["code_size"], 0)
-        matched = row["outcome"] == "exact" and row["reproduced_by"] == "C"
+        matched = matching_c(row)
         address = str(int(row["vram"], 0))
         complete = function_key(row) in linked
         if complete:

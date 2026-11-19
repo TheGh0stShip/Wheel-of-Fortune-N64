@@ -22,17 +22,19 @@ extern s32 m2c_unhandled();
 #endif
 #endif
 
-extern s32 func_800223A4;
-extern s32 func_80024370;
-s32 func_8000A56C();
-s32 func_800258BC();
-s32 func_80027218();
+/* Provisional declarations recovered from machine code by n64dk. Evidence, not truth. */
+s32 func_8000A56C(s32, s32);
+void func_800258BC(void);
+s32 func_80027218(s32, s32, s32, s32);
+
+extern M2C_UNK func_800223A4;
+extern M2C_UNK func_80024370;
 
 void func_80026DEC(void) {
-    s32 pad0;
+    s32 pad; /* n64dk: frame padding, reconstruction scaffolding */
     s32 sp14;
 
-    sp14 = func_8000A56C(((s32)&func_80024370), 0x5000000);
-    func_80027218(sp14, 0, ((s32)&func_800223A4), 0x5000000);
+    sp14 = func_8000A56C((s32) &func_80024370, 0x05000000);
+    func_80027218(sp14, 0, (s32) &func_800223A4, 0x05000000);
     func_800258BC();
 }

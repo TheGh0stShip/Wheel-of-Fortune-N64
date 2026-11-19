@@ -1,42 +1,31 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+/**************************************************************************
+ *									  *
+ *		 Copyright (C) 1994, Silicon Graphics, Inc.		  *
+ *									  *
+ *  These coded instructions, statements, and computer programs  contain  *
+ *  unpublished  proprietary  information of Silicon Graphics, Inc., and  *
+ *  are protected by Federal copyright law.  They  may  not be disclosed  *
+ *  to  third  parties  or copied or duplicated in any form, in whole or  *
+ *  in part, without the prior written consent of Silicon Graphics, Inc.  *
+ *									  *
+ **************************************************************************/
 
-M2C_UNK guMtxIdentF();                              /* extern */
-struct Fields_var_arg0
-{
-  char pad_0[0x30];
-  f32 unk_30;
-  f32 unk_34;
-  f32 unk_38;
-};
+#include "guint.h"
 
-void func_8003C2A8(struct Fields_var_arg0 *arg0, f32 arg1, f32 arg2, f32 arg3)
+void guTranslateF(float mf[4][4], float x, float y, float z)
 {
-  guMtxIdentF();
-  arg0->unk_30 = arg1;
-  arg0->unk_34 = arg2;
-  arg0->unk_38 = arg3;
+    guMtxIdentF(mf);
+
+    mf[3][0] = x;
+    mf[3][1] = y;
+    mf[3][2] = z;
 }
 
+void guTranslate(Mtx *m, float x, float y, float z)
+{
+    Matrix	mf;
 
+    guTranslateF(mf, x, y, z);
+
+    guMtxF2L(mf, m);
+}

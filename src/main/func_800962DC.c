@@ -32,27 +32,23 @@ s32 func_8009D300();
 
 void func_800962DC(s32 arg0, s32 arg1) {
     func_8009D300(arg0);
-    if (((struct gd_D0_s32 *)arg0)->v != 1) {
-        if (((struct gd_D0_s32 *)arg0)->v != 2) {
-            goto L75;
+    if ((((struct gd_D0_s32 *)arg0)->v == 1) || (((struct gd_D0_s32 *)arg0)->v == 2)) {
+        if (((struct gd_25C_s32 *)arg0)->v == 0) {
+            ((struct gd_25C_s32 *)arg0)->v = ((struct gd_260_s32 *)arg0)->v;
+            ((struct gd_10_s32 *)((struct gd_25C_s32 *)arg0)->v)->v = ((struct gd_10_s32 *)((struct gd_25C_s32 *)arg0)->v)->v | 4;
+        } else {
+            if (((struct gd_258_s32 *)arg0)->v != 0) {
+                ((struct gd_10_s32 *)((struct gd_258_s32 *)arg0)->v)->v = ((struct gd_10_s32 *)((struct gd_258_s32 *)arg0)->v)->v & -3;
+            }
+            ((struct gd_258_s32 *)arg0)->v = ((struct gd_25C_s32 *)arg0)->v;
+            ((struct gd_10_s32 *)((struct gd_258_s32 *)arg0)->v)->v = ((struct gd_10_s32 *)((struct gd_258_s32 *)arg0)->v)->v & -5;
+            ((struct gd_10_s32 *)((struct gd_258_s32 *)arg0)->v)->v = ((struct gd_10_s32 *)((struct gd_258_s32 *)arg0)->v)->v | 2;
+            ((struct gd_25C_s32 *)arg0)->v = ((struct gd_260_s32 *)arg0)->v;
+            ((struct gd_10_s32 *)((struct gd_25C_s32 *)arg0)->v)->v = ((struct gd_10_s32 *)((struct gd_25C_s32 *)arg0)->v)->v | 4;
+            ((struct gd_260_s32 *)arg0)->v = ((struct gd_258_s32 *)arg0)->v;
+            func_8009CAD8(arg0, arg1);
         }
+        return;
     }
-    if (((struct gd_25C_s32 *)arg0)->v == 0) {
-        ((struct gd_25C_s32 *)arg0)->v = ((struct gd_260_s32 *)arg0)->v;
-        ((struct gd_10_s32 *)((struct gd_25C_s32 *)arg0)->v)->v = ((struct gd_10_s32 *)((struct gd_25C_s32 *)arg0)->v)->v | 4;
-    } else {
-        if (((struct gd_258_s32 *)arg0)->v != 0) {
-            ((struct gd_10_s32 *)((struct gd_258_s32 *)arg0)->v)->v = ((struct gd_10_s32 *)((struct gd_258_s32 *)arg0)->v)->v & -3;
-        }
-        ((struct gd_258_s32 *)arg0)->v = ((struct gd_25C_s32 *)arg0)->v;
-        ((struct gd_10_s32 *)((struct gd_258_s32 *)arg0)->v)->v = ((struct gd_10_s32 *)((struct gd_258_s32 *)arg0)->v)->v & -5;
-        ((struct gd_10_s32 *)((struct gd_258_s32 *)arg0)->v)->v = ((struct gd_10_s32 *)((struct gd_258_s32 *)arg0)->v)->v | 2;
-        ((struct gd_25C_s32 *)arg0)->v = ((struct gd_260_s32 *)arg0)->v;
-        ((struct gd_10_s32 *)((struct gd_25C_s32 *)arg0)->v)->v = ((struct gd_10_s32 *)((struct gd_25C_s32 *)arg0)->v)->v | 4;
-        ((struct gd_260_s32 *)arg0)->v = ((struct gd_258_s32 *)arg0)->v;
-        func_8009CAD8(arg0, arg1);
-    }
-    return;
-L75: ;
     func_8009CAD8(arg0, arg1);
 }

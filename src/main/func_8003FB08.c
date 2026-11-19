@@ -1,44 +1,19 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+#include "types.h"
 
-/* Provisional declarations recovered from machine code by n64dk. Evidence, not truth. */
-struct Struct_func_8003FB08_arg0;
-struct Struct_func_8003FB08_arg0 {   /* provisional: 6 field(s) from 1 function(s) */
-    /* 0x00 */ s32 unk_0;
-    /* 0x04 */ s32 unk_4;
-    /* 0x08 */ s32 unk_8;
-    /* 0x0C */ u16 unk_C;
-    /* 0x0E */ u16 unk_E;
-    /* 0x10 */ s32 unk_10;
-};
-void func_8003FB08(struct Struct_func_8003FB08_arg0 *, s32, s32, s32);
+typedef struct AudioFilter {
+    void* source;
+    void* handler;
+    void* set_param;
+    s16 input;
+    s16 output;
+    s32 type;
+} AudioFilter;
 
-void func_8003FB08(struct Struct_func_8003FB08_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    arg0->unk_0 = 0;
-    arg0->unk_4 = arg1;
-    arg0->unk_8 = arg2;
-    arg0->unk_C = 0;
-    arg0->unk_E = 0;
-    arg0->unk_10 = arg3;
+void alFilterNew(AudioFilter* filter, void* handler, void* set_param, s32 type) {
+    filter->source = 0;
+    filter->handler = handler;
+    filter->set_param = set_param;
+    filter->input = 0;
+    filter->output = 0;
+    filter->type = type;
 }

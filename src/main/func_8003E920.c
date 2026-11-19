@@ -1,27 +1,126 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+/* libultra 2.0I audio/bnkf.c: reconstructed source from decompals/ultralib e24c836
+ * (src/audio/bnkf.c). The complete object is verified byte-for-byte against the
+ * BattleTanx USA Rev 0 ROM. */
+#include <libaudio.h>
+#include <os_internal.h>
+#include <ultraerror.h>
 
-void func_8003E920(void) {
+/*
+ * ### when the file format settles down a little, I'll remove these
+ * ### for efficiency.
+ */
+static  void _bnkfPatchBank(ALBank *bank, s32 offset, s32 table);
+static  void _bnkfPatchInst(ALInstrument *i, s32 offset, s32 table);
+static  void _bnkfPatchSound(ALSound *s, s32 offset, s32 table);
+static  void _bnkfPatchWaveTable(ALWaveTable *w, s32 offset, s32 table);
 
+void alSeqFileNew(ALSeqFile *file, u8 *base)
+{
+    s32 offset = (s32) base;
+    s32 i;
+
+    /*
+     * patch the file so that offsets are pointers
+     */
+    for (i = 0; i < file->seqCount; i++) {
+        file->seqArray[i].offset = (u8 *)((u8 *)file->seqArray[i].offset + offset);
+    }
+}
+
+void alBnkfNew(ALBankFile *file, u8 *table)
+{
+    s32 offset = (s32) file;
+    s32 woffset = (s32) table;
+
+    s32 i;
+
+    /*
+     * check the file format revision in debug libraries
+     */
+    ALFailIf(file->revision != AL_BANK_VERSION, ERR_ALBNKFNEW);
+
+    /*
+     * patch the file so that offsets are pointers
+     */
+    for (i = 0; i < file->bankCount; i++) {
+        file->bankArray[i] = (ALBank *)((u8 *)file->bankArray[i] + offset);
+        if(file->bankArray[i])
+            _bnkfPatchBank(file->bankArray[i], offset, woffset);
+    }
+}
+
+void _bnkfPatchBank(ALBank *bank, s32 offset, s32 table)
+{
+    s32 i;
+
+    if (bank->flags)
+        return;
+
+    bank->flags = 1;
+
+    if (bank->percussion) {
+        bank->percussion = (ALInstrument *)((u8 *)bank->percussion + offset);
+        _bnkfPatchInst(bank->percussion, offset, table);
+    }
+
+    for (i = 0; i < bank->instCount; i++) {
+        bank->instArray[i] = (ALInstrument *)((u8 *)bank->instArray[i] +
+                                              offset);
+        if(bank->instArray[i])
+            _bnkfPatchInst(bank->instArray[i], offset, table);
+    }
+}
+
+void _bnkfPatchInst(ALInstrument *inst, s32 offset, s32 table)
+{
+    s32 i;
+
+    if (inst->flags)
+        return;
+
+    inst->flags = 1;
+
+    for (i = 0; i < inst->soundCount; i++) {
+        inst->soundArray[i] = (ALSound *)((u8 *)inst->soundArray[i] +
+                                          offset);
+        _bnkfPatchSound(inst->soundArray[i], offset, table);
+
+    }
+}
+
+void _bnkfPatchSound(ALSound *s, s32 offset, s32 table)
+{
+    if (s->flags)
+        return;
+
+    s->flags = 1;
+
+    s->envelope  = (ALEnvelope *)((u8 *)s->envelope + offset);
+    s->keyMap    = (ALKeyMap *)((u8 *)s->keyMap + offset);
+
+    s->wavetable = (ALWaveTable *)((u8 *)s->wavetable + offset);
+    _bnkfPatchWaveTable(s->wavetable, offset, table);
+}
+
+void _bnkfPatchWaveTable(ALWaveTable *w, s32 offset, s32 table)
+{
+    if (w->flags)
+        return;
+
+    w->flags = 1;
+
+    w->base += table;
+
+    /* sct 2/14/96 - patch wavetable loop info based on type. */
+    if (w->type == AL_ADPCM_WAVE)
+    {
+	w->waveInfo.adpcmWave.book  = (ALADPCMBook *)((u8 *)w->waveInfo.adpcmWave.book + offset);
+	if (w->waveInfo.adpcmWave.loop)
+	    w->waveInfo.adpcmWave.loop = (ALADPCMloop *)((u8 *)w->waveInfo.adpcmWave.loop + offset);
+    }
+    else if (w->type == AL_RAW16_WAVE)
+    {
+	if (w->waveInfo.rawWave.loop)
+	    w->waveInfo.rawWave.loop = (ALRawLoop *)((u8 *)w->waveInfo.rawWave.loop + offset);
+    }
 }

@@ -1,46 +1,255 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+/* libaudio (N64 SDK 2.0I) event.c: reconstructed source from decompals/ultralib
+ * e24c836 (src/audio/event.c), built for the 2.0I configuration. The complete
+ * object is verified byte-for-byte against the BattleTanx USA Rev 0 ROM. */
 
-M2C_UNK alLink();                  /* extern */
-M2C_UNK alUnlink();                        /* extern */
-s32 osSetIntMask();                              /* extern */
+#include "PR/libaudio.h"
 
-void func_8003F874(void *arg0) {
-    s32 pad[2]; /* n64dk: frame padding, reconstruction scaffolding */
-    s32 sp2C;
-    M2C_UNK *temp_s1_18;
-    M2C_UNK *var_s0_14;
+typedef u32 OSIntMask;
+#define OS_IM_NONE 0x00000001
+extern OSIntMask osSetIntMask(OSIntMask im);
 
-    sp2C = osSetIntMask(1);
-    var_s0_14 = M2C_FIELD(arg0, M2C_UNK **, 8);
-    if (var_s0_14 != NULL) {
-        do {
-            temp_s1_18 = *var_s0_14;
-            alUnlink(var_s0_14);
-            alLink(var_s0_14, arg0);
-            var_s0_14 = temp_s1_18;
-        } while (temp_s1_18 != NULL);
+
+void alEvtqNew(ALEventQueue *evtq, ALEventListItem *items, s32 itemCount)
+{
+    s32 i;
+
+    evtq->eventCount     = 0;
+    evtq->allocList.next = 0;
+    evtq->allocList.prev = 0;
+    evtq->freeList.next  = 0;
+    evtq->freeList.prev  = 0;
+
+    for (i = 0; i < itemCount; i++) {
+        alLink((ALLink *)&items[i], &evtq->freeList);
     }
-    osSetIntMask(sp2C);
 }
+
+ALMicroTime alEvtqNextEvent(ALEventQueue *evtq, ALEvent *evt)
+{
+    ALEventListItem *item;
+    ALMicroTime delta;
+    OSIntMask mask;
+
+    mask = osSetIntMask(OS_IM_NONE);
+
+    item = (ALEventListItem *)evtq->allocList.next;
+
+    if (item)
+    {
+        alUnlink((ALLink *)item);
+        alCopy(&item->evt, evt, sizeof(*evt));
+        alLink((ALLink *)item, &evtq->freeList);
+	delta = item->delta;
+    }
+    else
+    {
+        /* sct 11/28/95 - If we get here, most like we overflowed the event queue */
+	/* with non-self-perpetuating events.  Eg. if we filled the evtq with volume */
+	/* events, then when the seqp is told to play it will handle all the events */
+	/* at once completely emptying out the queue.  At this point this problem */
+	/* must be treated as an out of resource error and the evtq should be increased. */
+	evt->type = -1;
+	delta = 0;
+    }
+
+    osSetIntMask(mask);
+
+    return delta;
+}
+
+void alEvtqPostEvent(ALEventQueue *evtq, ALEvent *evt, ALMicroTime delta)
+{
+    ALEventListItem     *item;
+    ALEventListItem     *nextItem;
+    ALLink              *node;
+    s32                 postAtEnd=0;
+    OSIntMask           mask;
+
+    mask = osSetIntMask(OS_IM_NONE);
+
+    item = (ALEventListItem *)evtq->freeList.next;
+    if (!item) {
+        osSetIntMask(mask);
+#ifdef _DEBUG
+        __osError(ERR_ALEVENTNOFREE, 0);
+#endif
+        return;
+    }
+
+    alUnlink((ALLink *)item);
+    alCopy(evt, &item->evt, sizeof(*evt));
+
+    if (delta == AL_EVTQ_END)
+        postAtEnd = -1;
+
+    for (node = &evtq->allocList; node != 0; node = node->next) {
+        if (!node->next) { /* end of the list */
+            if (postAtEnd)
+                item->delta = 0;
+            else
+                item->delta = delta;
+            alLink((ALLink *)item, node);
+            break;
+        } else {
+            nextItem = (ALEventListItem *)node->next;
+
+            if (delta < nextItem->delta) {
+                item->delta = delta;
+                nextItem->delta -= delta;
+
+                alLink((ALLink *)item, node);
+                break;
+            }
+
+            delta -= nextItem->delta;
+
+        }
+    }
+
+    osSetIntMask(mask);
+
+}
+
+void alEvtqFlush(ALEventQueue *evtq)
+{
+    ALLink      *thisNode;
+    ALLink      *nextNode;
+    OSIntMask   mask;
+
+    mask = osSetIntMask(OS_IM_NONE);
+
+    thisNode = evtq->allocList.next;
+    while( thisNode != 0 ) {
+	nextNode = thisNode->next;
+	alUnlink(thisNode);
+	alLink(thisNode, &evtq->freeList);
+	thisNode = nextNode;
+    }
+
+    osSetIntMask(mask);
+}
+
+
+/*
+  This routine flushes events according their type.
+*/
+void alEvtqFlushType(ALEventQueue *evtq, s16 type)
+{
+    ALLink      	*thisNode;
+    ALLink      	*nextNode;
+    ALEventListItem     *thisItem, *nextItem;
+    OSIntMask   	mask;
+
+    mask = osSetIntMask(OS_IM_NONE);
+
+    thisNode = evtq->allocList.next;
+    while( thisNode != 0 )
+    {
+	nextNode = thisNode->next;
+	thisItem = (ALEventListItem *)thisNode;
+	nextItem = (ALEventListItem *)nextNode;
+	if (thisItem->evt.type == type)
+	{
+	    if (nextItem)
+		nextItem->delta += thisItem->delta;
+	    alUnlink(thisNode);
+	    alLink(thisNode, &evtq->freeList);
+	}
+	thisNode = nextNode;
+    }
+
+    osSetIntMask(mask);
+}
+
+
+#ifdef _DEBUG_INTERNAL
+void alEvtqPrintEvtQueue(ALEventQueue *evtq)
+{
+    s32 count1 = 0;
+    s32 count2 = 0;
+    ALLink *node;
+    ALEventListItem *item;
+
+    /* count free events */
+    for (node = evtq->freeList.next; node != 0; node= node->next) {
+        count1++;
+    }
+
+    PRINTF("----- Allocated Events -----\n");
+    for (node = evtq->allocList.next; node != 0; node= node->next) {
+        item = (ALEventListItem *)node;
+
+        PRINTF("\tdelta: %d\ttype %d\n", item->delta, item->evt.type);
+        count2++;
+    }
+    PRINTF("\n");
+
+    PRINTF("free  events\t %d\n", count1);
+    PRINTF("alloc events\t %d\n", count2);
+    PRINTF("total events\t %d\n", count1 + count2);
+}
+
+char *MidiStatus2Str (char status, char *str);
+
+void
+alEvtqPrintAllocEvts(ALEventQueue *evtq)
+{
+    ALLink *node;
+    ALEventListItem *item;
+    ALMicroTime itemTime = 0;
+    char str[32];
+
+    PRINTF("----- Allocated Events -----\n");
+    for (node = evtq->allocList.next; node != 0; node= node->next)
+    {
+        item = (ALEventListItem *)node;
+        itemTime += item->delta;
+
+        PRINTF("\tdelta: %d\tabs: %d\t", item->delta, itemTime);
+
+	switch (item->evt.type)
+	{
+	    case AL_NOTE_END_EVT:
+	        PRINTF("NOTE_END\tvox: %x\n", item->evt.msg.note.voice);
+	    break;
+
+	    case AL_SEQP_MIDI_EVT:
+		PRINTF("SEQP_MIDI\t%s\n", MidiStatus2Str(item->evt.msg.midi.status & AL_MIDI_StatusMask, str));
+	    break;
+
+	    case AL_SEQP_PRIORITY_EVT:
+		PRINTF("SEQP_PRIORITY\n");
+	    break;
+
+	    default:
+	        PRINTF("type: %d\n", item->evt.type);
+	    break;
+	}
+
+    }
+    PRINTF("\n");
+
+}
+
+char *
+MidiStatus2Str (char status, char *str)
+{
+    switch (status)
+    {
+        case AL_MIDI_NoteOn:
+	    sprintf(str, "note on");
+	break;
+
+        case AL_MIDI_NoteOff:
+	    sprintf(str, "note off");
+	break;
+
+        default:
+	    sprintf(str, "status:%d", status);
+	break;
+    }
+
+    return str;
+}
+
+#endif /* _DEBUG_INTERNAL */

@@ -22,20 +22,19 @@ extern s32 m2c_unhandled();
 #endif
 #endif
 
-extern s32 func_80003CC8;
-extern s32 D_800BA2C8;
+extern M2C_UNK D_800BA2C8;
 extern u8 D_800BA5C8;
 extern s32 D_800BA5CC;
-extern s32 D_800BA5D0;
+extern M2C_UNK *D_800BA5D0;
+extern M2C_UNK func_80003CC8;
 
-s32 func_80003F64(s32 arg0) {
-    s8 pad0;
-
+M2C_UNK *func_80003F64(u8 **arg0) {
+    s32 pad[2]; /* n64dk: frame padding, reconstruction scaffolding */
     if (D_800BA5C8 == 0) {
         D_800BA5CC = 0;
-        D_800BA5D0 = (s32)&D_800BA2C8;
+        D_800BA5D0 = &D_800BA2C8;
         D_800BA5C8 = 1;
     }
-    (*(s32 *)arg0) = (s32)&D_800BA5C8;
-    return (s32)&func_80003CC8;
+    *arg0 = &D_800BA5C8;
+    return &func_80003CC8;
 }

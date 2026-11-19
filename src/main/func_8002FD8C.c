@@ -32,13 +32,9 @@ s32 func_8000AAB0();
 void func_8002FD8C(void) {
     s32 sp10;
 
-    if (D_800BCA00 != 0) {
-        if (D_800BCD54 != 4) {
-            goto L9;
-        }
+    if ((D_800BCA00 == 0) || (D_800BCD54 == 4)) {
+        return;
     }
-    return;
-L9: ;
     sp10 = func_8000A990(0x7030000, -1);
     if (sp10 == 0) {
         func_80009F38(((s32)&D_80001928));

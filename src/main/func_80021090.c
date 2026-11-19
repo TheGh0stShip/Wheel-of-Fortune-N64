@@ -36,7 +36,7 @@ s32 func_800206C8();
 s32 func_80020C98();
 
 void func_80021090(s32 arg0) {
-    switch (*(u32 *)D_80107884) {
+    switch ((u32)(*(s32 *)D_80107884)) {
     case 112:
         func_800202A0(arg0);
         return;

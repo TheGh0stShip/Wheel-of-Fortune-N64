@@ -1,51 +1,104 @@
 image	function	vram	rom_offset	size	code_size	outcome	how	source	distance	reproduced_by	unit_class	reason_code	next_step
 main	func_80002348	0x80002348	0x2F48	0x250	0x250	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80002348.c	0	C	game		
+main	func_80002598	0x80002598	0x3198	0x118	0x118	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80002598.c	0	C	game		
 main	func_800026B0	0x800026B0	0x32B0	0x50	0x50	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800026B0.c	0	C	game		
+main	func_80002700	0x80002700	0x3300	0x1E4	0x1E4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80002700.c	0	C	game		
+main	func_800028E4	0x800028E4	0x34E4	0x250	0x250	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800028E4.c	0	C	game		
+main	func_80002B34	0x80002B34	0x3734	0x100	0x100	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80002B34.c	0	C	game		
+main	func_80002C34	0x80002C34	0x3834	0xAC	0xAC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80002C34.c	0	C	game		
+main	func_80002CE0	0x80002CE0	0x38E0	0x278	0x278	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80002CE0.c	0	C	game		
 main	func_80002F58	0x80002F58	0x3B58	0xBC	0xBC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80002F58.c	0	C	game		
 main	func_80003014	0x80003014	0x3C14	0xD4	0xD4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80003014.c	0	C	game		
 main	func_800030E8	0x800030E8	0x3CE8	0x74	0x74	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800030E8.c	0	C	game		
 main	func_8000315C	0x8000315C	0x3D5C	0xD8	0xD8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000315C.c	0	C	game		
 main	func_80003234	0x80003234	0x3E34	0x38	0x38	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80003234.c	0	C	game		
 main	func_8000326C	0x8000326C	0x3E6C	0x3C	0x38	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000326C.c	0	C	game		
+main	func_800032A8	0x800032A8	0x3EA8	0x4F8	0x4F8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800032A8.c	0	C	game		
+main	func_800037A0	0x800037A0	0x43A0	0x1A4	0x1A4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800037A0.c	0	C	game		
+main	func_80003944	0x80003944	0x4544	0x324	0x324	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80003944.c	0	C	game		
 main	func_80003C68	0x80003C68	0x4868	0x60	0x60	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80003C68.c	0	C	game		
 main	func_80003CC8	0x80003CC8	0x48C8	0x29C	0x29C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80003CC8.c	0	C	game		
 main	func_80003F64	0x80003F64	0x4B64	0x78	0x78	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80003F64.c	0	C	game		
 main	func_80003FDC	0x80003FDC	0x4BDC	0x184	0x184	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80003FDC.c	0	C	game		
 main	func_80004160	0x80004160	0x4D60	0xAC	0xAC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80004160.c	0	C	game		
+main	func_8000420C	0x8000420C	0x4E0C	0x3C8	0x3C8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000420C.c	0	C	game		
+main	func_800045D4	0x800045D4	0x51D4	0x87C	0x87C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800045D4.c	0	C	game		
 main	func_80004E50	0x80004E50	0x5A50	0x60	0x60	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80004E50.c	0	C	game		
 main	func_80004EB0	0x80004EB0	0x5AB0	0x5C	0x5C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80004EB0.c	0	C	game		
 main	func_80004F0C	0x80004F0C	0x5B0C	0x60	0x60	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80004F0C.c	0	C	game		
 main	func_80004F6C	0x80004F6C	0x5B6C	0x248	0x248	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80004F6C.c	0	C	game		
+main	func_800051B4	0x800051B4	0x5DB4	0xA4	0xA4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800051B4.c	0	C	game		
+main	func_80005258	0x80005258	0x5E58	0xA8	0xA8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80005258.c	0	C	game		
+main	func_80005300	0x80005300	0x5F00	0x324	0x324	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80005300.c	0	C	game		
+main	func_80005624	0x80005624	0x6224	0xDC	0xDC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80005624.c	0	C	game		
+main	func_80005700	0x80005700	0x6300	0xA8	0xA8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80005700.c	0	C	game		
+main	func_800057A8	0x800057A8	0x63A8	0x828	0x828	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800057A8.c	0	C	game		
 main	func_80005FD0	0x80005FD0	0x6BD0	0xDC	0xDC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80005FD0.c	0	C	game		
+main	func_800060B0	0x800060B0	0x6CB0	0x278	0x274	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 -g (draft)	src/main/func_800060B0.c	0	C	game		
 main	func_80006328	0x80006328	0x6F28	0x78	0x78	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80006328.c	0	C	game		
+main	func_800063A0	0x800063A0	0x6FA0	0xEC	0xEC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800063A0.c	0	C	game		
+main	func_8000648C	0x8000648C	0x708C	0x148	0x148	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000648C.c	0	C	game		
+main	func_800065D4	0x800065D4	0x71D4	0x204	0x204	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800065D4.c	0	C	game		
 main	func_800067D8	0x800067D8	0x73D8	0x50	0x50	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800067D8.c	0	C	game		
 main	func_80006828	0x80006828	0x7428	0xC8	0xC8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80006828.c	0	C	game		
+main	func_800068F0	0x800068F0	0x74F0	0x234	0x234	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800068F0.c	0	C	game		
 main	func_80006B28	0x80006B28	0x7728	0x30	0x30	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80006B28.c	0	C	game		
 main	func_80006B58	0x80006B58	0x7758	0xA4	0xA4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80006B58.c	0	C	game		
+main	func_80006BFC	0x80006BFC	0x77FC	0x258	0x258	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80006BFC.c	0	C	game		
+main	func_80006E54	0x80006E54	0x7A54	0x88C	0x88C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 -g (draft)	src/main/func_80006E54.c	0	C	game		
+main	func_800076E0	0x800076E0	0x82E0	0x138	0x138	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800076E0.c	0	C	game		
 main	func_80007818	0x80007818	0x8418	0x70	0x70	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80007818.c	0	C	game		
+main	func_80007888	0x80007888	0x8488	0x524	0x524	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80007888.c	0	C	game		
+main	func_80007DAC	0x80007DAC	0x89AC	0x140	0x140	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80007DAC.c	0	C	game		
+main	func_80007EEC	0x80007EEC	0x8AEC	0x3F8	0x3F8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80007EEC.c	0	C	game		
+main	func_800082E4	0x800082E4	0x8EE4	0x204	0x204	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800082E4.c	0	C	game		
+main	func_800084E8	0x800084E8	0x90E8	0x140	0x140	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800084E8.c	0	C	game		
+main	func_80008628	0x80008628	0x9228	0x1D0	0x1D0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80008628.c	0	C	game		
+main	func_800087F8	0x800087F8	0x93F8	0xEC	0xEC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800087F8.c	0	C	game		
+main	func_800088E4	0x800088E4	0x94E4	0x1D4	0x1D4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800088E4.c	0	C	game		
+main	func_80008AB8	0x80008AB8	0x96B8	0x4AC	0x4AC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80008AB8.c	0	C	game		
+main	func_80008F64	0x80008F64	0x9B64	0x1A4	0x1A4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80008F64.c	0	C	game		
+main	func_80009108	0x80009108	0x9D08	0x184	0x184	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009108.c	0	C	game		
+main	func_8000928C	0x8000928C	0x9E8C	0xD8	0xD8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000928C.c	0	C	game		
+main	func_80009364	0x80009364	0x9F64	0x130	0x130	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009364.c	0	C	game		
 main	func_80009494	0x80009494	0xA094	0x1A8	0x1A8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009494.c	0	C	game		
 main	func_8000963C	0x8000963C	0xA23C	0x10C	0x108	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000963C.c	0	C	game		
 main	func_80009748	0x80009748	0xA348	0xBC	0xBC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009748.c	0	C	game		
 main	func_80009804	0x80009804	0xA404	0xFC	0xFC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009804.c	0	C	game		
 main	func_80009900	0x80009900	0xA500	0xB0	0xB0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009900.c	0	C	game		
+main	func_800099B0	0x800099B0	0xA5B0	0xC4	0xC4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800099B0.c	0	C	game		
 main	func_80009A74	0x80009A74	0xA674	0x6C	0x6C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009A74.c	0	C	game		
+main	func_80009AE0	0x80009AE0	0xA6E0	0x1B8	0x1B8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009AE0.c	0	C	game		
 main	func_80009C98	0x80009C98	0xA898	0x70	0x70	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009C98.c	0	C	game		
 main	func_80009D08	0x80009D08	0xA908	0x24	0x24	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009D08.c	0	C	game		
+main	func_80009D2C	0x80009D2C	0xA92C	0x4C	0x4C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009D2C.c	0	C	game		
+main	func_80009D78	0x80009D78	0xA978	0x1C0	0x1C0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009D78.c	0	C	game		
+main	func_80009F38	0x80009F38	0xAB38	0x60	0x60	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009F38.c	0	C	game		
 main	func_80009F98	0x80009F98	0xAB98	0x40	0x3C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009F98.c	0	C	game		
+main	func_80009FD8	0x80009FD8	0xABD8	0x10C	0x10C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80009FD8.c	0	C	game		
 main	func_8000A0E4	0x8000A0E4	0xACE4	0x74	0x74	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000A0E4.c	0	C	game		
 main	func_8000A158	0x8000A158	0xAD58	0xAC	0xAC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000A158.c	0	C	game		
+main	func_8000A204	0x8000A204	0xAE04	0x118	0x118	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000A204.c	0	C	game		
 main	func_8000A31C	0x8000A31C	0xAF1C	0xEC	0xEC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000A31C.c	0	C	game		
 main	func_8000A408	0x8000A408	0xB008	0x9C	0x9C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000A408.c	0	C	game		
 main	func_8000A4A4	0x8000A4A4	0xB0A4	0xC8	0xC8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000A4A4.c	0	C	game		
 main	func_8000A56C	0x8000A56C	0xB16C	0xF8	0xF8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000A56C.c	0	C	game		
+main	func_8000A664	0x8000A664	0xB264	0x1EC	0x1EC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000A664.c	0	C	game		
+main	func_8000A850	0x8000A850	0xB450	0x140	0x140	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000A850.c	0	C	game		
 main	func_8000A990	0x8000A990	0xB590	0x94	0x94	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000A990.c	0	C	game		
 main	func_8000AA24	0x8000AA24	0xB624	0x8C	0x8C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000AA24.c	0	C	game		
+main	func_8000AAB0	0x8000AAB0	0xB6B0	0x108	0x108	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000AAB0.c	0	C	game		
+main	func_8000ABB8	0x8000ABB8	0xB7B8	0x130	0x130	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000ABB8.c	0	C	game		
+main	func_8000ACE8	0x8000ACE8	0xB8E8	0xB4	0xB4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000ACE8.c	0	C	game		
 main	func_8000AD9C	0x8000AD9C	0xB99C	0x50	0x50	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000AD9C.c	0	C	game		
 main	func_8000ADEC	0x8000ADEC	0xB9EC	0x84	0x84	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000ADEC.c	0	C	game		
 main	func_8000AE70	0x8000AE70	0xBA70	0x90	0x8C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000AE70.c	0	C	game		
+main	func_8000AF00	0x8000AF00	0xBB00	0xEC	0xEC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000AF00.c	0	C	game		
 main	func_8000AFEC	0x8000AFEC	0xBBEC	0x74	0x74	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000AFEC.c	0	C	game		
 main	func_8000B060	0x8000B060	0xBC60	0xAC	0xAC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000B060.c	0	C	game		
+main	func_8000B10C	0x8000B10C	0xBD0C	0x128	0x128	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000B10C.c	0	C	game		
 main	func_8000B234	0x8000B234	0xBE34	0xA0	0xA0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000B234.c	0	C	game		
+main	func_8000B2D4	0x8000B2D4	0xBED4	0xDC	0xDC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000B2D4.c	0	C	game		
 main	func_8000B3B0	0x8000B3B0	0xBFB0	0xB8	0xB8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000B3B0.c	0	C	game		
 main	func_8000B468	0x8000B468	0xC068	0xC0	0xC0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000B468.c	0	C	game		
 main	func_8000B528	0x8000B528	0xC128	0xB4	0xB4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000B528.c	0	C	game		
@@ -56,17 +109,71 @@ main	func_8000B780	0x8000B780	0xC380	0x74	0x74	exact	kmc+asn64 -O0 -G0 -mips3 -m
 main	func_8000B7F4	0x8000B7F4	0xC3F4	0xA8	0xA8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000B7F4.c	0	C	game		
 main	func_8000B89C	0x8000B89C	0xC49C	0x88	0x88	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000B89C.c	0	C	game		
 main	func_8000B924	0x8000B924	0xC524	0x54	0x54	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000B924.c	0	C	game		
+main	func_8000B978	0x8000B978	0xC578	0x84	0x84	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000B978.c	0	C	game		
 main	func_8000B9FC	0x8000B9FC	0xC5FC	0xAC	0xA8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000B9FC.c	0	C	game		
 main	func_8000BAA8	0x8000BAA8	0xC6A8	0x68	0x68	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000BAA8.c	0	C	game		
 main	func_8000BB10	0x8000BB10	0xC710	0x58	0x58	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000BB10.c	0	C	game		
 main	func_8000BB68	0x8000BB68	0xC768	0x40	0x40	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000BB68.c	0	C	game		
+main	func_8000BBA8	0x8000BBA8	0xC7A8	0xBC	0xBC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000BBA8.c	0	C	game		
+main	func_8000BC64	0x8000BC64	0xC864	0x208	0x208	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000BC64.c	0	C	game		
 main	func_8000BE6C	0x8000BE6C	0xCA6C	0x3C	0x3C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000BE6C.c	0	C	game		
+main	func_8000BEA8	0x8000BEA8	0xCAA8	0x468	0x468	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000BEA8.c	0	C	game		
+main	func_8000C310	0x8000C310	0xCF10	0x1FC	0x1FC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000C310.c	0	C	game		
+main	func_8000C50C	0x8000C50C	0xD10C	0x1B8	0x1B8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000C50C.c	0	C	game		
+main	func_8000C6C4	0x8000C6C4	0xD2C4	0x1E4	0x1E4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000C6C4.c	0	C	game		
+main	func_8000C8A8	0x8000C8A8	0xD4A8	0x2B0	0x2B0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000C8A8.c	0	C	game		
+main	func_8000CB58	0x8000CB58	0xD758	0x8A8	0x8A8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000CB58.c	0	C	game		
+main	func_8000D400	0x8000D400	0xE000	0x2D8	0x2D8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000D400.c	0	C	game		
+main	func_8000D6D8	0x8000D6D8	0xE2D8	0x1E0	0x1E0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000D6D8.c	0	C	game		
+main	func_8000D8B8	0x8000D8B8	0xE4B8	0x3E8	0x3E8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000D8B8.c	0	C	game		
+main	func_8000DCA0	0x8000DCA0	0xE8A0	0x28C	0x28C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000DCA0.c	0	C	game		
+main	func_8000DF2C	0x8000DF2C	0xEB2C	0x584	0x584	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000DF2C.c	0	C	game		
+main	func_8000E4B0	0x8000E4B0	0xF0B0	0x204	0x204	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000E4B0.c	0	C	game		
 main	func_8000E6B4	0x8000E6B4	0xF2B4	0x84	0x84	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000E6B4.c	0	C	game		
 main	func_8000E738	0x8000E738	0xF338	0x5C	0x5C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000E738.c	0	C	game		
 main	func_8000E794	0x8000E794	0xF394	0x40	0x40	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000E794.c	0	C	game		
+main	func_8000E7D4	0x8000E7D4	0xF3D4	0x36C	0x36C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000E7D4.c	0	C	game		
+main	func_8000EB40	0x8000EB40	0xF740	0x310	0x310	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000EB40.c	0	C	game		
 main	func_8000EE50	0x8000EE50	0xFA50	0x28	0x28	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000EE50.c	0	C	game		
+main	func_8000EE78	0x8000EE78	0xFA78	0xF0	0xF0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000EE78.c	0	C	game		
+main	func_8000EF68	0x8000EF68	0xFB68	0x30C	0x30C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 -g (draft)	src/main/func_8000EF68.c	0	C	game		
+main	func_8000F274	0x8000F274	0xFE74	0x4CC	0x4CC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000F274.c	0	C	game		
+main	func_8000F740	0x8000F740	0x10340	0x10C	0x10C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000F740.c	0	C	game		
+main	func_8000F84C	0x8000F84C	0x1044C	0x3F0	0x3F0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000F84C.c	0	C	game		
+main	func_8000FC3C	0x8000FC3C	0x1083C	0x1C0	0x1C0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000FC3C.c	0	C	game		
+main	func_8000FDFC	0x8000FDFC	0x109FC	0x1E4	0x1E4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000FDFC.c	0	C	game		
+main	func_8000FFE0	0x8000FFE0	0x10BE0	0x214	0x214	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8000FFE0.c	0	C	game		
+main	func_800101F4	0x800101F4	0x10DF4	0x1C0	0x1C0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800101F4.c	0	C	game		
+main	func_800103B4	0x800103B4	0x10FB4	0x1C0	0x1C0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800103B4.c	0	C	game		
+main	func_80010574	0x80010574	0x11174	0x544	0x544	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 -g (draft)	src/main/func_80010574.c	0	C	game		
+main	func_80010AB8	0x80010AB8	0x116B8	0x284	0x284	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80010AB8.c	0	C	game		
+main	func_80010D3C	0x80010D3C	0x1193C	0x4B4	0x4B4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80010D3C.c	0	C	game		
+main	func_800111F0	0x800111F0	0x11DF0	0x114	0x114	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800111F0.c	0	C	game		
+main	func_80011304	0x80011304	0x11F04	0x128	0x128	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80011304.c	0	C	game		
+main	func_8001142C	0x8001142C	0x1202C	0x1F4	0x1F4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001142C.c	0	C	game		
+main	func_80011620	0x80011620	0x12220	0x160	0x160	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80011620.c	0	C	game		
+main	func_80011780	0x80011780	0x12380	0x1A0	0x1A0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80011780.c	0	C	game		
+main	func_80011920	0x80011920	0x12520	0x204	0x204	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80011920.c	0	C	game		
+main	func_80011B24	0x80011B24	0x12724	0x434	0x434	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80011B24.c	0	C	game		
+main	func_80011F58	0x80011F58	0x12B58	0x334	0x334	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80011F58.c	0	C	game		
+main	func_8001228C	0x8001228C	0x12E8C	0x274	0x274	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001228C.c	0	C	game		
+main	func_80012500	0x80012500	0x13100	0x27C	0x27C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80012500.c	0	C	game		
+main	func_8001277C	0x8001277C	0x1337C	0xBC	0xBC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001277C.c	0	C	game		
 main	func_80012838	0x80012838	0x13438	0x508	0x508	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80012838.c	0	C	game		
+main	func_80012D40	0x80012D40	0x13940	0x5AC	0x5AC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80012D40.c	0	C	game		
+main	func_800132EC	0x800132EC	0x13EEC	0xDC	0xDC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800132EC.c	0	C	game		
+main	func_800133C8	0x800133C8	0x13FC8	0x78	0x78	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800133C8.c	0	C	game		
+main	func_80013440	0x80013440	0x14040	0xC0	0xC0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80013440.c	0	C	game		
+main	func_80013500	0x80013500	0x14100	0x248	0x248	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80013500.c	0	C	game		
+main	func_80013748	0x80013748	0x14348	0xAC0	0xAC0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80013748.c	0	C	game		
+main	func_80014208	0x80014208	0x14E08	0x2E8	0x2E8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80014208.c	0	C	game		
+main	func_800144F0	0x800144F0	0x150F0	0x278	0x278	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800144F0.c	0	C	game		
+main	func_80014768	0x80014768	0x15368	0x2F4	0x2F4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80014768.c	0	C	game		
+main	func_80014A5C	0x80014A5C	0x1565C	0x4DC	0x4DC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80014A5C.c	0	C	game		
+main	func_80014F38	0x80014F38	0x15B38	0x48C	0x48C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80014F38.c	0	C	game		
+main	func_800153C4	0x800153C4	0x15FC4	0x484	0x484	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800153C4.c	0	C	game		
 main	func_80015848	0x80015848	0x16448	0xF8	0xF8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80015848.c	0	C	game		
+main	func_80015940	0x80015940	0x16540	0x40C	0x40C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80015940.c	0	C	game		
 main	func_80015D4C	0x80015D4C	0x1694C	0x190	0x190	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80015D4C.c	0	C	game		
 main	func_80015EDC	0x80015EDC	0x16ADC	0x12C	0x12C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80015EDC.c	0	C	game		
 main	func_80016008	0x80016008	0x16C08	0x90	0x90	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80016008.c	0	C	game		
@@ -74,24 +181,63 @@ main	func_80016098	0x80016098	0x16C98	0x110	0x110	exact	kmc+asn64 -O0 -G0 -mips3
 main	func_800161A8	0x800161A8	0x16DA8	0x168	0x168	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800161A8.c	0	C	game		
 main	func_80016310	0x80016310	0x16F10	0x324	0x324	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80016310.c	0	C	game		
 main	func_80016638	0x80016638	0x17238	0x88	0x88	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80016638.c	0	C	game		
+main	func_800166C0	0x800166C0	0x172C0	0x74	0x74	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800166C0.c	0	C	game		
+main	func_80016734	0x80016734	0x17334	0x210	0x210	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80016734.c	0	C	game		
+main	func_80016944	0x80016944	0x17544	0x258	0x258	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80016944.c	0	C	game		
 main	func_80016B9C	0x80016B9C	0x1779C	0x50	0x50	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80016B9C.c	0	C	game		
+main	func_80016BEC	0x80016BEC	0x177EC	0x8C	0x8C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80016BEC.c	0	C	game		
+main	func_80016C78	0x80016C78	0x17878	0x7E4	0x7E4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80016C78.c	0	C	game		
 main	func_8001745C	0x8001745C	0x1805C	0x80	0x80	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001745C.c	0	C	game		
 main	func_800174DC	0x800174DC	0x180DC	0x68	0x68	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800174DC.c	0	C	game		
+main	func_80017548	0x80017548	0x18148	0x130	0x130	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80017548.c	0	C	game		
 main	func_80017678	0x80017678	0x18278	0xB0	0xB0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80017678.c	0	C	game		
+main	func_80017728	0x80017728	0x18328	0x7C	0x7C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80017728.c	0	C	game		
 main	func_800177A4	0x800177A4	0x183A4	0xA4	0xA4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800177A4.c	0	C	game		
+main	func_80017848	0x80017848	0x18448	0xF0	0xF0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80017848.c	0	C	game		
+main	func_80017938	0x80017938	0x18538	0x2C8	0x2C8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80017938.c	0	C	game		
 main	func_80017C00	0x80017C00	0x18800	0x1BC	0x1BC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80017C00.c	0	C	game		
+main	func_80017DBC	0x80017DBC	0x189BC	0x3E8	0x3E8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80017DBC.c	0	C	game		
+main	func_800181A4	0x800181A4	0x18DA4	0x204	0x204	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800181A4.c	0	C	game		
+main	func_800183A8	0x800183A8	0x18FA8	0x980	0x980	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 -g (draft)	src/main/func_800183A8.c	0	C	game		
+main	func_80018D28	0x80018D28	0x19928	0x614	0x614	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 -g (draft)	src/main/func_80018D28.c	0	C	game		
+main	func_8001933C	0x8001933C	0x19F3C	0x2F4	0x2F4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001933C.c	0	C	game		
+main	func_80019630	0x80019630	0x1A230	0x47C	0x47C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80019630.c	0	C	game		
+main	func_80019AAC	0x80019AAC	0x1A6AC	0x978	0x978	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 -g (draft)	src/main/func_80019AAC.c	0	C	game		
 main	func_8001A424	0x8001A424	0x1B024	0x60	0x60	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001A424.c	0	C	game		
+main	func_8001A484	0x8001A484	0x1B084	0x14C	0x14C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001A484.c	0	C	game		
 main	func_8001A5D0	0x8001A5D0	0x1B1D0	0x58	0x58	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001A5D0.c	0	C	game		
 main	func_8001A628	0x8001A628	0x1B228	0xB4	0xB4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001A628.c	0	C	game		
 main	func_8001A6DC	0x8001A6DC	0x1B2DC	0xCC	0xCC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001A6DC.c	0	C	game		
 main	func_8001A7A8	0x8001A7A8	0x1B3A8	0xEC	0xEC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001A7A8.c	0	C	game		
 main	func_8001A894	0x8001A894	0x1B494	0xE8	0xE8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001A894.c	0	C	game		
 main	func_8001A97C	0x8001A97C	0x1B57C	0xE4	0xE4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001A97C.c	0	C	game		
+main	func_8001AA60	0x8001AA60	0x1B660	0x3B8	0x3B8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001AA60.c	0	C	game		
+main	func_8001AE18	0x8001AE18	0x1BA18	0x8A4	0x8A4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 -g (draft)	src/main/func_8001AE18.c	0	C	game		
+main	func_8001B6BC	0x8001B6BC	0x1C2BC	0x588	0x588	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 -g (draft)	src/main/func_8001B6BC.c	0	C	game		
+main	func_8001BC44	0x8001BC44	0x1C844	0x294	0x294	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001BC44.c	0	C	game		
+main	func_8001BED8	0x8001BED8	0x1CAD8	0x6AC	0x6AC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001BED8.c	0	C	game		
+main	func_8001C584	0x8001C584	0x1D184	0xD9C	0xD9C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 -g (draft)	src/main/func_8001C584.c	0	C	game		
+main	func_8001D320	0x8001D320	0x1DF20	0xAC	0xAC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001D320.c	0	C	game		
 main	func_8001D3CC	0x8001D3CC	0x1DFCC	0x74	0x74	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001D3CC.c	0	C	game		
-main	func_80020150	0x80020150	0x20D50	0x150	0x150	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft after variant search)	src/main/func_80020150.c	0	C	game		
-main	func_80021090	0x80021090	0x21C90	0x154	0x154	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft after variant search)	src/main/func_80021090.c	0	C	game		
+main	func_8001D440	0x8001D440	0x1E040	0x6B0	0x6B0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001D440.c	0	C	game		
+main	func_8001DAF0	0x8001DAF0	0x1E6F0	0x1258	0x1258	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001DAF0.c	0	C	game		
+main	func_8001ED48	0x8001ED48	0x1F948	0x2A8	0x2A8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001ED48.c	0	C	game		
+main	func_8001EFF0	0x8001EFF0	0x1FBF0	0x1160	0x1160	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8001EFF0.c	0	C	game		
+main	func_80020150	0x80020150	0x20D50	0x150	0x150	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80020150.c	0	C	game		
+main	func_800202A0	0x800202A0	0x20EA0	0x428	0x428	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800202A0.c	0	C	game		
+main	func_800206C8	0x800206C8	0x212C8	0x5D0	0x5D0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800206C8.c	0	C	game		
+main	func_80020C98	0x80020C98	0x21898	0x3F8	0x3F8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80020C98.c	0	C	game		
+main	func_80021090	0x80021090	0x21C90	0x154	0x154	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80021090.c	0	C	game		
 main	func_800211E4	0x800211E4	0x21DE4	0xDC	0xDC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800211E4.c	0	C	game		
+main	func_800212C0	0x800212C0	0x21EC0	0x10C	0x10C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800212C0.c	0	C	game		
+main	func_800213CC	0x800213CC	0x21FCC	0x17C	0x17C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800213CC.c	0	C	game		
+main	func_80021548	0x80021548	0x22148	0x1FC	0x1FC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80021548.c	0	C	game		
+main	func_80021744	0x80021744	0x22344	0x1C4	0x1C4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80021744.c	0	C	game		
+main	func_80021908	0x80021908	0x22508	0xB0	0xB0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80021908.c	0	C	game		
+main	func_800219B8	0x800219B8	0x225B8	0x14C	0x14C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800219B8.c	0	C	game		
 main	func_80021B04	0x80021B04	0x22704	0x48	0x48	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80021B04.c	0	C	game		
+main	func_80021B4C	0x80021B4C	0x2274C	0x140	0x140	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80021B4C.c	0	C	game		
+main	func_80021C8C	0x80021C8C	0x2288C	0x19C	0x19C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80021C8C.c	0	C	game		
 main	func_80021E28	0x80021E28	0x22A28	0x60	0x5C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80021E28.c	0	C	game		
 main	func_80021E88	0x80021E88	0x22A88	0x204	0x204	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80021E88.c	0	C	game		
 main	func_8002208C	0x8002208C	0x22C8C	0x18C	0x18C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002208C.c	0	C	game		
@@ -99,15 +245,36 @@ main	func_80022218	0x80022218	0x22E18	0x18C	0x18C	exact	kmc+asn64 -O0 -G0 -mips3
 main	func_800223A4	0x800223A4	0x22FA4	0x18C	0x18C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800223A4.c	0	C	game		
 main	func_80022530	0x80022530	0x23130	0x18C	0x18C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80022530.c	0	C	game		
 main	func_800226BC	0x800226BC	0x232BC	0xC8	0xC8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800226BC.c	0	C	game		
-main	func_800229D0	0x800229D0	0x235D0	0x1F8	0x1F8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft after variant search)	src/main/func_800229D0.c	0	C	game		
-main	func_80022BC8	0x80022BC8	0x237C8	0x1F8	0x1F8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft after variant search)	src/main/func_80022BC8.c	0	C	game		
+main	func_80022784	0x80022784	0x23384	0x24C	0x24C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80022784.c	0	C	game		
+main	func_800229D0	0x800229D0	0x235D0	0x1F8	0x1F8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800229D0.c	0	C	game		
+main	func_80022BC8	0x80022BC8	0x237C8	0x1F8	0x1F8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80022BC8.c	0	C	game		
+main	func_80022DC0	0x80022DC0	0x239C0	0x220	0x220	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80022DC0.c	0	C	game		
+main	func_80022FE0	0x80022FE0	0x23BE0	0x220	0x220	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80022FE0.c	0	C	game		
+main	func_80023200	0x80023200	0x23E00	0xAC	0xAC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80023200.c	0	C	game		
+main	func_800232AC	0x800232AC	0x23EAC	0x898	0x898	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800232AC.c	0	C	game		
+main	func_80023B44	0x80023B44	0x24744	0x160	0x160	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80023B44.c	0	C	game		
+main	func_80023CA4	0x80023CA4	0x248A4	0x6CC	0x6CC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80023CA4.c	0	C	game		
+main	func_80024370	0x80024370	0x24F70	0x4F8	0x4F8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80024370.c	0	C	game		
+main	func_80024868	0x80024868	0x25468	0x4F8	0x4F8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80024868.c	0	C	game		
+main	func_80024D60	0x80024D60	0x25960	0x2AC	0x2AC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80024D60.c	0	C	game		
+main	func_8002500C	0x8002500C	0x25C0C	0x144	0x144	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002500C.c	0	C	game		
+main	func_80025150	0x80025150	0x25D50	0x76C	0x76C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80025150.c	0	C	game		
+main	func_800258BC	0x800258BC	0x264BC	0x6EC	0x6EC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800258BC.c	0	C	game		
+main	func_80025FA8	0x80025FA8	0x26BA8	0x434	0x434	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80025FA8.c	0	C	game		
+main	func_800263DC	0x800263DC	0x26FDC	0x424	0x424	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800263DC.c	0	C	game		
+main	func_80026800	0x80026800	0x27400	0x5EC	0x5EC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80026800.c	0	C	game		
 main	func_80026DEC	0x80026DEC	0x279EC	0x64	0x64	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80026DEC.c	0	C	game		
 main	func_80026E50	0x80026E50	0x27A50	0x64	0x64	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80026E50.c	0	C	game		
+main	func_80026EB4	0x80026EB4	0x27AB4	0x120	0x120	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80026EB4.c	0	C	game		
+main	func_80026FD4	0x80026FD4	0x27BD4	0x244	0x240	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80026FD4.c	0	C	game		
 main	func_80027218	0x80027218	0x27E18	0x104	0x104	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80027218.c	0	C	game		
 main	func_8002731C	0x8002731C	0x27F1C	0x100	0x100	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002731C.c	0	C	game		
+main	func_8002741C	0x8002741C	0x2801C	0x48C	0x48C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002741C.c	0	C	game		
 main	func_800278A8	0x800278A8	0x284A8	0x48	0x48	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800278A8.c	0	C	game		
+main	func_800278F0	0x800278F0	0x284F0	0x64C	0x64C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800278F0.c	0	C	game		
 main	func_80027F3C	0x80027F3C	0x28B3C	0x128	0x128	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80027F3C.c	0	C	game		
 main	func_80028064	0x80028064	0x28C64	0x130	0x130	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80028064.c	0	C	game		
+main	func_80028194	0x80028194	0x28D94	0x298	0x298	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80028194.c	0	C	game		
 main	func_8002842C	0x8002842C	0x2902C	0x128	0x128	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002842C.c	0	C	game		
 main	func_80028554	0x80028554	0x29154	0x128	0x128	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80028554.c	0	C	game		
 main	func_8002867C	0x8002867C	0x2927C	0x128	0x128	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002867C.c	0	C	game		
@@ -116,114 +283,449 @@ main	func_800288CC	0x800288CC	0x294CC	0x128	0x128	exact	kmc+asn64 -O0 -G0 -mips3
 main	func_800289F4	0x800289F4	0x295F4	0x128	0x128	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800289F4.c	0	C	game		
 main	func_80028B1C	0x80028B1C	0x2971C	0x130	0x130	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80028B1C.c	0	C	game		
 main	func_80028C4C	0x80028C4C	0x2984C	0x78	0x78	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80028C4C.c	0	C	game		
+main	func_80028CC4	0x80028CC4	0x298C4	0x78	0x78	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80028CC4.c	0	C	game		
+main	func_80028D3C	0x80028D3C	0x2993C	0x35C	0x35C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80028D3C.c	0	C	game		
+main	func_80029098	0x80029098	0x29C98	0x3A8	0x3A8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80029098.c	0	C	game		
+main	func_80029440	0x80029440	0x2A040	0x534	0x534	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80029440.c	0	C	game		
+main	func_80029974	0x80029974	0x2A574	0x288	0x288	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80029974.c	0	C	game		
+main	func_80029BFC	0x80029BFC	0x2A7FC	0x9C	0x9C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80029BFC.c	0	C	game		
+main	func_80029C98	0x80029C98	0x2A898	0x37C	0x37C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80029C98.c	0	C	game		
+main	func_8002A014	0x8002A014	0x2AC14	0x524	0x524	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002A014.c	0	C	game		
+main	func_8002A538	0x8002A538	0x2B138	0x390	0x390	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002A538.c	0	C	game		
+main	func_8002A8C8	0x8002A8C8	0x2B4C8	0x208	0x208	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002A8C8.c	0	C	game		
+main	func_8002AAD0	0x8002AAD0	0x2B6D0	0x218	0x218	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002AAD0.c	0	C	game		
+main	func_8002ACE8	0x8002ACE8	0x2B8E8	0x178	0x178	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002ACE8.c	0	C	game		
+main	func_8002AE60	0x8002AE60	0x2BA60	0x17C	0x17C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002AE60.c	0	C	game		
+main	func_8002AFDC	0x8002AFDC	0x2BBDC	0x78	0x78	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002AFDC.c	0	C	game		
 main	func_8002B054	0x8002B054	0x2BC54	0x40	0x40	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002B054.c	0	C	game		
+main	func_8002B094	0x8002B094	0x2BC94	0x284	0x284	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002B094.c	0	C	game		
+main	func_8002B318	0x8002B318	0x2BF18	0x418	0x418	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002B318.c	0	C	game		
+main	func_8002B730	0x8002B730	0x2C330	0x1D4	0x1D4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002B730.c	0	C	game		
+main	func_8002B904	0x8002B904	0x2C504	0x140	0x140	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002B904.c	0	C	game		
+main	func_8002BA44	0x8002BA44	0x2C644	0x2B0	0x2B0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002BA44.c	0	C	game		
+main	func_8002BCF4	0x8002BCF4	0x2C8F4	0x190	0x190	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002BCF4.c	0	C	game		
+main	func_8002BE84	0x8002BE84	0x2CA84	0x210	0x210	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002BE84.c	0	C	game		
+main	func_8002C094	0x8002C094	0x2CC94	0xA20	0xA20	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 -g (draft)	src/main/func_8002C094.c	0	C	game		
+main	func_8002CAB4	0x8002CAB4	0x2D6B4	0x140	0x140	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002CAB4.c	0	C	game		
+main	func_8002CBF4	0x8002CBF4	0x2D7F4	0xCBC	0xCBC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002CBF4.c	0	C	game		
 main	func_8002D8B0	0x8002D8B0	0x2E4B0	0x80	0x80	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002D8B0.c	0	C	game		
+main	func_8002D930	0x8002D930	0x2E530	0x650	0x650	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002D930.c	0	C	game		
+main	func_8002DF80	0x8002DF80	0x2EB80	0xE4	0xE4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002DF80.c	0	C	game		
 main	func_8002E064	0x8002E064	0x2EC64	0x64	0x64	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002E064.c	0	C	game		
+main	func_8002E0C8	0x8002E0C8	0x2ECC8	0xA78	0xA78	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002E0C8.c	0	C	game		
 main	func_8002EB40	0x8002EB40	0x2F740	0x50	0x50	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002EB40.c	0	C	game		
 main	func_8002EB90	0x8002EB90	0x2F790	0x64	0x64	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002EB90.c	0	C	game		
 main	func_8002EBF4	0x8002EBF4	0x2F7F4	0x6C	0x6C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002EBF4.c	0	C	game		
+main	func_8002EC60	0x8002EC60	0x2F860	0x160	0x160	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002EC60.c	0	C	game		
 main	func_8002EDC0	0x8002EDC0	0x2F9C0	0x20	0x20	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002EDC0.c	0	C	game		
+main	func_8002EDE0	0x8002EDE0	0x2F9E0	0x1E0	0x1E0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002EDE0.c	0	C	game		
+main	func_8002EFC0	0x8002EFC0	0x2FBC0	0x378	0x378	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002EFC0.c	0	C	game		
+main	func_8002F338	0x8002F338	0x2FF38	0x494	0x494	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002F338.c	0	C	game		
+main	func_8002F7CC	0x8002F7CC	0x303CC	0x180	0x180	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002F7CC.c	0	C	game		
+main	func_8002F94C	0x8002F94C	0x3054C	0x214	0x214	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002F94C.c	0	C	game		
+main	func_8002FB60	0x8002FB60	0x30760	0x178	0x178	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002FB60.c	0	C	game		
 main	func_8002FCD8	0x8002FCD8	0x308D8	0x3C	0x3C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002FCD8.c	0	C	game		
 main	func_8002FD14	0x8002FD14	0x30914	0x3C	0x3C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002FD14.c	0	C	game		
 main	func_8002FD50	0x8002FD50	0x30950	0x3C	0x3C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002FD50.c	0	C	game		
 main	func_8002FD8C	0x8002FD8C	0x3098C	0xA0	0xA0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002FD8C.c	0	C	game		
 main	func_8002FE2C	0x8002FE2C	0x30A2C	0x44	0x44	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002FE2C.c	0	C	game		
 main	func_8002FE70	0x8002FE70	0x30A70	0x40	0x3C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002FE70.c	0	C	game		
+main	func_8002FEB0	0x8002FEB0	0x30AB0	0x5E0	0x5E0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8002FEB0.c	0	C	game		
+main	func_80030490	0x80030490	0x31090	0x6CC	0x6CC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80030490.c	0	C	game		
+main	func_80030B5C	0x80030B5C	0x3175C	0x7E4	0x7E4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80030B5C.c	0	C	game		
+main	func_80031340	0x80031340	0x31F40	0xFC	0xFC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80031340.c	0	C	game		
+main	func_8003143C	0x8003143C	0x3203C	0x1C0	0x1C0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8003143C.c	0	C	game		
+main	func_800315FC	0x800315FC	0x321FC	0x458	0x458	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800315FC.c	0	C	game		
+main	func_80031A54	0x80031A54	0x32654	0x970	0x970	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80031A54.c	0	C	game		
+main	func_800323C4	0x800323C4	0x32FC4	0x20C	0x20C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800323C4.c	0	C	game		
+main	func_800325D0	0x800325D0	0x331D0	0x288	0x288	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800325D0.c	0	C	game		
 main	func_80032858	0x80032858	0x33458	0x34	0x34	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80032858.c	0	C	game		
+main	func_8003288C	0x8003288C	0x3348C	0x248	0x248	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8003288C.c	0	C	game		
 main	func_80032AD4	0x80032AD4	0x336D4	0x3C	0x3C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80032AD4.c	0	C	game		
 main	func_80032B10	0x80032B10	0x33710	0x70	0x70	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80032B10.c	0	C	game		
 main	func_80032B80	0x80032B80	0x33780	0x70	0x70	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80032B80.c	0	C	game		
+main	func_80032BF0	0x80032BF0	0x337F0	0x560	0x560	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80032BF0.c	0	C	game		
+main	func_80033150	0x80033150	0x33D50	0x1E4	0x1E4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80033150.c	0	C	game		
+main	func_80033334	0x80033334	0x33F34	0x1B0	0x1B0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80033334.c	0	C	game		
 main	func_800334E4	0x800334E4	0x340E4	0xEC	0xEC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800334E4.c	0	C	game		
+main	func_800335D0	0x800335D0	0x341D0	0xB8	0xB8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800335D0.c	0	C	game		
+main	func_80033688	0x80033688	0x34288	0x360	0x360	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80033688.c	0	C	game		
 main	func_800339E8	0x800339E8	0x345E8	0x40	0x3C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800339E8.c	0	C	game		
+main	func_80033A28	0x80033A28	0x34628	0x294	0x294	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80033A28.c	0	C	game		
 main	func_80033CBC	0x80033CBC	0x348BC	0x3C	0x3C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80033CBC.c	0	C	game		
+main	func_80033CF8	0x80033CF8	0x348F8	0x330	0x330	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80033CF8.c	0	C	game		
+main	func_80034028	0x80034028	0x34C28	0x3D0	0x3D0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80034028.c	0	C	game		
 main	func_800343F8	0x800343F8	0x34FF8	0x1F0	0x1F0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800343F8.c	0	C	game		
+main	func_800345E8	0x800345E8	0x351E8	0x368	0x368	exact	kmc+builtin -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800345E8.c	0	C	game		
 main	func_80034950	0x80034950	0x35550	0x68	0x64	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80034950.c	0	C	game		
-main	func_800380B8	0x800380B8	0x38CB8	0x20	0x20	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800380B8.c	0	C	rsp		
+main	func_800380B8	0x800380B8	0x38CB8	0x20	0x20	exact	kmc+asn64 -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800380B8.c	0	C	rsp		
+main	func_80038748	0x80038748	0x39348	0x10	0x10	donor	donor unit BattleTanx: src/libultra/os_ai_get_length.c	src/main/func_80038748.c		C	game		
+main	func_80038758	0x80038758	0x39358	0x160	0x160	donor	donor unit BattleTanx: src/libultra/os_ai_set_frequency.c	src/main/func_80038758.c		C	sdk		
+main	func_800388B8	0x800388B8	0x394B8	0xB0	0xB0	donor	donor unit BattleTanx: src/libultra/os_ai_set_next_buffer.c	src/main/func_800388B8.c		C	sdk		
+main	func_80038968	0x80038968	0x39568	0x30	0x30	donor	donor unit BattleTanx: src/libultra/os_ai_device_busy.c	src/main/func_80038968.c		C	sdk		
 main	func_80038B28	0x80038B28	0x39728	0x50	0x50	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80038B28.c	0	C	sdk		
-main	func_80038B78	0x80038B78	0x39778	0x44	0x44	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80038B78.c	0	C	game		
-main	func_80038BBC	0x80038BBC	0x397BC	0x2C	0x2C	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80038BBC.c	0	C	game		
-main	func_80039838	0x80039838	0x3A438	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80039838.c	0	C	game		
-main	func_80039898	0x80039898	0x3A498	0x38	0x38	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80039898.c	0	C	sdk		
-main	func_800398D0	0x800398D0	0x3A4D0	0x60	0x60	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_800398D0.c	0	C	sdk		
-main	func_80039978	0x80039978	0x3A578	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80039978.c	0	C	game		
-main	func_8003A538	0x8003A538	0x3B138	0x30	0x30	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003A538.c	0	C	sdk		
-main	func_8003A58C	0x8003A58C	0x3B18C	0x38	0x38	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003A58C.c	0	C	sdk		
-main	func_8003A5C4	0x8003A5C4	0x3B1C4	0x34	0x34	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003A5C4.c	0	C	sdk		
-main	func_8003A5F8	0x8003A5F8	0x3B1F8	0x40	0x34	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003A5F8.c	0	C	sdk		
-main	func_8003B644	0x8003B644	0x3C244	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8003B644.c	0	C	game		
-main	func_8003BBC4	0x8003BBC4	0x3C7C4	0x8	0x8	exact	kmc+as -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8003BBC4.c	0	C	game		
-main	func_8003BD34	0x8003BD34	0x3C934	0x174	0x168	exact	ido5.3 -O3 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003BD34.c	0	C	sdk		
-main	func_8003C2A8	0x8003C2A8	0x3CEA8	0x48	0x48	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003C2A8.c	0	C	sdk		
-main	func_8003C398	0x8003C398	0x3CF98	0x44	0x44	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003C398.c	0	C	sdk		
-main	func_8003C3DC	0x8003C3DC	0x3CFDC	0x54	0x54	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003C3DC.c	0	C	sdk		
-main	func_8003C430	0x8003C430	0x3D030	0x54	0x54	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003C430.c	0	C	sdk		
-main	func_8003C5B4	0x8003C5B4	0x3D1B4	0xA4	0xA4	exact	ido5.3 -O3 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003C5B4.c	0	C	sdk		
-main	func_8003E918	0x8003E918	0x3F518	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8003E918.c	0	C	game		
-main	func_8003E920	0x8003E920	0x3F520	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8003E920.c	0	C	game		
-main	func_8003EA14	0x8003EA14	0x3F614	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8003EA14.c	0	C	game		
-main	func_8003EB90	0x8003EB90	0x3F790	0xEC	0xEC	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003EB90.c	0	C	sdk		
-main	func_8003F874	0x8003F874	0x40474	0x70	0x70	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003F874.c	0	C	sdk		
-main	func_8003FA94	0x8003FA94	0x40694	0x74	0x74	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003FA94.c	0	C	sdk		
-main	func_8003FB08	0x8003FB08	0x40708	0x20	0x1C	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8003FB08.c	0	C	game		
-main	func_8003FF78	0x8003FF78	0x40B78	0x80	0x7C	exact	ido5.3 -O1 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8003FF78.c	0	C	sdk		
-main	func_800408EC	0x800408EC	0x414EC	0x18	0x18	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_800408EC.c	0	C	game		
-main	func_8004129C	0x8004129C	0x41E9C	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8004129C.c	0	C	game		
-main	func_80041C9C	0x80041C9C	0x4289C	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80041C9C.c	0	C	game		
-main	func_80042428	0x80042428	0x43028	0x54	0x54	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80042428.c	0	C	sdk		
-main	func_8004247C	0x8004247C	0x4307C	0x80	0x80	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8004247C.c	0	C	sdk		
-main	func_800425B0	0x800425B0	0x431B0	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800425B0.c	0	C	game		
-main	func_800425B8	0x800425B8	0x431B8	0x24	0x24	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_800425B8.c	0	C	sdk		
-main	func_80042AB8	0x80042AB8	0x436B8	0x70	0x70	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80042AB8.c	0	C	sdk		
-main	func_8004343C	0x8004343C	0x4403C	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8004343C.c	0	C	game		
-main	func_80043D68	0x80043D68	0x44968	0x1C	0x1C	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80043D68.c	0	C	game		
-main	func_80043D84	0x80043D84	0x44984	0x1C	0x1C	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80043D84.c	0	C	game		
-main	func_80043DA0	0x80043DA0	0x449A0	0x8	0x8	exact	kmc+as -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80043DA0.c	0	C	sdk		
-main	func_80043DA8	0x80043DA8	0x449A8	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80043DA8.c	0	C	game		
-main	func_80044968	0x80044968	0x45568	0x20	0x18	exact	kmc+as -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80044968.c	0	C	game		
-main	func_80045738	0x80045738	0x46338	0x30	0x28	exact	ido5.3 -O1 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80045738.c	0	C	sdk		
-main	func_80045B68	0x80045B68	0x46768	0x10	0x10	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80045B68.c	0	C	game		
-main	func_80045C18	0x80045C18	0x46818	0x10	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80045C18.c	0	C	game		
-main	func_80045C28	0x80045C28	0x46828	0x50	0x50	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80045C28.c	0	C	sdk		
+main	func_80038B78	0x80038B78	0x39778	0x44	0x44	donor	donor unit nagano: src/game/lock_resource_80050540.c	src/main/func_80038B78.c		C	game		
+main	func_80038BBC	0x80038BBC	0x397BC	0x2C	0x2C	donor	donor unit nagano: src/game/reset_global_object_80050584.c	src/main/func_80038BBC.c		C	game		
+main	func_80038E18	0x80038E18	0x39A18	0xF0	0xF0	donor	donor unit Madden64: src/libultra/os_cart_rom_init.c	src/main/func_80038E18.c		C	game		
+main	func_80038FA8	0x80038FA8	0x39BA8	0x100	0x100	donor	donor unit Madden64: src/libultra/os_leo_disk_init.c	src/main/func_80038FA8.c		C	game		
+main	func_800390A8	0x800390A8	0x39CA8	0x490	0x490	donor	donor unit BattleTanx: src/libultra/os_device_manager.c	src/main/func_800390A8.c		C	sdk		
+main	func_80039538	0x80039538	0x3A138	0x50	0x50	donor	donor unit BattleTanx: src/libultra/os_epi_raw_read_io.c	src/main/func_80039538.c		C	sdk		
+main	func_80039588	0x80039588	0x3A188	0x50	0x50	donor	donor unit BattleTanx: src/libultra/os_epi_raw_write_io.c	src/main/func_80039588.c		C	sdk		
+main	func_800395D8	0x800395D8	0x3A1D8	0xE0	0xE0	donor	donor unit BattleTanx: src/libultra/os_pi_raw_start_dma.c	src/main/func_800395D8.c		C	sdk		
+main	func_800396B8	0x800396B8	0x3A2B8	0x60	0x60	donor	donor unit BattleTanx: src/libultra/al_sndp_set_pitch.c	src/main/func_800396B8.c		C	sdk		
+main	func_80039718	0x80039718	0x3A318	0x60	0x60	donor	donor unit BattleTanx: src/libultra/al_sndp_set_vol.c	src/main/func_80039718.c		C	sdk		
+main	func_80039778	0x80039778	0x3A378	0x60	0x60	donor	donor unit sdk_2_0F_libultra_rom: src/audio/sndpsetpan.c	src/main/func_80039778.c		C	sdk		
+main	func_800397D8	0x800397D8	0x3A3D8	0x60	0x60	donor	donor unit BattleTanx: src/libultra/al_sndp_set_fx_mix.c	src/main/func_800397D8.c		C	sdk		
+main	func_80039838	0x80039838	0x3A438	0x8	0x8	donor	donor unit BattleTanx: src/libultra/al_synthesizer.c	src/main/func_80039838.c		C	game		
+main	func_80039840	0x80039840	0x3A440	0x58	0x58	donor	donor unit BattleTanx: src/libultra/al_synthesizer.c	src/main/func_80039840.c		C	sdk		
+main	func_80039898	0x80039898	0x3A498	0x38	0x38	donor	donor unit BattleTanx: src/libultra/al_synthesizer.c	src/main/func_80039898.c		C	sdk		
+main	func_800398D0	0x800398D0	0x3A4D0	0x60	0x60	donor	donor unit BattleTanx: src/libultra/al_synthesizer.c	src/main/func_800398D0.c		C	sdk		
+main	func_80039930	0x80039930	0x3A530	0x18	0x18	donor	donor unit BattleTanx: src/libultra/al_synthesizer.c	src/main/func_80039930.c		C	game		
+main	func_80039948	0x80039948	0x3A548	0x30	0x30	donor	donor unit BattleTanx: src/libultra/al_synthesizer.c	src/main/func_80039948.c		C	sdk		
+main	func_80039978	0x80039978	0x3A578	0x8	0x8	donor	donor unit BattleTanx: src/libultra/al_synthesizer.c	src/main/func_80039978.c		C	game		
+main	func_80039980	0x80039980	0x3A580	0x298	0x298	donor	donor unit BattleTanx: src/libultra/al_synthesizer.c	src/main/func_80039980.c		C	sdk		
+main	func_80039C18	0x80039C18	0x3A818	0x300	0x300	donor	donor unit BattleTanx: src/libultra/al_synthesizer.c	src/main/func_80039C18.c		C	sdk		
+main	func_80039F18	0x80039F18	0x3AB18	0x168	0x168	donor	donor unit BattleTanx: src/libultra/os_motor.c	src/main/func_80039F18.c		C	sdk		
+main	func_8003A080	0x8003A080	0x3AC80	0x16C	0x16C	donor	donor unit BattleTanx: src/libultra/os_motor.c	src/main/func_8003A080.c		C	sdk		
+main	func_8003A1EC	0x8003A1EC	0x3ADEC	0x17C	0x17C	donor	donor unit BattleTanx: src/libultra/os_motor.c	src/main/func_8003A1EC.c		C	game		
+main	func_8003A368	0x8003A368	0x3AF68	0x1D0	0x1D0	donor	donor unit BattleTanx: src/libultra/os_motor.c	src/main/func_8003A368.c		C	sdk		
+main	func_8003A538	0x8003A538	0x3B138	0x30	0x30	donor	donor unit BattleTanx: src/libultra/al_sl.c	src/main/func_8003A538.c		C	sdk		
+main	func_8003A568	0x8003A568	0x3B168	0x24	0x24	donor	donor unit BattleTanx: src/libultra/al_sl.c	src/main/func_8003A568.c		C	sdk		
+main	func_8003A58C	0x8003A58C	0x3B18C	0x38	0x38	donor	donor unit BattleTanx: src/libultra/al_sl.c	src/main/func_8003A58C.c		C	sdk		
+main	func_8003A5C4	0x8003A5C4	0x3B1C4	0x34	0x34	donor	donor unit BattleTanx: src/libultra/al_sl.c	src/main/func_8003A5C4.c		C	sdk		
+main	func_8003A5F8	0x8003A5F8	0x3B1F8	0x40	0x40	donor	donor unit BattleTanx: src/libultra/al_heap_init.c	src/main/func_8003A5F8.c		C	sdk		
+main	func_8003A638	0x8003A638	0x3B238	0x60	0x60	donor	donor unit BattleTanx: src/libultra/al_heap_alloc.c	src/main/func_8003A638.c		C	sdk		
+main	func_8003A698	0x8003A698	0x3B298	0x1D4	0x1D4	donor	donor unit BattleTanx: src/libultra/al_load.c	src/main/func_8003A698.c		C	sdk		
+main	func_8003A86C	0x8003A86C	0x3B46C	0x3AC	0x3AC	donor	donor unit BattleTanx: src/libultra/al_load.c	src/main/func_8003A86C.c		C	sdk		
+main	func_8003AC18	0x8003AC18	0x3B818	0x12C	0x12C	donor	donor unit BattleTanx: src/libultra/al_load.c	src/main/func_8003AC18.c		C	game		
+main	func_8003AD44	0x8003AD44	0x3B944	0x4A4	0x4A4	donor	donor unit BattleTanx: src/libultra/al_load.c	src/main/func_8003AD44.c		C	sdk		
+main	func_8003B1E8	0x8003B1E8	0x3BDE8	0x80	0x80	donor	donor unit BattleTanx: src/libultra/al_copy.c	src/main/func_8003B1E8.c		C	sdk		
+main	func_8003B268	0x8003B268	0x3BE68	0x30	0x30	donor	donor unit BattleTanx: src/libultra/al_aux_bus.c	src/main/func_8003B268.c		C	sdk		
+main	func_8003B298	0x8003B298	0x3BE98	0xE0	0xE0	donor	donor unit BattleTanx: src/libultra/al_aux_bus.c	src/main/func_8003B298.c		C	sdk		
+main	func_8003B378	0x8003B378	0x3BF78	0x30	0x30	donor	donor unit BattleTanx: src/libultra/al_csp_play.c	src/main/func_8003B378.c		C	game		
+main	func_8003B3A8	0x8003B3A8	0x3BFA8	0x40	0x40	donor	donor unit BattleTanx: src/libultra/al_csp_set_bank.c	src/main/func_8003B3A8.c		C	game		
+main	func_8003B3E8	0x8003B3E8	0x3BFE8	0xA0	0xA0	donor	donor unit sdk_2_0F_libultra_rom: src/audio/cseq.c	src/main/func_8003B3E8.c		C	sdk		
+main	func_8003B488	0x8003B488	0x3C088	0xA0	0xA0	donor	donor unit sdk_2_0F_libultra_rom: src/audio/cseq.c	src/main/func_8003B488.c		C	sdk		
+main	func_8003B528	0x8003B528	0x3C128	0xC4	0xC4	donor	donor unit sdk_2_0F_libultra_rom: src/audio/cseq.c	src/main/func_8003B528.c		C	game		
+main	func_8003B5EC	0x8003B5EC	0x3C1EC	0x58	0x58	donor	donor unit sdk_2_0F_libultra_rom: src/audio/cseq.c	src/main/func_8003B5EC.c		C	game		
+main	func_8003B644	0x8003B644	0x3C244	0x8	0x8	donor	donor unit sdk_2_0F_libultra_rom: src/audio/cseq.c	src/main/func_8003B644.c		C	game		
+main	func_8003B64C	0x8003B64C	0x3C24C	0x2F8	0x2F8	donor	donor unit sdk_2_0F_libultra_rom: src/audio/cseq.c	src/main/func_8003B64C.c		C	sdk		
+main	func_8003B944	0x8003B944	0x3C544	0x114	0x114	donor	donor unit sdk_2_0F_libultra_rom: src/audio/cseq.c	src/main/func_8003B944.c		C	sdk		
+main	func_8003BA58	0x8003BA58	0x3C658	0x16C	0x16C	donor	donor unit sdk_2_0F_libultra_rom: src/audio/cseq.c	src/main/func_8003BA58.c		C	sdk		
+main	func_8003BBC4	0x8003BBC4	0x3C7C4	0x8	0x8	donor	donor unit sdk_2_0F_libultra_rom: src/audio/cseq.c	src/main/func_8003BBC4.c		C	game		
+main	func_8003BBCC	0x8003BBCC	0x3C7CC	0xFC	0xFC	donor	donor unit sdk_2_0F_libultra_rom: src/audio/cseq.c	src/main/func_8003BBCC.c		C	sdk		
+main	func_8003BCC8	0x8003BCC8	0x3C8C8	0x6C	0x6C	donor	donor unit sdk_2_0F_libultra_rom: src/audio/cseq.c	src/main/func_8003BCC8.c		C	sdk		
+main	func_8003BD34	0x8003BD34	0x3C934	0x174	0x174	donor	donor unit sdk_2_0F_libultra_rom: src/audio/cseq.c	src/main/func_8003BD34.c		C	sdk		
+main	func_8003BEA8	0x8003BEA8	0x3CAA8	0x14C	0x14C	donor	donor unit sdk_2_0F_libultra_rom: src/gu/rotaterpy.c	src/main/func_8003BEA8.c		C	sdk		
+main	func_8003BFF4	0x8003BFF4	0x3CBF4	0x54	0x54	donor	donor unit sdk_2_0F_libultra_rom: src/gu/rotaterpy.c	src/main/func_8003BFF4.c		C	sdk		
+main	func_8003C048	0x8003C048	0x3CC48	0x54	0x54	donor	donor unit sdk_2_0F_libultra_rom: src/gu/scale.c	src/main/func_8003C048.c		C	sdk		
+main	func_8003C09C	0x8003C09C	0x3CC9C	0x4C	0x4C	donor	donor unit sdk_2_0F_libultra_rom: src/gu/scale.c	src/main/func_8003C09C.c		C	sdk		
+main	func_8003C0E8	0x8003C0E8	0x3CCE8	0x1C0	0x1C0	donor	donor unit BattleTanx: src/libultra/gu_sinf.c	src/main/func_8003C0E8.c		C	sdk		
+main	func_8003C2A8	0x8003C2A8	0x3CEA8	0x48	0x48	donor	donor unit sdk_2_0F_libultra_rom: src/gu/translate.c	src/main/func_8003C2A8.c		C	sdk		
+main	func_8003C2F0	0x8003C2F0	0x3CEF0	0x58	0x58	donor	donor unit sdk_2_0F_libultra_rom: src/gu/translate.c	src/main/func_8003C2F0.c		C	sdk		
+main	func_8003C348	0x8003C348	0x3CF48	0x50	0x50	donor	donor unit BattleTanx: src/libultra/os_yield_thread.c	src/main/func_8003C348.c		C	sdk		
+main	func_8003C398	0x8003C398	0x3CF98	0x44	0x44	donor	donor unit BattleTanx: src/libultra/al_drvr_new.c	src/main/func_8003C398.c		C	sdk		
+main	func_8003C3DC	0x8003C3DC	0x3CFDC	0x54	0x54	donor	donor unit BattleTanx: src/libultra/al_drvr_new.c	src/main/func_8003C3DC.c		C	sdk		
+main	func_8003C430	0x8003C430	0x3D030	0x54	0x54	donor	donor unit BattleTanx: src/libultra/al_drvr_new.c	src/main/func_8003C430.c		C	sdk		
+main	func_8003C484	0x8003C484	0x3D084	0x88	0x88	donor	donor unit BattleTanx: src/libultra/al_drvr_new.c	src/main/func_8003C484.c		C	sdk		
+main	func_8003C50C	0x8003C50C	0x3D10C	0xA8	0xA8	donor	donor unit BattleTanx: src/libultra/al_drvr_new.c	src/main/func_8003C50C.c		C	sdk		
+main	func_8003C5B4	0x8003C5B4	0x3D1B4	0xA4	0xA4	donor	donor unit BattleTanx: src/libultra/al_drvr_new.c	src/main/func_8003C5B4.c		C	sdk		
+main	func_8003C658	0x8003C658	0x3D258	0xA0	0xA0	donor	donor unit BattleTanx: src/libultra/al_drvr_new.c	src/main/func_8003C658.c		C	sdk		
+main	func_8003C6F8	0x8003C6F8	0x3D2F8	0x440	0x440	donor	donor unit BattleTanx: src/libultra/al_drvr_new.c	src/main/func_8003C6F8.c		C	sdk		
+main	func_8003CB38	0x8003CB38	0x3D738	0xE0	0xE0	donor	donor unit BattleTanx: src/libultra/os_set_thread_pri.c	src/main/func_8003CB38.c		C	sdk		
+main	func_8003CDE8	0x8003CDE8	0x3D9E8	0x50	0x50	donor	donor unit BattleTanx: src/libultra/al_sndp_stop.c	src/main/func_8003CDE8.c		C	sdk		
+main	func_8003CE38	0x8003CE38	0x3DA38	0x20	0x20	donor	donor unit BattleTanx: src/libultra/al_sndp_get_state.c	src/main/func_8003CE38.c		C	sdk		
+main	func_8003CE58	0x8003CE58	0x3DA58	0x30	0x30	donor	donor unit sdk_2_0F_libultra_rom: src/gu/random.c	src/main/func_8003CE58.c		C	sdk		
+main	func_8003D798	0x8003D798	0x3E398	0x6A4	0x6A4	donor	donor unit Madden64: src/libultra/os_leo_interrupt.c	src/main/func_8003D798.c		C	game		
+main	func_8003DE3C	0x8003DE3C	0x3EA3C	0xE8	0xE8	donor	donor unit Madden64: src/libultra/os_leo_interrupt.c	src/main/func_8003DE3C.c		C	game		
+main	func_8003DF24	0x8003DF24	0x3EB24	0xF4	0xF4	donor	donor unit Madden64: src/libultra/os_leo_interrupt.c	src/main/func_8003DF24.c		C	game		
+main	func_8003E018	0x8003E018	0x3EC18	0x230	0x230	donor	donor unit BattleTanx: src/libultra/gu_perspective.c	src/main/func_8003E018.c		C	sdk		
+main	func_8003E248	0x8003E248	0x3EE48	0x60	0x60	donor	donor unit BattleTanx: src/libultra/gu_perspective.c	src/main/func_8003E248.c		C	sdk		
+main	func_8003E2A8	0x8003E2A8	0x3EEA8	0x10	0x10	donor	donor unit sdk_2_0F_libultra_rom: src/io/pigetstat.c	src/main/func_8003E2A8.c		C	game		
+main	func_8003E2B8	0x8003E2B8	0x3EEB8	0x60	0x60	donor	donor unit BattleTanx: src/libultra/os_pi_raw_read_io.c	src/main/func_8003E2B8.c		C	sdk		
+main	func_8003E318	0x8003E318	0x3EF18	0x140	0x140	donor	donor unit BattleTanx: src/libultra/os_recv_mesg.c	src/main/func_8003E318.c		C	sdk		
+main	func_8003E458	0x8003E458	0x3F058	0x60	0x60	donor	donor unit BattleTanx: src/libultra/os_reset_global_int_mask.c	src/main/func_8003E458.c		C	sdk		
+main	func_8003E4B8	0x8003E4B8	0x3F0B8	0x150	0x150	donor	donor unit BattleTanx: src/libultra/os_send_mesg.c	src/main/func_8003E4B8.c		C	sdk		
+main	func_8003E608	0x8003E608	0x3F208	0x70	0x70	donor	donor unit Madden64: src/libultra/os_set_event_mesg.c	src/main/func_8003E608.c		C	sdk		
+main	func_8003E678	0x8003E678	0x3F278	0x50	0x50	donor	donor unit BattleTanx: src/libultra/os_set_global_int_mask.c	src/main/func_8003E678.c		C	sdk		
+main	func_8003E818	0x8003E818	0x3F418	0x100	0x100	donor	donor unit BattleTanx: src/libultra/os_destroy_thread.c	src/main/func_8003E818.c		C	sdk		
+main	func_8003E918	0x8003E918	0x3F518	0x8	0x8	donor	donor unit BattleTanx: src/libultra/al_bank_file.c	src/main/func_8003E918.c		C	game		
+main	func_8003E920	0x8003E920	0x3F520	0x8	0x8	donor	donor unit BattleTanx: src/libultra/al_bank_file.c	src/main/func_8003E920.c		C	game		
+main	func_8003E928	0x8003E928	0x3F528	0xEC	0xEC	donor	donor unit BattleTanx: src/libultra/al_bank_file.c	src/main/func_8003E928.c		C	game		
+main	func_8003EA14	0x8003EA14	0x3F614	0x8	0x8	donor	donor unit BattleTanx: src/libultra/al_bank_file.c	src/main/func_8003EA14.c		C	game		
+main	func_8003EA1C	0x8003EA1C	0x3F61C	0x104	0x104	donor	donor unit BattleTanx: src/libultra/al_bank_file.c	src/main/func_8003EA1C.c		C	sdk		
+main	func_8003EB20	0x8003EB20	0x3F720	0x48	0x48	donor	donor unit BattleTanx: src/libultra/al_bank_file.c	src/main/func_8003EB20.c		C	sdk		
+main	func_8003EB68	0x8003EB68	0x3F768	0x28	0x28	donor	donor unit BattleTanx: src/libultra/al_env.c	src/main/func_8003EB68.c		C	sdk		
+main	func_8003EB90	0x8003EB90	0x3F790	0xEC	0xEC	donor	donor unit BattleTanx: src/libultra/al_env.c	src/main/func_8003EB90.c		C	sdk		
+main	func_8003EC7C	0x8003EC7C	0x3F87C	0xE0	0xE0	donor	donor unit BattleTanx: src/libultra/al_env.c	src/main/func_8003EC7C.c		C	sdk		
+main	func_8003ED5C	0x8003ED5C	0x3F95C	0x1D0	0x1D0	donor	donor unit BattleTanx: src/libultra/al_env.c	src/main/func_8003ED5C.c		C	game		
+main	func_8003EF2C	0x8003EF2C	0x3FB2C	0x298	0x298	donor	donor unit BattleTanx: src/libultra/al_env.c	src/main/func_8003EF2C.c		C	game		
+main	func_8003F1C4	0x8003F1C4	0x3FDC4	0xB0	0xB0	donor	donor unit BattleTanx: src/libultra/al_env.c	src/main/func_8003F1C4.c		C	game		
+main	func_8003F274	0x8003F274	0x3FE74	0x554	0x554	donor	donor unit BattleTanx: src/libultra/al_env.c	src/main/func_8003F274.c		C	sdk		
+main	func_8003F7C8	0x8003F7C8	0x403C8	0xAC	0xAC	donor	donor unit BattleTanx: src/libultra/al_event.c	src/main/func_8003F7C8.c		C	sdk		
+main	func_8003F874	0x8003F874	0x40474	0x70	0x70	donor	donor unit BattleTanx: src/libultra/al_event.c	src/main/func_8003F874.c		C	sdk		
+main	func_8003F8E4	0x8003F8E4	0x404E4	0x124	0x124	donor	donor unit BattleTanx: src/libultra/al_event.c	src/main/func_8003F8E4.c		C	sdk		
+main	func_8003FA08	0x8003FA08	0x40608	0x8C	0x8C	donor	donor unit BattleTanx: src/libultra/al_event.c	src/main/func_8003FA08.c		C	sdk		
+main	func_8003FA94	0x8003FA94	0x40694	0x74	0x74	donor	donor unit BattleTanx: src/libultra/al_event.c	src/main/func_8003FA94.c		C	sdk		
+main	func_8003FB08	0x8003FB08	0x40708	0x20	0x20	donor	donor unit BattleTanx: src/libultra/al_filter_new.c	src/main/func_8003FB08.c		C	game		
+main	func_8003FB28	0x8003FB28	0x40728	0x30	0x30	donor	donor unit BattleTanx: src/libultra/al_main_bus.c	src/main/func_8003FB28.c		C	sdk		
+main	func_8003FB58	0x8003FB58	0x40758	0x120	0x120	donor	donor unit BattleTanx: src/libultra/al_main_bus.c	src/main/func_8003FB58.c		C	sdk		
+main	func_8003FC78	0x8003FC78	0x40878	0xEC	0xEC	donor	donor unit BattleTanx: src/libultra/al_resample.c	src/main/func_8003FC78.c		C	sdk		
+main	func_8003FD64	0x8003FD64	0x40964	0x214	0x214	donor	donor unit BattleTanx: src/libultra/al_resample.c	src/main/func_8003FD64.c		C	sdk		
+main	func_8003FF78	0x8003FF78	0x40B78	0x80	0x80	donor	donor unit BattleTanx: src/libultra/os_virtual_to_physical.c	src/main/func_8003FF78.c		C	sdk		
+main	func_8003FFF8	0x8003FFF8	0x40BF8	0xA8	0xA8	donor	donor unit BattleTanx: src/libultra/al_reverb.c	src/main/func_8003FFF8.c		C	sdk		
+main	func_800400A0	0x800400A0	0x40CA0	0xB8	0xB8	donor	donor unit BattleTanx: src/libultra/al_reverb.c	src/main/func_800400A0.c		C	sdk		
+main	func_80040158	0x80040158	0x40D58	0x188	0x188	donor	donor unit BattleTanx: src/libultra/al_reverb.c	src/main/func_80040158.c		C	sdk		
+main	func_800402E0	0x800402E0	0x40EE0	0x18C	0x18C	donor	donor unit BattleTanx: src/libultra/al_reverb.c	src/main/func_800402E0.c		C	sdk		
+main	func_8004046C	0x8004046C	0x4106C	0x224	0x224	donor	donor unit BattleTanx: src/libultra/al_reverb.c	src/main/func_8004046C.c		C	sdk		
+main	func_80040690	0x80040690	0x41290	0x25C	0x25C	donor	donor unit BattleTanx: src/libultra/al_reverb.c	src/main/func_80040690.c		C	sdk		
+main	func_800408EC	0x800408EC	0x414EC	0x18	0x18	donor	donor unit BattleTanx: src/libultra/al_reverb.c	src/main/func_800408EC.c		C	game		
+main	func_80040904	0x80040904	0x41504	0x344	0x344	donor	donor unit BattleTanx: src/libultra/al_reverb.c	src/main/func_80040904.c		C	sdk		
+main	func_80040C48	0x80040C48	0x41848	0x34	0x34	donor	donor unit sdk_2_0F_libultra_rom: src/audio/save.c	src/main/func_80040C48.c		C	sdk		
+main	func_80040C7C	0x80040C7C	0x4187C	0x8C	0x8C	donor	donor unit sdk_2_0F_libultra_rom: src/audio/save.c	src/main/func_80040C7C.c		C	sdk		
+main	func_80040D08	0x80040D08	0x41908	0x100	0x100	donor	donor unit BattleTanx: src/libultra/gu_mtx.c	src/main/func_80040D08.c		C	sdk		
+main	func_80040E08	0x80040E08	0x41A08	0x88	0x88	donor	donor unit BattleTanx: src/libultra/gu_mtx.c	src/main/func_80040E08.c		C	sdk		
+main	func_80040E90	0x80040E90	0x41A90	0x30	0x30	donor	donor unit BattleTanx: src/libultra/gu_mtx_ident.c	src/main/func_80040E90.c		C	sdk		
+main	func_80040EC0	0x80040EC0	0x41AC0	0xB8	0xB8	donor	donor unit BattleTanx: src/libultra/gu_mtx_l2f.c	src/main/func_80040EC0.c		C	sdk		
+main	func_80040F78	0x80040F78	0x41B78	0xA0	0xA0	donor	donor unit sdk_2_0F_libultra_rom: src/gu/mtxcatf.c	src/main/func_80040F78.c		C	sdk		
+main	func_80041018	0x80041018	0x41C18	0x170	0x170	donor	donor unit sdk_2_0F_libultra_rom: src/gu/mtxcatf.c	src/main/func_80041018.c		C	sdk		
+main	func_80041188	0x80041188	0x41D88	0x40	0x40	donor	donor unit BattleTanx: src/libultra/al_csp_set_seq.c	src/main/func_80041188.c		C	game		
+main	func_800411C8	0x800411C8	0x41DC8	0x30	0x30	donor	donor unit BattleTanx: src/libultra/al_csp_stop.c	src/main/func_800411C8.c		C	game		
+main	func_800411F8	0x800411F8	0x41DF8	0x70	0x70	donor	donor unit sdk_2_0F_libultra_rom: src/audio/csplayer.c	src/main/func_800411F8.c		C	sdk		
+main	func_80041268	0x80041268	0x41E68	0x34	0x34	donor	donor unit sdk_2_0F_libultra_rom: src/audio/csplayer.c	src/main/func_80041268.c		C	game		
+main	func_8004129C	0x8004129C	0x41E9C	0x8	0x8	donor	donor unit sdk_2_0F_libultra_rom: src/audio/csplayer.c	src/main/func_8004129C.c		C	game		
+main	func_800412A4	0x800412A4	0x41EA4	0x1D0	0x1D0	donor	donor unit sdk_2_0F_libultra_rom: src/audio/csplayer.c	src/main/func_800412A4.c		C	game		
+main	func_80041474	0x80041474	0x42074	0x828	0x828	donor	donor unit sdk_2_0F_libultra_rom: src/audio/csplayer.c	src/main/func_80041474.c		C	game		
+main	func_80041C9C	0x80041C9C	0x4289C	0x8	0x8	donor	donor unit sdk_2_0F_libultra_rom: src/audio/csplayer.c	src/main/func_80041C9C.c		C	game		
+main	func_80041CA4	0x80041CA4	0x428A4	0x614	0x614	donor	donor unit sdk_2_0F_libultra_rom: src/audio/csplayer.c	src/main/func_80041CA4.c		C	game		
+main	func_800422B8	0x800422B8	0x42EB8	0x170	0x170	donor	donor unit sdk_2_0F_libultra_rom: src/audio/csplayer.c	src/main/func_800422B8.c		C	sdk		
+main	func_80042428	0x80042428	0x43028	0x54	0x54	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80042428.c		C	sdk		
+main	func_8004247C	0x8004247C	0x4307C	0x80	0x80	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_8004247C.c		C	sdk		
+main	func_800424FC	0x800424FC	0x430FC	0xB4	0xB4	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_800424FC.c		C	sdk		
+main	func_800425B0	0x800425B0	0x431B0	0x8	0x8	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_800425B0.c		C	game		
+main	func_800425B8	0x800425B8	0x431B8	0x24	0x24	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_800425B8.c		C	sdk		
+main	func_800425DC	0x800425DC	0x431DC	0x88	0x88	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_800425DC.c		C	sdk		
+main	func_80042664	0x80042664	0x43264	0x12C	0x12C	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80042664.c		C	sdk		
+main	func_80042790	0x80042790	0x43390	0xA8	0xA8	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80042790.c		C	sdk		
+main	func_80042838	0x80042838	0x43438	0x70	0x70	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80042838.c		C	sdk		
+main	func_800428A8	0x800428A8	0x434A8	0xDC	0xDC	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_800428A8.c		C	sdk		
+main	func_80042984	0x80042984	0x43584	0x78	0x78	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80042984.c		C	game		
+main	func_800429FC	0x800429FC	0x435FC	0x48	0x48	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_800429FC.c		C	sdk		
+main	func_80042A44	0x80042A44	0x43644	0x74	0x74	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80042A44.c		C	sdk		
+main	func_80042AB8	0x80042AB8	0x436B8	0x70	0x70	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80042AB8.c		C	sdk		
+main	func_80042B28	0x80042B28	0x43728	0xFC	0xFC	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80042B28.c		C	sdk		
+main	func_80042C24	0x80042C24	0x43824	0x818	0x818	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80042C24.c		C	game		
+main	func_8004343C	0x8004343C	0x4403C	0x8	0x8	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_8004343C.c		C	game		
+main	func_80043444	0x80043444	0x44044	0x624	0x624	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80043444.c		C	game		
+main	func_80043A68	0x80043A68	0x44668	0x104	0x104	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80043A68.c		C	sdk		
+main	func_80043B6C	0x80043B6C	0x4476C	0x70	0x70	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80043B6C.c		C	sdk		
+main	func_80043BDC	0x80043BDC	0x447DC	0x18C	0x18C	donor	donor unit sdk_2_0F_libultra_rom: src/audio/seqplayer.c	src/main/func_80043BDC.c		C	sdk		
+main	func_80043D68	0x80043D68	0x44968	0x1C	0x1C	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_80043D68.c		C	game		
+main	func_80043D84	0x80043D84	0x44984	0x1C	0x1C	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_80043D84.c		C	game		
+main	func_80043DA0	0x80043DA0	0x449A0	0x8	0x8	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_80043DA0.c		C	sdk		
+main	func_80043DA8	0x80043DA8	0x449A8	0x8	0x8	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_80043DA8.c		C	game		
+main	func_80043DB0	0x80043DB0	0x449B0	0x4C	0x4C	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_80043DB0.c		C	game		
+main	func_80043DFC	0x80043DFC	0x449FC	0x184	0x184	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_80043DFC.c		C	sdk		
+main	func_80043F80	0x80043F80	0x44B80	0x120	0x120	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_80043F80.c		C	sdk		
+main	func_800440A0	0x800440A0	0x44CA0	0xE4	0xE4	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_800440A0.c		C	sdk		
+main	func_80044184	0x80044184	0x44D84	0x54	0x54	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_80044184.c		C	sdk		
+main	func_800441D8	0x800441D8	0x44DD8	0x58	0x58	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_800441D8.c		C	sdk		
+main	func_80044230	0x80044230	0x44E30	0x50	0x50	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_80044230.c		C	game		
+main	func_80044280	0x80044280	0x44E80	0x30	0x30	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_80044280.c		C	game		
+main	func_800442B0	0x800442B0	0x44EB0	0xD8	0xD8	donor	donor unit BattleTanx: src/libultra/al_seq.c	src/main/func_800442B0.c		C	sdk		
+main	func_80044388	0x80044388	0x44F88	0xB0	0xB0	donor	donor unit BattleTanx: src/libultra/al_syn_free_voice.c	src/main/func_80044388.c		C	sdk		
+main	func_80044438	0x80044438	0x45038	0xE8	0xE8	donor	donor unit BattleTanx: src/libultra/al_syn_alloc_voice.c	src/main/func_80044438.c		C	sdk		
+main	func_80044520	0x80044520	0x45120	0x148	0x148	donor	donor unit BattleTanx: src/libultra/al_syn_alloc_voice.c	src/main/func_80044520.c		C	sdk		
+main	func_80044668	0x80044668	0x45268	0x80	0x80	donor	donor unit BattleTanx: src/libultra/al_syn_stop_voice.c	src/main/func_80044668.c		C	sdk		
+main	func_800446E8	0x800446E8	0x452E8	0xF0	0xF0	donor	donor unit BattleTanx: src/libultra/al_syn_start_voice_params.c	src/main/func_800446E8.c		C	sdk		
+main	func_800447D8	0x800447D8	0x453D8	0x150	0x150	donor	donor unit BattleTanx: src/libultra/os_start_thread.c	src/main/func_800447D8.c		C	sdk		
+main	func_80044928	0x80044928	0x45528	0x40	0x40	donor	donor unit BattleTanx: src/libultra/os_dequeue_thread.c	src/main/func_80044928.c		C	sdk		
+main	func_80044968	0x80044968	0x45568	0x20	0x20	donor	donor unit BattleTanx: src/libultra/os_get_thread_pri.c	src/main/func_80044968.c		C	game		
+main	func_80044988	0x80044988	0x45588	0x90	0x90	donor	donor unit BattleTanx: src/libultra/os_get_time.c	src/main/func_80044988.c		C	sdk		
+main	func_80044A18	0x80044A18	0x45618	0x10	0x10	donor	donor unit Rugrats64: src/runtime/read_cop0_count.c	src/main/func_80044A18.c		C	handwritten		
+main	func_80044A28	0x80044A28	0x45628	0x8C	0x8C	donor	donor unit Madden64: src/libultra/os_timer.c	src/main/func_80044A28.c		C	sdk		
+main	func_80044AB4	0x80044AB4	0x456B4	0x178	0x178	donor	donor unit Madden64: src/libultra/os_timer.c	src/main/func_80044AB4.c		C	sdk		
+main	func_80044C2C	0x80044C2C	0x4582C	0x74	0x74	donor	donor unit Madden64: src/libultra/os_set_timer_intr.c	src/main/func_80044C2C.c		C	sdk		
+main	func_80044CA0	0x80044CA0	0x458A0	0x188	0x188	donor	donor unit Madden64: src/libultra/os_insert_timer.c	src/main/func_80044CA0.c		C	sdk		
+main	func_80044E28	0x80044E28	0x45A28	0x10	0x10	donor	donor unit Rugrats64: src/runtime/write_cop0_compare.c	src/main/func_80044E28.c		C	handwritten		
+main	func_80044E38	0x80044E38	0x45A38	0x290	0x290	donor	donor unit BattleTanx: src/libultra/os_initialize.c	src/main/func_80044E38.c		C	sdk		
+main	func_800450C8	0x800450C8	0x45CC8	0x10	0x10	donor	donor unit Rugrats64: src/runtime/set_fpc_control_status.c	src/main/func_800450C8.c		C	game		
+main	func_800450D8	0x800450D8	0x45CD8	0x10	0x10	donor	donor unit Rugrats64: src/runtime/write_cop0_status_delayed.c	src/main/func_800450D8.c		C	handwritten		
+main	func_800450E8	0x800450E8	0x45CE8	0x2C	0x2C	donor	donor unit BattleTanx: src/libultra/ll.c	src/main/func_800450E8.c		C	sdk		
+main	func_80045114	0x80045114	0x45D14	0x3C	0x3C	donor	donor unit BattleTanx: src/libultra/ll.c	src/main/func_80045114.c		C	game		
+main	func_80045150	0x80045150	0x45D50	0x3C	0x3C	donor	donor unit BattleTanx: src/libultra/ll.c	src/main/func_80045150.c		C	sdk		
+main	func_8004518C	0x8004518C	0x45D8C	0x2C	0x2C	donor	donor unit BattleTanx: src/libultra/ll.c	src/main/func_8004518C.c		C	sdk		
+main	func_800451B8	0x800451B8	0x45DB8	0x3C	0x3C	donor	donor unit BattleTanx: src/libultra/ll.c	src/main/func_800451B8.c		C	game		
+main	func_800451F4	0x800451F4	0x45DF4	0x5C	0x5C	donor	donor unit BattleTanx: src/libultra/ll.c	src/main/func_800451F4.c		C	sdk		
+main	func_80045250	0x80045250	0x45E50	0x30	0x30	donor	donor unit BattleTanx: src/libultra/ll.c	src/main/func_80045250.c		C	sdk		
+main	func_80045280	0x80045280	0x45E80	0x60	0x60	donor	donor unit BattleTanx: src/libultra/ll.c	src/main/func_80045280.c		C	sdk		
+main	func_800452E0	0x800452E0	0x45EE0	0x9C	0x9C	donor	donor unit BattleTanx: src/libultra/ll.c	src/main/func_800452E0.c		C	sdk		
+main	func_8004537C	0x8004537C	0x45F7C	0x2C	0x2C	donor	donor unit BattleTanx: src/libultra/ll.c	src/main/func_8004537C.c		C	sdk		
+main	func_800453A8	0x800453A8	0x45FA8	0x10	0x10	donor	donor unit Rugrats64: src/runtime/read_cop0_status.c	src/main/func_800453A8.c		C	handwritten		
+main	func_80045498	0x80045498	0x46098	0x30	0x2C	exact	ido5.3 -O1 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80045498.c	0	C	sdk		
+main	func_80045628	0x80045628	0x46228	0x110	0x110	donor	donor unit BattleTanx: src/libultra/os_pi_start_dma.c	src/main/func_80045628.c		C	sdk		
+main	func_80045738	0x80045738	0x46338	0x30	0x30	donor	donor unit BattleTanx: src/libultra/os_pi_get_cmd_queue.c	src/main/func_80045738.c		C	sdk		
+main	func_80045768	0x80045768	0x46368	0x150	0x150	donor	donor unit BattleTanx: src/libultra/os_jam_mesg.c	src/main/func_80045768.c		C	sdk		
+main	func_800458B8	0x800458B8	0x464B8	0x50	0x50	donor	donor unit BattleTanx: src/libultra/al_cents2ratio.c	src/main/func_800458B8.c		C	sdk		
+main	func_80045908	0x80045908	0x46508	0x90	0x90	donor	donor unit BattleTanx: src/libultra/al_syn_set_pitch.c	src/main/func_80045908.c		C	sdk		
+main	func_80045998	0x80045998	0x46598	0xA0	0xA0	donor	donor unit BattleTanx: src/libultra/al_syn_set_vol.c	src/main/func_80045998.c		C	sdk		
+main	func_80045A38	0x80045A38	0x46638	0xA0	0xA0	donor	donor unit BattleTanx: src/libultra/al_syn_set_fx_mix.c	src/main/func_80045A38.c		C	sdk		
+main	func_80045AD8	0x80045AD8	0x466D8	0x90	0x90	donor	donor unit BattleTanx: src/libultra/al_syn_set_pan.c	src/main/func_80045AD8.c		C	sdk		
+main	func_80045B68	0x80045B68	0x46768	0x10	0x10	donor	donor unit BattleTanx: src/code/runtime/set_record_halfword_16.c	src/main/func_80045B68.c		C	game		
+main	func_80045B78	0x80045B78	0x46778	0xA0	0xA0	donor	donor unit BattleTanx: src/libultra/al_syn_alloc_fx.c	src/main/func_80045B78.c		C	sdk		
+main	func_80045C18	0x80045C18	0x46818	0x10	0x10	donor	donor unit BattleTanx: src/code/runtime/clear_word.c	src/main/func_80045C18.c		C	game		
+main	func_80045C28	0x80045C28	0x46828	0x50	0x50	donor	donor unit BattleTanx: src/libultra/al_syn_add_player.c	src/main/func_80045C28.c		C	sdk		
+main	func_80045C78	0x80045C78	0x46878	0x1A0	0x1A0	donor	donor unit BattleTanx: src/libultra/os_pfs_is_plug.c	src/main/func_80045C78.c		C	sdk		
+main	func_80045E18	0x80045E18	0x46A18	0xFC	0xFC	donor	donor unit BattleTanx: src/libultra/os_pfs_is_plug.c	src/main/func_80045E18.c		C	sdk		
+main	func_80045F14	0x80045F14	0x46B14	0xD4	0xD4	donor	donor unit BattleTanx: src/libultra/os_pfs_is_plug.c	src/main/func_80045F14.c		C	sdk		
+main	func_80045FE8	0x80045FE8	0x46BE8	0x21C	0x21C	donor	donor unit BattleTanx: src/libultra/os_cont_ram_read.c	src/main/func_80045FE8.c		C	sdk		
+main	func_80046204	0x80046204	0x46E04	0x174	0x174	donor	donor unit BattleTanx: src/libultra/os_cont_ram_read.c	src/main/func_80046204.c		C	game		
+main	func_80046378	0x80046378	0x46F78	0x110	0x110	donor	donor unit BattleTanx: src/libultra/os_pfs_get_status.c	src/main/func_80046378.c		C	sdk		
+main	func_80046488	0x80046488	0x47088	0x204	0x204	donor	donor unit BattleTanx: src/libultra/os_cont_ram_write.c	src/main/func_80046488.c		C	sdk		
+main	func_8004668C	0x8004668C	0x4728C	0x17C	0x17C	donor	donor unit BattleTanx: src/libultra/os_cont_ram_write.c	src/main/func_8004668C.c		C	game		
+main	func_80046808	0x80046808	0x47408	0xC0	0xC0	donor	donor unit sdk_2_0F_libultra_rom: src/io/pfsinit.c	src/main/func_80046808.c		C	sdk		
+main	func_800468C8	0x800468C8	0x474C8	0x5C	0x5C	donor	donor unit BattleTanx: src/libultra/os_cont_pfs.c	src/main/func_800468C8.c		C	sdk		
+main	func_80046924	0x80046924	0x47524	0x68	0x68	donor	donor unit BattleTanx: src/libultra/os_cont_pfs.c	src/main/func_80046924.c		C	sdk		
+main	func_8004698C	0x8004698C	0x4758C	0x418	0x418	donor	donor unit BattleTanx: src/libultra/os_cont_pfs.c	src/main/func_8004698C.c		C	sdk		
+main	func_80046DA4	0x80046DA4	0x479A4	0x198	0x198	donor	donor unit BattleTanx: src/libultra/os_cont_pfs.c	src/main/func_80046DA4.c		C	sdk		
+main	func_80046F3C	0x80046F3C	0x47B3C	0x25C	0x25C	donor	donor unit BattleTanx: src/libultra/os_cont_pfs.c	src/main/func_80046F3C.c		C	sdk		
+main	func_80047198	0x80047198	0x47D98	0xFC	0xFC	donor	donor unit BattleTanx: src/libultra/os_cont_pfs.c	src/main/func_80047198.c		C	sdk		
+main	func_80047294	0x80047294	0x47E94	0x320	0x320	donor	donor unit BattleTanx: src/libultra/os_cont_pfs.c	src/main/func_80047294.c		C	sdk		
+main	func_800475B4	0x800475B4	0x481B4	0x74	0x74	donor	donor unit BattleTanx: src/libultra/os_cont_pfs.c	src/main/func_800475B4.c		C	sdk		
+main	func_80047628	0x80047628	0x48228	0x6C4	0x6C4	donor	donor unit BattleTanx: src/libultra/os_pfs_checker.c	src/main/func_80047628.c		C	sdk		
+main	func_80047CEC	0x80047CEC	0x488EC	0x1B4	0x1B4	donor	donor unit BattleTanx: src/libultra/os_pfs_checker.c	src/main/func_80047CEC.c		C	sdk		
+main	func_80047EA0	0x80047EA0	0x48AA0	0x1E8	0x1E8	donor	donor unit BattleTanx: src/libultra/os_pfs_checker.c	src/main/func_80047EA0.c		C	sdk		
+main	func_80048088	0x80048088	0x48C88	0xB0	0xB0	donor	donor unit BattleTanx: src/libultra/os_si_raw_start_dma.c	src/main/func_80048088.c		C	sdk		
 main	func_80048138	0x80048138	0x48D38	0x50	0x50	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80048138.c	0	C	sdk		
-main	func_80048188	0x80048188	0x48D88	0x44	0x44	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80048188.c	0	C	sdk		
-main	func_800481CC	0x800481CC	0x48DCC	0x2C	0x2C	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_800481CC.c	0	C	game		
-main	func_80048DDC	0x80048DDC	0x499DC	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80048DDC.c	0	C	game		
-main	func_80048DE4	0x80048DE4	0x499E4	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80048DE4.c	0	C	game		
-main	func_80048DEC	0x80048DEC	0x499EC	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80048DEC.c	0	C	game		
-main	func_80048DF4	0x80048DF4	0x499F4	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80048DF4.c	0	C	game		
-main	func_800491A8	0x800491A8	0x49DA8	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800491A8.c	0	C	game		
-main	func_80049238	0x80049238	0x49E38	0x50	0x50	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80049238.c	0	C	sdk		
-main	func_80049288	0x80049288	0x49E88	0x130	0x12C	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80049288.c	0	C	sdk		
-main	func_800494D4	0x800494D4	0x4A0D4	0x190	0x190	exact	ido5.3 -O1 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_800494D4.c	0	C	sdk		
-main	func_80049664	0x80049664	0x4A264	0x44	0x40	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80049664.c	0	C	sdk		
-main	func_80049A48	0x80049A48	0x4A648	0x20	0x20	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80049A48.c	0	C	sdk		
+main	func_80048188	0x80048188	0x48D88	0x44	0x44	donor	donor unit nagano: src/game/lock_resource_80050a20.c	src/main/func_80048188.c		C	sdk		
+main	func_800481CC	0x800481CC	0x48DCC	0x2C	0x2C	donor	donor unit nagano: src/game/reset_global_object_80050a64.c	src/main/func_800481CC.c		C	game		
+main	func_800481F8	0x800481F8	0x48DF8	0xC4	0xC4	donor	donor unit BattleTanx: src/libultra/os_cont_read_data.c	src/main/func_800481F8.c		C	sdk		
+main	func_800482BC	0x800482BC	0x48EBC	0xA8	0xA8	donor	donor unit BattleTanx: src/libultra/os_cont_read_data.c	src/main/func_800482BC.c		C	sdk		
+main	func_80048364	0x80048364	0x48F64	0xF4	0xF4	donor	donor unit BattleTanx: src/libultra/os_cont_read_data.c	src/main/func_80048364.c		C	game		
+main	func_80048650	0x80048650	0x49250	0xD0	0xD0	donor	donor unit Madden64: src/libultra/os_cont_init_data.c	src/main/func_80048650.c		C	sdk		
+main	func_80048720	0x80048720	0x49320	0xF8	0xF8	donor	donor unit Madden64: src/libultra/os_cont_init_data.c	src/main/func_80048720.c		C	sdk		
+main	func_80048818	0x80048818	0x49418	0xE0	0xE0	donor	donor unit BattleTanx: src/libultra/os_set_timer.c	src/main/func_80048818.c		C	sdk		
+main	func_800488F8	0x800488F8	0x494F8	0xB0	0xB0	donor	donor unit BattleTanx: src/libultra/os_cont_crc.c	src/main/func_800488F8.c		C	sdk		
+main	func_800489A8	0x800489A8	0x495A8	0xD0	0xD0	donor	donor unit BattleTanx: src/libultra/os_cont_crc.c	src/main/func_800489A8.c		C	sdk		
+main	func_80048A78	0x80048A78	0x49678	0x50	0x50	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_80048A78.c		C	sdk		
+main	func_80048AC8	0x80048AC8	0x496C8	0xA0	0xA0	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_80048AC8.c		C	game		
+main	func_80048B68	0x80048B68	0x49768	0x1E4	0x1E4	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_80048B68.c		C	game		
+main	func_80048D4C	0x80048D4C	0x4994C	0x90	0x90	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_80048D4C.c		C	game		
+main	func_80048DDC	0x80048DDC	0x499DC	0x8	0x8	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_80048DDC.c		C	game		
+main	func_80048DE4	0x80048DE4	0x499E4	0x8	0x8	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_80048DE4.c		C	game		
+main	func_80048DEC	0x80048DEC	0x499EC	0x8	0x8	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_80048DEC.c		C	game		
+main	func_80048DF4	0x80048DF4	0x499F4	0x8	0x8	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_80048DF4.c		C	game		
+main	func_80048DFC	0x80048DFC	0x499FC	0x180	0x180	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_80048DFC.c		C	game		
+main	func_80048F7C	0x80048F7C	0x49B7C	0x22C	0x22C	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_80048F7C.c		C	game		
+main	func_800491A8	0x800491A8	0x49DA8	0x8	0x8	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_800491A8.c		C	game		
+main	func_800491B0	0x800491B0	0x49DB0	0x88	0x88	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_800491B0.c		C	sdk		
+main	func_80049238	0x80049238	0x49E38	0x50	0x50	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_80049238.c		C	sdk		
+main	func_80049288	0x80049288	0x49E88	0x130	0x130	donor	donor unit sdk_2_0F_libultra_rom: src/sched/sched.c	src/main/func_80049288.c		C	sdk		
+main	func_800493B8	0x800493B8	0x49FB8	0x11C	0x11C	donor	donor unit Madden64: src/libultra/os_sp_task_load.c	src/main/func_800493B8.c		C	game		
+main	func_800494D4	0x800494D4	0x4A0D4	0x190	0x190	donor	donor unit Madden64: src/libultra/os_sp_task_load.c	src/main/func_800494D4.c		C	sdk		
+main	func_80049664	0x80049664	0x4A264	0x44	0x44	donor	donor unit Madden64: src/libultra/os_sp_task_start_go.c	src/main/func_80049664.c		C	sdk		
+main	func_800499B8	0x800499B8	0x4A5B8	0x90	0x90	donor	donor unit BattleTanx: src/libultra/os_sp_raw_start_dma.c	src/main/func_800499B8.c		C	sdk		
+main	func_80049A48	0x80049A48	0x4A648	0x20	0x20	donor	donor unit BattleTanx: src/libultra/os_sp_task_yield.c	src/main/func_80049A48.c		C	sdk		
 main	func_80049A68	0x80049A68	0x4A668	0x80	0x80	exact	ido5.3 -O1 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80049A68.c	0	C	sdk		
-main	func_80049FA8	0x80049FA8	0x4ABA8	0x20	0x14	exact	ido5.3 -O2 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_80049FA8.c	0	C	game		
-main	func_8004A564	0x8004A564	0x4B164	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8004A564.c	0	C	game		
-main	func_8004A56C	0x8004A56C	0x4B16C	0x8	0x8	exact	kmc+builtin -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8004A56C.c	0	C	game		
-main	func_8004ACB8	0x8004ACB8	0x4B8B8	0x50	0x50	exact	ido5.3 -O1 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8004ACB8.c	0	C	sdk		
-main	func_8004AD08	0x8004AD08	0x4B908	0x50	0x4C	exact	ido5.3 -O1 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8004AD08.c	0	C	sdk		
-main	func_8004B358	0x8004B358	0x4BF58	0x50	0x50	exact	ido5.3 -O1 -mips2 -non_shared -Xcpluscomm -Wab,-r4300_mul -G 0 (draft)	src/main/func_8004B358.c	0	C	sdk		
-main	func_8004B708	0x8004B708	0x4C308	0x10	0xC	exact	kmc+as -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8004B708.c	0	C	game		
+main	func_80049AE8	0x80049AE8	0x4A6E8	0x40	0x40	donor	donor unit sdk_2_0F_libultra_rom: src/io/vigetcurrframebuf.c	src/main/func_80049AE8.c		C	sdk		
+main	func_80049B28	0x80049B28	0x4A728	0x140	0x140	donor	donor unit BattleTanx: src/libultra/os_vi.c	src/main/func_80049B28.c		C	sdk		
+main	func_80049C68	0x80049C68	0x4A868	0x40	0x40	donor	donor unit sdk_2_0F_libultra_rom: src/io/vigetnextframebuf.c	src/main/func_80049C68.c		C	sdk		
+main	func_80049CA8	0x80049CA8	0x4A8A8	0x40	0x40	donor	donor unit BattleTanx: src/libultra/os_sp_set_pc.c	src/main/func_80049CA8.c		C	sdk		
+main	func_80049CE8	0x80049CE8	0x4A8E8	0xB0	0xB0	donor	donor unit sdk_2_0F_libultra_rom: src/io/dpsetnextbuf.c	src/main/func_80049CE8.c		C	sdk		
+main	func_80049D98	0x80049D98	0x4A998	0x30	0x30	donor	donor unit sdk_2_0F_libultra_rom: src/io/dp.c	src/main/func_80049D98.c		C	sdk		
+main	func_80049DC8	0x80049DC8	0x4A9C8	0x30	0x30	donor	donor unit BattleTanx: src/libultra/os_sp_device_busy.c	src/main/func_80049DC8.c		C	sdk		
+main	func_80049DF8	0x80049DF8	0x4A9F8	0x10	0x10	donor	donor unit BattleTanx: src/libultra/os_sp_get_status.c	src/main/func_80049DF8.c		C	game		
+main	func_80049E08	0x80049E08	0x4AA08	0x10	0x10	donor	donor unit BattleTanx: src/libultra/os_sp_set_status.c	src/main/func_80049E08.c		C	game		
+main	func_80049E48	0x80049E48	0x4AA48	0x70	0x70	donor	donor unit BattleTanx: src/libultra/os_vi_black.c	src/main/func_80049E48.c		C	sdk		
+main	func_80049EB8	0x80049EB8	0x4AAB8	0xA0	0xA0	donor	donor unit BattleTanx: src/libultra/al_sndp_allocate.c	src/main/func_80049EB8.c		C	sdk		
+main	func_80049F58	0x80049F58	0x4AB58	0x50	0x50	donor	donor unit BattleTanx: src/libultra/al_sndp_deallocate.c	src/main/func_80049F58.c		C	sdk		
+main	func_80049FA8	0x80049FA8	0x4ABA8	0x20	0x20	donor	donor unit BattleTanx: src/libultra/al_sndp_set_sound.c	src/main/func_80049FA8.c		C	game		
+main	func_80049FC8	0x80049FC8	0x4ABC8	0x70	0x70	donor	donor unit BattleTanx: src/libultra/al_sndp_play.c	src/main/func_80049FC8.c		C	sdk		
+main	func_8004A038	0x8004A038	0x4AC38	0x170	0x170	donor	donor unit BattleTanx: src/libultra/gu_cosf.c	src/main/func_8004A038.c		C	sdk		
+main	func_8004A1A8	0x8004A1A8	0x4ADA8	0x2B8	0x2B8	donor	donor unit BattleTanx: src/libultra/gu_look_at.c	src/main/func_8004A1A8.c		C	sdk		
+main	func_8004A460	0x8004A460	0x4B060	0x78	0x78	donor	donor unit BattleTanx: src/libultra/gu_look_at.c	src/main/func_8004A460.c		C	sdk		
+main	func_8004A4D8	0x8004A4D8	0x4B0D8	0x10	0x10	donor	donor unit Madden64: src/libultra/sqrtf.c	src/main/func_8004A4D8.c		C	game		
+main	func_8004A4E8	0x8004A4E8	0x4B0E8	0x7C	0x7C	donor	donor unit BattleTanx: src/libultra/al_sndplayer.c	src/main/func_8004A4E8.c		C	game		
+main	func_8004A564	0x8004A564	0x4B164	0x8	0x8	donor	donor unit BattleTanx: src/libultra/al_sndplayer.c	src/main/func_8004A564.c		C	game		
+main	func_8004A56C	0x8004A56C	0x4B16C	0x8	0x8	donor	donor unit BattleTanx: src/libultra/al_sndplayer.c	src/main/func_8004A56C.c		C	game		
+main	func_8004A574	0x8004A574	0x4B174	0x548	0x548	donor	donor unit BattleTanx: src/libultra/al_sndplayer.c	src/main/func_8004A574.c		C	game		
+main	func_8004AABC	0x8004AABC	0x4B6BC	0x13C	0x13C	donor	donor unit BattleTanx: src/libultra/al_sndplayer.c	src/main/func_8004AABC.c		C	sdk		
+main	func_8004ABF8	0x8004ABF8	0x4B7F8	0x90	0x90	donor	donor unit BattleTanx: src/libultra/al_syn_start_voice.c	src/main/func_8004ABF8.c		C	sdk		
+main	func_8004AC88	0x8004AC88	0x4B888	0x30	0x30	donor	donor unit BattleTanx: src/libultra/os_si_device_busy.c	src/main/func_8004AC88.c		C	sdk		
+main	func_8004ACB8	0x8004ACB8	0x4B8B8	0x50	0x50	donor	donor unit BattleTanx: src/libultra/os_si_raw_read_io.c	src/main/func_8004ACB8.c		C	sdk		
+main	func_8004AD08	0x8004AD08	0x4B908	0x50	0x50	donor	donor unit BattleTanx: src/libultra/os_si_raw_write_io.c	src/main/func_8004AD08.c		C	sdk		
+main	func_8004B0B8	0x8004B0B8	0x4BCB8	0x70	0x70	donor	donor unit BattleTanx: src/libultra/os_vi_set_event.c	src/main/func_8004B0B8.c		C	sdk		
+main	func_8004B128	0x8004B128	0x4BD28	0x70	0x70	donor	donor unit BattleTanx: src/libultra/os_vi_set_mode.c	src/main/func_8004B128.c		C	sdk		
+main	func_8004B198	0x8004B198	0x4BD98	0x1C0	0x1C0	donor	donor unit BattleTanx: src/libultra/os_vi_set_special_features.c	src/main/func_8004B198.c		C	sdk		
+main	func_8004B358	0x8004B358	0x4BF58	0x50	0x50	donor	donor unit BattleTanx: src/libultra/os_vi_swap_buffer.c	src/main/func_8004B358.c		C	sdk		
+main	func_8004B3A8	0x8004B3A8	0x4BFA8	0x360	0x360	donor	donor unit BattleTanx: src/libultra/os_vi_swap_context.c	src/main/func_8004B3A8.c		C	sdk		
+main	func_8004B708	0x8004B708	0x4C308	0x10	0x10	donor	donor unit BattleTanx: src/libultra/os_vi_get_current_context.c	src/main/func_8004B708.c		C	game		
 main	func_800887D8	0x800887D8	0x893D8	0xE8	0xE8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800887D8.c	0	C	game		
-main	func_800894F8	0x800894F8	0x8A0F8	0xCC	0xCC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft after variant search)	src/main/func_800894F8.c	0	C	game		
+main	func_800888C0	0x800888C0	0x894C0	0x16C	0x16C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800888C0.c	0	C	game		
+main	func_80088A2C	0x80088A2C	0x8962C	0x22C	0x22C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80088A2C.c	0	C	game		
+main	func_80088C58	0x80088C58	0x89858	0x470	0x470	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80088C58.c	0	C	game		
+main	func_800890C8	0x800890C8	0x89CC8	0x3C4	0x3C4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800890C8.c	0	C	game		
+main	func_80089490	0x80089490	0x8A090	0x68	0x68	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80089490.c	0	C	game		
+main	func_800894F8	0x800894F8	0x8A0F8	0xCC	0xCC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800894F8.c	0	C	game		
+main	func_800895C4	0x800895C4	0x8A1C4	0x2D4	0x2D4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800895C4.c	0	C	game		
+main	func_80089898	0x80089898	0x8A498	0xEC	0xEC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80089898.c	0	C	game		
+main	func_80089984	0x80089984	0x8A584	0x18C	0x18C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80089984.c	0	C	game		
+main	func_80089B10	0x80089B10	0x8A710	0x83C	0x83C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80089B10.c	0	C	game		
+main	func_8008A34C	0x8008A34C	0x8AF4C	0x1214	0x1214	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8008A34C.c	0	C	game		
+main	func_8008B560	0x8008B560	0x8C160	0xB48	0xB48	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8008B560.c	0	C	game		
+main	func_8008C0A8	0x8008C0A8	0x8CCA8	0xD10	0xD10	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8008C0A8.c	0	C	game		
+main	func_8008CDB8	0x8008CDB8	0x8D9B8	0x468	0x468	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8008CDB8.c	0	C	game		
+main	func_8008D220	0x8008D220	0x8DE20	0x218C	0x218C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8008D220.c	0	C	game		
+main	func_8008F3AC	0x8008F3AC	0x8FFAC	0x47C	0x47C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8008F3AC.c	0	C	game		
+main	func_8008F828	0x8008F828	0x90428	0x1E5C	0x1E5C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8008F828.c	0	C	game		
+main	func_80091684	0x80091684	0x92284	0x1D38	0x1D38	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80091684.c	0	C	game		
+main	func_800933BC	0x800933BC	0x93FBC	0xCA8	0xCA8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800933BC.c	0	C	game		
+main	func_80094064	0x80094064	0x94C64	0x514	0x514	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80094064.c	0	C	game		
+main	func_80094578	0x80094578	0x95178	0x10EC	0x10EC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80094578.c	0	C	game		
+main	func_80095664	0x80095664	0x96264	0xC78	0xC78	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80095664.c	0	C	game		
 main	func_800962DC	0x800962DC	0x96EDC	0x190	0x190	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800962DC.c	0	C	game		
 main	func_8009646C	0x8009646C	0x9706C	0x30	0x30	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009646C.c	0	C	game		
 main	func_8009649C	0x8009649C	0x9709C	0x30	0x30	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009649C.c	0	C	game		
+main	func_800964D0	0x800964D0	0x970D0	0x1F04	0x1F04	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800964D0.c	0	C	game		
+main	func_800983D4	0x800983D4	0x98FD4	0x150C	0x150C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800983D4.c	0	C	game		
+main	func_800998E0	0x800998E0	0x9A4E0	0x3AC	0x3AC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800998E0.c	0	C	game		
+main	func_80099C8C	0x80099C8C	0x9A88C	0x3AC	0x3AC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80099C8C.c	0	C	game		
+main	func_8009A038	0x8009A038	0x9AC38	0x798	0x798	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009A038.c	0	C	game		
+main	func_8009A7D0	0x8009A7D0	0x9B3D0	0x778	0x778	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009A7D0.c	0	C	game		
+main	func_8009AF48	0x8009AF48	0x9BB48	0xB98	0xB98	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009AF48.c	0	C	game		
+main	func_8009BAE0	0x8009BAE0	0x9C6E0	0xACC	0xACC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009BAE0.c	0	C	game		
 main	func_8009C5AC	0x8009C5AC	0x9D1AC	0x50	0x50	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009C5AC.c	0	C	game		
+main	func_8009C600	0x8009C600	0x9D200	0x154	0x154	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009C600.c	0	C	game		
+main	func_8009C754	0x8009C754	0x9D354	0x32C	0x32C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009C754.c	0	C	game		
 main	func_8009CA80	0x8009CA80	0x9D680	0x58	0x58	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009CA80.c	0	C	game		
+main	func_8009CAD8	0x8009CAD8	0x9D6D8	0x3E4	0x3E4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009CAD8.c	0	C	game		
+main	func_8009CEC0	0x8009CEC0	0x9DAC0	0x384	0x384	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009CEC0.c	0	C	game		
+main	func_8009D244	0x8009D244	0x9DE44	0xBC	0xBC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009D244.c	0	C	game		
 main	func_8009D300	0x8009D300	0x9DF00	0xD4	0xD4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009D300.c	0	C	game		
+main	func_8009D3D8	0x8009D3D8	0x9DFD8	0xE0	0xE0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009D3D8.c	0	C	game		
+main	func_8009D4B8	0x8009D4B8	0x9E0B8	0x1C4	0x1C4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009D4B8.c	0	C	game		
+main	func_8009D67C	0x8009D67C	0x9E27C	0x4358	0x4358	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_8009D67C.c	0	C	game		
 main	func_800A19D8	0x800A19D8	0xA25D8	0x9C	0x9C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A19D8.c	0	C	game		
 main	func_800A1A74	0x800A1A74	0xA2674	0x6C	0x6C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A1A74.c	0	C	game		
 main	func_800A1AE0	0x800A1AE0	0xA26E0	0x80	0x80	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A1AE0.c	0	C	game		
 main	func_800A1B60	0x800A1B60	0xA2760	0x84	0x84	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A1B60.c	0	C	game		
+main	func_800A1BE4	0x800A1BE4	0xA27E4	0x9B0	0x9B0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A1BE4.c	0	C	game		
+main	func_800A2594	0x800A2594	0xA3194	0x574	0x574	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A2594.c	0	C	game		
 main	func_800A2B08	0x800A2B08	0xA3708	0x34	0x34	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A2B08.c	0	C	game		
+main	func_800A2B40	0x800A2B40	0xA3740	0x1F8	0x1F8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A2B40.c	0	C	game		
 main	func_800A2D38	0x800A2D38	0xA3938	0x4C	0x4C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A2D38.c	0	C	game		
+main	func_800A2D84	0x800A2D84	0xA3984	0x3E4	0x3E4	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A2D84.c	0	C	game		
+main	func_800A3168	0x800A3168	0xA3D68	0x2F8	0x2F8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A3168.c	0	C	game		
+main	func_800A3460	0x800A3460	0xA4060	0x3A8	0x3A8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 -g (draft)	src/main/func_800A3460.c	0	C	game		
 main	func_800A3808	0x800A3808	0xA4408	0xF0	0xF0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A3808.c	0	C	game		
+main	func_800A38F8	0x800A38F8	0xA44F8	0x144	0x144	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A38F8.c	0	C	game		
 main	func_800A3A3C	0x800A3A3C	0xA463C	0x104	0x104	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A3A3C.c	0	C	game		
+main	func_800A3B40	0x800A3B40	0xA4740	0x2C0	0x2C0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A3B40.c	0	C	game		
+main	func_800A3E00	0x800A3E00	0xA4A00	0x8FC	0x8FC	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A3E00.c	0	C	game		
 main	func_800A46FC	0x800A46FC	0xA52FC	0x108	0x108	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A46FC.c	0	C	game		
 main	func_800A4804	0x800A4804	0xA5404	0x84	0x84	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4804.c	0	C	game		
 main	func_800A4888	0x800A4888	0xA5488	0x98	0x98	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4888.c	0	C	game		
+main	func_800A4920	0x800A4920	0xA5520	0xF8	0xF8	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4920.c	0	C	game		
 main	func_800A4A18	0x800A4A18	0xA5618	0xC0	0xC0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4A18.c	0	C	game		
 main	func_800A4AD8	0x800A4AD8	0xA56D8	0x3C	0x3C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4AD8.c	0	C	game		
 main	func_800A4B14	0x800A4B14	0xA5714	0xA0	0xA0	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4B14.c	0	C	game		
@@ -236,3 +738,7 @@ main	func_800A4CF8	0x800A4CF8	0xA58F8	0x8C	0x8C	exact	kmc+asn64 -O0 -G0 -mips3 -
 main	func_800A4D84	0x800A4D84	0xA5984	0x4C	0x4C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4D84.c	0	C	game		
 main	func_800A4DD0	0x800A4DD0	0xA59D0	0x88	0x88	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4DD0.c	0	C	game		
 main	func_800A4E58	0x800A4E58	0xA5A58	0x2C	0x2C	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4E58.c	0	C	game		
+main	func_800A4E84	0x800A4E84	0xA5A84	0x50	0x50	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4E84.c	0	C	game		
+main	func_800A4ED4	0x800A4ED4	0xA5AD4	0x50	0x50	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4ED4.c	0	C	game		
+main	func_800A4F24	0x800A4F24	0xA5B24	0x50	0x50	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4F24.c	0	C	game		
+main	func_800A4F74	0x800A4F74	0xA5B74	0x100	0x100	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800A4F74.c	0	C	game		

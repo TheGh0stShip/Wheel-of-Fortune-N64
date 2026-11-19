@@ -27,9 +27,11 @@ struct gd_30_s32 { u8 pad[0x30]; s32 v; };
 extern s32 func_8002D930;
 s32 func_8000A56C();
 
-void func_8002EB90(u8 arg0) {
+void func_8002EB90(register s32 arg0) {
+    u8 sp10;
     s32 sp14;
 
+    sp10 = arg0;
     sp14 = func_8000A56C(((s32)&func_8002D930), 0x5010000);
-    ((struct gd_4_s32 *)((struct gd_30_s32 *)sp14)->v)->v = arg0 - 65;
+    ((struct gd_4_s32 *)((struct gd_30_s32 *)sp14)->v)->v = sp10 - 65;
 }

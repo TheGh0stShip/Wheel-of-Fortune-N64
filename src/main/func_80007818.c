@@ -25,8 +25,11 @@ extern s32 m2c_unhandled();
 extern s32 D_8004B9FC;
 s32 func_800099B0();
 
-s32 func_80007818(u8 arg0) {
-    if (func_800099B0(((s32)&D_8004B9FC), arg0) != 0) {
+s32 func_80007818(register s32 arg0) {
+    u8 sp10;
+
+    sp10 = arg0;
+    if (func_800099B0(((s32)&D_8004B9FC), sp10) != 0) {
         return 1;
     }
     return 0;

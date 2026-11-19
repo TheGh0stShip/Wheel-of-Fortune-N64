@@ -36,7 +36,7 @@ void func_80022BC8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     func_80022784(arg0, arg1, ((((struct gd_8_s32 *)((struct gd_30_s32 *)arg0)->v)->v * 32) + arg2), 0);
     ((struct gd_18_s32 *)((((struct gd_8_s32 *)((struct gd_30_s32 *)arg0)->v)->v * 32) + arg2))->v = ((struct gd_4_s32 *)((struct gd_30_s32 *)arg0)->v)->v;
     for (;;) {
-        ((struct gd_8_s32 *) ((struct gd_30_s32 *) arg0)->v)->v++;
+        ((struct gd_8_s32 *)((struct gd_30_s32 *)arg0)->v)->v++;
         if (((struct gd_8_s32 *)((struct gd_30_s32 *)arg0)->v)->v >= arg3) {
             ((struct gd_8_s32 *)((struct gd_30_s32 *)arg0)->v)->v = 0;
         }

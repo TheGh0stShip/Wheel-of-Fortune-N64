@@ -8,8 +8,8 @@
       "scope": "USA ROM SHA-1 b51b28660699bf029f862f51c319a5962fe9de9b. Denominators cover an incomplete catalogue of discovered executable function intervals. Only independently replayed matching C counts. Linked credit covers C placed by GNU ld in a verified pinned mixed image. Other bytes are preserved local ROM inputs.",
       "measurement": {
         "kind": "ratio",
-        "completed": 36060,
-        "total": 401896,
+        "completed": 394040,
+        "total": 402768,
         "unit": "bytes"
       }
     },
@@ -19,8 +19,8 @@
       "scope": "USA ROM SHA-1 b51b28660699bf029f862f51c319a5962fe9de9b. Denominators cover an incomplete catalogue of discovered executable function intervals. Only independently replayed matching C counts. Linked credit covers C placed by GNU ld in a verified pinned mixed image. Other bytes are preserved local ROM inputs.",
       "measurement": {
         "kind": "ratio",
-        "completed": 237,
-        "total": 777,
+        "completed": 743,
+        "total": 775,
         "unit": "functions"
       }
     },
@@ -30,8 +30,8 @@
       "scope": "USA ROM SHA-1 b51b28660699bf029f862f51c319a5962fe9de9b. Denominators cover an incomplete catalogue of discovered executable function intervals. Only independently replayed matching C counts. Linked credit covers C placed by GNU ld in a verified pinned mixed image. Other bytes are preserved local ROM inputs.",
       "measurement": {
         "kind": "ratio",
-        "completed": 36060,
-        "total": 401896,
+        "completed": 394040,
+        "total": 402768,
         "unit": "bytes"
       }
     }

@@ -42,7 +42,7 @@ void func_80020150(s32 arg0, s32 arg1) {
     }
     switch (D_800B96A4) {
     case 0:
-        switch (*(u32 *)D_80107884) {
+        switch ((u32)(*(s32 *)D_80107884)) {
         case 112:
             func_8001EFF0(arg0, arg1);
             return;
