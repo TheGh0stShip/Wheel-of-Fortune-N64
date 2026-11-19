@@ -6,6 +6,11 @@ reconstructed from the address-forming instructions and section placement in
 those units. Rebuilding with these declarations produces identical text, and
 the final cartridge relink has zero differing bytes.
 
+These six functions cover 2,664 bytes. Their matching-C classification is
+conditional on the stated addresses. The instructions independently establish
+the numeric values used by the link, but there is no independent Wheel of
+Fortune symbol source confirming the donor-derived identifiers.
+
 The names retain their donor-source spelling and are not independently proven
 original Wheel of Fortune names. The addresses and placement are the verified
 facts; future naming work may replace the identifiers without changing them.
