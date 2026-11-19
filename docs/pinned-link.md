@@ -4,8 +4,9 @@
 - Input C source is the final Round 12 `wof24d` export. Its function inventory, immutable source digests, recipes, and provenance are recorded in `MATCHED.tsv` and `progress-inventory.tsv`.
 - GNU MIPS linker via N64 Decomp Kit Round 12. The kit generated the pinned layout and ran `relink-cartridge --linker gnu-ld` with the matching local ROM project.
 - GNU ld exited zero. Cartridge SHA-1 matched the input ROM and all 4,194,304 bytes compared equal. The link report recorded zero holes, unresolved symbols, pin conflicts, spills, or overlaps.
-- 743 strictly replayed C functions contribute 394,040 owned code bytes. This includes 446 independently recovered functions and 297 library functions sourced from public N64 decompilations and reverified against this ROM. Four assembly implementations were excluded from C credit.
-- 32 remaining function ranges and unresolved data were supplied by verified assembly or local ROM inputs. Six of those functions already compile correctly and await symbol declarations. The reported percentage measures C integrated into this verified pinned image. Original placement freedom and a source-only build remain unverified.
+- 749 strictly replayed C functions contribute 396,708 owned code bytes. Six formerly symbol-blocked library functions are now linked from C using the reviewed addresses in `config/reviewed_symbols.txt`.
+- Every one of the 775 catalogued function ranges now has verified source. The remaining 26 ranges are architecture-specific assembly or GCC runtime source containing inline assembly, so they are excluded from matching-C credit. `source-accounted.tsv` hashes every published source.
+- All 618 link units now come from source; no raw function-unit stand-ins remain. Original placement freedom remains unverified.
 
 [`progress-linked.tsv`](../progress-linked.tsv) records each credited unit's image, linked address, owned size, and verified source digest. The report generator checks it against the published function inventory before granting linked credit.
 

@@ -4,11 +4,12 @@ Matching decompilation for the USA release. This import contains C recovered wit
 
 | Metric | Verified | Catalogued | Progress |
 |---|---:|---:|---:|
-| Matching C code bytes | 394,040 | 402,768 | 97.83% |
-| Matching C functions | 743 | 775 | 95.87% |
-| Matching C bytes in the verified pinned link | 394,040 | 402,768 | 97.83% |
+| Matching C code bytes | 396,708 | 402,772 | 98.49% |
+| Matching C functions | 749 | 775 | 96.65% |
+| Matching C bytes in the verified pinned link | 396,708 | 402,772 | 98.49% |
+| Verified source of any kind | 775 | 775 | 100.00% |
 
-These measurements cover the corrected catalogue of executable function intervals. GNU ld linked all 743 verified C units into a pinned mixed image and the resulting cartridge matched the USA ROM byte for byte. The remaining function ranges use verified assembly or local ROM extraction. Whole-title source reconstruction remains incomplete. See the [link verification record](docs/pinned-link.md) and the [machine-readable report](decomphub.progress.json).
+These measurements cover the corrected catalogue of executable function intervals. All 749 verified C functions and all remaining assembly/runtime units link from source; the resulting cartridge matches the USA ROM byte for byte. The project is therefore 100% source-accounted. The matching-C ceiling is 98.49% because architecture-specific assembly and GCC's inline-assembly division runtime cannot honestly be classified as C. See the [link verification record](docs/pinned-link.md) and the [machine-readable report](decomphub.progress.json).
 
 [ByteMatch](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64) receives the same scoped figures under the `usa-catalogued` version.
 
@@ -20,6 +21,8 @@ ByteMatch's fuzzy score is a lower bound based on exact matches. Partial similar
 - ROM size 4,194,304 bytes
 - `src/main/` contains the verified function sources.
 - `MATCHED.tsv` records image, address, owned code size, and recipe for each source.
+- `source-accounted.tsv` covers all 775 catalogued functions with immutable source hashes.
+- `asm/accounted/` contains the exact assembly/runtime sources for ranges that cannot be ordinary C.
 - `donor` rows retain provenance for library C independently sourced from other public N64 decompilations; every such row was rebuilt against this ROM before receiving credit. See [source provenance](docs/source-provenance.md).
 
 Supply your own USA ROM and the applicable compiler tools to reproduce a match. This repository contains C sources and verification metadata.

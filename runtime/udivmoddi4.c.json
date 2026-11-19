@@ -1,0 +1,113 @@
+{
+ "name": "<lab>/udivmoddi4.c",
+ "vram": "0x800380D8",
+ "size": "0x63C",
+ "pipeline": "kmc+asn64",
+ "flags": "-O2 -G0 -mips3 -mgp32 -mfp32",
+ "exact": false,
+ "exploratory_exact": true,
+ "proof_required": true,
+ "proof": {
+  "verdict": "assumed",
+  "text_equal": true,
+  "first_diff": null,
+  "assumptions": [
+   {
+    "kind": "section",
+    "name": ".rodata",
+    "address": "0x80001A78",
+    "sites": [
+     "0x64",
+     "0x6C",
+     "0x1D8",
+     "0x1E0",
+     "0x43C",
+     "0x444"
+    ],
+    "call": false
+   }
+  ],
+  "conflicts": [],
+  "sections": [
+   {
+    "section": ".rodata",
+    "size": 256,
+    "base": "0x80001A78",
+    "compared": 256,
+    "base_assumed": true,
+    "status": "equal"
+   }
+  ],
+  "notes": [],
+  "compiled_size": 1596
+ },
+ "sha256_text": "656fff861e9b6ba7046fe74793b6046c572009debd14f210045e2be4a6879cd5",
+ "digest_ok": false,
+ "digest_authority": "exact-target-text-byte-comparison",
+ "text": {
+  "name": ".text",
+  "vram": 2147713240,
+  "size": 1596,
+  "match": true,
+  "first_diff": null,
+  "note": ""
+ },
+ "compiled_text_size": 1596,
+ "owned_text_size": 1596,
+ "object_text_size": 1596,
+ "trailing_alignment_bytes": 0,
+ "compared_range": [
+  0,
+  1596
+ ],
+ "unowned_bytes_verified_as_alignment": true,
+ "sections": [
+  {
+   "name": ".rodata",
+   "vram": 2147490424,
+   "size": 256,
+   "match": true,
+   "first_diff": null,
+   "note": ""
+  }
+ ],
+ "bases": {
+  ".text": "0x800380D8",
+  ".rodata": "0x80001A78"
+ },
+ "catalogue_vram": "0x800380D8",
+ "linked_vram": "0x800380D8",
+ "coordinate_transform": null,
+ "replay": {
+  "version": "n64dk-replay-v1",
+  "source": "<lab>/udivmoddi4.c",
+  "source_digest": "9080c77a5350c34a9e6a1670b60679d95c444fc70e877b10b030d0d5020e1d55",
+  "toolchain_binaries": {
+   "gcc": "181803fe0a8406ed21f8470d09f77fe2c91044941b8c18eb30432b82bf9f41e1",
+   "cc1": "28cfa07804df7b40d5a13a525dc63eb2fa12f1b0133dc737950dce59611d3972",
+   "as": "ae891fb014e2f959e278bc51ae2fd47256b36955f752bbe4a38790ea4381139d"
+  },
+  "pipeline": "kmc+asn64",
+  "flags": [
+   "-O2",
+   "-G0",
+   "-mips3",
+   "-mgp32",
+   "-mfp32"
+  ],
+  "include_paths": [],
+  "symbol_files": [
+   "<lab>/rt.syms"
+  ],
+  "image": "<lab>/baserom.z64",
+  "image_digest": "5da09844f1f63270830836c42787046d48d72c125a50ae91d46327a93a25e383",
+  "address": 2147713240,
+  "size": 1596,
+  "vram_delta": 2147480576,
+  "target_digest": "656fff861e9b6ba7046fe74793b6046c572009debd14f210045e2be4a6879cd5",
+  "environment": {
+   "LANG": "C.UTF-8"
+  }
+ },
+ "history": "recorded"
+}

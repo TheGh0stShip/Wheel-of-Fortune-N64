@@ -1,0 +1,203 @@
+{
+ "name": "<lab>/w_udiv.c",
+ "vram": "0x800380B8",
+ "size": "0x20",
+ "pipeline": "kmc+asn64",
+ "flags": "-O2 -G0 -mips3 -mgp32 -mfp32",
+ "exact": true,
+ "exploratory_exact": true,
+ "proof_required": true,
+ "proof": {
+  "verdict": "exact",
+  "text_equal": true,
+  "first_diff": null,
+  "assumptions": [],
+  "conflicts": [],
+  "sections": [],
+  "notes": [],
+  "compiled_size": 32
+ },
+ "sha256_text": "6716bd793a9e42cc133276c0af4aa55254a2889c73723ce0e664ca1e2103af2d",
+ "digest_ok": true,
+ "digest_authority": "exact-target-text-byte-comparison",
+ "text": {
+  "name": ".text",
+  "vram": 2147713208,
+  "size": 32,
+  "match": true,
+  "first_diff": null,
+  "note": ""
+ },
+ "compiled_text_size": 32,
+ "owned_text_size": 32,
+ "object_text_size": 32,
+ "trailing_alignment_bytes": 0,
+ "compared_range": [
+  0,
+  32
+ ],
+ "unowned_bytes_verified_as_alignment": true,
+ "sections": [],
+ "bases": {
+  ".text": "0x800380B8"
+ },
+ "catalogue_vram": "0x800380B8",
+ "linked_vram": "0x800380B8",
+ "coordinate_transform": null,
+ "replay": {
+  "version": "n64dk-replay-v1",
+  "source": "<lab>/w_udiv.c",
+  "source_digest": "d0d8d492358f88343a45f8fb04a2d1068e73b79bc948993607d0c19abfb6fbb7",
+  "toolchain_binaries": {
+   "gcc": "181803fe0a8406ed21f8470d09f77fe2c91044941b8c18eb30432b82bf9f41e1",
+   "cc1": "28cfa07804df7b40d5a13a525dc63eb2fa12f1b0133dc737950dce59611d3972",
+   "as": "ae891fb014e2f959e278bc51ae2fd47256b36955f752bbe4a38790ea4381139d"
+  },
+  "pipeline": "kmc+asn64",
+  "flags": [
+   "-O2",
+   "-G0",
+   "-mips3",
+   "-mgp32",
+   "-mfp32"
+  ],
+  "include_paths": [],
+  "symbol_files": [
+   "<lab>/rt.syms"
+  ],
+  "image": "<lab>/baserom.z64",
+  "image_digest": "5da09844f1f63270830836c42787046d48d72c125a50ae91d46327a93a25e383",
+  "address": 2147713208,
+  "size": 32,
+  "vram_delta": 2147480576,
+  "target_digest": "6716bd793a9e42cc133276c0af4aa55254a2889c73723ce0e664ca1e2103af2d",
+  "environment": {
+   "LANG": "C.UTF-8"
+  }
+ },
+ "manifest_row": "0x38CB8\t0x20\t<lab>/w_udiv.c\t--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32\t6716bd793a9e42cc133276c0af4aa55254a2889c73723ce0e664ca1e2103af2d",
+ "image_mapping": {
+  "raw_rom": "0x38CB8",
+  "composite_rom": "0x38CB8",
+  "linked_vram": "0x800380B8",
+  "catalogue_vram": "0x800380B8",
+  "image": "main"
+ },
+ "project_manifest_row": "0x38CB8\t0x20\t<lab>/w_udiv.c\t--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32\t6716bd793a9e42cc133276c0af4aa55254a2889c73723ce0e664ca1e2103af2d",
+ "exact_evidence": {
+  "target_text_sha256": "6716bd793a9e42cc133276c0af4aa55254a2889c73723ce0e664ca1e2103af2d",
+  "complete_owned_sections": true,
+  "expected_manifest_hash": "6716bd793a9e42cc133276c0af4aa55254a2889c73723ce0e664ca1e2103af2d",
+  "compiler_binary_digest": "d6080e9a65fb9a75a46e37223a43cd37057f9da63185a14f10da15f76ca0f118",
+  "source_sha256": "d0d8d492358f88343a45f8fb04a2d1068e73b79bc948993607d0c19abfb6fbb7",
+  "relocations_checked": false,
+  "mapping_preflight": {
+   "ok": true,
+   "preflight_version": "image-map-v3",
+   "mapping": {
+    "image": "main",
+    "section_rom": "0x1000",
+    "section_vram": "0x80000400",
+    "section_size": 674932,
+    "function_vram": "0x800380B8",
+    "function_size": 32,
+    "authority": "catalogue-section",
+    "vram_delta": "0x7FFFF400",
+    "function_rom": "0x38CB8",
+    "raw_rom": "0x38CB8",
+    "catalogue_composite_rom": "0x38CB8",
+    "composite_rom": "0x38CB8",
+    "linked_vram": "0x800380B8",
+    "linked_base": "0x80000400",
+    "image_region": {
+     "offset": null,
+     "size": 674932,
+     "raw_sibling": null
+    },
+    "target_digest": "6716bd793a9e42cc133276c0af4aa55254a2889c73723ce0e664ca1e2103af2d",
+    "image_digest": "5da09844f1f63270830836c42787046d48d72c125a50ae91d46327a93a25e383"
+   },
+   "mapping_authority": "catalogue-section",
+   "selected_image_mapping": "raw-overlay",
+   "selected_image_offset": "0x38CB8",
+   "mapping_candidates": [
+    {
+     "authority": "raw-overlay",
+     "offset": "0x38CB8",
+     "linked_vram": 2147484672,
+     "catalogue_vram": 2147484672,
+     "transform": "section_rom + (catalogue_vram - catalogue_base)",
+     "agreement": [
+      "catalogue"
+     ],
+     "canonical": true,
+     "digest": "6716bd793a9e42cc133276c0af4aa55254a2889c73723ce0e664ca1e2103af2d",
+     "score": 16
+    }
+   ],
+   "image": "<lab>/baserom.z64",
+   "image_size": 4194304,
+   "first_instruction": "addiu       $sp, $sp, -0x20",
+   "last_instruction": "nop",
+   "valid_words": 8,
+   "total_words": 8,
+   "valid_ratio": 1.0,
+   "returns": [
+    "0x800380D0"
+   ],
+   "boundary": "return-or-tail",
+   "entry_preflight": {
+    "entry_status": "accept",
+    "reason_codes": [],
+    "confidence": 0.85,
+    "incoming_edges": [
+     "0x8002F474",
+     "0x8002F4CC",
+     "0x8002F85C",
+     "0x8002F898",
+     "0x8002F9DC",
+     "0x8002FA3C",
+     "0x8002FBF0",
+     "0x8002FC50",
+     "0x80033620",
+     "0x8003370C",
+     "0x80033770",
+     "0x800337B0",
+     "0x80033954",
+     "0x80033990",
+     "0x800A4FD4",
+     "0x800A5040"
+    ],
+    "call_target_evidence": [
+     "0x8002F474",
+     "0x8002F4CC",
+     "0x8002F85C",
+     "0x8002F898",
+     "0x8002F9DC",
+     "0x8002FA3C",
+     "0x8002FBF0",
+     "0x8002FC50",
+     "0x80033620",
+     "0x8003370C",
+     "0x80033770",
+     "0x800337B0",
+     "0x80033954",
+     "0x80033990",
+     "0x800A4FD4",
+     "0x800A5040"
+    ],
+    "predecessor_fallthrough": false,
+    "saved_register_live_ins": [],
+    "saved_register_diagnostics": [],
+    "saved_register_restores": []
+   },
+   "delay_slot_ownership": {
+    "owned": true,
+    "terminator": "0x800380D0",
+    "delay_slot": "0x800380D4"
+   },
+   "warnings": []
+  }
+ },
+ "history": "recorded"
+}

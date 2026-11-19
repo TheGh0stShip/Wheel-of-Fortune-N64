@@ -3,9 +3,9 @@
  "coverage": {
   "assembly": 5708,
   "assumed": 0,
-  "exact": 399408,
+  "exact": 402072,
   "raw-other": 267156,
-  "raw-unit": 2664
+  "raw-unit": 0
  },
  "credit": "a measurement: the image linked from the project's units and raw blobs cut from your ROM, compared byte for byte; it grants no credit and changes no run, receipt or evidence store",
  "diagnostics": [],
@@ -68,15 +68,14 @@
   "obj/0044_func_800068F0.o",
   "obj/0045_func_80006B28.o",
   "obj/0046_func_80006B58.o",
-  "... 571 more"
+  "... 576 more"
  ],
  "first_difference": null,
  "holes": 0,
  "image": "main",
  "level": "unchanged: 2 (unit-verified) at most; this relink moves no level (see level_blockers)",
  "level_blockers": [
-  "6 function units are raw stand-ins (2664 bytes): level 3 needs every unit linked from its source",
-  "6 names nothing declares (bound to a sentinel)"
+  "7 names nothing declares (bound to a sentinel)"
  ],
  "linker": "gnu-ld",
  "outcome": "identical",
@@ -84,7 +83,7 @@
  "overlaps": [],
  "padding_yielded_bytes": 0,
  "problems": [],
- "raw_bytes": 269820,
+ "raw_bytes": 267156,
  "returncode": 0,
  "rom_bytes_kept_in": [
   "raw/raw.o (the declared local extraction input)",
@@ -98,10 +97,10 @@
   "unplaced": 0,
   "unplaced_referenced": []
  },
- "source_bytes": 405116,
- "source_data_bytes": 6212,
- "source_share": 0.6002,
- "source_text_bytes": 398904,
+ "source_bytes": 407780,
+ "source_data_bytes": 6292,
+ "source_share": 0.6042,
+ "source_text_bytes": 401488,
  "spills": [],
  "symbols": {
   "common_without_address": [],
@@ -111,7 +110,7 @@
   "gp_relative": false,
   "hard": 0,
   "pin_conflicts": [],
-  "provided": 962,
+  "provided": 967,
   "stated": 23,
   "unresolved": [
    "_MakeMotorData",
@@ -119,20 +118,18 @@
    "__osLeoResume",
    "__osPackRamReadData",
    "__osPackRamWriteData",
-   "__osPackReadData"
+   "__osPackReadData",
+   "viMgrMain"
   ],
   "unscriptable": []
  },
  "units": {
   "in_image": 775,
-  "linked": 613,
-  "objects": 619,
+  "linked": 618,
+  "objects": 618,
   "objects_by_result": {
-   "linked-identical": 613,
-   "raw": 6
+   "linked-identical": 618
   },
-  "raw_members_by_reason": {
-   "assumed": 6
-  }
+  "raw_members_by_reason": {}
  }
 }

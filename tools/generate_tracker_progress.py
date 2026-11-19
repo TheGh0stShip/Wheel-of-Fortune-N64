@@ -54,6 +54,29 @@ def linked_functions(root, rows):
     return linked
 
 
+def accounted_functions(root, rows):
+    """Validate the manifest proving every catalogued range has source."""
+    path = root / "source-accounted.tsv"
+    if not path.exists():
+        return {}
+    expected = {function_key(row): row for row in rows}
+    accounted = {}
+    for entry in inventory(path):
+        key = function_key(entry)
+        original = expected.get(key)
+        source = Path(entry["source"])
+        if (key in accounted or original is None or source.is_absolute() or ".." in source.parts):
+            raise ValueError(f"stale or invalid accounted unit: {key}")
+        if (entry["function"] != original["function"]
+                or int(entry["code_size"], 0) != int(original["code_size"], 0)
+                or hashlib.sha256((root / source).read_bytes()).hexdigest() != entry["source_sha256"]):
+            raise ValueError(f"stale or invalid accounted unit: {key}")
+        accounted[key] = entry
+    if set(accounted) != set(expected):
+        raise ValueError("source accounting does not cover the complete inventory")
+    return accounted
+
+
 def generate(root):
     config = json.loads((root / "progress-config.json").read_text(encoding="utf-8"))
     rows = inventory(root / "progress-inventory.tsv")
@@ -141,11 +164,12 @@ def main():
     if args.objdiff:
         args.objdiff.parent.mkdir(parents=True, exist_ok=True)
         rows = inventory(args.root / "progress-inventory.tsv")
-        objdiff = objdiff_report(progress, rows, linked_functions(args.root, rows))
+        objdiff = objdiff_report(progress, rows, linked_functions(args.root, rows),
+                                 accounted_functions(args.root, rows))
         args.objdiff.write_text(json.dumps(objdiff, indent=2) + "\n", encoding="utf-8")
 
 
-def objdiff_report(progress, rows, linked=()):
+def objdiff_report(progress, rows, linked=(), accounted=None):
     code, functions = (track["measurement"] for track in progress["tracks"][:2])
     category = "catalogued-code"
 
@@ -171,7 +195,8 @@ def objdiff_report(progress, rows, linked=()):
         size = int(row["code_size"], 0)
         matched = matching_c(row)
         address = str(int(row["vram"], 0))
-        complete = function_key(row) in linked
+        key = function_key(row)
+        complete = key in (accounted or linked)
         if complete:
             linked_bytes += size
         metadata = {"progress_categories": [category]}
@@ -179,6 +204,8 @@ def objdiff_report(progress, rows, linked=()):
             metadata["complete"] = True
         if matched:
             metadata["source_path"] = row["source"]
+        elif accounted and key in accounted:
+            metadata["source_path"] = accounted[key]["source"]
         units.append({
             "name": f"{row['image']}/{row['function']}@{row['vram']}",
             "measures": measures(size, size if matched else 0, 1, int(matched),
@@ -191,7 +218,7 @@ def objdiff_report(progress, rows, linked=()):
             "metadata": metadata,
         })
     totals = measures(code["total"], code["completed"], functions["total"], functions["completed"],
-                      linked_bytes, len(linked))
+                      linked_bytes, len(accounted) if accounted else len(linked))
     return {
         "version": 2, "measures": totals, "units": units,
         "categories": [{"id": category, "name": "Catalogued code only", "measures": totals}],

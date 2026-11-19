@@ -15,20 +15,20 @@
    "coverage": {
     "assembly": 5708,
     "assumed": 0,
-    "exact": 399408,
+    "exact": 402072,
     "raw-other": 267156,
-    "raw-unit": 2664
+    "raw-unit": 0
    },
    "differing_bytes": 0,
    "outcome": "identical",
    "placed": "ROM 0x1000",
-   "source_data_bytes": 6212,
-   "source_text_bytes": 398904
+   "source_data_bytes": 6292,
+   "source_text_bytes": 401488
   }
  },
  "linked_from_source_bytes": {
-  "data": 6212,
-  "text": 398904
+  "data": 6292,
+  "text": 401488
  },
  "preserved_inputs_needed": 3519368,
  "rom_bytes": 4194304,

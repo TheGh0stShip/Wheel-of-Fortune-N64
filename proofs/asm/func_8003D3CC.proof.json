@@ -1,0 +1,11 @@
+{
+ "verdict": "exact",
+ "text_equal": true,
+ "assumptions": [],
+ "conflicts": [],
+ "sections": [],
+ "notes": [
+  "assembly source; assembled and compared"
+ ],
+ "compiled_size": 180
+}
