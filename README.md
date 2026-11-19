@@ -11,6 +11,10 @@ Both measurements cover an incomplete function catalogue. Whole-title completion
 
 [ByteMatch](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64) receives the same scoped figures under the `usa-catalogued` version.
 
+[![Matching C bytes in the catalogue](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64.svg?version=usa-catalogued&category=catalogued-code&measure=matched_code_percent&label=Catalogued%20C%20bytes)](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64/usa-catalogued)
+
+ByteMatch's fuzzy score is a lower bound based on exact matches. Partial similarity is unmeasured. Its fully linked figure stays at zero until a project relink is verified.
+
 - ROM SHA-1 `b51b28660699bf029f862f51c319a5962fe9de9b`
 - ROM size 4,194,304 bytes
 - `src/main/` contains the verified function sources.

@@ -107,9 +107,13 @@ def objdiff_report(progress, rows):
     category = "catalogued-code"
 
     def measures(size, matching, count, matched):
+        exact_percent = 100 * matching / size
         return {
             "total_code": str(size), "matched_code": str(matching),
-            "matched_code_percent": 100 * matching / size,
+            "matched_code_percent": exact_percent,
+            # Exact matches contribute at full weight. Unmeasured partial
+            # matches receive no credit, so this is a lower bound.
+            "fuzzy_match_percent": exact_percent,
             "total_functions": count, "matched_functions": matched,
             "matched_functions_percent": 100 * matched / count,
             "total_units": count,
@@ -136,7 +140,7 @@ def objdiff_report(progress, rows):
     totals = measures(code["total"], code["completed"], functions["total"], functions["completed"])
     return {
         "version": 2, "measures": totals, "units": units,
-        "categories": [{"id": category, "name": "Catalogued executable code", "measures": totals}],
+        "categories": [{"id": category, "name": "Catalogued code only", "measures": totals}],
     }
 
 
