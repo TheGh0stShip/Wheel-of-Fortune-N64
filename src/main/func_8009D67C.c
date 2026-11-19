@@ -1,44 +1,8 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
-
-struct gd_2_s16 { u8 pad[0x2]; s16 v; };
-struct gd_4_s16 { u8 pad[0x4]; s16 v; };
-struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-struct gd_6_s16 { u8 pad[0x6]; s16 v; };
-struct gd_8_s16 { u8 pad[0x8]; s16 v; };
-struct gd_8_s32 { u8 pad[0x8]; s32 v; };
-struct gd_A_s16 { u8 pad[0xA]; s16 v; };
-struct gd_C_s16 { u8 pad[0xC]; s16 v; };
-struct gd_C_s32 { u8 pad[0xC]; s32 v; };
-struct gd_E_s16 { u8 pad[0xE]; s16 v; };
-struct gd_10_s16 { u8 pad[0x10]; s16 v; };
-struct gd_20_s16 { u8 pad[0x20]; s16 v; };
-struct gd_30_s16 { u8 pad[0x30]; s16 v; };
-struct gd_40_s16 { u8 pad[0x40]; s16 v; };
-struct gd_50_s16 { u8 pad[0x50]; s16 v; };
-struct gd_60_s16 { u8 pad[0x60]; s16 v; };
-struct gd_70_s16 { u8 pad[0x70]; s16 v; };
+typedef unsigned char u8;
+typedef signed short s16;
+typedef unsigned short u16;
+typedef signed int s32;
+typedef double f64;
 extern f64 D_80088328;
 extern f64 D_80088330;
 extern f64 D_80088338;
@@ -49,7 +13,7 @@ extern f64 D_80088358;
 extern f64 D_80088360;
 
 void func_8009D67C(s32 arg0) {
-    register s32 reg_v0;
+    register s16 *p;
     s32 sp0;
     s32 sp4;
     s32 sp8;
@@ -71,40 +35,36 @@ void func_8009D67C(s32 arg0) {
     s32 sp48;
     s32 sp4C;
     s32 sp50;
-    s32 sp54;
+    s32 i;
     s16 sp58;
 
-    reg_v0 = arg0;
-    sp54 = 7;
-    for (;;) {
-        if (sp54 < 0) {
-            break;
-        }
+    p = (s16 *)arg0;
+    for (i = 7; i >= 0; i--) {
         {
-            register s32 reg_v1;
-            reg_v1 = reg_v0;
-            sp34 = *(s16 *)reg_v0;
-            sp38 = ((struct gd_2_s16 *)reg_v0)->v;
-            if ((sp38 == 0) && (((((struct gd_4_s32 *)reg_v1)->v | ((struct gd_8_s32 *)reg_v1)->v) | ((struct gd_C_s32 *)reg_v1)->v) == 0)) {
+            register s32 *q;
+            q = (s32 *)p;
+            sp34 = p[0];
+            sp38 = p[1];
+            if (sp38 == 0 && (q[1] | q[2] | q[3]) == 0) {
                 if (sp34 != 0) {
                     sp58 = ((u16)sp34) << 1;
                     {
-                        register s32 reg_a0;
-                        reg_a0 = (sp58 & 0xFFFF) | (sp58 << 16);
-                        (*(s32 *)reg_v1) = reg_a0;
-                        ((struct gd_4_s32 *)reg_v1)->v = reg_a0;
-                        ((struct gd_8_s32 *)reg_v1)->v = reg_a0;
-                        ((struct gd_C_s32 *)reg_v1)->v = reg_a0;
+                        register s32 fill;
+                        fill = (sp58 & 0xFFFF) | (sp58 << 16);
+                        q[0] = fill;
+                        q[1] = fill;
+                        q[2] = fill;
+                        q[3] = fill;
                     }
                 }
-                reg_v0 = reg_v0 + 16;
+                p += 8;
             } else {
-                sp3C = ((struct gd_4_s16 *)reg_v0)->v;
-                sp40 = ((struct gd_6_s16 *)reg_v0)->v;
-                sp44 = ((struct gd_8_s16 *)reg_v0)->v;
-                sp48 = ((struct gd_A_s16 *)reg_v0)->v;
-                sp4C = ((struct gd_C_s16 *)reg_v0)->v;
-                sp50 = ((struct gd_E_s16 *)reg_v0)->v;
+                sp3C = p[2];
+                sp40 = p[3];
+                sp44 = p[4];
+                sp48 = p[5];
+                sp4C = p[6];
+                sp50 = p[7];
                 if (sp4C != 0) {
                     if (sp44 != 0) {
                         if (sp3C != 0) {
@@ -192,7 +152,7 @@ void func_8009D67C(s32 arg0) {
                         if (sp3C != 0) {
                             if (sp34 != 0) {
                                 sp8 = sp3C * 0x1151;
-                                spC = (s32)(((f64)sp3C) * D_80088328);
+                                spC = (s32)((f64)sp3C * D_80088328);
                                 sp0 = (sp34 + sp44) << 13;
                                 sp4 = (sp34 - sp44) << 13;
                                 sp10 = sp0 + spC;
@@ -201,7 +161,7 @@ void func_8009D67C(s32 arg0) {
                                 sp18 = sp4 - sp8;
                             } else {
                                 sp8 = sp3C * 0x1151;
-                                spC = (s32)(((f64)sp3C) * D_80088330);
+                                spC = (s32)((f64)sp3C * D_80088330);
                                 sp0 = sp44 << 13;
                                 sp10 = sp0 + spC;
                                 sp1C = sp0 - spC;
@@ -221,7 +181,7 @@ void func_8009D67C(s32 arg0) {
                         if (sp3C != 0) {
                             if (sp34 != 0) {
                                 sp8 = sp3C * 0x1151;
-                                spC = (s32)(((f64)sp3C) * D_80088338);
+                                spC = (s32)((f64)sp3C * D_80088338);
                                 sp0 = sp34 << 13;
                                 sp10 = sp0 + spC;
                                 sp1C = sp0 - spC;
@@ -229,7 +189,7 @@ void func_8009D67C(s32 arg0) {
                                 sp18 = sp0 - sp8;
                             } else {
                                 sp8 = sp3C * 0x1151;
-                                spC = (s32)(((f64)sp3C) * D_80088340);
+                                spC = (s32)((f64)sp3C * D_80088340);
                                 sp10 = spC;
                                 sp1C = -spC;
                                 sp14 = sp8;
@@ -463,33 +423,29 @@ void func_8009D67C(s32 arg0) {
                         }
                     }
                 }
-                (*(s16 *)reg_v0) = ((sp10 + spC) + 2048) >> 12;
-                ((struct gd_E_s16 *)reg_v0)->v = ((sp10 - spC) + 2048) >> 12;
-                ((struct gd_2_s16 *)reg_v0)->v = ((sp14 + sp8) + 2048) >> 12;
-                ((struct gd_C_s16 *)reg_v0)->v = ((sp14 - sp8) + 2048) >> 12;
-                ((struct gd_4_s16 *)reg_v0)->v = ((sp18 + sp4) + 2048) >> 12;
-                ((struct gd_A_s16 *)reg_v0)->v = ((sp18 - sp4) + 2048) >> 12;
-                ((struct gd_6_s16 *)reg_v0)->v = ((sp1C + sp0) + 2048) >> 12;
-                ((struct gd_8_s16 *)reg_v0)->v = ((sp1C - sp0) + 2048) >> 12;
-                reg_v0 = reg_v0 + 16;
+                p[0] = (sp10 + spC + 2048) >> 12;
+                p[7] = (sp10 - spC + 2048) >> 12;
+                p[1] = (sp14 + sp8 + 2048) >> 12;
+                p[6] = (sp14 - sp8 + 2048) >> 12;
+                p[2] = (sp18 + sp4 + 2048) >> 12;
+                p[5] = (sp18 - sp4 + 2048) >> 12;
+                p[3] = (sp1C + sp0 + 2048) >> 12;
+                p[4] = (sp1C - sp0 + 2048) >> 12;
+                p += 8;
             }
         }
-        sp54--;
     }
-    reg_v0 = arg0;
-    sp54 = 7;
-    for (;;) {
-        if (sp54 < 0) {
-            return;
-        }
-        sp34 = *(s16 *)reg_v0;
-        sp38 = ((struct gd_10_s16 *)reg_v0)->v;
-        sp3C = ((struct gd_20_s16 *)reg_v0)->v;
-        sp40 = ((struct gd_30_s16 *)reg_v0)->v;
-        sp44 = ((struct gd_40_s16 *)reg_v0)->v;
-        sp48 = ((struct gd_50_s16 *)reg_v0)->v;
-        sp4C = ((struct gd_60_s16 *)reg_v0)->v;
-        sp50 = ((struct gd_70_s16 *)reg_v0)->v;
+    p = (s16 *)arg0;
+    i = 7;
+    while (i >= 0) {
+        sp34 = p[0];
+        sp38 = p[8];
+        sp3C = p[16];
+        sp40 = p[24];
+        sp44 = p[32];
+        sp48 = p[40];
+        sp4C = p[48];
+        sp50 = p[56];
         if (sp4C != 0) {
             if (sp44 != 0) {
                 if (sp3C != 0) {
@@ -577,7 +533,7 @@ void func_8009D67C(s32 arg0) {
                 if (sp3C != 0) {
                     if (sp34 != 0) {
                         sp8 = sp3C * 0x1151;
-                        spC = (s32)(((f64)sp3C) * D_80088348);
+                        spC = (s32)((f64)sp3C * D_80088348);
                         sp0 = (sp34 + sp44) << 13;
                         sp4 = (sp34 - sp44) << 13;
                         sp10 = sp0 + spC;
@@ -586,7 +542,7 @@ void func_8009D67C(s32 arg0) {
                         sp18 = sp4 - sp8;
                     } else {
                         sp8 = sp3C * 0x1151;
-                        spC = (s32)(((f64)sp3C) * D_80088350);
+                        spC = (s32)((f64)sp3C * D_80088350);
                         sp0 = sp44 << 13;
                         sp10 = sp0 + spC;
                         sp1C = sp0 - spC;
@@ -606,7 +562,7 @@ void func_8009D67C(s32 arg0) {
                 if (sp3C != 0) {
                     if (sp34 != 0) {
                         sp8 = sp3C * 0x1151;
-                        spC = (s32)(((f64)sp3C) * D_80088358);
+                        spC = (s32)((f64)sp3C * D_80088358);
                         sp0 = sp34 << 13;
                         sp10 = sp0 + spC;
                         sp1C = sp0 - spC;
@@ -614,7 +570,7 @@ void func_8009D67C(s32 arg0) {
                         sp18 = sp0 - sp8;
                     } else {
                         sp8 = sp3C * 0x1151;
-                        spC = (s32)(((f64)sp3C) * D_80088360);
+                        spC = (s32)((f64)sp3C * D_80088360);
                         sp10 = spC;
                         sp1C = -spC;
                         sp14 = sp8;
@@ -848,15 +804,15 @@ void func_8009D67C(s32 arg0) {
                 }
             }
         }
-        (*(s16 *)reg_v0) = ((sp10 + spC) + 0x10000) >> 17;
-        ((struct gd_70_s16 *)reg_v0)->v = ((sp10 - spC) + 0x10000) >> 17;
-        ((struct gd_10_s16 *)reg_v0)->v = ((sp14 + sp8) + 0x10000) >> 17;
-        ((struct gd_60_s16 *)reg_v0)->v = ((sp14 - sp8) + 0x10000) >> 17;
-        ((struct gd_20_s16 *)reg_v0)->v = ((sp18 + sp4) + 0x10000) >> 17;
-        ((struct gd_50_s16 *)reg_v0)->v = ((sp18 - sp4) + 0x10000) >> 17;
-        ((struct gd_30_s16 *)reg_v0)->v = ((sp1C + sp0) + 0x10000) >> 17;
-        ((struct gd_40_s16 *)reg_v0)->v = ((sp1C - sp0) + 0x10000) >> 17;
-        reg_v0 = reg_v0 + 2;
-        sp54--;
+        p[0] = (sp10 + spC + 0x10000) >> 17;
+        p[56] = (sp10 - spC + 0x10000) >> 17;
+        p[8] = (sp14 + sp8 + 0x10000) >> 17;
+        p[48] = (sp14 - sp8 + 0x10000) >> 17;
+        p[16] = (sp18 + sp4 + 0x10000) >> 17;
+        p[40] = (sp18 - sp4 + 0x10000) >> 17;
+        p[24] = (sp1C + sp0 + 0x10000) >> 17;
+        p[32] = (sp1C - sp0 + 0x10000) >> 17;
+        p++;
+        i--;
     }
 }

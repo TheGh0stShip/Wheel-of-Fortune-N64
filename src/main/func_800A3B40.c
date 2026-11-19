@@ -1,66 +1,50 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+typedef unsigned char u8;
+typedef signed char s8;
+typedef unsigned short u16;
+typedef signed int s32;
+typedef unsigned int u32;
 
-struct gd_204_s32 { u8 pad[0x204]; s32 v; };
-struct gd_208_s32 { u8 pad[0x208]; s32 v; };
-struct gd_218_s32 { u8 pad[0x218]; s32 v; };
-struct gd_21C_s32 { u8 pad[0x21C]; s32 v; };
-struct gd_220_s32 { u8 pad[0x220]; s32 v; };
-s32 func_800A4A18();
-s32 func_800A4C04();
-s32 func_800A4C28();
+typedef struct {
+    /* 0x000 */ u8 pad0[0x204];
+    /* 0x204 */ s32 eof;
+    /* 0x208 */ s32 stream;
+    /* 0x20C */ u8 pad20C[0xC];
+    /* 0x218 */ s32 unk_218;
+    /* 0x21C */ s32 unk_21C;
+    /* 0x220 */ s32 unk_220;
+} Reader;
+
+s32 func_800A4A18(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+void func_800A4C04(s32 arg0);
+s32 func_800A4C28(s32 arg0);
 
 s32 func_800A3B40(s32 arg0) {
-    s32 sp10;
-    s32 sp14;
-    s32 sp18;
-    u16 sp1C;
-    u8 sp1E;
+    s32 data;
+    s32 count;
+    s32 i;
+    u16 size;
+    u8 marker;
 
-    sp10 = 0;
-    sp14 = func_800A4A18(((s32)&sp1C), 1, 2, ((struct gd_208_s32 *)arg0)->v);
-    if (sp14 != 2) {
-        ((struct gd_204_s32 *)arg0)->v = 1;
+    data = 0;
+    count = func_800A4A18((s32)&size, 1, 2, ((Reader *)arg0)->stream);
+    if (count != 2) {
+        ((Reader *)arg0)->eof = 1;
         return 1;
     }
-    sp10 = func_800A4C28((sp1C + 1));
-    if (sp10 == 0) {
+    data = func_800A4C28(size + 1);
+    if (data == 0) {
         return 1;
     }
-    (*(s8 *)(sp1C + sp10)) = 0;
-    sp14 = func_800A4A18(sp10, 1, sp1C, ((struct gd_208_s32 *)arg0)->v);
-    if (sp14 < sp1C) {
-        ((struct gd_204_s32 *)arg0)->v = 1;
+    ((s8 *)data)[size] = 0;
+    count = func_800A4A18(data, 1, size, ((Reader *)arg0)->stream);
+    if (count < size) {
+        ((Reader *)arg0)->eof = 1;
         return 1;
     }
-    sp18 = 6;
-    for (;;) {
-        if (((*(u8 *)(sp10 + sp18)) & 128) == 0) {
-            break;
-        }
-        sp1E = *(u8 *)(sp10 + sp18);
-        switch (sp1E) {
+    i = 6;
+    while ((((u8 *)data)[i] & 128) != 0) {
+        marker = ((u8 *)data)[i];
+        switch (marker) {
         case 185:
             break;
         case 184:
@@ -74,32 +58,30 @@ s32 func_800A3B40(s32 arg0) {
         case 191:
             break;
         default:
-            if ((u32)sp1E < 188) {
+            if (marker < 188) {
                 return 1;
             }
-            switch ((s32)(((u32)sp1E >> 4) & 255)) {
+            switch ((marker >> 4) & 255) {
             case 12:
             case 13:
-                ((struct gd_218_s32 *)arg0)->v = sp1E;
+                ((Reader *)arg0)->unk_218 = marker;
                 break;
             case 14:
-                if (((struct gd_21C_s32 *)arg0)->v != 0) {
-                    if (((struct gd_21C_s32 *)arg0)->v != sp1E) {
-                        break;
-                    }
+                if (((Reader *)arg0)->unk_21C != 0 && ((Reader *)arg0)->unk_21C != marker) {
+                    break;
                 }
-                ((struct gd_21C_s32 *)arg0)->v = sp1E;
+                ((Reader *)arg0)->unk_21C = marker;
                 break;
             case 15:
-                ((struct gd_220_s32 *)arg0)->v = sp1E;
+                ((Reader *)arg0)->unk_220 = marker;
                 break;
             }
             break;
         }
-        sp18 = sp18 + 3;
+        i += 3;
     }
-    if (sp10 != 0) {
-        func_800A4C04(sp10);
+    if (data != 0) {
+        func_800A4C04(data);
     }
     return 0;
 }

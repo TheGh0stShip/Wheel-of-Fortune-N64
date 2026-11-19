@@ -1,62 +1,32 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
-
-s32 func_80009F98();
+typedef signed char s8;
+typedef unsigned char u8;
+typedef signed int s32;
+void func_80009F98(s32 arg0);
 
 void func_80009D78(s32 arg0) {
-    s32 sp10[4];
-    s16 pad0;
-    s8 pad1;
-    u8 sp23;
-    s32 pad2;
-    s32 sp28;
-    s32 sp2C;
-    s32 sp30;
-    s32 sp34;
+    s8 buf[20];
+    s32 i;
+    s32 divisor;
+    s32 digit;
+    s32 value;
 
-    sp34 = arg0;
-    if (sp34 < 0) {
-        sp34 = sp34 * -1;
+    value = arg0;
+    if (value < 0) {
+        value = value * -1;
     }
-    sp23 = 0;
-    sp28 = 18;
-    sp2C = 10;
-    for (;;) {
-        if (0x3B9AC9FF < sp2C) {
+    buf[19] = 0;
+    i = 18;
+    for (divisor = 10; divisor <= 999999999; divisor = divisor * 10) {
+        digit = value % divisor;
+        value = value - digit;
+        digit = digit / (divisor / 10);
+        buf[i--] = (u8)digit + '0';
+        if (value == 0) {
             break;
         }
-        sp30 = sp34 % sp2C;
-        sp34 = sp34 - sp30;
-        sp30 = sp30 / (sp2C / 10);
-        (*(s8 *)(((s32)&sp10) + (sp28--))) = ((u8)sp30) + 48;
-        if (sp34 == 0) {
-            break;
-        }
-        sp2C = sp2C * 10;
     }
     if (arg0 < 0) {
-        (*(s8 *)(((s32)&sp10) + (sp28--))) = 45;
+        buf[i--] = '-';
     }
-    func_80009F98(((s32)((u8 *)&sp10 + (sp28 + 1))));
+    func_80009F98((s32)&buf[i + 1]);
 }

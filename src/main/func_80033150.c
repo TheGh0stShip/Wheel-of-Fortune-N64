@@ -1,68 +1,55 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+typedef unsigned char u8;
+typedef signed int s32;
 
-struct gd_8_s32 { u8 pad[0x8]; s32 v; };
-struct gd_1C_s32 { u8 pad[0x1C]; s32 v; };
-struct gd_20_s32 { u8 pad[0x20]; s32 v; };
-struct n64dk_e72 { u8 b[72]; };
-struct n64dk_a800B99A8 { s32 m0; u8 pad4[0x110]; };
-extern struct n64dk_a800B99A8 D_800B99A8[];
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x8];
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ u8 unk_0C[0x10];
+    /* 0x1C */ s32 unk_1C;
+    /* 0x20 */ s32 unk_20;
+} Slot;
+
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ u8 unk_04[0x110];
+} Entry;
+
+extern Entry D_800B99A8[];
 extern s32 D_800019BC;
 extern s32 D_80001A0C;
-extern s32 D_8005C568;
-s32 func_80009F38();
-s32 func_8000A4A4();
-s32 func_8000A990();
-s32 func_8000B5DC();
-s32 func_80021C8C();
+extern Slot D_8005C568[][2];
+void func_80009F38(void *arg0);
+s32 func_8000A4A4(s32 arg0, s32 arg1);
+s32 func_8000A990(s32 arg0, s32 arg1);
+s32 func_8000B5DC(s32 arg0, s32 arg1);
+void func_80021C8C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 s32 func_80033150(s32 arg0, s32 arg1, s32 arg2) {
-    s32 sp18;
-    s32 sp1C;
+    s32 task;
+    s32 other;
     s32 pad0;
-    void *sp24;
+    Slot *slots;
     s32 pad1[2];
     s32 pad2;
     s32 sp34;
 
     sp34 = 0x2000000;
-    if (D_800B99A8[arg2].m0 >= 6) {
-        func_80009F38(((s32)&D_80001A0C));
+    if (D_800B99A8[arg2].unk_00 >= 6) {
+        func_80009F38(&D_80001A0C);
     }
-    sp24 = (void *)&((struct n64dk_e72 *)&D_8005C568)[D_800B99A8[arg2].m0];
-    if (((struct gd_8_s32 *)((arg0 * 36) + ((s32)sp24)))->v > 0) {
-        sp18 = func_8000B5DC((arg2 | 0xA020000), -1);
-        if (sp18 == 0) {
-            func_80009F38(((s32)&D_800019BC));
+    slots = D_8005C568[D_800B99A8[arg2].unk_00];
+    if (slots[arg0].unk_08 > 0) {
+        task = func_8000B5DC(arg2 | 0xA020000, -1);
+        if (task == 0) {
+            func_80009F38(&D_800019BC);
         }
-        sp1C = func_8000A990((arg2 | 0xA000300), -1);
-        if (sp1C != 0) {
-            func_8000A4A4(sp1C, 0);
+        other = func_8000A990(arg2 | 0xA000300, -1);
+        if (other != 0) {
+            func_8000A4A4(other, 0);
         }
-        func_80021C8C(((struct gd_1C_s32 *)((arg0 * 36) + ((s32)sp24)))->v, ((struct gd_20_s32 *)((arg0 * 36) + ((s32)sp24)))->v, sp18, arg2, arg1);
+        func_80021C8C(slots[arg0].unk_1C, slots[arg0].unk_20, task, arg2, arg1);
         return 1;
-        return;
+        return; /* dead, kept for the match */
     }
     return 0;
 }

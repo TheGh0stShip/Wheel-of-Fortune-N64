@@ -1,0 +1,423 @@
+file	status	remaining
+func_80009D08.c	cleaned	-
+func_800A4C28.c	cleaned	-
+func_800A1AE0.c	cleaned	-
+func_800A1B60.c	unchanged	already clean
+func_8000AD9C.c	cleaned	s32 arg cast to struct (own signature)
+func_80089490.c	cleaned	(s32)&sec kept for s32 callee prototype
+func_8002EB40.c	cleaned	callee takes s32, function address cast
+func_800133C8.c	cleaned	-
+func_8001745C.c	cleaned	s32 arg cast to struct (own signature)
+func_800226BC.c	cleaned	s32 arg cast to struct (own signature)
+func_8000A0E4.c	cleaned	returns node as s32 (own signature)
+func_8002FD8C.c	cleaned	-
+func_8001A628.c	cleaned	pointer passed as s32 to s32-prototyped callees
+func_8000AF00.c	cleaned	-
+func_8009D244.c	cleaned	-
+func_800212C0.c	cleaned	stack pad locals kept
+func_80017848.c	cleaned	-
+func_800343F8.c	cleaned	-
+func_8000648C.c	cleaned	stack pad local kept
+func_8009C600.c	partial	statement expression kept around call (evaluation order)
+func_800287A4.c	cleaned	stack pad locals kept
+func_8002BCF4.c	cleaned	struct return type kept (own signature)
+func_8002208C.c	cleaned	second loop as while (for form adds a nop)
+func_80015D4C.c	cleaned	addresses passed as s32 to s32-prototyped callees
+func_8003143C.c	cleaned	stack pad local kept
+func_80003FDC.c	cleaned	empty if around call result kept
+func_8000C50C.c	cleaned	struct return type kept (own signature)
+func_80088A2C.c	cleaned	stream accessed via #define cast macro (a local changes stack)
+func_80033A28.c	cleaned	struct return type kept (own signature)
+func_80021744.c	cleaned	struct return type kept (own signature)
+func_8000A664.c	cleaned	stack pad local kept
+func_80011B24.c	cleaned	-
+func_800258BC.c	cleaned	last loop as while (for form adds a nop)
+func_80020C98.c	cleaned	stack pad local kept
+func_80026800.c	cleaned	last loop as while (for form adds a nop)
+func_80003944.c	cleaned	sp10-sp1C names kept; display list words held as s32
+func_800206C8.c	cleaned	-
+func_80030B5C.c	cleaned	display list words as s32 Gfx fields
+func_80006E54.c	cleaned	text pointers kept as s32 (callees take s32)
+func_8009A038.c	cleaned	later loops as while (for form adds a nop)
+func_800057A8.c	cleaned	sp10 buffer address kept as s32
+func_8001EFF0.c	cleaned	two Gfx cursors kept (separate stack slots)
+func_8009D67C.c	partial	register vars kept; sp0-sp58 IDCT temporaries unnamed, arithmetic parens partly kept
+func_80004F6C.c	cleaned	worked example version
+func_800A4C04.c	unchanged	empty function, nothing to clean
+func_800A19D8.c	unchanged	already clean
+func_800051B4.c	unchanged	already clean (struct array)
+func_8002FD14.c	cleaned	-
+func_8000BE6C.c	cleaned	s32 cast of function address kept (callee takes s32)
+func_80003234.c	cleaned	-
+func_8001A5D0.c	cleaned	s32 address casts kept (callee takes s32)
+func_8000E738.c	cleaned	padding local kept
+func_80024D60.c	cleaned	-
+func_8001A424.c	cleaned	padding locals kept
+func_80026DEC.c	cleaned	padding local kept
+func_800A46FC.c	cleaned	byte reads via (u8 *)arg0 casts (param is void *)
+func_80008F64.c	cleaned	s32 address casts kept (callee takes s32)
+func_80009804.c	cleaned	s32 params cast to byte pointers (param types fixed)
+func_8002DF80.c	cleaned	-
+func_800334E4.c	cleaned	-
+func_80022FE0.c	cleaned	s32 params cast to struct pointers (param types fixed)
+func_80028064.c	cleaned	padding locals kept
+func_8000AFEC.c	cleaned	returns node as s32 (return type fixed)
+func_800A4DD0.c	cleaned	return type M2C_UNK* spelled s32* (same type)
+func_80011780.c	partial	dead 'continue; break;' kept in for(;;) (needed for bytes)
+func_80027218.c	cleaned	-
+func_800084E8.c	cleaned	-
+func_8000FC3C.c	cleaned	struct return type kept (fixed signature)
+func_80009494.c	cleaned	s32 address casts kept (callee takes s32)
+func_80033CF8.c	cleaned	-
+func_8002ACE8.c	partial	search loop kept as for(;;) with breaks (for-form adds a nop)
+func_80022218.c	partial	last loop kept as for(;;) with return (for-form adds a nop)
+func_800028E4.c	cleaned	second loop init hoisted out of for (needed for bytes)
+func_80021548.c	cleaned	struct return type kept (fixed signature)
+func_8000EF68.c	cleaned	padding locals kept
+func_80025FA8.c	cleaned	s32 address-of stores kept (fields are s32)
+func_8001AA60.c	cleaned	sp14/sp1C/sp20 names kept
+func_8009D4B8.c	cleaned	trailing return kept (needed for bytes); register locals kept
+func_8008CDB8.c	cleaned	empty if (arg0 == 0) kept; arg0 cast to Decoder* (param fixed)
+func_80094064.c	cleaned	sp0..sp2C size locals keep spXX names
+func_8009CAD8.c	cleaned	sp14..sp2C names kept; (s32)&sp18 kept (callee takes s32)
+func_8002A014.c	cleaned	two loop inits hoisted above for (needed for bytes)
+func_80025150.c	partial	dead break after return in case 0 kept (needed for bytes)
+func_8002C094.c	cleaned	task kept as s32 with Task* casts; else after return kept (needed for bytes)
+func_8001DAF0.c	cleaned	(u16) casts on two s16 fields kept
+func_8002EDC0.c	cleaned	nothing to do
+func_800026B0.c	cleaned	-
+func_80033CBC.c	cleaned	fn-address s32 cast kept (callee takes s32)
+func_800A2B08.c	cleaned	pad locals kept
+func_800A4F24.c	cleaned	-
+func_800A4804.c	cleaned	void* arg cast to u8* (own signature)
+func_8000B89C.c	cleaned	-
+func_8009CA80.c	cleaned	s32 arg cast to struct (own signature)
+func_80002C34.c	cleaned	-
+func_8000B670.c	cleaned	s32 args cast to Node* (own signature)
+func_800A4CF8.c	cleaned	-
+func_8001D3CC.c	cleaned	pad locals kept
+func_80023200.c	cleaned	-
+func_8000A31C.c	cleaned	returns address as s32 (own signature)
+func_8000315C.c	cleaned	-
+func_80013440.c	cleaned	s32 arg cast to struct (own signature)
+func_8000A4A4.c	cleaned	s32 arg cast to struct (own signature)
+func_80011620.c	cleaned	do/while keeps inner break
+func_800229D0.c	cleaned	s32 args cast to structs (own signature)
+func_80009FD8.c	cleaned	-
+func_8002867C.c	cleaned	pad locals kept; s32 cast for callee
+func_80005624.c	cleaned	-
+func_80089984.c	cleaned	returns s32 (own signature)
+func_80015848.c	cleaned	returns s32 (own signature)
+func_8002AAD0.c	cleaned	byte view of cursor via second struct
+func_800219B8.c	cleaned	callee keeps 5-arg local prototype (trim has 4)
+func_8001ED48.c	cleaned	(&p[x])[1536] form needed for byte match
+func_80022530.c	partial	loops stay for(;;)+if/break; for/while(1) change bytes
+func_800082E4.c	cleaned	s32 casts around func_800099B0 (callee takes s32)
+func_80016944.c	cleaned	union at 0x30 (f32 / Data*)
+func_80006BFC.c	cleaned	-
+func_8000F84C.c	cleaned	-
+func_8001933C.c	cleaned	-
+func_80099C8C.c	cleaned	s32 args deref'd as s32* (own signature)
+func_80016310.c	cleaned	fn/data addresses cast to s32 for callee
+func_8002B318.c	partial	inner clear loop stays for(;;)+break (for() adds nop)
+func_8000E7D4.c	cleaned	addresses cast to s32 for callees
+func_80010574.c	cleaned	-
+func_8009CEC0.c	cleaned	most spXX names kept; 2 s32 casts for callees
+func_80023CA4.c	cleaned	& 0xFFFF on u16 button tests kept
+func_8008B560.c	cleaned	empty if (arg0 == 0) asserts kept
+func_80089B10.c	partial	fail/done gotos kept (incl. redundant goto done); scan loop stays for(;;)
+func_8008D220.c	cleaned	most spXX names kept; &local passed as s32 to s32-param callees
+func_80003014.c	cleaned	-
+func_80009108.c	cleaned	-
+func_80009748.c	cleaned	-
+func_80009900.c	cleaned	-
+func_80009A74.c	cleaned	-
+func_8000AA24.c	cleaned	-
+func_8000B978.c	cleaned	-
+func_8002E064.c	cleaned	-
+func_80032858.c	cleaned	-
+func_800339E8.c	cleaned	-
+func_800A4ED4.c	cleaned	-
+func_80029BFC.c	cleaned	-
+func_8000E6B4.c	cleaned	s32 casts for s32-typed callee params
+func_8000ADEC.c	cleaned	node cast to s32 for s32 params
+func_80022BC8.c	cleaned	args cast to struct pointers (params fixed s32)
+func_800065D4.c	cleaned	-
+func_80089898.c	cleaned	arg cast to Obj* (param fixed s32)
+func_8000FDFC.c	cleaned	-
+func_80017C00.c	cleaned	task held as s32 (s32 callee params)
+func_800181A4.c	cleaned	-
+func_8002B730.c	cleaned	-
+func_800223A4.c	cleaned	last loop must be while, not for
+func_800088E4.c	cleaned	last outer loop must be while, not for
+func_80028554.c	cleaned	-
+func_800289F4.c	cleaned	-
+func_8001D320.c	cleaned	-
+func_8002B904.c	cleaned	-
+func_80002B34.c	cleaned	-
+func_800278F0.c	cleaned	loops are while (for adds nops)
+func_80034028.c	cleaned	arg1 cast to Task* (param fixed s32); while not for
+func_80019630.c	cleaned	task held as s32 (s32 callee params)
+func_80008AB8.c	cleaned	-
+func_800998E0.c	cleaned	out params via *(s32 *) casts (params fixed s32)
+func_800144F0.c	cleaned	args cast (params fixed s32)
+func_800068F0.c	cleaned	-
+func_8003288C.c	cleaned	bare return; in s32 function kept
+func_80005300.c	cleaned	-
+func_80019AAC.c	cleaned	task held as s32 (s32 callee params)
+func_800045D4.c	cleaned	(u32) cast on buttons shift kept
+func_8001D440.c	cleaned	rectangle bit-packing expressions left as-is
+func_8001C584.c	cleaned	task held as s32 (s32 callee params)
+func_800964D0.c	partial	2 goto L1802 kept (removal drops jumps); multi-role spXX locals kept
+func_80009F98.c	cleaned	-
+func_8002FE70.c	cleaned	-
+func_800A4E84.c	cleaned	-
+func_80009F38.c	cleaned	s32 casts for func_80009F98 args (its prototype)
+func_80007818.c	cleaned	1 s32 pointer cast (callee prototype)
+func_8009C5AC.c	cleaned	-
+func_80016BEC.c	cleaned	arg1 kept s32 (signature)
+func_80006328.c	cleaned	-
+func_8000B6FC.c	cleaned	-
+func_8002B054.c	unchanged	already clean
+func_800111F0.c	cleaned	-
+func_80005258.c	cleaned	-
+func_800894F8.c	cleaned	one u8* cast for the 255 store
+func_8000B468.c	cleaned	-
+func_8001A894.c	cleaned	s32 pointer casts (callee prototypes)
+func_80004160.c	cleaned	-
+func_8000F740.c	cleaned	arg1 kept s32 (signature)
+func_8000B10C.c	cleaned	returns entry address as s32 (signature)
+func_80010AB8.c	cleaned	-
+func_800288CC.c	cleaned	s32 cast for callee arg
+func_8002842C.c	cleaned	stack pad locals kept
+func_800962DC.c	cleaned	arg0 cast at each use (s32 param)
+func_8002731C.c	cleaned	arg0 cast at each use (s32 param)
+func_800888C0.c	cleaned	arg2 cast at each use (s32 param)
+func_8002A8C8.c	cleaned	arg0 cast at each use (s32 param)
+func_8000A850.c	cleaned	stack pad kept
+func_800A2B40.c	cleaned	s32 casts for callee args; sp20/sp24/sp34 names kept
+func_8002EDE0.c	cleaned	function addresses cast to s32 (callee prototype)
+func_80014208.c	cleaned	args cast at each use (s32 params)
+func_80028D3C.c	cleaned	stack pad kept; second gfx local kept
+func_8002B094.c	cleaned	stack pad kept
+func_8002EFC0.c	cleaned	-
+func_80007EEC.c	cleaned	pointer passed/returned as s32 (callee prototype)
+func_800895C4.c	cleaned	one while loop (for adds a nop); returns pointer as s32 (signature)
+func_8000420C.c	cleaned	empty else branches and (s32) cast on call needed for match; one while loop
+func_800315FC.c	cleaned	arg1 cast at each use (s32 param)
+func_8000DF2C.c	cleaned	stack pad kept
+func_80010D3C.c	cleaned	stack pads kept; pointer passed as s32 (callee prototype)
+func_800183A8.c	cleaned	arg1 cast at use (s32 param)
+func_8009BAE0.c	cleaned	outer stepped loops kept as while (for adds a nop)
+func_8002CBF4.c	cleaned	arg1 cast at use (s32 param)
+func_8008F828.c	partial	16/32-bit copy loops keep (s16 *)/(s32 *) casts; last loop while; spXX names for src pointers
+func_80009D2C.c	unchanged	already clean
+func_800A1A74.c	unchanged	already clean
+func_8000B780.c	unchanged	already clean
+func_8002FD50.c	cleaned	-
+func_8000B924.c	cleaned	-
+func_80032B80.c	cleaned	-
+func_8000A408.c	cleaned	-
+func_80017678.c	cleaned	trailing return kept (needed)
+func_80003F64.c	partial	frame pad scaffolding kept
+func_8009D3D8.c	cleaned	-
+func_800166C0.c	cleaned	-
+func_80005FD0.c	partial	unused pad0 local kept
+func_8000928C.c	cleaned	-
+func_8000B2D4.c	cleaned	empty if kept
+func_80015EDC.c	partial	s32 params cast to pointers (signature fixed)
+func_800A3808.c	partial	s32 params cast to pointers (signature fixed)
+func_8001A7A8.c	cleaned	-
+func_80009AE0.c	cleaned	-
+func_80027F3C.c	partial	frame pad locals kept
+func_8000ABB8.c	cleaned	-
+func_80021090.c	cleaned	-
+func_80009D78.c	cleaned	-
+func_800161A8.c	partial	s32 object handle cast to struct
+func_8000A56C.c	partial	unused pad0 local kept
+func_80021E88.c	partial	frame pad locals kept; 2nd loop must be while
+func_8000C6C4.c	partial	float consts passed as s32 bits; s32 arg cast
+func_800323C4.c	partial	handles as s32 in calls
+func_800325D0.c	partial	handles as s32 in calls
+func_80029974.c	partial	frame pad local kept
+func_8009C754.c	partial	s32 arg cast to s16*; 2nd outer loop is while
+func_8000C8A8.c	partial	s32 arg cast
+func_8000D8B8.c	partial	s32 args cast to struct pointers
+func_8008F3AC.c	partial	s32 arg cast to struct
+func_8009A7D0.c	partial	loops kept as while (for adds nop)
+func_8002FEB0.c	partial	s32 arg cast to struct
+func_80002CE0.c	partial	pad0 local kept; sp10 unnamed
+func_8001B6BC.c	partial	func_800051B4 left unprototyped (double arg); s32 handle casts
+func_80030490.c	partial	s32 args cast to struct pointers
+func_80018D28.c	partial	s32 handle casts to Object
+func_8000CB58.c	partial	pad0 local kept; s32 args cast
+func_80031A54.c	partial	1 goto kept (structured if adds/changes code); one loop as while
+func_800983D4.c	partial	s32 arg cast to Stream*; locals keep spXX names
+func_8009649C.c	cleaned	-
+func_80021B04.c	cleaned	-
+func_8002FCD8.c	cleaned	-
+func_80032B10.c	cleaned	-
+func_8002FE2C.c	cleaned	-
+func_800099B0.c	cleaned	s32 string arg kept (signature)
+func_8000E794.c	cleaned	-
+func_80017728.c	cleaned	-
+func_800A4B14.c	cleaned	-
+func_8000B9FC.c	cleaned	-
+func_80005700.c	cleaned	-
+func_8000ACE8.c	cleaned	s32 arg cast to struct (signature)
+func_8000B060.c	cleaned	node returned as s32 (signature)
+func_8001A97C.c	cleaned	(s32)& args kept: callee takes s32
+func_80006B58.c	cleaned	-
+func_80017548.c	cleaned	-
+func_8000B3B0.c	cleaned	node returned as s32 (signature)
+func_800177A4.c	cleaned	-
+func_800A4A18.c	cleaned	s32 arg3 cast to struct (signature)
+func_800076E0.c	cleaned	(s32) casts for s32 callee
+func_8001A484.c	cleaned	-
+func_800887D8.c	cleaned	s32 arg cast to struct (signature)
+func_8000BC64.c	cleaned	sp20 kept; struct n64dk_r12 return kept
+func_800037A0.c	cleaned	sp20 kept; guessed prototypes
+func_8000E4B0.c	cleaned	sp20 kept as s32 handle
+func_80002700.c	cleaned	second loop must stay while (for adds a nop)
+func_8000D6D8.c	cleaned	s32 args cast to structs (signature); Mtx array sizes guessed
+func_8000D400.c	cleaned	s32 args cast to structs (signature); Mtx array sizes guessed
+func_80022784.c	cleaned	s32 arg cast to struct (signature)
+func_80003CC8.c	cleaned	guessed prototypes for 4 callees
+func_80021C8C.c	cleaned	Bank page count guessed
+func_800153C4.c	cleaned	s32 args cast to structs (signature)
+func_8002741C.c	partial	register scaffolding block kept
+func_800A3168.c	cleaned	s32 pointer args kept (signature)
+func_800A3B40.c	cleaned	break-loop kept as while (for adds nop)
+func_80024868.c	cleaned	(s32)& args for s32 callees
+func_800263DC.c	cleaned	func_800323C4 left unprototyped (u64 arg)
+func_80088C58.c	cleaned	empty if (arg0 == 0) kept (needed for match)
+func_800232AC.c	cleaned	Slot index arithmetic kept
+func_800A1BE4.c	cleaned	clamp ternaries kept; loops 2-3 stay while (for adds nop)
+func_80095664.c	partial	s32 args used as byte/half/word pointers (signature), sp4/sp8/spC kept
+func_80091684.c	cleaned	spXX names kept; last loop stays while (for adds nop)
+func_800278A8.c	cleaned	-
+func_800A4CBC.c	cleaned	-
+func_800A4D84.c	cleaned	-
+func_800A4888.c	cleaned	-
+func_80003C68.c	cleaned	-
+func_80021E28.c	cleaned	-
+func_80016638.c	cleaned	-
+func_80028C4C.c	cleaned	-
+func_8000B7F4.c	cleaned	-
+func_80034950.c	partial	function address passed as s32 (callee takes s32)
+func_8009646C.c	unchanged	already clean
+func_80006828.c	cleaned	-
+func_8001277C.c	cleaned	-
+func_8000B528.c	partial	s32 casts at callee boundary
+func_800087F8.c	cleaned	-
+func_8000A158.c	partial	s32 param/return casts (signature fixed)
+func_80016098.c	partial	function addresses passed as s32
+func_8000A204.c	partial	for-loop form shifts a nop; kept while with i++; returns address as s32
+func_8009D300.c	partial	unused locals sp30/sp34 kept (stack layout)
+func_8002500C.c	cleaned	-
+func_80007DAC.c	partial	pointer passed through s32 callee
+func_800213CC.c	partial	padding locals kept
+func_80021B4C.c	partial	padding local kept
+func_80017938.c	partial	s32 arg1 cast to Task* (signature fixed)
+func_800103B4.c	partial	s32 arg1 cast to Task* (signature fixed)
+func_80023B44.c	cleaned	callee returns s32, cast to Obj*
+func_8002BA44.c	cleaned	-
+func_8002BE84.c	partial	function addresses passed as s32
+func_80012500.c	partial	s32 args cast to struct pointers (signature fixed)
+func_8001BC44.c	partial	s32 arg1 cast to Task* (signature fixed)
+func_80029C98.c	partial	last loop kept as while (for adds nop); s32 arg1 cast
+func_8002A538.c	partial	last loop kept as while (for adds nop); buffer passed as s32
+func_800A2594.c	partial	s32 byte-pointer params kept (signature fixed); pad locals
+func_80029440.c	partial	one loop kept as while (for adds nop); function addresses as s32
+func_80032BF0.c	partial	one loop kept as while (for adds nop); pad local
+func_80024370.c	partial	s32 arg1 cast to Task*; addresses passed as s32 (callee protos)
+func_800A3460.c	partial	unused sp10-sp1C locals; s32 arg0 cast to Stream*
+func_8001BED8.c	partial	dead break after return kept (needed); s32 arg1 cast
+func_800A2D84.c	partial	start-code scan kept as labelled gotos (2 labels needed); empty if kept
+func_80013748.c	partial	last outer loop kept as while (for adds nop); s32 args cast (signature fixed)
+func_800A3E00.c	partial	goto into if-block kept (structured form changes branches); pad locals; s32 arg1 cast
+func_8008A34C.c	partial	s32 arg0 cast to Seq* throughout (signature fixed); empty if(arg0==0) and unused sp18 kept
+func_80002F58.c	cleaned	-
+func_800030E8.c	cleaned	-
+func_80006B28.c	cleaned	-
+func_80021908.c	cleaned	-
+func_80028CC4.c	cleaned	-
+func_8002D8B0.c	cleaned	-
+func_800A2D38.c	cleaned	-
+func_800A4AD8.c	cleaned	-
+func_800A4C70.c	cleaned	-
+func_800A4E58.c	cleaned	-
+func_800174DC.c	cleaned	pad locals kept
+func_8002EBF4.c	cleaned	func addrs passed as s32 (callee takes s32)
+func_8000B234.c	cleaned	arg0 cast to Node* (param kept s32)
+func_8000B5DC.c	cleaned	returns node as s32
+func_8000BBA8.c	cleaned	empty do/while spin kept
+func_80011304.c	cleaned	-
+func_8002CAB4.c	cleaned	-
+func_80033334.c	cleaned	pad locals kept
+func_800A3A3C.c	cleaned	buffer passed as s32 to s32 param
+func_8000EE78.c	cleaned	pad locals kept
+func_80020150.c	cleaned	-
+func_800211E4.c	cleaned	Task* returned as s32
+func_80026EB4.c	cleaned	-
+func_80033150.c	cleaned	dead 'return;' after return 1 kept, pad locals
+func_800060B0.c	cleaned	-
+func_800101F4.c	cleaned	for(;;) kept (while(1) adds jumps)
+func_80013500.c	cleaned	sprite addrs stored as s32
+func_8000FFE0.c	cleaned	-
+func_80011F58.c	cleaned	loops as while (for adds nops)
+func_80028194.c	cleaned	sprite addrs passed as s32, pad locals
+func_8001228C.c	cleaned	pad locals kept
+func_80029098.c	cleaned	-
+func_80014A5C.c	cleaned	args cast at use (params s32)
+func_800890C8.c	cleaned	arg0 cast to Reader* at each use
+func_80014F38.c	cleaned	args cast at use (params s32)
+func_800202A0.c	cleaned	(&dst[i])[0x1C00] form kept for add order; buffer passed as s32
+func_8000BEA8.c	cleaned	-
+func_80017DBC.c	cleaned	dead trailing return kept
+func_80016C78.c	cleaned	float consts passed as hex bits (commented); obj+0x18 union
+func_8002D930.c	cleaned	redundant else after return kept; state+0x04 union
+func_8002E0C8.c	cleaned	state+0x04 union
+func_80094578.c	cleaned	byte pointers reused across branches (s32 copies via casts); many spXX kept
+func_8000EE50.c	cleaned	-
+func_80032AD4.c	cleaned	-
+func_8000326C.c	cleaned	-
+func_800A4BB4.c	cleaned	-
+func_80016B9C.c	cleaned	-
+func_800067D8.c	cleaned	-
+func_8002EB90.c	cleaned	-
+func_8002AFDC.c	cleaned	-
+func_8000AE70.c	cleaned	-
+func_80026E50.c	cleaned	2 fn-pointer s32 casts kept (callee prototype is s32)
+func_800132EC.c	cleaned	-
+func_8000A990.c	cleaned	returns node as s32 (signature fixed)
+func_80016008.c	cleaned	1 s32->Obj* cast on func_8000A990 result
+func_80002598.c	cleaned	base offset table kept as s32 + Table cast (needed for match)
+func_8001A6DC.c	cleaned	arg0 cast to u8* (param is s32)
+func_80009364.c	cleaned	-
+func_8000963C.c	cleaned	-
+func_80031340.c	cleaned	pad locals kept
+func_8000AAB0.c	cleaned	arg0 is s32, (Obj *) casts kept
+func_80022DC0.c	cleaned	args are s32, (Obj *)/(Menu *) casts kept
+func_80028B1C.c	cleaned	pad locals kept; (s32)& for s32-param callee
+func_8001142C.c	cleaned	-
+func_800A38F8.c	partial	goto state machine kept (structured forms change bytes); callee proto s32 though definition is void
+func_8002AE60.c	cleaned	arg0 is s32, (Obj *) casts kept; union for byte access
+func_8002EC60.c	cleaned	fn-pointer s32 casts kept
+func_80016734.c	cleaned	arg1 is s32, (Obj *) casts kept
+func_80011920.c	cleaned	mix of for/while loops (needed for match)
+func_8000DCA0.c	cleaned	args are s32 so (Actor *)/(MtxBank *) casts kept; func_8003BFF4 unprototyped
+func_80026FD4.c	cleaned	D_800B99AC kept as byte array (aliases D_800B99A4[i].unk_08)
+func_80014768.c	cleaned	args are s32 so casts kept; 2 callees unprototyped
+func_8000C310.c	cleaned	union for s16/u16 reads of unk_12
+func_8000EB40.c	cleaned	-
+func_80015940.c	cleaned	arg0/arg1 are s32, (Tile *) casts kept
+func_80012838.c	cleaned	arg0 is s32, (Tile *) casts kept
+func_80002348.c	cleaned	stack param blocks kept as separate spXX locals; 2 (s32)& args for s32 callee
+func_8000F274.c	cleaned	func_800051B4 unprototyped (double arg); arg1 is s32, (Obj *) casts kept
+func_80012D40.c	cleaned	args are s32, casts kept; 2 callees unprototyped
+func_80007888.c	cleaned	one goto into nested block kept (moving label adds a nop)
+func_8009AF48.c	cleaned	loops after the first must be while (for adds a nop); D_801078A4..B4 field aliases kept
+func_800933BC.c	cleaned	arg0 is s32, (Decoder *) casts kept; sp2C..sp40 locals unnamed
+func_8001AE18.c	cleaned	arg1 is s32, (Obj *) casts kept; dead break after return kept
+func_8008C0A8.c	cleaned	arg0 is s32, (Ctx *) casts kept; empty if (arg0 == 0) {} kept

@@ -1,33 +1,33 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+typedef signed char s8;
+typedef unsigned char u8;
+typedef signed int s32;
+typedef float f32;
 
 struct n64dk_r12 { s32 w[3]; };
-struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-struct gd_C_f32 { u8 pad[0xC]; f32 v; };
-struct gd_30_s32 { u8 pad[0x30]; s32 v; };
-struct n64dk_a800B9998 { s32 m0; u8 pad4[0xF4]; s32 mF8; s32 mFC; s32 m100; s32 m104; u8 pad108[0xC]; };
-extern struct n64dk_a800B9998 D_800B9998[];
+
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 player;
+    /* 0x08 */ u8 unk_08[0x4];
+    /* 0x0C */ f32 unk_0C;
+} State;
+
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x30];
+    /* 0x30 */ State *state;
+} Task;
+
+typedef struct {
+    /* 0x000 */ s32 unk_00;
+    /* 0x004 */ u8 unk_04[0xF4];
+    /* 0x0F8 */ s32 unk_F8;
+    /* 0x0FC */ s32 unk_FC;
+    /* 0x100 */ s32 unk_100;
+    /* 0x104 */ s32 unk_104;
+    /* 0x108 */ u8 unk_108[0xC];
+} Player;
+
+extern Player D_800B9998[];
 extern s32 func_80017DBC;
 extern s32 func_8001AE18;
 extern s32 func_8001B6BC;
@@ -43,207 +43,198 @@ extern s32 D_800B9CF0;
 extern s32 D_800BCA00;
 extern s32 D_800BEE54;
 extern s32 D_800FB808;
-s32 func_80002CE0();
-s32 func_80007EEC();
-s32 func_800082E4();
-s32 func_8000A56C();
-s32 func_8000A850();
-s32 func_8000A990();
-s32 func_8000AAB0();
-s32 func_8000ACE8();
-s32 func_80015D4C();
-s32 func_80016008();
-s32 func_800177A4();
-s32 func_80017C00();
-s32 func_8001AA60();
-s32 func_8003CE58();
+s32 func_80002CE0(s32 arg0);
+s32 func_80007EEC(s32 arg0);
+s32 func_800082E4(void);
+s32 func_8000A56C(s32 arg0, s32 arg1);
+void func_8000A850(s32 arg0);
+s32 func_8000A990(s32 arg0, s32 arg1);
+void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2);
+s32 func_8000ACE8(s32 arg0);
+void func_80015D4C(void);
+void func_80016008(void);
+void func_800177A4(void);
+void func_80017C00(s32 arg0, s32 arg1);
+void func_8001AA60(s32 arg0);
+s32 func_8003CE58(void);
 
 struct n64dk_r12 func_8001C584(s32 arg1) {
-    s32 sp10;
-    struct n64dk_r12 sp18;
-    s32 sp28;
+    s32 event;
+    struct n64dk_r12 ret;
+    s32 task;
 
-    sp18.w[1] = 1;
-    sp18.w[0] = 0;
-    if (((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v != D_800FB808) {
-        for (;;) {
-            sp10 = func_8000ACE8(arg1);
-            if (sp10 == 0) {
-                break;
-            }
-            switch (sp10) {
+    ret.w[1] = 1;
+    ret.w[0] = 0;
+    if (((Task *)arg1)->state->player != D_800FB808) {
+        while ((event = func_8000ACE8(arg1)) != 0) {
+            switch (event) {
             case 34:
-                sp18.w[1] = 0;
-                sp18.w[0] = 0;
-                return sp18;
+                ret.w[1] = 0;
+                ret.w[0] = 0;
+                return ret;
             case 42:
-                sp18.w[1] = 0;
-                sp18.w[0] = 0;
-                return sp18;
+                ret.w[1] = 0;
+                ret.w[0] = 0;
+                return ret;
             }
         }
-        return sp18;
+        return ret;
     }
-    for (;;) {
-        sp10 = func_8000ACE8(arg1);
-        if (sp10 == 0) {
-            break;
-        }
-        switch (sp10) {
+    while ((event = func_8000ACE8(arg1)) != 0) {
+        switch (event) {
         case 38:
-            func_80002CE0(D_800B9998[D_800FB808].m104);
-            D_800B9998[D_800FB808].m0 = 0;
+            func_80002CE0(D_800B9998[D_800FB808].unk_104);
+            D_800B9998[D_800FB808].unk_00 = 0;
+            /* fallthrough */
         case 3:
         case 9:
         case 10:
         case 31:
             func_80017C00(3, 1);
-            sp28 = func_8000A990(0x5000000, -1);
-            func_8000AAB0(sp28, 24, 0);
+            task = func_8000A990(0x5000000, -1);
+            func_8000AAB0(task, 24, 0);
             if (func_80007EEC(1) == 1) {
-                func_8000AAB0(sp28, 21, 0);
+                func_8000AAB0(task, 21, 0);
                 func_80016008();
-                D_800B96A8 = D_800B96A8 + 3;
+                D_800B96A8 += 3;
                 func_80002CE0(5);
-                sp28 = func_8000A56C(((s32)&func_80017DBC), (((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v | 0x2000500));
-                ((struct gd_4_s32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v;
-                if ((D_800B9CF0 != 0) || (D_800B619C == (D_800B96C0 - 1))) {
-                    sp18.w[1] = 0;
-                    sp18.w[0] = 0;
+                task = func_8000A56C((s32)&func_80017DBC, ((Task *)arg1)->state->player | 0x2000500);
+                ((Task *)task)->state->player = ((Task *)arg1)->state->player;
+                if (D_800B9CF0 != 0 || D_800B619C == D_800B96C0 - 1) {
+                    ret.w[1] = 0;
+                    ret.w[0] = 0;
                 } else {
-                    sp18.w[1] = 2;
-                    sp18.w[0] = 39;
+                    ret.w[1] = 2;
+                    ret.w[0] = 39;
                 }
-                return sp18;
+                return ret;
             }
-            if (D_800BEE54 == 0) {
-                if (func_800082E4() == 2) {
-                    D_800BEE54 = 1;
-                    func_80002CE0(6);
-                }
+            if (D_800BEE54 == 0 && func_800082E4() == 2) {
+                D_800BEE54 = 1;
+                func_80002CE0(6);
             }
             func_8000AAB0(arg1, 28, 0);
-            sp18.w[1] = 1;
-            sp18.w[0] = 20 / D_800B96B4;
-            return sp18;
+            ret.w[1] = 1;
+            ret.w[0] = 20 / D_800B96B4;
+            return ret;
         case 8:
-            sp18.w[1] = 2;
-            sp18.w[0] = 40;
-            return sp18;
+            ret.w[1] = 2;
+            ret.w[0] = 40;
+            return ret;
         case 40:
             func_80015D4C();
             func_8000AAB0(arg1, 1, 0);
             func_80017C00(3, 1);
-            sp18.w[1] = 1;
-            sp18.w[0] = 60 / D_800B96B4;
-            return sp18;
+            ret.w[1] = 1;
+            ret.w[0] = 60 / D_800B96B4;
+            return ret;
         case 1:
         case 32:
             func_8000A850(24);
             if (D_800BCA00 == 1) {
-                sp28 = func_8000A56C(((s32)&func_8001BED8), (((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v | 0x2030400));
-                ((struct gd_4_s32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v;
-                ((struct gd_C_f32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_C_f32 *)((struct gd_30_s32 *)arg1)->v)->v;
-                sp18.w[1] = 2;
-                sp18.w[0] = 31;
-                return sp18;
+                task = func_8000A56C((s32)&func_8001BED8, ((Task *)arg1)->state->player | 0x2030400);
+                ((Task *)task)->state->player = ((Task *)arg1)->state->player;
+                ((Task *)task)->state->unk_0C = ((Task *)arg1)->state->unk_0C;
+                ret.w[1] = 2;
+                ret.w[0] = 31;
+                return ret;
             }
             func_8000AAB0(arg1, 28, 0);
-            sp18.w[1] = 1;
-            sp18.w[0] = 30 / D_800B96B4;
+            ret.w[1] = 1;
+            ret.w[0] = 30 / D_800B96B4;
             func_80017C00(3, 1);
             D_800B96A8++;
-            return sp18;
+            return ret;
         case 15:
             func_8000A850(24);
             if (D_800BCA00 == 1) {
-                sp28 = func_8000A56C(((s32)&func_8001BED8), (((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v | 0x2030400));
-                ((struct gd_4_s32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v;
-                ((struct gd_C_f32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_C_f32 *)((struct gd_30_s32 *)arg1)->v)->v;
-                sp18.w[1] = 2;
-                sp18.w[0] = 31;
-                return sp18;
+                task = func_8000A56C((s32)&func_8001BED8, ((Task *)arg1)->state->player | 0x2030400);
+                ((Task *)task)->state->player = ((Task *)arg1)->state->player;
+                ((Task *)task)->state->unk_0C = ((Task *)arg1)->state->unk_0C;
+                ret.w[1] = 2;
+                ret.w[0] = 31;
+                return ret;
             }
             func_8000AAB0(arg1, 12, 0);
-            sp18.w[1] = 1;
-            sp18.w[0] = 60 / D_800B96B4;
+            ret.w[1] = 1;
+            ret.w[0] = 60 / D_800B96B4;
             func_80017C00(3, 1);
-            return sp18;
+            return ret;
         case 28:
             if (D_800BCA00 == 1) {
-                sp28 = func_8000A56C(((s32)&func_8001BED8), (((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v | 0x2030400));
-                ((struct gd_4_s32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v;
-                ((struct gd_C_f32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_C_f32 *)((struct gd_30_s32 *)arg1)->v)->v;
-                sp18.w[1] = 2;
-                sp18.w[0] = 31;
-                return sp18;
+                task = func_8000A56C((s32)&func_8001BED8, ((Task *)arg1)->state->player | 0x2030400);
+                ((Task *)task)->state->player = ((Task *)arg1)->state->player;
+                ((Task *)task)->state->unk_0C = ((Task *)arg1)->state->unk_0C;
+                ret.w[1] = 2;
+                ret.w[0] = 31;
+                return ret;
             }
             func_8001AA60(arg1);
-            sp18.w[1] = 1;
-            sp18.w[0] = 60 / D_800B96B4;
-            return sp18;
+            ret.w[1] = 1;
+            ret.w[0] = 60 / D_800B96B4;
+            return ret;
         case 12:
-            if ((func_8003CE58() % 100) < 33) {
-                func_80002CE0(D_800B9998[D_800FB808].mF8);
+            if (func_8003CE58() % 100 < 33) {
+                func_80002CE0(D_800B9998[D_800FB808].unk_F8);
             }
             D_800B96A0 = 0;
-            sp28 = func_8000A990(0x5000000, -1);
-            func_8000AAB0(sp28, 23, 0);
-            sp28 = func_8000A56C(((s32)&func_8001AE18), (((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v | 0x2000100));
-            ((struct gd_4_s32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v;
-            ((struct gd_C_f32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_C_f32 *)((struct gd_30_s32 *)arg1)->v)->v;
-            sp18.w[1] = 2;
-            sp18.w[0] = 3;
-            return sp18;
+            task = func_8000A990(0x5000000, -1);
+            func_8000AAB0(task, 23, 0);
+            task = func_8000A56C((s32)&func_8001AE18, ((Task *)arg1)->state->player | 0x2000100);
+            ((Task *)task)->state->player = ((Task *)arg1)->state->player;
+            ((Task *)task)->state->unk_0C = ((Task *)arg1)->state->unk_0C;
+            ret.w[1] = 2;
+            ret.w[0] = 3;
+            return ret;
         case 13:
-            func_80002CE0(D_800B9998[D_800FB808].mFC);
+            func_80002CE0(D_800B9998[D_800FB808].unk_FC);
             D_800B96A0 = 0;
-            sp28 = func_8000A990(0x5000000, -1);
-            func_8000AAB0(sp28, 23, 0);
-            sp28 = func_8000A56C(((s32)&func_8001B6BC), (((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v | 0x2000200));
-            ((struct gd_4_s32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v;
-            ((struct gd_C_f32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_C_f32 *)((struct gd_30_s32 *)arg1)->v)->v;
-            sp18.w[1] = 2;
-            sp18.w[0] = 9;
-            return sp18;
+            task = func_8000A990(0x5000000, -1);
+            func_8000AAB0(task, 23, 0);
+            task = func_8000A56C((s32)&func_8001B6BC, ((Task *)arg1)->state->player | 0x2000200);
+            ((Task *)task)->state->player = ((Task *)arg1)->state->player;
+            ((Task *)task)->state->unk_0C = ((Task *)arg1)->state->unk_0C;
+            ret.w[1] = 2;
+            ret.w[0] = 9;
+            return ret;
         case 14:
-            func_80002CE0(D_800B9998[D_800FB808].m100);
-            sp28 = func_8000A990(0x5000000, -1);
-            func_8000AAB0(sp28, 23, 0);
-            sp28 = func_8000A56C(((s32)&func_8001BC44), (((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v | 0x2000300));
-            ((struct gd_4_s32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v;
-            ((struct gd_C_f32 *)((struct gd_30_s32 *)sp28)->v)->v = ((struct gd_C_f32 *)((struct gd_30_s32 *)arg1)->v)->v;
-            sp18.w[1] = 2;
-            sp18.w[0] = 10;
-            return sp18;
+            func_80002CE0(D_800B9998[D_800FB808].unk_100);
+            task = func_8000A990(0x5000000, -1);
+            func_8000AAB0(task, 23, 0);
+            task = func_8000A56C((s32)&func_8001BC44, ((Task *)arg1)->state->player | 0x2000300);
+            ((Task *)task)->state->player = ((Task *)arg1)->state->player;
+            ((Task *)task)->state->unk_0C = ((Task *)arg1)->state->unk_0C;
+            ret.w[1] = 2;
+            ret.w[0] = 10;
+            return ret;
         case 37:
             D_800B96A0 = 0;
-            sp28 = func_8000A990(0x5000000, -1);
-            D_800B61B5 = 51;
-            func_8000AAB0(sp28, 27, 1);
+            task = func_8000A990(0x5000000, -1);
+            D_800B61B5 = '3';
+            func_8000AAB0(task, 27, 1);
             func_8000AAB0(arg1, 38, 0);
-            sp18.w[1] = 1;
-            sp18.w[0] = 60 / D_800B96B4;
-            return sp18;
+            ret.w[1] = 1;
+            ret.w[0] = 60 / D_800B96B4;
+            return ret;
         case 39:
             func_800177A4();
-            if (((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v != D_800FB808) {
-                sp18.w[1] = 2;
-                sp18.w[0] = -1;
+            if (((Task *)arg1)->state->player != D_800FB808) {
+                ret.w[1] = 2;
+                ret.w[0] = -1;
             } else {
-                sp18.w[1] = 1;
-                sp18.w[0] = 0;
+                ret.w[1] = 1;
+                ret.w[0] = 0;
             }
-            return sp18;
+            return ret;
         case 30:
-            sp18.w[1] = 2;
-            sp18.w[0] = 32;
-            return sp18;
+            ret.w[1] = 2;
+            ret.w[0] = 32;
+            return ret;
         case 34:
-            sp18.w[1] = 0;
-            sp18.w[0] = 0;
-            return sp18;
+            ret.w[1] = 0;
+            ret.w[0] = 0;
+            return ret;
         }
     }
-    return sp18;
+    return ret;
 }

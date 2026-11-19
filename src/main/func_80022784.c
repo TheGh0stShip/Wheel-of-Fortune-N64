@@ -1,60 +1,36 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+typedef unsigned char u8;
+typedef signed int s32;
 
-struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-struct gd_8_s32 { u8 pad[0x8]; s32 v; };
-struct gd_C_s32 { u8 pad[0xC]; s32 v; };
-struct gd_10_s32 { u8 pad[0x10]; s32 v; };
-struct gd_14_s32 { u8 pad[0x14]; s32 v; };
-struct gd_18_s32 { u8 pad[0x18]; s32 v; };
+typedef struct {
+    /* 0x00 */ u8 pad0[0x4];
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 rows;
+    /* 0x14 */ s32 cols;
+    /* 0x18 */ s32 sel;
+} Grid;
+
 extern s32 D_80001574;
-s32 func_80009F38();
-s32 func_800226BC();
+void func_80009F38(void *arg0);
+void func_800226BC(s32 arg0, s32 arg1, s32 arg2);
 
 void func_80022784(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 sp10;
-    s32 sp14;
+    s32 sel;
+    s32 i;
 
-    sp10 = ((struct gd_18_s32 *)arg2)->v;
-    if ((sp10 < 0) || (sp10 >= ((struct gd_10_s32 *)arg2)->v)) {
-        func_80009F38(((s32)&D_80001574));
+    sel = ((Grid *)arg2)->sel;
+    if (sel < 0 || sel >= ((Grid *)arg2)->rows) {
+        func_80009F38(&D_80001574);
     }
-    func_800226BC(((((struct gd_4_s32 *)arg2)->v * 40) + arg1), ((struct gd_8_s32 *)arg2)->v, (arg3 * 2));
-    sp14 = 0;
-    for (;;) {
-        if (sp14 >= (((struct gd_10_s32 *)arg2)->v * ((struct gd_14_s32 *)arg2)->v)) {
-            return;
-        }
-        if ((arg3 != 0) && (sp14 == (sp10 * ((struct gd_14_s32 *)arg2)->v))) {
-            func_800226BC((((((struct gd_C_s32 *)arg2)->v + sp14) * 40) + arg1), ((struct gd_14_s32 *)arg2)->v, 1);
+    func_800226BC(((Grid *)arg2)->unk_04 * 40 + arg1, ((Grid *)arg2)->unk_08, arg3 * 2);
+    for (i = 0; i < ((Grid *)arg2)->rows * ((Grid *)arg2)->cols; i += ((Grid *)arg2)->cols) {
+        if (arg3 != 0 && i == sel * ((Grid *)arg2)->cols) {
+            func_800226BC((((Grid *)arg2)->unk_0C + i) * 40 + arg1, ((Grid *)arg2)->cols, 1);
+        } else if (arg3 == 0 && i == sel * ((Grid *)arg2)->cols && ((Grid *)arg2)->rows >= 2) {
+            func_800226BC((((Grid *)arg2)->unk_0C + i) * 40 + arg1, ((Grid *)arg2)->cols, 2);
         } else {
-            if (((arg3 == 0) && (sp14 == (sp10 * ((struct gd_14_s32 *)arg2)->v))) && (((struct gd_10_s32 *)arg2)->v >= 2)) {
-                func_800226BC((((((struct gd_C_s32 *)arg2)->v + sp14) * 40) + arg1), ((struct gd_14_s32 *)arg2)->v, 2);
-            } else {
-                func_800226BC((((((struct gd_C_s32 *)arg2)->v + sp14) * 40) + arg1), ((struct gd_14_s32 *)arg2)->v, 0);
-            }
+            func_800226BC((((Grid *)arg2)->unk_0C + i) * 40 + arg1, ((Grid *)arg2)->cols, 0);
         }
-        sp14 = sp14 + ((struct gd_14_s32 *)arg2)->v;
     }
 }

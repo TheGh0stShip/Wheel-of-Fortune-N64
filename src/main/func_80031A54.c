@@ -1,143 +1,140 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
-
+typedef unsigned char u8;
+typedef signed short s16;
+typedef unsigned short u16;
+typedef signed int s32;
 struct n64dk_r12 { s32 w[3]; };
-struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-struct gd_8_s32 { u8 pad[0x8]; s32 v; };
-struct gd_C_s32 { u8 pad[0xC]; s32 v; };
-struct gd_10_s16 { u8 pad[0x10]; s16 v; };
-struct gd_10_s32 { u8 pad[0x10]; s32 v; };
-struct gd_14_s32 { u8 pad[0x14]; s32 v; };
-struct gd_18_s32 { u8 pad[0x18]; s32 v; };
-struct gd_1C_s32 { u8 pad[0x1C]; s32 v; };
-struct gd_20_s32 { u8 pad[0x20]; s32 v; };
-struct gd_24_s32 { u8 pad[0x24]; s32 v; };
-struct gd_28_s32 { u8 pad[0x28]; s32 v; };
-struct gd_30_s32 { u8 pad[0x30]; s32 v; };
-struct gd_44_s32 { u8 pad[0x44]; s32 v; };
-struct n64dk_o800BEF5C { u8 pad[0x4]; struct { u8 b[0x1E47C]; } a; };
-extern struct n64dk_o800BEF5C D_800BEF5C[];
-extern s32 D_8005C8C8;
-extern s32 D_8005C8FC;
-extern s32 D_8005C908;
-extern s32 D_8005C90C;
+
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x10];
+    /* 0x10 */ s16 unk_10;
+    /* 0x12 */ u8 unk_12[0x32];
+    /* 0x44 */ s32 unk_44;
+} Object2;
+
+typedef struct {
+    /* 0x00 */ Object2 *obj;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 unk_10;
+    /* 0x14 */ s32 unk_14;
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ s32 unk_1C;
+    /* 0x20 */ s32 unk_20;
+    /* 0x24 */ s32 unk_24;
+    /* 0x28 */ s32 unk_28;
+} Data;
+
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x30];
+    /* 0x30 */ Data *data;
+} Object;
+
+typedef struct {
+    /* 0x00000 */ u8 unk_00[0x4];
+    /* 0x00004 */ u8 unk_04[0x1E47C];
+} Bank;
+
+extern Bank D_800BEF5C[];
+extern s32 D_8005C8C8[];
+extern s32 D_8005C8FC[];
+extern s32 D_8005C908[];
+extern s32 D_8005C90C[];
 extern s32 D_800B61A0;
 extern s32 D_800B61A8;
 extern s32 D_800B96B4;
 extern s32 D_800B9988;
 extern u16 D_800B998A;
-extern s32 D_800BEF60;
-s32 func_8000A850();
-s32 func_8000ACE8();
-s32 func_80010AB8();
-s32 func_8003143C();
-s32 func_8003288C();
-s32 func_8003FF78();
+void func_8000A850(s32 arg0);
+s32 func_8000ACE8(s32 arg0);
+void func_80010AB8(s32 arg0);
+void func_8003143C(s32 arg0, s32 arg1);
+s32 func_8003288C(s32 arg0, s32 arg1);
+s32 func_8003FF78(s32 arg0);
 
 struct n64dk_r12 func_80031A54(s32 arg1) {
-    struct n64dk_r12 sp10;
-    s32 sp20;
-    s32 sp24;
-    s32 sp28;
+    struct n64dk_r12 ret;
+    s32 event;
+    Object2 *obj;
+    s32 diff;
     s32 sp2C;
-    s32 sp30;
+    s32 i;
     s32 pad0;
-    s32 sp38;
-    s32 sp3C;
+    s32 frame;
+    s32 base;
 
-    sp3C = 0x2000000;
-    sp24 = *(s32 *)((struct gd_30_s32 *)arg1)->v;
-    sp2C = ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v;
+    base = 0x2000000;
+    obj = ((Object *)arg1)->data->obj;
+    sp2C = ((Object *)arg1)->data->unk_04;
     for (;;) {
-        sp20 = func_8000ACE8(arg1);
-        if (sp20 == 0) {
+        event = func_8000ACE8(arg1);
+        if (event == 0) {
             break;
         }
-        switch (sp20) {
+        switch (event) {
         case 8:
-            ((struct gd_28_s32 *)((struct gd_30_s32 *)arg1)->v)->v = 0;
-            ((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v = 0;
-            ((struct gd_24_s32 *)((struct gd_30_s32 *)arg1)->v)->v = 1;
-            switch (((struct gd_C_s32 *)((struct gd_30_s32 *)arg1)->v)->v) {
+            ((Object *)arg1)->data->unk_28 = 0;
+            ((Object *)arg1)->data->unk_10 = 0;
+            ((Object *)arg1)->data->unk_24 = 1;
+            switch (((Object *)arg1)->data->unk_0C) {
             case 0:
                 D_800B9988 = D_800B9988 + (D_800B61A8 * 40);
                 break;
             case 80:
-                ((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v = ((struct gd_18_s32 *)((struct gd_30_s32 *)arg1)->v)->v - 1;
-                ((struct gd_24_s32 *)((struct gd_30_s32 *)arg1)->v)->v = -1;
-                ((struct gd_1C_s32 *)((struct gd_30_s32 *)arg1)->v)->v = 0;
+                ((Object *)arg1)->data->unk_10 = ((Object *)arg1)->data->unk_18 - 1;
+                ((Object *)arg1)->data->unk_24 = -1;
+                ((Object *)arg1)->data->unk_1C = 0;
                 break;
             }
             break;
         }
     }
-    sp28 = func_8003FF78(((s32)&D_800BEF5C[D_800B61A0].a + 0x16C00));
-    sp28 = sp28 - func_8003FF78(((D_800B61A0 * 0x1E480) + ((s32)&D_800BEF60)));
-    ((struct gd_44_s32 *)sp24)->v = sp3C + sp28;
-    ((struct gd_28_s32 *)((struct gd_30_s32 *)arg1)->v)->v = ((struct gd_28_s32 *)((struct gd_30_s32 *)arg1)->v)->v + D_800B96B4;
-    if (((struct gd_28_s32 *)((struct gd_30_s32 *)arg1)->v)->v >= ((struct gd_14_s32 *)((struct gd_30_s32 *)arg1)->v)->v) {
-        ((struct gd_28_s32 *)((struct gd_30_s32 *)arg1)->v)->v = ((struct gd_28_s32 *)((struct gd_30_s32 *)arg1)->v)->v % ((struct gd_14_s32 *)((struct gd_30_s32 *)arg1)->v)->v;
-        ((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v = ((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v + ((struct gd_24_s32 *)((struct gd_30_s32 *)arg1)->v)->v;
-        if (((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v < 0) {
-            if (((struct gd_1C_s32 *)((struct gd_30_s32 *)arg1)->v)->v != 0) {
-                ((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v = 1;
-                ((struct gd_24_s32 *)((struct gd_30_s32 *)arg1)->v)->v = 1;
+    diff = func_8003FF78((s32)&D_800BEF5C[D_800B61A0].unk_04[0x16C00]);
+    diff = diff - func_8003FF78((s32)D_800BEF5C[D_800B61A0].unk_04);
+    obj->unk_44 = base + diff;
+    ((Object *)arg1)->data->unk_28 = ((Object *)arg1)->data->unk_28 + D_800B96B4;
+    if (((Object *)arg1)->data->unk_28 >= ((Object *)arg1)->data->unk_14) {
+        ((Object *)arg1)->data->unk_28 = ((Object *)arg1)->data->unk_28 % ((Object *)arg1)->data->unk_14;
+        ((Object *)arg1)->data->unk_10 = ((Object *)arg1)->data->unk_10 + ((Object *)arg1)->data->unk_24;
+        if (((Object *)arg1)->data->unk_10 < 0) {
+            if (((Object *)arg1)->data->unk_1C != 0) {
+                ((Object *)arg1)->data->unk_10 = 1;
+                ((Object *)arg1)->data->unk_24 = 1;
             } else {
                 func_8003288C(4, 0);
-                sp10.w[1] = 0;
-                sp10.w[0] = 1;
-                return sp10;
+                ret.w[1] = 0;
+                ret.w[0] = 1;
+                return ret;
             }
         } else {
-            if (((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v >= ((struct gd_18_s32 *)((struct gd_30_s32 *)arg1)->v)->v) {
-                if (((struct gd_1C_s32 *)((struct gd_30_s32 *)arg1)->v)->v == 1) {
-                    ((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v = ((struct gd_18_s32 *)((struct gd_30_s32 *)arg1)->v)->v - 2;
-                    ((struct gd_24_s32 *)((struct gd_30_s32 *)arg1)->v)->v = -1;
+            if (((Object *)arg1)->data->unk_10 >= ((Object *)arg1)->data->unk_18) {
+                if (((Object *)arg1)->data->unk_1C == 1) {
+                    ((Object *)arg1)->data->unk_10 = ((Object *)arg1)->data->unk_18 - 2;
+                    ((Object *)arg1)->data->unk_24 = -1;
                 } else {
-                    if (((struct gd_1C_s32 *)((struct gd_30_s32 *)arg1)->v)->v == 2) {
-                        if (((struct gd_C_s32 *)((struct gd_30_s32 *)arg1)->v)->v == 1) {
+                    if (((Object *)arg1)->data->unk_1C == 2) {
+                        if (((Object *)arg1)->data->unk_0C == 1) {
                             func_8003288C(5, 0);
-                            sp10.w[1] = 0;
-                            sp10.w[0] = 1;
-                            return sp10;
+                            ret.w[1] = 0;
+                            ret.w[0] = 1;
+                            return ret;
                         } else {
-                            ((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v = 0;
+                            ((Object *)arg1)->data->unk_10 = 0;
                         }
-                        ((struct gd_24_s32 *)((struct gd_30_s32 *)arg1)->v)->v = 1;
+                        ((Object *)arg1)->data->unk_24 = 1;
                     } else {
-                        if (((struct gd_1C_s32 *)((struct gd_30_s32 *)arg1)->v)->v == 3) {
-                            ((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v = ((struct gd_18_s32 *)((struct gd_30_s32 *)arg1)->v)->v - 1;
-                            ((struct gd_24_s32 *)((struct gd_30_s32 *)arg1)->v)->v = 0;
+                        if (((Object *)arg1)->data->unk_1C == 3) {
+                            ((Object *)arg1)->data->unk_10 = ((Object *)arg1)->data->unk_18 - 1;
+                            ((Object *)arg1)->data->unk_24 = 0;
                         } else {
-                            if (((struct gd_1C_s32 *)((struct gd_30_s32 *)arg1)->v)->v < 0) {
+                            if (((Object *)arg1)->data->unk_1C < 0) {
                                 D_800B9988 = D_800B9988 + (D_800B61A8 * 44);
                                 func_8003288C(0, 0);
-                                sp10.w[1] = 0;
-                                sp10.w[0] = 1;
-                                return sp10;
+                                ret.w[1] = 0;
+                                ret.w[0] = 1;
+                                return ret;
                             } else {
-                                switch (((struct gd_C_s32 *)((struct gd_30_s32 *)arg1)->v)->v) {
+                                switch (((Object *)arg1)->data->unk_0C) {
                                 case 3:
                                     func_8000A850(49);
                                     D_800B9988 = D_800B9988 + (D_800B61A8 * 44);
@@ -145,51 +142,48 @@ struct n64dk_r12 func_80031A54(s32 arg1) {
                                     break;
                                 }
                                 func_8003288C(4, 0);
-                                sp10.w[1] = 0;
-                                sp10.w[0] = 1;
-                                return sp10;
+                                ret.w[1] = 0;
+                                ret.w[0] = 1;
+                                return ret;
                             }
                         }
                     }
                 }
             }
         }
-        if (((struct gd_C_s32 *)((struct gd_30_s32 *)arg1)->v)->v != 0) {
+        if (((Object *)arg1)->data->unk_0C != 0) {
             goto L384;
         }
-        sp30 = 1;
-        for (;;) {
-            if (sp30 >= 15) {
-                break;
-            }
-            if (D_800B9988 < (*(s32 *)((sp30 * 4) + ((s32)&D_8005C90C)))) {
-                if (D_800B9988 > (*(s32 *)((sp30 * 4) + ((s32)&D_8005C908)))) {
-                    func_80010AB8((sp30 - 1));
+        i = 1;
+        while (i < 15) {
+            if (D_800B9988 < D_8005C90C[i]) {
+                if (D_800B9988 > D_8005C908[i]) {
+                    func_80010AB8(i - 1);
                 }
             }
-            sp30++;
+            i++;
         }
         D_800B9988 = D_800B9988 + (D_800B61A8 * 24);
     } else {
 L384: ;
     }
-    sp38 = ((struct gd_8_s32 *)((struct gd_30_s32 *)arg1)->v)->v + (((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v * 0x3000);
-    func_8003143C(sp38, (((struct gd_20_s32 *)((struct gd_30_s32 *)arg1)->v)->v * D_800B61A8));
-    switch (((struct gd_C_s32 *)((struct gd_30_s32 *)arg1)->v)->v) {
+    frame = ((Object *)arg1)->data->unk_08 + (((Object *)arg1)->data->unk_10 * 0x3000);
+    func_8003143C(frame, (((Object *)arg1)->data->unk_20 * D_800B61A8));
+    switch (((Object *)arg1)->data->unk_0C) {
     case 0:
-        ((struct gd_10_s16 *)sp24)->v = (((*(s32 *)((((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v * 4) + ((s32)&D_8005C8C8))) * 4) * D_800B61A8) + D_800B998A;
-        if (((D_800B61A8 == 1) && ((D_800B9988 >= 921) && (((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v == 1))) || ((D_800B61A8 == -1) && ((D_800B9988 < 100) && (((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v == 1)))) {
+        obj->unk_10 = D_8005C8C8[((Object *)arg1)->data->unk_10] * 4 * D_800B61A8 + D_800B998A;
+        if (((D_800B61A8 == 1) && ((D_800B9988 >= 921) && (((Object *)arg1)->data->unk_10 == 1))) || ((D_800B61A8 == -1) && ((D_800B9988 < 100) && (((Object *)arg1)->data->unk_10 == 1)))) {
             func_8003288C(3, 0);
-            sp10.w[1] = 0;
-            sp10.w[0] = 1;
-            return sp10;
+            ret.w[1] = 0;
+            ret.w[0] = 1;
+            return ret;
         }
         break;
     case 3:
-        ((struct gd_10_s16 *)sp24)->v = (((*(s32 *)((((struct gd_10_s32 *)((struct gd_30_s32 *)arg1)->v)->v * 4) + ((s32)&D_8005C8FC))) * 4) * D_800B61A8) + D_800B998A;
+        obj->unk_10 = D_8005C8FC[((Object *)arg1)->data->unk_10] * 4 * D_800B61A8 + D_800B998A;
         break;
     }
-    sp10.w[1] = 1;
-    sp10.w[0] = 0;
-    return sp10;
+    ret.w[1] = 1;
+    ret.w[0] = 0;
+    return ret;
 }

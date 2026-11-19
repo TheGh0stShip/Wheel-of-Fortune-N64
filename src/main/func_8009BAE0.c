@@ -1,243 +1,123 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+typedef signed int s32;
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+} Pair;
 
-struct n64dk_a800FF2F8 { s32 m0; s32 m4; };
-extern struct n64dk_a800FF2F8 D_800FF2F8[];
+extern Pair D_800FF2F8[];
 
 void func_8009BAE0(void) {
-    s32 sp0;
-    s32 sp4;
-    s32 sp8;
+    s32 i;
+    s32 j;
+    s32 value;
 
-    sp8 = 16;
-    sp0 = 0;
-    for (;;) {
-        if (sp0 >= 24) {
-            break;
-        }
-        D_800FF2F8[sp0].m0 = -1;
-        D_800FF2F8[sp0].m4 = 0;
-        sp0++;
+    value = 16;
+    for (i = 0; i < 24; i++) {
+        D_800FF2F8[i].unk_00 = -1;
+        D_800FF2F8[i].unk_04 = 0;
     }
-    sp0 = 24;
-    for (;;) {
-        if (sp0 >= 36) {
-            break;
+    i = 24;
+    while (i < 36) {
+        for (j = 0; j <= 0; j++) {
+            D_800FF2F8[i + j].unk_00 = value;
+            D_800FF2F8[i + j].unk_04 = 11;
         }
-        sp4 = 0;
-        for (;;) {
-            if (sp4 > 0) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 11;
-            sp4++;
+        for (j = 1; j < 2; j++) {
+            D_800FF2F8[i + j].unk_00 = -value;
+            D_800FF2F8[i + j].unk_04 = 11;
         }
-        for (sp4 = 1;;) {
-            if (sp4 >= 2) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = -sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 11;
-            sp4++;
-        }
-        sp8--;
-        sp0 = sp0 + 2;
+        value--;
+        i += 2;
     }
-    sp0 = 36;
-    for (;;) {
-        if (sp0 >= 48) {
-            break;
+    i = 36;
+    while (i < 48) {
+        for (j = 0; j < 2; j++) {
+            D_800FF2F8[i + j].unk_00 = value;
+            D_800FF2F8[i + j].unk_04 = 10;
         }
-        sp4 = 0;
-        for (;;) {
-            if (sp4 >= 2) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 10;
-            sp4++;
+        for (j = 2; j < 4; j++) {
+            D_800FF2F8[i + j].unk_00 = -value;
+            D_800FF2F8[i + j].unk_04 = 10;
         }
-        for (sp4 = 2;;) {
-            if (sp4 >= 4) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = -sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 10;
-            sp4++;
-        }
-        sp8--;
-        sp0 = sp0 + 4;
+        value--;
+        i += 4;
     }
-    sp0 = 48;
-    for (;;) {
-        if (sp0 >= 96) {
-            break;
+    i = 48;
+    while (i < 96) {
+        for (j = 0; j < 8; j++) {
+            D_800FF2F8[i + j].unk_00 = value;
+            D_800FF2F8[i + j].unk_04 = 8;
         }
-        sp4 = 0;
-        for (;;) {
-            if (sp4 >= 8) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 8;
-            sp4++;
+        for (j = 8; j < 16; j++) {
+            D_800FF2F8[i + j].unk_00 = -value;
+            D_800FF2F8[i + j].unk_04 = 8;
         }
-        for (sp4 = 8;;) {
-            if (sp4 >= 16) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = -sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 8;
-            sp4++;
-        }
-        sp8--;
-        sp0 = sp0 + 16;
+        value--;
+        i += 16;
     }
-    sp0 = 96;
-    for (;;) {
-        if (sp0 >= 128) {
-            break;
+    i = 96;
+    while (i < 128) {
+        for (j = 0; j < 16; j++) {
+            D_800FF2F8[i + j].unk_00 = value;
+            D_800FF2F8[i + j].unk_04 = 7;
         }
-        sp4 = 0;
-        for (;;) {
-            if (sp4 >= 16) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 7;
-            sp4++;
+        for (j = 16; j < 32; j++) {
+            D_800FF2F8[i + j].unk_00 = -value;
+            D_800FF2F8[i + j].unk_04 = 7;
         }
-        for (sp4 = 16;;) {
-            if (sp4 >= 32) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = -sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 7;
-            sp4++;
-        }
-        sp8--;
-        sp0 = sp0 + 32;
+        value--;
+        i += 32;
     }
-    sp0 = 128;
-    for (;;) {
-        if (sp0 >= 256) {
-            break;
+    i = 128;
+    while (i < 256) {
+        for (j = 0; j < 64; j++) {
+            D_800FF2F8[i + j].unk_00 = value;
+            D_800FF2F8[i + j].unk_04 = 5;
         }
-        sp4 = 0;
-        for (;;) {
-            if (sp4 >= 64) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 5;
-            sp4++;
+        for (j = 64; j < 128; j++) {
+            D_800FF2F8[i + j].unk_00 = -value;
+            D_800FF2F8[i + j].unk_04 = 5;
         }
-        for (sp4 = 64;;) {
-            if (sp4 >= 128) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = -sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 5;
-            sp4++;
-        }
-        sp8--;
-        sp0 = sp0 + 128;
+        value--;
+        i += 128;
     }
-    sp0 = 256;
-    for (;;) {
-        if (sp0 >= 512) {
-            break;
+    i = 256;
+    while (i < 512) {
+        for (j = 0; j < 128; j++) {
+            D_800FF2F8[i + j].unk_00 = value;
+            D_800FF2F8[i + j].unk_04 = 4;
         }
-        sp4 = 0;
-        for (;;) {
-            if (sp4 >= 128) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 4;
-            sp4++;
+        for (j = 128; j < 256; j++) {
+            D_800FF2F8[i + j].unk_00 = -value;
+            D_800FF2F8[i + j].unk_04 = 4;
         }
-        for (sp4 = 128;;) {
-            if (sp4 >= 256) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = -sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 4;
-            sp4++;
-        }
-        sp8--;
-        sp0 = sp0 + 256;
+        value--;
+        i += 256;
     }
-    sp0 = 512;
-    for (;;) {
-        if (sp0 >= 1024) {
-            break;
+    i = 512;
+    while (i < 1024) {
+        for (j = 0; j < 256; j++) {
+            D_800FF2F8[i + j].unk_00 = value;
+            D_800FF2F8[i + j].unk_04 = 3;
         }
-        sp4 = 0;
-        for (;;) {
-            if (sp4 >= 256) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 3;
-            sp4++;
+        for (j = 256; j < 512; j++) {
+            D_800FF2F8[i + j].unk_00 = -value;
+            D_800FF2F8[i + j].unk_04 = 3;
         }
-        for (sp4 = 256;;) {
-            if (sp4 >= 512) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = -sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 3;
-            sp4++;
-        }
-        sp8--;
-        sp0 = sp0 + 512;
+        value--;
+        i += 512;
     }
-    sp0 = 1024;
-    for (;;) {
-        if (sp0 >= 2048) {
-            return;
+    i = 1024;
+    while (i < 2048) {
+        for (j = 0; j < 512; j++) {
+            D_800FF2F8[i + j].unk_00 = value;
+            D_800FF2F8[i + j].unk_04 = 1;
         }
-        sp4 = 0;
-        for (;;) {
-            if (sp4 >= 512) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 1;
-            sp4++;
+        for (j = 512; j < 1024; j++) {
+            D_800FF2F8[i + j].unk_00 = -value;
+            D_800FF2F8[i + j].unk_04 = 1;
         }
-        for (sp4 = 512;;) {
-            if (sp4 >= 1024) {
-                break;
-            }
-            D_800FF2F8[sp0 + sp4].m0 = -sp8;
-            D_800FF2F8[sp0 + sp4].m4 = 1;
-            sp4++;
-        }
-        sp8--;
-        sp0 = sp0 + 1024;
+        value--;
+        i += 1024;
     }
 }

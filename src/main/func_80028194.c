@@ -1,84 +1,66 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+typedef unsigned char u8;
+typedef signed int s32;
+typedef unsigned int u32;
 
-struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-struct n64dk_e8 { u8 b[8]; };
-struct n64dk_a8005A9B8 { s32 m0; u8 pad4[0x24]; };
-extern struct n64dk_a8005A9B8 D_8005A9B8[];
+typedef struct {
+    /* 0x00 */ u32 w0;
+    /* 0x04 */ u32 w1;
+} Gfx;
+
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x28];
+} Sprite;
+
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ u8 unk_04[0x24];
+} Entry;
+
+extern Entry D_8005A9B8[];
 extern s32 D_01021970;
-extern s32 D_8005A8C8;
-extern s32 D_8005A930;
-extern s32 D_8005A998;
-extern s32 D_8005B710;
-extern s32 D_8005BE00;
-extern struct n64dk_e8 *D_800B81E8;
-extern s32 D_800B966A;
-s32 func_8002741C();
-s32 func_800278A8();
+extern s32 D_8005A8C8[];
+extern s32 D_8005A930[];
+extern Sprite D_8005A998[];
+extern Sprite D_8005B710[];
+extern Sprite D_8005BE00[];
+extern Gfx *D_800B81E8;
+extern u8 D_800B966A[];
+void func_8002741C(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+void func_800278A8(s32 arg0, s32 arg1);
 
 void func_80028194(s32 arg0, s32 arg1) {
     s32 pad0[2];
-    s32 sp18;
+    s32 i;
     s32 pad1;
-    s32 sp20;
+    Gfx *gfx;
 
-    sp20 = (s32)D_800B81E8++;
-    (*(s32 *)sp20) = 0xE7000000;
-    ((struct gd_4_s32 *)sp20)->v = 0;
-    sp20 = (s32)D_800B81E8++;
-    (*(s32 *)sp20) = 0x6000000;
-    ((struct gd_4_s32 *)sp20)->v = (s32)&D_01021970;
-    sp20 = (s32)D_800B81E8++;
-    (*(s32 *)sp20) = 0xBA001402;
-    ((struct gd_4_s32 *)sp20)->v = 0x200000;
-    sp18 = 0;
-    for (;;) {
-        if (sp18 >= 26) {
-            break;
-        }
-        if ((*(u8 *)(sp18 + ((s32)&D_800B966A))) == 32) {
-            D_8005A9B8[sp18].m0 = *(s32 *)((sp18 * 4) + ((s32)&D_8005A8C8));
+    gfx = D_800B81E8++;
+    gfx->w0 = 0xE7000000;
+    gfx->w1 = 0;
+    gfx = D_800B81E8++;
+    gfx->w0 = 0x6000000;
+    gfx->w1 = (u32)&D_01021970;
+    gfx = D_800B81E8++;
+    gfx->w0 = 0xBA001402;
+    gfx->w1 = 0x200000;
+    i = 0;
+    while (i < 26) {
+        if (D_800B966A[i] == ' ') {
+            D_8005A9B8[i].unk_00 = D_8005A8C8[i];
         } else {
-            D_8005A9B8[sp18].m0 = *(s32 *)((sp18 * 4) + ((s32)&D_8005A930));
+            D_8005A9B8[i].unk_00 = D_8005A930[i];
         }
-        func_8002741C(((sp18 * 40) + ((s32)&D_8005A998)), 1, -13, 0);
-        sp18++;
+        func_8002741C((s32)&D_8005A998[i], 1, -13, 0);
+        i++;
     }
-    sp18 = 0;
-    for (;;) {
-        if (sp18 >= 22) {
-            break;
-        }
-        func_800278A8(((sp18 * 40) + ((s32)&D_8005B710)), 1);
-        sp18++;
+    i = 0;
+    while (i < 22) {
+        func_800278A8((s32)&D_8005B710[i], 1);
+        i++;
     }
-    sp18 = 0;
-    for (;;) {
-        if (sp18 >= 10) {
-            return;
-        }
-        func_800278A8(((sp18 * 40) + ((s32)&D_8005BE00)), 1);
-        sp18++;
+    i = 0;
+    while (i < 10) {
+        func_800278A8((s32)&D_8005BE00[i], 1);
+        i++;
     }
 }

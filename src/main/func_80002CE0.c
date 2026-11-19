@@ -1,31 +1,25 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+typedef signed char s8;
+typedef unsigned char u8;
+typedef signed short s16;
+typedef signed int s32;
+typedef float f32;
 
-struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-struct gd_5_s8 { u8 pad[0x5]; s8 v; };
-struct gd_E_s16 { u8 pad[0xE]; s16 v; };
-struct n64dk_f10_s32 { u8 pad[0x10]; s32 m[1]; };
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x5];
+    /* 0x05 */ s8 type;
+} SoundInfo;
+
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ SoundInfo *info;
+} Sound;
+
+typedef struct {
+    /* 0x00 */ u8 unk_00[0xE];
+    /* 0x0E */ s16 count;
+    /* 0x10 */ Sound *sounds[1];
+} SoundBank;
+
 extern f32 D_8000046C;
 extern f32 D_80000470;
 extern f32 D_80000474;
@@ -38,34 +32,34 @@ extern f32 D_8000048C;
 extern f32 D_80000490;
 extern f32 D_80000494;
 extern s32 D_8004B718;
-extern s32 D_800A5090;
-extern s32 D_800A5098;
-extern s32 D_800A509C;
-s32 func_80002700();
+extern SoundBank *D_800A5090;
+extern Sound *D_800A5098;
+extern s16 *D_800A509C;
+s32 func_80002700(void);
 s32 func_800396B8(s32, f32);
-s32 func_80049EB8();
-s32 func_80049FA8();
-s32 func_80049FC8();
+s32 func_80049EB8(s32 arg0, Sound *arg1);
+s32 func_80049FA8(s32 arg0, s32 arg1);
+s32 func_80049FC8(s32 arg0);
 
 s32 func_80002CE0(s32 arg0) {
     f32 sp10;
     s32 pad0;
-    s32 sp18;
+    s32 slot;
 
-    if (arg0 >= ((struct gd_E_s16 *)D_800A5090)->v) {
+    if (arg0 >= D_800A5090->count) {
         arg0 = 0;
     }
-    D_800A5098 = ((struct n64dk_f10_s32 *)D_800A5090)->m[arg0];
-    sp18 = func_80002700();
-    if (sp18 == -1) {
+    D_800A5098 = D_800A5090->sounds[arg0];
+    slot = func_80002700();
+    if (slot == -1) {
         return -1;
     }
-    (*(s16 *)((sp18 * 2) + D_800A509C)) = func_80049EB8(D_8004B718, D_800A5098);
-    if ((*(s16 *)((sp18 * 2) + D_800A509C)) == -1) {
+    D_800A509C[slot] = func_80049EB8(D_8004B718, D_800A5098);
+    if (D_800A509C[slot] == -1) {
         return -1;
     }
-    func_80049FA8(D_8004B718, (*(s16 *)((sp18 * 2) + D_800A509C)));
-    switch (((struct gd_5_s8 *)((struct gd_4_s32 *)D_800A5098)->v)->v) {
+    func_80049FA8(D_8004B718, D_800A509C[slot]);
+    switch (D_800A5098->info->type) {
     case 0:
         sp10 = D_8000046C;
         break;
@@ -102,5 +96,5 @@ s32 func_80002CE0(s32 arg0) {
     }
     func_800396B8(D_8004B718, sp10);
     func_80049FC8(D_8004B718);
-    return sp18;
+    return slot;
 }

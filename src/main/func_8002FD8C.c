@@ -1,43 +1,20 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
-
+typedef signed int s32;
 extern s32 D_80001928;
 extern s32 D_800BCA00;
 extern s32 D_800BCD54;
-s32 func_80009F38();
-s32 func_8000A990();
-s32 func_8000AAB0();
+void func_80009F38(void *arg0);
+s32 func_8000A990(s32 arg0, s32 arg1);
+void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2);
 
 void func_8002FD8C(void) {
-    s32 sp10;
+    s32 obj;
 
-    if ((D_800BCA00 == 0) || (D_800BCD54 == 4)) {
+    if (D_800BCA00 == 0 || D_800BCD54 == 4) {
         return;
     }
-    sp10 = func_8000A990(0x7030000, -1);
-    if (sp10 == 0) {
-        func_80009F38(((s32)&D_80001928));
+    obj = func_8000A990(0x7030000, -1);
+    if (obj == 0) {
+        func_80009F38(&D_80001928);
     }
-    func_8000AAB0(sp10, 8, 0);
+    func_8000AAB0(obj, 8, 0);
 }

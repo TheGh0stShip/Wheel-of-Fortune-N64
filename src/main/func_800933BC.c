@@ -1,46 +1,36 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+typedef unsigned char u8;
+typedef signed short s16;
+typedef signed int s32;
+typedef unsigned int u32;
 
-struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-struct gd_8_s32 { u8 pad[0x8]; s32 v; };
-struct gd_C_s32 { u8 pad[0xC]; s32 v; };
-struct gd_108_s32 { u8 pad[0x108]; s32 v; };
-struct gd_258_s32 { u8 pad[0x258]; s32 v; };
-struct gd_25C_s32 { u8 pad[0x25C]; s32 v; };
-struct gd_260_s32 { u8 pad[0x260]; s32 v; };
-extern s32 D_800FC098;
+typedef struct {
+    /* 0x00 */ u8 *planes[3];
+} Frame;
+
+typedef struct {
+    /* 0x000 */ u8 unk_000[0xC];
+    /* 0x00C */ u32 width;
+    /* 0x010 */ u8 unk_010[0xF8];
+    /* 0x108 */ u32 index;
+    /* 0x10C */ u8 unk_10C[0x48];
+    /* 0x154 */ s16 coefs[0x82];
+    /* 0x258 */ Frame *ref0;
+    /* 0x25C */ Frame *ref1;
+    /* 0x260 */ Frame *cur;
+} Decoder;
+
+extern u8 D_800FC098[];
 
 void func_800933BC(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    s32 sp0;
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
-    s32 sp18;
-    s32 sp1C;
-    s32 sp20;
+    s32 row;
+    s32 col;
+    s32 y;
+    s32 x;
+    s32 stride;
+    s32 i;
+    u8 *sp18;
+    u8 *sp1C;
+    u8 *sp20;
     s32 sp24;
     s32 sp28;
     s32 sp2C;
@@ -49,20 +39,20 @@ void func_800933BC(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s
     s32 sp38;
     s32 sp3C;
     s32 sp40;
-    s32 sp44;
-    s32 sp48;
-    s32 sp4C;
-    s32 sp50;
+    u8 *dst;
+    u8 *src1;
+    u8 *src2;
+    s16 *coef;
     s32 sp54;
     s32 sp58;
     s32 sp5C;
     s32 sp60;
-    s32 sp64;
+    u8 *clamp;
 
     sp1C = 0;
     sp20 = 0;
-    sp0 = (u32)((struct gd_108_s32 *)arg0)->v / (u32)((struct gd_C_s32 *)arg0)->v;
-    sp4 = (u32)((struct gd_108_s32 *)arg0)->v % (u32)((struct gd_C_s32 *)arg0)->v;
+    row = ((Decoder *)arg0)->index / ((Decoder *)arg0)->width;
+    col = ((Decoder *)arg0)->index % ((Decoder *)arg0)->width;
     if (arg1 < 4) {
         sp24 = arg2 >> 1;
         sp28 = arg3 >> 1;
@@ -72,129 +62,121 @@ void func_800933BC(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s
         sp38 = arg5 >> 1;
         sp3C = arg4 & 1;
         sp40 = arg5 & 1;
-        sp18 = *(s32 *)((struct gd_260_s32 *)arg0)->v;
-        if (((struct gd_258_s32 *)arg0)->v != 0) {
-            sp1C = *(s32 *)((struct gd_258_s32 *)arg0)->v;
+        sp18 = ((Decoder *)arg0)->cur->planes[0];
+        if (((Decoder *)arg0)->ref0 != 0) {
+            sp1C = ((Decoder *)arg0)->ref0->planes[0];
         }
-        if (((struct gd_25C_s32 *)arg0)->v != 0) {
-            sp20 = *(s32 *)((struct gd_25C_s32 *)arg0)->v;
+        if (((Decoder *)arg0)->ref1 != 0) {
+            sp20 = ((Decoder *)arg0)->ref1->planes[0];
         }
-        sp10 = ((struct gd_C_s32 *)arg0)->v << 4;
-        sp8 = sp0 << 4;
-        spC = sp4 << 4;
+        stride = ((Decoder *)arg0)->width << 4;
+        y = row << 4;
+        x = col << 4;
         if (arg1 >= 2) {
-            sp8 = sp8 + 8;
+            y += 8;
         }
         if ((arg1 & 1) != 0) {
-            spC = spC + 8;
+            x += 8;
         }
-        sp5C = spC + sp24;
-        sp54 = sp8 + sp28;
-        sp60 = spC + sp34;
-        sp58 = sp8 + sp38;
+        sp5C = x + sp24;
+        sp54 = y + sp28;
+        sp60 = x + sp34;
+        sp58 = y + sp38;
     } else {
-        arg2 = arg2 / 2;
-        arg3 = arg3 / 2;
+        arg2 /= 2;
+        arg3 /= 2;
         sp24 = arg2 >> 1;
         sp28 = arg3 >> 1;
         sp2C = arg2 & 1;
         sp30 = arg3 & 1;
-        arg4 = arg4 / 2;
-        arg5 = arg5 / 2;
+        arg4 /= 2;
+        arg5 /= 2;
         sp34 = arg4 >> 1;
         sp38 = arg5 >> 1;
         sp3C = arg4 & 1;
         sp40 = arg5 & 1;
-        sp10 = ((struct gd_C_s32 *)arg0)->v << 3;
-        sp8 = sp0 << 3;
-        spC = sp4 << 3;
-        sp5C = spC + sp24;
-        sp54 = sp8 + sp28;
-        sp60 = spC + sp34;
-        sp58 = sp8 + sp38;
+        stride = ((Decoder *)arg0)->width << 3;
+        y = row << 3;
+        x = col << 3;
+        sp5C = x + sp24;
+        sp54 = y + sp28;
+        sp60 = x + sp34;
+        sp58 = y + sp38;
         if (arg1 == 5) {
-            sp18 = ((struct gd_4_s32 *)((struct gd_260_s32 *)arg0)->v)->v;
-            if (((struct gd_258_s32 *)arg0)->v != 0) {
-                sp1C = ((struct gd_4_s32 *)((struct gd_258_s32 *)arg0)->v)->v;
+            sp18 = ((Decoder *)arg0)->cur->planes[1];
+            if (((Decoder *)arg0)->ref0 != 0) {
+                sp1C = ((Decoder *)arg0)->ref0->planes[1];
             }
-            if (((struct gd_25C_s32 *)arg0)->v != 0) {
-                sp20 = ((struct gd_4_s32 *)((struct gd_25C_s32 *)arg0)->v)->v;
+            if (((Decoder *)arg0)->ref1 != 0) {
+                sp20 = ((Decoder *)arg0)->ref1->planes[1];
             }
         } else {
-            sp18 = ((struct gd_8_s32 *)((struct gd_260_s32 *)arg0)->v)->v;
-            if (((struct gd_258_s32 *)arg0)->v != 0) {
-                sp1C = ((struct gd_8_s32 *)((struct gd_258_s32 *)arg0)->v)->v;
+            sp18 = ((Decoder *)arg0)->cur->planes[2];
+            if (((Decoder *)arg0)->ref0 != 0) {
+                sp1C = ((Decoder *)arg0)->ref0->planes[2];
             }
-            if (((struct gd_25C_s32 *)arg0)->v != 0) {
-                sp20 = ((struct gd_8_s32 *)((struct gd_25C_s32 *)arg0)->v)->v;
+            if (((Decoder *)arg0)->ref1 != 0) {
+                sp20 = ((Decoder *)arg0)->ref1->planes[2];
             }
         }
     }
-    sp44 = ((sp8 * sp10) + sp18) + spC;
-    sp48 = ((sp54 * sp10) + sp1C) + sp5C;
-    sp4C = ((sp58 * sp10) + sp20) + sp60;
-    sp50 = arg0 + 340;
-    sp64 = (s32)&D_800FC098;
+    dst = y * stride + sp18 + x;
+    src1 = sp54 * stride + sp1C + sp5C;
+    src2 = sp58 * stride + sp20 + sp60;
+    coef = ((Decoder *)arg0)->coefs;
+    clamp = D_800FC098;
     if (arg6 == 0) {
-        sp14 = 0;
-        for (;;) {
-            if (sp14 >= 4) {
-                break;
-            }
-            (*(s8 *)sp44) = *(u8 *)(((((*(u8 *)sp48) + (*(u8 *)sp4C)) >> 1) + (*(s16 *)sp50)) + sp64);
-            (*(s8 *)(sp44 + 1)) = *(u8 *)(((((*(u8 *)(sp48 + 1)) + (*(u8 *)(sp4C + 1))) >> 1) + (*(s16 *)(sp50 + 2))) + sp64);
-            (*(s8 *)(sp44 + 2)) = *(u8 *)(((((*(u8 *)(sp48 + 2)) + (*(u8 *)(sp4C + 2))) >> 1) + (*(s16 *)(sp50 + 4))) + sp64);
-            (*(s8 *)(sp44 + 3)) = *(u8 *)(((((*(u8 *)(sp48 + 3)) + (*(u8 *)(sp4C + 3))) >> 1) + (*(s16 *)(sp50 + 6))) + sp64);
-            (*(s8 *)(sp44 + 4)) = *(u8 *)(((((*(u8 *)(sp48 + 4)) + (*(u8 *)(sp4C + 4))) >> 1) + (*(s16 *)(sp50 + 8))) + sp64);
-            (*(s8 *)(sp44 + 5)) = *(u8 *)(((((*(u8 *)(sp48 + 5)) + (*(u8 *)(sp4C + 5))) >> 1) + (*(s16 *)(sp50 + 10))) + sp64);
-            (*(s8 *)(sp44 + 6)) = *(u8 *)(((((*(u8 *)(sp48 + 6)) + (*(u8 *)(sp4C + 6))) >> 1) + (*(s16 *)(sp50 + 12))) + sp64);
-            (*(s8 *)(sp44 + 7)) = *(u8 *)(((((*(u8 *)(sp48 + 7)) + (*(u8 *)(sp4C + 7))) >> 1) + (*(s16 *)(sp50 + 14))) + sp64);
-            sp44 = sp44 + sp10;
-            sp48 = sp48 + sp10;
-            sp4C = sp4C + sp10;
-            (*(s8 *)sp44) = *(u8 *)(((((*(u8 *)sp48) + (*(u8 *)sp4C)) >> 1) + (*(s16 *)(sp50 + 16))) + sp64);
-            (*(s8 *)(sp44 + 1)) = *(u8 *)(((((*(u8 *)(sp48 + 1)) + (*(u8 *)(sp4C + 1))) >> 1) + (*(s16 *)(sp50 + 18))) + sp64);
-            (*(s8 *)(sp44 + 2)) = *(u8 *)(((((*(u8 *)(sp48 + 2)) + (*(u8 *)(sp4C + 2))) >> 1) + (*(s16 *)(sp50 + 20))) + sp64);
-            (*(s8 *)(sp44 + 3)) = *(u8 *)(((((*(u8 *)(sp48 + 3)) + (*(u8 *)(sp4C + 3))) >> 1) + (*(s16 *)(sp50 + 22))) + sp64);
-            (*(s8 *)(sp44 + 4)) = *(u8 *)(((((*(u8 *)(sp48 + 4)) + (*(u8 *)(sp4C + 4))) >> 1) + (*(s16 *)(sp50 + 24))) + sp64);
-            (*(s8 *)(sp44 + 5)) = *(u8 *)(((((*(u8 *)(sp48 + 5)) + (*(u8 *)(sp4C + 5))) >> 1) + (*(s16 *)(sp50 + 26))) + sp64);
-            (*(s8 *)(sp44 + 6)) = *(u8 *)(((((*(u8 *)(sp48 + 6)) + (*(u8 *)(sp4C + 6))) >> 1) + (*(s16 *)(sp50 + 28))) + sp64);
-            (*(s8 *)(sp44 + 7)) = *(u8 *)(((((*(u8 *)(sp48 + 7)) + (*(u8 *)(sp4C + 7))) >> 1) + (*(s16 *)(sp50 + 30))) + sp64);
-            sp50 = sp50 + 32;
-            sp44 = sp44 + sp10;
-            sp48 = sp48 + sp10;
-            sp4C = sp4C + sp10;
-            sp14++;
+        for (i = 0; i < 4; i++) {
+            dst[0] = clamp[((src1[0] + src2[0]) >> 1) + coef[0]];
+            dst[1] = clamp[((src1[1] + src2[1]) >> 1) + coef[1]];
+            dst[2] = clamp[((src1[2] + src2[2]) >> 1) + coef[2]];
+            dst[3] = clamp[((src1[3] + src2[3]) >> 1) + coef[3]];
+            dst[4] = clamp[((src1[4] + src2[4]) >> 1) + coef[4]];
+            dst[5] = clamp[((src1[5] + src2[5]) >> 1) + coef[5]];
+            dst[6] = clamp[((src1[6] + src2[6]) >> 1) + coef[6]];
+            dst[7] = clamp[((src1[7] + src2[7]) >> 1) + coef[7]];
+            dst += stride;
+            src1 += stride;
+            src2 += stride;
+            dst[0] = clamp[((src1[0] + src2[0]) >> 1) + coef[8]];
+            dst[1] = clamp[((src1[1] + src2[1]) >> 1) + coef[9]];
+            dst[2] = clamp[((src1[2] + src2[2]) >> 1) + coef[10]];
+            dst[3] = clamp[((src1[3] + src2[3]) >> 1) + coef[11]];
+            dst[4] = clamp[((src1[4] + src2[4]) >> 1) + coef[12]];
+            dst[5] = clamp[((src1[5] + src2[5]) >> 1) + coef[13]];
+            dst[6] = clamp[((src1[6] + src2[6]) >> 1) + coef[14]];
+            dst[7] = clamp[((src1[7] + src2[7]) >> 1) + coef[15]];
+            coef += 16;
+            dst += stride;
+            src1 += stride;
+            src2 += stride;
         }
         return;
     }
-    sp14 = 0;
-    for (;;) {
-        if (sp14 >= 4) {
-            return;
-        }
-        (*(s8 *)sp44) = ((*(u8 *)sp48) + (*(u8 *)sp4C)) >> 1;
-        (*(s8 *)(sp44 + 1)) = ((*(u8 *)(sp48 + 1)) + (*(u8 *)(sp4C + 1))) >> 1;
-        (*(s8 *)(sp44 + 2)) = ((*(u8 *)(sp48 + 2)) + (*(u8 *)(sp4C + 2))) >> 1;
-        (*(s8 *)(sp44 + 3)) = ((*(u8 *)(sp48 + 3)) + (*(u8 *)(sp4C + 3))) >> 1;
-        (*(s8 *)(sp44 + 4)) = ((*(u8 *)(sp48 + 4)) + (*(u8 *)(sp4C + 4))) >> 1;
-        (*(s8 *)(sp44 + 5)) = ((*(u8 *)(sp48 + 5)) + (*(u8 *)(sp4C + 5))) >> 1;
-        (*(s8 *)(sp44 + 6)) = ((*(u8 *)(sp48 + 6)) + (*(u8 *)(sp4C + 6))) >> 1;
-        (*(s8 *)(sp44 + 7)) = ((*(u8 *)(sp48 + 7)) + (*(u8 *)(sp4C + 7))) >> 1;
-        sp44 = sp44 + sp10;
-        sp48 = sp48 + sp10;
-        sp4C = sp4C + sp10;
-        (*(s8 *)sp44) = ((*(u8 *)sp48) + (*(u8 *)sp4C)) >> 1;
-        (*(s8 *)(sp44 + 1)) = ((*(u8 *)(sp48 + 1)) + (*(u8 *)(sp4C + 1))) >> 1;
-        (*(s8 *)(sp44 + 2)) = ((*(u8 *)(sp48 + 2)) + (*(u8 *)(sp4C + 2))) >> 1;
-        (*(s8 *)(sp44 + 3)) = ((*(u8 *)(sp48 + 3)) + (*(u8 *)(sp4C + 3))) >> 1;
-        (*(s8 *)(sp44 + 4)) = ((*(u8 *)(sp48 + 4)) + (*(u8 *)(sp4C + 4))) >> 1;
-        (*(s8 *)(sp44 + 5)) = ((*(u8 *)(sp48 + 5)) + (*(u8 *)(sp4C + 5))) >> 1;
-        (*(s8 *)(sp44 + 6)) = ((*(u8 *)(sp48 + 6)) + (*(u8 *)(sp4C + 6))) >> 1;
-        (*(s8 *)(sp44 + 7)) = ((*(u8 *)(sp48 + 7)) + (*(u8 *)(sp4C + 7))) >> 1;
-        sp44 = sp44 + sp10;
-        sp48 = sp48 + sp10;
-        sp4C = sp4C + sp10;
-        sp14++;
+    i = 0;
+    while (i < 4) {
+        dst[0] = (src1[0] + src2[0]) >> 1;
+        dst[1] = (src1[1] + src2[1]) >> 1;
+        dst[2] = (src1[2] + src2[2]) >> 1;
+        dst[3] = (src1[3] + src2[3]) >> 1;
+        dst[4] = (src1[4] + src2[4]) >> 1;
+        dst[5] = (src1[5] + src2[5]) >> 1;
+        dst[6] = (src1[6] + src2[6]) >> 1;
+        dst[7] = (src1[7] + src2[7]) >> 1;
+        dst += stride;
+        src1 += stride;
+        src2 += stride;
+        dst[0] = (src1[0] + src2[0]) >> 1;
+        dst[1] = (src1[1] + src2[1]) >> 1;
+        dst[2] = (src1[2] + src2[2]) >> 1;
+        dst[3] = (src1[3] + src2[3]) >> 1;
+        dst[4] = (src1[4] + src2[4]) >> 1;
+        dst[5] = (src1[5] + src2[5]) >> 1;
+        dst[6] = (src1[6] + src2[6]) >> 1;
+        dst[7] = (src1[7] + src2[7]) >> 1;
+        dst += stride;
+        src1 += stride;
+        src2 += stride;
+        i++;
     }
 }

@@ -1,71 +1,62 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
-
+typedef signed char s8;
+typedef unsigned char u8;
+typedef signed short s16;
+typedef signed int s32;
+typedef float f32;
 struct n64dk_r12 { s32 w[3]; };
-struct gd_8_s32 { u8 pad[0x8]; s32 v; };
-struct gd_10_s16 { u8 pad[0x10]; s16 v; };
-struct gd_12_s16 { u8 pad[0x12]; s16 v; };
-struct gd_14_s16 { u8 pad[0x14]; s16 v; };
-struct gd_30_s32 { u8 pad[0x30]; s32 v; };
+
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x10];
+    /* 0x10 */ s16 unk_10;
+    /* 0x12 */ s16 unk_12;
+    /* 0x14 */ s16 unk_14;
+} Pos;
+
+typedef struct {
+    /* 0x00 */ Pos *unk_00;
+    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x08 */ s32 unk_08;
+} Data;
+
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x30];
+    /* 0x30 */ Data *unk_30;
+} Obj;
+
 extern s32 D_800BEE24;
-s32 func_8000ACE8();
-s32 func_8003BEA8(s32, s32, f32, s32);
-s32 func_8003C2A8(s32, s32, s32, f32);
-s32 func_80041018();
+s32 func_8000ACE8(s32 arg0);
+s32 func_8003BEA8(void *, s32, f32, s32);
+s32 func_8003C2A8(void *, s32, s32, f32);
+s32 func_80041018(void *arg0, void *arg1, void *arg2);
 
 struct n64dk_r12 func_8000C50C(s32 arg1) {
-    s32 sp10[12];
-    f32 sp40;
-    f32 sp44;
-    f32 sp48;
-    s32 sp50[16];
-    struct n64dk_r12 sp90;
-    s32 spA0;
-    s32 spA4;
+    s32 mtxA[12];
+    f32 x;
+    f32 y;
+    f32 z;
+    s32 mtxB[16];
+    struct n64dk_r12 result;
+    Pos *pos;
+    s32 event;
     s8 pad0;
 
-    spA0 = *(s32 *)((struct gd_30_s32 *)arg1)->v;
-    for (;;) {
-        spA4 = func_8000ACE8(arg1);
-        if (spA4 == 0) {
-            break;
-        }
-        switch (spA4) {
+    pos = ((Obj *)arg1)->unk_30->unk_00;
+    while ((event = func_8000ACE8(arg1)) != 0) {
+        switch (event) {
         case 34:
         case 36:
-            sp90.w[1] = 0;
-            sp90.w[0] = 1;
-            return sp90;
+            result.w[1] = 0;
+            result.w[0] = 1;
+            return result;
         }
     }
-    func_8003C2A8(((s32)&sp10), 0, 0, ((f32)D_800BEE24));
-    func_8003BEA8(((s32)&sp50), 0, ((f32)(((struct gd_8_s32 *)((struct gd_30_s32 *)arg1)->v)->v * 15)), 0);
-    func_80041018(((s32)&sp10), ((s32)&sp50), ((s32)&sp10));
-    ((struct gd_10_s16 *)spA0)->v = (s32)sp40;
-    ((struct gd_12_s16 *)spA0)->v = (s32)sp44;
-    ((struct gd_14_s16 *)spA0)->v = (s32)sp48;
-    sp90.w[1] = 1;
-    sp90.w[0] = 0;
-    return sp90;
+    func_8003C2A8(mtxA, 0, 0, D_800BEE24);
+    func_8003BEA8(mtxB, 0, ((Obj *)arg1)->unk_30->unk_08 * 15, 0);
+    func_80041018(mtxA, mtxB, mtxA);
+    pos->unk_10 = x;
+    pos->unk_12 = y;
+    pos->unk_14 = z;
+    result.w[1] = 1;
+    result.w[0] = 0;
+    return result;
 }

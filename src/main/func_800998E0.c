@@ -1,103 +1,89 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+typedef unsigned char u8;
+typedef signed int s32;
 
-struct gd_8_s32 { u8 pad[0x8]; s32 v; };
-struct gd_C_s32 { u8 pad[0xC]; s32 v; };
-struct gd_10_s32 { u8 pad[0x10]; s32 v; };
-struct gd_14_s32 { u8 pad[0x14]; s32 v; };
-struct gd_3C_s32 { u8 pad[0x3C]; s32 v; };
-struct gd_40_s32 { u8 pad[0x40]; s32 v; };
+typedef struct {
+    /* 0x00 */ u8 unk_00[0xC];
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ u8 unk_10[0x4];
+    /* 0x14 */ s32 unk_14;
+} Config;
+
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x8];
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 unk_10;
+    /* 0x14 */ s32 unk_14;
+    /* 0x18 */ u8 unk_18[0x24];
+    /* 0x3C */ s32 unk_3C;
+    /* 0x40 */ s32 unk_40;
+} Scroll;
 
 void func_800998E0(s32 arg0, s32 arg1, s32 arg2) {
-    s32 sp0;
-    s32 sp4;
+    Config *cfg;
+    Scroll *scroll;
     s32 sp8;
     s32 spC;
     s32 sp10;
     s32 sp14;
     s32 sp18;
     s32 sp1C;
-    s32 sp20;
-    s32 sp24;
+    s32 max;
+    s32 min;
     s32 sp28;
 
-    sp0 = arg2 + 204;
-    sp4 = arg2 + 264;
-    if ((((struct gd_14_s32 *)sp0)->v == 1) || (((struct gd_8_s32 *)sp4)->v == 0)) {
+    cfg = (Config *)(arg2 + 204);
+    scroll = (Scroll *)(arg2 + 264);
+    if (cfg->unk_14 == 1 || scroll->unk_08 == 0) {
         sp8 = 0;
     } else {
-        sp8 = (((struct gd_14_s32 *)sp0)->v - 1) - ((struct gd_C_s32 *)sp4)->v;
+        sp8 = cfg->unk_14 - 1 - scroll->unk_0C;
     }
-    if ((((struct gd_14_s32 *)sp0)->v == 1) || (((struct gd_10_s32 *)sp4)->v == 0)) {
+    if (cfg->unk_14 == 1 || scroll->unk_10 == 0) {
         spC = 0;
     } else {
-        spC = (((struct gd_14_s32 *)sp0)->v - 1) - ((struct gd_14_s32 *)sp4)->v;
+        spC = cfg->unk_14 - 1 - scroll->unk_14;
     }
-    sp10 = ((struct gd_8_s32 *)sp4)->v * ((struct gd_14_s32 *)sp0)->v;
+    sp10 = scroll->unk_08 * cfg->unk_14;
     if (sp10 == 0) {
         sp14 = 0;
+    } else if (sp10 > 0) {
+        sp10 -= sp8;
+        sp14 = sp10 - cfg->unk_14 * 32;
     } else {
-        if (sp10 > 0) {
-            sp10 = sp10 - sp8;
-            sp14 = sp10 - (((struct gd_14_s32 *)sp0)->v * 32);
-        } else {
-            sp10 = sp10 + sp8;
-            sp14 = sp10 + (((struct gd_14_s32 *)sp0)->v * 32);
-        }
+        sp10 += sp8;
+        sp14 = sp10 + cfg->unk_14 * 32;
     }
-    sp18 = ((struct gd_10_s32 *)sp4)->v * ((struct gd_14_s32 *)sp0)->v;
+    sp18 = scroll->unk_10 * cfg->unk_14;
     if (sp18 == 0) {
         sp1C = 0;
+    } else if (sp18 > 0) {
+        sp18 -= spC;
+        sp1C = sp18 - cfg->unk_14 * 32;
     } else {
-        if (sp18 > 0) {
-            sp18 = sp18 - spC;
-            sp1C = sp18 - (((struct gd_14_s32 *)sp0)->v * 32);
-        } else {
-            sp18 = sp18 + spC;
-            sp1C = sp18 + (((struct gd_14_s32 *)sp0)->v * 32);
-        }
+        sp18 += spC;
+        sp1C = sp18 + cfg->unk_14 * 32;
     }
-    sp20 = (((struct gd_14_s32 *)sp0)->v * 16) - 1;
-    sp24 = ((struct gd_14_s32 *)sp0)->v * -16;
-    sp28 = ((struct gd_3C_s32 *)sp4)->v + sp10;
-    if ((sp28 <= sp20) && (sp28 >= sp24)) {
-        (*(s32 *)arg0) = ((struct gd_3C_s32 *)sp4)->v + sp10;
+    max = cfg->unk_14 * 16 - 1;
+    min = cfg->unk_14 * -16;
+    sp28 = scroll->unk_3C + sp10;
+    if (sp28 <= max && sp28 >= min) {
+        *(s32 *)arg0 = scroll->unk_3C + sp10;
     } else {
-        (*(s32 *)arg0) = ((struct gd_3C_s32 *)sp4)->v + sp14;
+        *(s32 *)arg0 = scroll->unk_3C + sp14;
     }
-    ((struct gd_3C_s32 *)sp4)->v = *(s32 *)arg0;
-    if (((struct gd_C_s32 *)sp0)->v != 0) {
-        (*(s32 *)arg0) = (*(s32 *)arg0) << 1;
+    scroll->unk_3C = *(s32 *)arg0;
+    if (cfg->unk_0C != 0) {
+        *(s32 *)arg0 <<= 1;
     }
-    sp28 = ((struct gd_40_s32 *)sp4)->v + sp18;
-    if ((sp28 <= sp20) && (sp28 >= sp24)) {
-        (*(s32 *)arg1) = ((struct gd_40_s32 *)sp4)->v + sp18;
+    sp28 = scroll->unk_40 + sp18;
+    if (sp28 <= max && sp28 >= min) {
+        *(s32 *)arg1 = scroll->unk_40 + sp18;
     } else {
-        (*(s32 *)arg1) = ((struct gd_40_s32 *)sp4)->v + sp1C;
+        *(s32 *)arg1 = scroll->unk_40 + sp1C;
     }
-    ((struct gd_40_s32 *)sp4)->v = *(s32 *)arg1;
-    if (((struct gd_C_s32 *)sp0)->v != 0) {
-        (*(s32 *)arg1) = (*(s32 *)arg1) << 1;
+    scroll->unk_40 = *(s32 *)arg1;
+    if (cfg->unk_0C != 0) {
+        *(s32 *)arg1 <<= 1;
     }
 }

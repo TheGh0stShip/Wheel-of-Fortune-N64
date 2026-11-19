@@ -110,7 +110,7 @@
   "gp_relative": false,
   "hard": 0,
   "pin_conflicts": [],
-  "provided": 967,
+  "provided": 959,
   "stated": 22,
   "unresolved": [
    "_MakeMotorData",

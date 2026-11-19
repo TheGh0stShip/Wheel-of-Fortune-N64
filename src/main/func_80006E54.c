@@ -1,177 +1,160 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+typedef signed char s8;
+typedef unsigned char u8;
+typedef signed int s32;
 
-struct gd_8_s32 { u8 pad[0x8]; s32 v; };
-struct n64dk_a8004BB98 { s32 m0; s32 m4; s32 m8; };
-extern struct n64dk_a8004BB98 D_8004BB98[];
-struct n64dk_a800B9567 { s8 m0; u8 pad1[0x14]; };
-extern struct n64dk_a800B9567 D_800B9567[];
-struct n64dk_a800B960F { s8 m0; u8 pad1[0x14]; };
-extern struct n64dk_a800B960F D_800B960F[];
-struct n64dk_a800B9990 { s32 m0; u8 pad4[0x8]; s32 mC; u8 pad10[0xE8]; s32 mF8; u8 padFC[0x18]; };
-extern struct n64dk_a800B9990 D_800B9990[];
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+} Puzzle;
+
+typedef struct {
+    /* 0x00 */ s8 unk_00;
+    /* 0x01 */ u8 unk_01[0x14];
+} Row;
+
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ u8 unk_04[0x8];
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ u8 unk_10[0xE8];
+    /* 0xF8 */ s32 unk_F8;
+    /* 0xFC */ u8 unk_FC[0x18];
+} Player;
+
+extern Puzzle D_8004BB98[];
+extern Row D_800B9567[];
+extern Row D_800B960F[];
+extern Player D_800B9990[];
 extern s32 D_8004B9E0;
 extern s32 D_800B61D8;
 extern s8 D_800B9544;
 extern s8 D_800B9559[][21];
 extern u8 D_800B9601[][21];
-extern s8 D_800B9655;
+extern s8 D_800B9655[];
 extern s8 D_800B966A;
 extern s32 D_800BCD54;
-s32 func_80006828();
-s32 func_80009748();
-s32 func_80009900();
-s32 func_800099B0();
+void func_80006828(s32 arg0, s32 arg1, s32 arg2);
+s32 func_80009748(s32 arg0, s32 arg1, s32 arg2);
+s32 func_80009900(s32 arg0, s32 arg1);
+s32 func_800099B0(s32 arg0, s32 arg1);
 
 void func_80006E54(s32 arg0, s32 arg1) {
-    s32 sp10;
-    s32 sp14;
-    s32 sp18;
-    s32 sp1C;
-    s32 sp20;
-    s32 sp24;
-    s32 sp28;
-    s32 sp2C;
-    s32 sp30[26];
+    s32 line;
+    s32 len;
+    s32 col;
+    s32 maxLen;
+    s32 lines;
+    s32 indent;
+    s32 text;
+    s32 p;
+    s32 buf[26];
 
-    sp14 = 0;
-    while (!(sp14 >= 3)) {
-        D_800B9990[sp14].m0 = 0;
-        D_800B9990[sp14].mF8 = 0;
-        D_800B9990[sp14].mC = 0;
-        sp14++;
+    for (len = 0; len < 3; len++) {
+        D_800B9990[len].unk_00 = 0;
+        D_800B9990[len].unk_F8 = 0;
+        D_800B9990[len].unk_0C = 0;
     }
     D_800B9544 = 0;
-    D_800B9655 = 0;
+    D_800B9655[0] = 0;
     D_800B966A = 0;
-    sp10 = 0;
-    while (!(sp10 >= 4)) {
-        sp14 = 0;
-        while (!(sp14 >= 14)) {
-            D_800B9601[sp10][sp14] = 32;
-            D_800B9559[sp10][sp14] = 32;
-            sp14++;
+    for (line = 0; line < 4; line++) {
+        for (len = 0; len < 14; len++) {
+            D_800B9601[line][len] = 32;
+            D_800B9559[line][len] = 32;
         }
-        D_800B960F[sp10].m0 = 0;
-        D_800B9567[sp10].m0 = 0;
-        sp10++;
+        D_800B960F[line].unk_00 = 0;
+        D_800B9567[line].unk_00 = 0;
     }
     if (arg1 == 0) {
-        func_80009900(((s32)&D_800B9544), D_8004BB98[arg0].m4);
-        func_80006828(D_8004BB98[arg0].m0, ((s32)&sp30), 101);
-        sp28 = (s32)&sp30;
+        func_80009900((s32)&D_800B9544, D_8004BB98[arg0].unk_04);
+        func_80006828(D_8004BB98[arg0].unk_00, (s32)buf, 101);
+        text = (s32)buf;
         if (D_800BCD54 != 3) {
-            D_8004BB98[arg0].m8++;
+            D_8004BB98[arg0].unk_08++;
         }
         D_800B61D8 = arg0;
     } else {
-        sp28 = arg1;
+        text = arg1;
     }
-    sp1C = 0;
-    sp20 = 0;
-    sp2C = sp28;
-    sp10 = 0;
-    while (!(sp10 >= 4)) {
-        sp14 = func_800099B0(sp2C, 9) - sp2C;
-        if (sp14 != 0) {
-            sp20++;
-            if (sp14 > sp1C) {
-                sp1C = sp14;
+    maxLen = 0;
+    lines = 0;
+    p = text;
+    for (line = 0; line < 4; line++) {
+        len = func_800099B0(p, 9) - p;
+        if (len != 0) {
+            lines++;
+            if (len > maxLen) {
+                maxLen = len;
             }
         }
-        sp2C = (sp2C + 1) + sp14;
-        sp10++;
+        p = p + 1 + len;
     }
-    sp10 = 1;
-    if (sp20 >= 3) {
-        sp10 = 0;
+    line = 1;
+    if (lines >= 3) {
+        line = 0;
     }
-    sp24 = 1;
-    if (sp1C >= 14) {
-        sp24 = 0;
+    indent = 1;
+    if (maxLen >= 14) {
+        indent = 0;
     } else {
-        sp24 = 7 - (sp1C / 2);
+        indent = 7 - maxLen / 2;
     }
-    while (!((sp20--) <= 0)) {
-        while (!((sp14 = func_800099B0(sp28, 9) - sp28) != 0)) {
-            sp28++;
+    while (lines-- > 0) {
+        while ((len = func_800099B0(text, 9) - text) == 0) {
+            text++;
         }
-        sp14 = func_800099B0(sp28, 9) - sp28;
-        if (sp10 == 0) {
-            if (sp14 >= 13) {
-                if (sp20 < 3) {
-                    sp10 = 1;
+        len = func_800099B0(text, 9) - text;
+        if (line == 0) {
+            if (len >= 13) {
+                if (lines < 3) {
+                    line = 1;
                 }
             }
         }
-        if ((sp10 == 0) || (sp10 == 3)) {
-            sp18 = sp24 - 1;
+        if (line == 0 || line == 3) {
+            col = indent - 1;
         } else {
-            sp18 = sp24;
+            col = indent;
         }
-        if (sp18 < 0) {
-            sp18 = 0;
+        if (col < 0) {
+            col = 0;
         }
-        func_80009748(((((s32)&D_800B9601) + (sp10 * 21)) + sp18), sp28, sp14);
-        sp28 = (sp28 + 1) + sp14;
-        sp10++;
+        func_80009748((s32)&D_800B9601[line][col], text, len);
+        text = text + 1 + len;
+        line++;
     }
-    sp14 = func_800099B0(sp28, 10) - sp28;
-    func_80009748(((s32)&D_800B9655), sp28, sp14);
-    (*(s8 *)(sp14 + ((s32)&D_800B9655))) = 0;
-    func_80009900(((s32)&D_800B966A), ((s32)&D_8004B9E0));
-    sp10 = 0;
-    while (!(sp10 >= 4)) {
-        sp14 = 0;
-        while (!(sp14 >= 14)) {
-            switch (D_800B9601[sp10][sp14]) {
-            case 32:
-                D_800B9559[sp10][sp14] = 32;
+    len = func_800099B0(text, 10) - text;
+    func_80009748((s32)D_800B9655, text, len);
+    D_800B9655[len] = 0;
+    func_80009900((s32)&D_800B966A, (s32)&D_8004B9E0);
+    for (line = 0; line < 4; line++) {
+        for (len = 0; len < 14; len++) {
+            switch (D_800B9601[line][len]) {
+            case ' ':
+                D_800B9559[line][len] = ' ';
                 break;
-            case 39:
-                D_800B9559[sp10][sp14] = 39;
+            case '\'':
+                D_800B9559[line][len] = '\'';
                 break;
-            case 38:
-                D_800B9559[sp10][sp14] = 38;
+            case '&':
+                D_800B9559[line][len] = '&';
                 break;
-            case 46:
-                D_800B9559[sp10][sp14] = 46;
+            case '.':
+                D_800B9559[line][len] = '.';
                 break;
-            case 45:
-                D_800B9559[sp10][sp14] = 45;
+            case '-':
+                D_800B9559[line][len] = '-';
                 break;
-            case 47:
-                D_800B9559[sp10][sp14] = 47;
+            case '/':
+                D_800B9559[line][len] = '/';
                 break;
-            case 63:
-                D_800B9559[sp10][sp14] = 63;
+            case '?':
+                D_800B9559[line][len] = '?';
                 break;
             default:
-                D_800B9559[sp10][sp14] = 43;
+                D_800B9559[line][len] = '+';
             }
-            sp14++;
         }
-        sp10++;
     }
 }

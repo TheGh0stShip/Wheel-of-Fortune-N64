@@ -1,6 +1,6 @@
 # Wheel of Fortune (Nintendo 64) — 100% decompiled and byte-identical
 
-Complete matching-source reconstruction of the USA release. Every catalogued function is reproduced from reviewed C, compiler-runtime source, or original assembly; all 618 source units relink into a cartridge that is byte-identical to the retail ROM. No raw function stand-ins remain.
+Complete matching-source reconstruction of the USA release. Every catalogued function is reproduced from machine-generated C that was subsequently cleaned and byte-verified, compiler-runtime source, or original assembly. All 618 source units relink into a cartridge that is byte-identical to the retail ROM; no raw function stand-ins remain.
 
 | Completion metric | Verified | Catalogued | Progress |
 |---|---:|---:|---:|
@@ -17,6 +17,8 @@ Complete matching-source reconstruction of the USA release. Every catalogued fun
 [![Matching C bytes](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64.svg?version=usa-catalogued&category=catalogued-code&measure=matched_code_percent&label=Matching%20C%20bytes)](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64/usa-catalogued)
 
 On ByteMatch, **Units complete: 775 of 775** and **Fully linked: 100.00%** are the completion measurements. Gray segments in its unit heat map denote exact assembly/runtime source excluded from the ordinary-C score; they do not denote missing or raw functions. ByteMatch's fuzzy score is a lower bound based on exact C matches because partial similarity is unmeasured.
+
+The matching C is not presented as fully human-reviewed or portable source. A byte-preserving cleanup removed all 442 pasted m2c compatibility preludes and substantially reduced lifted types, casts, empty prototypes, helper structs, and control-flow scaffolding. Remaining type recovery and shared-header work is recorded in the [source-cleanup report](docs/source-cleanup.md).
 
 - ROM SHA-1 `b51b28660699bf029f862f51c319a5962fe9de9b`
 - ROM size 4,194,304 bytes

@@ -1,52 +1,35 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+typedef unsigned char u8;
+typedef signed int s32;
 
-struct n64dk_a8005C718 { s32 m0; s32 m4; s32 m8; u8 padC[0xC]; s32 m18; s32 m1C; s32 m20; };
-extern struct n64dk_a8005C718 D_8005C718[];
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ u8 unk_0C[0xC];
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ s32 unk_1C;
+    /* 0x20 */ s32 unk_20;
+} Entry;
+
+extern Entry D_8005C718[];
 extern s32 D_800B96AC;
 extern s32 D_800BCA60;
-s32 func_8000B924();
-s32 func_8000B978();
-s32 func_80021B4C();
+s32 func_8000B924(s32 arg0);
+s32 func_8000B978(void);
+void func_80021B4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 void func_80033334(void) {
     s32 pad0[2];
-    s32 sp18;
-    s32 sp1C;
+    s32 i;
+    s32 size;
     s32 sp20;
 
     sp20 = 0x2000000;
     D_800BCA60 = func_8000B978();
-    sp18 = 0;
-    for (;;) {
-        if (sp18 >= 6) {
-            break;
-        }
-        sp1C = (D_8005C718[sp18].m0 * D_8005C718[sp18].m4) * 2;
-        D_8005C718[sp18].m18 = func_8000B924((sp1C * D_8005C718[sp18].m8));
-        func_80021B4C(D_8005C718[sp18].m1C, D_8005C718[sp18].m8, D_8005C718[sp18].m18, D_8005C718[sp18].m20);
-        sp18++;
+    for (i = 0; i < 6; i++) {
+        size = D_8005C718[i].unk_00 * D_8005C718[i].unk_04 * 2;
+        D_8005C718[i].unk_18 = func_8000B924(size * D_8005C718[i].unk_08);
+        func_80021B4C(D_8005C718[i].unk_1C, D_8005C718[i].unk_08, D_8005C718[i].unk_18, D_8005C718[i].unk_20);
     }
     D_800B96AC = 0;
 }

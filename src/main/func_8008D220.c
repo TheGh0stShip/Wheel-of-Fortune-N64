@@ -1,90 +1,88 @@
-#ifndef N64DK_M2C_PRELUDE
-#define N64DK_M2C_PRELUDE
-typedef signed char s8; typedef unsigned char u8; typedef signed short s16; typedef unsigned short u16;
-typedef signed int s32; typedef unsigned int u32; typedef signed long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
-typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_BITWISE(type, expr) ((type)(expr))
-/* unhandled instructions become calls to an unprototyped function: any argument list compiles */
-extern s32 m2c_unhandled();
-#define M2C_ERROR m2c_unhandled
-#define M2C_TRAP_IF m2c_unhandled
-#define M2C_BREAK m2c_unhandled
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-#define MULT_HI(a, b) ((s32)(((s64)(a) * (s64)(b)) >> 32))
-#define MULTU_HI(a, b) ((u32)(((u64)(a) * (u64)(b)) >> 32))
-#define M2C_CARRY 0
-#ifndef NULL
-#define NULL ((void *)0)
-#endif
-#endif
+typedef unsigned char u8;
+typedef signed int s32;
+typedef unsigned int u32;
 
-struct gd_8_s32 { u8 pad[0x8]; s32 v; };
-struct gd_C_s32 { u8 pad[0xC]; s32 v; };
-struct gd_D0_s32 { u8 pad[0xD0]; s32 v; };
-struct gd_DC_s32 { u8 pad[0xDC]; s32 v; };
-struct gd_E0_s32 { u8 pad[0xE0]; s32 v; };
-struct gd_E8_s32 { u8 pad[0xE8]; s32 v; };
-struct gd_EC_s32 { u8 pad[0xEC]; s32 v; };
-struct gd_100_s32 { u8 pad[0x100]; s32 v; };
-struct gd_108_s32 { u8 pad[0x108]; s32 v; };
-struct gd_10C_s32 { u8 pad[0x10C]; s32 v; };
-struct gd_110_s32 { u8 pad[0x110]; s32 v; };
-struct gd_114_s32 { u8 pad[0x114]; s32 v; };
-struct gd_118_s32 { u8 pad[0x118]; s32 v; };
-struct gd_11C_s32 { u8 pad[0x11C]; s32 v; };
-struct gd_120_s32 { u8 pad[0x120]; s32 v; };
-struct gd_124_s32 { u8 pad[0x124]; s32 v; };
-struct gd_128_s32 { u8 pad[0x128]; s32 v; };
-struct gd_12C_s32 { u8 pad[0x12C]; s32 v; };
-struct gd_130_s32 { u8 pad[0x130]; s32 v; };
-struct gd_134_s32 { u8 pad[0x134]; s32 v; };
-struct gd_138_s32 { u8 pad[0x138]; s32 v; };
-struct gd_13C_s32 { u8 pad[0x13C]; s32 v; };
-struct gd_140_s32 { u8 pad[0x140]; s32 v; };
-struct gd_144_s32 { u8 pad[0x144]; s32 v; };
-struct gd_148_s32 { u8 pad[0x148]; s32 v; };
-struct gd_14C_s32 { u8 pad[0x14C]; s32 v; };
-struct gd_150_s32 { u8 pad[0x150]; s32 v; };
-struct gd_1E0_s32 { u8 pad[0x1E0]; s32 v; };
-struct gd_1E4_s32 { u8 pad[0x1E4]; s32 v; };
-struct gd_1E8_s32 { u8 pad[0x1E8]; s32 v; };
-struct gd_234_s32 { u8 pad[0x234]; s32 v; };
-struct gd_240_s32 { u8 pad[0x240]; s32 v; };
-struct n64dk_e4 { u8 b[4]; };
-struct n64dk_p1E4_4 { u8 pad[0x1E4]; struct n64dk_e4 *v; };
-struct n64dk_a80085320 { s32 m0; s32 m4; };
-extern struct n64dk_a80085320 D_80085320[];
-struct n64dk_a800FF2F8 { s32 m0; s32 m4; };
-extern struct n64dk_a800FF2F8 D_800FF2F8[];
-struct n64dk_a80103480 { s32 m0; s32 m4; };
-extern struct n64dk_a80103480 D_80103480[];
-struct n64dk_a801078A0 { s32 m0; s32 m4; s32 m8; s32 mC; s32 m10; s32 m14; };
-extern struct n64dk_a801078A0 D_801078A0[];
-struct n64dk_a80107EA0 { s32 m0; s32 m4; s32 m8; s32 mC; s32 m10; s32 m14; };
-extern struct n64dk_a80107EA0 D_80107EA0[];
-extern s32 D_80085108;
-extern s32 D_80085310;
-s32 func_800887D8();
-s32 func_8008F3AC();
-s32 func_8008F828();
-s32 func_80091684();
-s32 func_800933BC();
-s32 func_80094064();
-s32 func_80094578();
-s32 func_800964D0();
-s32 func_800998E0();
-s32 func_80099C8C();
-s32 func_800A4CBC();
+typedef struct {
+    /* 0x000 */ u8 unk_000[0x8];
+    /* 0x008 */ s32 unk_08;
+    /* 0x00C */ s32 unk_0C;
+    /* 0x010 */ u8 unk_010[0xC0];
+    /* 0x0D0 */ s32 unk_D0;
+    /* 0x0D4 */ u8 unk_0D4[0x8];
+    /* 0x0DC */ s32 unk_DC;
+    /* 0x0E0 */ s32 unk_E0;
+    /* 0x0E4 */ u8 unk_0E4[0x4];
+    /* 0x0E8 */ s32 unk_E8;
+    /* 0x0EC */ s32 unk_EC;
+    /* 0x0F0 */ u8 unk_0F0[0x10];
+    /* 0x100 */ s32 unk_100;
+    /* 0x104 */ u8 unk_104[0x4];
+    /* 0x108 */ s32 unk_108;
+    /* 0x10C */ s32 unk_10C;
+    /* 0x110 */ s32 unk_110;
+    /* 0x114 */ s32 unk_114;
+    /* 0x118 */ s32 unk_118;
+    /* 0x11C */ s32 unk_11C;
+    /* 0x120 */ s32 unk_120;
+    /* 0x124 */ s32 unk_124;
+    /* 0x128 */ s32 unk_128;
+    /* 0x12C */ s32 unk_12C;
+    /* 0x130 */ s32 unk_130;
+    /* 0x134 */ s32 unk_134;
+    /* 0x138 */ s32 unk_138;
+    /* 0x13C */ s32 unk_13C;
+    /* 0x140 */ s32 unk_140;
+    /* 0x144 */ s32 unk_144;
+    /* 0x148 */ s32 unk_148;
+    /* 0x14C */ s32 unk_14C;
+    /* 0x150 */ s32 unk_150;
+    /* 0x154 */ u8 unk_154[0x8C];
+    /* 0x1E0 */ s32 bitPos;
+    /* 0x1E4 */ s32 *ptr;
+    /* 0x1E8 */ s32 wordsLeft;
+    /* 0x1EC */ u8 unk_1EC[0x48];
+    /* 0x234 */ s32 bits;
+    /* 0x238 */ u8 unk_238[0x8];
+    /* 0x240 */ s32 unk_240;
+} Stream;
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+} Pair;
+
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 unk_10;
+    /* 0x14 */ s32 unk_14;
+} Code;
+
+extern Pair D_80085320[];
+extern Pair D_800FF2F8[];
+extern Pair D_80103480[];
+extern Code D_801078A0[];
+extern Code D_80107EA0[];
+extern s32 D_80085108[];
+extern s32 D_80085310[];
+void func_800887D8(s32 arg0);
+void func_8008F3AC(s32 arg0, s32 arg1);
+void func_8008F828(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+void func_80091684(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+void func_800933BC(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+void func_80094064(s32 arg0);
+void func_80094578(s32 arg0);
+void func_800964D0(s32 arg0, s32 arg1);
+void func_800998E0(s32 arg0, s32 arg1, s32 arg2);
+void func_80099C8C(s32 arg0, s32 arg1, s32 arg2);
+void func_800A4CBC(s32 arg0);
 
 s32 func_8008D220(s32 arg0) {
     s32 sp20;
     s32 sp24;
-    s32 sp28;
-    s32 sp2C;
+    s32 mask;
+    s32 i;
     s32 sp30;
     s32 sp34;
     s32 sp38;
@@ -105,489 +103,473 @@ s32 func_8008D220(s32 arg0) {
     sp4C = 0;
     sp50 = 0;
     sp54 = 0;
-    sp58 = ((struct gd_240_s32 *)arg0)->v;
-    for (;;) {
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+    sp58 = ((Stream *)arg0)->unk_240;
+    do {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        sp60 = ((struct gd_1E0_s32 *)arg0)->v + 11;
+        sp60 = ((Stream *)arg0)->bitPos + 11;
         if (sp60 >= 33) {
             sp60 = sp60 - 32;
-            sp5C = ((u32)(((struct gd_234_s32 *)arg0)->v & 0xFFE00000) >> 21) | ((u32)(*(s32 *)(((struct gd_1E4_s32 *)arg0)->v + 4)) >> (u32)(32 - sp60));
+            sp5C = ((u32)(((Stream *)arg0)->bits & 0xFFE00000) >> 21) | ((u32)((Stream *)arg0)->ptr[1] >> (u32)(32 - sp60));
         } else {
-            sp5C = (u32)(((struct gd_234_s32 *)arg0)->v & 0xFFE00000) >> 21;
+            sp5C = (u32)(((Stream *)arg0)->bits & 0xFFE00000) >> 21;
         }
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        sp64 = ((struct gd_1E0_s32 *)arg0)->v + 11;
+        sp64 = ((Stream *)arg0)->bitPos + 11;
         if (sp64 >= 33) {
             sp64 = sp64 - 32;
-            sp60 = ((u32)(((struct gd_234_s32 *)arg0)->v & 0xFFE00000) >> 21) | ((u32)(*(s32 *)(((struct gd_1E4_s32 *)arg0)->v + 4)) >> (u32)(32 - sp64));
+            sp60 = ((u32)(((Stream *)arg0)->bits & 0xFFE00000) >> 21) | ((u32)((Stream *)arg0)->ptr[1] >> (u32)(32 - sp64));
         } else {
-            sp60 = (u32)(((struct gd_234_s32 *)arg0)->v & 0xFFE00000) >> 21;
+            sp60 = (u32)(((Stream *)arg0)->bits & 0xFFE00000) >> 21;
         }
-        sp20 = D_80103480[sp60].m0;
+        sp20 = D_80103480[sp60].unk_00;
         if (arg0 == 0) {
         }
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + D_80103480[sp60].m4;
-        if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-            ((struct gd_1E8_s32 *)arg0)->v--;
-            ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-            ((struct n64dk_p1E4_4 *)arg0)->v++;
-            ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+        ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + D_80103480[sp60].unk_04;
+        if (((Stream *)arg0)->bitPos & 32) {
+            ((Stream *)arg0)->wordsLeft--;
+            ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+            ((Stream *)arg0)->ptr++;
+            ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
         } else {
-            ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << D_80103480[sp60].m4;
+            ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << D_80103480[sp60].unk_04;
         }
-        if (D_80103480[sp5C].m4 == 0) {
+        if (D_80103480[sp5C].unk_04 == 0) {
             sp20 = 1;
         }
         if (sp20 == 35) {
-            ((struct gd_108_s32 *)arg0)->v = ((struct gd_108_s32 *)arg0)->v + 33;
+            ((Stream *)arg0)->unk_108 = ((Stream *)arg0)->unk_108 + 33;
             sp20 = 34;
         }
-        if (sp20 != 34) {
-            break;
-        }
-    }
-    ((struct gd_108_s32 *)arg0)->v = ((struct gd_108_s32 *)arg0)->v + sp20;
-    if ((u32)((struct gd_108_s32 *)arg0)->v > (u32)((((struct gd_8_s32 *)arg0)->v * ((struct gd_C_s32 *)arg0)->v) - 1)) {
+    } while (sp20 == 34);
+    ((Stream *)arg0)->unk_108 = ((Stream *)arg0)->unk_108 + sp20;
+    if ((u32)((Stream *)arg0)->unk_108 > (u32)(((Stream *)arg0)->unk_08 * ((Stream *)arg0)->unk_0C - 1)) {
         return -1;
     }
-    if ((((struct gd_108_s32 *)arg0)->v - ((struct gd_10C_s32 *)arg0)->v) >= 2) {
-        if (((struct gd_D0_s32 *)arg0)->v == 2) {
+    if (((Stream *)arg0)->unk_108 - ((Stream *)arg0)->unk_10C >= 2) {
+        if (((Stream *)arg0)->unk_D0 == 2) {
             func_80094064(arg0);
-        } else {
-            if (((struct gd_D0_s32 *)arg0)->v == 3) {
-                func_80094578(arg0);
-            }
+        } else if (((Stream *)arg0)->unk_D0 == 3) {
+            func_80094578(arg0);
         }
     }
-    ((struct gd_10C_s32 *)arg0)->v = ((struct gd_108_s32 *)arg0)->v;
-    switch ((u32)((struct gd_D0_s32 *)arg0)->v) {
+    ((Stream *)arg0)->unk_10C = ((Stream *)arg0)->unk_108;
+    switch ((u32)((Stream *)arg0)->unk_D0) {
     case 1:
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        sp60 = ((struct gd_1E0_s32 *)arg0)->v + 2;
+        sp60 = ((Stream *)arg0)->bitPos + 2;
         if (sp60 >= 33) {
             sp60 = sp60 - 32;
-            sp64 = ((u32)(((struct gd_234_s32 *)arg0)->v & 0xC0000000) >> 30) | ((u32)(*(s32 *)(((struct gd_1E4_s32 *)arg0)->v + 4)) >> (u32)(32 - sp60));
+            sp64 = ((u32)(((Stream *)arg0)->bits & 0xC0000000) >> 30) | ((u32)((Stream *)arg0)->ptr[1] >> (u32)(32 - sp60));
         } else {
-            sp64 = (u32)(((struct gd_234_s32 *)arg0)->v & 0xC0000000) >> 30;
+            sp64 = (u32)(((Stream *)arg0)->bits & 0xC0000000) >> 30;
         }
         sp48 = 0;
         sp4C = 0;
         sp50 = 0;
-        ((struct gd_134_s32 *)arg0)->v = 1;
-        sp44 = *(s32 *)((sp64 * 4) + ((s32)&D_80085310));
+        ((Stream *)arg0)->unk_134 = 1;
+        sp44 = D_80085310[sp64];
         if (sp64 != 0) {
             if (arg0 == 0) {
             }
-            if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+            if (((Stream *)arg0)->wordsLeft < 2) {
                 func_800887D8(arg0);
             }
-            ((struct gd_1E0_s32 *)arg0)->v += sp44 + 1;
-            if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-                ((struct gd_1E8_s32 *)arg0)->v--;
-                ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-                ((struct n64dk_p1E4_4 *)arg0)->v++;
-                ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+            ((Stream *)arg0)->bitPos += sp44 + 1;
+            if (((Stream *)arg0)->bitPos & 32) {
+                ((Stream *)arg0)->wordsLeft--;
+                ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+                ((Stream *)arg0)->ptr++;
+                ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
             } else {
-                ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << (sp44 + 1);
+                ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << (sp44 + 1);
             }
         }
         break;
     case 2:
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        sp60 = ((struct gd_1E0_s32 *)arg0)->v + 6;
+        sp60 = ((Stream *)arg0)->bitPos + 6;
         if (sp60 >= 33) {
             sp60 = sp60 - 32;
-            sp64 = ((u32)(((struct gd_234_s32 *)arg0)->v & 0xFC000000) >> 26) | ((u32)(*(s32 *)(((struct gd_1E4_s32 *)arg0)->v + 4)) >> (u32)(32 - sp60));
+            sp64 = ((u32)(((Stream *)arg0)->bits & 0xFC000000) >> 26) | ((u32)((Stream *)arg0)->ptr[1] >> (u32)(32 - sp60));
         } else {
-            sp64 = (u32)(((struct gd_234_s32 *)arg0)->v & 0xFC000000) >> 26;
+            sp64 = (u32)(((Stream *)arg0)->bits & 0xFC000000) >> 26;
         }
-        sp44 = D_80107EA0[sp64].m0;
-        sp48 = D_80107EA0[sp64].m4;
-        sp4C = D_80107EA0[sp64].m8;
-        sp50 = D_80107EA0[sp64].mC;
-        ((struct gd_134_s32 *)arg0)->v = D_80107EA0[sp64].m10;
+        sp44 = D_80107EA0[sp64].unk_00;
+        sp48 = D_80107EA0[sp64].unk_04;
+        sp4C = D_80107EA0[sp64].unk_08;
+        sp50 = D_80107EA0[sp64].unk_0C;
+        ((Stream *)arg0)->unk_134 = D_80107EA0[sp64].unk_10;
         if (arg0 == 0) {
         }
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + D_80107EA0[sp64].m14;
-        if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-            ((struct gd_1E8_s32 *)arg0)->v--;
-            ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-            ((struct n64dk_p1E4_4 *)arg0)->v++;
-            ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+        ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + D_80107EA0[sp64].unk_14;
+        if (((Stream *)arg0)->bitPos & 32) {
+            ((Stream *)arg0)->wordsLeft--;
+            ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+            ((Stream *)arg0)->ptr++;
+            ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
         } else {
-            ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << D_80107EA0[sp64].m14;
+            ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << D_80107EA0[sp64].unk_14;
         }
         break;
     case 3:
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        sp60 = ((struct gd_1E0_s32 *)arg0)->v + 6;
+        sp60 = ((Stream *)arg0)->bitPos + 6;
         if (sp60 >= 33) {
             sp60 = sp60 - 32;
-            sp64 = ((u32)(((struct gd_234_s32 *)arg0)->v & 0xFC000000) >> 26) | ((u32)(*(s32 *)(((struct gd_1E4_s32 *)arg0)->v + 4)) >> (u32)(32 - sp60));
+            sp64 = ((u32)(((Stream *)arg0)->bits & 0xFC000000) >> 26) | ((u32)((Stream *)arg0)->ptr[1] >> (u32)(32 - sp60));
         } else {
-            sp64 = (u32)(((struct gd_234_s32 *)arg0)->v & 0xFC000000) >> 26;
+            sp64 = (u32)(((Stream *)arg0)->bits & 0xFC000000) >> 26;
         }
-        sp44 = D_801078A0[sp64].m0;
-        sp48 = D_801078A0[sp64].m4;
-        sp4C = D_801078A0[sp64].m8;
-        sp50 = D_801078A0[sp64].mC;
-        ((struct gd_134_s32 *)arg0)->v = D_801078A0[sp64].m10;
+        sp44 = D_801078A0[sp64].unk_00;
+        sp48 = D_801078A0[sp64].unk_04;
+        sp4C = D_801078A0[sp64].unk_08;
+        sp50 = D_801078A0[sp64].unk_0C;
+        ((Stream *)arg0)->unk_134 = D_801078A0[sp64].unk_10;
         if (arg0 == 0) {
         }
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + D_801078A0[sp64].m14;
-        if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-            ((struct gd_1E8_s32 *)arg0)->v--;
-            ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-            ((struct n64dk_p1E4_4 *)arg0)->v++;
-            ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+        ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + D_801078A0[sp64].unk_14;
+        if (((Stream *)arg0)->bitPos & 32) {
+            ((Stream *)arg0)->wordsLeft--;
+            ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+            ((Stream *)arg0)->ptr++;
+            ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
         } else {
-            ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << D_801078A0[sp64].m14;
+            ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << D_801078A0[sp64].unk_14;
         }
         break;
     case 4:
         func_800A4CBC(1);
     }
     if (sp44 == 1) {
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + 5;
-        if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-            ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-            ((struct n64dk_p1E4_4 *)arg0)->v++;
-            ((struct gd_1E8_s32 *)arg0)->v--;
-            if (((struct gd_1E0_s32 *)arg0)->v != 0) {
-                ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v | ((u32)(*(s32 *)((struct gd_1E4_s32 *)arg0)->v) >> (u32)(5 - ((struct gd_1E0_s32 *)arg0)->v));
+        ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + 5;
+        if (((Stream *)arg0)->bitPos & 32) {
+            ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+            ((Stream *)arg0)->ptr++;
+            ((Stream *)arg0)->wordsLeft--;
+            if (((Stream *)arg0)->bitPos != 0) {
+                ((Stream *)arg0)->bits = ((Stream *)arg0)->bits | ((u32)*((Stream *)arg0)->ptr >> (u32)(5 - ((Stream *)arg0)->bitPos));
             }
-            sp24 = (u32)(((struct gd_234_s32 *)arg0)->v & 0xF8000000) >> 27;
-            ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+            sp24 = (u32)(((Stream *)arg0)->bits & 0xF8000000) >> 27;
+            ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
         } else {
-            sp24 = (u32)(((struct gd_234_s32 *)arg0)->v & 0xF8000000) >> 27;
-            ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << 5;
+            sp24 = (u32)(((Stream *)arg0)->bits & 0xF8000000) >> 27;
+            ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << 5;
         }
-        ((struct gd_100_s32 *)arg0)->v = sp24;
+        ((Stream *)arg0)->unk_100 = sp24;
     }
     if (sp48 == 1) {
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        sp60 = ((struct gd_1E0_s32 *)arg0)->v + 11;
+        sp60 = ((Stream *)arg0)->bitPos + 11;
         if (sp60 >= 33) {
             sp60 = sp60 - 32;
-            sp64 = ((u32)(((struct gd_234_s32 *)arg0)->v & 0xFFE00000) >> 21) | ((u32)(*(s32 *)(((struct gd_1E4_s32 *)arg0)->v + 4)) >> (u32)(32 - sp60));
+            sp64 = ((u32)(((Stream *)arg0)->bits & 0xFFE00000) >> 21) | ((u32)((Stream *)arg0)->ptr[1] >> (u32)(32 - sp60));
         } else {
-            sp64 = (u32)(((struct gd_234_s32 *)arg0)->v & 0xFFE00000) >> 21;
+            sp64 = (u32)(((Stream *)arg0)->bits & 0xFFE00000) >> 21;
         }
-        ((struct gd_110_s32 *)arg0)->v = D_800FF2F8[sp64].m0;
+        ((Stream *)arg0)->unk_110 = D_800FF2F8[sp64].unk_00;
         if (arg0 == 0) {
         }
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + D_800FF2F8[sp64].m4;
-        if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-            ((struct gd_1E8_s32 *)arg0)->v--;
-            ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-            ((struct n64dk_p1E4_4 *)arg0)->v++;
-            ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+        ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + D_800FF2F8[sp64].unk_04;
+        if (((Stream *)arg0)->bitPos & 32) {
+            ((Stream *)arg0)->wordsLeft--;
+            ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+            ((Stream *)arg0)->ptr++;
+            ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
         } else {
-            ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << D_800FF2F8[sp64].m4;
+            ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << D_800FF2F8[sp64].unk_04;
         }
-        if (((struct gd_E0_s32 *)arg0)->v != 1) {
-            if (((struct gd_110_s32 *)arg0)->v != 0) {
-                if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->unk_E0 != 1) {
+            if (((Stream *)arg0)->unk_110 != 0) {
+                if (((Stream *)arg0)->wordsLeft < 2) {
                     func_800887D8(arg0);
                 }
-                ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + ((struct gd_DC_s32 *)arg0)->v;
-                if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-                    ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-                    ((struct n64dk_p1E4_4 *)arg0)->v++;
-                    ((struct gd_1E8_s32 *)arg0)->v--;
-                    if (((struct gd_1E0_s32 *)arg0)->v != 0) {
-                        ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v | ((u32)(*(s32 *)((struct gd_1E4_s32 *)arg0)->v) >> (u32)(((struct gd_DC_s32 *)arg0)->v - ((struct gd_1E0_s32 *)arg0)->v));
+                ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + ((Stream *)arg0)->unk_DC;
+                if (((Stream *)arg0)->bitPos & 32) {
+                    ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+                    ((Stream *)arg0)->ptr++;
+                    ((Stream *)arg0)->wordsLeft--;
+                    if (((Stream *)arg0)->bitPos != 0) {
+                        ((Stream *)arg0)->bits = ((Stream *)arg0)->bits | ((u32)*((Stream *)arg0)->ptr >> (u32)(((Stream *)arg0)->unk_DC - ((Stream *)arg0)->bitPos));
                     }
-                    sp24 = (u32)(((struct gd_234_s32 *)arg0)->v & (*(s32 *)((((struct gd_DC_s32 *)arg0)->v * 4) + ((s32)&D_80085108)))) >> (u32)(32 - ((struct gd_DC_s32 *)arg0)->v);
-                    ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+                    sp24 = (u32)(((Stream *)arg0)->bits & (*(s32 *)((((Stream *)arg0)->unk_DC * 4) + (s32)&D_80085108))) >> (u32)(32 - ((Stream *)arg0)->unk_DC);
+                    ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
                 } else {
-                    sp24 = (u32)(((struct gd_234_s32 *)arg0)->v & (*(s32 *)((((struct gd_DC_s32 *)arg0)->v * 4) + ((s32)&D_80085108)))) >> (u32)(32 - ((struct gd_DC_s32 *)arg0)->v);
-                    ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << ((struct gd_DC_s32 *)arg0)->v;
+                    sp24 = (u32)(((Stream *)arg0)->bits & (*(s32 *)((((Stream *)arg0)->unk_DC * 4) + (s32)&D_80085108))) >> (u32)(32 - ((Stream *)arg0)->unk_DC);
+                    ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << ((Stream *)arg0)->unk_DC;
                 }
-                ((struct gd_114_s32 *)arg0)->v = sp24;
+                ((Stream *)arg0)->unk_114 = sp24;
             }
         }
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        sp60 = ((struct gd_1E0_s32 *)arg0)->v + 11;
+        sp60 = ((Stream *)arg0)->bitPos + 11;
         if (sp60 >= 33) {
             sp60 = sp60 - 32;
-            sp64 = ((u32)(((struct gd_234_s32 *)arg0)->v & 0xFFE00000) >> 21) | ((u32)(*(s32 *)(((struct gd_1E4_s32 *)arg0)->v + 4)) >> (u32)(32 - sp60));
+            sp64 = ((u32)(((Stream *)arg0)->bits & 0xFFE00000) >> 21) | ((u32)((Stream *)arg0)->ptr[1] >> (u32)(32 - sp60));
         } else {
-            sp64 = (u32)(((struct gd_234_s32 *)arg0)->v & 0xFFE00000) >> 21;
+            sp64 = (u32)(((Stream *)arg0)->bits & 0xFFE00000) >> 21;
         }
-        ((struct gd_118_s32 *)arg0)->v = D_800FF2F8[sp64].m0;
+        ((Stream *)arg0)->unk_118 = D_800FF2F8[sp64].unk_00;
         if (arg0 == 0) {
         }
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + D_800FF2F8[sp64].m4;
-        if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-            ((struct gd_1E8_s32 *)arg0)->v--;
-            ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-            ((struct n64dk_p1E4_4 *)arg0)->v++;
-            ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+        ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + D_800FF2F8[sp64].unk_04;
+        if (((Stream *)arg0)->bitPos & 32) {
+            ((Stream *)arg0)->wordsLeft--;
+            ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+            ((Stream *)arg0)->ptr++;
+            ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
         } else {
-            ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << D_800FF2F8[sp64].m4;
+            ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << D_800FF2F8[sp64].unk_04;
         }
-        if (((struct gd_E0_s32 *)arg0)->v != 1) {
-            if (((struct gd_118_s32 *)arg0)->v != 0) {
-                if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->unk_E0 != 1) {
+            if (((Stream *)arg0)->unk_118 != 0) {
+                if (((Stream *)arg0)->wordsLeft < 2) {
                     func_800887D8(arg0);
                 }
-                ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + ((struct gd_DC_s32 *)arg0)->v;
-                if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-                    ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-                    ((struct n64dk_p1E4_4 *)arg0)->v++;
-                    ((struct gd_1E8_s32 *)arg0)->v--;
-                    if (((struct gd_1E0_s32 *)arg0)->v != 0) {
-                        ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v | ((u32)(*(s32 *)((struct gd_1E4_s32 *)arg0)->v) >> (u32)(((struct gd_DC_s32 *)arg0)->v - ((struct gd_1E0_s32 *)arg0)->v));
+                ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + ((Stream *)arg0)->unk_DC;
+                if (((Stream *)arg0)->bitPos & 32) {
+                    ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+                    ((Stream *)arg0)->ptr++;
+                    ((Stream *)arg0)->wordsLeft--;
+                    if (((Stream *)arg0)->bitPos != 0) {
+                        ((Stream *)arg0)->bits = ((Stream *)arg0)->bits | ((u32)*((Stream *)arg0)->ptr >> (u32)(((Stream *)arg0)->unk_DC - ((Stream *)arg0)->bitPos));
                     }
-                    sp24 = (u32)(((struct gd_234_s32 *)arg0)->v & (*(s32 *)((((struct gd_DC_s32 *)arg0)->v * 4) + ((s32)&D_80085108)))) >> (u32)(32 - ((struct gd_DC_s32 *)arg0)->v);
-                    ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+                    sp24 = (u32)(((Stream *)arg0)->bits & (*(s32 *)((((Stream *)arg0)->unk_DC * 4) + (s32)&D_80085108))) >> (u32)(32 - ((Stream *)arg0)->unk_DC);
+                    ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
                 } else {
-                    sp24 = (u32)(((struct gd_234_s32 *)arg0)->v & (*(s32 *)((((struct gd_DC_s32 *)arg0)->v * 4) + ((s32)&D_80085108)))) >> (u32)(32 - ((struct gd_DC_s32 *)arg0)->v);
-                    ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << ((struct gd_DC_s32 *)arg0)->v;
+                    sp24 = (u32)(((Stream *)arg0)->bits & (*(s32 *)((((Stream *)arg0)->unk_DC * 4) + (s32)&D_80085108))) >> (u32)(32 - ((Stream *)arg0)->unk_DC);
+                    ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << ((Stream *)arg0)->unk_DC;
                 }
-                ((struct gd_11C_s32 *)arg0)->v = sp24;
+                ((Stream *)arg0)->unk_11C = sp24;
             }
         }
     }
     if (sp4C == 1) {
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        sp60 = ((struct gd_1E0_s32 *)arg0)->v + 11;
+        sp60 = ((Stream *)arg0)->bitPos + 11;
         if (sp60 >= 33) {
             sp60 = sp60 - 32;
-            sp64 = ((u32)(((struct gd_234_s32 *)arg0)->v & 0xFFE00000) >> 21) | ((u32)(*(s32 *)(((struct gd_1E4_s32 *)arg0)->v + 4)) >> (u32)(32 - sp60));
+            sp64 = ((u32)(((Stream *)arg0)->bits & 0xFFE00000) >> 21) | ((u32)((Stream *)arg0)->ptr[1] >> (u32)(32 - sp60));
         } else {
-            sp64 = (u32)(((struct gd_234_s32 *)arg0)->v & 0xFFE00000) >> 21;
+            sp64 = (u32)(((Stream *)arg0)->bits & 0xFFE00000) >> 21;
         }
-        ((struct gd_120_s32 *)arg0)->v = D_800FF2F8[sp64].m0;
+        ((Stream *)arg0)->unk_120 = D_800FF2F8[sp64].unk_00;
         if (arg0 == 0) {
         }
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + D_800FF2F8[sp64].m4;
-        if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-            ((struct gd_1E8_s32 *)arg0)->v--;
-            ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-            ((struct n64dk_p1E4_4 *)arg0)->v++;
-            ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+        ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + D_800FF2F8[sp64].unk_04;
+        if (((Stream *)arg0)->bitPos & 32) {
+            ((Stream *)arg0)->wordsLeft--;
+            ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+            ((Stream *)arg0)->ptr++;
+            ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
         } else {
-            ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << D_800FF2F8[sp64].m4;
+            ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << D_800FF2F8[sp64].unk_04;
         }
-        if (((struct gd_EC_s32 *)arg0)->v != 1) {
-            if (((struct gd_120_s32 *)arg0)->v != 0) {
-                if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->unk_EC != 1) {
+            if (((Stream *)arg0)->unk_120 != 0) {
+                if (((Stream *)arg0)->wordsLeft < 2) {
                     func_800887D8(arg0);
                 }
-                ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + ((struct gd_E8_s32 *)arg0)->v;
-                if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-                    ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-                    ((struct n64dk_p1E4_4 *)arg0)->v++;
-                    ((struct gd_1E8_s32 *)arg0)->v--;
-                    if (((struct gd_1E0_s32 *)arg0)->v != 0) {
-                        ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v | ((u32)(*(s32 *)((struct gd_1E4_s32 *)arg0)->v) >> (u32)(((struct gd_E8_s32 *)arg0)->v - ((struct gd_1E0_s32 *)arg0)->v));
+                ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + ((Stream *)arg0)->unk_E8;
+                if (((Stream *)arg0)->bitPos & 32) {
+                    ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+                    ((Stream *)arg0)->ptr++;
+                    ((Stream *)arg0)->wordsLeft--;
+                    if (((Stream *)arg0)->bitPos != 0) {
+                        ((Stream *)arg0)->bits = ((Stream *)arg0)->bits | ((u32)*((Stream *)arg0)->ptr >> (u32)(((Stream *)arg0)->unk_E8 - ((Stream *)arg0)->bitPos));
                     }
-                    sp24 = (u32)(((struct gd_234_s32 *)arg0)->v & (*(s32 *)((((struct gd_E8_s32 *)arg0)->v * 4) + ((s32)&D_80085108)))) >> (u32)(32 - ((struct gd_E8_s32 *)arg0)->v);
-                    ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+                    sp24 = (u32)(((Stream *)arg0)->bits & (*(s32 *)((((Stream *)arg0)->unk_E8 * 4) + (s32)&D_80085108))) >> (u32)(32 - ((Stream *)arg0)->unk_E8);
+                    ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
                 } else {
-                    sp24 = (u32)(((struct gd_234_s32 *)arg0)->v & (*(s32 *)((((struct gd_E8_s32 *)arg0)->v * 4) + ((s32)&D_80085108)))) >> (u32)(32 - ((struct gd_E8_s32 *)arg0)->v);
-                    ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << ((struct gd_E8_s32 *)arg0)->v;
+                    sp24 = (u32)(((Stream *)arg0)->bits & (*(s32 *)((((Stream *)arg0)->unk_E8 * 4) + (s32)&D_80085108))) >> (u32)(32 - ((Stream *)arg0)->unk_E8);
+                    ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << ((Stream *)arg0)->unk_E8;
                 }
-                ((struct gd_124_s32 *)arg0)->v = sp24;
+                ((Stream *)arg0)->unk_124 = sp24;
             }
         }
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        sp60 = ((struct gd_1E0_s32 *)arg0)->v + 11;
+        sp60 = ((Stream *)arg0)->bitPos + 11;
         if (sp60 >= 33) {
             sp60 = sp60 - 32;
-            sp64 = ((u32)(((struct gd_234_s32 *)arg0)->v & 0xFFE00000) >> 21) | ((u32)(*(s32 *)(((struct gd_1E4_s32 *)arg0)->v + 4)) >> (u32)(32 - sp60));
+            sp64 = ((u32)(((Stream *)arg0)->bits & 0xFFE00000) >> 21) | ((u32)((Stream *)arg0)->ptr[1] >> (u32)(32 - sp60));
         } else {
-            sp64 = (u32)(((struct gd_234_s32 *)arg0)->v & 0xFFE00000) >> 21;
+            sp64 = (u32)(((Stream *)arg0)->bits & 0xFFE00000) >> 21;
         }
-        ((struct gd_128_s32 *)arg0)->v = D_800FF2F8[sp64].m0;
+        ((Stream *)arg0)->unk_128 = D_800FF2F8[sp64].unk_00;
         if (arg0 == 0) {
         }
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + D_800FF2F8[sp64].m4;
-        if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-            ((struct gd_1E8_s32 *)arg0)->v--;
-            ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-            ((struct n64dk_p1E4_4 *)arg0)->v++;
-            ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+        ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + D_800FF2F8[sp64].unk_04;
+        if (((Stream *)arg0)->bitPos & 32) {
+            ((Stream *)arg0)->wordsLeft--;
+            ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+            ((Stream *)arg0)->ptr++;
+            ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
         } else {
-            ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << D_800FF2F8[sp64].m4;
+            ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << D_800FF2F8[sp64].unk_04;
         }
-        if (((struct gd_EC_s32 *)arg0)->v != 1) {
-            if (((struct gd_128_s32 *)arg0)->v != 0) {
-                if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->unk_EC != 1) {
+            if (((Stream *)arg0)->unk_128 != 0) {
+                if (((Stream *)arg0)->wordsLeft < 2) {
                     func_800887D8(arg0);
                 }
-                ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + ((struct gd_E8_s32 *)arg0)->v;
-                if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-                    ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-                    ((struct n64dk_p1E4_4 *)arg0)->v++;
-                    ((struct gd_1E8_s32 *)arg0)->v--;
-                    if (((struct gd_1E0_s32 *)arg0)->v != 0) {
-                        ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v | ((u32)(*(s32 *)((struct gd_1E4_s32 *)arg0)->v) >> (u32)(((struct gd_E8_s32 *)arg0)->v - ((struct gd_1E0_s32 *)arg0)->v));
+                ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + ((Stream *)arg0)->unk_E8;
+                if (((Stream *)arg0)->bitPos & 32) {
+                    ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+                    ((Stream *)arg0)->ptr++;
+                    ((Stream *)arg0)->wordsLeft--;
+                    if (((Stream *)arg0)->bitPos != 0) {
+                        ((Stream *)arg0)->bits = ((Stream *)arg0)->bits | ((u32)*((Stream *)arg0)->ptr >> (u32)(((Stream *)arg0)->unk_E8 - ((Stream *)arg0)->bitPos));
                     }
-                    sp24 = (u32)(((struct gd_234_s32 *)arg0)->v & (*(s32 *)((((struct gd_E8_s32 *)arg0)->v * 4) + ((s32)&D_80085108)))) >> (u32)(32 - ((struct gd_E8_s32 *)arg0)->v);
-                    ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+                    sp24 = (u32)(((Stream *)arg0)->bits & (*(s32 *)((((Stream *)arg0)->unk_E8 * 4) + (s32)&D_80085108))) >> (u32)(32 - ((Stream *)arg0)->unk_E8);
+                    ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
                 } else {
-                    sp24 = (u32)(((struct gd_234_s32 *)arg0)->v & (*(s32 *)((((struct gd_E8_s32 *)arg0)->v * 4) + ((s32)&D_80085108)))) >> (u32)(32 - ((struct gd_E8_s32 *)arg0)->v);
-                    ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << ((struct gd_E8_s32 *)arg0)->v;
+                    sp24 = (u32)(((Stream *)arg0)->bits & (*(s32 *)((((Stream *)arg0)->unk_E8 * 4) + (s32)&D_80085108))) >> (u32)(32 - ((Stream *)arg0)->unk_E8);
+                    ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << ((Stream *)arg0)->unk_E8;
                 }
-                ((struct gd_12C_s32 *)arg0)->v = sp24;
+                ((Stream *)arg0)->unk_12C = sp24;
             }
         }
     }
     if (sp50 == 1) {
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        sp60 = ((struct gd_1E0_s32 *)arg0)->v + 9;
+        sp60 = ((Stream *)arg0)->bitPos + 9;
         if (sp60 >= 33) {
             sp60 = sp60 - 32;
-            sp64 = ((u32)(((struct gd_234_s32 *)arg0)->v & 0xFF800000) >> 23) | ((u32)(*(s32 *)(((struct gd_1E4_s32 *)arg0)->v + 4)) >> (u32)(32 - sp60));
+            sp64 = ((u32)(((Stream *)arg0)->bits & 0xFF800000) >> 23) | ((u32)((Stream *)arg0)->ptr[1] >> (u32)(32 - sp60));
         } else {
-            sp64 = (u32)(((struct gd_234_s32 *)arg0)->v & 0xFF800000) >> 23;
+            sp64 = (u32)(((Stream *)arg0)->bits & 0xFF800000) >> 23;
         }
-        ((struct gd_130_s32 *)arg0)->v = D_80085320[sp64].m0;
+        ((Stream *)arg0)->unk_130 = D_80085320[sp64].unk_00;
         if (arg0 == 0) {
         }
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + D_80085320[sp64].m4;
-        if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-            ((struct gd_1E8_s32 *)arg0)->v--;
-            ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-            ((struct n64dk_p1E4_4 *)arg0)->v++;
-            ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+        ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + D_80085320[sp64].unk_04;
+        if (((Stream *)arg0)->bitPos & 32) {
+            ((Stream *)arg0)->wordsLeft--;
+            ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+            ((Stream *)arg0)->ptr++;
+            ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
         } else {
-            ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << D_80085320[sp64].m4;
+            ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << D_80085320[sp64].unk_04;
         }
     } else {
-        ((struct gd_130_s32 *)arg0)->v = 0;
+        ((Stream *)arg0)->unk_130 = 0;
     }
-    if (((struct gd_D0_s32 *)arg0)->v == 2) {
+    if (((Stream *)arg0)->unk_D0 == 2) {
         if (sp48 == 0) {
             sp30 = 0;
             sp34 = 0;
-            ((struct gd_144_s32 *)arg0)->v = 0;
-            ((struct gd_148_s32 *)arg0)->v = 0;
+            ((Stream *)arg0)->unk_144 = 0;
+            ((Stream *)arg0)->unk_148 = 0;
         } else {
-            func_800998E0(((s32)&sp30), ((s32)&sp34), arg0);
+            func_800998E0((s32)&sp30, (s32)&sp34, arg0);
         }
     }
-    if (((struct gd_D0_s32 *)arg0)->v == 3) {
-        if (((struct gd_134_s32 *)arg0)->v != 0) {
-            ((struct gd_144_s32 *)arg0)->v = 0;
-            ((struct gd_148_s32 *)arg0)->v = 0;
-            ((struct gd_14C_s32 *)arg0)->v = 0;
-            ((struct gd_150_s32 *)arg0)->v = 0;
+    if (((Stream *)arg0)->unk_D0 == 3) {
+        if (((Stream *)arg0)->unk_134 != 0) {
+            ((Stream *)arg0)->unk_144 = 0;
+            ((Stream *)arg0)->unk_148 = 0;
+            ((Stream *)arg0)->unk_14C = 0;
+            ((Stream *)arg0)->unk_150 = 0;
         } else {
             if (sp48 == 0) {
-                sp30 = ((struct gd_144_s32 *)arg0)->v;
-                sp34 = ((struct gd_148_s32 *)arg0)->v;
+                sp30 = ((Stream *)arg0)->unk_144;
+                sp34 = ((Stream *)arg0)->unk_148;
             } else {
-                func_800998E0(((s32)&sp30), ((s32)&sp34), arg0);
+                func_800998E0((s32)&sp30, (s32)&sp34, arg0);
             }
             if (sp4C == 0) {
-                sp38 = ((struct gd_14C_s32 *)arg0)->v;
-                sp3C = ((struct gd_150_s32 *)arg0)->v;
+                sp38 = ((Stream *)arg0)->unk_14C;
+                sp3C = ((Stream *)arg0)->unk_150;
             } else {
-                func_80099C8C(((s32)&sp38), ((s32)&sp3C), arg0);
+                func_80099C8C((s32)&sp38, (s32)&sp3C, arg0);
             }
-            ((struct gd_138_s32 *)arg0)->v = sp48;
-            ((struct gd_13C_s32 *)arg0)->v = sp4C;
+            ((Stream *)arg0)->unk_138 = sp48;
+            ((Stream *)arg0)->unk_13C = sp4C;
         }
     }
-    sp28 = 32;
-    sp2C = 0;
-    for (;;) {
-        if (sp2C >= 6) {
-            break;
-        }
-        if ((((struct gd_134_s32 *)arg0)->v != 0) || ((((struct gd_130_s32 *)arg0)->v & sp28) != 0)) {
+    mask = 32;
+    for (i = 0; i < 6; i++) {
+        if (((Stream *)arg0)->unk_134 != 0 || (((Stream *)arg0)->unk_130 & mask) != 0) {
             sp40 = 0;
-            func_800964D0(sp2C, arg0);
+            func_800964D0(i, arg0);
         } else {
             sp40 = 1;
         }
-        if (((struct gd_134_s32 *)arg0)->v != 0) {
-            func_8008F3AC(arg0, sp2C);
-        } else {
-            if ((sp48 != 0) && (sp4C != 0)) {
-                func_800933BC(arg0, sp2C, sp30, sp34, sp38, sp3C, sp40);
-            } else {
-                if ((sp48 != 0) || (((struct gd_D0_s32 *)arg0)->v == 2)) {
-                    func_8008F828(arg0, sp2C, sp30, sp34, sp40);
-                } else {
-                    if (sp4C != 0) {
-                        func_80091684(arg0, sp2C, sp38, sp3C, sp40);
-                    }
-                }
-            }
+        if (((Stream *)arg0)->unk_134 != 0) {
+            func_8008F3AC(arg0, i);
+        } else if (sp48 != 0 && sp4C != 0) {
+            func_800933BC(arg0, i, sp30, sp34, sp38, sp3C, sp40);
+        } else if (sp48 != 0 || ((Stream *)arg0)->unk_D0 == 2) {
+            func_8008F828(arg0, i, sp30, sp34, sp40);
+        } else if (sp4C != 0) {
+            func_80091684(arg0, i, sp38, sp3C, sp40);
         }
-        sp28 = sp28 >> 1;
-        sp2C++;
+        mask = mask >> 1;
     }
-    if (((struct gd_D0_s32 *)arg0)->v == 4) {
+    if (((Stream *)arg0)->unk_D0 == 4) {
         if (arg0 == 0) {
         }
-        if (((struct gd_1E8_s32 *)arg0)->v < 2) {
+        if (((Stream *)arg0)->wordsLeft < 2) {
             func_800887D8(arg0);
         }
-        ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v + 1;
-        if ((((struct gd_1E0_s32 *)arg0)->v & 32) != 0) {
-            ((struct gd_1E8_s32 *)arg0)->v--;
-            ((struct gd_1E0_s32 *)arg0)->v = ((struct gd_1E0_s32 *)arg0)->v - 32;
-            ((struct n64dk_p1E4_4 *)arg0)->v++;
-            ((struct gd_234_s32 *)arg0)->v = (*(s32 *)((struct gd_1E4_s32 *)arg0)->v) << ((struct gd_1E0_s32 *)arg0)->v;
+        ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos + 1;
+        if (((Stream *)arg0)->bitPos & 32) {
+            ((Stream *)arg0)->wordsLeft--;
+            ((Stream *)arg0)->bitPos = ((Stream *)arg0)->bitPos - 32;
+            ((Stream *)arg0)->ptr++;
+            ((Stream *)arg0)->bits = *((Stream *)arg0)->ptr << ((Stream *)arg0)->bitPos;
         } else {
-            ((struct gd_234_s32 *)arg0)->v = ((struct gd_234_s32 *)arg0)->v << 1;
+            ((Stream *)arg0)->bits = ((Stream *)arg0)->bits << 1;
         }
     }
-    if (((struct gd_134_s32 *)arg0)->v != 0) {
-        ((struct gd_140_s32 *)arg0)->v = ((struct gd_108_s32 *)arg0)->v;
+    if (((Stream *)arg0)->unk_134 != 0) {
+        ((Stream *)arg0)->unk_140 = ((Stream *)arg0)->unk_108;
     }
     return 1;
 }

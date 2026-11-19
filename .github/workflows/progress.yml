@@ -18,7 +18,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Validate scoped progress
-        run: python tools/generate_tracker_progress.py --check --objdiff build/report.json
+        run: |
+          python tools/check_source_quality.py
+          python tools/generate_tracker_progress.py --check --objdiff build/report.json
       - name: Upload ByteMatch progress
         uses: actions/upload-artifact@v6
         with:
