@@ -18,7 +18,13 @@ jobs:
         with:
           python-version: "3.12"
       - name: Validate scoped progress
-        run: python tools/generate_tracker_progress.py --check
+        run: python tools/generate_tracker_progress.py --check --objdiff build/report.json
+      - name: Upload ByteMatch progress
+        uses: actions/upload-artifact@v6
+        with:
+          name: usa-catalogued_report
+          path: build/report.json
+          if-no-files-found: error
       - uses: actions/upload-artifact@v6
         with:
           name: wheel-usa-scoped-progress

@@ -86,14 +86,58 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--objdiff", type=Path, help="also write an objdiff v2 report for ByteMatch")
     args = parser.parse_args()
     output = args.root / "decomphub.progress.json"
-    report = json.dumps(generate(args.root), indent=2) + "\n"
+    progress = generate(args.root)
+    report = json.dumps(progress, indent=2) + "\n"
     if args.check:
         if output.read_text(encoding="utf-8") != report:
             parser.exit(1, "decomphub.progress.json is stale\n")
     else:
         output.write_text(report, encoding="utf-8")
+    if args.objdiff:
+        args.objdiff.parent.mkdir(parents=True, exist_ok=True)
+        objdiff = objdiff_report(progress, inventory(args.root / "progress-inventory.tsv"))
+        args.objdiff.write_text(json.dumps(objdiff, indent=2) + "\n", encoding="utf-8")
+
+
+def objdiff_report(progress, rows):
+    code, functions = (track["measurement"] for track in progress["tracks"])
+    category = "catalogued-code"
+
+    def measures(size, matching, count, matched):
+        return {
+            "total_code": str(size), "matched_code": str(matching),
+            "matched_code_percent": 100 * matching / size,
+            "total_functions": count, "matched_functions": matched,
+            "matched_functions_percent": 100 * matched / count,
+            "total_units": count,
+        }
+
+    units = []
+    for row in rows:
+        size = int(row["code_size"], 0)
+        matched = row["outcome"] == "exact" and row["reproduced_by"] == "C"
+        address = str(int(row["vram"], 0))
+        metadata = {"progress_categories": [category]}
+        if matched:
+            metadata["source_path"] = row["source"]
+        units.append({
+            "name": f"{row['image']}/{row['function']}@{row['vram']}",
+            "measures": measures(size, size if matched else 0, 1, int(matched)),
+            "functions": [{
+                "name": row["function"], "size": str(size), "address": address,
+                "fuzzy_match_percent": 100.0 if matched else 0.0,
+                "metadata": {"virtual_address": address},
+            }],
+            "metadata": metadata,
+        })
+    totals = measures(code["total"], code["completed"], functions["total"], functions["completed"])
+    return {
+        "version": 2, "measures": totals, "units": units,
+        "categories": [{"id": category, "name": "Catalogued executable code", "measures": totals}],
+    }
 
 
 if __name__ == "__main__":

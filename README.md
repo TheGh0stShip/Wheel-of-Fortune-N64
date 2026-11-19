@@ -9,6 +9,8 @@ Matching decompilation for the USA release. This import contains C recovered wit
 
 Both measurements cover an incomplete function catalogue. Whole-title completion and full ROM relinking are unmeasured. The [machine-readable progress report](decomphub.progress.json) is generated from [the inventory](progress-inventory.tsv) and the verified source manifest.
 
+[ByteMatch](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64) receives the same scoped figures under the `usa-catalogued` version.
+
 - ROM SHA-1 `b51b28660699bf029f862f51c319a5962fe9de9b`
 - ROM size 4,194,304 bytes
 - `src/main/` contains the verified function sources.
