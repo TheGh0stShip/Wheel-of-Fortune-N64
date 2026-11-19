@@ -13,21 +13,21 @@
  "images": {
   "main": {
    "coverage": {
-    "assembly": 5708,
+    "assembly": 4068,
     "assumed": 0,
-    "exact": 402072,
-    "raw-other": 267156,
+    "exact": 403968,
+    "raw-other": 266900,
     "raw-unit": 0
    },
    "differing_bytes": 0,
    "outcome": "identical",
    "placed": "ROM 0x1000",
-   "source_data_bytes": 6292,
+   "source_data_bytes": 6548,
    "source_text_bytes": 401488
   }
  },
  "linked_from_source_bytes": {
-  "data": 6292,
+  "data": 6548,
   "text": 401488
  },
  "preserved_inputs_needed": 3519368,

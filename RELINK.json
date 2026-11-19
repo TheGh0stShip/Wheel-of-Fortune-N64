@@ -1,10 +1,10 @@
 {
  "assumed": "raw",
  "coverage": {
-  "assembly": 5708,
+  "assembly": 4068,
   "assumed": 0,
-  "exact": 402072,
-  "raw-other": 267156,
+  "exact": 403968,
+  "raw-other": 266900,
   "raw-unit": 0
  },
  "credit": "a measurement: the image linked from the project's units and raw blobs cut from your ROM, compared byte for byte; it grants no credit and changes no run, receipt or evidence store",
@@ -83,7 +83,7 @@
  "overlaps": [],
  "padding_yielded_bytes": 0,
  "problems": [],
- "raw_bytes": 267156,
+ "raw_bytes": 266900,
  "returncode": 0,
  "rom_bytes_kept_in": [
   "raw/raw.o (the declared local extraction input)",
@@ -97,9 +97,9 @@
   "unplaced": 0,
   "unplaced_referenced": []
  },
- "source_bytes": 407780,
- "source_data_bytes": 6292,
- "source_share": 0.6042,
+ "source_bytes": 408036,
+ "source_data_bytes": 6548,
+ "source_share": 0.6046,
  "source_text_bytes": 401488,
  "spills": [],
  "symbols": {
@@ -111,7 +111,7 @@
   "hard": 0,
   "pin_conflicts": [],
   "provided": 967,
-  "stated": 23,
+  "stated": 22,
   "unresolved": [
    "_MakeMotorData",
    "__osLeoAbnormalResume",

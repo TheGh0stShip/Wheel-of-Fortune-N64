@@ -359,6 +359,7 @@ main	func_800343F8	0x800343F8	0x34FF8	0x1F0	0x1F0	exact	kmc+asn64 -O0 -G0 -mips3
 main	func_800345E8	0x800345E8	0x351E8	0x368	0x368	exact	kmc+builtin -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800345E8.c	0	C	game		
 main	func_80034950	0x80034950	0x35550	0x68	0x64	exact	kmc+asn64 -O0 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_80034950.c	0	C	game		
 main	func_800380B8	0x800380B8	0x38CB8	0x20	0x20	exact	kmc+asn64 -O2 -G0 -mips3 -mgp32 -mfp32 (draft)	src/main/func_800380B8.c	0	C	rsp		
+main	func_80038718	0x80038718	0x39318	0x2C	0x2C	exact	kmc+asn64 -O2 -G0 -mips3 -mgp32 -mfp32 (GCC 2.7.2 libgcc2.c)	src/main/func_80038718.c	0	C	game		
 main	func_80038748	0x80038748	0x39348	0x10	0x10	donor	donor unit BattleTanx: src/libultra/os_ai_get_length.c	src/main/func_80038748.c		C	game		
 main	func_80038758	0x80038758	0x39358	0x160	0x160	donor	donor unit BattleTanx: src/libultra/os_ai_set_frequency.c	src/main/func_80038758.c		C	sdk		
 main	func_800388B8	0x800388B8	0x394B8	0xB0	0xB0	donor	donor unit BattleTanx: src/libultra/os_ai_set_next_buffer.c	src/main/func_800388B8.c		C	sdk		

@@ -1,5 +1,5 @@
 image	function	vram	code_size	outcome	reproduced_by	source	source_sha256
-main	func_80000400	0x80000400	0x40	blocked-boundary	assembly (not decompiled)		
+main	func_80000400	0x80000400	0x40	assembly	assembly (hand-written)		
 main	func_80002348	0x80002348	0x250	exact	C	src/main/func_80002348.c	7d599a888412a53eb80cdeb4ce2089cafca51488e23f53d0519708fb22540a56
 main	func_80002598	0x80002598	0x118	exact	C	src/main/func_80002598.c	f799f47f7d88d953dee56a96f602de6284d89915d9c5a5d9e899eae4ded06686
 main	func_800026B0	0x800026B0	0x50	exact	C	src/main/func_800026B0.c	51cb4bafa96e2f728f6eadbe679dcc278d34e6b7d84b12d45da278bcd57a001e
@@ -362,8 +362,8 @@ main	func_80034950	0x80034950	0x64	exact	C	src/main/func_80034950.c	d5f69f51a13a
 main	func_800349EC	0x800349EC	0xC	assembly	assembly (hand-written)		
 main	func_800349F8	0x800349F8	0x18	assembly	assembly (hand-written)		
 main	func_800380B8	0x800380B8	0x20	exact	C	src/main/func_800380B8.c	ab3093357bedfe64c4bfa35176b7918e2d0865288a38ab027892c40fe7dc0f3e
-main	func_800380D8	0x800380D8	0x63C	open	assembly (not decompiled)		
-main	func_80038718	0x80038718	0x2C	near	assembly (not decompiled)		
+main	func_800380D8	0x800380D8	0x63C	donor-assembly	assembly (donor source)		
+main	func_80038718	0x80038718	0x2C	exact	C	src/main/func_80038718.c	1d39bb51fdaeca7d960d864ed24803cc3403183fe3028c0ea83d6f2fda4818ed
 main	func_80038748	0x80038748	0x10	donor	C	src/main/func_80038748.c	f027f35faa2cb3b0abf84de5e3cb79fb1c2af2cd5f3152ae3666541ac71f7235
 main	func_80038758	0x80038758	0x160	donor	C	src/main/func_80038758.c	ba6966a75f2ecb135bd7d026c0493fc53ba84ca1a3a8e3fc8d8a3cb05c92cc48
 main	func_800388B8	0x800388B8	0xB0	donor	C	src/main/func_800388B8.c	7ad6e805d3c0edd17826870304e3ed5e8093f63ae47dabd0dff929b33fe74eeb
@@ -451,13 +451,13 @@ main	func_8003CE58	0x8003CE58	0x30	donor	C	src/main/func_8003CE58.c	0e84bed8a800
 main	func_8003CE88	0x8003CE88	0x10	assembly	assembly (hand-written)		
 main	func_8003CE98	0x8003CE98	0x2C	assembly	assembly (hand-written)		
 main	func_8003CEC4	0x8003CEC4	0x508	assembly	assembly (hand-written)		
-main	func_8003D3CC	0x8003D3CC	0xB4	needs-tu	assembly (not decompiled)		
+main	func_8003D3CC	0x8003D3CC	0xB4	assembly	assembly (hand-written)		
 main	func_8003D494	0x8003D494	0x20	assembly	assembly (hand-written)		
 main	func_8003D4B4	0x8003D4B4	0x100	assembly	assembly (hand-written)		
-main	func_8003D5B4	0x8003D5B4	0x48	open	assembly (not decompiled)		
+main	func_8003D5B4	0x8003D5B4	0x48	assembly	assembly (hand-written)		
 main	func_8003D5FC	0x8003D5FC	0x10	donor-assembly	assembly (donor source)		
 main	func_8003D60C	0x8003D60C	0x17C	donor-assembly	assembly (donor source)		
-main	func_8003D788	0x8003D788	0x8	blocked-boundary	assembly (not decompiled)		
+main	func_8003D788	0x8003D788	0x8	assembly	assembly (hand-written)		
 main	func_8003D798	0x8003D798	0x6A4	donor	C	src/main/func_8003D798.c	02867657e32c5a487d72db6e67d89a362867d823d843a8f2c81d93434402b7ec
 main	func_8003DE3C	0x8003DE3C	0xE8	donor	C	src/main/func_8003DE3C.c	02867657e32c5a487d72db6e67d89a362867d823d843a8f2c81d93434402b7ec
 main	func_8003DF24	0x8003DF24	0xF4	donor	C	src/main/func_8003DF24.c	02867657e32c5a487d72db6e67d89a362867d823d843a8f2c81d93434402b7ec

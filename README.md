@@ -4,12 +4,12 @@ Matching decompilation for the USA release. This import contains C recovered wit
 
 | Metric | Verified | Catalogued | Progress |
 |---|---:|---:|---:|
-| Matching C code bytes | 396,708 | 402,772 | 98.49% |
-| Matching C functions | 749 | 775 | 96.65% |
-| Matching C bytes in the verified pinned link | 396,708 | 402,772 | 98.49% |
+| Matching C code bytes | 396,752 | 402,772 | 98.50% |
+| Matching C functions | 750 | 775 | 96.77% |
+| Matching C bytes in the verified pinned link | 396,752 | 402,772 | 98.50% |
 | Verified source of any kind | 775 | 775 | 100.00% |
 
-These measurements cover the corrected catalogue of executable function intervals. All 749 verified C functions and all remaining assembly/runtime units link from source; the resulting cartridge matches the USA ROM byte for byte. The project is therefore 100% source-accounted. The matching-C ceiling is 98.49% because architecture-specific assembly and GCC's inline-assembly division runtime cannot honestly be classified as C. See the [link verification record](docs/pinned-link.md) and the [machine-readable report](decomphub.progress.json).
+These measurements cover the corrected catalogue of executable function intervals. All 750 verified C functions and all remaining assembly/runtime units link from source; the resulting cartridge matches the USA ROM byte for byte. The project is therefore 100% source-accounted. The matching-C ceiling is 98.50% under the repository's rule because architecture-specific assembly and GCC's inline-assembly division runtime cannot honestly receive ordinary-C credit. See the [link verification record](docs/pinned-link.md) and the [machine-readable report](decomphub.progress.json).
 
 [ByteMatch](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64) receives the same scoped figures under the `usa-catalogued` version.
 
