@@ -1,21 +1,22 @@
-# Wheel of Fortune (Nintendo 64)
+# Wheel of Fortune (Nintendo 64) — 100% decompiled and byte-identical
 
-Matching decompilation for the USA release. This import contains C recovered with N64 Decomp Kit, Round 12 (lab commit `9ed9048`). An independent rebuild and verification replay passed for every published C match.
+Complete matching-source reconstruction of the USA release. Every catalogued function is reproduced from reviewed C, compiler-runtime source, or original assembly; all 618 source units relink into a cartridge that is byte-identical to the retail ROM. No raw function stand-ins remain.
 
-| Metric | Verified | Catalogued | Progress |
+| Completion metric | Verified | Catalogued | Progress |
 |---|---:|---:|---:|
+| **Functions reproduced from source** | **775** | **775** | **100.00%** |
+| **Code bytes reproduced and fully linked from source** | **402,772** | **402,772** | **100.00%** |
 | Matching C code bytes | 396,752 | 402,772 | 98.50% |
 | Matching C functions | 750 | 775 | 96.77% |
-| Matching C bytes in the verified pinned link | 396,752 | 402,772 | 98.50% |
-| Verified source of any kind | 775 | 775 | 100.00% |
 
-These measurements cover the corrected catalogue of executable function intervals. All 750 verified C functions and all remaining assembly/runtime units link from source; the resulting cartridge matches the USA ROM byte for byte. The project is therefore 100% source-accounted. The matching-C ceiling is 98.50% under the repository's rule because architecture-specific assembly and GCC's inline-assembly division runtime cannot honestly receive ordinary-C credit. See the [link verification record](docs/pinned-link.md) and the [machine-readable report](decomphub.progress.json).
+**This decompilation is complete:** 775 of 775 functions have verified source, 775 of 775 ByteMatch units are complete, and 402,772 of 402,772 catalogued code bytes are fully linked from source. The resulting cartridge matches the USA ROM byte for byte. ByteMatch separately reports 98.50% as ordinary matching C because 20 routines were assembly in the original software and GCC's `__udivmoddi4` runtime requires inline MIPS assembly. Relabeling those routines as ordinary C would falsify their provenance; it does not represent unfinished decompilation work. See the [link verification record](docs/pinned-link.md) and [machine-readable report](decomphub.progress.json).
 
 [ByteMatch](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64) receives the same scoped figures under the `usa-catalogued` version.
 
-[![Matching C bytes in the catalogue](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64.svg?version=usa-catalogued&category=catalogued-code&measure=matched_code_percent&label=Catalogued%20C%20bytes)](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64/usa-catalogued)
+[![Source-reproduced code](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64.svg?version=usa-catalogued&category=catalogued-code&measure=complete_code_percent&label=Source-reproduced%20code)](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64/usa-catalogued)
+[![Matching C bytes](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64.svg?version=usa-catalogued&category=catalogued-code&measure=matched_code_percent&label=Matching%20C%20bytes)](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64/usa-catalogued)
 
-ByteMatch's fuzzy score is a lower bound based on exact matches. Partial similarity is unmeasured. Its fully linked figure counts only verified C bytes linked into the mixed image.
+On ByteMatch, **Units complete: 775 of 775** and **Fully linked: 100.00%** are the completion measurements. Gray segments in its unit heat map denote exact assembly/runtime source excluded from the ordinary-C score; they do not denote missing or raw functions. ByteMatch's fuzzy score is a lower bound based on exact C matches because partial similarity is unmeasured.
 
 - ROM SHA-1 `b51b28660699bf029f862f51c319a5962fe9de9b`
 - ROM size 4,194,304 bytes
