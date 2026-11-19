@@ -1,6 +1,13 @@
 # Wheel of Fortune (Nintendo 64)
 
-Matching decompilation for the USA release. This initial import contains 237 C functions recovered from the ROM with N64 Decomp Kit, Round 12 (lab commit `9ed9048`). An independent rebuild and verification replay passed for every exported C match. The matching catalogue is incomplete. The 237 matches cover 30.5% of its 777 entries.
+Matching decompilation for the USA release. This import contains C recovered with N64 Decomp Kit, Round 12 (lab commit `9ed9048`). An independent rebuild and verification replay passed for every published C match.
+
+| Metric | Verified | Catalogued | Progress |
+|---|---:|---:|---:|
+| Matching C code bytes | 36,060 | 401,896 | 8.97% |
+| Matching C functions | 237 | 777 | 30.50% |
+
+Both measurements cover an incomplete function catalogue. Whole-title completion and full ROM relinking are unmeasured. The [machine-readable progress report](decomphub.progress.json) is generated from [the inventory](progress-inventory.tsv) and the verified source manifest.
 
 - ROM SHA-1 `b51b28660699bf029f862f51c319a5962fe9de9b`
 - ROM size 4,194,304 bytes

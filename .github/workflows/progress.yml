@@ -1,0 +1,42 @@
+name: decompilation progress
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Validate scoped progress
+        run: python tools/generate_tracker_progress.py --check
+      - uses: actions/upload-artifact@v6
+        with:
+          name: wheel-usa-scoped-progress
+          path: decomphub.progress.json
+          if-no-files-found: error
+      - name: Notify DecompHub
+        if: github.event_name != 'pull_request'
+        env:
+          REPOSITORY: https://github.com/${{ github.repository }}
+          REVISION: ${{ github.sha }}
+        run: |
+          jq -n --arg repository "$REPOSITORY" --arg revision "$REVISION" \
+            '{repository: $repository, revision: $revision}' > refresh.json
+          status=$(curl -sS --max-time 20 -o refresh-response.json -w '%{http_code}' \
+            -H 'Content-Type: application/json' --data-binary @refresh.json \
+            https://app.decomphub.com/api/progress/refresh)
+          case "$status" in
+            2??) echo "DecompHub accepted the refresh request." ;;
+            404) echo "DecompHub listing is awaiting registration or publication." ;;
+            *) cat refresh-response.json; exit 1 ;;
+          esac

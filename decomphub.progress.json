@@ -1,0 +1,28 @@
+{
+  "format": "decomphub.progress/v1",
+  "repository": "https://github.com/TheGh0stShip/Wheel-of-Fortune-N64",
+  "tracks": [
+    {
+      "id": "matching-code",
+      "label": "Matching decompiled C code",
+      "scope": "USA ROM SHA-1 b51b28660699bf029f862f51c319a5962fe9de9b. Denominators cover an incomplete catalogue of discovered executable function intervals. Only independently replayed matching C counts. Whole-title completion and full ROM relinking are unmeasured.",
+      "measurement": {
+        "kind": "ratio",
+        "completed": 36060,
+        "total": 401896,
+        "unit": "bytes"
+      }
+    },
+    {
+      "id": "matching-functions",
+      "label": "C-decompiled function candidates",
+      "scope": "USA ROM SHA-1 b51b28660699bf029f862f51c319a5962fe9de9b. Denominators cover an incomplete catalogue of discovered executable function intervals. Only independently replayed matching C counts. Whole-title completion and full ROM relinking are unmeasured.",
+      "measurement": {
+        "kind": "ratio",
+        "completed": 237,
+        "total": 777,
+        "unit": "functions"
+      }
+    }
+  ]
+}
