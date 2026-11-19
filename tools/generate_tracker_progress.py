@@ -18,6 +18,29 @@ def function_key(row):
     return row["image"], int(row["vram"], 0)
 
 
+def linked_functions(root, rows):
+    """Read a reviewed mixed-image link result tied to the published sources."""
+    path = root / "progress-linked.tsv"
+    if not path.exists():
+        return set()
+    strict = {
+        function_key(row): row for row in rows
+        if row["outcome"] == "exact" and row["reproduced_by"] == "C"
+    }
+    linked = set()
+    for entry in inventory(path):
+        key = function_key(entry)
+        original = strict.get(key)
+        if key in linked or original is None:
+            raise ValueError(f"stale or invalid linked unit: {key}")
+        if (int(entry["code_size"], 0) != int(original["code_size"], 0)
+                or entry["function"] != original["function"]
+                or entry["source_sha256"] != original["source_sha256"]):
+            raise ValueError(f"stale or invalid linked unit: {key}")
+        linked.add(key)
+    return linked
+
+
 def generate(root):
     config = json.loads((root / "progress-config.json").read_text(encoding="utf-8"))
     rows = inventory(root / "progress-inventory.tsv")
@@ -72,13 +95,19 @@ def generate(root):
             "measurement": {"kind": "ratio", "completed": completed, "total": total, "unit": unit},
         }
 
+    tracks = [
+        track("matching-code", "Matching decompiled C code", matching_bytes, total_bytes, "bytes"),
+        track("matching-functions", "C-decompiled function candidates", len(verified), len(rows), "functions"),
+    ]
+    if (root / "progress-linked.tsv").is_file():
+        linked = linked_functions(root, rows)
+        linked_bytes = sum(int(row["code_size"], 0) for row in rows if function_key(row) in linked)
+        tracks.append(track("linked-c-code", "Matching C linked in a verified pinned image",
+                            linked_bytes, total_bytes, "bytes"))
     return {
         "format": "decomphub.progress/v1",
         "repository": config["repository"],
-        "tracks": [
-            track("matching-code", "Matching decompiled C code", matching_bytes, total_bytes, "bytes"),
-            track("matching-functions", "C-decompiled function candidates", len(verified), len(rows), "functions"),
-        ],
+        "tracks": tracks,
     }
 
 
@@ -98,15 +127,16 @@ def main():
         output.write_text(report, encoding="utf-8")
     if args.objdiff:
         args.objdiff.parent.mkdir(parents=True, exist_ok=True)
-        objdiff = objdiff_report(progress, inventory(args.root / "progress-inventory.tsv"))
+        rows = inventory(args.root / "progress-inventory.tsv")
+        objdiff = objdiff_report(progress, rows, linked_functions(args.root, rows))
         args.objdiff.write_text(json.dumps(objdiff, indent=2) + "\n", encoding="utf-8")
 
 
-def objdiff_report(progress, rows):
-    code, functions = (track["measurement"] for track in progress["tracks"])
+def objdiff_report(progress, rows, linked=()):
+    code, functions = (track["measurement"] for track in progress["tracks"][:2])
     category = "catalogued-code"
 
-    def measures(size, matching, count, matched):
+    def measures(size, matching, count, matched, linked_bytes, linked_count):
         exact_percent = 100 * matching / size
         return {
             "total_code": str(size), "matched_code": str(matching),
@@ -117,19 +147,29 @@ def objdiff_report(progress, rows):
             "total_functions": count, "matched_functions": matched,
             "matched_functions_percent": 100 * matched / count,
             "total_units": count,
+            "complete_code": str(linked_bytes),
+            "complete_code_percent": 100 * linked_bytes / size,
+            "complete_units": linked_count,
         }
 
     units = []
+    linked_bytes = 0
     for row in rows:
         size = int(row["code_size"], 0)
         matched = row["outcome"] == "exact" and row["reproduced_by"] == "C"
         address = str(int(row["vram"], 0))
+        complete = function_key(row) in linked
+        if complete:
+            linked_bytes += size
         metadata = {"progress_categories": [category]}
+        if complete:
+            metadata["complete"] = True
         if matched:
             metadata["source_path"] = row["source"]
         units.append({
             "name": f"{row['image']}/{row['function']}@{row['vram']}",
-            "measures": measures(size, size if matched else 0, 1, int(matched)),
+            "measures": measures(size, size if matched else 0, 1, int(matched),
+                                 size if complete else 0, int(complete)),
             "functions": [{
                 "name": row["function"], "size": str(size), "address": address,
                 "fuzzy_match_percent": 100.0 if matched else 0.0,
@@ -137,7 +177,8 @@ def objdiff_report(progress, rows):
             }],
             "metadata": metadata,
         })
-    totals = measures(code["total"], code["completed"], functions["total"], functions["completed"])
+    totals = measures(code["total"], code["completed"], functions["total"], functions["completed"],
+                      linked_bytes, len(linked))
     return {
         "version": 2, "measures": totals, "units": units,
         "categories": [{"id": category, "name": "Catalogued code only", "measures": totals}],
