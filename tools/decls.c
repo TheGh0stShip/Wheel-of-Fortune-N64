@@ -11,6 +11,7 @@
  *   decls prune [FILE...]    delete each type, extern and prototype whose name a header under include/
  *                            declares, and add  #include "wof.h"  to the files that lack it
  *   decls layout [FILE...]   offset, size and declaration of every member of every struct and union
+ *   decls unify SPEC [apply] merge the views of one struct that several files hold (see cmd_unify)
  *
  * Without FILE arguments the commands work on the sources of the `match` units of class `game` in
  * config/units.tsv.  `list` and `layout` accept headers too.
@@ -507,6 +508,7 @@ static int get_type(const char *name, int *size, int *align) {
 }
 
 static int layout_body(const File *f, int open, int close, int is_union, int base, int depth, int *align_out, int print);
+static void record_member(const File *f, int a, int semi, int off, int size);
 
 /* One member declaration in [a, semi): prints it, returns its size and alignment. */
 static void member(const File *f, int a, int semi, int *size, int *align, int base, int depth, int print) {
@@ -577,7 +579,7 @@ static void member(const File *f, int a, int semi, int *size, int *align, int ba
     }
     if (inner_open >= 0) {
         int al = 1;
-        if (print) {
+        if (print == 1) {
             printf("%*s%04X      %s {\n", depth * 2, "", base, inner_union ? "union" : "struct");
         }
         bsize = layout_body(f, inner_open, inner_close, inner_union, base, depth + 1, &al, print);
@@ -585,7 +587,8 @@ static void member(const File *f, int a, int semi, int *size, int *align, int ba
     }
     *size = bsize * count;
     *align = balign;
-    if (print) {
+    if (print == 2 && depth == 0) record_member(f, a, semi, base, *size);
+    if (print == 1) {
         printf("%*s%04X %04X ", depth * 2, "", base, *size);
         if (inner_open >= 0) printf("} ");
         else printf("%s ", spec);
@@ -607,7 +610,7 @@ static int layout_body(const File *f, int open, int close, int is_union, int bas
         member(f, i, semi, &size, &align, 0, depth, 0);
         if (align > maxalign) maxalign = align;
         if (!is_union) off = (off + align - 1) / align * align;
-        if (print) member(f, i, semi, &size, &align, base + (is_union ? 0 : off), depth, 1);
+        if (print) member(f, i, semi, &size, &align, base + (is_union ? 0 : off), depth, print);
         if (is_union) {
             if (size > maxsize) maxsize = size;
         } else {
@@ -621,56 +624,422 @@ static int layout_body(const File *f, int open, int close, int is_union, int bas
     return off;
 }
 
-static void cmd_layout(void) {
-    int p, i;
+/* Lays out every type a file defines; with `print`, lists the members. */
+static void layout_file(const File *f, int print, const char *record) {
+    int i;
+    for (i = 0; i < f->nitem; i++) {
+        const Item *it = &f->item[i];
+        int k, open = -1, close, size, align = 1, is_union = 0;
+        if (strcmp(it->kind, "type")) continue;
+        for (k = it->first; k <= it->last; k++)
+            if (is(f, k, "{")) {
+                open = k;
+                break;
+            }
+        if (open < 0) { /* typedef of an existing type */
+            member(f, it->first + 1, it->last, &size, &align, 0, 0, 0);
+            if (size) set_type(it->name, size, align);
+            continue;
+        }
+        close = match_close(f, open, "{", "}");
+        for (k = it->first; k < open; k++)
+            if (is(f, k, "union")) is_union = 1;
+        if (print) printf("== %s\t%s\n", f->path, it->name);
+        size = layout_body(f, open, close, is_union, 0, 0, &align, record && !strcmp(record, it->name) ? 2 : print);
+        if (print) printf("%04X      size, align %d\n", size, align);
+        set_type(it->name, size, align);
+        if (is(f, it->first, "typedef") && f->tok[it->first + 2].kind == 'i' && !is(f, it->first + 2, "{")) {
+            char tag[120], w[96];
+            tok_text(f, it->first + 2, w, sizeof w);
+            snprintf(tag, sizeof tag, "struct %s", w);
+            set_type(tag, size, align);
+        }
+    }
+}
+
+/* ---------------------------------------------------------------- unify */
+
+/*
+ * Several files each hold a partial view of one struct.  `unify` merges the views named in a spec into one
+ * definition and rewrites the files to use it.
+ *
+ *   type NAME [TAG]                    the merged typedef, and its struct tag if it refers to itself
+ *   size N                             the size of the struct, when no view reaches its end
+ *   view FILE LOCALNAME                a view to merge
+ *   member OFFSET SIZE NAME DECL...    a member decided by hand; DECL uses @ for the name:  s32 @[5]
+ *
+ * A member is taken from the views when they agree on its type; where they disagree the tool lists the
+ * candidates and a `member` line settles it.  `u8 unk_XX[n]` and `u8 padXX[n]` members are fillers and are
+ * regenerated.  Without `apply` the tool only prints the merged definition and what is unresolved.
+ */
+
+typedef struct {
+    int off, size, filler, view;
+    char name[64], decl[400];
+} Mem;
+
+static Mem *rec;
+static int nrec;
+static int rec_view;
+
+static int is_filler_name(const char *s) {
+    return !strncmp(s, "unk", 3) || !strncmp(s, "pad", 3);
+}
+
+static int is_placeholder_name(const char *s) {
+    size_t i, n = strlen(s);
+    if (is_filler_name(s)) return 1;
+    if (s[0] == 'm' && n >= 2 && n <= 5) {
+        for (i = 1; i < n; i++)
+            if (!isxdigit((unsigned char)s[i])) return 0;
+        return 1;
+    }
+    return 0;
+}
+
+/* Called by member() for each top-level member while recording. */
+static void record_member(const File *f, int a, int semi, int off, int size) {
+    Mem m;
+    int name = declared_name(f, a, semi), i, o = 0;
+    memset(&m, 0, sizeof m);
+    m.off = off;
+    m.size = size;
+    m.view = rec_view;
+    tok_text(f, name, m.name, sizeof m.name);
+    for (i = a; i < semi; i++) {
+        const char *t = f->clean + f->tok[i].s;
+        int len = f->tok[i].len, word = f->tok[i].kind != 'p';
+        if (i > a) {
+            int prev_word = f->tok[i - 1].kind != 'p';
+            char pc = f->clean[f->tok[i - 1].s];
+            if ((prev_word && (word || t[0] == '*' || t[0] == '{')) || pc == ';' || pc == '{' || pc == '}' || pc == ',') m.decl[o++] = ' ';
+        }
+        if (i == name) m.decl[o++] = '@';
+        else o += snprintf(m.decl + o, sizeof m.decl - o, "%.*s", len, t);
+    }
+    m.decl[o] = 0;
+    m.filler = is_filler_name(m.name) && (!strncmp(m.decl, "u8 @[", 5) || !strncmp(m.decl, "s8 @[", 5) || !strncmp(m.decl, "char @[", 7));
+    rec = realloc(rec, (nrec + 1) * sizeof(Mem));
+    rec[nrec++] = m;
+}
+
+typedef struct {
+    char path[400], local[96];
+    int size, first_mem, nmem;
+} View;
+
+static void replace_word(char *s, size_t cap, const char *from, const char *to) {
+    char out[800];
+    size_t o = 0, n = strlen(from);
+    const char *p = s;
+    int word = isalnum((unsigned char)from[0]) || from[0] == '_';
+    while (*p && o + strlen(to) + 2 < sizeof out) {
+        if (!strncmp(p, from, n) &&
+            (!word || ((p == s || !(isalnum((unsigned char)p[-1]) || p[-1] == '_')) && !(isalnum((unsigned char)p[n]) || p[n] == '_')))) {
+            o += sprintf(out + o, "%s", to);
+            p += n;
+        } else {
+            out[o++] = *p++;
+        }
+    }
+    out[o] = 0;
+    if (o >= cap) o = cap - 1;
+    memcpy(s, out, o);
+    s[o] = 0;
+}
+
+static int cmp_mem(const void *a, const void *b) {
+    const Mem *x = a, *y = b;
+    return x->off != y->off ? x->off - y->off : x->size - y->size;
+}
+
+static void seed_types(int nsrc) {
     static const struct {
         const char *n;
         int s;
     } scalars[] = { { "u8", 1 }, { "s8", 1 }, { "u16", 2 }, { "s16", 2 }, { "u32", 4 }, { "s32", 4 }, { "u64", 8 }, { "s64", 8 },
-                    { "f32", 4 }, { "f64", 8 }, { "M2C_UNK", 4 } };
-    for (p = 0; p < npaths; p++) {
-        File *f = load(paths[p]);
-        size_t s;
-        ntinfo = 0;
-        for (s = 0; s < sizeof scalars / sizeof scalars[0]; s++) set_type(scalars[s].n, scalars[s].s, scalars[s].s);
-        for (i = 0; i < f->nitem; i++) {
-            Item *it = &f->item[i];
-            int k, open = -1, close, size, align = 1, is_union = 0;
-            if (strcmp(it->kind, "type")) continue;
-            for (k = it->first; k <= it->last; k++)
-                if (is(f, k, "{")) {
-                    open = k;
-                    break;
+                    { "f32", 4 }, { "f64", 8 }, { "char", 1 } };
+    size_t s;
+    int p, pass;
+    for (s = 0; s < sizeof scalars / sizeof scalars[0]; s++) set_type(scalars[s].n, scalars[s].s, scalars[s].s);
+    /* the types of the headers are known to every source; two passes, since one header may use another */
+    headers_in("include");
+    for (pass = 0; pass < 2; pass++)
+        for (p = nsrc; p < npaths; p++) layout_file(load(paths[p]), 0, NULL);
+}
+
+static void cmd_unify(const char *spec_path, int do_apply) {
+    FILE *sp = fopen(spec_path, "r");
+    char line[1000], canon[96] = "", tag[96] = "";
+    View *views = NULL;
+    Mem *fixed = NULL, *out = NULL;
+    int nviews = 0, nfixed = 0, nout = 0, size = 0, v, i, k, unresolved = 0, width, manual = 0, base;
+    if (!sp) {
+        fprintf(stderr, "decls: cannot open %s\n", spec_path);
+        exit(2);
+    }
+    while (fgets(line, sizeof line, sp)) {
+        char a[400], b[400];
+        int off, sz, n = 0;
+        line[strcspn(line, "\r\n")] = 0;
+        if (sscanf(line, "type %95s %95s", canon, tag) >= 1) continue;
+        if (sscanf(line, "size %i", &size) == 1) continue;
+        if (sscanf(line, "view %399s %95s", a, b) == 2) {
+            views = realloc(views, (nviews + 1) * sizeof(View));
+            memset(&views[nviews], 0, sizeof(View));
+            strcpy(views[nviews].path, a);
+            strcpy(views[nviews].local, b);
+            nviews++;
+            continue;
+        }
+        if (sscanf(line, "member %i %i %63s %n", &off, &sz, a, &n) == 3 && n) {
+            fixed = realloc(fixed, (nfixed + 1) * sizeof(Mem));
+            memset(&fixed[nfixed], 0, sizeof(Mem));
+            fixed[nfixed].off = off;
+            fixed[nfixed].size = sz;
+            fixed[nfixed].view = -1;
+            strcpy(fixed[nfixed].name, a);
+            snprintf(fixed[nfixed].decl, sizeof fixed[nfixed].decl, "%s", line + n);
+            nfixed++;
+        }
+    }
+    fclose(sp);
+    if (!canon[0] || !nviews) {
+        fprintf(stderr, "decls: the spec needs a type line and at least one view\n");
+        exit(2);
+    }
+
+    /* lay out each view */
+    seed_types(npaths);
+    base = ntinfo;
+    for (v = 0; v < nviews; v++) {
+        File *f = load(views[v].path);
+        int sz, al;
+        ntinfo = base;
+        rec_view = v;
+        views[v].first_mem = nrec;
+        layout_file(f, 0, views[v].local);
+        views[v].nmem = nrec - views[v].first_mem;
+        if (!get_type(views[v].local, &sz, &al) || !views[v].nmem) {
+            fprintf(stderr, "decls: %s does not define %s\n", views[v].path, views[v].local);
+            exit(2);
+        }
+        views[v].size = sz;
+        if (sz > size) size = sz;
+        for (i = views[v].first_mem; i < nrec; i++) { /* the view names itself: that becomes the merged name */
+            char st[120], to[120];
+            snprintf(st, sizeof st, "struct %s", views[v].local);
+            snprintf(to, sizeof to, "struct %s", tag);
+            replace_word(rec[i].decl, sizeof rec[i].decl, st, tag[0] ? to : canon);
+            replace_word(rec[i].decl, sizeof rec[i].decl, views[v].local, canon);
+        }
+    }
+    width = size > 0x1000 ? 4 : size > 0x100 ? 3 : 2;
+
+    /* merge: hand-decided members first, then every offset the views agree on */
+    for (i = 0; i < nfixed; i++) {
+        out = realloc(out, (nout + 1) * sizeof(Mem));
+        out[nout++] = fixed[i];
+    }
+    for (i = 0; i < nrec; i++) {
+        int covered = 0, conflict = 0, best = -1, bestn = 0;
+        Mem m = rec[i];
+        if (m.filler) continue;
+        for (k = 0; k < nout; k++)
+            if (m.off < out[k].off + out[k].size && out[k].off < m.off + m.size) covered = 1;
+        if (covered) continue;
+        for (k = 0; k < nrec; k++) {
+            if (rec[k].filler == 1 || !(rec[k].off < m.off + m.size && m.off < rec[k].off + rec[k].size)) continue;
+            if (rec[k].off != m.off || rec[k].size != m.size || strcmp(rec[k].decl, m.decl)) conflict = 1;
+        }
+        if (conflict) {
+            printf("UNRESOLVED 0x%0*X:\n", width, m.off);
+            for (k = 0; k < nrec; k++)
+                if (!rec[k].filler && rec[k].off < m.off + m.size && m.off < rec[k].off + rec[k].size) {
+                    char d[400];
+                    snprintf(d, sizeof d, "%s", rec[k].decl);
+                    replace_word(d, sizeof d, "@", rec[k].name);
+                    printf("    0x%0*X size %2d  %-30s %s\n", width, rec[k].off, rec[k].size, d, views[rec[k].view].path);
+                    rec[k].filler = 2; /* reported */
                 }
-            if (open < 0) { /* typedef of an existing type */
-                int sz, al;
-                char w[96];
-                tok_text(f, it->first + 1, w, sizeof w);
-                if (get_type(w, &sz, &al)) set_type(it->name, sz, al);
-                continue;
-            }
-            close = match_close(f, open, "{", "}");
-            for (k = it->first; k < open; k++)
-                if (is(f, k, "union")) is_union = 1;
-            printf("== %s\t%s\n", f->path, it->name);
-            size = layout_body(f, open, close, is_union, 0, 0, &align, 1);
-            printf("%04X      size, align %d\n", size, align);
-            set_type(it->name, size, align);
-            if (is(f, it->first, "typedef") && f->tok[it->first + 2].kind == 'i' && !is(f, it->first + 2, "{")) {
-                char tag[120], w[96];
-                tok_text(f, it->first + 2, w, sizeof w);
-                snprintf(tag, sizeof tag, "struct %s", w);
-                set_type(tag, size, align);
+            unresolved++;
+            continue;
+        }
+        /* the name most views use; a descriptive name wins a tie */
+        for (k = 0; k < nrec; k++) {
+            int n = 0, j;
+            if (rec[k].filler || rec[k].off != m.off) continue;
+            for (j = 0; j < nrec; j++)
+                if (!rec[j].filler && rec[j].off == m.off && !strcmp(rec[j].name, rec[k].name)) n++;
+            if (n > bestn || (n == bestn && best >= 0 && is_placeholder_name(rec[best].name) && !is_placeholder_name(rec[k].name))) {
+                best = k;
+                bestn = n;
             }
         }
+        strcpy(m.name, rec[best].name);
+        if (is_placeholder_name(m.name)) snprintf(m.name, sizeof m.name, "unk_%0*X", width, m.off);
+        out = realloc(out, (nout + 1) * sizeof(Mem));
+        out[nout++] = m;
+    }
+    qsort(out, nout, sizeof(Mem), cmp_mem);
+
+    /* the definition, with fillers for the ranges no view names */
+    printf("typedef struct %s%s{\n", tag, tag[0] ? " " : "");
+    {
+        int at = 0;
+        for (i = 0; i <= nout; i++) {
+            int next = i < nout ? out[i].off : size;
+            char d[500];
+            if (next > at) {
+                /* alignment padding needs no filler: only whole unnamed ranges get one */
+                int al = 1, sz, aligned = at;
+                if (i < nout) {
+                    char ty[96];
+                    sscanf(out[i].decl, "%95s", ty);
+                    if (strchr(out[i].decl, '*')) al = 4;
+                    else if (!get_type(ty, &sz, &al)) al = 1;
+                    aligned = (at + al - 1) / al * al;
+                } else {
+                    aligned = (at + 3) / 4 * 4 == size && size - at < 4 ? size : at;
+                }
+                if (next > aligned) printf("    /* 0x%0*X */ u8 unk_%0*X[0x%X];\n", width, at, width, at, next - at);
+            }
+            if (i == nout) break;
+            snprintf(d, sizeof d, "%s", out[i].decl);
+            replace_word(d, sizeof d, "@", out[i].name);
+            printf("    /* 0x%0*X */ %s;\n", width, out[i].off, d);
+            at = out[i].off + out[i].size;
+        }
+    }
+    printf("} %s;    // size 0x%X\n", canon, size);
+    if (unresolved) printf("%d offsets unresolved: add member lines\n", unresolved);
+    if (!do_apply) return;
+    if (unresolved) {
+        fprintf(stderr, "decls: not applied\n");
+        exit(1);
+    }
+
+    /* rewrite each file: drop the view, use the merged name, rename the members that got another name */
+    for (v = 0; v < nviews; v++) {
+        File *f = load(views[v].path);
+        size_t n = strlen(f->raw), a, b, o = 0;
+        char *res = malloc(n * 2 + 4096);
+        int t, it_first = -1, it_last = -1, pos = 0, nren = 0;
+        struct {
+            char from[64], to[64];
+        } ren[200];
+        for (i = 0; i < f->nitem; i++)
+            if (!strcmp(f->item[i].kind, "type") && !strcmp(f->item[i].name, views[v].local)) {
+                it_first = f->item[i].first;
+                it_last = f->item[i].last;
+            }
+        if (it_first < 0) {
+            printf("MANUAL %s: %s is no longer defined here (two views in one file?)\n", views[v].path, views[v].local);
+            manual++;
+            continue;
+        }
+        for (i = views[v].first_mem; i < views[v].first_mem + views[v].nmem; i++) {
+            const Mem *m = &rec[i], *c = NULL;
+            int other = 0, j;
+            if (m->filler == 1) continue;
+            for (k = 0; k < nout; k++)
+                if (out[k].off == m->off) c = &out[k];
+            if (!c) {
+                printf("MANUAL %s: member %s at 0x%X has no merged counterpart\n", views[v].path, m->name, m->off);
+                manual++;
+                continue;
+            }
+            if (c->size != m->size || strcmp(c->decl, m->decl))
+                printf("NOTE   %s: %s is `%s` in the view, `%s` merged\n", views[v].path, m->name, m->decl, c->decl);
+            if (!strcmp(c->name, m->name)) continue;
+            /* is the old name also a member of another struct this file still defines? */
+            for (j = 0; j < f->nitem; j++) {
+                int q;
+                if (strcmp(f->item[j].kind, "type") || !strcmp(f->item[j].name, views[v].local)) continue;
+                for (q = f->item[j].first; q < f->item[j].last; q++)
+                    if (f->tok[q].kind == 'i' && f->tok[q].len == (int)strlen(m->name) &&
+                        !memcmp(f->clean + f->tok[q].s, m->name, f->tok[q].len) && (is(f, q + 1, ";") || is(f, q + 1, "[")))
+                        other = 1;
+            }
+            if (other) {
+                printf("MANUAL %s: rename member %s -> %s of %s by hand (another struct here has a %s)\n", views[v].path, m->name, c->name,
+                       canon, m->name);
+                manual++;
+                continue;
+            }
+            strcpy(ren[nren].from, m->name);
+            strcpy(ren[nren].to, c->name);
+            nren++;
+        }
+        /* cut the lines of the definition */
+        a = f->tok[it_first].s;
+        b = f->tok[it_last].s + f->tok[it_last].len;
+        while (a > 0 && f->raw[a - 1] != '\n') a--;
+        while (b < n && f->raw[b] != '\n') b++;
+        if (b < n) b++;
+        if (b < n && f->raw[b] == '\n') b++; /* and the blank line after it */
+        for (t = 0; t <= f->ntok; t++) {
+            int ts = t < f->ntok ? f->tok[t].s : (int)n;
+            while (pos < ts) { /* the text between tokens */
+                if ((size_t)pos < a || (size_t)pos >= b) res[o++] = f->raw[pos];
+                pos++;
+            }
+            if (t == f->ntok) break;
+            if ((size_t)ts >= a && (size_t)ts < b) {
+                pos = ts + f->tok[t].len;
+                continue;
+            }
+            if (f->tok[t].kind == 'i') {
+                char w[120];
+                int member_use = is(f, t - 1, ".") || (is(f, t - 1, ">") && is(f, t - 2, "-"));
+                tok_text(f, t, w, sizeof w);
+                if (!member_use && !strcmp(w, views[v].local)) {
+                    o += sprintf(res + o, "%s", is(f, t - 1, "struct") && tag[0] ? tag : canon);
+                    pos = ts + f->tok[t].len;
+                    continue;
+                }
+                if (!strcmp(w, "struct") && is(f, t + 1, views[v].local) && !tag[0]) { /* `struct Local`, no tag */
+                    pos = f->tok[t + 1].s;
+                    continue;
+                }
+                if (member_use)
+                    for (k = 0; k < nren; k++)
+                        if (!strcmp(w, ren[k].from)) {
+                            o += sprintf(res + o, "%s", ren[k].to);
+                            pos = ts + f->tok[t].len;
+                            break;
+                        }
+            }
+        }
+        {
+            FILE *fp = fopen(f->path, "wb");
+            fwrite(res, 1, o, fp);
+            fclose(fp);
+        }
+        free(res);
+    }
+    printf("decls: %d views replaced by %s; %d places need a hand\n", nviews, canon, manual);
+}
+
+static void cmd_layout(void) {
+    int p, nsrc = npaths, base;
+    seed_types(nsrc);
+    base = ntinfo;
+    for (p = 0; p < nsrc; p++) {
+        ntinfo = base;
+        layout_file(load(paths[p]), 1, NULL);
     }
 }
 
 int main(int argc, char **argv) {
     int i;
     if (argc < 2) {
-        fprintf(stderr, "usage: decls list|sigs|prune|layout [FILE...]\n");
+        fprintf(stderr, "usage: decls list|sigs|prune|layout [FILE...] | decls unify SPEC [apply]\n");
         return 2;
+    }
+    if (!strcmp(argv[1], "unify") && argc >= 3) {
+        cmd_unify(argv[2], argc > 3 && !strcmp(argv[3], "apply"));
+        return 0;
     }
     for (i = 2; i < argc; i++) add_path(argv[i]);
     if (npaths == 0) game_sources();
