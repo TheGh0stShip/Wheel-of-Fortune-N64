@@ -1,142 +1,151 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-void func_80095664(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
-    s32 i;
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
+/*
+=====================
+func_80095664
 
-    arg0 += (arg2 + arg6) * arg4 + arg3 + arg5;
-    if (arg9 == 16) {
-        if (arg7 == 0 && arg8 == 0) {
-            if ((arg5 & 1) != 0) {
-                for (i = 0; i < 16; i++) {
-                    *(s8 *)arg1 = *(u8 *)arg0;
-                    *(s8 *)(arg1 + 1) = *(u8 *)(arg0 + 1);
-                    *(s8 *)(arg1 + 2) = *(u8 *)(arg0 + 2);
-                    *(s8 *)(arg1 + 3) = *(u8 *)(arg0 + 3);
-                    *(s8 *)(arg1 + 4) = *(u8 *)(arg0 + 4);
-                    *(s8 *)(arg1 + 5) = *(u8 *)(arg0 + 5);
-                    *(s8 *)(arg1 + 6) = *(u8 *)(arg0 + 6);
-                    *(s8 *)(arg1 + 7) = *(u8 *)(arg0 + 7);
-                    *(s8 *)(arg1 + 8) = *(u8 *)(arg0 + 8);
-                    *(s8 *)(arg1 + 9) = *(u8 *)(arg0 + 9);
-                    *(s8 *)(arg1 + 10) = *(u8 *)(arg0 + 10);
-                    *(s8 *)(arg1 + 11) = *(u8 *)(arg0 + 11);
-                    *(s8 *)(arg1 + 12) = *(u8 *)(arg0 + 12);
-                    *(s8 *)(arg1 + 13) = *(u8 *)(arg0 + 13);
-                    *(s8 *)(arg1 + 14) = *(u8 *)(arg0 + 14);
-                    *(s8 *)(arg1 + 15) = *(u8 *)(arg0 + 15);
-                    arg1 += 16;
-                    arg0 += arg4;
+Copies the block of width by width pixels that a vector points at from source into dest,
+averaging with the neighbour for a half-pel vector. For the macroblocks a B picture left out.
+=====================
+*/
+void func_80095664( unsigned char *source, unsigned char *dest, int row, int col, int row_size, int right,
+                    int down, int right_half, int down_half, int width ) {
+    int rr;
+    unsigned char *source2;
+
+    source += ( ( row + down ) * row_size ) + col + right;
+
+    if ( width == 16 ) {
+        if ( ( !right_half ) && ( !down_half ) ) {
+            if ( right & 0x1 ) {
+                for ( rr = 0; rr < 16; rr++ ) {
+                    dest[0] = source[0];
+                    dest[1] = source[1];
+                    dest[2] = source[2];
+                    dest[3] = source[3];
+                    dest[4] = source[4];
+                    dest[5] = source[5];
+                    dest[6] = source[6];
+                    dest[7] = source[7];
+                    dest[8] = source[8];
+                    dest[9] = source[9];
+                    dest[10] = source[10];
+                    dest[11] = source[11];
+                    dest[12] = source[12];
+                    dest[13] = source[13];
+                    dest[14] = source[14];
+                    dest[15] = source[15];
+                    dest += 16;
+                    source += row_size;
                 }
-            } else if ((arg5 & 2) != 0) {
-                sp8 = arg0;
-                spC = arg1;
-                arg4 >>= 1;
-                for (i = 0; i < 16; i++) {
-                    *(s16 *)spC = *(u16 *)sp8;
-                    *(s16 *)(spC + 2) = *(u16 *)(sp8 + 2);
-                    *(s16 *)(spC + 4) = *(u16 *)(sp8 + 4);
-                    *(s16 *)(spC + 6) = *(u16 *)(sp8 + 6);
-                    *(s16 *)(spC + 8) = *(u16 *)(sp8 + 8);
-                    *(s16 *)(spC + 10) = *(u16 *)(sp8 + 10);
-                    *(s16 *)(spC + 12) = *(u16 *)(sp8 + 12);
-                    *(s16 *)(spC + 14) = *(u16 *)(sp8 + 14);
-                    spC += 16;
-                    sp8 += arg4 * 2;
+            } else if ( right & 0x2 ) {
+                short *src = (short *)source;
+                short *d = (short *)dest;
+                row_size >>= 1;
+                for ( rr = 0; rr < 16; rr++ ) {
+                    d[0] = src[0];
+                    d[1] = src[1];
+                    d[2] = src[2];
+                    d[3] = src[3];
+                    d[4] = src[4];
+                    d[5] = src[5];
+                    d[6] = src[6];
+                    d[7] = src[7];
+                    d += 8;
+                    src += row_size;
                 }
             } else {
-                spC = arg0;
-                sp8 = arg1;
-                arg4 >>= 2;
-                for (i = 0; i < 16; i++) {
-                    *(s32 *)sp8 = *(s32 *)spC;
-                    *(s32 *)(sp8 + 4) = *(s32 *)(spC + 4);
-                    *(s32 *)(sp8 + 8) = *(s32 *)(spC + 8);
-                    *(s32 *)(sp8 + 12) = *(s32 *)(spC + 12);
-                    sp8 += 16;
-                    spC += arg4 * 4;
+                int *src = (int *)source;
+                int *d = (int *)dest;
+                row_size >>= 2;
+                for ( rr = 0; rr < 16; rr++ ) {
+                    d[0] = src[0];
+                    d[1] = src[1];
+                    d[2] = src[2];
+                    d[3] = src[3];
+                    d += 4;
+                    src += row_size;
                 }
             }
         } else {
-            sp4 = arg0 + arg7 + arg4 * arg8;
-            for (i = 0; i < arg9; i++) {
-                *(s8 *)arg1 = (*(u8 *)arg0 + *(u8 *)sp4) >> 1;
-                *(s8 *)(arg1 + 1) = (*(u8 *)(arg0 + 1) + *(u8 *)(sp4 + 1)) >> 1;
-                *(s8 *)(arg1 + 2) = (*(u8 *)(arg0 + 2) + *(u8 *)(sp4 + 2)) >> 1;
-                *(s8 *)(arg1 + 3) = (*(u8 *)(arg0 + 3) + *(u8 *)(sp4 + 3)) >> 1;
-                *(s8 *)(arg1 + 4) = (*(u8 *)(arg0 + 4) + *(u8 *)(sp4 + 4)) >> 1;
-                *(s8 *)(arg1 + 5) = (*(u8 *)(arg0 + 5) + *(u8 *)(sp4 + 5)) >> 1;
-                *(s8 *)(arg1 + 6) = (*(u8 *)(arg0 + 6) + *(u8 *)(sp4 + 6)) >> 1;
-                *(s8 *)(arg1 + 7) = (*(u8 *)(arg0 + 7) + *(u8 *)(sp4 + 7)) >> 1;
-                *(s8 *)(arg1 + 8) = (*(u8 *)(arg0 + 8) + *(u8 *)(sp4 + 8)) >> 1;
-                *(s8 *)(arg1 + 9) = (*(u8 *)(arg0 + 9) + *(u8 *)(sp4 + 9)) >> 1;
-                *(s8 *)(arg1 + 10) = (*(u8 *)(arg0 + 10) + *(u8 *)(sp4 + 10)) >> 1;
-                *(s8 *)(arg1 + 11) = (*(u8 *)(arg0 + 11) + *(u8 *)(sp4 + 11)) >> 1;
-                *(s8 *)(arg1 + 12) = (*(u8 *)(arg0 + 12) + *(u8 *)(sp4 + 12)) >> 1;
-                *(s8 *)(arg1 + 13) = (*(u8 *)(arg0 + 13) + *(u8 *)(sp4 + 13)) >> 1;
-                *(s8 *)(arg1 + 14) = (*(u8 *)(arg0 + 14) + *(u8 *)(sp4 + 14)) >> 1;
-                *(s8 *)(arg1 + 15) = (*(u8 *)(arg0 + 15) + *(u8 *)(sp4 + 15)) >> 1;
-                arg1 += arg9;
-                arg0 += arg4;
-                sp4 += arg4;
+            source2 = source + right_half + ( row_size * down_half );
+            for ( rr = 0; rr < width; rr++ ) {
+                dest[0] = (int)( source[0] + source2[0] ) >> 1;
+                dest[1] = (int)( source[1] + source2[1] ) >> 1;
+                dest[2] = (int)( source[2] + source2[2] ) >> 1;
+                dest[3] = (int)( source[3] + source2[3] ) >> 1;
+                dest[4] = (int)( source[4] + source2[4] ) >> 1;
+                dest[5] = (int)( source[5] + source2[5] ) >> 1;
+                dest[6] = (int)( source[6] + source2[6] ) >> 1;
+                dest[7] = (int)( source[7] + source2[7] ) >> 1;
+                dest[8] = (int)( source[8] + source2[8] ) >> 1;
+                dest[9] = (int)( source[9] + source2[9] ) >> 1;
+                dest[10] = (int)( source[10] + source2[10] ) >> 1;
+                dest[11] = (int)( source[11] + source2[11] ) >> 1;
+                dest[12] = (int)( source[12] + source2[12] ) >> 1;
+                dest[13] = (int)( source[13] + source2[13] ) >> 1;
+                dest[14] = (int)( source[14] + source2[14] ) >> 1;
+                dest[15] = (int)( source[15] + source2[15] ) >> 1;
+                dest += width;
+                source += row_size;
+                source2 += row_size;
             }
         }
-        return;
-    }
-    if (arg7 == 0 && arg8 == 0) {
-        if ((arg5 & 1) != 0) {
-            for (i = 0; i < arg9; i++) {
-                *(s8 *)arg1 = *(u8 *)arg0;
-                *(s8 *)(arg1 + 1) = *(u8 *)(arg0 + 1);
-                *(s8 *)(arg1 + 2) = *(u8 *)(arg0 + 2);
-                *(s8 *)(arg1 + 3) = *(u8 *)(arg0 + 3);
-                *(s8 *)(arg1 + 4) = *(u8 *)(arg0 + 4);
-                *(s8 *)(arg1 + 5) = *(u8 *)(arg0 + 5);
-                *(s8 *)(arg1 + 6) = *(u8 *)(arg0 + 6);
-                *(s8 *)(arg1 + 7) = *(u8 *)(arg0 + 7);
-                arg1 += 8;
-                arg0 += arg4;
-            }
-        } else if ((arg5 & 2) != 0) {
-            spC = arg1;
-            sp8 = arg0;
-            arg4 >>= 1;
-            for (i = 0; i < arg9; i++) {
-                *(s16 *)spC = *(u16 *)sp8;
-                *(s16 *)(spC + 2) = *(u16 *)(sp8 + 2);
-                *(s16 *)(spC + 4) = *(u16 *)(sp8 + 4);
-                *(s16 *)(spC + 6) = *(u16 *)(sp8 + 6);
-                spC += 8;
-                sp8 += arg4 * 2;
+    } else {
+        assert( width == 8 );
+        if ( ( !right_half ) && ( !down_half ) ) {
+            if ( right & 0x1 ) {
+                for ( rr = 0; rr < width; rr++ ) {
+                    dest[0] = source[0];
+                    dest[1] = source[1];
+                    dest[2] = source[2];
+                    dest[3] = source[3];
+                    dest[4] = source[4];
+                    dest[5] = source[5];
+                    dest[6] = source[6];
+                    dest[7] = source[7];
+                    dest += 8;
+                    source += row_size;
+                }
+            } else if ( right & 0x02 ) {
+                short *d = (short *)dest;
+                short *src = (short *)source;
+                row_size >>= 1;
+                for ( rr = 0; rr < width; rr++ ) {
+                    d[0] = src[0];
+                    d[1] = src[1];
+                    d[2] = src[2];
+                    d[3] = src[3];
+                    d += 4;
+                    src += row_size;
+                }
+            } else {
+                int *d = (int *)dest;
+                int *src = (int *)source;
+                row_size >>= 2;
+                for ( rr = 0; rr < width; rr++ ) {
+                    d[0] = src[0];
+                    d[1] = src[1];
+                    d += 2;
+                    src += row_size;
+                }
             }
         } else {
-            spC = arg1;
-            sp8 = arg0;
-            arg4 >>= 2;
-            for (i = 0; i < arg9; i++) {
-                *(s32 *)spC = *(s32 *)sp8;
-                *(s32 *)(spC + 4) = *(s32 *)(sp8 + 4);
-                spC += 8;
-                sp8 += arg4 * 4;
+            source2 = source + right_half + ( row_size * down_half );
+            for ( rr = 0; rr < width; rr++ ) {
+                dest[0] = (int)( source[0] + source2[0] ) >> 1;
+                dest[1] = (int)( source[1] + source2[1] ) >> 1;
+                dest[2] = (int)( source[2] + source2[2] ) >> 1;
+                dest[3] = (int)( source[3] + source2[3] ) >> 1;
+                dest[4] = (int)( source[4] + source2[4] ) >> 1;
+                dest[5] = (int)( source[5] + source2[5] ) >> 1;
+                dest[6] = (int)( source[6] + source2[6] ) >> 1;
+                dest[7] = (int)( source[7] + source2[7] ) >> 1;
+                dest += width;
+                source += row_size;
+                source2 += row_size;
             }
         }
-        return;
-    }
-    sp4 = arg0 + arg7 + arg4 * arg8;
-    for (i = 0; i < arg9; i++) {
-        *(s8 *)arg1 = (*(u8 *)arg0 + *(u8 *)sp4) >> 1;
-        *(s8 *)(arg1 + 1) = (*(u8 *)(arg0 + 1) + *(u8 *)(sp4 + 1)) >> 1;
-        *(s8 *)(arg1 + 2) = (*(u8 *)(arg0 + 2) + *(u8 *)(sp4 + 2)) >> 1;
-        *(s8 *)(arg1 + 3) = (*(u8 *)(arg0 + 3) + *(u8 *)(sp4 + 3)) >> 1;
-        *(s8 *)(arg1 + 4) = (*(u8 *)(arg0 + 4) + *(u8 *)(sp4 + 4)) >> 1;
-        *(s8 *)(arg1 + 5) = (*(u8 *)(arg0 + 5) + *(u8 *)(sp4 + 5)) >> 1;
-        *(s8 *)(arg1 + 6) = (*(u8 *)(arg0 + 6) + *(u8 *)(sp4 + 6)) >> 1;
-        *(s8 *)(arg1 + 7) = (*(u8 *)(arg0 + 7) + *(u8 *)(sp4 + 7)) >> 1;
-        arg1 += arg9;
-        arg0 += arg4;
-        sp4 += arg4;
     }
 }

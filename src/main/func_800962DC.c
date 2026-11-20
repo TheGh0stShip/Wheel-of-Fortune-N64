@@ -1,41 +1,34 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x10];
-    /* 0x10 */ s32 flags;
-} Item;
+/*
+=====================
+func_800962DC
 
-typedef struct {
-    /* 0x000 */ u8 unk_000[0xD0];
-    /* 0x0D0 */ s32 unk_D0;
-    /* 0x0D4 */ u8 unk_D4[0x184];
-    /* 0x258 */ Item *unk_258;
-    /* 0x25C */ Item *unk_25C;
-    /* 0x260 */ Item *unk_260;
-} Menu;
+A picture is complete: converts it for display. An I or P picture becomes the frame after, and the
+one it replaces, now the frame before, is the one shown; a B picture is shown at once.
+=====================
+*/
+void func_800962DC( VidStream *vid_stream, XInfo *xinfo ) {
+    func_8009D300( vid_stream );
 
-void func_8009D300(s32 arg0);
-
-void func_800962DC(s32 arg0, s32 arg1) {
-    func_8009D300(arg0);
-    if (((Menu *)arg0)->unk_D0 == 1 || ((Menu *)arg0)->unk_D0 == 2) {
-        if (((Menu *)arg0)->unk_25C == 0) {
-            ((Menu *)arg0)->unk_25C = ((Menu *)arg0)->unk_260;
-            ((Menu *)arg0)->unk_25C->flags |= 4;
+    if ( ( vid_stream->picture.code_type == I_TYPE ) || ( vid_stream->picture.code_type == P_TYPE ) ) {
+        if ( vid_stream->future == NULL ) {
+            vid_stream->future = vid_stream->current;
+            vid_stream->future->locked |= FUTURE_LOCK;
         } else {
-            if (((Menu *)arg0)->unk_258 != 0) {
-                ((Menu *)arg0)->unk_258->flags &= -3;
+            if ( vid_stream->past != NULL ) {
+                vid_stream->past->locked &= ~PAST_LOCK;
             }
-            ((Menu *)arg0)->unk_258 = ((Menu *)arg0)->unk_25C;
-            ((Menu *)arg0)->unk_258->flags &= -5;
-            ((Menu *)arg0)->unk_258->flags |= 2;
-            ((Menu *)arg0)->unk_25C = ((Menu *)arg0)->unk_260;
-            ((Menu *)arg0)->unk_25C->flags |= 4;
-            ((Menu *)arg0)->unk_260 = ((Menu *)arg0)->unk_258;
-            func_8009CAD8(arg0, arg1);
+            vid_stream->past = vid_stream->future;
+            vid_stream->past->locked &= ~FUTURE_LOCK;
+            vid_stream->past->locked |= PAST_LOCK;
+            vid_stream->future = vid_stream->current;
+            vid_stream->future->locked |= FUTURE_LOCK;
+            vid_stream->current = vid_stream->past;
+            func_8009CAD8( vid_stream, xinfo );
         }
-        return;
+    } else {
+        func_8009CAD8( vid_stream, xinfo );
     }
-    func_8009CAD8(arg0, arg1);
 }

@@ -1,296 +1,293 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-typedef struct {
-    /* 0x00 */ s32 y;
-    /* 0x04 */ s32 u;
-    /* 0x08 */ s32 v;
-} Frame;
+#define MAX_NEG_CROP 2048
 
-typedef struct {
-    /* 0x000 */ u8 unk_000[0xC];
-    /* 0x00C */ s32 width;
-    /* 0x010 */ u8 unk_010[0xC0];
-    /* 0x0D0 */ s32 unk_D0;
-    /* 0x0D4 */ u8 unk_0D4[0x34];
-    /* 0x108 */ s32 unk_108;
-    /* 0x10C */ u8 unk_10C[0x48];
-    /* 0x154 */ s16 unk_154[0x68];
-    /* 0x224 */ s32 unk_224;
-    /* 0x228 */ s32 unk_228;
-    /* 0x22C */ s32 unk_22C;
-    /* 0x230 */ s32 unk_230;
-    /* 0x234 */ u8 unk_234[0x24];
-    /* 0x258 */ Frame *unk_258;
-    /* 0x25C */ Frame *unk_25C;
-    /* 0x260 */ Frame *unk_260;
-} Decoder;
+/*
+=====================
+func_8008F828
 
-void func_8008F828(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    s32 sp0;
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    s32 stride;
-    s32 i;
-    s32 sp18;
-    s32 sp1C;
-    u8 *sp20;
-    u8 *sp24;
-    u8 *sp28;
-    u8 *sp2C;
-    u8 *dst;
-    s16 *coef;
-    u8 *clip;
-    u8 *sp3C;
-    u8 *sp40;
+Reconstructs block bnum of a macroblock predicted from the frame before: the block the vector points
+at, averaged with its neighbour for a half-pel vector, plus the decoded differences unless zflag says
+there are none. The vector is in half pels.
+=====================
+*/
+void func_8008F828( VidStream *vid_stream, int bnum, int recon_right_for, int recon_down_for, int zflag ) {
+    int           mb_row, mb_col, row, col, row_size, rr;
+    unsigned char *dest, *past;
+    unsigned char *rindex1, *rindex2, *rindex3, *rindex4;
+    unsigned char *index;
+    short int     *blockvals;
 
-    sp0 = (u32)((Decoder *)arg0)->unk_108 / (u32)((Decoder *)arg0)->width;
-    sp4 = (u32)((Decoder *)arg0)->unk_108 % (u32)((Decoder *)arg0)->width;
-    if (arg1 < 4) {
-        ((Decoder *)arg0)->unk_224 = arg2 >> 1;
-        ((Decoder *)arg0)->unk_228 = arg3 >> 1;
-        ((Decoder *)arg0)->unk_22C = arg2 & 1;
-        ((Decoder *)arg0)->unk_230 = arg3 & 1;
-        sp18 = ((Decoder *)arg0)->unk_260->y;
-        if (((Decoder *)arg0)->unk_D0 == 3) {
-            if (((Decoder *)arg0)->unk_258 != 0) {
-                sp1C = ((Decoder *)arg0)->unk_258->y;
+    mb_row = vid_stream->mblock.mb_address / vid_stream->mb_width;
+    mb_col = vid_stream->mblock.mb_address % vid_stream->mb_width;
+
+    if ( bnum < 4 ) {
+        vid_stream->right_for = recon_right_for >> 1;
+        vid_stream->down_for = recon_down_for >> 1;
+        vid_stream->right_half_for = recon_right_for & 0x1;
+        vid_stream->down_half_for = recon_down_for & 0x1;
+
+        dest = vid_stream->current->luminance;
+
+        if ( vid_stream->picture.code_type == B_TYPE ) {
+            if ( vid_stream->past != NULL ) {
+                past = vid_stream->past->luminance;
             }
         } else {
-            if (((Decoder *)arg0)->unk_25C != 0) {
-                sp1C = ((Decoder *)arg0)->unk_25C->y;
+            if ( vid_stream->future != NULL ) {
+                past = vid_stream->future->luminance;
             }
         }
-        stride = ((Decoder *)arg0)->width << 4;
-        sp8 = sp0 << 4;
-        spC = sp4 << 4;
-        if (arg1 >= 2) {
-            sp8 += 8;
+
+        row_size = vid_stream->mb_width << 4;
+
+        row = mb_row << 4;
+        col = mb_col << 4;
+        if ( bnum > 1 ) {
+            row += 8;
         }
-        if (arg1 % 2 != 0) {
-            spC += 8;
+        if ( bnum % 2 ) {
+            col += 8;
         }
     } else {
-        arg2 = arg2 / 2;
-        arg3 = arg3 / 2;
-        ((Decoder *)arg0)->unk_224 = arg2 >> 1;
-        ((Decoder *)arg0)->unk_228 = arg3 >> 1;
-        ((Decoder *)arg0)->unk_22C = arg2 & 1;
-        ((Decoder *)arg0)->unk_230 = arg3 & 1;
-        stride = ((Decoder *)arg0)->width << 3;
-        sp8 = sp0 << 3;
-        spC = sp4 << 3;
-        if (arg1 == 5) {
-            sp18 = ((Decoder *)arg0)->unk_260->u;
-            if (((Decoder *)arg0)->unk_D0 == 3) {
-                if (((Decoder *)arg0)->unk_258 != 0) {
-                    sp1C = ((Decoder *)arg0)->unk_258->u;
+        // the chrominance planes are half the size, and so is the vector
+        recon_right_for /= 2;
+        recon_down_for /= 2;
+        vid_stream->right_for = recon_right_for >> 1;
+        vid_stream->down_for = recon_down_for >> 1;
+        vid_stream->right_half_for = recon_right_for & 0x1;
+        vid_stream->down_half_for = recon_down_for & 0x1;
+
+        row_size = vid_stream->mb_width << 3;
+
+        row = mb_row << 3;
+        col = mb_col << 3;
+
+        if ( bnum == 5 ) {
+            dest = vid_stream->current->Cr;
+
+            if ( vid_stream->picture.code_type == B_TYPE ) {
+                if ( vid_stream->past != NULL ) {
+                    past = vid_stream->past->Cr;
                 }
             } else {
-                if (((Decoder *)arg0)->unk_25C != 0) {
-                    sp1C = ((Decoder *)arg0)->unk_25C->u;
+                if ( vid_stream->future != NULL ) {
+                    past = vid_stream->future->Cr;
                 }
             }
         } else {
-            sp18 = ((Decoder *)arg0)->unk_260->v;
-            if (((Decoder *)arg0)->unk_D0 == 3) {
-                if (((Decoder *)arg0)->unk_258 != 0) {
-                    sp1C = ((Decoder *)arg0)->unk_258->v;
+            dest = vid_stream->current->Cb;
+
+            if ( vid_stream->picture.code_type == B_TYPE ) {
+                if ( vid_stream->past != NULL ) {
+                    past = vid_stream->past->Cb;
                 }
             } else {
-                if (((Decoder *)arg0)->unk_25C != 0) {
-                    sp1C = ((Decoder *)arg0)->unk_25C->v;
+                if ( vid_stream->future != NULL ) {
+                    past = vid_stream->future->Cb;
                 }
             }
         }
     }
-    dst = (u8 *)(sp8 * stride + sp18 + spC);
-    sp20 = (u8 *)((sp8 + ((Decoder *)arg0)->unk_228) * stride + sp1C + spC + ((Decoder *)arg0)->unk_224);
-    coef = ((Decoder *)arg0)->unk_154;
-    if (((Decoder *)arg0)->unk_230 == 0 && ((Decoder *)arg0)->unk_22C == 0) {
-        clip = D_800FC098;
-        if (arg4 == 0) {
-            for (i = 0; i < 4; i++) {
-                dst[0] = clip[sp20[0] + coef[0]];
-                dst[1] = clip[sp20[1] + coef[1]];
-                dst[2] = clip[sp20[2] + coef[2]];
-                dst[3] = clip[sp20[3] + coef[3]];
-                dst[4] = clip[sp20[4] + coef[4]];
-                dst[5] = clip[sp20[5] + coef[5]];
-                dst[6] = clip[sp20[6] + coef[6]];
-                dst[7] = clip[sp20[7] + coef[7]];
-                dst += stride;
-                sp20 += stride;
-                dst[0] = clip[sp20[0] + coef[8]];
-                dst[1] = clip[sp20[1] + coef[9]];
-                dst[2] = clip[sp20[2] + coef[10]];
-                dst[3] = clip[sp20[3] + coef[11]];
-                dst[4] = clip[sp20[4] + coef[12]];
-                dst[5] = clip[sp20[5] + coef[13]];
-                dst[6] = clip[sp20[6] + coef[14]];
-                dst[7] = clip[sp20[7] + coef[15]];
-                coef += 16;
-                dst += stride;
-                sp20 += stride;
+
+    index = dest + ( row * row_size ) + col;
+    rindex1 = past + ( row + vid_stream->down_for ) * row_size + col + vid_stream->right_for;
+
+    blockvals = &( vid_stream->block.dct_recon[0][0] );
+
+    if ( ( !vid_stream->down_half_for ) && ( !vid_stream->right_half_for ) ) {
+        unsigned char *cm = D_800FB898 + MAX_NEG_CROP;
+
+        if ( !zflag ) {
+            for ( rr = 0; rr < 4; rr++ ) {
+                index[0] = cm[(int)rindex1[0] + (int)blockvals[0]];
+                index[1] = cm[(int)rindex1[1] + (int)blockvals[1]];
+                index[2] = cm[(int)rindex1[2] + (int)blockvals[2]];
+                index[3] = cm[(int)rindex1[3] + (int)blockvals[3]];
+                index[4] = cm[(int)rindex1[4] + (int)blockvals[4]];
+                index[5] = cm[(int)rindex1[5] + (int)blockvals[5]];
+                index[6] = cm[(int)rindex1[6] + (int)blockvals[6]];
+                index[7] = cm[(int)rindex1[7] + (int)blockvals[7]];
+                index += row_size;
+                rindex1 += row_size;
+
+                index[0] = cm[(int)rindex1[0] + (int)blockvals[8]];
+                index[1] = cm[(int)rindex1[1] + (int)blockvals[9]];
+                index[2] = cm[(int)rindex1[2] + (int)blockvals[10]];
+                index[3] = cm[(int)rindex1[3] + (int)blockvals[11]];
+                index[4] = cm[(int)rindex1[4] + (int)blockvals[12]];
+                index[5] = cm[(int)rindex1[5] + (int)blockvals[13]];
+                index[6] = cm[(int)rindex1[6] + (int)blockvals[14]];
+                index[7] = cm[(int)rindex1[7] + (int)blockvals[15]];
+                blockvals += 16;
+                index += row_size;
+                rindex1 += row_size;
             }
         } else {
-            if ((((Decoder *)arg0)->unk_224 & 1) != 0) {
-                for (i = 0; i < 4; i++) {
-                    dst[0] = sp20[0];
-                    dst[1] = sp20[1];
-                    dst[2] = sp20[2];
-                    dst[3] = sp20[3];
-                    dst[4] = sp20[4];
-                    dst[5] = sp20[5];
-                    dst[6] = sp20[6];
-                    dst[7] = sp20[7];
-                    dst += stride;
-                    sp20 += stride;
-                    dst[0] = sp20[0];
-                    dst[1] = sp20[1];
-                    dst[2] = sp20[2];
-                    dst[3] = sp20[3];
-                    dst[4] = sp20[4];
-                    dst[5] = sp20[5];
-                    dst[6] = sp20[6];
-                    dst[7] = sp20[7];
-                    dst += stride;
-                    sp20 += stride;
+            // a plain copy, by the widest unit the source is aligned to
+            if ( vid_stream->right_for & 0x1 ) {
+                for ( rr = 0; rr < 4; rr++ ) {
+                    index[0] = rindex1[0];
+                    index[1] = rindex1[1];
+                    index[2] = rindex1[2];
+                    index[3] = rindex1[3];
+                    index[4] = rindex1[4];
+                    index[5] = rindex1[5];
+                    index[6] = rindex1[6];
+                    index[7] = rindex1[7];
+                    index += row_size;
+                    rindex1 += row_size;
+
+                    index[0] = rindex1[0];
+                    index[1] = rindex1[1];
+                    index[2] = rindex1[2];
+                    index[3] = rindex1[3];
+                    index[4] = rindex1[4];
+                    index[5] = rindex1[5];
+                    index[6] = rindex1[6];
+                    index[7] = rindex1[7];
+                    index += row_size;
+                    rindex1 += row_size;
+                }
+            } else if ( vid_stream->right_for & 0x2 ) {
+                short *src = (short *)rindex1;
+                short *dest = (short *)index;
+
+                row_size >>= 1;
+                for ( rr = 0; rr < 4; rr++ ) {
+                    dest[0] = src[0];
+                    dest[1] = src[1];
+                    dest[2] = src[2];
+                    dest[3] = src[3];
+                    dest += row_size;
+                    src += row_size;
+
+                    dest[0] = src[0];
+                    dest[1] = src[1];
+                    dest[2] = src[2];
+                    dest[3] = src[3];
+                    dest += row_size;
+                    src += row_size;
                 }
             } else {
-                if ((((Decoder *)arg0)->unk_224 & 2) != 0) {
-                    sp3C = sp20;
-                    sp40 = dst;
-                    stride = stride >> 1;
-                    for (i = 0; i < 4; i++) {
-                        *(s16 *)sp40 = *(u16 *)sp3C;
-                        *(s16 *)(sp40 + 2) = *(u16 *)(sp3C + 2);
-                        *(s16 *)(sp40 + 4) = *(u16 *)(sp3C + 4);
-                        *(s16 *)(sp40 + 6) = *(u16 *)(sp3C + 6);
-                        sp40 += stride * 2;
-                        sp3C += stride * 2;
-                        *(s16 *)sp40 = *(u16 *)sp3C;
-                        *(s16 *)(sp40 + 2) = *(u16 *)(sp3C + 2);
-                        *(s16 *)(sp40 + 4) = *(u16 *)(sp3C + 4);
-                        *(s16 *)(sp40 + 6) = *(u16 *)(sp3C + 6);
-                        sp40 += stride * 2;
-                        sp3C += stride * 2;
-                    }
-                } else {
-                    sp40 = sp20;
-                    sp3C = dst;
-                    stride = stride >> 2;
-                    for (i = 0; i < 4; i++) {
-                        *(s32 *)sp3C = *(s32 *)sp40;
-                        *(s32 *)(sp3C + 4) = *(s32 *)(sp40 + 4);
-                        sp3C += stride * 4;
-                        sp40 += stride * 4;
-                        *(s32 *)sp3C = *(s32 *)sp40;
-                        *(s32 *)(sp3C + 4) = *(s32 *)(sp40 + 4);
-                        sp3C += stride * 4;
-                        sp40 += stride * 4;
-                    }
+                int *src = (int *)rindex1;
+                int *dest = (int *)index;
+
+                row_size >>= 2;
+                for ( rr = 0; rr < 4; rr++ ) {
+                    dest[0] = src[0];
+                    dest[1] = src[1];
+                    dest += row_size;
+                    src += row_size;
+
+                    dest[0] = src[0];
+                    dest[1] = src[1];
+                    dest += row_size;
+                    src += row_size;
                 }
             }
         }
-        return;
-    }
-    sp40 = D_800FC098;
-    sp24 = sp20 + ((Decoder *)arg0)->unk_22C + ((Decoder *)arg0)->unk_230 * stride;
-    if (((Decoder *)arg0)->unk_22C == 0 || (((Decoder *)arg0)->unk_230 == 0 || D_80086D50 == 0)) {
-        if (arg4 == 0) {
-            for (i = 0; i < 4; i++) {
-                dst[0] = sp40[((sp20[0] + sp24[0] + 1) >> 1) + coef[0]];
-                dst[1] = sp40[((sp20[1] + sp24[1] + 1) >> 1) + coef[1]];
-                dst[2] = sp40[((sp20[2] + sp24[2] + 1) >> 1) + coef[2]];
-                dst[3] = sp40[((sp20[3] + sp24[3] + 1) >> 1) + coef[3]];
-                dst[4] = sp40[((sp20[4] + sp24[4] + 1) >> 1) + coef[4]];
-                dst[5] = sp40[((sp20[5] + sp24[5] + 1) >> 1) + coef[5]];
-                dst[6] = sp40[((sp20[6] + sp24[6] + 1) >> 1) + coef[6]];
-                dst[7] = sp40[((sp20[7] + sp24[7] + 1) >> 1) + coef[7]];
-                dst += stride;
-                sp20 += stride;
-                sp24 += stride;
-                dst[0] = sp40[((sp20[0] + sp24[0] + 1) >> 1) + coef[8]];
-                dst[1] = sp40[((sp20[1] + sp24[1] + 1) >> 1) + coef[9]];
-                dst[2] = sp40[((sp20[2] + sp24[2] + 1) >> 1) + coef[10]];
-                dst[3] = sp40[((sp20[3] + sp24[3] + 1) >> 1) + coef[11]];
-                dst[4] = sp40[((sp20[4] + sp24[4] + 1) >> 1) + coef[12]];
-                dst[5] = sp40[((sp20[5] + sp24[5] + 1) >> 1) + coef[13]];
-                dst[6] = sp40[((sp20[6] + sp24[6] + 1) >> 1) + coef[14]];
-                dst[7] = sp40[((sp20[7] + sp24[7] + 1) >> 1) + coef[15]];
-                coef += 16;
-                dst += stride;
-                sp20 += stride;
-                sp24 += stride;
+    } else {
+        unsigned char *cm = D_800FB898 + MAX_NEG_CROP;
+
+        rindex2 = rindex1 + vid_stream->right_half_for + ( vid_stream->down_half_for * row_size );
+
+        // unless quality matters, a vector with two half components is averaged over two pixels, not four
+        if ( ( !vid_stream->right_half_for ) || ( !vid_stream->down_half_for ) || ( !D_80086D50 ) ) {
+            if ( !zflag ) {
+                for ( rr = 0; rr < 4; rr++ ) {
+                    index[0] = cm[( (int)( rindex1[0] + rindex2[0] + 1 ) >> 1 ) + blockvals[0]];
+                    index[1] = cm[( (int)( rindex1[1] + rindex2[1] + 1 ) >> 1 ) + blockvals[1]];
+                    index[2] = cm[( (int)( rindex1[2] + rindex2[2] + 1 ) >> 1 ) + blockvals[2]];
+                    index[3] = cm[( (int)( rindex1[3] + rindex2[3] + 1 ) >> 1 ) + blockvals[3]];
+                    index[4] = cm[( (int)( rindex1[4] + rindex2[4] + 1 ) >> 1 ) + blockvals[4]];
+                    index[5] = cm[( (int)( rindex1[5] + rindex2[5] + 1 ) >> 1 ) + blockvals[5]];
+                    index[6] = cm[( (int)( rindex1[6] + rindex2[6] + 1 ) >> 1 ) + blockvals[6]];
+                    index[7] = cm[( (int)( rindex1[7] + rindex2[7] + 1 ) >> 1 ) + blockvals[7]];
+                    index += row_size;
+                    rindex1 += row_size;
+                    rindex2 += row_size;
+
+                    index[0] = cm[( (int)( rindex1[0] + rindex2[0] + 1 ) >> 1 ) + blockvals[8]];
+                    index[1] = cm[( (int)( rindex1[1] + rindex2[1] + 1 ) >> 1 ) + blockvals[9]];
+                    index[2] = cm[( (int)( rindex1[2] + rindex2[2] + 1 ) >> 1 ) + blockvals[10]];
+                    index[3] = cm[( (int)( rindex1[3] + rindex2[3] + 1 ) >> 1 ) + blockvals[11]];
+                    index[4] = cm[( (int)( rindex1[4] + rindex2[4] + 1 ) >> 1 ) + blockvals[12]];
+                    index[5] = cm[( (int)( rindex1[5] + rindex2[5] + 1 ) >> 1 ) + blockvals[13]];
+                    index[6] = cm[( (int)( rindex1[6] + rindex2[6] + 1 ) >> 1 ) + blockvals[14]];
+                    index[7] = cm[( (int)( rindex1[7] + rindex2[7] + 1 ) >> 1 ) + blockvals[15]];
+                    blockvals += 16;
+                    index += row_size;
+                    rindex1 += row_size;
+                    rindex2 += row_size;
+                }
+            } else {
+                for ( rr = 0; rr < 8; rr++ ) {
+                    index[0] = (int)( rindex1[0] + rindex2[0] + 1 ) >> 1;
+                    index[1] = (int)( rindex1[1] + rindex2[1] + 1 ) >> 1;
+                    index[2] = (int)( rindex1[2] + rindex2[2] + 1 ) >> 1;
+                    index[3] = (int)( rindex1[3] + rindex2[3] + 1 ) >> 1;
+                    index[4] = (int)( rindex1[4] + rindex2[4] + 1 ) >> 1;
+                    index[5] = (int)( rindex1[5] + rindex2[5] + 1 ) >> 1;
+                    index[6] = (int)( rindex1[6] + rindex2[6] + 1 ) >> 1;
+                    index[7] = (int)( rindex1[7] + rindex2[7] + 1 ) >> 1;
+                    index += row_size;
+                    rindex1 += row_size;
+                    rindex2 += row_size;
+                }
             }
         } else {
-            for (i = 0; i < 8; i++) {
-                dst[0] = (sp20[0] + sp24[0] + 1) >> 1;
-                dst[1] = (sp20[1] + sp24[1] + 1) >> 1;
-                dst[2] = (sp20[2] + sp24[2] + 1) >> 1;
-                dst[3] = (sp20[3] + sp24[3] + 1) >> 1;
-                dst[4] = (sp20[4] + sp24[4] + 1) >> 1;
-                dst[5] = (sp20[5] + sp24[5] + 1) >> 1;
-                dst[6] = (sp20[6] + sp24[6] + 1) >> 1;
-                dst[7] = (sp20[7] + sp24[7] + 1) >> 1;
-                dst += stride;
-                sp20 += stride;
-                sp24 += stride;
+            rindex3 = rindex1 + vid_stream->right_half_for;
+            rindex4 = rindex1 + ( vid_stream->down_half_for * row_size );
+            if ( !zflag ) {
+                for ( rr = 0; rr < 4; rr++ ) {
+                    index[0] = cm[( (int)( rindex1[0] + rindex2[0] + rindex3[0] + rindex4[0] + 2 ) >> 2 ) + blockvals[0]];
+                    index[1] = cm[( (int)( rindex1[1] + rindex2[1] + rindex3[1] + rindex4[1] + 2 ) >> 2 ) + blockvals[1]];
+                    index[2] = cm[( (int)( rindex1[2] + rindex2[2] + rindex3[2] + rindex4[2] + 2 ) >> 2 ) + blockvals[2]];
+                    index[3] = cm[( (int)( rindex1[3] + rindex2[3] + rindex3[3] + rindex4[3] + 2 ) >> 2 ) + blockvals[3]];
+                    index[4] = cm[( (int)( rindex1[4] + rindex2[4] + rindex3[4] + rindex4[4] + 2 ) >> 2 ) + blockvals[4]];
+                    index[5] = cm[( (int)( rindex1[5] + rindex2[5] + rindex3[5] + rindex4[5] + 2 ) >> 2 ) + blockvals[5]];
+                    index[6] = cm[( (int)( rindex1[6] + rindex2[6] + rindex3[6] + rindex4[6] + 2 ) >> 2 ) + blockvals[6]];
+                    index[7] = cm[( (int)( rindex1[7] + rindex2[7] + rindex3[7] + rindex4[7] + 2 ) >> 2 ) + blockvals[7]];
+                    index += row_size;
+                    rindex1 += row_size;
+                    rindex2 += row_size;
+                    rindex3 += row_size;
+                    rindex4 += row_size;
+
+                    index[0] = cm[( (int)( rindex1[0] + rindex2[0] + rindex3[0] + rindex4[0] + 2 ) >> 2 ) + blockvals[8]];
+                    index[1] = cm[( (int)( rindex1[1] + rindex2[1] + rindex3[1] + rindex4[1] + 2 ) >> 2 ) + blockvals[9]];
+                    index[2] = cm[( (int)( rindex1[2] + rindex2[2] + rindex3[2] + rindex4[2] + 2 ) >> 2 ) + blockvals[10]];
+                    index[3] = cm[( (int)( rindex1[3] + rindex2[3] + rindex3[3] + rindex4[3] + 2 ) >> 2 ) + blockvals[11]];
+                    index[4] = cm[( (int)( rindex1[4] + rindex2[4] + rindex3[4] + rindex4[4] + 2 ) >> 2 ) + blockvals[12]];
+                    index[5] = cm[( (int)( rindex1[5] + rindex2[5] + rindex3[5] + rindex4[5] + 2 ) >> 2 ) + blockvals[13]];
+                    index[6] = cm[( (int)( rindex1[6] + rindex2[6] + rindex3[6] + rindex4[6] + 2 ) >> 2 ) + blockvals[14]];
+                    index[7] = cm[( (int)( rindex1[7] + rindex2[7] + rindex3[7] + rindex4[7] + 2 ) >> 2 ) + blockvals[15]];
+                    blockvals += 16;
+                    index += row_size;
+                    rindex1 += row_size;
+                    rindex2 += row_size;
+                    rindex3 += row_size;
+                    rindex4 += row_size;
+                }
+            } else {
+                for ( rr = 0; rr < 8; rr++ ) {
+                    index[0] = (int)( rindex1[0] + rindex2[0] + rindex3[0] + rindex4[0] + 2 ) >> 2;
+                    index[1] = (int)( rindex1[1] + rindex2[1] + rindex3[1] + rindex4[1] + 2 ) >> 2;
+                    index[2] = (int)( rindex1[2] + rindex2[2] + rindex3[2] + rindex4[2] + 2 ) >> 2;
+                    index[3] = (int)( rindex1[3] + rindex2[3] + rindex3[3] + rindex4[3] + 2 ) >> 2;
+                    index[4] = (int)( rindex1[4] + rindex2[4] + rindex3[4] + rindex4[4] + 2 ) >> 2;
+                    index[5] = (int)( rindex1[5] + rindex2[5] + rindex3[5] + rindex4[5] + 2 ) >> 2;
+                    index[6] = (int)( rindex1[6] + rindex2[6] + rindex3[6] + rindex4[6] + 2 ) >> 2;
+                    index[7] = (int)( rindex1[7] + rindex2[7] + rindex3[7] + rindex4[7] + 2 ) >> 2;
+                    index += row_size;
+                    rindex1 += row_size;
+                    rindex2 += row_size;
+                    rindex3 += row_size;
+                    rindex4 += row_size;
+                }
             }
         }
-        return;
-    }
-    sp28 = sp20 + ((Decoder *)arg0)->unk_22C;
-    sp2C = sp20 + ((Decoder *)arg0)->unk_230 * stride;
-    if (arg4 == 0) {
-        for (i = 0; i < 4; i++) {
-            dst[0] = sp40[((sp20[0] + sp24[0] + sp28[0] + sp2C[0] + 2) >> 2) + coef[0]];
-            dst[1] = sp40[((sp20[1] + sp24[1] + sp28[1] + sp2C[1] + 2) >> 2) + coef[1]];
-            dst[2] = sp40[((sp20[2] + sp24[2] + sp28[2] + sp2C[2] + 2) >> 2) + coef[2]];
-            dst[3] = sp40[((sp20[3] + sp24[3] + sp28[3] + sp2C[3] + 2) >> 2) + coef[3]];
-            dst[4] = sp40[((sp20[4] + sp24[4] + sp28[4] + sp2C[4] + 2) >> 2) + coef[4]];
-            dst[5] = sp40[((sp20[5] + sp24[5] + sp28[5] + sp2C[5] + 2) >> 2) + coef[5]];
-            dst[6] = sp40[((sp20[6] + sp24[6] + sp28[6] + sp2C[6] + 2) >> 2) + coef[6]];
-            dst[7] = sp40[((sp20[7] + sp24[7] + sp28[7] + sp2C[7] + 2) >> 2) + coef[7]];
-            dst += stride;
-            sp20 += stride;
-            sp24 += stride;
-            sp28 += stride;
-            sp2C += stride;
-            dst[0] = sp40[((sp20[0] + sp24[0] + sp28[0] + sp2C[0] + 2) >> 2) + coef[8]];
-            dst[1] = sp40[((sp20[1] + sp24[1] + sp28[1] + sp2C[1] + 2) >> 2) + coef[9]];
-            dst[2] = sp40[((sp20[2] + sp24[2] + sp28[2] + sp2C[2] + 2) >> 2) + coef[10]];
-            dst[3] = sp40[((sp20[3] + sp24[3] + sp28[3] + sp2C[3] + 2) >> 2) + coef[11]];
-            dst[4] = sp40[((sp20[4] + sp24[4] + sp28[4] + sp2C[4] + 2) >> 2) + coef[12]];
-            dst[5] = sp40[((sp20[5] + sp24[5] + sp28[5] + sp2C[5] + 2) >> 2) + coef[13]];
-            dst[6] = sp40[((sp20[6] + sp24[6] + sp28[6] + sp2C[6] + 2) >> 2) + coef[14]];
-            dst[7] = sp40[((sp20[7] + sp24[7] + sp28[7] + sp2C[7] + 2) >> 2) + coef[15]];
-            coef += 16;
-            dst += stride;
-            sp20 += stride;
-            sp24 += stride;
-            sp28 += stride;
-            sp2C += stride;
-        }
-        return;
-    }
-    i = 0;
-    while (i < 8) {
-        dst[0] = (sp20[0] + sp24[0] + sp28[0] + sp2C[0] + 2) >> 2;
-        dst[1] = (sp20[1] + sp24[1] + sp28[1] + sp2C[1] + 2) >> 2;
-        dst[2] = (sp20[2] + sp24[2] + sp28[2] + sp2C[2] + 2) >> 2;
-        dst[3] = (sp20[3] + sp24[3] + sp28[3] + sp2C[3] + 2) >> 2;
-        dst[4] = (sp20[4] + sp24[4] + sp28[4] + sp2C[4] + 2) >> 2;
-        dst[5] = (sp20[5] + sp24[5] + sp28[5] + sp2C[5] + 2) >> 2;
-        dst[6] = (sp20[6] + sp24[6] + sp28[6] + sp2C[6] + 2) >> 2;
-        dst[7] = (sp20[7] + sp24[7] + sp28[7] + sp2C[7] + 2) >> 2;
-        dst += stride;
-        sp20 += stride;
-        sp24 += stride;
-        sp28 += stride;
-        sp2C += stride;
-        i++;
     }
 }

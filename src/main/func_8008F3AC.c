@@ -1,75 +1,70 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-typedef struct {
-    /* 0x00 */ u8 *planes[3];
-} Planes;
+#define MAX_NEG_CROP 2048
 
-typedef struct {
-    /* 0x000 */ u8 unk_000[0xC];
-    /* 0x00C */ s32 width;
-    /* 0x010 */ u8 unk_010[0xF8];
-    /* 0x108 */ s32 block;
-    /* 0x10C */ u8 unk_10C[0x48];
-    /* 0x154 */ s16 coeffs[0x86];
-    /* 0x260 */ Planes *out;
-} Decoder;
+/*
+=====================
+func_8008F3AC
 
-void func_8008F3AC(s32 arg0, s32 arg1) {
-    s32 row;
-    s32 col;
-    s32 y;
-    s32 x;
-    s32 stride;
-    s32 i;
-    u8 *dst;
-    s16 *src;
-    u8 *table;
+Reconstructs block bnum of an intra macroblock: the decoded samples, clamped, go into the current
+frame. Blocks 0..3 are the quarters of the luminance, 4 is Cb and 5 is Cr.
+=====================
+*/
+void func_8008F3AC( VidStream *vid_stream, int bnum ) {
+    int           mb_row, mb_col, row, col, row_size, rr;
+    unsigned char *dest;
 
-    row = (u32)((Decoder *)arg0)->block / (u32)((Decoder *)arg0)->width;
-    col = (u32)((Decoder *)arg0)->block % (u32)((Decoder *)arg0)->width;
-    if (arg1 < 4) {
-        y = row * 16;
-        x = col * 16;
-        if (arg1 >= 2) {
-            y = y + 8;
+    mb_row = vid_stream->mblock.mb_address / vid_stream->mb_width;
+    mb_col = vid_stream->mblock.mb_address % vid_stream->mb_width;
+
+    if ( bnum < 4 ) {
+        row = mb_row * 16;
+        col = mb_col * 16;
+        if ( bnum > 1 ) {
+            row += 8;
         }
-        if (arg1 % 2 != 0) {
-            x = x + 8;
+        if ( bnum % 2 ) {
+            col += 8;
         }
-        dst = ((Decoder *)arg0)->out->planes[0];
-        stride = ((Decoder *)arg0)->width * 16;
-    } else if (arg1 == 5) {
-        dst = ((Decoder *)arg0)->out->planes[1];
-        stride = ((Decoder *)arg0)->width * 8;
-        y = row * 8;
-        x = col * 8;
+
+        dest = vid_stream->current->luminance;
+        row_size = vid_stream->mb_width * 16;
+    } else if ( bnum == 5 ) {
+        dest = vid_stream->current->Cr;
+        row_size = vid_stream->mb_width * 8;
+        row = mb_row * 8;
+        col = mb_col * 8;
     } else {
-        dst = ((Decoder *)arg0)->out->planes[2];
-        stride = ((Decoder *)arg0)->width * 8;
-        y = row * 8;
-        x = col * 8;
+        dest = vid_stream->current->Cb;
+        row_size = vid_stream->mb_width * 8;
+        row = mb_row * 8;
+        col = mb_col * 8;
     }
-    src = ((Decoder *)arg0)->coeffs;
-    table = D_800FC098;
-    dst = dst + (y * stride + x);
-    for (i = 0; i < 4; i++, src += 16, dst += stride) {
-        dst[0] = table[src[0]];
-        dst[1] = table[src[1]];
-        dst[2] = table[src[2]];
-        dst[3] = table[src[3]];
-        dst[4] = table[src[4]];
-        dst[5] = table[src[5]];
-        dst[6] = table[src[6]];
-        dst[7] = table[src[7]];
-        dst = dst + stride;
-        dst[0] = table[src[8]];
-        dst[1] = table[src[9]];
-        dst[2] = table[src[10]];
-        dst[3] = table[src[11]];
-        dst[4] = table[src[12]];
-        dst[5] = table[src[13]];
-        dst[6] = table[src[14]];
-        dst[7] = table[src[15]];
+
+    {
+        short         *sp = &vid_stream->block.dct_recon[0][0];
+        unsigned char *cm = D_800FB898 + MAX_NEG_CROP;
+
+        dest += row * row_size + col;
+        for ( rr = 0; rr < 4; rr++, sp += 16, dest += row_size ) {
+            dest[0] = cm[sp[0]];
+            dest[1] = cm[sp[1]];
+            dest[2] = cm[sp[2]];
+            dest[3] = cm[sp[3]];
+            dest[4] = cm[sp[4]];
+            dest[5] = cm[sp[5]];
+            dest[6] = cm[sp[6]];
+            dest[7] = cm[sp[7]];
+            dest += row_size;
+            dest[0] = cm[sp[8]];
+            dest[1] = cm[sp[9]];
+            dest[2] = cm[sp[10]];
+            dest[3] = cm[sp[11]];
+            dest[4] = cm[sp[12]];
+            dest[5] = cm[sp[13]];
+            dest[6] = cm[sp[14]];
+            dest[7] = cm[sp[15]];
+        }
     }
 }

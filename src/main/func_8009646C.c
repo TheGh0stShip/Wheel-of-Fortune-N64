@@ -1,6 +1,13 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-void func_8009646C(s32 arg0) {
-    D_8008530C = arg0;
+/*
+=====================
+func_8009646C
+
+Switches the decoding of B pictures off or on.
+=====================
+*/
+void func_8009646C( BOOLEAN val ) {
+    D_8008530C = val;
 }

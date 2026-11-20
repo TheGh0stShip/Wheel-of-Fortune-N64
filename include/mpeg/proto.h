@@ -61,11 +61,28 @@ extern const int D_80087A98[64][2];
 // of its object, and declared here for the reason D_800879DC is.
 extern char D_80087EE0[];
 
+int func_8008D220( VidStream *vid_stream );
+
+void func_8008F3AC( VidStream *vid_stream, int bnum );
+void func_8008F828( VidStream *vid_stream, int bnum, int recon_right_for, int recon_down_for, int zflag );
+
+void func_80091684( VidStream *vid_stream, int bnum, int recon_right_back, int recon_down_back, int zflag );
+void func_800933BC( VidStream *vid_stream, int bnum, int recon_right_for, int recon_down_for,
+                    int recon_right_back, int recon_down_back, int zflag );
+
+void func_80094064( VidStream *vid_stream );
+void func_80094578( VidStream *vid_stream );
+void func_80095664( unsigned char *source, unsigned char *dest, int row, int col, int row_size, int right,
+                    int down, int right_half, int down_half, int width );
+void func_800962DC( VidStream *vid_stream, XInfo *xinfo );
+void func_8009646C( BOOLEAN val );
+void func_8009649C( BOOLEAN val );
+
+extern int D_80085308;
+extern int D_8008530C;
+
 // PENDING: declarations as the imported sources had them, replaced unit by unit
 extern s32 D_800851C8[];
-extern s32 D_80085308;
-extern s32 D_8008530C;
-extern s32 D_80085310[];
 extern u16 D_800866A0[];
 extern u16 D_800868A0[];
 extern u16 D_800868C0[];
@@ -89,7 +106,6 @@ extern s32 D_80086D60[];
 extern s32 D_80087160[];
 extern s32 D_80087560[];
 extern s32 D_80087C98[];
-extern u8 D_800FC098[];
 extern f64 D_800FD098[][8];
 extern s32 D_800FD298;
 extern s32 D_800FD29C;
@@ -138,18 +154,6 @@ extern s32 D_801078B0;
 extern s32 D_801078B4;
 extern s32 *D_801084A0;
 extern s32 *D_801084A8;
-s32 func_8008D220( s32 arg0 );
-void func_8008F3AC( s32 arg0, s32 arg1 );
-void func_8008F828( s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4 );
-void func_80091684( s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4 );
-void func_800933BC( s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6 );
-void func_80094064( s32 arg0 );
-void func_80094578( s32 arg0 );
-void func_80095664( s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
-                    s32 arg7, s32 arg8, s32 arg9 );
-void func_800962DC( s32 arg0, s32 arg1 );
-void func_8009646C( s32 arg0 );
-void func_8009649C( s32 arg0 );
 void func_800964D0( s32 arg0, s32 arg1 );
 void func_800983D4( s32 arg0, s32 arg1 );
 void func_800998E0( s32 arg0, s32 arg1, s32 arg2 );

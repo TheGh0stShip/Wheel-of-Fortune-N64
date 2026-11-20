@@ -24,6 +24,9 @@ typedef struct {
 // guess: that they went through a macro; a call that was commented out leaves the same code.
 #define fprintf( stream, args... )
 
+// assert.h, as NDEBUG leaves it
+#define assert( expression ) ( (void)0 )
+
 struct timeval {
     /* 0x00 */ long tv_sec;
     /* 0x04 */ long tv_usec;
