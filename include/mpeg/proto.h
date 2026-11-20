@@ -100,16 +100,25 @@ void func_8009C5AC( void );
 void func_8009C600( void );
 void func_8009C754( short *block );
 
+// gdith.c
+void func_8009CA80( char *name, XInfo *xinfo );
+void func_8009CAD8( VidStream *vid_stream, XInfo *xinfo );
+
+extern unsigned long D_80107480[];
+
+// main.c
+extern int D_80086D18;
+extern int D_80086D20;
+extern int D_80086D28;
+extern int D_80086D2C;
+extern int D_80086D30;
+extern int D_80086D34;
+extern int D_80086D38;
+
+// util32.c
+Visual *func_800A2B08( Display *dpy, int *depth );
+
 // PENDING: declarations as the imported sources had them, replaced unit by unit
-extern s32 D_80086CD0[];
-extern s32 D_80086D10;
-extern s32 D_80086D18;
-extern s32 D_80086D20;
-extern s32 D_80086D28;
-extern s32 D_80086D2C;
-extern s32 D_80086D30;
-extern s32 D_80086D34;
-extern s32 D_80086D38;
 extern s32 D_80086D3C;
 extern s32 D_80086D40;
 extern f64 D_80086D48;
@@ -117,11 +126,6 @@ extern s32 D_80086D50;
 extern s32 D_80086D60[];
 extern s32 D_80087160[];
 extern s32 D_80087560[];
-extern s32 D_800FD298;
-extern s32 D_800FD29C;
-extern s32 D_800FD2A0;
-extern s32 D_800FD2A4;
-extern s32 D_800FD2A8;
 extern s16 D_800FD2C8[][64];
 extern s32 *D_800FF2C8;
 extern s32 *D_800FF2CC;
@@ -149,14 +153,9 @@ extern s32 *D_8010346C;
 extern s32 *D_80103470;
 extern s32 D_80103474;
 extern s32 D_80103478;
-extern s32 D_80107480;
-extern s32 D_80107484;
-extern s32 D_80107488;
 extern s32 D_80107880;
 extern s32 *D_801084A0;
 extern s32 *D_801084A8;
-void func_8009CA80( s32 arg0, s32 arg1 );
-void func_8009CAD8( s32 arg0, s32 arg1 );
 void func_8009D3D8( void );
 void func_8009D4B8( s32 arg0, s32 arg1 );
 void func_8009D67C( s32 arg0 );
@@ -166,7 +165,6 @@ s32 func_800A1AE0( s32 arg0 );
 s32 func_800A1B60( u32 arg0 );
 void func_800A1BE4( s32 arg0 );
 void func_800A2594( s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5 );
-s32 func_800A2B08( s32 arg0, s32 arg1 );
 s32 func_800A2B40( s32 arg0 );
 void func_800A2D38( s32 arg0 );
 void func_800A2D84( s32 arg0 );

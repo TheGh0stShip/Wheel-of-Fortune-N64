@@ -1,7 +1,7 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-s32 func_800A2B08(s32 arg0, s32 arg1) {
+Visual *func_800A2B08( Display *dpy, int *depth ) {
     s32 pad0[12];
     s8 pad1;
 
