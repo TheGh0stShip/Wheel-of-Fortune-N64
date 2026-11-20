@@ -525,8 +525,7 @@ mpeg_video	0x80089490	0xD03C	match	game	src/mpeg/video.c
 mpeg_parseblock	0x800964D0	0x3410	match	game	src/mpeg/parseblock.c
 mpeg_motionvector	0x800998E0	0x758	match	game	src/mpeg/motionvector.c
 mpeg_decoders	0x8009A038	0x25C4	match	game	src/mpeg/decoders.c
-func_8009C600	0x8009C600	0x154	match	game	src/main/func_8009C600.c
-func_8009C754	0x8009C754	0x32C	match	game	src/main/func_8009C754.c
+mpeg_floatdct	0x8009C600	0x480	match	game	src/mpeg/floatdct.c
 func_8009CA80	0x8009CA80	0x58	match	game	src/main/func_8009CA80.c
 func_8009CAD8	0x8009CAD8	0x3E4	match	game	src/main/func_8009CAD8.c
 func_8009CEC0	0x8009CEC0	0x384	match	game	src/main/func_8009CEC0.c

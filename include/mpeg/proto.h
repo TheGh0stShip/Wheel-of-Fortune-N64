@@ -43,7 +43,7 @@ void *func_800A4CF8( void *s, int c, unsigned int n );
 char *func_800A4D84( char *s1, char *s2 );
 FILE *func_800A4DD0( char *filename );
 double func_800A4E84( double x );
-double func_800A4ED4( double x );
+double cos( double x );
 double func_800A4F24( double x );
 
 extern FILE D_80107888;
@@ -96,6 +96,10 @@ void func_8009AF48( void );
 void func_8009BAE0( void );
 void func_8009C5AC( void );
 
+// floatdct.c
+void func_8009C600( void );
+void func_8009C754( short *block );
+
 // PENDING: declarations as the imported sources had them, replaced unit by unit
 extern s32 D_80086CD0[];
 extern s32 D_80086D10;
@@ -113,7 +117,6 @@ extern s32 D_80086D50;
 extern s32 D_80086D60[];
 extern s32 D_80087160[];
 extern s32 D_80087560[];
-extern f64 D_800FD098[][8];
 extern s32 D_800FD298;
 extern s32 D_800FD29C;
 extern s32 D_800FD2A0;
@@ -152,8 +155,6 @@ extern s32 D_80107488;
 extern s32 D_80107880;
 extern s32 *D_801084A0;
 extern s32 *D_801084A8;
-void func_8009C600( void );
-void func_8009C754( s32 arg0 );
 void func_8009CA80( s32 arg0, s32 arg1 );
 void func_8009CAD8( s32 arg0, s32 arg1 );
 void func_8009D3D8( void );
