@@ -1,6 +1,5 @@
 #include "wof.h"
 
-void func_80028C4C(s32 arg0);
 
 struct n64dk_r12 func_8002CBF4(s32 arg1) {
     s32 event;

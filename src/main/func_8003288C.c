@@ -1,26 +1,8 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x10];
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ u8 unk_12[0x1E];
-    /* 0x30 */ vannaAnim_t *state;
-} Task;
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ u8 unk_14[0x10];
-} Entry;
-
-extern Entry D_8005C7F8[];
-
 s32 func_8003288C(s32 arg0, s32 arg1) {
-    Task *task;
-    Task *child;
+    proc_t *task;
+    obj_t *child;
     s32 id;
 
     id = arg0;
@@ -32,22 +14,22 @@ s32 func_8003288C(s32 arg0, s32 arg1) {
     } else if (arg0 >= 6) {
         func_80009F38("InitVannaAnim: invalid animation number");
     }
-    if (D_8005C7F8[arg0].unk_10 == 0) {
+    if (D_8005C7F0[arg0].unk_18 == 0) {
         return 0;
     }
     if (arg1 != 0) {
         func_8000AE70(0xA000400, -1, 1);
         func_8000B6FC(0xA030000, -1);
     }
-    task = (Task *)func_8000A56C((s32)&func_80031A54, 0xA000400);
-    child = (Task *)func_80015848((s32)task, 0, (s32)&func_80030B5C, 0xA030000);
-    child->unk_10 = D_800B9988;
-    task->state->unk_0C = id;
-    task->state->unk_08 = D_8005C7F8[arg0].unk_10;
-    task->state->unk_18 = D_8005C7F8[arg0].unk_00;
-    task->state->unk_14 = D_8005C7F8[arg0].unk_04;
-    task->state->unk_1C = D_8005C7F8[arg0].unk_08;
-    task->state->unk_20 = D_8005C7F8[arg0].unk_0C;
-    task->state->obj = (obj_t *)child;
+    task = (proc_t *)func_8000A56C((s32)&func_80031A54, 0xA000400);
+    child = func_80015848(task, 0, (s32)&func_80030B5C, 0xA030000);
+    child->x = D_800B9988;
+    ((vannaAnim_t *)task->unk_30)->unk_0C = id;
+    ((vannaAnim_t *)task->unk_30)->unk_08 = D_8005C7F0[arg0].unk_18;
+    ((vannaAnim_t *)task->unk_30)->unk_18 = D_8005C7F0[arg0].count;
+    ((vannaAnim_t *)task->unk_30)->unk_14 = D_8005C7F0[arg0].unk_0C;
+    ((vannaAnim_t *)task->unk_30)->unk_1C = D_8005C7F0[arg0].unk_10;
+    ((vannaAnim_t *)task->unk_30)->unk_20 = D_8005C7F0[arg0].unk_14;
+    ((vannaAnim_t *)task->unk_30)->obj = child;
     return (s32)task;
 }

@@ -2,7 +2,7 @@
 
 void func_80030B5C(s32 arg0, s32 arg1) {
     proc_t *actor;
-    s32 pixels;
+    s16 *pixels;
     Gfx *gfx;
 
     if (((obj_t *)arg0)->unk_44 == 0) {
@@ -11,7 +11,7 @@ void func_80030B5C(s32 arg0, s32 arg1) {
     if (D_800BCD54 == 6) {
         actor = (proc_t *)func_8000A990(0xA000400, -1);
         if (actor != 0) {
-            pixels = ((vannaAnim_t *)actor->unk_30)->unk_08 + ((vannaAnim_t *)actor->unk_30)->unk_10 * 0x3000;
+            pixels = ((vannaAnim_t *)actor->unk_30)->unk_08 + ((vannaAnim_t *)actor->unk_30)->unk_10 * ( 64 * 96 );
             func_8003143C(pixels, ((vannaAnim_t *)actor->unk_30)->unk_20 * D_800B61A8);
         }
     }

@@ -1,13 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-} LetterInfo;
-
-extern LetterInfo D_8005BCC8[];
-
 struct n64dk_r12 func_8002C094(s32 arg1) {
     s32 event;
     s32 i;
@@ -111,8 +103,8 @@ struct n64dk_r12 func_8002C094(s32 arg1) {
             }
             D_800B966A[D_800B61B5 - 65] = 32;
             D_8005BE00[i].unk_20 = D_8005BCC8[D_800B61B5 - 65].unk_00;
-            D_8005BE00[i].width = D_8005BCC8[D_800B61B5 - 65].unk_04;
-            D_8005BE00[i].height = D_8005BCC8[D_800B61B5 - 65].unk_08;
+            D_8005BE00[i].width = D_8005BCC8[D_800B61B5 - 65].width;
+            D_8005BE00[i].height = D_8005BCC8[D_800B61B5 - 65].height;
             func_80007DAC(D_800B61B5);
             D_800B61AA[i] = D_800B61B5;
             if (func_80009A74((s32)D_800B61B0) == 4) {

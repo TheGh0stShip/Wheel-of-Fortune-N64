@@ -133,7 +133,7 @@ typedef struct obj_s {
 typedef struct {
     /* 0x00 */ obj_t *obj;
     /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
+    /* 0x08 */ s16 *unk_08;         // its pictures: unk_18 of the clip_t
     /* 0x0C */ s32 unk_0C;
     /* 0x10 */ s32 unk_10;
     /* 0x14 */ s32 unk_14;
@@ -191,6 +191,30 @@ typedef struct {
     /* 0x08 */ s32 index;       // the line the cursor is on
     /* 0x0C */ s32 delay;       // frames until the stick moves the cursor again
 } mainMenu_t;    // size 0x10
+// The picture of a letter of the alphabet as func_8002C094 shows the letter chosen:
+// D_8005BCC8[26].
+typedef struct {
+    /* 0x00 */ s32 unk_00;      // what unk_20 of the image_t becomes
+    /* 0x04 */ s32 width;
+    /* 0x08 */ s32 height;
+} letterImage_t;    // size 0xC
+
+// A run of pictures that the MPEG player decodes into memory once, to be shown one at a time:
+// what a contestant or Vanna does. D_8005C3B8[6][2] and D_8005C568[6][2] are those of the six
+// contestants, D_8005C718[6] those shown where a contestant is chosen, D_8005C7F0[6] those of
+// Vanna.
+typedef struct {
+    /* 0x00 */ s32 width;
+    /* 0x04 */ s32 height;
+    /* 0x08 */ s32 count;       // how many pictures; 0: there is no such run
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 unk_10;
+    /* 0x14 */ s32 unk_14;
+    /* 0x18 */ s16 *unk_18;     // the pictures, once they are decoded
+    /* 0x1C */ s32 movie;       // its number in D_80058228
+    /* 0x20 */ s32 *unk_20;     // what D_800B81E4 is while it is decoded
+} clip_t;    // size 0x24
+
 // three coordinates: where func_800323C4 puts a contestant's obj
 typedef struct {
     /* 0x00 */ s32 unk_00;
@@ -566,7 +590,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ obj_t *obj;
     /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
+    /* 0x08 */ s16 *unk_08;         // its pictures: unk_18 of the clip_t
     /* 0x0C */ u8 unk_0C[0x4];
     /* 0x10 */ s32 frame;
     /* 0x14 */ u8 unk_14[0x4];
@@ -778,10 +802,16 @@ extern image_t D_8005B630[];
 extern image_t D_8005B710[];
 extern s32 D_8005BA80[];
 extern image_t D_8005BAC0[];
+extern letterImage_t D_8005BCC8[];
 extern image_t D_8005BE00[];
 extern s32 D_8005C1E8[];
 extern s32 D_8005C33C[];
 extern u8 D_8005C394[];
+extern s32 D_8005C3A0[][2];         // [3], unk_48 and unk_4C of the obj of each contestant
+extern clip_t D_8005C3B8[][2];
+extern clip_t D_8005C568[][2];
+extern clip_t D_8005C718[];
+extern clip_t D_8005C7F0[];
 extern s32 D_8005C8C8[];
 extern s32 D_8005C8FC[];
 extern s32 D_8005C908[];
@@ -1344,7 +1374,7 @@ void func_80026E50( void );
 void func_80026EB4( void );
 void func_80026FD4( void );
 s32 func_80027218( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
-s32 func_8002731C( s32 arg0, s32 arg1 );
+s32 func_8002731C( image_t *image, s32 arg1 );
 void func_8002741C( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
 void func_800278A8( s32 arg0, s32 arg1 );
 void func_800278F0( s32 arg0, s32 arg1 );
@@ -1358,6 +1388,7 @@ void func_800287A4( s32 arg0, s32 arg1 );
 void func_800288CC( s32 arg0, s32 arg1 );
 void func_800289F4( s32 arg0, s32 arg1 );
 void func_80028B1C( s32 arg0, s32 arg1 );
+void func_80028C4C( proc_t *proc );
 void func_80028CC4( void );
 void func_80028D3C( s32 arg0, s32 arg1 );
 struct n64dk_r12 func_80029098( s32 arg1 );
@@ -1408,8 +1439,8 @@ void func_8002FE70( void );
 void func_8002FEB0( s32 arg0, s32 arg1 );
 void func_80030490( s32 arg0, s32 arg1 );
 void func_80030B5C( s32 arg0, s32 arg1 );
-void func_80031340( s32 arg0, s32 arg1 );
-void func_8003143C( s32 arg0, s32 arg1 );
+void func_80031340( s16 *arg0, s32 arg1 );
+void func_8003143C( s16 *arg0, s32 arg1 );
 struct n64dk_r12 func_800315FC( s32 arg1 );
 struct n64dk_r12 func_80031A54( s32 arg1 );
 void func_800323C4( s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4 );

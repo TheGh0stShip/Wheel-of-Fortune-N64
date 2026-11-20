@@ -1,19 +1,8 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ u8 unk_0C[0x4];
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ u8 unk_14[0x10];
-} Entry;
-
-extern Entry D_8005C3C0[][2];
-
 void func_800325D0(s32 arg0, s32 arg1) {
     proc_t *task;
-    s32 obj;
+    obj_t *obj;
     s32 kind;
 
     if (arg0 < 0) {
@@ -26,10 +15,10 @@ void func_800325D0(s32 arg0, s32 arg1) {
     if (kind >= 6) {
         func_80009F38("InitAnim: invalid contestant number");
     }
-    if (D_8005C3C0[kind][arg0].unk_10 == 0) {
+    if (D_8005C3B8[kind][arg0].unk_18 == 0) {
         return;
     }
-    obj = func_8000B5DC(arg1 | 0xA020000, -1);
+    obj = (obj_t *)func_8000B5DC(arg1 | 0xA020000, -1);
     if (obj == 0) {
         func_80009F38("InitAnim: cannot find contestant obj");
     }
@@ -39,8 +28,8 @@ void func_800325D0(s32 arg0, s32 arg1) {
     }
     task = (proc_t *)func_8000A56C((s32)func_800315FC, arg1 | 0xA000300);
     ((anim_t *)task->unk_30)->unk_04 = arg1;
-    ((anim_t *)task->unk_30)->unk_08 = D_8005C3C0[kind][arg0].unk_10;
-    ((anim_t *)task->unk_30)->unk_18 = D_8005C3C0[kind][arg0].unk_00;
-    ((anim_t *)task->unk_30)->unk_1C = D_8005C3C0[kind][arg0].unk_08;
+    ((anim_t *)task->unk_30)->unk_08 = D_8005C3B8[kind][arg0].unk_18;
+    ((anim_t *)task->unk_30)->unk_18 = D_8005C3B8[kind][arg0].count;
+    ((anim_t *)task->unk_30)->unk_1C = D_8005C3B8[kind][arg0].unk_10;
     ((anim_t *)task->unk_30)->obj = obj;
 }

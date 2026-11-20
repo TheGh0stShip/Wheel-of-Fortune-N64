@@ -6,7 +6,7 @@ struct n64dk_r12 func_800315FC(s32 arg1) {
     obj_t *sprite;
     s32 offset;
     s32 index;
-    s32 addr;
+    s16 *addr;
     s32 base;
 
     base = 0x2000000;
@@ -26,7 +26,7 @@ struct n64dk_r12 func_800315FC(s32 arg1) {
         result.w[0] = 0;
         return result;
     }
-    addr = ((anim_t *)((proc_t *)arg1)->unk_30)->unk_08 + ((anim_t *)((proc_t *)arg1)->unk_30)->frame * 0x2000;
+    addr = ((anim_t *)((proc_t *)arg1)->unk_30)->unk_08 + ((anim_t *)((proc_t *)arg1)->unk_30)->frame * ( 64 * 64 );
     func_80031340(addr, index);
     offset = osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame.unk_0AC00[index]);
     offset = offset - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);

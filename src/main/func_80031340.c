@@ -1,6 +1,6 @@
 #include "wof.h"
 
-void func_80031340(s32 arg0, s32 arg1) {
+void func_80031340(s16 *arg0, s32 arg1) {
     s32 i;
     s32 unused;   /* NOTE: unused in the original */
     s32 unused2;  /* NOTE: unused in the original */

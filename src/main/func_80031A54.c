@@ -8,7 +8,7 @@ struct n64dk_r12 func_80031A54(s32 arg1) {
     s32 sp2C;
     s32 i;
     s32 pad0;
-    s32 frame;
+    s16 *frame;
     s32 base;
 
     base = 0x2000000;
@@ -115,7 +115,7 @@ struct n64dk_r12 func_80031A54(s32 arg1) {
     } else {
 L384: ;
     }
-    frame = ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_08 + (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 * 0x3000);
+    frame = ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_08 + (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 * ( 64 * 96 ));
     func_8003143C(frame, (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_20 * D_800B61A8));
     switch (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_0C) {
     case 0:
