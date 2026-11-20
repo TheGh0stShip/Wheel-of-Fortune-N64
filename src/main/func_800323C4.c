@@ -2,15 +2,6 @@
 
 typedef struct {
     /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ u8 unk_0C[0xC];
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ s32 unk_1C;
-} TaskData;
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0x4];
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ u8 unk_0C[0x4];
@@ -43,9 +34,9 @@ void func_800323C4(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     obj->x = arg2;
     obj->y = arg3;
     obj->z = arg4;
-    ((TaskData *)task->unk_30)->unk_04 = arg1;
-    ((TaskData *)task->unk_30)->unk_08 = D_8005C720[arg0].unk_10;
-    ((TaskData *)task->unk_30)->unk_18 = D_8005C720[arg0].unk_00;
-    ((TaskData *)task->unk_30)->unk_1C = D_8005C720[arg0].unk_08;
-    ((TaskData *)task->unk_30)->unk_00 = (s32)obj;
+    ((anim_t *)task->unk_30)->unk_04 = arg1;
+    ((anim_t *)task->unk_30)->unk_08 = D_8005C720[arg0].unk_10;
+    ((anim_t *)task->unk_30)->unk_18 = D_8005C720[arg0].unk_00;
+    ((anim_t *)task->unk_30)->unk_1C = D_8005C720[arg0].unk_08;
+    ((anim_t *)task->unk_30)->obj = obj;
 }

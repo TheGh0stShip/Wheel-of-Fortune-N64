@@ -428,6 +428,43 @@ typedef struct {
     /* 0x0C */ s32 unk_0C;
 } cursor_t;    // size 0x10
 
+// the data of the proc whose handler is func_80021548, created by func_800219B8
+typedef struct {
+    /* 0x00 */ obj_t *unk_00;
+    /* 0x04 */ u8 unk_04[0x1C];
+    /* 0x20 */ s32 unk_20;
+    /* 0x24 */ s32 unk_24;
+} data80021548_t;    // size 0x28
+
+// The data of a contestant animation proc (handler func_800315FC), which InitAnim creates: the
+// name is from the ROM messages "InitAnim: ..." in func_800323C4 and func_800325D0.
+typedef struct {
+    /* 0x00 */ obj_t *obj;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ u8 unk_0C[0x4];
+    /* 0x10 */ s32 frame;
+    /* 0x14 */ u8 unk_14[0x4];
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ s32 unk_1C;
+    /* 0x20 */ u8 unk_20[0x4];
+    /* 0x24 */ s32 step;
+    /* 0x28 */ s32 timer;
+} anim_t;    // size 0x2C
+
+// the data of the proc whose handler is func_80034028, created by func_800343F8
+typedef struct {
+    /* 0x00 */ obj_t *sprite;
+    /* 0x04 */ s32 frame;
+    /* 0x08 */ s32 timer;
+    /* 0x0C */ u8 unk_0C[0x4];
+    /* 0x10 */ s32 count;
+    /* 0x14 */ f32 x;
+    /* 0x18 */ f32 y;
+    /* 0x1C */ f32 vx;
+    /* 0x20 */ f32 vy;
+} data80034028_t;    // size 0x24
+
 //
 // addresses in segment 1, the display list and texture data the game loads: only their
 // addresses are used, so the s32 is a placeholder for data of a kind not known yet
