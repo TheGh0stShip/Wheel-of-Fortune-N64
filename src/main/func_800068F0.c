@@ -1,9 +1,6 @@
 #include "wof.h"
 
 extern s32 D_80000300;
-extern s32 D_800B3CB8;
-extern s32 D_800B96AC;
-extern s32 D_800BC6F8;
 
 void func_800068F0(void) {
     s32 count;

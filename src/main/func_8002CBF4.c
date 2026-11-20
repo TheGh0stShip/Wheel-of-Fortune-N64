@@ -36,7 +36,6 @@ extern Item D_8005A9A8[];
 extern Player D_800B99A4[];
 extern s32 D_80001758;
 extern s32 D_80001784;
-extern u8 D_800B61B5;
 void func_80028C4C(s32 arg0);
 
 struct n64dk_r12 func_8002CBF4(s32 arg1) {

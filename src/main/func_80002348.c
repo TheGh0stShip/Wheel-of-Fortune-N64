@@ -11,7 +11,6 @@ typedef struct {
 } Header;
 
 extern s32 D_800A5090;
-extern s32 D_800BED90;
 
 void func_80002348(void) {
     s32 size;
@@ -64,8 +63,8 @@ void func_80002348(void) {
     sp54 = 0;
     sp58 = 0;
     sp49 = 7;
-    D_800BED90 = func_8000B924(136);
-    func_800422B8(D_800BED90, &sp40);
+    D_800BED90[0] = func_8000B924(136);
+    func_800422B8(D_800BED90[0], &sp40);
     D_800A5084 = 32;
     D_800A5088 = 64;
     D_800A508C = &D_800B9960;

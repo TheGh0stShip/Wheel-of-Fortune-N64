@@ -28,7 +28,6 @@ typedef struct {
 } Obj;
 
 extern Bank D_800BEF5C[];
-extern u8 *D_800B998C;
 extern u8 D_800BEF60[][0x1E480];
 
 void func_800213CC(Obj *arg0) {

@@ -27,7 +27,6 @@ typedef struct {
 
 extern Letter D_8005A9A8[];
 extern Player D_800B99A4[];
-extern s8 D_800B61B5;
 extern u8 D_800B966A[];
 extern u16 D_800B9954;
 

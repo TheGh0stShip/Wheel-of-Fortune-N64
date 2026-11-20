@@ -38,8 +38,6 @@ typedef struct {
 
 extern Info D_8005822C[];
 extern Bank D_800BEF5C[];
-extern s32 D_800B81E4;
-extern s32 D_800B998C;
 
 void func_80021C8C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 pad0;

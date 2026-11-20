@@ -12,7 +12,6 @@ typedef struct {
 
 extern s8 D_800B966A[];
 extern Player D_800B9990[];
-extern s8 D_8004B9FC[];
 extern s8 D_800B9601[][21];
 
 s32 func_80007888(register s32 arg0, s32 arg1) {

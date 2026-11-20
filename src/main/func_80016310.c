@@ -22,7 +22,6 @@ extern f32 D_80000E14;
 extern f32 D_80000E18;
 extern f32 D_80000E1C;
 extern f32 D_80000E20;
-extern s32 D_800BCCF0;
 
 void func_80016310(void) {
     Task *task;

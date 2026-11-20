@@ -19,7 +19,6 @@ extern Status D_800A70A0[];
 extern Slot D_800BEE60[];
 extern s32 D_800004C0;
 extern Entry D_800AB448[];
-extern s16 D_800BEE58[];
 
 void func_8000420C(void) {
     s32 i;

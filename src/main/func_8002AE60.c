@@ -23,7 +23,6 @@ typedef struct {
 } Entry;
 
 extern Entry D_8005A9AC[];
-extern s8 D_800B61B5;
 extern u8 D_800B966A[];
 
 void func_8002AE60(s32 arg0) {

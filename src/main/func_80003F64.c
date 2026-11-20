@@ -1,6 +1,5 @@
 #include "wof.h"
 
-extern u8 D_800BA5C8;
 extern s32 D_800BA5CC;
 extern s32 *D_800BA5D0;
 

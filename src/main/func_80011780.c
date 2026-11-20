@@ -1,6 +1,5 @@
 #include "wof.h"
 
-extern u8 D_800B61B5;
 extern u8 D_800B95AD[][21];
 
 void func_80011780(void) {

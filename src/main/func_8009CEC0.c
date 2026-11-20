@@ -17,7 +17,6 @@ extern s32 D_80088248;
 extern s32 D_8008825C;
 extern s32 D_80088278;
 extern Ctx *D_800FD2C0;
-extern s32 *D_8010346C;
 extern Ctx *D_80107884;
 
 void func_8009CEC0(s32 arg0, s32 arg1) {

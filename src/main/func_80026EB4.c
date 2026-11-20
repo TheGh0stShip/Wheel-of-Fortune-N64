@@ -6,14 +6,12 @@ typedef struct {
 } Entry;
 
 extern Entry D_800B99A8[];
-extern s32 D_800B96AC;
-extern s32 D_800BEDE4;
 
 void func_80026EB4(void) {
     s32 i;
 
     do {
-    } while (D_800BEDE4 != 0 && (u32)D_800B96AC < 100);
+    } while (D_800BEDE4 != 0 && D_800B96AC < 100);
     func_80005700();
     D_800BCD54 = 7;
     for (i = 0; i < 3; i++) {

@@ -1,8 +1,6 @@
 #include "wof.h"
 
 extern f32 D_80000B8C;
-extern s32 D_800B96AC;
-extern s32 D_800BEDE4;
 
 void func_8000EE78(void) {
     s32 pad0[2];
@@ -11,7 +9,7 @@ void func_8000EE78(void) {
     D_800BCD54 = 3;
     D_800B8298 = D_80000B8C;
     do {
-    } while (D_800BEDE4 != 0 && (u32)D_800B96AC < 100);
+    } while (D_800BEDE4 != 0 && D_800B96AC < 100);
     func_800174DC();
     func_8002FE70();
     func_80006B28();

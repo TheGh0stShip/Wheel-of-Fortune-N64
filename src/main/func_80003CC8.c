@@ -12,8 +12,6 @@ typedef struct {
     u8 b[24];
 } Req;
 
-extern s32 D_8004B7A8;
-extern s32 D_8004B7AC;
 extern Block *D_800BA5CC;
 extern Block *D_800BA5D0;
 extern Req D_800BC700[];

@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern s8 D_800FC098[];
-
 void func_800894F8(void) {
     s32 i;
 
@@ -9,7 +7,7 @@ void func_800894F8(void) {
         if (i <= 0) {
             D_800FC098[i] = 0;
         } else if (i >= 255) {
-            ((u8 *)D_800FC098)[i] = 255;
+            D_800FC098[i] = 255;
         } else {
             D_800FC098[i] = i;
         }

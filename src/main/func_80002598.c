@@ -16,7 +16,6 @@ typedef struct {
 
 extern Obj *D_800B3998;
 extern s32 D_800B81D8;
-extern s32 D_800BED90[];
 
 void func_80002598(s32 arg0, s32 arg1) {
     s32 sp10;

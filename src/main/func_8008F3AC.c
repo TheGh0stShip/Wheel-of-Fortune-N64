@@ -14,8 +14,6 @@ typedef struct {
     /* 0x260 */ Planes *out;
 } Decoder;
 
-extern u8 D_800FC098[];
-
 void func_8008F3AC(s32 arg0, s32 arg1) {
     s32 row;
     s32 col;

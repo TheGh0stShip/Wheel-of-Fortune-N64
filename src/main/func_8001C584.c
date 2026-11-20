@@ -23,7 +23,6 @@ typedef struct {
 } Player;
 
 extern Player D_800B9998[];
-extern s8 D_800B61B5;
 
 struct n64dk_r12 func_8001C584(s32 arg1) {
     s32 event;

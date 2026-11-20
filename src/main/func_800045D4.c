@@ -26,7 +26,6 @@ extern f64 D_800004E0;
 extern f64 D_800004E8;
 extern Pad D_800A70B0[];
 extern Pad D_800B9954;
-extern u16 D_800BEE58[];
 
 void func_800045D4(void) {
     Pad *pad;

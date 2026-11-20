@@ -25,8 +25,6 @@ typedef struct {
     /* 0x260 */ Frame *unk_260;
 } Decoder;
 
-extern u8 D_800FC098[];
-
 void func_8008F828(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 sp0;
     s32 sp4;

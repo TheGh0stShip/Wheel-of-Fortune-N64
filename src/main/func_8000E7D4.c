@@ -40,7 +40,6 @@ extern f32 D_80000AEC;
 extern f32 D_80000AF0;
 extern f32 D_80000AF4;
 extern f32 D_80000AF8;
-extern s32 D_800B61AC;
 
 void func_8000E7D4(void) {
     Task *task;

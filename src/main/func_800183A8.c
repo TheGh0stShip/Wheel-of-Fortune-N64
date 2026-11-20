@@ -25,8 +25,6 @@ extern Player D_800B99A4[];
 extern f32 D_80000F7C;
 extern f64 D_80000F80;
 extern f64 D_80000F88;
-extern u8 D_800B61B5;
-extern f32 D_800BCCF0;
 
 struct n64dk_r12 func_800183A8(s32 arg1) {
     struct n64dk_r12 result;

@@ -40,9 +40,7 @@ typedef struct {
     /* 0x04 */ s16 unk_04;
 } Buf;
 
-extern u32 D_800B96BC;
 extern Node *D_800BA5CC;
-extern s32 D_800BCA68[];
 
 s32 func_80003944(s32 arg0, s32 arg1) {
     s32 sp10;

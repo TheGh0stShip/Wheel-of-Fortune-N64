@@ -6,7 +6,6 @@ typedef struct {
 } Header;
 
 extern Header *D_800A5090;
-extern u16 D_800BC6F8;
 
 s32 func_80002700(void) {
     s32 i;

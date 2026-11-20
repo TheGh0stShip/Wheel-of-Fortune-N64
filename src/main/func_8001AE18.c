@@ -20,7 +20,6 @@ typedef struct {
 
 extern Player D_800B9A8C[];
 extern f64 D_8000129C;
-extern u8 D_800B61B5;
 
 struct n64dk_r12 func_8001AE18(s32 arg1) {
     struct n64dk_r12 result;

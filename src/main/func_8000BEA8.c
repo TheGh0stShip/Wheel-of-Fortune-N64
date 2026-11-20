@@ -25,8 +25,6 @@ typedef struct {
     /* 0x30 */ State *unk_30;
 } Task;
 
-extern f32 D_800B61AC;
-
 struct n64dk_r12 func_8000BEA8(s32 arg1) {
     f32 mtx[4][4];
     f32 rot[4][4];

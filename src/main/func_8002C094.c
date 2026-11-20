@@ -29,7 +29,6 @@ typedef struct {
 
 extern LetterInfo D_8005BCC8[];
 extern Slot D_8005BE08[];
-extern u8 D_800B61B5;
 
 struct n64dk_r12 func_8002C094(s32 arg1) {
     s32 event;
