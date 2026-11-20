@@ -248,6 +248,19 @@ typedef struct {
     /* 0x44 */ int  win_gravity;
 } XSizeHints;   // size 0x48
 
+typedef struct {
+    /* 0x00 */ Visual        *visual;
+    /* 0x04 */ unsigned long visualid;
+    /* 0x08 */ int           screen;
+    /* 0x0C */ int           depth;
+    /* 0x10 */ int           class;
+    /* 0x14 */ unsigned long red_mask;
+    /* 0x18 */ unsigned long green_mask;
+    /* 0x1C */ unsigned long blue_mask;
+    /* 0x20 */ int           colormap_size;
+    /* 0x24 */ int           bits_per_rgb;
+} XVisualInfo;    // size 0x28
+
 // where a stream is shown
 typedef struct {
     /* 0x00 */ XImage       *ximage;

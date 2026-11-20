@@ -104,7 +104,6 @@ void func_8009C754( short *block );
 void func_8009CA80( char *name, XInfo *xinfo );
 void func_8009CAD8( VidStream *vid_stream, XInfo *xinfo );
 
-extern unsigned long D_80107480[];
 
 // main.c
 extern int D_80086D18;
@@ -118,53 +117,30 @@ extern int D_80086D38;
 // util32.c
 Visual *func_800A2B08( Display *dpy, int *depth );
 
+extern int D_80086D1C;
+extern int D_80086D24;
+extern int D_80086D3C;
+extern int D_80086D40;
+extern double D_80086D48;
+extern int D_80086D50;
+
+void func_8009D300( VidStream *vid_stream );
+
+extern FILE *D_8010346C;
+extern char *D_801084A0;
+extern VidStream *D_80107884;
+extern XInfo D_801033F8;
+
+// 16bit.c
+void func_800A1BE4( int thirty2 );
+void func_800A2594( unsigned char *lum, unsigned char *cr, unsigned char *cb, unsigned char *out, int rows,
+                    int cols );
+
 // PENDING: declarations as the imported sources had them, replaced unit by unit
-extern s32 D_80086D3C;
-extern s32 D_80086D40;
-extern f64 D_80086D48;
-extern s32 D_80086D50;
-extern s32 D_80086D60[];
-extern s32 D_80087160[];
-extern s32 D_80087560[];
 extern s16 D_800FD2C8[][64];
-extern s32 *D_800FF2C8;
-extern s32 *D_800FF2CC;
-extern s32 *D_800FF2D0;
-extern s32 *D_800FF2D4;
-extern s32 *D_800FF2D8;
-extern s32 *D_800FF2E8;
-extern s32 *D_800FF2EC;
-extern s32 *D_800FF2F0;
-extern s32 D_801033F8;
-extern s32 D_801033FC;
-extern s32 D_80103404;
-extern s32 D_80103408;
-extern s32 D_8010340C;
-extern s32 D_80103414;
-extern s32 D_80103418;
-extern s32 D_8010341C;
-extern s32 D_80103420;
-extern s32 D_80103458;
-extern s32 D_8010345C;
-extern s32 *D_80103460;
-extern s32 D_80103464;
-extern s32 D_80103468;
-extern s32 *D_8010346C;
-extern s32 *D_80103470;
-extern s32 D_80103474;
-extern s32 D_80103478;
-extern s32 D_80107880;
-extern s32 *D_801084A0;
-extern s32 *D_801084A8;
 void func_8009D3D8( void );
 void func_8009D4B8( s32 arg0, s32 arg1 );
 void func_8009D67C( s32 arg0 );
-s32 func_800A19D8( u32 arg0 );
-u32 func_800A1A74( u32 arg0 );
-s32 func_800A1AE0( s32 arg0 );
-s32 func_800A1B60( u32 arg0 );
-void func_800A1BE4( s32 arg0 );
-void func_800A2594( s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5 );
 s32 func_800A2B40( s32 arg0 );
 void func_800A2D38( s32 arg0 );
 void func_800A2D84( s32 arg0 );

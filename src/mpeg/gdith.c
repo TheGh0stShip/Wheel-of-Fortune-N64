@@ -5,10 +5,19 @@
 
 #include "wof.h"
 #include "mpeg/proto.h"
+#include "mpeg/dither.h"
 
 // The masks of red, green and blue in a pixel, which the colour conversion reads. The decoder keeps
 // them in its table of colour map entries, which the 16-bit conversion does not use otherwise.
 unsigned long D_80107480[256];
+
+// what the dithers quantize to; see dither.h
+int D_80107880;
+int D_80103474;
+int D_80103478;
+
+int *D_80103470;
+int *D_801084A8;
 
 // frames a second for each picture rate code. The values are rounded, and the reserved codes get 30.
 static int D_80086CD0[16] = { 30, 24, 24, 25, 30, 30, 50, 60, 60, 15, 30, 30, 30, 30, 30, 30 };
