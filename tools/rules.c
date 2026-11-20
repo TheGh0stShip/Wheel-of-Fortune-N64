@@ -36,6 +36,8 @@ typedef struct Func {
 
 typedef struct {
     char path[300], unit[64];
+    char units[16][64]; /* one source may be compiled as several units (libgcc2.c) */
+    int nunits, nok;
     int is_header, claimed, gate_ok, selected;
     char *raw, *clean;
     Tok *tok;
@@ -605,7 +607,8 @@ int main(int argc, char **argv) {
         if (!field[5]) continue;
         f = add_file(field[5]);
         if (!f) continue;
-        snprintf(f->unit, sizeof f->unit, "%s", field[0]);
+        if (!f->nunits) snprintf(f->unit, sizeof f->unit, "%s", field[0]);
+        if (f->nunits < 16) snprintf(f->units[f->nunits++], 64, "%s", field[0]);
         if (!strcmp(field[3], "match")) f->claimed = 1;
         for (k = argi; k < argc; k++)
             if (!strcmp(argv[k], field[0])) f->selected = 1;
@@ -613,6 +616,7 @@ int main(int argc, char **argv) {
     fclose(fp);
     add_headers("include");
     add_headers("src");
+    add_headers("lib");
     collect_macro_text();
 
     /* which claimed units did the last gate run actually verify? */
@@ -623,9 +627,12 @@ int main(int argc, char **argv) {
             char st[16], unit[64];
             if (sscanf(line, "%15s %63s", st, unit) != 2 || strcmp(st, "OK")) continue;
             for (i = 0; i < nfiles; i++)
-                if (!strcmp(files[i].unit, unit)) files[i].gate_ok = 1;
+                for (k = 0; k < files[i].nunits; k++)
+                    if (!strcmp(files[i].units[k], unit)) files[i].nok++;
         }
         fclose(fp);
+        /* a source's functions are byte-matched when every unit compiled from it is */
+        for (i = 0; i < nfiles; i++) files[i].gate_ok = files[i].nunits > 0 && files[i].nok == files[i].nunits;
     } else {
         fprintf(stderr, "rules: no gate result in %s; run ./wof gate first for the matched-under-the-rules count\n", build);
     }
