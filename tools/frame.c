@@ -2423,7 +2423,9 @@ static void load_cc1(const char *unit) {
         int end, j;
         if (ditems[i].kind != 'L' || strncmp(ditems[i].s, ".L_D", 4) || strstr(ditems[i].s, "_e")) continue;
         snprintf(endlabel, sizeof endlabel, "%s_e", ditems[i].s);
-        for (end = i + 1; end < nditems && !(ditems[end].kind == 'L' && !strcmp(ditems[end].s, endlabel)); end++) {}
+        for (end = i + 1; end < nditems && !(ditems[end].kind == 'L' && !strcmp(ditems[end].s, endlabel)); end++)
+            if (ditems[end].kind == 'L' && !strncmp(ditems[end].s, ".L_D", 4)) break; /* a null entry has no end label */
+        if (end == nditems || strcmp(ditems[end].s, endlabel)) continue;
         GROW(dies, ndies, capdies);
         d = &dies[ndies++];
         memset(d, 0, sizeof *d);
@@ -2540,6 +2542,7 @@ typedef struct {
     int run;     /* index of the taken address whose run holds it, or -1 */
     int runpos;  /* 0 head, 1 inside, 2 tail */
     int entrycopy;
+    int temp8;   /* a compiler temporary shown as the doubleword it is taken to be */
 } Row;
 
 typedef struct {
@@ -2551,7 +2554,7 @@ typedef struct {
     char dest[200];
 } Run;
 
-enum { V_NONE, V_REACH, V_INRUN, V_ROUND, V_FRONT, V_AFTER, V_WHOLE, V_TOP, V_BOTTOM, V_ISOLATED, V_TOUCHED, V_NOSLOT, V_N };
+enum { V_NONE, V_REACH, V_INRUN, V_ROUND, V_FRONT, V_AFTER, V_WHOLE, V_BELOWTEMP, V_TOP, V_BOTTOM, V_ISOLATED, V_TOUCHED, V_NOSLOT, V_N };
 static const char *vname[V_N] = { "",
                                   "inside what a callee or an index reaches through a taken address",
                                   "between the slots of a run that follows a taken address",
@@ -2559,11 +2562,13 @@ static const char *vname[V_N] = { "",
                                   "the alignment hole in front of an 8-aligned taken address",
                                   "untouched bytes after such a run, beyond its rounding",
                                   "the whole locals area is untouched",
-                                  "untouched at the top of the locals (nothing above is touched)",
-                                  "untouched at the bottom of the locals (nothing below is touched)",
-                                  "untouched between touched slots, no taken address involved",
+                                  "untouched between the declared locals and a compiler temporary above them",
+                                  "untouched at the top of the locals (no declared local above is touched)",
+                                  "untouched at the bottom of the locals (no declared local below is touched)",
+                                  "untouched between touched locals, no taken address involved",
                                   "retail touches the slot (the source never names it)",
                                   "no slot could be worked out" };
+static const char *vshort[V_N] = { "", "reach", "in-run", "run-rounding", "front-hole", "after-run", "whole-area", "below-temporary", "top", "bottom", "isolated", "touched", "no-slot" };
 static int vtotal[V_N];
 static int total_standins, total_funcs, total_funcs_with;
 
@@ -2846,6 +2851,23 @@ static void report_function(const Unit *u, u32 start, u32 size, SFunc *sf) {
         }
     }
 
+    /* A touched word that no declaration covers, at 8k+4 above untouched bytes: every such slot in the game is
+       this shape, a doubleword the compiler made for itself (a spilled 64-bit product) whose low word is used.
+       Shown as that doubleword, so that the bytes below it are not taken for more of the stand-in. */
+    for (i = 1; sf && i < nrows; i++) {
+        Row *q = &rows[i], *p = &rows[i - 1];
+        if (!q->touched || q->ndecl || q->tk || q->lo % 8 != 4 || q->hi - q->lo != 4) continue;
+        if (p->touched || p->ndecl || p->tk || p->hi != q->lo || p->lo > q->lo - 4) continue;
+        q->lo -= 4;
+        q->temp8 = 1;
+        p->hi -= 4;
+        if (p->hi == p->lo) {
+            memmove(p, q, (nrows - i) * sizeof *rows);
+            nrows--;
+            i--;
+        }
+    }
+
     /* runs: what follows each taken address */
     runs = calloc(fa->ntaken + 1, sizeof *runs);
     for (i = 0; i < fa->ntaken; i++) {
@@ -2925,7 +2947,7 @@ static void report_function(const Unit *u, u32 start, u32 size, SFunc *sf) {
     /* verdicts for the stand-ins: the locals the source never names */
     for (i = 0; sf && i < sf->nd; i++) {
         Decl *d = &sf->d[i];
-        int v = V_NONE, lowtouched = 0, hightouched = 0, any = 0;
+        int v = V_NONE, lowtouched = 0, hightouched = 0, hightemp = 0, any = 0;
         if (d->param || d->noslot || d->uses || d->noted) continue;
         nstand++;
         if (d->off < 0) v = V_NOSLOT;
@@ -2938,22 +2960,29 @@ static void report_function(const Unit *u, u32 start, u32 size, SFunc *sf) {
                 v = V_TOUCHED;
                 break;
             }
+            /* a touched slot no declaration covers is a compiler temporary: it is not a neighbour */
             for (j = 0; j < k; j++)
-                if (rows[j].touched) lowtouched = 1;
+                if (rows[j].touched && rows[j].ndecl) lowtouched = 1;
             for (j = k + 1; j < nrows; j++)
-                if (rows[j].touched) hightouched = 1;
+                if (rows[j].touched && rows[j].ndecl) hightouched = 1;
+                else if (rows[j].touched) hightemp = 1;
             if (q->run >= 0) {
                 Run *run = &runs[q->run];
                 s32 base = run->tk->base;
-                if (q->lo < run->known_end) v = V_REACH;
+                int one_object = 0; /* the source already declares the whole run as one local */
+                for (j = 0; j < sf->nd; j++)
+                    if (sf->d[j].off == base && sf->d[j].size > 0 && sf->d[j].off + sf->d[j].size >= run->run_end) one_object = 1;
+                if (one_object) {
+                } else if (q->lo < run->known_end) v = V_REACH;
                 else if (q->runpos == 1) v = V_INRUN;
                 else if (run->run_end > base && base % 8 == 0 && q->hi <= base + ALIGN(run->run_end - base, 8) && run->run_end - base > 4) v = V_ROUND;
-                else if (k + 1 < nrows && rows[k + 1].tk && rows[k + 1].tk->base == q->hi && q->hi % 8 == 0 && q->hi - q->lo < 8) v = V_FRONT;
+                else if (k + 1 < nrows && rows[k + 1].tk && rows[k + 1].tk->base == q->hi && q->hi % 8 == 0 && q->hi - q->lo < 8 && q->lo % 8) v = V_FRONT;
                 else if (run->run_end - base > 4 || run->nslots > 1) v = V_AFTER;
             }
             if (v == V_NONE) {
-                if (k + 1 < nrows && rows[k + 1].tk && rows[k + 1].tk->base == q->hi && q->hi % 8 == 0 && q->hi - q->lo < 8) v = V_FRONT;
+                if (k + 1 < nrows && rows[k + 1].tk && rows[k + 1].tk->base == q->hi && q->hi % 8 == 0 && q->hi - q->lo < 8 && q->lo % 8) v = V_FRONT;
                 else if (!any_touched && !fa->ntaken) v = V_WHOLE;
+                else if (!hightouched && hightemp) v = V_BELOWTEMP;
                 else if (!hightouched) v = V_TOP;
                 else if (!lowtouched) v = V_BOTTOM;
                 else v = V_ISOLATED;
@@ -2969,11 +2998,13 @@ static void report_function(const Unit *u, u32 start, u32 size, SFunc *sf) {
 
     if (checkmode) goto done;
     if (summary) {
-        printf("%-16s frame 0x%-4X locals 0x%02X..0x%02X  %2d declared", sf ? sf->name : code_name(start), fa->frame, S, E - 1, nlocals);
+        printf("%-16s frame 0x%-4X ", sf ? sf->name : code_name(start), fa->frame);
+        if (E > S) printf("locals 0x%02X..0x%02X  %2d declared", S, E - 1, nlocals);
+        else printf("no locals");
         if (nstand) {
             printf(", %d never named:", nstand);
             for (k = 1; k < V_N; k++)
-                if (vcount[k]) printf(" %s=%d", k == V_REACH ? "reach" : k == V_INRUN ? "in-run" : k == V_ROUND ? "run-rounding" : k == V_FRONT ? "front-hole" : k == V_AFTER ? "after-run" : k == V_WHOLE ? "whole-area" : k == V_TOP ? "top" : k == V_BOTTOM ? "bottom" : k == V_ISOLATED ? "isolated" : k == V_TOUCHED ? "touched" : "no-slot", vcount[k]);
+                if (vcount[k]) printf(" %s=%d", vshort[k], vcount[k]);
         }
         printf("\n");
         goto done;
@@ -3040,16 +3071,18 @@ static void report_function(const Unit *u, u32 start, u32 size, SFunc *sf) {
     if (!sf) {
         printf("  source: no function definition was matched to this range in %s\n", u->src[0] ? u->src : "(no source)");
     } else {
-        printf("  source: %d locals, %d never named", nlocals, nunused);
+        printf("  source: %d local%s, %d of them never named in the function", nlocals, nlocals == 1 ? "" : "s", nunused);
         if (use_cc1) {
             printf("; slots and sizes from cc1's debug info of the last build");
-            if (!rule_differs) printf("; the layout rule gives the same %d slots", rule_agrees);
+            if (!rule_differs) printf("; the layout rule agrees on every slot");
             else printf("; the layout rule differs on %d of %d (a compiler temporary, or a type the tool mis-sizes)", rule_differs, rule_agrees + rule_differs);
         } else {
-            printf("; slots from the layout rule alone (%s)", cc1_fresh == -1 ? "the last build is older than the source" : "no build of this unit found");
+            printf("; slots from the layout rule alone (%s)", cc1_fresh == -1 ? "the last build is older than the source" : cc1_fresh == 1 ? "the last build's debug info names none of them" : "no build of this unit found");
         }
         printf("\n");
-        for (k = 0; k < nsrc_notes; k++) printf("  note: %s\n", src_notes[k]);
+        for (i = k = 0; i < sf->nd; i++)
+            if (!sf->d[i].ti.known && !sf->d[i].noslot) k = 1;
+        for (i = 0; k && i < nsrc_notes; i++) printf("  note, reading the source: %s\n", src_notes[i]);
         for (i = 0; i < sf->nd; i++) {
             Decl *d = &sf->d[i];
             if (d->param || !d->noslot) continue;
@@ -3124,7 +3157,7 @@ static void report_function(const Unit *u, u32 start, u32 size, SFunc *sf) {
         use[0] = src[0] = ev[0] = 0;
         if (q->touched) {
             cls_text(q->cls, buf, sizeof buf);
-            ul += snprintf(use + ul, sizeof use - ul, "%s", buf);
+            ul += snprintf(use + ul, sizeof use - ul, "%s%s", buf, q->temp8 ? "@+4" : "");
             if (q->w) ul += snprintf(use + ul, sizeof use - ul, " w%d", q->w);
             if (q->r) ul += snprintf(use + ul, sizeof use - ul, " r%d", q->r);
             if (q->vw || q->vr) ul += snprintf(use + ul, sizeof use - ul, " via& w%d r%d", q->vw, q->vr);
@@ -3176,20 +3209,26 @@ static void report_function(const Unit *u, u32 start, u32 size, SFunc *sf) {
                                run->dest[0] ? run->dest : "in place");
                 break;
             case V_WHOLE: el += snprintf(ev + el, sizeof ev - el, "never touched; nothing in the locals area 0x%02X..0x%02X is", S, E - 1); break;
-            case V_TOP: el += snprintf(ev + el, sizeof ev - el, "never touched; nothing above it in the locals is"); break;
-            case V_BOTTOM: el += snprintf(ev + el, sizeof ev - el, "never touched; nothing below it in the locals is"); break;
-            case V_ISOLATED: el += snprintf(ev + el, sizeof ev - el, "never touched; touched slots on both sides, no taken address reaches it"); break;
+            case V_BELOWTEMP: el += snprintf(ev + el, sizeof ev - el, "never touched; above it only a slot the compiler made for itself, which it places after every local"); break;
+            case V_TOP: el += snprintf(ev + el, sizeof ev - el, "never touched; no declared local above it is touched"); break;
+            case V_BOTTOM: el += snprintf(ev + el, sizeof ev - el, "never touched; no declared local below it is touched"); break;
+            case V_ISOLATED: el += snprintf(ev + el, sizeof ev - el, "never touched; touched locals on both sides, no taken address reaches it"); break;
             case V_TOUCHED: el += snprintf(ev + el, sizeof ev - el, "the source never names it, but retail touches the slot"); break;
             }
         } else if (!anydecl && !q->touched) {
             /* bytes no declaration covers */
             const char *why = "no declaration covers it";
-            if (q->hi == E && q->hi - q->lo < 8) why = "frame rounding (vars is a multiple of 8)";
+            Decl *below = sf && i > 0 && rows[i - 1].ndecl ? &sf->d[rows[i - 1].decl[rows[i - 1].ndecl - 1]] : NULL;
+            if (below && below->ti.known && below->ti.mode == M_BLK && q->hi - q->lo < 8 && below->off + ALIGN(below->size, 8) == q->hi)
+                why = "the block below is rounded up to 8";
+            else if (q->hi == E && q->hi - q->lo < 8) why = "frame rounding (the locals area is a multiple of 8)";
             else if (i + 1 < nrows && rows[i + 1].ndecl && q->hi - q->lo < 8) why = "alignment of the next local";
-            else if (i > 0 && rows[i - 1].ndecl && q->hi % 8 == 0 && q->hi - q->lo < 8) why = "rounding of the block below";
+            if (i + 1 < nrows && rows[i + 1].touched && !rows[i + 1].ndecl && !strcmp(why, "no declaration covers it"))
+                why = rows[i + 1].temp8 && q->hi - q->lo < 8 ? "alignment of the compiler temporary above" : "no declaration covers it; a compiler temporary follows";
             el += snprintf(ev + el, sizeof ev - el, "%s", why);
         } else if (!anydecl && q->touched && sf) {
-            el += snprintf(ev + el, sizeof ev - el, "touched, but no declaration is mapped here: a compiler temporary, or the mapping is off");
+            el += snprintf(ev + el, sizeof ev - el, "%s", q->temp8 ? "no declaration: a doubleword the compiler made for itself, of which it uses the low word"
+                                                                : "touched, but no declaration is mapped here: a compiler temporary");
         }
         if (q->tk && !standin) {
             Run *run = q->run >= 0 ? &runs[q->run] : NULL;
@@ -3197,7 +3236,7 @@ static void report_function(const Unit *u, u32 start, u32 size, SFunc *sf) {
                 el += snprintf(ev + el, el < sizeof ev ? sizeof ev - el : 0, "%saddress -> %s", el ? "; " : "", run->dest[0] ? run->dest : "used in place");
             if (run && run->tk == q->tk && run->nslots > 1)
                 el += snprintf(ev + el, el < sizeof ev ? sizeof ev - el : 0, "; heads the run 0x%02X..0x%02X", q->tk->base, run->run_end - 1);
-        } else if (q->run >= 0 && !standin && q->touched && (offname || !anydecl)) {
+        } else if (q->run >= 0 && !standin && q->touched && (offname || !anydecl) && !(anydecl && sf->d[q->decl[0]].off < q->lo)) {
             Run *run = &runs[q->run];
             el += snprintf(ev + el, el < sizeof ev ? sizeof ev - el : 0, "%sin the run after &0x%02X%s", el ? "; " : "", run->tk->base,
                            q->lo < run->known_end ? " (reached through it)" : !q->r && !q->vr ? ", written only" : !q->w && !q->vw ? ", read only" : "");
