@@ -10,7 +10,7 @@ void func_80013500(s32 arg0) {
 
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 8; j++) {
-            D_800BEEA8[i][j] = (s32)&D_010367A8;
+            D_800BEEA8[i][j] = D_010367A8;
         }
         if (arg0 != 0) {
             value = D_800B9990[i].unk_004;
@@ -22,7 +22,7 @@ void func_80013500(s32 arg0) {
         if (len >= 8) {
             len = 7;
         }
-        D_800BEEA8[i][7 - len] = (s32)&D_01035FA8;
+        D_800BEEA8[i][7 - len] = D_01035FA8;
         for (j = 0; j < len; j++) {
             D_800BEEA8[i][j + 8 - len] = D_80057A68[digits[j]];
         }

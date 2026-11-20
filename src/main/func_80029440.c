@@ -21,7 +21,7 @@ void func_80029440(void) {
     }
     x = 152 - len * 6;
     n = 0;
-    D_8005B710[n].unk_24 = &D_01017550;
+    D_8005B710[n].unk_24 = D_01017550;
     D_8005B710[n].x = x;
     D_8005B710[n].width = 8;
     if (D_800BCD54 == 8) {
@@ -32,16 +32,16 @@ void func_80029440(void) {
     for (i = 0; i < len; i++) {
         switch (D_800B9544[i]) {
         case '&':
-            D_8005B710[n].unk_24 = &D_01017750;
+            D_8005B710[n].unk_24 = D_01017750;
             break;
         case '-':
-            D_8005B710[n].unk_24 = &D_010178D0;
+            D_8005B710[n].unk_24 = D_010178D0;
             break;
         case ' ':
-            D_8005B710[n].unk_24 = &D_01017BD0;
+            D_8005B710[n].unk_24 = D_01017BD0;
             break;
         case '/':
-            D_8005B710[n].unk_24 = &D_01017A50;
+            D_8005B710[n].unk_24 = D_01017A50;
             break;
         default:
             D_8005B710[n].unk_24 = D_8005B5A4[D_800B9544[i]];
@@ -54,7 +54,7 @@ void func_80029440(void) {
         n++;
         x = x + 12;
     }
-    D_8005B710[n].unk_24 = &D_01017650;
+    D_8005B710[n].unk_24 = D_01017650;
     D_8005B710[n].x = x;
     D_8005B710[n].width = 8;
     if (D_800BCD54 == 8) {

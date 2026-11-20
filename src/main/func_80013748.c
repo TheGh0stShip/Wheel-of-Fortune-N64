@@ -35,7 +35,7 @@ void func_80013748(obj_t *obj, frame_t *frame) {
         gDPPipeSync(D_800B81E8++);
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 8; j++) {
-                if (D_800BEEA8[i][j] == (s32)D_010367A8) {
+                if (D_800BEEA8[i][j] == D_010367A8) {
                     gSPDisplayList(D_800B81E8++, D_80057B50[i][j]);
                 }
             }
@@ -43,7 +43,7 @@ void func_80013748(obj_t *obj, frame_t *frame) {
         i = 0;
         while (i < 3) {
             for (j = 0; j < 8; j++) {
-                if (D_800BEEA8[i][j] != (s32)D_010367A8) {
+                if (D_800BEEA8[i][j] != D_010367A8) {
                     gDPLoadTextureBlock(D_800B81E8++, D_800BEEA8[i][j], G_IM_FMT_RGBA, G_IM_SIZ_16b,
                                         32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                                         G_TX_NOMIRROR | G_TX_CLAMP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);

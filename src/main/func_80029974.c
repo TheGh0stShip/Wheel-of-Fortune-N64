@@ -22,7 +22,7 @@ void func_80029974(s32 arg0) {
         if (len >= 7) {
             len = 6;
         }
-        D_8005ADD0[i][6 - len].unk_20 = (s32)&D_01010FA0;
+        D_8005ADD0[i][6 - len].unk_20 = D_01010FA0;
         for (j = 0; j < len; j++) {
             D_8005ADD0[i][j + 7 - len].unk_20 = D_8005ACE8[buf[j]];
         }

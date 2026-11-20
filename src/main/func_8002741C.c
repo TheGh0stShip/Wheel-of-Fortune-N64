@@ -1,7 +1,7 @@
 #include "wof.h"
 
 void func_8002741C(image_t *image, s32 arg1, s32 arg2, s32 arg3) {
-    s32 texture;
+    u16 *texture;
 
     texture = func_8002731C(image, arg1);
     if (texture != 0) {

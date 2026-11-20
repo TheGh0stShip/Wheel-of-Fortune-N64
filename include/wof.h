@@ -183,8 +183,8 @@ typedef struct {
     /* 0x14 */ s32 unk_14;
     /* 0x18 */ s32 unk_18;
     /* 0x1C */ s32 unk_1C;
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ s32 unk_24;
+    /* 0x20 */ u16 *unk_20;     // the two pictures func_8002731C chooses from; 0: none
+    /* 0x24 */ u16 *unk_24;
 } image_t;    // size 0x28
 
 
@@ -222,7 +222,7 @@ typedef struct {
 // The picture of a letter of the alphabet as func_8002C094 shows the letter chosen:
 // D_8005BCC8[26].
 typedef struct {
-    /* 0x00 */ s32 unk_00;      // what unk_20 of the image_t becomes
+    /* 0x00 */ u16 *unk_00;     // what unk_20 of the image_t becomes
     /* 0x04 */ s32 width;
     /* 0x08 */ s32 height;
 } letterImage_t;    // size 0xC
@@ -794,7 +794,7 @@ extern u8 *D_800579BC[];           // the pictures of the letters, by character
 extern Gfx *D_800579F0[];           // D_800579F0 to D_80057A90: the display lists of the squares of each row
 extern Gfx *D_80057A20[];
 extern Gfx *D_80057A58[];
-extern s32 D_80057A68[];
+extern u16 *D_80057A68[];
 extern Gfx *D_80057A90[];
 extern Gfx *D_80057B50[][8];
 extern layer_t D_80057BB0[];
@@ -815,7 +815,7 @@ extern s32 D_800584A0[][2];         // [5], x and y of pictures 2 to 6 of the fi
 extern menuItem_t D_800584C8[];
 extern image_t D_80058548[];
 extern menuItem_t D_80058868[];
-extern s32 D_800588A8[][3][2];      // [3], for each contestant unk_20 and unk_24 of pictures 0, 7 and 8 of D_800588F0
+extern u16 *D_800588A8[][3][2];     // [3], for each contestant unk_20 and unk_24 of pictures 0, 7 and 8 of D_800588F0
 extern image_t D_800588F0[];
 extern menuItem_t D_80058AA8[];
 extern image_t D_80058B28[];
@@ -835,13 +835,13 @@ extern image_t D_8005A620[];
 extern image_t D_8005A760[];
 extern image_t D_8005A7B0[];
 extern image_t D_8005A828[];
-extern s32 D_8005A8C8[];
-extern s32 D_8005A930[];
+extern u16 *D_8005A8C8[];
+extern u16 *D_8005A930[];
 extern image_t D_8005A998[];
-extern s32 D_8005ACE8[];
+extern u16 *D_8005ACE8[];
 extern image_t D_8005ADD0[][7];
 extern s32 D_8005B088[];
-extern s32 D_8005B118[];
+extern u16 *D_8005B118[];
 extern s32 D_8005B148[];
 extern s32 D_8005B170;
 extern s32 D_8005B174;
@@ -851,7 +851,7 @@ extern image_t D_8005B2C0[];
 extern image_t D_8005B310[];
 extern image_t D_8005B360[];
 extern image_t D_8005B4C8[];
-extern s32 *D_8005B5A4[];
+extern u16 *D_8005B5A4[];
 extern image_t D_8005B630[];
 extern image_t D_8005B710[];
 extern s32 D_8005BA80[];
@@ -1060,7 +1060,7 @@ extern s32 D_800BEE54;
 extern u16 D_800BEE58[];
 extern rumble_t D_800BEE60[];
 extern OSMesgQueue *D_800BEEA0;      // the command queue of the scheduler
-extern s32 D_800BEEA8[][8];
+extern u16 *D_800BEEA8[][8];
 extern gfxInfo_t D_800BEF08[];
 extern s32 D_800FB808;
 extern s32 D_800FB80C;
@@ -1342,7 +1342,7 @@ void func_80026E50( void );
 void func_80026EB4( void );
 void func_80026FD4( void );
 obj_t *func_80027218( proc_t *proc, Gfx *arg1, objDraw_t draw, s32 arg3 );
-s32 func_8002731C( image_t *image, s32 arg1 );
+u16 *func_8002731C( image_t *image, s32 arg1 );
 void func_8002741C( image_t *image, s32 arg1, s32 arg2, s32 arg3 );
 void func_800278A8( image_t *image, s32 arg1 );
 void func_800278F0( obj_t *obj, frame_t *frame );

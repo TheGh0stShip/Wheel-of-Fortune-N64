@@ -29,7 +29,7 @@ struct n64dk_r12 func_80029C98(proc_t *proc) {
     i = 0;
     while (i < 9) {
         if (D_8005B360[i].unk_20 != 0) {
-            D_8005B360[i].unk_20 = D_8005B360[i].unk_20 + D_8005B360[i].width * 2;
+            D_8005B360[i].unk_20 = D_8005B360[i].unk_20 + D_8005B360[i].width;
             D_8005B360[i].height = 15 - count;
             if (D_8005B360[i].height <= 0) {
                 D_8005B360[i].unk_20 = 0;

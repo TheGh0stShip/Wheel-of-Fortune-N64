@@ -1,7 +1,7 @@
 #include "wof.h"
 
-s32 func_8002731C(image_t *image, s32 arg1) {
-    s32 result;
+u16 *func_8002731C(image_t *image, s32 arg1) {
+    u16 *result;
 
     if (arg1 != 0) {
         result = image->unk_20;
