@@ -1,11 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 base;
-    /* 0x04 */ s32 range;
-} Range;
-
-extern Range D_B025D810[];
 
 void func_80006BFC(void) {
     s32 i;

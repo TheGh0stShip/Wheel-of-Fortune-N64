@@ -186,8 +186,10 @@ typedef struct {
     /* 0x110 */ s32 unk_110;
 } player_t;    // size 0x114
 
-// What one frame is drawn from: the matrices of each obj, by obj index, and more that is not
-// named yet. There are two, D_800BEF08[2]; the draw functions get the one in use.
+// What one frame is drawn from: the matrices of each obj, by obj index, the display list, and
+// room for pictures that are made at run time. It is segment 2 of the display list, and the
+// draw functions get the one in use. guess: the Dynamic of the SDK demos, from the lineage of
+// func_800057A8.
 typedef struct {
     /* 0x00000 */ u8  unk_00000[0x140];
     /* 0x00140 */ Mtx scale[100];
@@ -195,9 +197,20 @@ typedef struct {
     /* 0x03340 */ Mtx rotate[100];
     /* 0x04C40 */ u8  unk_04C40[0x40];
     /* 0x04C80 */ Mtx unk_04C80;
-    /* 0x04CC0 */ u8  unk_04CC0[0x197B8];
-    /* 0x1E478 */ s32 unk_1E478;
-} frame_t;  // size 0x1E480
+    /* 0x04CC0 */ Gfx glist[3048];
+    /* 0x0AC00 */ s16 unk_0AC00[6][64 * 64];    // six pictures of 64 by 64
+    /* 0x16C00 */ s16 unk_16C00[64 * 96];
+    /* 0x19C00 */ s16 unk_19C00[0x2400];        // each screen lays out its own pictures here
+} frame_t;  // size 0x1E400
+
+// A frame and the task that draws it: D_800BEF08[2], and D_800B61A0 says which is in use.
+// guess: the GFXInfo of the SDK demos, whose createGfxTask func_800057A8 descends from.
+typedef struct {
+    /* 0x00000 */ OSScTask task;
+    /* 0x00058 */ frame_t  frame;
+    /* 0x1E458 */ OSScMsg  msg;             // what the scheduler answers when the task is done
+    /* 0x1E478 */ void     *framebuffer;
+} gfxInfo_t;    // size 0x1E480
 
 // The rumble of one controller's pak: D_800BEE60[4]. func_800051B4 starts it.
 typedef struct {
@@ -207,6 +220,18 @@ typedef struct {
     /* 0x0C */ s32 unk_0C;
 } rumble_t;    // size 0x10
 
+
+// What func_80004E50, func_80004EB0 and func_80004F0C send the rumble thread: D_800BCA30.
+typedef struct {
+    /* 0x00 */ u16 type;        // 0: stop the motor, 1: start it, 2: start the pak over
+    /* 0x04 */ s32 index;       // the controller
+} rumbleMsg_t;    // size 0x8
+
+// The puzzles a kind of round draws from: range of them, starting at puzzle base.
+typedef struct {
+    /* 0x00 */ s32 base;
+    /* 0x04 */ s32 range;
+} puzzleRange_t;    // size 0x8
 // One wedge of the wheel: D_800B39B8[].
 typedef struct {
     /* 0x00 */ s32 unk_00;
@@ -634,7 +659,7 @@ extern char D_800019BC[];   // "InitAnim: cannot find contestant obj", in func_8
 // globals, in address order
 //
 extern long long int D_800349B8[];  // rspbootTextStart
-extern long long int D_80034A88[];  // rspbootTextEnd
+extern long long int D_80034A88[];  // rspbootTextEnd, and the start of the graphics microcode
 extern long long int D_80037298[];  // aspMainTextStart
 extern ALSndPlayer *D_8004B718;
 extern s32 D_8004B71C[];            // the parameters of the custom reverb
@@ -759,7 +784,7 @@ extern s32 D_8006DD04;
 extern s32 D_8006DD08;
 extern s32 D_8006DD0C;
 extern s32 D_8006DDC4;
-extern s32 D_80082BC8;
+extern long long int D_80082BC8[];  // the data of the graphics microcode at D_80034A88
 extern long long int D_80083BC8[];  // aspMainDataStart
 extern u64 D_80084218;
 extern s32 D_80085108[];
@@ -805,9 +830,12 @@ extern ALSndId *D_800A509C;         // [MAX_SOUNDS], -1 where no sound is alloca
 extern u64 D_800A50A0[];            // audioStack: AUDIO_STACKSIZE bytes
 extern OSContStatus D_800A70A0[];
 extern OSContPad D_800A70B0[];
-extern s16 D_800A70C8;
-extern s32 D_800A70E8;
-extern s32 D_800A9298;
+extern OSScMsg D_800A70C8;          // the message of the controller event
+extern OSThread D_800A70E8;         // the rumble thread, func_80004F6C
+extern u64 D_800A7298[];            // its stack: 0x2000 bytes
+extern OSThread D_800A9298;         // the controller thread, func_80004160
+extern u64 D_800A9448[];            // its stack: 0x2000 bytes
+extern OSPfs D_800AB448[];          // [MAXCONTROLLERS]
 extern s32 D_800AB5E8;
 extern s32 D_800AD5F0;
 extern s32 D_800AD7A0;
@@ -817,14 +845,14 @@ extern s32 D_800AFE20;
 extern s32 D_800AFE38;
 extern s32 D_800AFE50;
 extern s32 D_800AFE58;
-extern s32 D_800B3970;
+extern OSMesgQueue D_800B3970;      // the queue of the controller events
 extern s32 D_800B3988;
 extern ALBankFile *D_800B3990;
 extern s32 D_800B3994;
 extern ALBankFile *D_800B3998;      // NOTE: nothing sets it
 extern wedge_t D_800B39B8[];
 extern s32 D_800B3CB8;
-extern s32 D_800B3CC0;
+extern u64 D_800B3CC0[];            // the stack of the graphics microcode: SP_DRAM_STACK_SIZE8 bytes
 extern s32 D_800B40C0;
 extern s32 D_800B40C4;
 extern obj_t D_800B40C8[];
@@ -842,13 +870,14 @@ extern u8 D_800B61B5;
 extern s32 D_800B61B8;
 extern s32 D_800B61C0;
 extern s32 D_800B61D8;
-extern s32 D_800B61E0;
+extern u64 D_800B61E0[];            // the yield buffer of the graphics task: 0x900 bytes
 extern s32 D_800B6AE0;
 extern s32 D_800B6AE8[][16];
 extern f32 D_800B6BE8;
 extern f32 D_800B6BEC;
 extern f32 D_800B6BF0;
-extern s32 D_800B6BF4;
+extern OSMesg D_800B6BF4;
+extern u8 D_800B6BF8[][0x50];       // [70], the data blocks of the procs: AllocBlock hands them out
 extern ALSeqFile *D_800B81D8;
 extern s32 D_800B81DC;
 extern s32 D_800B81E0;
@@ -869,7 +898,7 @@ extern u8 D_800B95AD[][21];
 extern u8 D_800B9601[][21];
 extern s8 D_800B9655[];
 extern u8 D_800B966A[];
-extern s32 D_800B9688;
+extern OSMesgQueue D_800B9688;      // where the scheduler answers the graphics tasks and sends the retraces
 extern s32 D_800B96A0;
 extern s32 D_800B96A4;
 extern s32 D_800B96A8;
@@ -930,8 +959,7 @@ extern s32 D_800BCA1C;
 extern s32 D_800BCA20;
 extern s32 D_800BCA24;
 extern s32 D_800BCA28;
-extern s16 D_800BCA30;
-extern s32 D_800BCA34;
+extern rumbleMsg_t D_800BCA30;
 extern s32 D_800BCA40;
 extern s32 D_800BCA60;
 extern AMAudioMgr D_800BCA68;        // __am
@@ -941,8 +969,8 @@ extern s32 D_800BCD50;
 extern s32 D_800BCD54;
 extern s32 D_800BCD58;
 extern u32 D_800BCD64;              // frameSize
-extern s32 D_800BCD68;
-extern s32 D_800BCD70;
+extern OSMesg D_800BCD68;
+extern OSMesgQueue D_800BCD70;      // the queue of the rumble thread
 extern s32 D_800BED88;
 extern ALCSPlayer *D_800BED90[];
 extern s32 D_800BED98;
@@ -971,13 +999,7 @@ extern u16 D_800BEE58[];
 extern rumble_t D_800BEE60[];
 extern OSMesgQueue *D_800BEEA0;      // the command queue of the scheduler
 extern s32 D_800BEEA8[][8];
-extern u8 D_800BEF08[][0x1E480];
-extern s16 D_800C9B60[][0x1000];
-extern s16 D_800DD360;
-extern s32 *D_800DD380;
-extern s16 D_800E7FE0[][0x1000];
-extern s16 D_800FB7E0;
-extern s32 *D_800FB800;
+extern gfxInfo_t D_800BEF08[];
 extern s32 D_800FB808;
 extern s32 D_800FB80C;
 extern u64 D_800FB810;
@@ -1037,6 +1059,7 @@ extern s32 *D_801084A8;
 extern s32 D_8038F800;
 extern s32 D_803B5000;
 extern s32 D_803DA800;
+extern puzzleRange_t D_B025D810[];  // on the cartridge, read in place
 
 //
 // functions, in address order: the unit boundaries are not known yet
@@ -1062,18 +1085,18 @@ void func_80003C68( AudioInfo *info );
 s32 func_80003CC8( s32 addr, s32 len, void *state );
 ALDMAproc func_80003F64( AMDMAState **state );
 void func_80003FDC( void );
-void func_80004160( s32 arg0 );
+void func_80004160( void *arg );
 void func_8000420C( void );
 void func_800045D4( void );
 void func_80004E50( s32 arg0 );
 void func_80004EB0( s32 arg0 );
 void func_80004F0C( s32 arg0 );
-void func_80004F6C( s32 arg0 );
+void func_80004F6C( void *arg );
 void func_80005258( void );
 void func_80005300( s32 arg0 );
 void func_80005624( void );
 void func_80005700( void );
-void func_800057A8( s32 arg0 );
+void func_800057A8( gfxInfo_t *info );
 void func_80005FD0( s32 arg0 );
 void func_800060B0( s32 arg0 );
 void func_80006328( void );
@@ -1120,7 +1143,7 @@ void func_80009FD8( void );
 s32 func_8000A0E4( void );
 s32 func_8000A158( s32 arg0 );
 s32 func_8000A204( void );
-s32 func_8000A31C( s32 arg0 );
+void *func_8000A31C( s32 arg0 );
 void func_8000A408( s32 arg0 );
 s32 func_8000A4A4( s32 arg0, s32 arg1 );
 s32 func_8000A56C( s32 arg0, s32 arg1 );

@@ -1,33 +1,8 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ s32 unk_1C;
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ s32 unk_24;
-    /* 0x28 */ s32 unk_28;
-    /* 0x2C */ s32 unk_2C;
-    /* 0x30 */ s32 unk_30;
-    /* 0x34 */ s32 unk_34;
-    /* 0x38 */ s32 unk_38;
-    /* 0x3C */ s32 unk_3C;
-    /* 0x40 */ s32 unk_40;
-    /* 0x44 */ s32 unk_44;
-    /* 0x48 */ s32 unk_48;
-    /* 0x4C */ s32 unk_4C;
-    /* 0x50 */ s32 unk_50;
-    /* 0x54 */ s32 unk_54;
-} Task;
-
-void func_800057A8(s32 arg0) {
-    s32 sp10;
-    Task *task;
+void func_800057A8(gfxInfo_t *info) {
+    frame_t *frame;
+    OSScTask *t;
     obj_t *cam;
     Gfx *gfx;
 
@@ -40,8 +15,8 @@ void func_800057A8(s32 arg0) {
         D_800BEE40 = cam->unk_2C;
         D_800BEE44 = cam->unk_30;
     }
-    sp10 = arg0 + 88;
-    D_800B81E8 = (Gfx *)(arg0 + 0x4D18);
+    frame = &info->frame;
+    D_800B81E8 = info->frame.glist;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xBC000006;
     gfx->words.w1 = 0;
@@ -50,7 +25,7 @@ void func_800057A8(s32 arg0) {
     gfx->words.w1 = osVirtualToPhysical(D_800BCA08);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xBC000806;
-    gfx->words.w1 = osVirtualToPhysical(sp10);
+    gfx->words.w1 = osVirtualToPhysical(frame);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x6000000;
     gfx->words.w1 = (s32)&D_01021948;
@@ -86,7 +61,7 @@ void func_800057A8(s32 arg0) {
     gfx->words.w1 = 0;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xFF10013F;
-    gfx->words.w1 = osVirtualToPhysical(((frame_t *)arg0)->unk_1E478);
+    gfx->words.w1 = osVirtualToPhysical(info->framebuffer);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xF7000000;
     gfx->words.w1 = 0x10001;
@@ -121,40 +96,41 @@ void func_800057A8(s32 arg0) {
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xB900031D;
     gfx->words.w1 = 0x552078;
-    func_8000B468(sp10);
-    func_80005FD0(sp10);
-    func_8000B528(sp10);
+    func_8000B468(frame);
+    func_80005FD0(frame);
+    func_8000B528(frame);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xE9000000;
     gfx->words.w1 = 0;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xB8000000;
     gfx->words.w1 = 0;
-    osWritebackDCache(arg0 + 88, (s32)D_800B81E8 - (arg0 + 88));
-    if (D_800B81E8 - (Gfx *)(sp10 + 0x4CC0) >= 3048) {
+    osWritebackDCache(&info->frame, (s32)D_800B81E8 - (s32)&info->frame);
+    if (D_800B81E8 - frame->glist >= 3048) {
         func_80009F38("GFX Error: GLIST OVERFLOW\n");
     }
-    task = (Task *)arg0;
-    task->unk_40 = sp10 + 0x4CC0;
-    task->unk_44 = (u32)(D_800B81E8 - (Gfx *)(sp10 + 0x4CC0)) * 8;
-    task->unk_10 = 1;
-    task->unk_14 = 0;
-    task->unk_18 = (s32)&D_800349B8;
-    task->unk_1C = (s32)&D_80034A88 - (s32)&D_800349B8;
-    task->unk_20 = (s32)&D_80034A88;
-    task->unk_28 = (s32)&D_80082BC8;
-    task->unk_2C = 2048;
-    task->unk_30 = (s32)&D_800B3CC0;
-    task->unk_34 = 1024;
-    task->unk_38 = 0;
-    task->unk_3C = 0;
-    task->unk_48 = (s32)&D_800B61E0;
-    task->unk_4C = 2304;
-    task->unk_00 = 0;
-    task->unk_08 = 99;
-    task->unk_50 = (s32)&D_800B9688;
-    task->unk_54 = arg0 + 0x1E458;
-    task->unk_0C = ((frame_t *)arg0)->unk_1E478;
-    osSendMesg(D_800BEEA0, task, 1);
+    t = &info->task;
+    t->list.t.data_ptr = (u64 *)frame->glist;
+    t->list.t.data_size = (s32)(D_800B81E8 - frame->glist) * sizeof(Gfx);
+    t->list.t.type = M_GFXTASK;
+    t->list.t.flags = 0x0;
+    t->list.t.ucode_boot = (u64 *)D_800349B8;
+    t->list.t.ucode_boot_size = (s32)D_80034A88 - (s32)D_800349B8;
+    t->list.t.ucode = (u64 *)D_80034A88;
+    t->list.t.ucode_data = (u64 *)D_80082BC8;
+    t->list.t.ucode_data_size = SP_UCODE_DATA_SIZE;
+    t->list.t.dram_stack = (u64 *)D_800B3CC0;
+    t->list.t.dram_stack_size = SP_DRAM_STACK_SIZE8;
+    t->list.t.output_buff = (u64 *)0x0;
+    t->list.t.output_buff_size = (u64 *)0x0;
+    t->list.t.yield_data_ptr = (u64 *)D_800B61E0;
+    // OS_YIELD_DATA_SIZE as it was before F3DEX: the headers of today make it 0xC00
+    t->list.t.yield_data_size = 0x900;
+    t->next = 0;
+    t->flags = OS_SC_NEEDS_RSP | OS_SC_NEEDS_RDP | OS_SC_LAST_TASK | OS_SC_SWAPBUFFER;
+    t->msgQ = &D_800B9688;
+    t->msg = (OSMesg)&info->msg;
+    t->framebuffer = (void *)info->framebuffer;
+    osSendMesg(D_800BEEA0, (OSMesg)t, OS_MESG_BLOCK);
     D_800AB5E8++;
 }

@@ -1,18 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00000 */ u8 unk_00000[0xAC00];
-    /* 0x0AC00 */ u8 unk_0AC00[9][0x2000];
-    /* 0x1CC00 */ u8 unk_1CC00[0x187C];
-} BankData;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ BankData data;
-} Bank;
-
-extern Bank D_800BEF5C[];
-
 struct n64dk_r12 func_800315FC(s32 arg1) {
     struct n64dk_r12 result;
     s32 event;
@@ -41,8 +28,8 @@ struct n64dk_r12 func_800315FC(s32 arg1) {
     }
     addr = ((anim_t *)((proc_t *)arg1)->unk_30)->unk_08 + ((anim_t *)((proc_t *)arg1)->unk_30)->frame * 0x2000;
     func_80031340(addr, index);
-    offset = osVirtualToPhysical(&D_800BEF5C[D_800B61A0].data.unk_0AC00[index]);
-    offset = offset - osVirtualToPhysical(&D_800BEF5C[D_800B61A0].data);
+    offset = osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame.unk_0AC00[index]);
+    offset = offset - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
     sprite->unk_44 = base + offset;
     ((anim_t *)((proc_t *)arg1)->unk_30)->timer += D_800B96B4;
     if (((anim_t *)((proc_t *)arg1)->unk_30)->timer >= 4) {

@@ -1,24 +1,10 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00000 */ u8 unk_00000[0xAC00];
-    /* 0x0AC00 */ u8 blocks[9][0x2000];
-    /* 0x1CC00 */ u8 unk_1CC00[0x187C];
-} BankData;
-
-typedef struct {
-    /* 0x00000 */ s32 unk_00000;
-    /* 0x00004 */ BankData data;
-} Bank;
-
-typedef struct {
     /* 0x00 */ obj_t *unk_00;
     /* 0x04 */ u8 unk_04[0xC];
     /* 0x10 */ s32 unk_10;
 } Ref;
-
-extern Bank D_800BEF5C[];
-extern u8 D_800BEF60[][0x1E480];
 
 void func_800213CC(proc_t *arg0) {
     s32 sp10;
@@ -28,10 +14,10 @@ void func_800213CC(proc_t *arg0) {
     s32 sp34;
 
     sp34 = 0x2000000;
-    sp10 = osVirtualToPhysical(D_800BEF5C[D_800B61A0].data.blocks[((Ref *)arg0->unk_30)->unk_10]);
-    sp10 = sp10 - osVirtualToPhysical(D_800BEF60[D_800B61A0]);
+    sp10 = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_0AC00[((Ref *)arg0->unk_30)->unk_10]);
+    sp10 = sp10 - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
     ((Ref *)arg0->unk_30)->unk_00->unk_44 = sp34 + sp10;
-    D_800B998C = D_800BEF5C[D_800B61A0].data.blocks[((Ref *)arg0->unk_30)->unk_10];
+    D_800B998C = D_800BEF08[D_800B61A0].frame.unk_0AC00[((Ref *)arg0->unk_30)->unk_10];
     if (D_800B40C4 == 0) {
         D_800B40C4 = func_8009D244();
     }

@@ -1,12 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00000 */ u8 unk_00[0x4];
-    /* 0x00004 */ u8 unk_04[0x1E47C];
-} Bank;
-
-extern Bank D_800BEF5C[];
-
 struct n64dk_r12 func_80031A54(s32 arg1) {
     struct n64dk_r12 ret;
     s32 event;
@@ -44,8 +37,8 @@ struct n64dk_r12 func_80031A54(s32 arg1) {
             break;
         }
     }
-    diff = osVirtualToPhysical((s32)&D_800BEF5C[D_800B61A0].unk_04[0x16C00]);
-    diff = diff - osVirtualToPhysical((s32)D_800BEF5C[D_800B61A0].unk_04);
+    diff = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_16C00);
+    diff = diff - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
     obj->unk_44 = base + diff;
     ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_28 = ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_28 + D_800B96B4;
     if (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_28 >= ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_14) {

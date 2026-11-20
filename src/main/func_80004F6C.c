@@ -1,25 +1,14 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u16 type;
-    /* 0x04 */ s32 index;
-} Msg;
-
-typedef struct {
-    u8 unk_00[0x68];
-} Entry;
-
-extern Entry D_800AB448[];
-
-void func_80004F6C(s32 arg0) {
-    Msg *msg;
+void func_80004F6C(void *arg) {
+    rumbleMsg_t *msg;
     s32 result;
     s32 index;
     s16 type;
 
     msg = 0;
     while (1) {
-        osRecvMesg(&D_800BCD70, &msg, 1);
+        osRecvMesg(&D_800BCD70, (OSMesg *)&msg, OS_MESG_BLOCK);
         func_8000BB10();
         index = msg->index;
         type = msg->type;

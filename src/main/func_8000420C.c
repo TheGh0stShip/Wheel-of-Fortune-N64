@@ -1,10 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    u8 unk_00[0x68];
-} Entry;
-
-extern Entry D_800AB448[];
 
 void func_8000420C(void) {
     s32 i;
@@ -13,15 +8,15 @@ void func_8000420C(void) {
 
     D_800B96C4 = 0;
     osCreateMesgQueue(&D_800BCD70, &D_800B6BF4, 1);
-    osCreateThread(&D_800A70E8, 8, func_80004F6C, 0, &D_800A9298, 10);
+    osCreateThread(&D_800A70E8, 8, func_80004F6C, 0, (void *)(D_800A7298 + 0x2000 / sizeof(u64)), 10);
     osStartThread(&D_800A70E8);
     for (i = 0; i < 4; i++) {
         D_800BEE60[i].unk_00 = 0;
     }
     osCreateMesgQueue(&D_800B3970, &D_800BCD68, 1);
-    osCreateThread(&D_800A9298, 9, func_80004160, 0, (s32 *)D_800AB448, 9);
-    D_800A70C8 = 5;
-    osSetEventMesg(5, &D_800B3970, &D_800A70C8);
+    osCreateThread(&D_800A9298, 9, func_80004160, 0, (void *)(D_800A9448 + 0x2000 / sizeof(u64)), 9);
+    D_800A70C8.type = 5;
+    osSetEventMesg(OS_EVENT_SI, &D_800B3970, (OSMesg)&D_800A70C8);
     if ((i = (s32)osContInit(&D_800B3970, &D_800B96C4, D_800A70A0)) != 0) {
         func_80009F98((s32)"Failure initing controllers\n");
     }

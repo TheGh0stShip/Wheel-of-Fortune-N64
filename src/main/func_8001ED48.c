@@ -1,13 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00000 */ u8 unk_00[0x4];
-    /* 0x00004 */ u8 unk_04[0x1E47C];
-} Bank;
-
-extern Bank D_800BEF5C[];
-extern Bank D_800BEF60[];
-
 void func_8001ED48(s32 arg0) {
     s32 sp10;
     s32 y;
@@ -21,10 +13,10 @@ void func_8001ED48(s32 arg0) {
     s32 sp38;
 
     sp38 = 0x2000000;
-    sp10 = osVirtualToPhysical((s32)&D_800BEF5C[D_800B61A0].unk_04[0x19C00]);
-    sp10 = sp10 - osVirtualToPhysical((s32)&D_800BEF60[D_800B61A0]);
+    sp10 = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_19C00);
+    sp10 = sp10 - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
     src = (u16 *)arg0;
-    dst = (s16 *)&D_800BEF5C[D_800B61A0].unk_04[0x19C00];
+    dst = D_800BEF08[D_800B61A0].frame.unk_19C00;
     n = 0;
     for (k = 0; k < 3; k++) {
         for (y = 0; y < 32; y++) {
