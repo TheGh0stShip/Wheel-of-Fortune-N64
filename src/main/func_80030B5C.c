@@ -1,10 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x0000 */ u8 unk_0000[0x1A40];
-    /* 0x1A40 */ Mtx mtx[1];
-} Scene;
-
 extern Gfx *D_800B81E8;
 
 void func_80030B5C(s32 arg0, s32 arg1) {
@@ -25,10 +20,10 @@ void func_80030B5C(s32 arg0, s32 arg1) {
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x1020040;
     gfx->words.w1 = (s32)&D_0113AE28;
-    guTranslate(&((Scene *)arg1)->mtx[((obj_t *)arg0)->index], ((obj_t *)arg0)->x, ((obj_t *)arg0)->y, ((obj_t *)arg0)->z);
+    guTranslate(&((frame_t *)arg1)->translate[((obj_t *)arg0)->index], ((obj_t *)arg0)->x, ((obj_t *)arg0)->y, ((obj_t *)arg0)->z);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x1000040;
-    gfx->words.w1 = (s32)&((Scene *)arg1)->mtx[((obj_t *)arg0)->index];
+    gfx->words.w1 = (s32)&((frame_t *)arg1)->translate[((obj_t *)arg0)->index];
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xBB000001;
     gfx->words.w1 = -1;

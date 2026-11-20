@@ -784,6 +784,9 @@ static void seed_types(int nsrc) {
     size_t s;
     int p, pass;
     for (s = 0; s < sizeof scalars / sizeof scalars[0]; s++) set_type(scalars[s].n, scalars[s].s, scalars[s].s);
+    /* the two SDK types the game structs embed; the SDK headers themselves are not read */
+    set_type("Mtx", 0x40, 8);
+    set_type("Gfx", 8, 8);
     /* the types of the headers are known to every source; two passes, since one header may use another */
     headers_in("include");
     for (pass = 0; pass < 2; pass++)

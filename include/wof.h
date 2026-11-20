@@ -110,6 +110,19 @@ typedef struct {
     /* 0x110 */ s32 unk_110;
 } player_t;    // size 0x114
 
+// What one frame is drawn from: the matrices of each obj, by obj index, and more that is not
+// named yet. There are two, D_800BEF08[2]; the draw functions get the one in use.
+typedef struct {
+    /* 0x00000 */ u8  unk_00000[0x140];
+    /* 0x00140 */ Mtx scale[100];
+    /* 0x01A40 */ Mtx translate[100];
+    /* 0x03340 */ Mtx rotate[100];
+    /* 0x04C40 */ u8  unk_04C40[0x40];
+    /* 0x04C80 */ Mtx unk_04C80;
+    /* 0x04CC0 */ u8  unk_04CC0[0x197B8];
+    /* 0x1E478 */ s32 unk_1E478;
+} frame_t;  // size 0x1E480
+
 //
 // addresses in segment 1, the display list and texture data the game loads: only their
 // addresses are used, so the s32 is a placeholder for data of a kind not known yet
@@ -451,7 +464,6 @@ extern s32 D_800B9988;
 extern u16 D_800B998A;
 extern s16 *D_800B998C;
 extern player_t D_800B9990[];
-extern u8 D_800B99AC[][276];
 extern s32 D_800B9CD0;
 extern s32 D_800B9CEC;
 extern s32 D_800B9CF0;

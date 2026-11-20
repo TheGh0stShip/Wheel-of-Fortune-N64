@@ -25,11 +25,6 @@ typedef struct {
     /* 0x54 */ s32 unk_54;
 } Task;
 
-typedef struct {
-    /* 0x00000 */ u8 unk_00000[0x1E478];
-    /* 0x1E478 */ s32 unk_1E478;
-} Frame;
-
 extern Gfx *D_800B81E8;
 
 void func_800057A8(s32 arg0) {
@@ -93,7 +88,7 @@ void func_800057A8(s32 arg0) {
     gfx->words.w1 = 0;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xFF10013F;
-    gfx->words.w1 = osVirtualToPhysical(((Frame *)arg0)->unk_1E478);
+    gfx->words.w1 = osVirtualToPhysical(((frame_t *)arg0)->unk_1E478);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xF7000000;
     gfx->words.w1 = 0x10001;
@@ -161,7 +156,7 @@ void func_800057A8(s32 arg0) {
     task->unk_08 = 99;
     task->unk_50 = (s32)&D_800B9688;
     task->unk_54 = arg0 + 0x1E458;
-    task->unk_0C = ((Frame *)arg0)->unk_1E478;
+    task->unk_0C = ((frame_t *)arg0)->unk_1E478;
     osSendMesg(D_800BEEA0, task, 1);
     D_800AB5E8++;
 }
