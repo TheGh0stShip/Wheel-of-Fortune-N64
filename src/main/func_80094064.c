@@ -13,7 +13,7 @@ void func_80094064( VidStream *vid_stream ) {
     int row_size, half_row, mb_row, mb_col, row, col, rr;
     int addr, row_incr, half_row_incr, crow, ccol;
     int *dest, *src, *dest1, *src1;
-    int ditherType = vid_stream->ditherType;
+    int ditherType = vid_stream->ditherType;    /* NOTE: unused in the original; the dithers that read it are compiled out */
 
     row_size = vid_stream->mb_width << 4;
     half_row = ( row_size >> 1 );

@@ -11,7 +11,8 @@ Parses a sequence header, and allocates the stream's frames once the picture siz
 */
 int func_8008A34C( VidStream *vid_stream, XInfo *xinfo ) {
     unsigned int data;
-    int          i, ditherType = vid_stream->ditherType;
+    int          i;
+    int          ditherType = vid_stream->ditherType;   /* NOTE: unused in the original; the dithers that read it are compiled out */
 
     flush_bits32;
 

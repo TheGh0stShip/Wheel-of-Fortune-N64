@@ -16,8 +16,8 @@ int func_8008D220( VidStream *vid_stream ) {
     int          mask, i, recon_right_for, recon_down_for, recon_right_back, recon_down_back;
     int          zero_block_flag;
     BOOLEAN      mb_quant = 0, mb_motion_forw = 0, mb_motion_back = 0, mb_pattern = 0;
-    int          no_dith_flag = 0;
-    int          ditherType = vid_stream->ditherType;
+    int          no_dith_flag = 0;                      /* NOTE: unused in the original; so is this */
+    int          ditherType = vid_stream->ditherType;   /* NOTE: unused in the original; the dithers that read it are compiled out */
 
     // the address increment; an escape stands for 33 and is followed by another
     do {

@@ -10,6 +10,13 @@
 
 #include "mpeg/libc.h"
 
+typedef int            INT32;
+typedef short          INT16;
+typedef char           INT8;
+typedef unsigned int   UINT32;
+typedef unsigned short UINT16;
+typedef unsigned char  UINT8;
+
 // what the parsing functions return
 #define SKIP_PICTURE        ( -10 )
 #define SKIP_TO_START_CODE  ( -1 )

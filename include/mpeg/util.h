@@ -21,6 +21,64 @@ extern unsigned int D_80085188[];
 extern unsigned int D_80085208[];
 extern unsigned int D_80085288[];
 
+// A unit that defines NO_SANITY_CHECKS before it includes this file gets the macros without their
+// tests for an empty buffer: the block parser does, and makes sure of 100 words once a block instead.
+#ifdef NO_SANITY_CHECKS
+
+#define get_bits1( result ) \
+{ \
+    result = ( ( vid_stream->curBits & 0x80000000 ) != 0 ); \
+    vid_stream->curBits <<= 1; \
+    vid_stream->bit_offset++; \
+    \
+    if ( vid_stream->bit_offset & 0x20 ) { \
+        vid_stream->bit_offset = 0; \
+        vid_stream->buffer++; \
+        vid_stream->curBits = *vid_stream->buffer; \
+        vid_stream->buf_length--; \
+    } \
+}
+
+#define get_bits2( result ) \
+{ \
+    vid_stream->bit_offset += 2; \
+    \
+    if ( vid_stream->bit_offset & 0x20 ) { \
+        vid_stream->bit_offset -= 32; \
+        vid_stream->buffer++; \
+        vid_stream->buf_length--; \
+        if ( vid_stream->bit_offset ) { \
+            vid_stream->curBits |= ( *vid_stream->buffer >> ( 2 - vid_stream->bit_offset ) ); \
+        } \
+        result = ( ( vid_stream->curBits & 0xc0000000 ) >> 30 ); \
+        vid_stream->curBits = *vid_stream->buffer << vid_stream->bit_offset; \
+    } \
+    \
+    result = ( ( vid_stream->curBits & 0xc0000000 ) >> 30 ); \
+    vid_stream->curBits <<= 2; \
+}
+
+#define get_bitsX( num, mask, shift, result ) \
+{ \
+    vid_stream->bit_offset += num; \
+    \
+    if ( vid_stream->bit_offset & 0x20 ) { \
+        vid_stream->bit_offset -= 32; \
+        vid_stream->buffer++; \
+        vid_stream->buf_length--; \
+        if ( vid_stream->bit_offset ) { \
+            vid_stream->curBits |= ( *vid_stream->buffer >> ( num - vid_stream->bit_offset ) ); \
+        } \
+        result = ( ( vid_stream->curBits & mask ) >> shift ); \
+        vid_stream->curBits = *vid_stream->buffer << vid_stream->bit_offset; \
+    } else { \
+        result = ( ( vid_stream->curBits & mask ) >> shift ); \
+        vid_stream->curBits <<= num; \
+    } \
+}
+
+#else
+
 #define get_bits1( result ) \
 { \
     if ( vid_stream->buf_length < 2 ) { \
@@ -84,7 +142,9 @@ extern unsigned int D_80085288[];
     } \
 }
 
-#define get_bits3( result )     get_bitsX( 3, 0xe0000000, 29, result )
+#endif // NO_SANITY_CHECKS
+
+#define get_bits3( result )    get_bitsX( 3, 0xe0000000, 29, result )
 #define get_bits4( result )     get_bitsX( 4, 0xf0000000, 28, result )
 #define get_bits5( result )     get_bitsX( 5, 0xf8000000, 27, result )
 #define get_bits6( result )     get_bitsX( 6, 0xfc000000, 26, result )
@@ -100,6 +160,32 @@ extern unsigned int D_80085288[];
 #define get_bits32( result )    get_bitsX( 32, 0xffffffff, 0, result )
 
 #define get_bitsn( num, result ) get_bitsX( ( num ), D_80085108[num], ( 32 - ( num ) ), result )
+
+#ifdef NO_SANITY_CHECKS
+
+#define show_bits32( result ) \
+{ \
+    if ( vid_stream->bit_offset ) { \
+        result = vid_stream->curBits | ( *( vid_stream->buffer + 1 ) >> ( 32 - vid_stream->bit_offset ) ); \
+    } else { \
+        result = vid_stream->curBits; \
+    } \
+}
+
+#define show_bitsX( num, mask, shift, result ) \
+{ \
+    int bO; \
+    bO = vid_stream->bit_offset + num; \
+    if ( bO > 32 ) { \
+        bO -= 32; \
+        result = ( ( vid_stream->curBits & mask ) >> shift ) | \
+                 ( *( vid_stream->buffer + 1 ) >> ( shift + ( num - bO ) ) ); \
+    } else { \
+        result = ( ( vid_stream->curBits & mask ) >> shift ); \
+    } \
+}
+
+#else
 
 #define show_bits32( result ) \
 { \
@@ -130,7 +216,9 @@ extern unsigned int D_80085288[];
     } \
 }
 
-#define show_bits1( result )    show_bitsX( 1, 0x80000000, 31, result )
+#endif // NO_SANITY_CHECKS
+
+#define show_bits1( result )   show_bitsX( 1, 0x80000000, 31, result )
 #define show_bits2( result )    show_bitsX( 2, 0xc0000000, 30, result )
 #define show_bits3( result )    show_bitsX( 3, 0xe0000000, 29, result )
 #define show_bits4( result )    show_bitsX( 4, 0xf0000000, 28, result )
@@ -164,6 +252,31 @@ extern unsigned int D_80085288[];
 
 #define show_bitsn( num, result ) \
     show_bitsX( ( num ), ( 0xffffffff << ( 32 - ( num ) ) ), ( 32 - ( num ) ), result )
+
+#ifdef NO_SANITY_CHECKS
+
+#define flush_bits32 \
+{ \
+    vid_stream->buffer++; \
+    vid_stream->buf_length--; \
+    vid_stream->curBits = *vid_stream->buffer << vid_stream->bit_offset; \
+}
+
+#define flush_bits( num ) \
+{ \
+    vid_stream->bit_offset += num; \
+    \
+    if ( vid_stream->bit_offset & 0x20 ) { \
+        vid_stream->bit_offset -= 32; \
+        vid_stream->buffer++; \
+        vid_stream->buf_length--; \
+        vid_stream->curBits = *vid_stream->buffer << vid_stream->bit_offset; \
+    } else { \
+        vid_stream->curBits <<= num; \
+    } \
+}
+
+#else
 
 // The test for a missing stream does nothing: retail compiles the comparison with no code behind it,
 // which is what a block that holds only a comment leaves.
@@ -203,5 +316,7 @@ extern unsigned int D_80085288[];
         vid_stream->curBits <<= num; \
     } \
 }
+
+#endif // NO_SANITY_CHECKS
 
 #endif // MPEG_UTIL_H

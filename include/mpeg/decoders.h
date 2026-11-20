@@ -118,6 +118,103 @@ extern unsigned short int D_80086AD0[256];
     } \
 }
 
+// Decodes one run/level pair of DCT coefficients. It takes the next 32 bits once and works on that
+// copy, and tells the stream how much it used at the end. A code that starts with 0000 00 is looked up
+// in one of the tables for longer codes; an escape is followed by the run in 6 bits and the level in 8
+// or 16.
+#define DecodeDCTCoeff( dct_coeff_tbl, run, level ) \
+{ \
+    unsigned int temp, index; \
+    unsigned int value, next32bits, flushed; \
+    \
+    show_bits32( next32bits ); \
+    \
+    index = next32bits >> 24; \
+    \
+    if ( index > 3 ) { \
+        value = dct_coeff_tbl[index]; \
+        run = value >> RUN_SHIFT; \
+        if ( run != END_OF_BLOCK ) { \
+            if ( run != ESCAPE ) { \
+                /* the code, then the sign bit */ \
+                flushed = ( value & NUM_MASK ) + 2; \
+                level = ( value & LEVEL_MASK ) >> LEVEL_SHIFT; \
+                value = next32bits >> ( 32 - flushed ); \
+                value &= 0x1; \
+                if ( value ) { \
+                    level = -level; \
+                } \
+            } else { \
+                flushed = ( value & NUM_MASK ) + 1; \
+                temp = next32bits >> ( 18 - flushed ); \
+                temp &= 0x3fff; \
+                run = temp >> 8; \
+                temp &= 0xff; \
+                if ( temp == 0 ) { \
+                    level = next32bits >> ( 10 - flushed ); \
+                    level &= 0xff; \
+                    flushed += 22; \
+                    assert( level >= 128 ); \
+                } else if ( temp != 128 ) { \
+                    flushed += 14; \
+                    level = ( (int)( temp << 24 ) ) >> 24; \
+                } else { \
+                    level = next32bits >> ( 10 - flushed ); \
+                    level &= 0xff; \
+                    flushed += 22; \
+                    level = level - 256; \
+                    assert( level <= -128 && level >= -255 ); \
+                } \
+            } \
+            flush_bits( flushed ); \
+            assert( flushed <= 32 ); \
+        } \
+    } else { \
+        switch ( index ) { \
+        case 2: { \
+            index = next32bits >> 22; \
+            value = D_800868C0[index & 3]; \
+            break; \
+        } \
+        case 3: { \
+            index = next32bits >> 22; \
+            value = D_800868C8[index & 3]; \
+            break; \
+        } \
+        case 1: { \
+            index = next32bits >> 20; \
+            value = D_800868A0[index & 15]; \
+            break; \
+        } \
+        default: { \
+            index = next32bits >> 16; \
+            value = D_800866A0[index & 255]; \
+        } } \
+        run = value >> RUN_SHIFT; \
+        level = ( value & LEVEL_MASK ) >> LEVEL_SHIFT; \
+        \
+        flushed = ( value & NUM_MASK ) + 2; \
+        value = next32bits >> ( 32 - flushed ); \
+        value &= 0x1; \
+        if ( value ) { \
+            level = -level; \
+        } \
+        \
+        flush_bits( flushed ); \
+        assert( flushed <= 32 ); \
+    } \
+}
+
+#define DecodeDCTCoeffFirst( runval, levelval ) \
+{ \
+    DecodeDCTCoeff( D_80086AD0, runval, levelval ); \
+}
+
+#define DecodeDCTCoeffNext( runval, levelval ) \
+{ \
+    DecodeDCTCoeff( D_800868D0, runval, levelval ); \
+}
+
 #define DecodeMBAddrInc( val ) \
 { \
     unsigned int index; \

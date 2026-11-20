@@ -26,7 +26,7 @@ void func_80094578( VidStream *vid_stream ) {
     unsigned char back_lum[256], back_cr[64], back_cb[64];
     int row_incr, half_row_incr;
     int ccol, crow;
-    int ditherType = vid_stream->ditherType;
+    int ditherType = vid_stream->ditherType;    /* NOTE: unused in the original; the dithers that read it are compiled out */
 
     row_size = vid_stream->mb_width << 4;
     half_row = ( row_size >> 1 );

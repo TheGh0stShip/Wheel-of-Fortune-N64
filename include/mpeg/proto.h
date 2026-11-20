@@ -81,14 +81,13 @@ void func_8009649C( BOOLEAN val );
 extern int D_80085308;
 extern int D_8008530C;
 
+extern const int D_80087C98[64];
+
+// parseblock.c
+void func_800964D0( int n, VidStream *vid_stream );
+void func_800983D4( int n, VidStream *vid_stream );
+
 // PENDING: declarations as the imported sources had them, replaced unit by unit
-extern s32 D_800851C8[];
-extern u16 D_800866A0[];
-extern u16 D_800868A0[];
-extern u16 D_800868C0[];
-extern u16 D_800868C8[];
-extern u16 D_800868D0[];
-extern u16 D_80086AD0[];
 extern s32 D_80086CD0[];
 extern s32 D_80086D10;
 extern s32 D_80086D18;
@@ -105,7 +104,6 @@ extern s32 D_80086D50;
 extern s32 D_80086D60[];
 extern s32 D_80087160[];
 extern s32 D_80087560[];
-extern s32 D_80087C98[];
 extern f64 D_800FD098[][8];
 extern s32 D_800FD298;
 extern s32 D_800FD29C;
@@ -154,8 +152,6 @@ extern s32 D_801078B0;
 extern s32 D_801078B4;
 extern s32 *D_801084A0;
 extern s32 *D_801084A8;
-void func_800964D0( s32 arg0, s32 arg1 );
-void func_800983D4( s32 arg0, s32 arg1 );
 void func_800998E0( s32 arg0, s32 arg1, s32 arg2 );
 void func_80099C8C( s32 arg0, s32 arg1, s32 arg2 );
 void func_8009A038( void );

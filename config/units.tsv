@@ -520,11 +520,7 @@ vimodempallan1	0x80084328	0x50	match	ultra_O1	lib/ultralib/src/vimodes/vimodempa
 vimodentsclan1	0x80084378	0x50	match	ultra_O1	lib/ultralib/src/vimodes/vimodentsclan1.c
 vitbl	0x800843C8	0xD20	match	ultra_O1	lib/ultralib/src/io/vitbl.c
 kdebugserver	0x800B2420	0x1B0	match	ultra_O1	lib/ultralib/src/debug/kdebugserver.c
-func_800887D8	0x800887D8	0xE8	match	game	src/main/func_800887D8.c
-func_800888C0	0x800888C0	0x16C	match	game	src/main/func_800888C0.c
-func_80088A2C	0x80088A2C	0x22C	match	game	src/main/func_80088A2C.c
-func_80088C58	0x80088C58	0x470	match	game	src/main/func_80088C58.c
-func_800890C8	0x800890C8	0x3C4	match	game	src/main/func_800890C8.c
+mpeg_util	0x800887D8	0xCB4	match	game	src/mpeg/util.c
 func_80089490	0x80089490	0x68	match	game	src/main/func_80089490.c
 func_800894F8	0x800894F8	0xCC	match	game	src/main/func_800894F8.c
 func_800895C4	0x800895C4	0x2D4	match	game	src/main/func_800895C4.c
