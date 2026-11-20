@@ -7,9 +7,9 @@ void func_8000D8B8(s32 arg0, s32 arg1) {
     if (D_800B3994 < 318) {
         return;
     }
-    guTranslate((s32)&((frame_t *)arg1)->translate[((obj_t *)arg0)->index], (f32)((obj_t *)arg0)->x, (f32)((obj_t *)arg0)->y, (f32)((obj_t *)arg0)->z);
-    guScale((s32)&((frame_t *)arg1)->scale[((obj_t *)arg0)->index], ((obj_t *)arg0)->scale, ((obj_t *)arg0)->scale, ((obj_t *)arg0)->scale);
-    guRotateRPY((s32)&((frame_t *)arg1)->rotate[((obj_t *)arg0)->index], ((obj_t *)arg0)->unk_28, ((obj_t *)arg0)->unk_2C, ((obj_t *)arg0)->unk_30);
+    guTranslate(&((frame_t *)arg1)->translate[((obj_t *)arg0)->index], (f32)((obj_t *)arg0)->x, (f32)((obj_t *)arg0)->y, (f32)((obj_t *)arg0)->z);
+    guScale(&((frame_t *)arg1)->scale[((obj_t *)arg0)->index], ((obj_t *)arg0)->scale, ((obj_t *)arg0)->scale, ((obj_t *)arg0)->scale);
+    guRotateRPY(&((frame_t *)arg1)->rotate[((obj_t *)arg0)->index], ((obj_t *)arg0)->unk_28, ((obj_t *)arg0)->unk_2C, ((obj_t *)arg0)->unk_30);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x1020040;
     gfx->words.w1 = (s32)&((frame_t *)arg1)->translate[((obj_t *)arg0)->index];

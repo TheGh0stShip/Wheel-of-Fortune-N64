@@ -7,7 +7,7 @@ void func_8000DCA0(s32 arg0, s32 arg1) {
         return;
     }
     ((obj_t *)arg0)->unk_2C += (f32)(D_800B96B4 * 2);
-    guRotateRPY((s32)&((frame_t *)arg1)->rotate[((obj_t *)arg0)->index], ((obj_t *)arg0)->unk_28,
+    guRotateRPY(&((frame_t *)arg1)->rotate[((obj_t *)arg0)->index], ((obj_t *)arg0)->unk_28,
                   ((obj_t *)arg0)->unk_2C, ((obj_t *)arg0)->unk_30);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x1020040;

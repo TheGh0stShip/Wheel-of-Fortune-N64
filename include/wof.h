@@ -906,7 +906,7 @@ extern OSMesg D_800AFB00[];          // [200], the messages of the PI manager
 extern OSMesgQueue D_800AFE20;      // the queue of the PI manager
 extern OSMesgQueue D_800AFE38;      // where func_80006828 waits for its read
 extern OSMesg D_800AFE50;
-extern s32 D_800AFE58;
+extern OSMesg D_800AFE58;
 extern OSMesgQueue D_800B3970;      // the queue of the controller events
 extern OSScClient D_800B3988;
 extern ALBankFile *D_800B3990;
@@ -998,7 +998,7 @@ extern s32 D_800BA2BC;
 extern s32 D_800BA2C0;
 extern AMDMABuffer D_800BA2C8[];     // dmaBuffs[NUM_DMA_BUFFERS]
 extern OSMesgQueue D_800BA598;       // audDMAMessageQ
-extern s32 D_800BA5B0;
+extern OSMesgQueue D_800BA5B0;      // holds one message: func_8000BB10 takes it, func_8000BB68 puts it back
 extern AMDMAState D_800BA5C8;        // dmaState
 extern s32 D_800BA5D4;
 extern camera_t *D_800BA5D8;
@@ -1116,9 +1116,9 @@ extern s32 D_801078B0;
 extern s32 D_801078B4;
 extern s32 *D_801084A0;
 extern s32 *D_801084A8;
-extern s32 D_8038F800;
-extern s32 D_803B5000;
-extern s32 D_803DA800;
+extern u16 D_8038F800[];            // the depth buffer
+extern u16 D_803B5000[];            // D_803B5000 and D_803DA800: the two framebuffers
+extern u16 D_803DA800[];
 extern puzzleRange_t D_B025D810[];  // on the cartridge, read in place
 
 //

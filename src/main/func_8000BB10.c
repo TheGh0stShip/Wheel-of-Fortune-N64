@@ -1,7 +1,7 @@
 #include "wof.h"
 
 void func_8000BB10(void) {
-    s32 sp10;
+    OSMesg sp10;
 
     if (D_80057800 == 0) {
         func_8000BAA8();

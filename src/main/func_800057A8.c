@@ -40,7 +40,7 @@ void func_800057A8(gfxInfo_t *info) {
     gfx->words.w1 = (s32)D_010218C8;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xFE000000;
-    gfx->words.w1 = osVirtualToPhysical((s32)&D_8038F800);
+    gfx->words.w1 = osVirtualToPhysical(D_8038F800);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xE7000000;
     gfx->words.w1 = 0;
@@ -49,7 +49,7 @@ void func_800057A8(gfxInfo_t *info) {
     gfx->words.w1 = 0x300000;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xFF10013F;
-    gfx->words.w1 = osVirtualToPhysical((s32)&D_8038F800);
+    gfx->words.w1 = osVirtualToPhysical(D_8038F800);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xF7000000;
     gfx->words.w1 = 0xFFFCFFFC;
