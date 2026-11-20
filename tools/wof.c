@@ -4,14 +4,16 @@
  * Compiles each unit listed in config/units.tsv with the original compiler, places its sections at their
  * retail addresses, resolves every relocation, and compares the result with the retail ROM.  The gate then
  * links an image from the compiled bytes (ROM bytes are the fallback only outside matched units) and
- * requires its SHA-1 to equal the retail hash.
+ * requires its SHA-1 to equal the retail hash.  A unit is one object: its .text at the unit's address, or, for
+ * an object without code, its data there (a unit of uninitialised data alone has no bytes in the image).
  *
  *   wof gate            clean compile of every unit, verify, link, hash; exit 0 only when identical
  *   wof match UNIT...   compile and verify the named units only (the inner loop)
  *   wof diff UNIT       side-by-side disassembly, compiled vs retail
  *   wof infer           like gate, but proposes addresses for undeclared symbols and entry points
  *   wof list            print the unit table
- *   wof locate OBJ...   find where each object's .text sits in retail, relocated fields ignored
+ *   wof locate OBJ...   find where each object's .text (or data, if it has no code) sits in retail,
+ *                       relocated fields ignored
  *
  * Environment: WOF_ROM (retail ROM, any byte order), WOF_TOOLCHAIN (directory holding gcc, cc1, as),
  * WOF_IDO (directory holding the IDO 5.3 driver cc and its passes), WOF_BUILD (output directory, default
@@ -37,6 +39,7 @@ typedef int16_t s16;
 #define IMAGE_VRAM 0x80000400u
 #define IMAGE_ROM 0x1000u
 #define IMAGE_SIZE 0xA4C78u
+#define RAM_END 0x80400000u /* 4 MB of RDRAM: the image, then its uninitialised data */
 #define ROM_SHA1 "b51b28660699bf029f862f51c319a5962fe9de9b"
 
 #define SHT_PROGBITS 1
@@ -77,7 +80,9 @@ typedef struct {
     int selected;
     u8 *o;
     size_t olen;
-    int nsec, nsym, text;
+    int nsec, nsym;
+    int text;      /* the section placed at the unit's address: .text, or the data of an object without code */
+    int data_only; /* the object has no .text */
     Sec *sec;
     Sym *sym;
     u32 entry_off;
@@ -232,8 +237,8 @@ static void load_units(void) {
         snprintf(u->src, sizeof u->src, "%s", next_field(&p));
         snprintf(u->entry, sizeof u->entry, "%s", next_field(&p));
         if (strcmp(u->state, "match") && strcmp(u->state, "open")) die("unit %s: state must be match or open", u->name);
-        if (u->vram < IMAGE_VRAM || u->vram + u->size > IMAGE_VRAM + IMAGE_SIZE || !u->size || (u->size & 3))
-            die("unit %s: bad range", u->name);
+        /* a unit of uninitialised data alone lies past the image; verify() holds every other unit to the image */
+        if (u->vram < IMAGE_VRAM || u->vram + u->size > RAM_END || !u->size || (u->size & 3)) die("unit %s: bad range", u->name);
     }
     fclose(f);
 }
@@ -520,7 +525,16 @@ static void load_object_file(Unit *u, const char *path) {
             }
         }
     }
-    if (u->text < 0) fail(u, ST_ERR, "object has no .text");
+    if (u->text < 0) {
+        /* an object of data alone: the unit's address is that of its first section with contents, or else of
+           its uninitialised data */
+        for (i = 0; i < shnum && u->text < 0; i++)
+            if (u->sec[i].placed && u->sec[i].buf) u->text = i;
+        for (i = 0; i < shnum && u->text < 0; i++)
+            if (u->sec[i].placed) u->text = i;
+        u->data_only = 1;
+    }
+    if (u->text < 0) fail(u, ST_ERR, "object has no section to place");
 }
 
 static void load_object(Unit *u) {
@@ -576,7 +590,7 @@ static void find_entry(Unit *u) {
         }
     }
     if (u->entry[0]) {
-        fail(u, ST_ERR, "entry symbol %s not defined in .text", u->entry);
+        fail(u, ST_ERR, "entry symbol %s not defined in %s", u->entry, t->name);
         return;
     }
     if (infer_mode && t->size >= u->size) {
@@ -594,7 +608,7 @@ static void find_entry(Unit *u) {
             return;
         }
     }
-    if (u->size > t->size) fail(u, ST_DIFF, "compiled .text is 0x%X bytes, unit owns 0x%X", t->size, u->size);
+    if (u->size > t->size) fail(u, ST_DIFF, "compiled %s is 0x%X bytes, unit owns 0x%X", t->name, t->size, u->size);
 }
 
 static void place_text(Unit *u) {
@@ -855,6 +869,20 @@ static void verify(Unit *u) {
         if (u->sec[k].placed) relocate(u, k, 1);
     if (u->status != ST_NONE) return; /* a short object is still relocated, for diff */
     t = &u->sec[u->text];
+    if (!t->buf) {
+        /* A unit of uninitialised data alone has no bytes to compare. Its address is still checked: every
+           reference to it is resolved to this address in the unit that makes it, and compared there. */
+        if (u->vram < IMAGE_VRAM + IMAGE_SIZE) {
+            fail(u, ST_DIFF, "%s placed at 0x%08X, inside the image", t->name, u->vram);
+            return;
+        }
+        u->status = ST_OK;
+        return;
+    }
+    if (!in_image(u->vram, u->size)) {
+        fail(u, ST_DIFF, "%s placed at 0x%08X, outside the image", t->name, u->vram);
+        return;
+    }
     for (i = 0; i < u->size; i += 4) {
         if (be32(t->buf + u->entry_off + i) != be32(rom_at(u->vram + i))) {
             if (!u->ndiff) u->first_diff = u->vram + i;
@@ -963,8 +991,8 @@ static int cmd_gate(void) {
             /* status, unit, address, size, state, message, then each placed data section as name@address+size */
             fprintf(f, "%s\t%s\t0x%08X\t0x%X\t%s\t%s\t", status_name(u->status), u->name, u->vram, u->size, u->state, u->msg);
             for (k = 0; u->status == ST_OK && k < u->nsec; k++)
-                if (u->sec[k].placed && k != u->text)
-                    fprintf(f, "%s@0x%08X+0x%X ", u->sec[k].name, u->sec[k].base, u->sec[k].size);
+                if (u->sec[k].placed && (k != u->text || u->data_only))
+                    fprintf(f, "%s@0x%08X+0x%X ", u->sec[k].name, u->sec[k].base, k == u->text ? u->size : u->sec[k].size);
             fprintf(f, "\n");
         }
         if (u->status == ST_OK) nok++;
@@ -974,13 +1002,15 @@ static int cmd_gate(void) {
         if (!claimed) nopen++;
         if (u->status != ST_OK || verbose) print_unit(u);
         if (!claimed) continue; /* open units keep the retail bytes */
-        memset(img + (u->vram - IMAGE_VRAM) + IMAGE_ROM, 0, u->size);
+        if (u->status == ST_OK && !u->sec[u->text].buf) continue; /* uninitialised data: no bytes in the image */
+        if (in_image(u->vram, u->size)) memset(img + (u->vram - IMAGE_VRAM) + IMAGE_ROM, 0, u->size);
         if (u->status != ST_OK) {
             bad++;
             continue;
         }
         memcpy(img + (u->vram - IMAGE_VRAM) + IMAGE_ROM, u->sec[u->text].buf + u->entry_off, u->size);
-        text_bytes += u->size;
+        if (u->data_only) data_bytes += u->size;
+        else text_bytes += u->size;
         for (k = 0; k < u->nsec; k++) {
             Sec *d = &u->sec[k];
             if (!d->placed || k == u->text || !d->buf) continue;
