@@ -14,22 +14,15 @@ typedef struct {
     /* 0x14 */ s32 unk_14;
 } Layout;
 
-typedef struct {
-    /* 0x000 */ s32 unk_00;
-    /* 0x004 */ s32 unk_04;
-    /* 0x008 */ u8 pad8[0x10C];
-} Player;
-
 extern Style D_800584E0[];
 extern Layout D_800588A8[];
-extern Player D_800B99A4[];
 
 void func_800263DC(void) {
     s32 i;
     s32 task;
 
     i = D_800FB808;
-    while (D_800B99A4[i].unk_00 >= 4) {
+    while (D_800B9990[i].unk_014 >= 4) {
         i++;
         if (i >= 3) {
             D_800FB808 = 0;
@@ -69,7 +62,7 @@ void func_800263DC(void) {
         D_800588F0[9].unk_24 = (s32)&D_0115B068;
         break;
     }
-    D_80058880 = D_800B99A4[D_800FB808].unk_04;
+    D_80058880 = D_800B9990[D_800FB808].unk_018;
     for (i = 0; i < 6; i++) {
         if (i == D_80058880) {
             func_800323C4(i, i, D_8005A390.unk_00, D_8005A390.unk_04, D_8005A390.unk_08);

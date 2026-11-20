@@ -1,11 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} Player;
-
-extern Player D_800B9994[];
 
 void func_8002A538(void) {
     s32 glyph;
@@ -18,7 +12,7 @@ void func_8002A538(void) {
     for (i = 0; i < 9; i++) {
         D_8005B4C8[i].unk_20 = 0;
     }
-    x = D_800B9994[D_800FB808].unk_00;
+    x = D_800B9990[D_800FB808].unk_004;
     func_80009AE0((s32)buf, x);
     len = func_80009A74((s32)buf);
     if (len >= 7) {

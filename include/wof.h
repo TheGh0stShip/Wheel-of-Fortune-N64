@@ -90,6 +90,26 @@ typedef struct {
     /* 0x08 */ s32 unk_08;
 } vec_t;    // size 0xC
 
+// One of the three contestants: D_800B9990[3].
+typedef struct {
+    /* 0x000 */ s32 unk_000;
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ s32 unk_008;
+    /* 0x00C */ s32 unk_00C;
+    /* 0x010 */ s32 unk_010;
+    /* 0x014 */ s32 unk_014;
+    /* 0x018 */ s32 unk_018;
+    /* 0x01C */ u8 unk_01C[0x14];
+    /* 0x030 */ u8 unk_030[10][0x14];
+    /* 0x0F8 */ s32 unk_0F8;
+    /* 0x0FC */ s32 unk_0FC;
+    /* 0x100 */ s32 unk_100;
+    /* 0x104 */ s32 unk_104;
+    /* 0x108 */ s32 unk_108;
+    /* 0x10C */ s32 unk_10C;
+    /* 0x110 */ s32 unk_110;
+} player_t;    // size 0x114
+
 //
 // addresses in segment 1, the display list and texture data the game loads: only their
 // addresses are used, so the s32 is a placeholder for data of a kind not known yet
@@ -430,19 +450,8 @@ extern s32 D_800B9984;
 extern s32 D_800B9988;
 extern u16 D_800B998A;
 extern s16 *D_800B998C;
-extern s32 D_800B999C;
+extern player_t D_800B9990[];
 extern u8 D_800B99AC[][276];
-extern s32 D_800B9A88;
-extern s32 D_800B9AA4;
-extern s32 D_800B9AA8;
-extern s32 D_800B9AAC;
-extern s32 D_800B9AB0;
-extern s32 D_800B9B9C;
-extern s32 D_800B9BB8;
-extern s32 D_800B9BBC;
-extern s32 D_800B9BC0;
-extern s32 D_800B9BC4;
-extern s32 D_800B9CB0;
 extern s32 D_800B9CD0;
 extern s32 D_800B9CEC;
 extern s32 D_800B9CF0;

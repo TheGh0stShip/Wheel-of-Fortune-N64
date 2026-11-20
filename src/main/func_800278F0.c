@@ -1,12 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x000 */ s32 unk_00;
-    /* 0x004 */ s32 unk_04;
-    /* 0x008 */ u8 unk_08[0x10C];
-} Player;
-
-extern Player D_800B9998[];
 extern Gfx *D_800B81E8;
 extern u8 D_800B966A[];
 
@@ -77,10 +70,10 @@ void func_800278F0(s32 arg0, s32 arg1) {
     }
     i = 0;
     while (i < 3) {
-        if (D_800B9998[i].unk_00 != 0) {
+        if (D_800B9990[i].unk_008 != 0) {
             func_800278A8((s32)&D_8005A7B0[i], 1);
         }
-        if (D_800B9998[i].unk_04 != 0) {
+        if (D_800B9990[i].unk_00C != 0) {
             func_800278A8((s32)&D_8005A5A8[i], 1);
         }
         i++;

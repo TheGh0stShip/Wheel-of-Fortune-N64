@@ -1,13 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x10C];
-} Player;
-
-extern Player D_800B9990[];
-
 void func_80029974(s32 arg0) {
     s32 i;
     s32 j;
@@ -21,9 +13,9 @@ void func_80029974(s32 arg0) {
             D_8005ADD0[i][j].unk_20 = 0;
         }
         if (arg0 != 0) {
-            value = D_800B9990[i].unk_04;
+            value = D_800B9990[i].unk_004;
         } else {
-            value = D_800B9990[i].unk_00;
+            value = D_800B9990[i].unk_000;
         }
         func_80009AE0((s32)buf, value);
         len = func_80009A74((s32)buf);

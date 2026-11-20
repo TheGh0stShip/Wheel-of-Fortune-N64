@@ -1,6 +1,5 @@
 #include "wof.h"
 
-extern s32 D_800B9998;
 
 void func_80006B58(void) {
     D_800B619C = 0;
@@ -12,9 +11,9 @@ void func_80006B58(void) {
         D_800FB808 = 0;
     }
     D_800BCA00 = 0;
-    D_800B9998 = 0;
-    D_800B9AAC = 0;
-    D_800B9BC0 = 0;
+    D_800B9990[0].unk_008 = 0;
+    D_800B9990[1].unk_008 = 0;
+    D_800B9990[2].unk_008 = 0;
     func_80009494();
     func_80006BFC();
 }

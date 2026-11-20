@@ -7,12 +7,6 @@ typedef struct {
     /* 0x0C */ s32 delay;
 } Menu;
 
-typedef struct {
-    /* 0x000 */ s32 unk_000;
-    /* 0x004 */ u8 unk_004[0x110];
-} Player;
-
-extern Player D_800B99A4[];
 void func_80028C4C(s32 arg0);
 
 struct n64dk_r12 func_8002CBF4(s32 arg1) {
@@ -127,7 +121,7 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
         D_8005A828[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_10 = 0;
         return result;
     }
-    if (D_800B99A4[D_800FB808].unk_000 == 4) {
+    if (D_800B9990[D_800FB808].unk_014 == 4) {
         D_8005A828[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_10 = 1;
         return result;
     }

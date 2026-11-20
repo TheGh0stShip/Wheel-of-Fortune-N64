@@ -7,17 +7,6 @@ typedef struct {
     /* 0x0C */ f32 unk_0C;
 } State;
 
-typedef struct {
-    /* 0x000 */ s32 unk_00;
-    /* 0x004 */ u8 unk_04[0xF4];
-    /* 0x0F8 */ s32 unk_F8;
-    /* 0x0FC */ s32 unk_FC;
-    /* 0x100 */ s32 unk_100;
-    /* 0x104 */ s32 unk_104;
-    /* 0x108 */ u8 unk_108[0xC];
-} Player;
-
-extern Player D_800B9998[];
 
 struct n64dk_r12 func_8001C584(s32 arg1) {
     s32 event;
@@ -44,8 +33,8 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
     while ((event = func_8000ACE8(arg1)) != 0) {
         switch (event) {
         case 38:
-            func_80002CE0(D_800B9998[D_800FB808].unk_104);
-            D_800B9998[D_800FB808].unk_00 = 0;
+            func_80002CE0(D_800B9990[D_800FB808].unk_10C);
+            D_800B9990[D_800FB808].unk_008 = 0;
             /* fallthrough */
         case 3:
         case 9:
@@ -136,7 +125,7 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
             return ret;
         case 12:
             if (guRandom() % 100 < 33) {
-                func_80002CE0(D_800B9998[D_800FB808].unk_F8);
+                func_80002CE0(D_800B9990[D_800FB808].unk_100);
             }
             D_800B96A0 = 0;
             task = func_8000A990(0x5000000, -1);
@@ -148,7 +137,7 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
             ret.w[0] = 3;
             return ret;
         case 13:
-            func_80002CE0(D_800B9998[D_800FB808].unk_FC);
+            func_80002CE0(D_800B9990[D_800FB808].unk_104);
             D_800B96A0 = 0;
             task = func_8000A990(0x5000000, -1);
             func_8000AAB0(task, 23, 0);
@@ -159,7 +148,7 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
             ret.w[0] = 9;
             return ret;
         case 14:
-            func_80002CE0(D_800B9998[D_800FB808].unk_100);
+            func_80002CE0(D_800B9990[D_800FB808].unk_108);
             task = func_8000A990(0x5000000, -1);
             func_8000AAB0(task, 23, 0);
             task = func_8000A56C((s32)&func_8001BC44, ((State *)((proc_t *)arg1)->unk_30)->player | 0x2000300);

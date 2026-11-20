@@ -1,8 +1,6 @@
 #include "wof.h"
 
 struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-struct n64dk_a800B99A4 { s32 m0; u8 pad4[0x110]; };
-extern struct n64dk_a800B99A4 D_800B99A4[];
 
 struct n64dk_r12 func_8002F338(s32 arg1) {
     struct n64dk_r12 sp10;
@@ -26,7 +24,7 @@ struct n64dk_r12 func_8002F338(s32 arg1) {
                 if (sp30 >= 3) {
                     break;
                 }
-                if (D_800B99A4[sp30].m0 == 4) {
+                if (D_800B9990[sp30].unk_014 == 4) {
                     D_800B81DC = D_800B81DC + 240;
                 } else {
                     D_800B81DC = D_800B81DC + 300;

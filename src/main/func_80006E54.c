@@ -11,19 +11,9 @@ typedef struct {
     /* 0x01 */ u8 unk_01[0x14];
 } Row;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x8];
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ u8 unk_10[0xE8];
-    /* 0xF8 */ s32 unk_F8;
-    /* 0xFC */ u8 unk_FC[0x18];
-} Player;
-
 extern Puzzle D_8004BB98[];
 extern Row D_800B9567[];
 extern Row D_800B960F[];
-extern Player D_800B9990[];
 extern s8 D_800B9544;
 extern s8 D_800B9559[][21];
 extern u8 D_800B9601[][21];
@@ -41,9 +31,9 @@ void func_80006E54(s32 arg0, s32 arg1) {
     s32 buf[26];
 
     for (len = 0; len < 3; len++) {
-        D_800B9990[len].unk_00 = 0;
-        D_800B9990[len].unk_F8 = 0;
-        D_800B9990[len].unk_0C = 0;
+        D_800B9990[len].unk_000 = 0;
+        D_800B9990[len].unk_0F8 = 0;
+        D_800B9990[len].unk_00C = 0;
     }
     D_800B9544 = 0;
     D_800B9655[0] = 0;

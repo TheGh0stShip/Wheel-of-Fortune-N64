@@ -5,13 +5,6 @@ typedef struct {
     /* 0x0C */ f32 unk_0C;
 } State;
 
-typedef struct {
-    /* 0x000 */ s32 unk_00;
-    /* 0x004 */ u8 unk_04[0x110];
-} Player;
-
-extern Player D_800B9990[];
-
 void func_8001AA60(s32 arg0) {
     s32 task;
     s32 sp14;
@@ -47,7 +40,7 @@ void func_8001AA60(s32 arg0) {
         score = score + sp1C;
         switch (func_800084E8()) {
         case 4:
-            if (score < ((State *)((proc_t *)arg0)->unk_30)->unk_0C || D_800B9990[D_800FB808].unk_00 < 250) {
+            if (score < ((State *)((proc_t *)arg0)->unk_30)->unk_0C || D_800B9990[D_800FB808].unk_000 < 250) {
                 D_800B61B5 = 48;
                 func_8000AAB0(arg0, 12, 0);
             } else {

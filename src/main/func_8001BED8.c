@@ -8,12 +8,6 @@ typedef struct {
     /* 0x10 */ s8 unk_10;
 } State;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} Player;
-
-extern Player D_800B9A8C[];
 
 struct n64dk_r12 func_8001BED8(s32 arg1) {
     struct n64dk_r12 sp10;
@@ -54,7 +48,7 @@ struct n64dk_r12 func_8001BED8(s32 arg1) {
             return sp10;
             break;
         case 5:
-            func_80002CE0(D_800B9A8C[D_800FB808].unk_00 + (D_800B61B5 - 65));
+            func_80002CE0(D_800B9990[D_800FB808].unk_0FC + (D_800B61B5 - 65));
             func_8000AAB0(arg1, 44, 0);
             sp10.w[1] = 1;
             sp10.w[0] = 30 / D_800B96B4;

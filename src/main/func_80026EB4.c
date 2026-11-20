@@ -1,11 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} Entry;
-
-extern Entry D_800B99A8[];
 
 void func_80026EB4(void) {
     s32 i;
@@ -15,7 +9,7 @@ void func_80026EB4(void) {
     func_80005700();
     D_800BCD54 = 7;
     for (i = 0; i < 3; i++) {
-        D_800B99A8[i].unk_00 = D_800BEDD8[i];
+        D_800B9990[i].unk_018 = D_800BEDD8[i];
     }
     func_800174DC();
     func_80016B9C(19);

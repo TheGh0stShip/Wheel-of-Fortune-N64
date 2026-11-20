@@ -1,17 +1,11 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} Player;
-
-extern Player D_800B99A8[];
 
 void func_8002500C(void) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        D_800BEDD8[i] = D_800B99A8[i].unk_00;
+        D_800BEDD8[i] = D_800B9990[i].unk_018;
     }
     func_80023200();
     switch (D_80058E88) {

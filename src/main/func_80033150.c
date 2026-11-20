@@ -8,12 +8,6 @@ typedef struct {
     /* 0x20 */ s32 unk_20;
 } Slot;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} Entry;
-
-extern Entry D_800B99A8[];
 extern Slot D_8005C568[][2];
 
 s32 func_80033150(s32 arg0, s32 arg1, s32 arg2) {
@@ -26,10 +20,10 @@ s32 func_80033150(s32 arg0, s32 arg1, s32 arg2) {
     s32 sp34;
 
     sp34 = 0x2000000;
-    if (D_800B99A8[arg2].unk_00 >= 6) {
+    if (D_800B9990[arg2].unk_018 >= 6) {
         func_80009F38("InitContestants: invalid image num");
     }
-    slots = D_8005C568[D_800B99A8[arg2].unk_00];
+    slots = D_8005C568[D_800B9990[arg2].unk_018];
     if (slots[arg0].unk_08 > 0) {
         task = func_8000B5DC(arg2 | 0xA020000, -1);
         if (task == 0) {

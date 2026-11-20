@@ -6,12 +6,6 @@ typedef struct {
     /* 0x04 */ s32 player;
 } Data;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} Player;
-
-extern Player D_800B99A4[];
 
 struct n64dk_r12 func_8001933C(s32 arg1) {
     struct n64dk_r12 ret;
@@ -44,7 +38,7 @@ struct n64dk_r12 func_8001933C(s32 arg1) {
             } else {
                 func_8000AAB0(task, 20, 0);
                 func_80002CE0(1);
-                func_800051B4(D_800B99A4[D_800FB808].unk_00, 30, 0.8f);
+                func_800051B4(D_800B9990[D_800FB808].unk_014, 30, 0.8f);
                 if (D_800BCA00 == 0) {
                     if (func_80017548() != 0) {
                         func_8000A850(10);

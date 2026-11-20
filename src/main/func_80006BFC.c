@@ -6,17 +6,11 @@ typedef struct {
 } EntryA;
 
 typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} EntryB;
-
-typedef struct {
     /* 0x00 */ s32 base;
     /* 0x04 */ s32 range;
 } Range;
 
 extern EntryA D_8004BBA0[];
-extern EntryB D_800B99A0[];
 extern Range D_B025D810[];
 
 void func_80006BFC(void) {
@@ -58,6 +52,6 @@ void func_80006BFC(void) {
     D_800B9CFC = 0;
     D_800B9D00 = 0;
     for (i = 0; i < 3; i++) {
-        D_800B99A0[i].unk_00 = 0;
+        D_800B9990[i].unk_010 = 0;
     }
 }

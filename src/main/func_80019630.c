@@ -8,14 +8,6 @@ typedef struct {
     /* 0x10 */ s8 unk_10;
 } State;
 
-typedef struct {
-    /* 0x000 */ s32 unk_00;
-    /* 0x004 */ u8 unk_04[0xE4];
-    /* 0x0E8 */ s32 unk_E8;
-    /* 0x0EC */ u8 unk_EC[0x28];
-} Player;
-
-extern Player D_800B99A4[];
 
 struct n64dk_r12 func_80019630(s32 arg1) {
     struct n64dk_r12 ret;
@@ -39,7 +31,7 @@ struct n64dk_r12 func_80019630(s32 arg1) {
             ret.w[0] = 5;
             break;
         case 5:
-            func_80002CE0(D_800B99A4[D_800FB808].unk_E8 + (D_800B61B5 - 'A'));
+            func_80002CE0(D_800B9990[D_800FB808].unk_0FC + (D_800B61B5 - 'A'));
             func_8000AAB0(arg1, 44, 0);
             ret.w[1] = 1;
             ret.w[0] = 30 / D_800B96B4;
@@ -53,7 +45,7 @@ struct n64dk_r12 func_80019630(s32 arg1) {
                 ret.w[0] = 6;
             } else {
                 func_80002CE0(1);
-                func_800051B4(D_800B99A4[D_800FB808].unk_00, 30, 0.8f);
+                func_800051B4(D_800B9990[D_800FB808].unk_014, 30, 0.8f);
                 func_80017548();
                 func_8000A850(31);
                 func_8000AAB0(task, 31, 0);

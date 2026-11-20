@@ -1,17 +1,6 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ u8 unk_10[0xE8];
-    /* 0xF8 */ s32 unk_F8;
-    /* 0xFC */ u8 unk_FC[0x18];
-} Player;
-
 extern s8 D_800B966A[];
-extern Player D_800B9990[];
 extern s8 D_800B9601[][21];
 
 s32 func_80007888(register s32 arg0, s32 arg1) {
@@ -64,29 +53,29 @@ s32 func_80007888(register s32 arg0, s32 arg1) {
     }
     if (D_800BCA00 != 0) {
         if (arg1 == 0) {
-            D_800B9990[D_800FB808].unk_00 += D_800B953C * count;
+            D_800B9990[D_800FB808].unk_000 += D_800B953C * count;
         }
         return count;
     }
     if (count > 0 && arg1 == 0) {
         if (func_8000928C() > 0) {
             if (func_8000928C() == 10000) {
-                D_800B9990[D_800FB808].unk_F8 += 10000;
+                D_800B9990[D_800FB808].unk_0F8 += 10000;
                 D_800B9538 = 1;
-                D_800B9990[D_800FB808].unk_0C = 1;
+                D_800B9990[D_800FB808].unk_00C = 1;
                 func_80008F64();
             } else {
-                D_800B9990[D_800FB808].unk_00 += func_8000928C() * count;
+                D_800B9990[D_800FB808].unk_000 += func_8000928C() * count;
             }
             goto end;
         }
     }
     if (arg1 != 0) {
-        D_800B9990[D_800FB808].unk_00 -= 250;
+        D_800B9990[D_800FB808].unk_000 -= 250;
     } else if (count > 0) {
         if (arg1 == 0) {
             if (func_8000928C() < -4) {
-                D_800B9990[D_800FB808].unk_08 = 1;
+                D_800B9990[D_800FB808].unk_008 = 1;
                 func_80008F64();
             end:;
             }

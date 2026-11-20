@@ -10,12 +10,6 @@ typedef struct {
     /* 0x0C */ s32 unk_0C;
 } State;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} Player;
-
-extern Player D_800B99A4[];
 extern u8 D_800B966A[];
 extern u16 D_800B9954;
 
@@ -56,7 +50,7 @@ struct n64dk_r12 func_8002D930(s32 arg1) {
     }
     D_800B61B5 = ((State *)((proc_t *)arg1)->unk_30)->unk_04.bytes[3] + 65;
     D_8005A998[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_10 = 0;
-    if (D_800B99A4[D_800FB808].unk_00 == 4) {
+    if (D_800B9990[D_800FB808].unk_014 == 4) {
         D_8005A998[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_10 = 1;
         return result;
     }

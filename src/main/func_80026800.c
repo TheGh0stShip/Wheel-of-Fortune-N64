@@ -5,15 +5,7 @@ typedef struct {
     /* 0x04 */ u8 unk_04[0x1C];
 } EntryA;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x14];
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ u8 unk_1C[0xF8];
-} Player;
-
 extern EntryA D_800584E0[];
-extern Player D_800B9990[];
 
 void func_80026800(void) {
     s32 i;
@@ -25,20 +17,20 @@ void func_80026800(void) {
     func_80027218(obj, 0, (s32)func_80022218, 0x5000000);
     func_800258BC();
     for (i = 0; i < 3; i++) {
-        if (D_800B9990[i].unk_14 == 4) {
+        if (D_800B9990[i].unk_014 == 4) {
             do {
                 clashes = 0;
                 for (j = 0; j < 3; j++) {
                     if (i != j) {
-                        if (D_800B9990[i].unk_18 == D_800B9990[j].unk_18) {
+                        if (D_800B9990[i].unk_018 == D_800B9990[j].unk_018) {
                             clashes++;
                         }
                     }
                 }
                 if (clashes != 0) {
-                    D_800B9990[i].unk_18++;
-                    if (D_800B9990[i].unk_18 >= 6) {
-                        D_800B9990[i].unk_18 = 0;
+                    D_800B9990[i].unk_018++;
+                    if (D_800B9990[i].unk_018 >= 6) {
+                        D_800B9990[i].unk_018 = 0;
                     }
                 }
             } while (clashes > 0);
@@ -46,7 +38,7 @@ void func_80026800(void) {
     }
     i = 0;
     while (i < 3) {
-        func_800323C4(D_800B9990[i].unk_18, i, D_8005A474[i].unk_00, D_8005A474[i].unk_04, D_8005A474[i].unk_08);
+        func_800323C4(D_800B9990[i].unk_018, i, D_8005A474[i].unk_00, D_8005A474[i].unk_04, D_8005A474[i].unk_08);
         switch (D_800584E0[i].unk_00) {
         case 0:
             D_80058B28[i * 3 + 2].unk_20 = (s32)&D_01158068;

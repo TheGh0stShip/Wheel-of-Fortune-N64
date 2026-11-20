@@ -5,14 +5,7 @@ typedef struct {
     /* 0x04 */ u8 unk_04[0x1C];
 } Slot;
 
-typedef struct {
-    /* 0x000 */ s32 unk_00;
-    /* 0x004 */ s32 unk_04;
-    /* 0x008 */ u8 unk_08[0x10C];
-} Player;
-
 extern Slot D_800584E0[];
-extern Player D_800B99A4[];
 
 void func_80026FD4(void) {
     s32 i;
@@ -22,17 +15,17 @@ void func_80026FD4(void) {
     D_800B96C0 = 6;
     for (i = 0; i < 3; i++) {
         D_800584E0[i].unk_00 = 4;
-        D_800B99A4[i].unk_00 = 4;
-        D_800B99A4[i].unk_04 = i;
+        D_800B9990[i].unk_014 = 4;
+        D_800B9990[i].unk_018 = i;
         D_800BEDD8[i] = i;
-        func_80009900((s32)D_800B99AC[i], (s32)D_8005A498[i]);
+        func_80009900((s32)D_800B9990[i].unk_01C, (s32)D_8005A498[i]);
     }
     count = 0;
     i = 0;
     while (i < 4) {
         if ((D_800B96C4 >> i) % 2 != 0) {
             D_800584E0[count].unk_00 = i;
-            D_800B99A4[count].unk_00 = i;
+            D_800B9990[count].unk_014 = i;
             count++;
         }
         if (count >= 3) {

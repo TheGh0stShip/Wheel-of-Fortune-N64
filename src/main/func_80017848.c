@@ -1,11 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} Entry;
-
-extern Entry D_800B9994[];
 
 void func_80017848(void) {
     s32 i;
@@ -14,8 +8,8 @@ void func_80017848(void) {
     max = 0;
     D_800FB808 = 0;
     for (i = 0; i < 3; i++) {
-        if (D_800B9994[i].unk_00 > max) {
-            max = D_800B9994[i].unk_00;
+        if (D_800B9990[i].unk_004 > max) {
+            max = D_800B9990[i].unk_004;
             D_800FB808 = i;
         }
     }

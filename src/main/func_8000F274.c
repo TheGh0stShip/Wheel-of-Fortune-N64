@@ -11,12 +11,6 @@ typedef struct {
     /* 0x08 */ s32 unk_08;
 } State;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} Player;
-
-extern Player D_800B99A4[];
 
 struct n64dk_r12 func_8000F274(s32 arg1) {
     struct n64dk_r12 result;
@@ -52,9 +46,9 @@ struct n64dk_r12 func_8000F274(s32 arg1) {
     if ((f64)((D_800BCCF0 / 60.0f) * (f32)D_800B96B4) > 2.5) {
         sp2C = sp28 * -4.0f + 30.0f;
         if ((((proc_t *)arg1)->unk_08 & 255) == D_800FB808) {
-            if (D_800B99A4[D_800FB808].unk_00 < 4) {
+            if (D_800B9990[D_800FB808].unk_014 < 4) {
                 // RULE-EXCEPTION: R25, no prototype in scope: retail passes the 1.0 as a double
-                func_800051B4(D_800B99A4[D_800FB808].unk_00, 2, 1.0);
+                func_800051B4(D_800B9990[D_800FB808].unk_014, 2, 1.0);
             }
             if ((u32)D_800BC6F8 < 16) {
                 func_80002CE0(func_80009C98(11) + 27);
@@ -71,9 +65,9 @@ struct n64dk_r12 func_8000F274(s32 arg1) {
             if (sp2C - actor->unk_2C < 0.0f) {
                 if (((State *)((proc_t *)arg1)->unk_30)->unk_08 > 0) {
                     func_80002CE0(func_80009C98(2) + 25);
-                    if (D_800B99A4[D_800FB808].unk_00 < 4) {
+                    if (D_800B9990[D_800FB808].unk_014 < 4) {
                         // RULE-EXCEPTION: R25, as above
-                        func_800051B4(D_800B99A4[D_800FB808].unk_00, 5, 1.0);
+                        func_800051B4(D_800B9990[D_800FB808].unk_014, 5, 1.0);
                     }
                 }
             }

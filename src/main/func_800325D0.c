@@ -18,13 +18,7 @@ typedef struct {
     /* 0x14 */ u8 unk_14[0x10];
 } Entry;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} Player;
-
 extern Entry D_8005C3C0[][2];
-extern Player D_800B99A8[];
 
 void func_800325D0(s32 arg0, s32 arg1) {
     proc_t *task;
@@ -37,7 +31,7 @@ void func_800325D0(s32 arg0, s32 arg1) {
     if (arg0 >= 2) {
         func_80009F38("InitAnim: invalid animation number");
     }
-    kind = D_800B99A8[arg1].unk_00;
+    kind = D_800B9990[arg1].unk_018;
     if (kind >= 6) {
         func_80009F38("InitAnim: invalid contestant number");
     }

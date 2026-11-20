@@ -15,14 +15,8 @@ typedef struct {
     /* 0x04 */ s32 unk_04;
 } Pair;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} Player;
-
 extern Pair D_8005C3A0[];
 extern Slot D_8005C7F0[];
-extern Player D_800B99A8[];
 extern Slot D_8005C3B8[][2];
 
 void func_80032BF0(void) {
@@ -37,15 +31,15 @@ void func_80032BF0(void) {
     sp28 = 0x2000000;
     if (D_800BCD54 == 3) {
         for (i = 0; i < 3; i++) {
-            D_800B99A8[i].unk_00 = i;
+            D_800B9990[i].unk_018 = i;
         }
     }
     D_800BCA60 = func_8000B978();
     for (i = 0; i < 3; i++) {
-        if (D_800B99A8[i].unk_00 >= 6) {
+        if (D_800B9990[i].unk_018 >= 6) {
             func_80009F38("InitContestants: invalid image num");
         }
-        slots = D_8005C3B8[D_800B99A8[i].unk_00];
+        slots = D_8005C3B8[D_800B9990[i].unk_018];
         for (j = 0; j < 2; j++) {
             if (slots[j].unk_08 > 0) {
                 size = slots[j].unk_00 * slots[j].unk_04 * 2;

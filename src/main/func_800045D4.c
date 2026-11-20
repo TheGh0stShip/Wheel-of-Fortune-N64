@@ -9,18 +9,12 @@ typedef struct {
 } Pad;
 
 typedef struct {
-    /* 0x000 */ s32 unk_00;
-    /* 0x004 */ u8 unk_04[0x110];
-} Player;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ s32 unk_0C;
 } Rumble;
 
-extern Player D_800B99A4[];
 extern Rumble D_800BEE60[];
 extern Pad D_800A70B0[];
 extern Pad D_800B9954;
@@ -92,7 +86,7 @@ void func_800045D4(void) {
                 }
                 i++;
             }
-        } else if (D_800BCD54 == 6 || D_800B99A4[D_800FB808].unk_00 == 4) {
+        } else if (D_800BCD54 == 6 || D_800B9990[D_800FB808].unk_014 == 4) {
             D_800B96B0 = 0;
             i = 0;
             while (i < 4) {
@@ -100,8 +94,8 @@ void func_800045D4(void) {
                 i++;
             }
         } else {
-            D_800B96B0 = D_800BEE58[D_800B99A4[D_800FB808].unk_00];
-            D_800B9954 = D_800A70B0[D_800B99A4[D_800FB808].unk_00];
+            D_800B96B0 = D_800BEE58[D_800B9990[D_800FB808].unk_014];
+            D_800B9954 = D_800A70B0[D_800B9990[D_800FB808].unk_014];
         }
         i = 0;
         while (i < 4) {

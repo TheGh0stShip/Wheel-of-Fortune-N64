@@ -1,11 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x000 */ s32 unk_00;
-    /* 0x004 */ u8 unk_04[0x110];
-} Player;
-
-extern Player D_800B9AA0[];
 
 struct n64dk_r12 func_800181A4(s32 arg1) {
     struct n64dk_r12 ret;
@@ -21,8 +15,8 @@ struct n64dk_r12 func_800181A4(s32 arg1) {
             func_80032B10();
             func_800334E4();
             D_800B96A8 += 3;
-            if (D_800B9AA0[D_800FB808].unk_00 > 0) {
-                func_80002CE0(D_800B9AA0[D_800FB808].unk_00);
+            if (D_800B9990[D_800FB808].unk_110 > 0) {
+                func_80002CE0(D_800B9990[D_800FB808].unk_110);
             }
             ret.w[1] = 1;
             ret.w[0] = 45 / D_800B96B4;

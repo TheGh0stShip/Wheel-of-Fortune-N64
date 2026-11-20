@@ -1,14 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x000 */ s32 unk_000;
-    /* 0x004 */ s32 unk_004;
-    /* 0x008 */ u8 unk_008[0xF0];
-    /* 0x0F8 */ s32 unk_0F8;
-    /* 0x0FC */ u8 unk_0FC[0x18];
-} Player;
-
-extern Player D_800B9990[];
 extern u8 D_800B9559[][21];
 extern u8 D_800B9601[][21];
 
@@ -59,9 +50,9 @@ s32 func_80007EEC(s32 arg0) {
         }
         D_800B9990[D_800FB808].unk_004 += D_800B9990[D_800FB808].unk_000;
         D_800B9990[D_800FB808].unk_004 += D_800B9990[D_800FB808].unk_0F8;
-        D_800B999C = 0;
-        D_800B9AB0 = 0;
-        D_800B9BC4 = 0;
+        D_800B9990[0].unk_00C = 0;
+        D_800B9990[1].unk_00C = 0;
+        D_800B9990[2].unk_00C = 0;
     }
     return 1;
 }
