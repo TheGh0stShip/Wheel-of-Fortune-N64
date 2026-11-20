@@ -1,5 +1,6 @@
 #include "PRinternal/macros.h"
 #include "PR/os_internal.h"
+#include "PR/os_version.h"
 #include "PRinternal/controller.h"
 #include "PRinternal/siint.h"
 
@@ -7,6 +8,9 @@ static void __osPackReadData(void);
 
 s32 osContStartReadData(OSMesgQueue* mq) {
     s32 ret = 0;
+#if BUILD_VERSION < VERSION_I
+    int i;
+#endif
 
     __osSiGetAccess();
 
@@ -16,6 +20,13 @@ s32 osContStartReadData(OSMesgQueue* mq) {
         osRecvMesg(mq, NULL, OS_MESG_BLOCK);
     }
 
+#if BUILD_VERSION < VERSION_I
+    for (i = 0; i < ARRLEN(__osContPifRam.ramarray) + 1; i++) { // also sets pifstatus
+        __osContPifRam.ramarray[i] = 0xFF;
+    }
+    __osContPifRam.pifstatus = 0;
+
+#endif
     ret = __osSiRawStartDma(OS_READ, __osContPifRam.ramarray);
     __osContLastCmd = CONT_CMD_READ_BUTTON;
     __osSiRelAccess();
@@ -47,7 +58,11 @@ static void __osPackReadData(void) {
     __OSContReadFormat readformat;
     int i;
 
+#if BUILD_VERSION >= VERSION_I
     for (i = 0; i < ARRLEN(__osContPifRam.ramarray); i++) {
+#else
+    for (i = 0; i < ARRLEN(__osContPifRam.ramarray) + 1; i++) { // also clears pifstatus
+#endif
         __osContPifRam.ramarray[i] = 0;
     }
 

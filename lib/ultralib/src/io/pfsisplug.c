@@ -1,5 +1,6 @@
 #include "PRinternal/macros.h"
 #include "PR/os_internal.h"
+#include "PR/os_version.h"
 #include "PRinternal/controller.h"
 #include "PRinternal/siint.h"
 
@@ -50,12 +51,26 @@ s32 osPfsIsPlug(OSMesgQueue* mq, u8* pattern) {
 }
 
 void __osPfsRequestData(u8 cmd) {
+#if BUILD_VERSION >= VERSION_I
     u8* ptr = (u8*)&__osPfsPifRam;
+#else
+    u8* ptr;
+#endif
     __OSContRequesFormat requestformat;
     int i;
 
     __osContLastCmd = cmd;
+#if BUILD_VERSION < VERSION_I
+
+    for (i = 0; i < ARRLEN(__osPfsPifRam.ramarray) + 1; i++) { // also clears pifstatus
+        __osPfsPifRam.ramarray[i] = 0;
+    }
+
+#endif
     __osPfsPifRam.pifstatus = CONT_CMD_EXE;
+#if BUILD_VERSION < VERSION_I
+    ptr = (u8*)&__osPfsPifRam;
+#endif
     requestformat.dummy = CONT_CMD_NOP;
     requestformat.txsize = CONT_CMD_REQUEST_STATUS_TX;
     requestformat.rxsize = CONT_CMD_REQUEST_STATUS_RX;

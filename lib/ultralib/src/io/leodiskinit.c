@@ -1,5 +1,6 @@
 // This file was removed in 2.0J
 #include "PR/os_internal.h"
+#include "PR/os_version.h"
 #include "PR/os_libc.h"
 #include "PR/rcp.h"
 #include "PRinternal/macros.h"
@@ -22,7 +23,9 @@ OSPiHandle *osLeoDiskInit(void) {
     IO_WRITE(PI_BSD_DOM2_PWD_REG, LeoDiskHandle.pulse);
     IO_WRITE(PI_BSD_DOM2_PGS_REG, LeoDiskHandle.pageSize);
     IO_WRITE(PI_BSD_DOM2_RLS_REG, LeoDiskHandle.relDuration);
+#if BUILD_VERSION >= VERSION_I
     LeoDiskHandle.speed = 0;
+#endif
 
     bzero(&LeoDiskHandle.transferInfo, sizeof(__OSTranxInfo));
 

@@ -1,5 +1,6 @@
 #include "PRinternal/macros.h"
 #include "PR/os_internal.h"
+#include "PR/os_version.h"
 #include "PRinternal/controller.h"
 #include "PRinternal/siint.h"
 
@@ -27,9 +28,15 @@ s32 osContInit(OSMesgQueue* mq, u8* bitpattern, OSContStatus* data) {
     __osContinitialized = TRUE;
 
     t = osGetTime();
+#if BUILD_VERSION >= VERSION_I
     if (t < OS_USEC_TO_CYCLES(500000)) {
         osCreateMesgQueue(&timerMesgQueue, &dummy, 1);
         osSetTimer(&mytimer, OS_USEC_TO_CYCLES(500000) - t, 0, &timerMesgQueue, &dummy);
+#else
+    if (500000 * osClockRate / 1000000 > t) {
+        osCreateMesgQueue(&timerMesgQueue, &dummy, 1);
+        osSetTimer(&mytimer, 500000 * osClockRate / 1000000 - t, 0, &timerMesgQueue, &dummy);
+#endif
         osRecvMesg(&timerMesgQueue, &dummy, OS_MESG_BLOCK);
     }
 
@@ -78,7 +85,11 @@ void __osPackRequestData(u8 cmd) {
     __OSContRequesFormat requestHeader;
     s32 i;
 
+#if BUILD_VERSION >= VERSION_I
     for (i = 0; i < ARRLEN(__osContPifRam.ramarray); i++) {
+#else
+    for (i = 0; i < ARRLEN(__osContPifRam.ramarray) + 1; i++) { // also clears pifstatus
+#endif
         __osContPifRam.ramarray[i] = 0;
     }
 

@@ -1,4 +1,5 @@
 #include "PR/os_internal.h"
+#include "PR/os_version.h"
 #include "PRinternal/osint.h"
 
 void osDestroyThread(OSThread* t) {
@@ -17,7 +18,7 @@ void osDestroyThread(OSThread* t) {
     if (__osActiveQueue == t) {
         __osActiveQueue = __osActiveQueue->tlnext;
     } else {
-#if BUILD_VERSION >= VERSION_J || !defined(__GNUC__)
+#if BUILD_VERSION >= VERSION_J || (BUILD_VERSION >= VERSION_I && !defined(__GNUC__))
         pred = __osActiveQueue;
         while (pred->priority != -1) {
             succ = pred->tlnext;

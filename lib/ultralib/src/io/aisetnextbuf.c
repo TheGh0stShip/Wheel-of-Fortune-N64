@@ -1,4 +1,5 @@
 #include "PR/os_internal.h"
+#include "PR/os_version.h"
 #include "PR/ultraerror.h"
 #include "PR/rcp.h"
 #include "PRinternal/osint.h"
@@ -43,7 +44,11 @@ s32 osAiSetNextBuffer(void* bufPtr, u32 size) {
         bptr = (u8*)bufPtr - 0x2000;
     }
 
+#if BUILD_VERSION >= VERSION_I
     if ((((u32)bufPtr + size) & 0x1fff) == 0) {
+#else
+    if ((((u32)bufPtr + size) & 0x3fff) == 0x2000) {
+#endif
         hdwrBugFlag = TRUE;
     } else {
         hdwrBugFlag = FALSE;

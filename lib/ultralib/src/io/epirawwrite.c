@@ -6,7 +6,9 @@
 
 s32 __osEPiRawWriteIo(OSPiHandle* pihandle, u32 devAddr, u32 data) {
     register u32 stat;
+#if BUILD_VERSION >= VERSION_I
     register u32 domain;
+#endif
 
 #ifdef _DEBUG
     if (devAddr & 0x3) {
@@ -15,7 +17,11 @@ s32 __osEPiRawWriteIo(OSPiHandle* pihandle, u32 devAddr, u32 data) {
     }
 #endif
 
+#if BUILD_VERSION >= VERSION_I
     EPI_SYNC(pihandle, stat, domain);
+#else
+    WAIT_ON_IOBUSY(stat);
+#endif
     IO_WRITE(pihandle->baseAddress | devAddr, data);
 
     return 0;

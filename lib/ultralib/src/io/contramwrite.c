@@ -1,5 +1,6 @@
 #include "PRinternal/macros.h"
 #include "PR/os_internal.h"
+#include "PR/os_version.h"
 #include "PR/rcp.h"
 #include "PRinternal/controller.h"
 #include "PRinternal/siint.h"
@@ -142,6 +143,11 @@ static void __osPackRamWriteData(int channel, u16 address, u8 *buffer) {
     int i;
 
     ptr = (u8 *)__osPfsPifRam.ramarray;
+#if BUILD_VERSION < VERSION_I
+    for (i = 0; i < ARRLEN(__osPfsPifRam.ramarray) + 1; i++) { // also clears pifstatus
+        __osPfsPifRam.ramarray[i] = 0;
+    }
+#endif
     __osPfsPifRam.pifstatus = CONT_CMD_EXE;
     ramreadformat.dummy = CONT_CMD_NOP;
     ramreadformat.txsize = CONT_CMD_WRITE_PAK_TX;
@@ -155,7 +161,14 @@ static void __osPackRamWriteData(int channel, u16 address, u8 *buffer) {
     }
     
     if (channel != 0) {
+#if BUILD_VERSION >= VERSION_I
         for (i = 0; i < channel; i++) { *ptr++ = CONT_CMD_REQUEST_STATUS; }
+#else
+        // The line breaks are part of the difference: IDO emits other code for the one-line loop.
+        for (i = 0; i < channel; i++) {
+            *ptr++ = CONT_CMD_REQUEST_STATUS;
+        }
+#endif
     }
     
     *(__OSContRamReadFormat *)ptr = ramreadformat;

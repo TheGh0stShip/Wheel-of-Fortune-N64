@@ -138,7 +138,9 @@ OSPifRam _MotorStopData[MAXCONTROLLERS] ALIGNED(0x8);
 OSPifRam _MotorStartData[MAXCONTROLLERS] ALIGNED(0x8);
 u8 _motorstopbuf[32] ALIGNED(0x8);
 u8 _motorstartbuf[32] ALIGNED(0x8);
+#if BUILD_VERSION >= VERSION_I
 u32 __osMotorinitialized[MAXCONTROLLERS] = {0, 0, 0, 0};
+#endif
 
 s32 osMotorStop(OSPfs *pfs) {
     int i;
@@ -148,10 +150,12 @@ s32 osMotorStop(OSPfs *pfs) {
 
     ptr = (u8 *)&__osPfsPifRam;
 
+#if BUILD_VERSION >= VERSION_I
     if (!__osMotorinitialized[pfs->channel]) {
         return PFS_ERR_INVALID;
     }
 
+#endif
     __osSiGetAccess();
 
     __osContLastCmd = CONT_CMD_WRITE_PAK;
@@ -170,7 +174,11 @@ s32 osMotorStop(OSPfs *pfs) {
     ramreadformat = *(__OSContRamReadFormat *)ptr;
     ret = CHNL_ERR(ramreadformat);
 
+#if BUILD_VERSION >= VERSION_I
     if (ret == 0 && __osContDataCrc((u8*)&_motorstopbuf) != ramreadformat.datacrc) {
+#else
+    if (ret == 0 && ramreadformat.datacrc != 0) {
+#endif
         ret = PFS_ERR_CONTRFAIL;
     }
 
@@ -187,10 +195,12 @@ s32 osMotorStart(OSPfs *pfs) {
 
     ptr = (u8 *)&__osPfsPifRam;
 
+#if BUILD_VERSION >= VERSION_I
     if (!__osMotorinitialized[pfs->channel]) {
         return PFS_ERR_INVALID;
     }
 
+#endif
     __osSiGetAccess();
 
     __osContLastCmd = CONT_CMD_WRITE_PAK;
@@ -209,7 +219,11 @@ s32 osMotorStart(OSPfs *pfs) {
     ramreadformat = *(__OSContRamReadFormat *)ptr;
     ret = CHNL_ERR(ramreadformat);
 
+#if BUILD_VERSION >= VERSION_I
     if (ret == 0 && __osContDataCrc((u8*)&_motorstartbuf) != ramreadformat.datacrc) {
+#else
+    if (ret == 0 && ramreadformat.datacrc != 0xEB) {
+#endif
         ret = PFS_ERR_CONTRFAIL;
     }
 
@@ -261,6 +275,7 @@ s32 osMotorInit(OSMesgQueue* mq, OSPfs* pfs, int channel) {
     pfs->status = 0;
     pfs->activebank = 128;
     
+#if BUILD_VERSION >= VERSION_I
     for (i = 0; i < ARRLEN(temp); i++) {
         temp[i] = 254;
     }
@@ -289,6 +304,7 @@ s32 osMotorInit(OSMesgQueue* mq, OSPfs* pfs, int channel) {
         return PFS_ERR_DEVICE;
     }
 
+#endif
     for (i = 0; i < ARRLEN(temp); i++) {
         temp[i] = 128;
     }
@@ -316,6 +332,7 @@ s32 osMotorInit(OSMesgQueue* mq, OSPfs* pfs, int channel) {
         return PFS_ERR_DEVICE;
     }
 
+#if BUILD_VERSION >= VERSION_I
     if (!__osMotorinitialized[channel]) {
         for (i = 0; i < ARRLEN(_motorstartbuf); i++) {
             _motorstartbuf[i] = 1;
@@ -325,6 +342,14 @@ s32 osMotorInit(OSMesgQueue* mq, OSPfs* pfs, int channel) {
         _MakeMotorData(channel, CONT_BLOCK_RUMBLE, _motorstopbuf, &_MotorStopData[channel]);
         __osMotorinitialized[channel] = 1;
     }
+#else
+    for (i = 0; i < ARRLEN(_motorstartbuf); i++) {
+        _motorstartbuf[i] = 1;
+        _motorstopbuf[i] = 0;
+    }
+    _MakeMotorData(channel, CONT_BLOCK_RUMBLE, _motorstartbuf, &_MotorStartData[channel]);
+    _MakeMotorData(channel, CONT_BLOCK_RUMBLE, _motorstopbuf, &_MotorStopData[channel]);
+#endif
 
     return 0;
 }
