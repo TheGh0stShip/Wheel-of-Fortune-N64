@@ -30,8 +30,9 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
 | unit boundaries | `./wof unitmap [-v]` (not a gate: prints the evidence for original object boundaries among the game functions, from the ROM and the last gate's unit list; `-v` adds the strings each function uses) |
 | `permute` | none |
 
-- **Toolchain.** GCC 2.7.2 for MIPS (`gcc`, `cc1`, `as` 2.6) in `$WOF_TOOLCHAIN`, default `~/wof/gcc272` inside
-  WSL. Host tools need `cc` and `mips-linux-gnu-objdump` in WSL. Build output goes to
+- **Toolchain.** Two compilers, both inside WSL and outside the repository: GCC 2.7.2 for MIPS (`gcc`, `cc1`,
+  `as` 2.6) in `$WOF_TOOLCHAIN`, default `~/wof/gcc272`, for the game and libgcc; IDO 5.3 in `$WOF_IDO`, default
+  `~/wof/ido53`, for libultra. Host tools need `cc` and `mips-linux-gnu-objdump` in WSL. Build output goes to
   `~/wof/build/<checkout id>` in WSL, outside the repository; the wrapper prints nothing about it, tools print
   the paths they write.
 - **ROM.** Any byte order; the tools swap it in memory and refuse a ROM whose SHA-1 is not
@@ -39,8 +40,14 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
   committed.
 - **Flag classes** (`config/flags.tsv`: class, assembler, flags):
   - `game`: `-O0 -g -G0 -mips3 -mgp32 -mfp32`, assembler `asn64`;
-  - `O2`: `-O2 -G0 -mips3 -mgp32 -mfp32`, assembler `asn64` (the libgcc wrappers);
-  - `donor`: a placeholder for the library units, none of which is verified yet.
+  - `libgcc_*`: `-O2 -G0 -mips3 -mgp32 -mfp32 -DL_<function>`, assembler `asn64`, one class per libgcc function;
+  - `ultra_*`: IDO 5.3 (`ido`), `-mips2 -o32 -non_shared -G 0 -Wab,-r4300_mul -DNDEBUG -D_FINALROM`: `-O1` for
+    `os/` and `io/`, `-O3` for `audio/`, `gu/`, `libc/` and `sched/`, with the per-file exceptions the table
+    records (`ll.c`, the assembly sources, `exceptasm`);
+  - `asm`: GNU as, for the entry stub.
+- **Include paths.** The 32-bit preprocessors cannot `#include` from the Windows mount. `include/` and `lib/`
+  are copied into the build directory on every run, and the flag rows name them there
+  (`-I $WOF_BUILD/include`, `-I $WOF_BUILD/lib/...`). Sources under `lib/` are compiled from that copy.
 - **The `asn64` assembler mode.** The game's objects were not assembled by GNU as. `tools/asn64.c` rewrites cc1's
   assembly into the forms retail shows (no delay-slot filling, `$at` for symbol-plus-register loads, literal-pool
   float constants, and so on; the file's header lists every rule) and GNU as assembles the result. Each rule was
@@ -51,14 +58,18 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
   compared but keep retail's bytes in the linked image. **`open` is the parking mechanism**: an unfinished
   function stays in its own `open` unit. Today nearly every unit holds one function, which is not the original
   layout (see "Unit boundaries").
-- **Functions** (`config/functions.tsv`): the inventory of 775 function ranges, 750 C and 25 assembly.
+- **Functions** (`config/functions.tsv`): the inventory of 773 function ranges, 745 C and 28 assembly. The
+  assembly ranges are the entry stub and libultra's own `.s` sources: `ORIGINAL-ASM`.
 - **Symbols** (`config/symbols.txt`): addresses of names no unit defines yet. `func_XXXXXXXX` and `D_XXXXXXXX`
   carry their address in the name and need no entry. A unit that defines a global exports it to every other
   unit. The gate rejects an undeclared name, a name bound to two addresses, and an address-named function placed
   anywhere else.
-- **Reference sources.** libultra: the decompals `ultralib` reconstruction, trusted for SDK functions once a
-  build of it reproduces retail. The "donor" sources in `src/main` were copied from other games' decompilations
-  and are not verified here. The MPEG player (the 82 functions at 0x800887D8..0x800A5074) descends from the
+- **Reference sources.** libultra is the decompals `ultralib` reconstruction under `lib/ultralib`
+  (`PROVENANCE.tsv` lists each file as verbatim or modified). Retail links an IDO-built `libultra_rom` older than
+  2.0I; the version letter is an inference, built as `VERSION_H`, and each pre-2.0I form sits in a
+  `BUILD_VERSION` conditional beside the newer code. Library sources stay verbatim to upstream otherwise: do not
+  edit them to satisfy the rule checker. libgcc (`lib/libgcc`) is a reconstruction of three GCC 2.7.2 functions
+  whose provenance file says what it was written after. The MPEG player (the 82 functions at 0x800887D8..0x800A5074) descends from the
   Berkeley `mpeg_play` decoder, whose source is published: lineage evidence for its functions, types and macros,
   adopted only where the bytes agree and marked `guess:` where the binary itself holds no name.
 - **Policies.** Running the game is not needed. A decompiler may be used as a reading aid; its output is never
@@ -76,8 +87,8 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
   - **matched under the rules** (the headline): byte-identical at the gate *and* passing every [match] rule;
   - **bytes matched**: byte-identical at the gate.
 - `MATCH-PENDING` functions (byte-identical, failing a [match] rule) are open work, not progress.
-- The 25 assembly ranges are `ORIGINAL-ASM` candidates, listed apart and counted neither way, once evidence
-  shows each one was written in assembly.
+- The 28 assembly ranges are `ORIGINAL-ASM`: byte-identical at the gate, listed apart (`kind` `asm` in
+  `config/functions.tsv`) and counted neither way.
 
 ## Workflow
 

@@ -8,17 +8,20 @@ A work-in-progress reconstruction of the USA release (ROM SHA-1 `b51b28660699bf0
 Both numbers come from `./wof report`, which rebuilds every unit with the original compiler, links an image and
 requires its SHA-1 to equal the retail ROM's.
 
-| measure | functions | of |
+| measure | C functions | of |
 |---|---:|---:|
-| **Matched under the rules** (byte-identical and passing every [match] code rule) | **4** | 775 |
-| Bytes matched (byte-identical at the gate) | 443 | 775 |
+| **Matched under the rules** (byte-identical and passing every [match] code rule) | **276** | 763 |
+| Bytes matched (byte-identical at the gate) | 763 | 763 |
 
-- 443 units (323,328 of 402,772 code bytes) rebuild byte-identical: all 441 game functions and two libgcc wrappers.
-- 439 of those are `MATCH-PENDING`: the bytes are right but the source is machine-lifted C with no shared
-  headers, per-file copies of types and globals, and stand-in locals. That is open work, not progress.
-- 307 units are open: the library (libultra) units, whose build recipe is not yet
-  established.
-- 25 function ranges are assembly and are not yet built from source here.
+- Every code range of the image now builds from source: 598 units, 402,756 of 402,756 code bytes, covering all
+  773 inventoried function ranges (745 C, 28 original assembly).
+- The game is 441 functions built with GCC 2.7.2. 439 of them are `MATCH-PENDING`: the bytes are right but the
+  source is machine-lifted C with no shared headers, per-file copies of types and globals, and stand-in locals.
+  That is open work, not progress.
+- The library is libultra (IDO 5.3, built from the `ultralib` reconstruction under `lib/ultralib`) and three
+  libgcc functions. Nearly all of the functions that pass the rules today are library functions, not game code;
+  48 library functions are `MATCH-PENDING`.
+- Data is not reconstructed: outside the code, about 270,000 bytes of the image still come from the ROM.
 
 Earlier versions of this file described the project as complete. That claim rested on ledgers produced by a
 toolchain that is not in this repository (`MATCHED.tsv`, `progress-*.tsv`, `source-accounted.tsv`,
