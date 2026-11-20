@@ -626,42 +626,41 @@ typedef struct {
 } data80034028_t;    // size 0x24
 
 //
-// Addresses in segment 1, the display list and picture data the game loads. A Gfx one is a
-// display list, from what draws it; a u8 one a picture of four bits a pixel, a u16 one a picture
-// of sixteen, from the texture image command they are given to. An s32 one is still a
-// placeholder: its uses have not been read for its kind.
+// Addresses in segment 1, the display list and picture data the game loads, typed by what is
+// done with them: a Gfx one is drawn as a display list, a Mtx one given to the matrix command,
+// a u8 one loaded as a picture of four bits a pixel and a u16 one as a picture of sixteen.
 //
-extern s32 D_01010FA0;
-extern s32 D_01017550;
-extern s32 D_01017650;
-extern s32 D_01017750;
-extern s32 D_010178D0;
-extern s32 D_01017A50;
-extern s32 D_01017BD0;
+extern u16 D_01010FA0[];
+extern u16 D_01017550[];
+extern u16 D_01017650[];
+extern u16 D_01017750[];
+extern u16 D_010178D0[];
+extern u16 D_01017A50[];
+extern u16 D_01017BD0[];
 extern Gfx D_010217E0[];
 extern Gfx D_010218C8[];
 extern Gfx D_01021948[];
-extern s32 D_01021970;
+extern Gfx D_01021970[];
 extern Gfx D_010219C8[];
-extern s32 D_01021A20;
-extern s32 D_01021A70;
-extern s32 D_01021AC8;
-extern s32 D_01024340;
-extern s32 D_01024368;
-extern s32 D_010308D0;
-extern s32 D_01035FA8;
-extern s32 D_010367A8;
-extern s32 D_01036FA8;
-extern s32 D_01037090;
-extern s32 D_01037178;
-extern s32 D_01037E70;
-extern s32 D_01037EB0;
-extern s32 D_01037EF0;
-extern s32 D_01092090;
-extern s32 D_010920D8;
-extern s32 D_01092120;
-extern s32 D_01092168;
-extern s32 D_01093D50;
+extern Gfx D_01021A20[];
+extern Gfx D_01021A70[];
+extern Gfx D_01021AC8[];
+extern Gfx D_01024340[];
+extern Gfx D_01024368[];
+extern Gfx D_010308D0[];
+extern u16 D_01035FA8[];
+extern u16 D_010367A8[];
+extern Gfx D_01036FA8[];
+extern Gfx D_01037090[];
+extern Gfx D_01037178[];
+extern Mtx D_01037E70;
+extern Mtx D_01037EB0;
+extern Mtx D_01037EF0;
+extern Gfx D_01092090[];
+extern Gfx D_010920D8[];
+extern Gfx D_01092120[];
+extern Gfx D_01092168[];
+extern Gfx D_01093D50[];
 extern u8 D_010A1B88[];
 extern u8 D_010A1F88[];
 extern u8 D_010A2388[];
@@ -669,26 +668,26 @@ extern u8 D_010A2788[];
 extern u8 D_010A2B88[];
 extern u8 D_010A3388[];
 extern u8 D_010A3788[];
-extern s32 D_010A6098;
-extern s32 D_010B3728;
-extern s32 D_010E3748;
-extern s32 D_010E4260;
+extern Gfx D_010A6098[];
+extern Gfx D_010B3728[];
+extern Gfx D_010E3748[];
+extern Gfx D_010E4260[];
 extern Gfx D_010FA038[];
-extern s32 D_0112BBA8;
+extern Gfx D_0112BBA8[];
 extern Gfx D_011356C0[];
-extern s32 D_01135878;
+extern Gfx D_01135878[];
 extern Gfx D_011358C0[];
 extern Gfx D_01135908[];
-extern s32 D_01135FF8;
-extern s32 D_01136080;
-extern s32 D_01136108;
+extern Gfx D_01135FF8[];
+extern Gfx D_01136080[];
+extern Gfx D_01136108[];
 extern Gfx D_0113A9B0[];
 extern Gfx D_0113A9D0[];
-extern s32 D_0113AD08;
-extern s32 D_0113AD28;
-extern s32 D_0113AD48;
-extern s32 D_0113AE28;
-extern s32 D_01146E68;
+extern Gfx D_0113AD08[];
+extern Gfx D_0113AD28[];
+extern Gfx D_0113AD48[];
+extern Mtx D_0113AE28;
+extern u16 D_01146E68[];
 extern u16 D_01157868[];
 extern u16 D_01158068[];
 extern u16 D_01158868[];
@@ -699,14 +698,14 @@ extern u16 D_0115B868[];
 extern u16 D_0115C068[];
 extern u16 D_0115C868[];
 extern u16 D_0115D068[];
-extern s32 D_01166598;
-extern s32 D_01166928;
-extern s32 D_01166BF8;
-extern s32 D_011696A0;
-extern s32 D_0116C028;
-extern s32 D_01176C88;
-extern s32 D_01176CC8;
-extern s32 D_01176D08;
+extern Gfx D_01166598[];
+extern Gfx D_01166928[];
+extern Gfx D_01166BF8[];
+extern Gfx D_011696A0[];
+extern Gfx D_0116C028[];
+extern Mtx D_01176C88;
+extern Mtx D_01176CC8;
+extern Mtx D_01176D08;
 extern Gfx D_01197D78[];
 
 //
