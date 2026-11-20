@@ -13,7 +13,7 @@ void func_80022530(obj_t *obj, frame_t *frame) {
         if (i >= 118) {
             break;
         }
-        func_800278A8((s32)&D_80059120[i], 1);
+        func_800278A8(&D_80059120[i], 1);
         i++;
     }
     i = 0;
@@ -21,7 +21,7 @@ void func_80022530(obj_t *obj, frame_t *frame) {
         if (i >= 7) {
             return;
         }
-        func_800278A8((s32)&D_80059008[i], 1);
+        func_800278A8(&D_80059008[i], 1);
         i++;
     }
 }

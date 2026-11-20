@@ -9,6 +9,6 @@ void func_80028554(obj_t *obj, frame_t *frame) {
     gSPDisplayList(D_800B81E8++, &D_01021970);
     gDPSetCycleType(D_800B81E8++, G_CYC_COPY);
     for (i = 0; i < 2; i++) {
-        func_800278A8((s32)&D_8005B2C0[i], 1);
+        func_800278A8(&D_8005B2C0[i], 1);
     }
 }

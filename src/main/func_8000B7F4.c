@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-s32 func_8000B7F4(s32 arg0) {
+void *func_8000B7F4(s32 arg0) {
     s32 result;
 
     if ((u32)arg0 > (u32)D_800B9984) {
@@ -11,5 +11,5 @@ s32 func_8000B7F4(s32 arg0) {
     result = D_800B8290;
     D_800B8290 = D_800B8290 + arg0;
     D_800B9984 = D_800B9984 - arg0;
-    return result;
+    return (void *)result;
 }

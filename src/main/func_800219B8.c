@@ -2,7 +2,7 @@
 
 void func_800219B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     proc_t *task;
-    s32 sp1C;
+    char *sp1C;
 
     if (D_80086D58 != 0) {
         func_8000B9FC(1);

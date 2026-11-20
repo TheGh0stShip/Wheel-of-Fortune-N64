@@ -13,11 +13,11 @@ void func_80002348( void ) {
     ALSynConfig     c;
     ALSeqpConfig    seqc;
     amConfig        amc;
-    s32             heap;
+    u8              *heap;
     s32             i;
 
     heap = func_8000B924( AUDIO_HEAP_SIZE );
-    alHeapInit( &D_800B9960, (u8 *)heap, AUDIO_HEAP_SIZE );
+    alHeapInit( &D_800B9960, heap, AUDIO_HEAP_SIZE );
     c.maxVVoices = MAX_VOICES;
     c.maxPVoices = MAX_VOICES;
     c.maxUpdates = MAX_UPDATES;
@@ -50,7 +50,7 @@ void func_80002348( void ) {
     func_80006828( D_8006DD04, D_800B3990, size );
     alBnkfNew( D_800B3990, (u8 *)D_8006DD0C );
     D_800A5090 = D_800B3990->bankArray[0]->instArray[0];
-    D_800A509C = (ALSndId *)func_8000B924( MAX_SOUNDS * sizeof( ALSndId ) );
+    D_800A509C = func_8000B924( MAX_SOUNDS * sizeof( ALSndId ) );
     i = 0;
     while ( i < MAX_SOUNDS ) {
         D_800A509C[i] = -1;

@@ -29,7 +29,7 @@ void func_80006E54(s32 arg0, s32 arg1) {
     }
     if (arg1 == 0) {
         func_80009900((s32)&D_800B9544, D_8004BB98[arg0].unk_04);
-        func_80006828(D_8004BB98[arg0].unk_00, (s32)buf, 101);
+        func_80006828(D_8004BB98[arg0].unk_00, buf, 101);
         text = (s32)buf;
         if (D_800BCD54 != 3) {
             D_8004BB98[arg0].unk_08++;

@@ -14,6 +14,6 @@ void func_800288CC(obj_t *obj, frame_t *frame) {
     gfx->words.w0 = 0xBA001402;
     gfx->words.w1 = 0x200000;
     for (i = 0; i < 8; i++) {
-        func_800278A8((s32)&D_8005A620[i], 1);
+        func_800278A8(&D_8005A620[i], 1);
     }
 }
