@@ -11,10 +11,10 @@ s32 KillProc(proc_t *proc, s32 killObjs) {
     next = proc->next;
     prev->next = next;
     numProcs--;
-    proc->unk_00 = 0;
-    FreeBlocks(proc->unk_04);
+    proc->handler = 0;
+    FreeBlocks(proc->id);
     if (killObjs != 0) {
-        FreeProcObjs(proc->unk_04);
+        FreeProcObjs(proc->id);
     }
     return 1;
 }

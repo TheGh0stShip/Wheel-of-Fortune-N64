@@ -8,7 +8,7 @@ struct procResult_s func_8001C584(proc_t *proc) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (proc->unk_30->playerProc.player != D_800FB808) {
+    if (proc->data->playerProc.player != D_800FB808) {
         while ((event = ProcGetMessage(proc)) != 0) {
             switch (event) {
             case 34:
@@ -41,8 +41,8 @@ struct procResult_s func_8001C584(proc_t *proc) {
                 func_80016008();
                 D_800B96A8 += 3;
                 PlaySound(5);
-                task = CreatProc(func_80017DBC, proc->unk_30->playerProc.player | 0x2000500);
-                task->unk_30->playerProc.player = proc->unk_30->playerProc.player;
+                task = CreatProc(func_80017DBC, proc->data->playerProc.player | 0x2000500);
+                task->data->playerProc.player = proc->data->playerProc.player;
                 if (D_800B9CF0 != 0 || D_800B619C == D_800B96C0 - 1) {
                     ret.w[1] = 0;
                     ret.w[0] = 0;
@@ -75,9 +75,9 @@ struct procResult_s func_8001C584(proc_t *proc) {
         case 32:
             ProcPostEvent(24);
             if (D_800BCA00 == 1) {
-                task = CreatProc(func_8001BED8, proc->unk_30->playerProc.player | 0x2030400);
-                task->unk_30->playerProc.player = proc->unk_30->playerProc.player;
-                task->unk_30->playerProc.unk_0C = proc->unk_30->playerProc.unk_0C;
+                task = CreatProc(func_8001BED8, proc->data->playerProc.player | 0x2030400);
+                task->data->playerProc.player = proc->data->playerProc.player;
+                task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
                 ret.w[1] = 2;
                 ret.w[0] = 31;
                 return ret;
@@ -91,9 +91,9 @@ struct procResult_s func_8001C584(proc_t *proc) {
         case 15:
             ProcPostEvent(24);
             if (D_800BCA00 == 1) {
-                task = CreatProc(func_8001BED8, proc->unk_30->playerProc.player | 0x2030400);
-                task->unk_30->playerProc.player = proc->unk_30->playerProc.player;
-                task->unk_30->playerProc.unk_0C = proc->unk_30->playerProc.unk_0C;
+                task = CreatProc(func_8001BED8, proc->data->playerProc.player | 0x2030400);
+                task->data->playerProc.player = proc->data->playerProc.player;
+                task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
                 ret.w[1] = 2;
                 ret.w[0] = 31;
                 return ret;
@@ -105,9 +105,9 @@ struct procResult_s func_8001C584(proc_t *proc) {
             return ret;
         case 28:
             if (D_800BCA00 == 1) {
-                task = CreatProc(func_8001BED8, proc->unk_30->playerProc.player | 0x2030400);
-                task->unk_30->playerProc.player = proc->unk_30->playerProc.player;
-                task->unk_30->playerProc.unk_0C = proc->unk_30->playerProc.unk_0C;
+                task = CreatProc(func_8001BED8, proc->data->playerProc.player | 0x2030400);
+                task->data->playerProc.player = proc->data->playerProc.player;
+                task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
                 ret.w[1] = 2;
                 ret.w[0] = 31;
                 return ret;
@@ -123,9 +123,9 @@ struct procResult_s func_8001C584(proc_t *proc) {
             D_800B96A0 = 0;
             task = FindProc(0x5000000, -1);
             ProcPostMessage(task, 23, 0);
-            task = CreatProc(func_8001AE18, proc->unk_30->playerProc.player | 0x2000100);
-            task->unk_30->playerProc.player = proc->unk_30->playerProc.player;
-            task->unk_30->playerProc.unk_0C = proc->unk_30->playerProc.unk_0C;
+            task = CreatProc(func_8001AE18, proc->data->playerProc.player | 0x2000100);
+            task->data->playerProc.player = proc->data->playerProc.player;
+            task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
             ret.w[1] = 2;
             ret.w[0] = 3;
             return ret;
@@ -134,9 +134,9 @@ struct procResult_s func_8001C584(proc_t *proc) {
             D_800B96A0 = 0;
             task = FindProc(0x5000000, -1);
             ProcPostMessage(task, 23, 0);
-            task = CreatProc(func_8001B6BC, proc->unk_30->playerProc.player | 0x2000200);
-            task->unk_30->playerProc.player = proc->unk_30->playerProc.player;
-            task->unk_30->playerProc.unk_0C = proc->unk_30->playerProc.unk_0C;
+            task = CreatProc(func_8001B6BC, proc->data->playerProc.player | 0x2000200);
+            task->data->playerProc.player = proc->data->playerProc.player;
+            task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
             ret.w[1] = 2;
             ret.w[0] = 9;
             return ret;
@@ -144,9 +144,9 @@ struct procResult_s func_8001C584(proc_t *proc) {
             PlaySound(D_800B9990[D_800FB808].unk_108);
             task = FindProc(0x5000000, -1);
             ProcPostMessage(task, 23, 0);
-            task = CreatProc(func_8001BC44, proc->unk_30->playerProc.player | 0x2000300);
-            task->unk_30->playerProc.player = proc->unk_30->playerProc.player;
-            task->unk_30->playerProc.unk_0C = proc->unk_30->playerProc.unk_0C;
+            task = CreatProc(func_8001BC44, proc->data->playerProc.player | 0x2000300);
+            task->data->playerProc.player = proc->data->playerProc.player;
+            task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
             ret.w[1] = 2;
             ret.w[0] = 10;
             return ret;
@@ -161,7 +161,7 @@ struct procResult_s func_8001C584(proc_t *proc) {
             return ret;
         case 39:
             func_800177A4();
-            if (proc->unk_30->playerProc.player != D_800FB808) {
+            if (proc->data->playerProc.player != D_800FB808) {
                 ret.w[1] = 2;
                 ret.w[0] = -1;
             } else {

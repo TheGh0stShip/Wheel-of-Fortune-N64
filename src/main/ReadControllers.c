@@ -15,14 +15,14 @@ void ReadControllers(void) {
             pad = &contPads[i];
             switch (pad->errno) {
             case 0:
-                if (rumbles[i].unk_00 != 0) {
-                    if (rumbles[i].unk_0C > 0) {
-                        rumbles[i].unk_0C--;
-                        rumbles[i].unk_04 += rumbles[i].unk_08;
-                        if ((f64)rumbles[i].unk_04 < 1.0) {
+                if (rumbles[i].present != 0) {
+                    if (rumbles[i].frames > 0) {
+                        rumbles[i].frames--;
+                        rumbles[i].level += rumbles[i].strength;
+                        if ((f64)rumbles[i].level < 1.0) {
                             StopMotor(i);
                         } else {
-                            rumbles[i].unk_04 = (f32)((f64)rumbles[i].unk_04 - 1.0);
+                            rumbles[i].level = (f32)((f64)rumbles[i].level - 1.0);
                             StartMotor(i);
                         }
                     } else if (motorOn[i] != 0) {

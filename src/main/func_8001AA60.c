@@ -35,7 +35,7 @@ void func_8001AA60(proc_t *proc) {
         score = score + sp1C;
         switch (func_800084E8()) {
         case 4:
-            if (score < proc->unk_30->playerProc.unk_0C || D_800B9990[D_800FB808].unk_000 < 250) {
+            if (score < proc->data->playerProc.unk_0C || D_800B9990[D_800FB808].unk_000 < 250) {
                 D_800B61B5 = 48;
                 ProcPostMessage(proc, 12, 0);
             } else {

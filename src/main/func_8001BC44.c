@@ -8,7 +8,7 @@ struct procResult_s func_8001BC44(proc_t *proc) {
 
     sp10.w[1] = 1;
     sp10.w[0] = 0;
-    if (proc->unk_30->playerProc.player != D_800FB808) {
+    if (proc->data->playerProc.player != D_800FB808) {
         ProcClearMessages(proc);
         return sp10;
     }

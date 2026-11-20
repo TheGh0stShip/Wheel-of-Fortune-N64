@@ -50,8 +50,8 @@ struct procResult_s func_80017DBC(proc_t *proc) {
             func_8002A014();
         }
         obj = FindObj(0x4010000, -1);
-        obj->unk_2C = D_8004B848[D_800B619C] - D_800581F4;
-        obj->unk_2C = obj->unk_2C - 360.0f;
+        obj->pitch = D_8004B848[D_800B619C] - D_800581F4;
+        obj->pitch = obj->pitch - 360.0f;
         result.w[1] = 2;
         result.w[0] = 45;
         return result;
@@ -59,7 +59,7 @@ struct procResult_s func_80017DBC(proc_t *proc) {
         KillProcClass(0x7010000, -1, 0);
         D_800B9CF0 = 1;
         D_800B619C = 6;
-        CreatProc(func_800181A4, proc->unk_30->playerProc.player | 0x2000600);
+        CreatProc(func_800181A4, proc->data->playerProc.player | 0x2000600);
         func_80017848();
         result.w[1] = 0;
         result.w[0] = 0;

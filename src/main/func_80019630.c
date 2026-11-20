@@ -10,7 +10,7 @@ struct procResult_s func_80019630(proc_t *proc) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (proc->unk_30->playerProc.player != D_800FB808) {
+    if (proc->data->playerProc.player != D_800FB808) {
         ProcClearMessages(proc);
         return ret;
     }
@@ -33,7 +33,7 @@ struct procResult_s func_80019630(proc_t *proc) {
             if (func_80007888(D_800B61B5, 2) > 0) {
                 func_80007DAC(D_800B61B5);
                 task = CreatProc(func_80010574, 0x1000000);
-                task->unk_30->data80010574.letter = D_800B61B5;
+                task->data->data80010574.letter = D_800B61B5;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {
@@ -50,8 +50,8 @@ struct procResult_s func_80019630(proc_t *proc) {
         case 6:
             func_80029974(0);
             func_8002FD50();
-            task = CreatProc(func_8001933C, proc->unk_30->playerProc.player | 0x2000300);
-            task->unk_30->playerProc.player = proc->unk_30->playerProc.player;
+            task = CreatProc(func_8001933C, proc->data->playerProc.player | 0x2000300);
+            task->data->playerProc.player = proc->data->playerProc.player;
             ret.w[1] = 2;
             ret.w[0] = 10;
             return ret;

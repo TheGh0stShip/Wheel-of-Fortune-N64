@@ -6,7 +6,7 @@ proc_t *FindProc(s32 cls, s32 mask) {
     node = &procst[0];
     while (node->next != 0) {
         node = node->next;
-        if ((node->unk_08 & mask) == cls) {
+        if ((node->cls & mask) == cls) {
             return node;
         }
     }

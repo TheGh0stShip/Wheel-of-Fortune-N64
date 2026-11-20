@@ -19,19 +19,19 @@ struct procResult_s func_8002E0C8(proc_t *proc) {
             func_8002D8B0(proc);
             task = func_8002E064();
             if (D_800B9990[D_800FB808].unk_014 == 4) {
-                proc->unk_30->cursor.index = D_800B9601[D_800B61B8][D_800BCCF4] - 65;
-                D_800B61B5 = proc->unk_30->cursor.index + 65;
+                proc->data->cursor.index = D_800B9601[D_800B61B8][D_800BCCF4] - 65;
+                D_800B61B5 = proc->data->cursor.index + 65;
                 ProcPostMessage(proc, 25, 0);
             }
             ProcPostMessage(task, 22, 0);
-            D_8005A998[proc->unk_30->cursor.index].unk_10 = 1;
-            proc->unk_30->cursor.unk_0C = 0;
+            D_8005A998[proc->data->cursor.index].unk_10 = 1;
+            proc->data->cursor.unk_0C = 0;
             result.w[0] = 45 / frameRetraces;
             return result;
         case 25:
             func_8002FD8C();
-            D_8005A998[proc->unk_30->cursor.index].unk_10 = 0;
-            D_800B61B5 = proc->unk_30->cursor.index + 32;
+            D_8005A998[proc->data->cursor.index].unk_10 = 0;
+            D_800B61B5 = proc->data->cursor.index + 32;
             if (func_8002DF80() != 0) {
                 ProcPostMessage(proc, 26, 0);
                 task = func_8002E064();
@@ -43,18 +43,18 @@ struct procResult_s func_8002E0C8(proc_t *proc) {
             }
             return result;
         case 26:
-            D_8005A998[proc->unk_30->cursor.index].unk_10 = 0;
-            D_8005A998[proc->unk_30->cursor.index].unk_1C = D_8005A998[proc->unk_30->cursor.index].unk_14;
-            proc->unk_30->cursor.index = D_800B9601[D_800B61B8][D_800BCCF4] - 65;
-            D_800B61B5 = proc->unk_30->cursor.index + 65;
+            D_8005A998[proc->data->cursor.index].unk_10 = 0;
+            D_8005A998[proc->data->cursor.index].unk_1C = D_8005A998[proc->data->cursor.index].unk_14;
+            proc->data->cursor.index = D_800B9601[D_800B61B8][D_800BCCF4] - 65;
+            D_800B61B5 = proc->data->cursor.index + 65;
             result.w[0] = 45 / frameRetraces;
             ProcPostMessage(proc, 25, 0);
             task = func_8002E064();
             ProcPostMessage(task, 22, 0);
-            D_8005A998[proc->unk_30->cursor.index].unk_10 = 1;
+            D_8005A998[proc->data->cursor.index].unk_10 = 1;
             return result;
         case 33:
-            D_8005A998[proc->unk_30->cursor.index].unk_10 = 0;
+            D_8005A998[proc->data->cursor.index].unk_10 = 0;
             if (D_800B619C == 6) {
                 task = FindProc(0x5050000, -1);
                 ProcPostMessage(task, 33, 1);
@@ -70,16 +70,16 @@ struct procResult_s func_8002E0C8(proc_t *proc) {
             return result;
         }
     }
-    D_8005A998[proc->unk_30->cursor.index].unk_10 = 0;
+    D_8005A998[proc->data->cursor.index].unk_10 = 0;
     if (D_800B9990[D_800FB808].unk_014 == 4) {
-        D_8005A998[proc->unk_30->cursor.index].unk_10 = 1;
+        D_8005A998[proc->data->cursor.index].unk_10 = 1;
         return result;
     }
     task = func_8002E064();
     if ((buttonsPressed & 0xA000) != 0) {
         if (func_8002DF80() != 0) {
             func_8002FD8C();
-            proc->unk_30->cursor.unk_0C = 15;
+            proc->data->cursor.unk_0C = 15;
             ProcPostMessage(task, 17, 0);
         } else {
             task = FindProc(0x7030000, -1);
@@ -96,7 +96,7 @@ struct procResult_s func_8002E0C8(proc_t *proc) {
         }
         return result;
     }
-    if (proc->unk_30->cursor.unk_0C <= 0) {
+    if (proc->data->cursor.unk_0C <= 0) {
         if ((playerPad.button & 2048) != 0) {
             func_8002ACE8(proc);
             ProcPostMessage(task, 22, 0);
@@ -122,20 +122,20 @@ struct procResult_s func_8002E0C8(proc_t *proc) {
             func_8002ACE8(proc);
             ProcPostMessage(task, 22, 0);
         } else if ((playerPad.button & 0x8010) != 0) {
-            proc->unk_30->cursor.unk_0C = 15;
+            proc->data->cursor.unk_0C = 15;
             ProcPostMessage(task, 17, 0);
         } else if ((playerPad.button & 0x4020) != 0) {
-            proc->unk_30->cursor.unk_0C = 15;
+            proc->data->cursor.unk_0C = 15;
             ProcPostMessage(task, 18, 0);
         }
     } else {
-        proc->unk_30->cursor.unk_0C -= frameRetraces;
+        proc->data->cursor.unk_0C -= frameRetraces;
     }
-    if (proc->unk_30->cursor.index < 0) {
-        proc->unk_30->cursor.index = 25;
-    } else if (proc->unk_30->cursor.index >= 26) {
-        proc->unk_30->cursor.index = 0;
+    if (proc->data->cursor.index < 0) {
+        proc->data->cursor.index = 25;
+    } else if (proc->data->cursor.index >= 26) {
+        proc->data->cursor.index = 0;
     }
-    D_8005A998[proc->unk_30->cursor.index].unk_10 = 1;
+    D_8005A998[proc->data->cursor.index].unk_10 = 1;
     return result;
 }

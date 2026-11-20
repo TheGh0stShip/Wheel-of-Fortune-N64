@@ -118,15 +118,15 @@ typedef void ( *objDraw_t )( struct obj_s *obj, frame_t *frame );
 // A proc: a task with a message queue. DoProcs runs each proc's handler once a frame.
 // The procs are procst[70]; entry 0 only heads the list of live procs.
 typedef struct proc_s {
-    /* 0x00 */ procHandler_t    unk_00;         // handler; 0 if free
-    /* 0x04 */ s32              unk_04;         // its number: what its data block and its objs are tagged with
-    /* 0x08 */ s32              unk_08;
-    /* 0x0C */ s32              unk_0C;
-    /* 0x10 */ s32              unk_10;
-    /* 0x14 */ s32              unk_14;
+    /* 0x00 */ procHandler_t    handler;        // 0 if free
+    /* 0x04 */ s32              id;             // its number: what its data block and its objs are tagged with
+    /* 0x08 */ s32              cls;            // its class, which FindProc and the messages select on
+    /* 0x0C */ s32              sleep;          // frames until its handler runs again
+    /* 0x10 */ s32              event;          // the event it waits for; -1: any
+    /* 0x14 */ s32              waiting;        // not 0: it waits for event
     /* 0x18 */ s32              count;          // messages waiting in items
     /* 0x1C */ s32              items[5];
-    /* 0x30 */ union procData_u *unk_30;        // its data block, from AllocBlock
+    /* 0x30 */ union procData_u *data;          // its data block, from AllocBlock
     /* 0x34 */ s32              unk_34;
     /* 0x38 */ s32              unk_38;
     /* 0x3C */ u8               unk_3C[0x4];
@@ -137,23 +137,23 @@ typedef struct proc_s {
 // The objs are objst[100]; entry 0 only heads the list of live objs.
 typedef struct obj_s {
     /* 0x00 */ s32              index;          // its entry in objst and in the matrix arrays
-    /* 0x04 */ s32              unk_04;         // the number of the proc it belongs to; 0: none
-    /* 0x08 */ s32              unk_08;
-    /* 0x0C */ objDraw_t        unk_0C;         // draw function; 0 if free
+    /* 0x04 */ s32              owner;          // the id of the proc it belongs to; 0: none
+    /* 0x08 */ s32              cls;            // its class, which FindObj selects on
+    /* 0x0C */ objDraw_t        draw;           // 0 if free
     /* 0x10 */ s16              x;
     /* 0x12 */ s16              y;
     /* 0x14 */ s16              z;
     /* 0x18 */ f32              scale;
     /* 0x1C */ u8               unk_1C[0xC];
-    /* 0x28 */ f32              unk_28;         // unk_28..unk_30: guRotateRPY r, p, h
-    /* 0x2C */ f32              unk_2C;
-    /* 0x30 */ f32              unk_30;
+    /* 0x28 */ f32              roll;           // roll, pitch, heading: what guRotateRPY is given
+    /* 0x2C */ f32              pitch;
+    /* 0x30 */ f32              heading;
     /* 0x34 */ u8               unk_34[0x8];
-    /* 0x3C */ Mtx              *unk_3C;        // a matrix its draw function applies first, if not 0
+    /* 0x3C */ Mtx              *mtx;           // a matrix its draw function applies first, if not 0
     /* 0x40 */ u8               unk_40[0x4];
-    /* 0x44 */ s32              unk_44;         // the segment address of the picture it shows
-    /* 0x48 */ Gfx              *unk_48;        // its display list
-    /* 0x4C */ Gfx              *unk_4C;        // a second one, drawn with the second half of the picture
+    /* 0x44 */ s32              image;          // the segment address of the picture it shows
+    /* 0x48 */ Gfx              *dl;            // its display list
+    /* 0x4C */ Gfx              *secondDl;      // a second one, drawn with the second half of the picture
     /* 0x50 */ struct obj_s     *next;
 } obj_t;    // size 0x54
 
@@ -309,19 +309,19 @@ typedef struct {
     /* 0x00 */ s32      x;
     /* 0x04 */ s32      y;
     /* 0x08 */ s32      z;
-    /* 0x0C */ f32      unk_0C;     // unk_0C..unk_14: what the unk_28..unk_30 of the obj become
-    /* 0x10 */ f32      unk_10;
-    /* 0x14 */ f32      unk_14;
+    /* 0x0C */ f32      roll;       // roll, pitch, heading: what those of the obj become
+    /* 0x10 */ f32      pitch;
+    /* 0x14 */ f32      heading;
     /* 0x18 */ camera_t *path;      // if not 0, a move that a proc (func_80016734) plays
     /* 0x1C */ s32      count;      // the frames of the move
 } view_t;    // size 0x20
 
 // The rumble of one controller's pak: rumbles[4]. StartRumble starts it.
 typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ f32 unk_08;
-    /* 0x0C */ s32 unk_0C;
+    /* 0x00 */ s32 present;     // 1 once osMotorInit found a rumble pak
+    /* 0x04 */ f32 level;       // what strength has added up to: the motor runs a frame each time it passes 1
+    /* 0x08 */ f32 strength;    // added each frame
+    /* 0x0C */ s32 frames;      // the frames left
 } rumble_t;    // size 0x10
 
 
@@ -850,7 +850,7 @@ extern image_t D_8005BE00[];
 extern u8 *D_8005C1E8[];
 extern u8 *D_8005C33C[];
 extern u8 D_8005C394[];
-extern Gfx *D_8005C3A0[][2];        // [3], unk_48 and unk_4C of the obj of each contestant
+extern Gfx *D_8005C3A0[][2];        // [3], dl and secondDl of the obj of each contestant
 extern clip_t D_8005C3B8[][2];
 extern clip_t D_8005C568[][2];
 extern clip_t D_8005C718[];
@@ -905,7 +905,7 @@ extern OSScClient D_800B3988;
 extern ALBankFile *sfxBankFile;
 extern s32 D_800B3994;
 extern ALBankFile *seqBankFile;      // NOTE: nothing sets it
-extern f32 D_800B39A0[][2];         // [3], for each player what the buttons have added to unk_28 and unk_2C of the camera
+extern f32 D_800B39A0[][2];         // [3], for each player what the buttons have added to roll and pitch of the camera
 extern wedge_t D_800B39B8[];
 extern s32 minRetraces;
 extern u64 dram_stack[];            // the stack of the graphics microcode: SP_DRAM_STACK_SIZE8 bytes

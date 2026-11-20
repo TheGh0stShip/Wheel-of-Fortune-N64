@@ -12,8 +12,8 @@ struct procResult_s func_80031A54(proc_t *proc) {
     s32 base;
 
     base = 0x2000000;
-    obj = proc->unk_30->vannaAnim.obj;
-    sp2C = proc->unk_30->vannaAnim.unk_04;
+    obj = proc->data->vannaAnim.obj;
+    sp2C = proc->data->vannaAnim.unk_04;
     for (;;) {
         event = ProcGetMessage(proc);
         if (event == 0) {
@@ -21,17 +21,17 @@ struct procResult_s func_80031A54(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            proc->unk_30->vannaAnim.unk_28 = 0;
-            proc->unk_30->vannaAnim.unk_10 = 0;
-            proc->unk_30->vannaAnim.unk_24 = 1;
-            switch (proc->unk_30->vannaAnim.unk_0C) {
+            proc->data->vannaAnim.unk_28 = 0;
+            proc->data->vannaAnim.unk_10 = 0;
+            proc->data->vannaAnim.unk_24 = 1;
+            switch (proc->data->vannaAnim.unk_0C) {
             case 0:
                 D_800B9988 = D_800B9988 + (D_800B61A8 * 40);
                 break;
             case 80:
-                proc->unk_30->vannaAnim.unk_10 = proc->unk_30->vannaAnim.unk_18 - 1;
-                proc->unk_30->vannaAnim.unk_24 = -1;
-                proc->unk_30->vannaAnim.unk_1C = 0;
+                proc->data->vannaAnim.unk_10 = proc->data->vannaAnim.unk_18 - 1;
+                proc->data->vannaAnim.unk_24 = -1;
+                proc->data->vannaAnim.unk_1C = 0;
                 break;
             }
             break;
@@ -39,15 +39,15 @@ struct procResult_s func_80031A54(proc_t *proc) {
     }
     diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_16C00);
     diff = diff - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
-    obj->unk_44 = base + diff;
-    proc->unk_30->vannaAnim.unk_28 = proc->unk_30->vannaAnim.unk_28 + frameRetraces;
-    if (proc->unk_30->vannaAnim.unk_28 >= proc->unk_30->vannaAnim.unk_14) {
-        proc->unk_30->vannaAnim.unk_28 = proc->unk_30->vannaAnim.unk_28 % proc->unk_30->vannaAnim.unk_14;
-        proc->unk_30->vannaAnim.unk_10 = proc->unk_30->vannaAnim.unk_10 + proc->unk_30->vannaAnim.unk_24;
-        if (proc->unk_30->vannaAnim.unk_10 < 0) {
-            if (proc->unk_30->vannaAnim.unk_1C != 0) {
-                proc->unk_30->vannaAnim.unk_10 = 1;
-                proc->unk_30->vannaAnim.unk_24 = 1;
+    obj->image = base + diff;
+    proc->data->vannaAnim.unk_28 = proc->data->vannaAnim.unk_28 + frameRetraces;
+    if (proc->data->vannaAnim.unk_28 >= proc->data->vannaAnim.unk_14) {
+        proc->data->vannaAnim.unk_28 = proc->data->vannaAnim.unk_28 % proc->data->vannaAnim.unk_14;
+        proc->data->vannaAnim.unk_10 = proc->data->vannaAnim.unk_10 + proc->data->vannaAnim.unk_24;
+        if (proc->data->vannaAnim.unk_10 < 0) {
+            if (proc->data->vannaAnim.unk_1C != 0) {
+                proc->data->vannaAnim.unk_10 = 1;
+                proc->data->vannaAnim.unk_24 = 1;
             } else {
                 func_8003288C(4, 0);
                 ret.w[1] = 0;
@@ -55,34 +55,34 @@ struct procResult_s func_80031A54(proc_t *proc) {
                 return ret;
             }
         } else {
-            if (proc->unk_30->vannaAnim.unk_10 >= proc->unk_30->vannaAnim.unk_18) {
-                if (proc->unk_30->vannaAnim.unk_1C == 1) {
-                    proc->unk_30->vannaAnim.unk_10 = proc->unk_30->vannaAnim.unk_18 - 2;
-                    proc->unk_30->vannaAnim.unk_24 = -1;
+            if (proc->data->vannaAnim.unk_10 >= proc->data->vannaAnim.unk_18) {
+                if (proc->data->vannaAnim.unk_1C == 1) {
+                    proc->data->vannaAnim.unk_10 = proc->data->vannaAnim.unk_18 - 2;
+                    proc->data->vannaAnim.unk_24 = -1;
                 } else {
-                    if (proc->unk_30->vannaAnim.unk_1C == 2) {
-                        if (proc->unk_30->vannaAnim.unk_0C == 1) {
+                    if (proc->data->vannaAnim.unk_1C == 2) {
+                        if (proc->data->vannaAnim.unk_0C == 1) {
                             func_8003288C(5, 0);
                             ret.w[1] = 0;
                             ret.w[0] = 1;
                             return ret;
                         } else {
-                            proc->unk_30->vannaAnim.unk_10 = 0;
+                            proc->data->vannaAnim.unk_10 = 0;
                         }
-                        proc->unk_30->vannaAnim.unk_24 = 1;
+                        proc->data->vannaAnim.unk_24 = 1;
                     } else {
-                        if (proc->unk_30->vannaAnim.unk_1C == 3) {
-                            proc->unk_30->vannaAnim.unk_10 = proc->unk_30->vannaAnim.unk_18 - 1;
-                            proc->unk_30->vannaAnim.unk_24 = 0;
+                        if (proc->data->vannaAnim.unk_1C == 3) {
+                            proc->data->vannaAnim.unk_10 = proc->data->vannaAnim.unk_18 - 1;
+                            proc->data->vannaAnim.unk_24 = 0;
                         } else {
-                            if (proc->unk_30->vannaAnim.unk_1C < 0) {
+                            if (proc->data->vannaAnim.unk_1C < 0) {
                                 D_800B9988 = D_800B9988 + (D_800B61A8 * 44);
                                 func_8003288C(0, 0);
                                 ret.w[1] = 0;
                                 ret.w[0] = 1;
                                 return ret;
                             } else {
-                                switch (proc->unk_30->vannaAnim.unk_0C) {
+                                switch (proc->data->vannaAnim.unk_0C) {
                                 case 3:
                                     ProcPostEvent(49);
                                     D_800B9988 = D_800B9988 + (D_800B61A8 * 44);
@@ -99,7 +99,7 @@ struct procResult_s func_80031A54(proc_t *proc) {
                 }
             }
         }
-        if (proc->unk_30->vannaAnim.unk_0C != 0) {
+        if (proc->data->vannaAnim.unk_0C != 0) {
             goto L384;
         }
         i = 1;
@@ -115,12 +115,12 @@ struct procResult_s func_80031A54(proc_t *proc) {
     } else {
 L384: ;
     }
-    frame = proc->unk_30->vannaAnim.unk_08 + (proc->unk_30->vannaAnim.unk_10 * ( 64 * 96 ));
-    func_8003143C(frame, (proc->unk_30->vannaAnim.unk_20 * D_800B61A8));
-    switch (proc->unk_30->vannaAnim.unk_0C) {
+    frame = proc->data->vannaAnim.unk_08 + (proc->data->vannaAnim.unk_10 * ( 64 * 96 ));
+    func_8003143C(frame, (proc->data->vannaAnim.unk_20 * D_800B61A8));
+    switch (proc->data->vannaAnim.unk_0C) {
     case 0:
-        obj->x = D_8005C8C8[proc->unk_30->vannaAnim.unk_10] * 4 * D_800B61A8 + D_800B9988;
-        if (((D_800B61A8 == 1) && ((D_800B9988 >= 921) && (proc->unk_30->vannaAnim.unk_10 == 1))) || ((D_800B61A8 == -1) && ((D_800B9988 < 100) && (proc->unk_30->vannaAnim.unk_10 == 1)))) {
+        obj->x = D_8005C8C8[proc->data->vannaAnim.unk_10] * 4 * D_800B61A8 + D_800B9988;
+        if (((D_800B61A8 == 1) && ((D_800B9988 >= 921) && (proc->data->vannaAnim.unk_10 == 1))) || ((D_800B61A8 == -1) && ((D_800B9988 < 100) && (proc->data->vannaAnim.unk_10 == 1)))) {
             func_8003288C(3, 0);
             ret.w[1] = 0;
             ret.w[0] = 1;
@@ -128,7 +128,7 @@ L384: ;
         }
         break;
     case 3:
-        obj->x = D_8005C8FC[proc->unk_30->vannaAnim.unk_10] * 4 * D_800B61A8 + D_800B9988;
+        obj->x = D_8005C8FC[proc->data->vannaAnim.unk_10] * 4 * D_800B61A8 + D_800B9988;
         break;
     }
     ret.w[1] = 1;

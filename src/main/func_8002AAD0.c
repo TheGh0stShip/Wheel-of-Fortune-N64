@@ -7,23 +7,23 @@ void func_8002AAD0(proc_t *proc, s32 arg1, s32 arg2) {
         PlaySound(43);
     }
     if (arg1 != 0) {
-        proc->unk_30->cursor.index++;
-        if (proc->unk_30->cursor.index == 13) {
-            proc->unk_30->cursor.index = 0;
+        proc->data->cursor.index++;
+        if (proc->data->cursor.index == 13) {
+            proc->data->cursor.index = 0;
         }
-        if (proc->unk_30->cursor.index >= 26) {
-            proc->unk_30->cursor.index = 13;
+        if (proc->data->cursor.index >= 26) {
+            proc->data->cursor.index = 13;
         }
-        D_8005A998[proc->unk_30->cursor.index].unk_1C = D_8005A998[proc->unk_30->cursor.index].unk_14;
+        D_8005A998[proc->data->cursor.index].unk_1C = D_8005A998[proc->data->cursor.index].unk_14;
     } else {
-        if (proc->unk_30->cursor.index != 3) {
-            proc->unk_30->cursor.index++;
-            if (proc->unk_30->cursor.index >= 3) {
-                proc->unk_30->cursor.index = 0;
+        if (proc->data->cursor.index != 3) {
+            proc->data->cursor.index++;
+            if (proc->data->cursor.index >= 3) {
+                proc->data->cursor.index = 0;
             }
         }
-        D_8005A828[proc->unk_30->cursor.index].unk_1C = D_8005A828[proc->unk_30->cursor.index].unk_14;
+        D_8005A828[proc->data->cursor.index].unk_1C = D_8005A828[proc->data->cursor.index].unk_14;
     }
-    D_800B61B5 = proc->unk_30->cursor.index + 65;
-    proc->unk_30->cursor.unk_0C = 15;
+    D_800B61B5 = proc->data->cursor.index + 65;
+    proc->data->cursor.unk_0C = 15;
 }

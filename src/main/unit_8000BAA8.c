@@ -56,7 +56,7 @@ struct procResult_s func_8000BC64(proc_t *proc) {
     obj_t *sp20;
     s32 event;
 
-    sp20 = proc->unk_30->obj;
+    sp20 = proc->data->obj;
     result.w[1] = 1;
     result.w[0] = 0;
     while ((event = ProcGetMessage(proc)) != 0) {
@@ -98,7 +98,7 @@ struct procResult_s func_8000BEA8(proc_t *proc) {
     obj_t *obj;
     s32 event;
 
-    obj = proc->unk_30->data8000BEA8.unk_00;
+    obj = proc->data->data8000BEA8.unk_00;
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
@@ -136,7 +136,7 @@ struct procResult_s func_8000BEA8(proc_t *proc) {
         result.w[0] = 2;
         return result;
     }
-    if (IsSoundStopped(proc->unk_30->data8000BEA8.unk_04) != 0 || D_800B3994 >= 720) {
+    if (IsSoundStopped(proc->data->data8000BEA8.unk_04) != 0 || D_800B3994 >= 720) {
         KillOtherProcs(proc);
         InitObjs();
         PopMemStack(1);
@@ -153,11 +153,11 @@ struct procResult_s func_8000BEA8(proc_t *proc) {
     D_800B61AC = D_800B61AC - frameRetraces;
     D_800B3994 = D_800B3994 + frameRetraces;
     guTranslateF(mtx, 0, D_800BEE24, 0);
-    guRotateRPYF(rot, obj->unk_28, obj->unk_2C, obj->unk_30);
+    guRotateRPYF(rot, obj->roll, obj->pitch, obj->heading);
     guMtxCatF(mtx, rot, mtx);
-    obj->x = proc->unk_30->data8000BEA8.unk_0C + mtx[3][0];
-    obj->y = proc->unk_30->data8000BEA8.unk_10 + mtx[3][1];
-    obj->z = proc->unk_30->data8000BEA8.unk_14 + mtx[3][2];
+    obj->x = proc->data->data8000BEA8.unk_0C + mtx[3][0];
+    obj->y = proc->data->data8000BEA8.unk_10 + mtx[3][1];
+    obj->z = proc->data->data8000BEA8.unk_14 + mtx[3][2];
     if (D_800B3994 >= 721) {
         D_800B3994 = 720;
     }
@@ -169,7 +169,7 @@ struct procResult_s func_8000C310(proc_t *proc) {
     obj_t *obj;
     s32 event;
 
-    obj = proc->unk_30->data8000C310.unk_00;
+    obj = proc->data->data8000C310.unk_00;
     for (;;) {
         event = ProcGetMessage(proc);
         if (event == 0) {
@@ -188,7 +188,7 @@ struct procResult_s func_8000C310(proc_t *proc) {
     ProcClearMessages(proc);
     result.w[1] = 1;
     result.w[0] = 0;
-    obj->unk_2C -= (f32)frameRetraces;
+    obj->pitch -= (f32)frameRetraces;
     if (D_800B3994 >= 601) {
         obj->y = obj->y + frameRetraces;
     }
@@ -196,10 +196,10 @@ struct procResult_s func_8000C310(proc_t *proc) {
         obj->y = 40;
     }
     if (D_800B3994 % 2 == 1) {
-        if (obj->unk_48 == D_011358C0) {
-            obj->unk_48 = D_01135908;
+        if (obj->dl == D_011358C0) {
+            obj->dl = D_01135908;
         } else {
-            obj->unk_48 = D_011358C0;
+            obj->dl = D_011358C0;
         }
     }
     return result;
@@ -213,7 +213,7 @@ struct procResult_s func_8000C50C(proc_t *proc) {
     s32 event;
     s32 unused;  /* NOTE: unused in the original; func_8000C6C4 keeps an index here */
 
-    pos = proc->unk_30->data8000C50C.unk_00;
+    pos = proc->data->data8000C50C.unk_00;
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 34:
@@ -224,7 +224,7 @@ struct procResult_s func_8000C50C(proc_t *proc) {
         }
     }
     guTranslateF(mtxA, 0, 0, D_800BEE24);
-    guRotateRPYF(mtxB, 0, proc->unk_30->data8000C50C.unk_08 * 15, 0);
+    guRotateRPYF(mtxB, 0, proc->data->data8000C50C.unk_08 * 15, 0);
     guMtxCatF(mtxA, mtxB, mtxA);
     pos->x = mtxA[3][0];
     pos->y = mtxA[3][1];
@@ -242,7 +242,7 @@ struct procResult_s func_8000C6C4(proc_t *proc) {
     s32 event;
     s32 index;
 
-    pos = proc->unk_30->data8000C6C4.pos;
+    pos = proc->data->data8000C6C4.pos;
     for (;;) {
         event = ProcGetMessage(proc);
         if (event == 0) {
@@ -256,7 +256,7 @@ struct procResult_s func_8000C6C4(proc_t *proc) {
             return ret;
         }
     }
-    index = proc->unk_30->data8000C6C4.unk_08;
+    index = proc->data->data8000C6C4.unk_08;
     guTranslateF(mtx, (f32)D_800BEE24 * D_80057808[index].unk_08, (f32)D_800BEE24, 0);
     guRotateRPYF(rot, -61.317f, 58.385f, -9.848f);
     guMtxCatF(mtx, rot, mtx);
@@ -273,7 +273,7 @@ struct procResult_s func_8000C8A8(proc_t *proc) {
     obj_t *cam;
     s32 event;
 
-    cam = proc->unk_30->data8000C8A8.cam;
+    cam = proc->data->data8000C8A8.cam;
     ret.w[1] = 1;
     ret.w[0] = 0;
     for (;;) {
@@ -302,10 +302,10 @@ struct procResult_s func_8000C8A8(proc_t *proc) {
         }
     }
     if (playerPad.button & 0x10) {
-        cam->unk_30 = cam->unk_30 - 0.5;
+        cam->heading = cam->heading - 0.5;
     }
     if (playerPad.button & 0x20) {
-        cam->unk_30 = cam->unk_30 + 0.5;
+        cam->heading = cam->heading + 0.5;
     }
     if (playerPad.button & 0x200) {
         cam->z = (u16)cam->z + 10;
@@ -328,7 +328,7 @@ void func_8000CB58(obj_t *obj, frame_t *frame) {
     if (D_800B3994 >= 318) {
         guTranslate(&frame->translate[obj->index], (f32)obj->x, (f32)obj->y, (f32)obj->z);
         guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
-        guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
+        guRotateRPY(&frame->rotate[obj->index], obj->roll, obj->pitch, obj->heading);
         gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
@@ -362,14 +362,14 @@ void func_8000D400(obj_t *obj, frame_t *frame) {
     }
     guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
     guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
-    guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
+    guRotateRPY(&frame->rotate[obj->index], obj->roll, obj->pitch, obj->heading);
     guRotateRPY(&frame->unk_04C80, 0, D_800B61AC, 0);
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->unk_04C80, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPDisplayList(glistp++, D_010219C8);
-    gSPDisplayList(glistp++, obj->unk_48);
+    gSPDisplayList(glistp++, obj->dl);
 }
 
 void func_8000D6D8(obj_t *obj, frame_t *frame) {
@@ -377,13 +377,13 @@ void func_8000D6D8(obj_t *obj, frame_t *frame) {
         return;
     }
     guTranslate(&frame->rotate[obj->index], obj->x, obj->y, obj->z);
-    if (obj->unk_3C != 0) {
-        gSPMatrix(glistp++, obj->unk_3C, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+    if (obj->mtx != 0) {
+        gSPMatrix(glistp++, obj->mtx, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
     }
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
-    gSPDisplayList(glistp++, obj->unk_48);
+    gSPDisplayList(glistp++, obj->dl);
     gSPPopMatrix(glistp++, G_MTX_MODELVIEW);
-    if (obj->unk_3C != 0) {
+    if (obj->mtx != 0) {
         gSPPopMatrix(glistp++, G_MTX_MODELVIEW);
     }
 }
@@ -396,7 +396,7 @@ void func_8000D8B8(obj_t *obj, frame_t *frame) {
     }
     guTranslate(&frame->translate[obj->index], (f32)obj->x, (f32)obj->y, (f32)obj->z);
     guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
-    guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
+    guRotateRPY(&frame->rotate[obj->index], obj->roll, obj->pitch, obj->heading);
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
@@ -407,16 +407,16 @@ void func_8000D8B8(obj_t *obj, frame_t *frame) {
         gSPDisplayList(glistp++, D_80057F08[0][i].unk_00);
     }
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-    gSPDisplayList(glistp++, obj->unk_48);
+    gSPDisplayList(glistp++, obj->dl);
 }
 
 void func_8000DCA0(obj_t *obj, frame_t *frame) {
     if (D_800B3994 < 318) {
         return;
     }
-    obj->unk_2C += (f32)(frameRetraces * 2);
-    guRotateRPY(&frame->rotate[obj->index], obj->unk_28,
-                  obj->unk_2C, obj->unk_30);
+    obj->pitch += (f32)(frameRetraces * 2);
+    guRotateRPY(&frame->rotate[obj->index], obj->roll,
+                  obj->pitch, obj->heading);
     gSPMatrix(glistp++, &D_01176C88, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPDisplayList(glistp++, D_01166928);
@@ -457,7 +457,7 @@ struct procResult_s func_8000E4B0(proc_t *proc) {
     obj_t *sp20;
     s32 event;
 
-    sp20 = proc->unk_30->obj;
+    sp20 = proc->data->obj;
     result.w[1] = 1;
     result.w[0] = 0;
     while ((event = ProcGetMessage(proc)) != 0) {
@@ -479,7 +479,7 @@ struct procResult_s func_8000E4B0(proc_t *proc) {
     sp20 = func_80015848(0, 0, func_8000DF2C, 0x5020000);
     sp20->x = 64;
     sp20->y = 110;
-    proc->unk_30->obj = sp20;
+    proc->data->obj = sp20;
     func_800219B8(23, 16, 104, 20);
     result.w[1] = 2;
     result.w[0] = 16;
@@ -494,7 +494,7 @@ void func_8000E6B4(void) {
     func_80005700();
     sp14 = func_80015848(0, 0, func_800288CC, 0x5030000);
     task = CreatProc(func_8000E4B0, 0x8010000);
-    task->unk_30->obj = sp14;
+    task->data->obj = sp14;
 }
 
 void func_8000E738(void) {
@@ -527,31 +527,31 @@ void func_8000E7D4(void) {
     func_80015848(0, 0, func_8000DCA0, 0x8000000);
     for (i = 0; i < 14; i++) {
         task = CreatProc(func_8000C6C4, 0x8010000);
-        task->unk_30->data8000C6C4.unk_08 = i;
+        task->data->data8000C6C4.unk_08 = i;
         obj = func_80015848(task, D_80057808[i].unk_00, func_8000D6D8, 0x8010000);
-        obj->unk_3C = D_80057808[i].unk_04;
+        obj->mtx = D_80057808[i].unk_04;
     }
     task = CreatProc(func_8000C310, 0x8010000);
     obj = func_80015848(task, D_011356C0, func_8000D8B8, 0x8010000);
     obj->y = -20;
     task = CreatProc(func_8000BEA8, 0x8000000);
     obj = func_80015848(task, D_01197D78, func_8000D400, 0x8010000);
-    task->unk_30->data8000BEA8.unk_0C = -272.0f;
-    task->unk_30->data8000BEA8.unk_10 = 306.0f;
-    task->unk_30->data8000BEA8.unk_14 = -411.0f;
+    task->data->data8000BEA8.unk_0C = -272.0f;
+    task->data->data8000BEA8.unk_10 = 306.0f;
+    task->data->data8000BEA8.unk_14 = -411.0f;
     obj->x = -272;
     obj->y = 306;
     obj->z = -411;
-    obj->unk_28 = -61.317f;
-    obj->unk_2C = 58.385f;
-    obj->unk_30 = -9.848f;
+    obj->roll = -61.317f;
+    obj->pitch = 58.385f;
+    obj->heading = -9.848f;
     D_800B61AC = 0;
-    task->unk_30->data8000BEA8.unk_04 = PlaySound(15);
+    task->data->data8000BEA8.unk_04 = PlaySound(15);
     for (i = 0; i < 24; i++) {
         task = CreatProc(func_8000C50C, 0x8010000);
-        task->unk_30->data8000C50C.unk_08 = i;
+        task->data->data8000C50C.unk_08 = i;
         obj = func_80015848(task, D_800578B0[i], func_8000D6D8, 0x8010000);
-        obj->unk_3C = D_80057910[i];
+        obj->mtx = D_80057910[i];
     }
     func_80015848(0, 0, func_800287A4, 0x5000000);
     D_800B6198 = 721;

@@ -8,7 +8,7 @@ struct procResult_s func_8001B6BC(proc_t *proc) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (proc->unk_30->playerProc.player != D_800FB808) {
+    if (proc->data->playerProc.player != D_800FB808) {
         ProcClearMessages(proc);
         return ret;
     }
@@ -27,7 +27,7 @@ struct procResult_s func_8001B6BC(proc_t *proc) {
                 return ret;
             } else {
                 func_80017C00(3, 1);
-                func_8002EB90(func_8001A97C(proc->unk_30->playerProc.unk_0C) & 255);
+                func_8002EB90(func_8001A97C(proc->data->playerProc.unk_0C) & 255);
                 ProcPostMessage(proc, 5, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 60 / frameRetraces;
@@ -46,7 +46,7 @@ struct procResult_s func_8001B6BC(proc_t *proc) {
             if (func_80007888(D_800B61B5, 1) > 0) {
                 func_80007DAC(D_800B61B5);
                 task = CreatProc(func_80010574, 0x1000000);
-                task->unk_30->data80010574.letter = D_800B61B5;
+                task->data->data80010574.letter = D_800B61B5;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {

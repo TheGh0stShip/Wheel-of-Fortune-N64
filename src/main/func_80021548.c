@@ -14,8 +14,8 @@ struct procResult_s func_80021548(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            if (proc->unk_30->data80021548.unk_24 > 0) {
-                D_800B8294 = proc->unk_30->data80021548.unk_24;
+            if (proc->data->data80021548.unk_24 > 0) {
+                D_800B8294 = proc->data->data80021548.unk_24;
             }
             minRetraces = 4;
             break;
@@ -33,9 +33,9 @@ struct procResult_s func_80021548(proc_t *proc) {
         ret.w[0] = 1;
         if (D_800B40C4 == 2) {
             func_800A4E58(0);
-            func_800219B8(D_800BCA28, proc->unk_30->data80021548.unk_20, proc->unk_30->data80021548.unk_00->x, proc->unk_30->data80021548.unk_00->y);
-        } else if (proc->unk_30->data80021548.unk_20 != 0) {
-            ProcPostEvent(proc->unk_30->data80021548.unk_20);
+            func_800219B8(D_800BCA28, proc->data->data80021548.unk_20, proc->data->data80021548.unk_00->x, proc->data->data80021548.unk_00->y);
+        } else if (proc->data->data80021548.unk_20 != 0) {
+            ProcPostEvent(proc->data->data80021548.unk_20);
         }
     }
     return ret;

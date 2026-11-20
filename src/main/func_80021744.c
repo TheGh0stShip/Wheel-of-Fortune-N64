@@ -11,8 +11,8 @@ struct procResult_s func_80021744(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            if (proc->unk_30->data80021744.unk_24 > 0) {
-                D_800B8294 = proc->unk_30->data80021744.unk_24;
+            if (proc->data->data80021744.unk_24 > 0) {
+                D_800B8294 = proc->data->data80021744.unk_24;
             }
             minRetraces = 8;
             break;
@@ -30,9 +30,9 @@ struct procResult_s func_80021744(proc_t *proc) {
         minRetraces = 0;
         result.w[1] = 0;
         result.w[0] = 1;
-        func_800325D0(1, proc->unk_30->data80021744.unk_10);
-        if (proc->unk_30->data80021744.unk_20 != 0) {
-            ProcPostEvent(proc->unk_30->data80021744.unk_20);
+        func_800325D0(1, proc->data->data80021744.unk_10);
+        if (proc->data->data80021744.unk_20 != 0) {
+            ProcPostEvent(proc->data->data80021744.unk_20);
         }
     }
     return result;

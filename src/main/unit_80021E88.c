@@ -151,80 +151,80 @@ void func_80022784(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
 
 void func_800229D0(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
     PlaySound(44);
-    func_80022784(proc, images, &items[proc->unk_30->mainMenu.index], 0);
-    items[proc->unk_30->mainMenu.index].sel = proc->unk_30->mainMenu.sel;
+    func_80022784(proc, images, &items[proc->data->mainMenu.index], 0);
+    items[proc->data->mainMenu.index].sel = proc->data->mainMenu.sel;
     do {
-        proc->unk_30->mainMenu.index--;
-        if (proc->unk_30->mainMenu.index < 0) {
-            proc->unk_30->mainMenu.index = count - 1;
+        proc->data->mainMenu.index--;
+        if (proc->data->mainMenu.index < 0) {
+            proc->data->mainMenu.index = count - 1;
         }
-    } while (items[proc->unk_30->mainMenu.index].unk_00 == 0);
-    proc->unk_30->mainMenu.sel = items[proc->unk_30->mainMenu.index].sel;
-    if (items[proc->unk_30->mainMenu.index].callback != 0) {
-        items[proc->unk_30->mainMenu.index].callback(proc->unk_30->mainMenu.index);
+    } while (items[proc->data->mainMenu.index].unk_00 == 0);
+    proc->data->mainMenu.sel = items[proc->data->mainMenu.index].sel;
+    if (items[proc->data->mainMenu.index].callback != 0) {
+        items[proc->data->mainMenu.index].callback(proc->data->mainMenu.index);
     }
-    func_80022784(proc, images, &items[proc->unk_30->mainMenu.index], 1);
-    proc->unk_30->mainMenu.delay = 15;
+    func_80022784(proc, images, &items[proc->data->mainMenu.index], 1);
+    proc->data->mainMenu.delay = 15;
 }
 
 void func_80022BC8(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
     PlaySound(44);
-    func_80022784(proc, images, &items[proc->unk_30->mainMenu.index], 0);
-    items[proc->unk_30->mainMenu.index].sel = proc->unk_30->mainMenu.sel;
+    func_80022784(proc, images, &items[proc->data->mainMenu.index], 0);
+    items[proc->data->mainMenu.index].sel = proc->data->mainMenu.sel;
     do {
-        proc->unk_30->mainMenu.index++;
-        if (proc->unk_30->mainMenu.index >= count) {
-            proc->unk_30->mainMenu.index = 0;
+        proc->data->mainMenu.index++;
+        if (proc->data->mainMenu.index >= count) {
+            proc->data->mainMenu.index = 0;
         }
-    } while (items[proc->unk_30->mainMenu.index].unk_00 == 0);
-    proc->unk_30->mainMenu.sel = items[proc->unk_30->mainMenu.index].sel;
-    if (items[proc->unk_30->mainMenu.index].callback != 0) {
-        items[proc->unk_30->mainMenu.index].callback(proc->unk_30->mainMenu.index);
+    } while (items[proc->data->mainMenu.index].unk_00 == 0);
+    proc->data->mainMenu.sel = items[proc->data->mainMenu.index].sel;
+    if (items[proc->data->mainMenu.index].callback != 0) {
+        items[proc->data->mainMenu.index].callback(proc->data->mainMenu.index);
     }
-    func_80022784(proc, images, &items[proc->unk_30->mainMenu.index], 1);
-    proc->unk_30->mainMenu.delay = 15;
+    func_80022784(proc, images, &items[proc->data->mainMenu.index], 1);
+    proc->data->mainMenu.delay = 15;
 }
 
 void func_80022DC0(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
     PlaySound(43);
-    func_800226BC(&images[item->unk_0C + proc->unk_30->mainMenu.sel * item->cols],
+    func_800226BC(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols],
                   item->cols, 0);
-    proc->unk_30->mainMenu.sel--;
-    if (proc->unk_30->mainMenu.sel < 0) {
-        proc->unk_30->mainMenu.sel = item->rows - 1;
+    proc->data->mainMenu.sel--;
+    if (proc->data->mainMenu.sel < 0) {
+        proc->data->mainMenu.sel = item->rows - 1;
     }
     if (arg3 != 0) {
-        while ((contPattern >> proc->unk_30->mainMenu.sel) % 2 == 0 && proc->unk_30->mainMenu.sel != 4) {
-            proc->unk_30->mainMenu.sel--;
-            if (proc->unk_30->mainMenu.sel < 0) {
-                proc->unk_30->mainMenu.sel = item->rows - 1;
+        while ((contPattern >> proc->data->mainMenu.sel) % 2 == 0 && proc->data->mainMenu.sel != 4) {
+            proc->data->mainMenu.sel--;
+            if (proc->data->mainMenu.sel < 0) {
+                proc->data->mainMenu.sel = item->rows - 1;
             }
         }
     }
-    item->sel = proc->unk_30->mainMenu.sel;
-    func_800226BC(&images[item->unk_0C + proc->unk_30->mainMenu.sel * item->cols],
+    item->sel = proc->data->mainMenu.sel;
+    func_800226BC(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols],
                   item->cols, 1);
-    proc->unk_30->mainMenu.delay = 15;
+    proc->data->mainMenu.delay = 15;
 }
 
 void func_80022FE0(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
     PlaySound(43);
-    func_800226BC(&images[item->unk_0C + proc->unk_30->mainMenu.sel * item->cols], item->cols, 0);
-    proc->unk_30->mainMenu.sel++;
-    if (proc->unk_30->mainMenu.sel >= item->rows) {
-        proc->unk_30->mainMenu.sel = 0;
+    func_800226BC(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols], item->cols, 0);
+    proc->data->mainMenu.sel++;
+    if (proc->data->mainMenu.sel >= item->rows) {
+        proc->data->mainMenu.sel = 0;
     }
     if (arg3 != 0) {
-        while ((contPattern >> proc->unk_30->mainMenu.sel) % 2 == 0 && proc->unk_30->mainMenu.sel != 4) {
-            proc->unk_30->mainMenu.sel++;
-            if (proc->unk_30->mainMenu.sel >= item->rows) {
-                proc->unk_30->mainMenu.sel = 0;
+        while ((contPattern >> proc->data->mainMenu.sel) % 2 == 0 && proc->data->mainMenu.sel != 4) {
+            proc->data->mainMenu.sel++;
+            if (proc->data->mainMenu.sel >= item->rows) {
+                proc->data->mainMenu.sel = 0;
             }
         }
     }
-    item->sel = proc->unk_30->mainMenu.sel;
-    func_800226BC(&images[item->unk_0C + proc->unk_30->mainMenu.sel * item->cols], item->cols, 1);
-    proc->unk_30->mainMenu.delay = 15;
+    item->sel = proc->data->mainMenu.sel;
+    func_800226BC(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols], item->cols, 1);
+    proc->data->mainMenu.delay = 15;
 }
 
 void func_80023200(void) {
@@ -247,8 +247,8 @@ struct procResult_s func_800232AC(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            proc->unk_30->mainMenu.index = 0;
-            proc->unk_30->mainMenu.sel = D_800584C8[0].sel;
+            proc->data->mainMenu.index = 0;
+            proc->data->mainMenu.sel = D_800584C8[0].sel;
             func_80022784(proc, D_80058548, &D_800584C8[1], 0);
             func_80022784(proc, D_80058548, &D_800584C8[2], 0);
             func_80022784(proc, D_80058548, &D_800584C8[3], 0);
@@ -257,9 +257,9 @@ struct procResult_s func_800232AC(proc_t *proc) {
         }
     }
     if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
-        proc->unk_30->mainMenu.delay = 0;
+        proc->data->mainMenu.delay = 0;
         PlaySound(42);
-        switch (proc->unk_30->mainMenu.index) {
+        switch (proc->data->mainMenu.index) {
         case 0:
             func_80022BC8(proc, D_80058548, D_800584C8, 4);
             break;
@@ -291,17 +291,17 @@ struct procResult_s func_800232AC(proc_t *proc) {
     } else if ((buttonsPressed & 1024 & 0xFFFF) != 0) {
         func_80022BC8(proc, D_80058548, D_800584C8, 4);
     } else if ((buttonsPressed & 512 & 0xFFFF) != 0) {
-        func_80022DC0(proc, D_80058548, &D_800584C8[proc->unk_30->mainMenu.index], 1);
+        func_80022DC0(proc, D_80058548, &D_800584C8[proc->data->mainMenu.index], 1);
     } else if ((buttonsPressed & 256 & 0xFFFF) != 0) {
-        func_80022FE0(proc, D_80058548, &D_800584C8[proc->unk_30->mainMenu.index], 1);
+        func_80022FE0(proc, D_80058548, &D_800584C8[proc->data->mainMenu.index], 1);
     } else if ((buttonsPressed & 0x8000 & 0xFFFF) != 0) {
         return result;
     }
-    if (proc->unk_30->mainMenu.delay <= 0) {
+    if (proc->data->mainMenu.delay <= 0) {
         if (playerPad.stick_x >= 41) {
-            func_80022FE0(proc, D_80058548, &D_800584C8[proc->unk_30->mainMenu.index], 1);
+            func_80022FE0(proc, D_80058548, &D_800584C8[proc->data->mainMenu.index], 1);
         } else if (playerPad.stick_x < -40) {
-            func_80022DC0(proc, D_80058548, &D_800584C8[proc->unk_30->mainMenu.index], 1);
+            func_80022DC0(proc, D_80058548, &D_800584C8[proc->data->mainMenu.index], 1);
         }
         if (playerPad.stick_y >= 41) {
             func_800229D0(proc, D_80058548, D_800584C8, 4);
@@ -309,11 +309,11 @@ struct procResult_s func_800232AC(proc_t *proc) {
             func_80022BC8(proc, D_80058548, D_800584C8, 4);
         }
     } else {
-        proc->unk_30->mainMenu.delay -= frameRetraces;
+        proc->data->mainMenu.delay -= frameRetraces;
     }
-    cursor = proc->unk_30->mainMenu.index;
+    cursor = proc->data->mainMenu.index;
     if (cursor < 3) {
-        switch (proc->unk_30->mainMenu.sel) {
+        switch (proc->data->mainMenu.sel) {
         case 0:
             D_80058548[(cursor * 4) + 10].unk_20 = D_01158068;
             D_80058548[(cursor * 4) + 10].unk_24 = D_0115B868;
@@ -370,17 +370,17 @@ struct procResult_s func_80023CA4(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            proc->unk_30->mainMenu.index = 0;
-            proc->unk_30->mainMenu.sel = D_80058868[0].sel;
+            proc->data->mainMenu.index = 0;
+            proc->data->mainMenu.sel = D_80058868[0].sel;
             func_80022784(proc, D_800588F0, &D_80058868[1], 0);
             func_80022784(proc, D_800588F0, D_80058868, 1);
             return ret;
         }
     }
     if ((buttonsPressed & 0xA000) & 0xFFFF) {
-        proc->unk_30->mainMenu.delay = 0;
+        proc->data->mainMenu.delay = 0;
         PlaySound(42);
-        switch (proc->unk_30->mainMenu.index) {
+        switch (proc->data->mainMenu.index) {
         case 0:
             func_80022BC8(proc, D_800588F0, D_80058868, 2);
             break;
@@ -420,25 +420,25 @@ struct procResult_s func_80023CA4(proc_t *proc) {
     } else if ((buttonsPressed & 0x400) & 0xFFFF) {
         func_80022BC8(proc, D_800588F0, D_80058868, 2);
     } else if ((buttonsPressed & 0x200) & 0xFFFF) {
-        func_80022DC0(proc, D_800588F0, &D_80058868[proc->unk_30->mainMenu.index], 0);
-        if (proc->unk_30->mainMenu.index == 0) {
+        func_80022DC0(proc, D_800588F0, &D_80058868[proc->data->mainMenu.index], 0);
+        if (proc->data->mainMenu.index == 0) {
             func_80023B44();
         }
     } else if ((buttonsPressed & 0x100) & 0xFFFF) {
-        func_80022FE0(proc, D_800588F0, &D_80058868[proc->unk_30->mainMenu.index], 0);
-        if (proc->unk_30->mainMenu.index == 0) {
+        func_80022FE0(proc, D_800588F0, &D_80058868[proc->data->mainMenu.index], 0);
+        if (proc->data->mainMenu.index == 0) {
             func_80023B44();
         }
     }
-    if (proc->unk_30->mainMenu.delay <= 0) {
+    if (proc->data->mainMenu.delay <= 0) {
         if (playerPad.stick_x >= 41) {
-            func_80022FE0(proc, D_800588F0, &D_80058868[proc->unk_30->mainMenu.index], 0);
-            if (proc->unk_30->mainMenu.index == 0) {
+            func_80022FE0(proc, D_800588F0, &D_80058868[proc->data->mainMenu.index], 0);
+            if (proc->data->mainMenu.index == 0) {
                 func_80023B44();
             }
         } else if (playerPad.stick_x < -40) {
-            func_80022DC0(proc, D_800588F0, &D_80058868[proc->unk_30->mainMenu.index], 0);
-            if (proc->unk_30->mainMenu.index == 0) {
+            func_80022DC0(proc, D_800588F0, &D_80058868[proc->data->mainMenu.index], 0);
+            if (proc->data->mainMenu.index == 0) {
                 func_80023B44();
             }
         }
@@ -448,7 +448,7 @@ struct procResult_s func_80023CA4(proc_t *proc) {
             func_80022BC8(proc, D_800588F0, D_80058868, 2);
         }
     } else {
-        proc->unk_30->mainMenu.delay = proc->unk_30->mainMenu.delay - frameRetraces;
+        proc->data->mainMenu.delay = proc->data->mainMenu.delay - frameRetraces;
     }
     return ret;
 }
@@ -463,17 +463,17 @@ struct procResult_s func_80024370(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            proc->unk_30->mainMenu.index = 0;
-            proc->unk_30->mainMenu.sel = D_80058E70[0].sel;
+            proc->data->mainMenu.index = 0;
+            proc->data->mainMenu.sel = D_80058E70[0].sel;
             func_80022784(proc, D_80058EB0, &D_80058E70[1], 0);
             func_80022784(proc, D_80058EB0, D_80058E70, 1);
             return sp18;
         }
     }
     if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
-        proc->unk_30->mainMenu.delay = 0;
+        proc->data->mainMenu.delay = 0;
         PlaySound(42);
-        switch (proc->unk_30->mainMenu.index) {
+        switch (proc->data->mainMenu.index) {
         case 0:
             func_80022BC8(proc, D_80058EB0, D_80058E70, 2);
             break;
@@ -497,15 +497,15 @@ struct procResult_s func_80024370(proc_t *proc) {
     } else if ((buttonsPressed & 1024 & 0xFFFF) != 0) {
         func_80022BC8(proc, D_80058EB0, D_80058E70, 2);
     } else if ((buttonsPressed & 512 & 0xFFFF) != 0) {
-        func_80022DC0(proc, D_80058EB0, &D_80058E70[proc->unk_30->mainMenu.index], 0);
+        func_80022DC0(proc, D_80058EB0, &D_80058E70[proc->data->mainMenu.index], 0);
     } else if ((buttonsPressed & 256 & 0xFFFF) != 0) {
-        func_80022FE0(proc, D_80058EB0, &D_80058E70[proc->unk_30->mainMenu.index], 0);
+        func_80022FE0(proc, D_80058EB0, &D_80058E70[proc->data->mainMenu.index], 0);
     }
-    if (proc->unk_30->mainMenu.delay <= 0) {
+    if (proc->data->mainMenu.delay <= 0) {
         if (playerPad.stick_x >= 41) {
-            func_80022FE0(proc, D_80058EB0, &D_80058E70[proc->unk_30->mainMenu.index], 0);
+            func_80022FE0(proc, D_80058EB0, &D_80058E70[proc->data->mainMenu.index], 0);
         } else if (playerPad.stick_x < -40) {
-            func_80022DC0(proc, D_80058EB0, &D_80058E70[proc->unk_30->mainMenu.index], 0);
+            func_80022DC0(proc, D_80058EB0, &D_80058E70[proc->data->mainMenu.index], 0);
         }
         if (playerPad.stick_y >= 41) {
             func_800229D0(proc, D_80058EB0, D_80058E70, 2);
@@ -513,7 +513,7 @@ struct procResult_s func_80024370(proc_t *proc) {
             func_80022BC8(proc, D_80058EB0, D_80058E70, 2);
         }
     } else {
-        proc->unk_30->mainMenu.delay = proc->unk_30->mainMenu.delay - frameRetraces;
+        proc->data->mainMenu.delay = proc->data->mainMenu.delay - frameRetraces;
     }
     return sp18;
 }
@@ -528,17 +528,17 @@ struct procResult_s func_80024868(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            proc->unk_30->mainMenu.index = 0;
-            proc->unk_30->mainMenu.sel = D_80058FC8[0].sel;
+            proc->data->mainMenu.index = 0;
+            proc->data->mainMenu.sel = D_80058FC8[0].sel;
             func_80022784(proc, D_80059008, &D_80058FC8[1], 0);
             func_80022784(proc, D_80059008, D_80058FC8, 1);
             return result;
         }
     }
     if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
-        proc->unk_30->mainMenu.delay = 0;
+        proc->data->mainMenu.delay = 0;
         PlaySound(42);
-        switch (proc->unk_30->mainMenu.index) {
+        switch (proc->data->mainMenu.index) {
         case 0:
             func_80022BC8(proc, D_80059008, D_80058FC8, 2);
             break;
@@ -562,15 +562,15 @@ struct procResult_s func_80024868(proc_t *proc) {
     } else if ((buttonsPressed & 1024 & 0xFFFF) != 0) {
         func_80022BC8(proc, D_80059008, D_80058FC8, 2);
     } else if ((buttonsPressed & 512 & 0xFFFF) != 0) {
-        func_80022DC0(proc, D_80059008, &D_80058FC8[proc->unk_30->mainMenu.index], 0);
+        func_80022DC0(proc, D_80059008, &D_80058FC8[proc->data->mainMenu.index], 0);
     } else if ((buttonsPressed & 256 & 0xFFFF) != 0) {
-        func_80022FE0(proc, D_80059008, &D_80058FC8[proc->unk_30->mainMenu.index], 0);
+        func_80022FE0(proc, D_80059008, &D_80058FC8[proc->data->mainMenu.index], 0);
     }
-    if (proc->unk_30->mainMenu.delay <= 0) {
+    if (proc->data->mainMenu.delay <= 0) {
         if (playerPad.stick_x >= 41) {
-            func_80022FE0(proc, D_80059008, &D_80058FC8[proc->unk_30->mainMenu.index], 0);
+            func_80022FE0(proc, D_80059008, &D_80058FC8[proc->data->mainMenu.index], 0);
         } else if (playerPad.stick_x < -40) {
-            func_80022DC0(proc, D_80059008, &D_80058FC8[proc->unk_30->mainMenu.index], 0);
+            func_80022DC0(proc, D_80059008, &D_80058FC8[proc->data->mainMenu.index], 0);
         }
         if (playerPad.stick_y >= 41) {
             func_800229D0(proc, D_80059008, D_80058FC8, 2);
@@ -578,7 +578,7 @@ struct procResult_s func_80024868(proc_t *proc) {
             func_80022BC8(proc, D_80059008, D_80058FC8, 2);
         }
     } else {
-        proc->unk_30->mainMenu.delay -= frameRetraces;
+        proc->data->mainMenu.delay -= frameRetraces;
     }
     return result;
 }
@@ -626,8 +626,8 @@ struct procResult_s func_80025150(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            proc->unk_30->mainMenu.index = 0;
-            proc->unk_30->mainMenu.sel = 0;
+            proc->data->mainMenu.index = 0;
+            proc->data->mainMenu.sel = 0;
             func_80022784(proc, D_80058B28, D_80058AA8, 1);
             func_80022784(proc, D_80058B28, &D_80058AA8[1], 0);
             func_80022784(proc, D_80058B28, &D_80058AA8[2], 0);
@@ -645,8 +645,8 @@ struct procResult_s func_80025150(proc_t *proc) {
     }
     if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
         PlaySound(42);
-        proc->unk_30->mainMenu.delay = 0;
-        switch (proc->unk_30->mainMenu.index) {
+        proc->data->mainMenu.delay = 0;
+        switch (proc->data->mainMenu.index) {
         case 0:
             func_8002500C();
             PopMemStack(1);
@@ -692,9 +692,9 @@ struct procResult_s func_80025150(proc_t *proc) {
     } else if ((buttonsPressed & 0x400 & 0xFFFF) != 0) {
         func_80022BC8(proc, D_80058B28, D_80058AA8, 4);
     } else if ((buttonsPressed & 0x200 & 0xFFFF) != 0) {
-        func_80022DC0(proc, D_80058B28, &D_80058AA8[proc->unk_30->mainMenu.index], 0);
+        func_80022DC0(proc, D_80058B28, &D_80058AA8[proc->data->mainMenu.index], 0);
     } else if ((buttonsPressed & 0x100 & 0xFFFF) != 0) {
-        func_80022FE0(proc, D_80058B28, &D_80058AA8[proc->unk_30->mainMenu.index], 0);
+        func_80022FE0(proc, D_80058B28, &D_80058AA8[proc->data->mainMenu.index], 0);
     } else if ((buttonsPressed & 0x4 & 0xFFFF) != 0) {
         return ret;
     } else if ((buttonsPressed & 0x8 & 0xFFFF) != 0) {
@@ -702,11 +702,11 @@ struct procResult_s func_80025150(proc_t *proc) {
     } else if ((buttonsPressed & 0x4000 & 0xFFFF) != 0) {
         return ret;
     }
-    if (proc->unk_30->mainMenu.delay <= 0) {
+    if (proc->data->mainMenu.delay <= 0) {
         if (playerPad.stick_x >= 41) {
-            func_80022FE0(proc, D_80058B28, &D_80058AA8[proc->unk_30->mainMenu.index], 0);
+            func_80022FE0(proc, D_80058B28, &D_80058AA8[proc->data->mainMenu.index], 0);
         } else if (playerPad.stick_x < -40) {
-            func_80022DC0(proc, D_80058B28, &D_80058AA8[proc->unk_30->mainMenu.index], 0);
+            func_80022DC0(proc, D_80058B28, &D_80058AA8[proc->data->mainMenu.index], 0);
         }
         if (playerPad.stick_y >= 41) {
             func_800229D0(proc, D_80058B28, D_80058AA8, 4);
@@ -714,7 +714,7 @@ struct procResult_s func_80025150(proc_t *proc) {
             func_80022BC8(proc, D_80058B28, D_80058AA8, 4);
         }
     } else {
-        proc->unk_30->mainMenu.delay = proc->unk_30->mainMenu.delay - frameRetraces;
+        proc->data->mainMenu.delay = proc->data->mainMenu.delay - frameRetraces;
     }
     return ret;
 }

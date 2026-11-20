@@ -16,11 +16,11 @@ struct procResult_s func_8002D930(proc_t *proc) {
         switch (event) {
         case 8:
             func_8002D8B0(proc);
-            D_8005A998[proc->unk_30->cursor.index].unk_10 = 1;
-            proc->unk_30->cursor.unk_0C = 0;
+            D_8005A998[proc->data->cursor.index].unk_10 = 1;
+            proc->data->cursor.unk_0C = 0;
             return result;
         case 23:
-            D_8005A998[proc->unk_30->cursor.index].unk_10 = 0;
+            D_8005A998[proc->data->cursor.index].unk_10 = 0;
             ProcPostEvent(5);
             result.w[1] = 0;
             result.w[0] = 0;
@@ -36,23 +36,23 @@ struct procResult_s func_8002D930(proc_t *proc) {
             return result;
         }
     }
-    D_800B61B5 = proc->unk_30->cursor.index + 65;
-    D_8005A998[proc->unk_30->cursor.index].unk_10 = 0;
+    D_800B61B5 = proc->data->cursor.index + 65;
+    D_8005A998[proc->data->cursor.index].unk_10 = 0;
     if (D_800B9990[D_800FB808].unk_014 == 4) {
-        D_8005A998[proc->unk_30->cursor.index].unk_10 = 1;
+        D_8005A998[proc->data->cursor.index].unk_10 = 1;
         return result;
     }
     if ((buttonsPressed & 0xA000) != 0) {
         D_800BED88++;
-        if (D_800B966A[proc->unk_30->cursor.index] != ' ') {
-            D_800B61B5 = proc->unk_30->cursor.index + 65;
+        if (D_800B966A[proc->data->cursor.index] != ' ') {
+            D_800B61B5 = proc->data->cursor.index + 65;
             ProcPostEvent(5);
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
         } else {
             if (D_800B619C != 6) {
-                D_800B61B5 = proc->unk_30->cursor.index + 65;
+                D_800B61B5 = proc->data->cursor.index + 65;
                 ProcPostEvent(5);
                 result.w[1] = 0;
                 result.w[0] = 0;
@@ -63,7 +63,7 @@ struct procResult_s func_8002D930(proc_t *proc) {
             return result;
         }
     }
-    if (proc->unk_30->cursor.unk_0C <= 0) {
+    if (proc->data->cursor.unk_0C <= 0) {
         if ((playerPad.button & 0x800) != 0) {
             func_8002ACE8(proc);
         } else if ((playerPad.button & 0x400) != 0) {
@@ -87,13 +87,13 @@ struct procResult_s func_8002D930(proc_t *proc) {
             }
         }
     } else {
-        proc->unk_30->cursor.unk_0C -= frameRetraces;
+        proc->data->cursor.unk_0C -= frameRetraces;
     }
-    if (proc->unk_30->cursor.index < 0) {
-        proc->unk_30->cursor.index = 25;
-    } else if (proc->unk_30->cursor.index >= 26) {
-        proc->unk_30->cursor.index = 0;
+    if (proc->data->cursor.index < 0) {
+        proc->data->cursor.index = 25;
+    } else if (proc->data->cursor.index >= 26) {
+        proc->data->cursor.index = 0;
     }
-    D_8005A998[proc->unk_30->cursor.index].unk_10 = 1;
+    D_8005A998[proc->data->cursor.index].unk_10 = 1;
     return result;
 }

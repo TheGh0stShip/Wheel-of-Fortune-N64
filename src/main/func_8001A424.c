@@ -6,5 +6,5 @@ void func_8001A424(s32 arg0) {
     s32 unused2;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     task = CreatProc(func_80019AAC, arg0 | 0x2020000);
-    task->unk_30->playerProc.player = arg0;
+    task->data->playerProc.player = arg0;
 }

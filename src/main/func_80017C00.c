@@ -17,7 +17,7 @@ void func_80017C00(s32 arg0, s32 arg1) {
         task = FindProc(0x2010000, 0xFFFF0000);
         if (task == 0 && arg1 == 0) {
             task = CreatProc(func_80017938, D_800FB808 | 0x2010000);
-            task->unk_30->data80017938.unk_04 = D_800FB808;
+            task->data->data80017938.unk_04 = D_800FB808;
         }
         func_80016944(sp10, arg0);
         return;

@@ -13,11 +13,11 @@ struct procResult_s func_80029C98(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            proc->unk_30->data80029C98.unk_10 = 0;
+            proc->data->data80029C98.unk_10 = 0;
         }
     }
-    proc->unk_30->data80029C98.unk_10 = proc->unk_30->data80029C98.unk_10 + 1;
-    count = proc->unk_30->data80029C98.unk_10;
+    proc->data->data80029C98.unk_10 = proc->data->data80029C98.unk_10 + 1;
+    count = proc->data->data80029C98.unk_10;
     if (count >= 17) {
         for (i = 0; i < 9; i++) {
             D_8005B360[i].unk_20 = 0;

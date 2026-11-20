@@ -3,10 +3,10 @@
 
 
 void StartRumble(s32 cont, s32 frames, f32 strength) {
-    if (rumbles[cont].unk_00 == 0) {
+    if (rumbles[cont].present == 0) {
         return;
     }
-    rumbles[cont].unk_0C = frames;
-    rumbles[cont].unk_08 = strength;
-    rumbles[cont].unk_04 = 0;
+    rumbles[cont].frames = frames;
+    rumbles[cont].strength = strength;
+    rumbles[cont].level = 0;
 }

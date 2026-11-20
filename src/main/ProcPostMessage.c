@@ -14,8 +14,8 @@ void ProcPostMessage(proc_t *proc, s32 msg, s32 wake) {
         proc->items[proc->count] = msg;
         proc->count++;
         if (wake != 0) {
-            proc->unk_14 = 0;
-            proc->unk_0C = 0;
+            proc->waiting = 0;
+            proc->sleep = 0;
         }
         return;
     }

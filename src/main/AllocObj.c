@@ -9,7 +9,7 @@ obj_t *AllocObj(void) {
     }
     i = 1;
     while (i < 100) {
-        if (objst[i].unk_0C == 0) {
+        if (objst[i].draw == 0) {
             numObjs++;
             return &objst[i];
         }

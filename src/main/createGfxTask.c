@@ -10,9 +10,9 @@ void createGfxTask(gfxInfo_t *info) {
         D_800BEE2C = cam->x;
         D_800BEE30 = cam->y;
         D_800BEE34 = cam->z;
-        D_800BEE3C = cam->unk_28;
-        D_800BEE40 = cam->unk_2C;
-        D_800BEE44 = cam->unk_30;
+        D_800BEE3C = cam->roll;
+        D_800BEE40 = cam->pitch;
+        D_800BEE44 = cam->heading;
     }
     frame = &info->frame;
     glistp = info->frame.glist;

@@ -17,8 +17,8 @@ void ProcPostMessageClass(s32 msg, s32 cls, s32 mask, s32 wake) {
             func_80009F38("ProcPostMessageClass: Message Que overrun.\n");
         }
         if (wake != 0) {
-            node->unk_14 = 0;
-            node->unk_0C = 0;
+            node->waiting = 0;
+            node->sleep = 0;
         }
         node = FindNextProc(node, cls, mask);
     }

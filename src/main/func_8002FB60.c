@@ -16,13 +16,13 @@ struct procResult_s func_8002FB60(proc_t *proc) {
         }
         switch (sp28) {
         case 8:
-            proc->unk_30->timer.start = (s32)(osGetTime() / osClockRate);
+            proc->data->timer.start = (s32)(osGetTime() / osClockRate);
             break;
         }
     }
-    proc->unk_30->timer.start = proc->unk_30->timer.start + D_800BCA1C;
+    proc->data->timer.start = proc->data->timer.start + D_800BCA1C;
     sp2C = (s32)(osGetTime() / osClockRate);
-    if ((sp2C - proc->unk_30->timer.start) >= 5) {
+    if ((sp2C - proc->data->timer.start) >= 5) {
         ProcPostEvent(48);
         sp10.w[1] = 0;
     }

@@ -6,7 +6,7 @@ obj_t *FindObj(s32 cls, s32 mask) {
     node = &objst[0];
     while (node->next != 0) {
         node = node->next;
-        if ((node->unk_08 & mask) == cls) {
+        if ((node->cls & mask) == cls) {
             return node;
         }
     }

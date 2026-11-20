@@ -27,9 +27,9 @@ void func_800325D0(s32 arg0, s32 arg1) {
         KillProc(task, 0);
     }
     task = CreatProc(func_800315FC, arg1 | 0xA000300);
-    task->unk_30->anim.unk_04 = arg1;
-    task->unk_30->anim.unk_08 = D_8005C3B8[kind][arg0].unk_18;
-    task->unk_30->anim.unk_18 = D_8005C3B8[kind][arg0].count;
-    task->unk_30->anim.unk_1C = D_8005C3B8[kind][arg0].unk_10;
-    task->unk_30->anim.obj = obj;
+    task->data->anim.unk_04 = arg1;
+    task->data->anim.unk_08 = D_8005C3B8[kind][arg0].unk_18;
+    task->data->anim.unk_18 = D_8005C3B8[kind][arg0].count;
+    task->data->anim.unk_1C = D_8005C3B8[kind][arg0].unk_10;
+    task->data->anim.obj = obj;
 }

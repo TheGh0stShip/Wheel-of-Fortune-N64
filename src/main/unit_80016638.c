@@ -51,7 +51,7 @@ struct procResult_s func_80016734(proc_t *proc) {
     struct procResult_s result;
     obj_t *sp28;
 
-    sp28 = proc->unk_30->data80016734.unk_00;
+    sp28 = proc->data->data80016734.unk_00;
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
@@ -61,19 +61,19 @@ struct procResult_s func_80016734(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            D_800BA5D8 = &proc->unk_30->data80016734.unk_08[proc->unk_30->data80016734.unk_0C];
+            D_800BA5D8 = &proc->data->data80016734.unk_08[proc->data->data80016734.unk_0C];
             return result;
         }
     }
-    proc->unk_30->data80016734.unk_0C += frameRetraces;
-    if (proc->unk_30->data80016734.unk_0C >= proc->unk_30->data80016734.unk_10) {
-        D_800BA5D8 = proc->unk_30->data80016734.unk_08 - 1 + proc->unk_30->data80016734.unk_10;
+    proc->data->data80016734.unk_0C += frameRetraces;
+    if (proc->data->data80016734.unk_0C >= proc->data->data80016734.unk_10) {
+        D_800BA5D8 = proc->data->data80016734.unk_08 - 1 + proc->data->data80016734.unk_10;
         ProcPostEvent(45);
         result.w[1] = 0;
         result.w[0] = 0;
         return result;
     }
-    D_800BA5D8 = &proc->unk_30->data80016734.unk_08[proc->unk_30->data80016734.unk_0C];
+    D_800BA5D8 = &proc->data->data80016734.unk_08[proc->data->data80016734.unk_0C];
     return result;
 }
 
@@ -85,22 +85,22 @@ void func_80016944(obj_t *obj, s32 arg1) {
     obj->x = D_80057F50[arg1].x;
     obj->y = D_80057F50[arg1].y;
     obj->z = D_80057F50[arg1].z;
-    obj->unk_28 = D_80057F50[arg1].unk_0C;
-    obj->unk_2C = D_80057F50[arg1].unk_10;
-    obj->unk_30 = D_80057F50[arg1].unk_14;
-    obj->unk_48 = 0;
+    obj->roll = D_80057F50[arg1].roll;
+    obj->pitch = D_80057F50[arg1].pitch;
+    obj->heading = D_80057F50[arg1].heading;
+    obj->dl = 0;
     task = FindProc(0x3010000, -1);
     if (task != 0) {
         KillProc(task, 0);
     }
     if (D_80057F50[arg1].path != 0) {
         task = CreatProc(func_80016734, 0x3010000);
-        task->unk_30->data80016734.unk_08 = D_80057F50[arg1].path;
-        task->unk_30->data80016734.unk_0C = 0;
-        task->unk_30->data80016734.unk_10 = D_80057F50[arg1].count;
-        D_800B6BE8 = D_80057F50[arg1].unk_0C;
-        D_800B6BEC = D_80057F50[arg1].unk_10;
-        D_800B6BF0 = D_80057F50[arg1].unk_14;
+        task->data->data80016734.unk_08 = D_80057F50[arg1].path;
+        task->data->data80016734.unk_0C = 0;
+        task->data->data80016734.unk_10 = D_80057F50[arg1].count;
+        D_800B6BE8 = D_80057F50[arg1].roll;
+        D_800B6BEC = D_80057F50[arg1].pitch;
+        D_800B6BF0 = D_80057F50[arg1].heading;
         return;
     }
     D_800BA5D8 = 0;
@@ -120,7 +120,7 @@ struct procResult_s func_80016BEC(proc_t *proc) {
     struct procResult_s result;
     obj_t *sp20;
 
-    sp20 = proc->unk_30->obj;
+    sp20 = proc->data->obj;
     ProcClearMessages(proc);
     result.w[1] = 1;
     result.w[0] = 0;
@@ -155,12 +155,12 @@ void func_80016C78(obj_t *obj, frame_t *frame) {
     } else {
         guTranslateF(eye, 0, 0, -1000.0f);
         guScaleF(scale, obj->scale, obj->scale, obj->scale);
-        guRotateRPYF(rot, obj->unk_28, obj->unk_2C, obj->unk_30);
+        guRotateRPYF(rot, obj->roll, obj->pitch, obj->heading);
         guMtxCatF(eye, scale, eye);
         guMtxCatF(eye, rot, eye);
         guTranslateF(up, 0, 1.0f, 0);
         guScaleF(scale, obj->scale, obj->scale, obj->scale);
-        guRotateRPYF(rot, obj->unk_28, obj->unk_2C, obj->unk_30);
+        guRotateRPYF(rot, obj->roll, obj->pitch, obj->heading);
         guMtxCatF(up, scale, up);
         guMtxCatF(up, rot, up);
         guLookAt(&frame->viewing, obj->x, obj->y, obj->z, eye[3][0] + obj->x, eye[3][1] + obj->y, eye[3][2] + obj->z, up[3][0], up[3][1], up[3][2]);
@@ -173,11 +173,11 @@ void func_80016C78(obj_t *obj, frame_t *frame) {
 void func_8001745C(proc_t *proc) {
     obj_t *handle;
 
-    handle = CreatObj(proc->unk_04, func_80016C78, 0x3000000);
+    handle = CreatObj(proc->id, func_80016C78, 0x3000000);
     if (handle == 0) {
         return;
     }
-    proc->unk_30->obj = handle;
+    proc->data->obj = handle;
     func_80016944(handle, 1);
 }
 

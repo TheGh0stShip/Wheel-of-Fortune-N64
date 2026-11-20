@@ -15,7 +15,7 @@ void func_800212C0(proc_t *proc) {
     base = 0x2000000;
     diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_19C00);
     diff = diff - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
-    proc->unk_30->data80021548.unk_00->unk_44 = base + diff;
+    proc->data->data80021548.unk_00->image = base + diff;
     if (D_800B40C4 == 0) {
         D_800B40C4 = func_8009D244();
     }

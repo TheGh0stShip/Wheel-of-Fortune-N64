@@ -10,7 +10,7 @@ struct procResult_s func_8001933C(proc_t *proc) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (proc->unk_30->playerProc.player != D_800FB808) {
+    if (proc->data->playerProc.player != D_800FB808) {
         ProcClearMessages(proc);
         return ret;
     }

@@ -14,8 +14,8 @@ struct procResult_s func_8002CBF4(proc_t *proc) {
         case 27:
             D_800BED88++;
             func_8002AFDC();
-            proc->unk_30->cursor.index = D_800B61B5 - 48;
-            D_8005A828[proc->unk_30->cursor.index].unk_1C = D_8005A828[proc->unk_30->cursor.index].unk_14;
+            proc->data->cursor.index = D_800B61B5 - 48;
+            D_8005A828[proc->data->cursor.index].unk_1C = D_8005A828[proc->data->cursor.index].unk_14;
             break;
         case 8:
             func_8002AFDC();
@@ -42,8 +42,8 @@ struct procResult_s func_8002CBF4(proc_t *proc) {
             func_8002AFDC();
             func_80029974(0);
             func_80028C4C(proc);
-            D_8005A828[proc->unk_30->cursor.index].unk_10 = 1;
-            proc->unk_30->cursor.unk_0C = 0;
+            D_8005A828[proc->data->cursor.index].unk_10 = 1;
+            proc->data->cursor.unk_0C = 0;
             return result;
         case 15:
             D_800BED88++;
@@ -52,8 +52,8 @@ struct procResult_s func_8002CBF4(proc_t *proc) {
             func_80029440();
             D_800B9CEC = 0;
             func_8002A014();
-            D_8005A828[proc->unk_30->cursor.index].unk_10 = 1;
-            proc->unk_30->cursor.unk_0C = 0;
+            D_8005A828[proc->data->cursor.index].unk_10 = 1;
+            proc->data->cursor.unk_0C = 0;
             func_80029974(0);
         case 1:
             D_800BED88++;
@@ -110,17 +110,17 @@ struct procResult_s func_8002CBF4(proc_t *proc) {
         func_80009F38("Status Proc: player proc does not exist\n");
     }
     if (D_800BCA00 == 1) {
-        D_8005A828[proc->unk_30->cursor.index].unk_10 = 0;
+        D_8005A828[proc->data->cursor.index].unk_10 = 0;
         return result;
     }
     if (D_800B9990[D_800FB808].unk_014 == 4) {
-        D_8005A828[proc->unk_30->cursor.index].unk_10 = 1;
+        D_8005A828[proc->data->cursor.index].unk_10 = 1;
         return result;
     }
     if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
         D_800BED88++;
-        proc->unk_30->cursor.unk_0C = 0;
-        switch (proc->unk_30->cursor.index) {
+        proc->data->cursor.unk_0C = 0;
+        switch (proc->data->cursor.index) {
         case 0:
             if (D_800B9CF8 != 0) {
                 ProcPostEvent(12);
@@ -175,20 +175,20 @@ struct procResult_s func_8002CBF4(proc_t *proc) {
     } else if ((buttonsPressed & 0x4000 & 0xFFFF) != 0) {
         return result;
     }
-    if (proc->unk_30->cursor.unk_0C <= 0) {
+    if (proc->data->cursor.unk_0C <= 0) {
         if (playerPad.stick_y >= 41) {
             func_8002A8C8(proc, 0);
         } else if (playerPad.stick_y < -40) {
             func_8002AAD0(proc, 0, 1);
         }
     } else {
-        proc->unk_30->cursor.unk_0C -= frameRetraces;
+        proc->data->cursor.unk_0C -= frameRetraces;
     }
-    if (proc->unk_30->cursor.index < 0) {
-        proc->unk_30->cursor.index = 3;
-    } else if (proc->unk_30->cursor.index >= 4) {
-        proc->unk_30->cursor.index = 0;
+    if (proc->data->cursor.index < 0) {
+        proc->data->cursor.index = 3;
+    } else if (proc->data->cursor.index >= 4) {
+        proc->data->cursor.index = 0;
     }
-    D_8005A828[proc->unk_30->cursor.index].unk_10 = 1;
+    D_8005A828[proc->data->cursor.index].unk_10 = 1;
     return result;
 }

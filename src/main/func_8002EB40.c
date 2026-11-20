@@ -4,5 +4,5 @@ void func_8002EB40(void) {
     proc_t *task;
 
     task = CreatProc(func_8002D930, 0x5010000);
-    task->unk_30->cursor.index = 6;
+    task->data->cursor.index = 6;
 }

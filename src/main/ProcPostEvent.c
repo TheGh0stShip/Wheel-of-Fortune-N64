@@ -11,10 +11,10 @@ void ProcPostEvent(s32 event) {
     node = &procst[0];
     while (node->next != 0) {
         node = node->next;
-        if (node->unk_10 == event || node->unk_10 == -1) {
-            node->unk_10 = 0;
-            node->unk_14 = 0;
-            node->unk_0C = 0;
+        if (node->event == event || node->event == -1) {
+            node->event = 0;
+            node->waiting = 0;
+            node->sleep = 0;
             if (node->count < 5) {
                 node->items[node->count] = event;
                 node->count++;

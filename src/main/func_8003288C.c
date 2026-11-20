@@ -24,12 +24,12 @@ proc_t *func_8003288C(s32 arg0, s32 arg1) {
     task = CreatProc(func_80031A54, 0xA000400);
     child = func_80015848(task, 0, func_80030B5C, 0xA030000);
     child->x = D_800B9988;
-    task->unk_30->vannaAnim.unk_0C = id;
-    task->unk_30->vannaAnim.unk_08 = D_8005C7F0[arg0].unk_18;
-    task->unk_30->vannaAnim.unk_18 = D_8005C7F0[arg0].count;
-    task->unk_30->vannaAnim.unk_14 = D_8005C7F0[arg0].unk_0C;
-    task->unk_30->vannaAnim.unk_1C = D_8005C7F0[arg0].unk_10;
-    task->unk_30->vannaAnim.unk_20 = D_8005C7F0[arg0].unk_14;
-    task->unk_30->vannaAnim.obj = child;
+    task->data->vannaAnim.unk_0C = id;
+    task->data->vannaAnim.unk_08 = D_8005C7F0[arg0].unk_18;
+    task->data->vannaAnim.unk_18 = D_8005C7F0[arg0].count;
+    task->data->vannaAnim.unk_14 = D_8005C7F0[arg0].unk_0C;
+    task->data->vannaAnim.unk_1C = D_8005C7F0[arg0].unk_10;
+    task->data->vannaAnim.unk_20 = D_8005C7F0[arg0].unk_14;
+    task->data->vannaAnim.obj = child;
     return task;
 }

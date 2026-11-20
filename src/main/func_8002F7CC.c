@@ -16,12 +16,12 @@ struct procResult_s func_8002F7CC(proc_t *proc) {
         }
         switch (sp28) {
         case 8:
-            proc->unk_30->timer.start = (s32)(osGetTime() / osClockRate);
+            proc->data->timer.start = (s32)(osGetTime() / osClockRate);
             break;
         }
     }
     sp2C = (s32)(osGetTime() / osClockRate);
-    if (((sp2C - proc->unk_30->timer.start) >= 30) || (((buttonsPressed & 0x1000) & 0xFFFF) != 0)) {
+    if (((sp2C - proc->data->timer.start) >= 30) || (((buttonsPressed & 0x1000) & 0xFFFF) != 0)) {
         ProcPostMessageClass(34, 0, 0, 1);
         sp10.w[1] = 0;
     }

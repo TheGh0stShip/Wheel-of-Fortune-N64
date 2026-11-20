@@ -9,7 +9,7 @@ struct procResult_s func_8001AE18(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    if (proc->unk_30->playerProc.player != D_800FB808) {
+    if (proc->data->playerProc.player != D_800FB808) {
         ProcClearMessages(proc);
         return result;
     }
@@ -23,9 +23,9 @@ struct procResult_s func_8001AE18(proc_t *proc) {
             func_80017C00(0, 1);
             task = CreatProc(func_8000FDFC, 0x4000000);
             target = FindObj(0x4010000, 0xFFFF0000);
-            task->unk_30->data8000FDFC.unk_00 = target;
-            task->unk_30->data8000FDFC.unk_0C = (f32)(guRandom() % 50 + 100);
-            if ((f64)task->unk_30->data8000FDFC.unk_0C > 80.0) {
+            task->data->data8000FDFC.unk_00 = target;
+            task->data->data8000FDFC.unk_0C = (f32)(guRandom() % 50 + 100);
+            if ((f64)task->data->data8000FDFC.unk_0C > 80.0) {
                 ProcPostMessage(proc, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 30 / frameRetraces;
@@ -83,7 +83,7 @@ struct procResult_s func_8001AE18(proc_t *proc) {
             }
             func_80032B10();
             func_80017C00(3, 1);
-            func_8002EB90(func_8001A894(proc->unk_30->playerProc.unk_0C, proc) & 255);
+            func_8002EB90(func_8001A894(proc->data->playerProc.unk_0C, proc) & 255);
             ProcPostMessage(proc, 5, 0);
             result.w[1] = 1;
             result.w[0] = 60 / frameRetraces;
@@ -108,7 +108,7 @@ struct procResult_s func_8001AE18(proc_t *proc) {
             if (func_80007888(D_800B61B5, 0) > 0) {
                 func_80007DAC(D_800B61B5);
                 task = CreatProc(func_80010574, 0x1000000);
-                task->unk_30->data80010574.letter = D_800B61B5;
+                task->data->data80010574.letter = D_800B61B5;
                 result.w[1] = 2;
                 result.w[0] = 6;
                 return result;

@@ -10,7 +10,7 @@ struct procResult_s func_8001BED8(proc_t *proc) {
 
     sp10.w[1] = 1;
     sp10.w[0] = 0;
-    if (proc->unk_30->playerProc.player != D_800FB808) {
+    if (proc->data->playerProc.player != D_800FB808) {
         ProcClearMessages(proc);
         return sp10;
     }
@@ -22,16 +22,16 @@ struct procResult_s func_8001BED8(proc_t *proc) {
             switch (func_800082E4()) {
             case 4:
                 if (Random(100) >= 11) {
-                    func_8002EB90(func_8001A894(proc->unk_30->playerProc.unk_0C, proc) & 255);
+                    func_8002EB90(func_8001A894(proc->data->playerProc.unk_0C, proc) & 255);
                 } else {
-                    func_8002EB90(func_8001A97C(proc->unk_30->playerProc.unk_0C) & 255);
+                    func_8002EB90(func_8001A97C(proc->data->playerProc.unk_0C) & 255);
                 }
                 break;
             case 2:
-                func_8002EB90(func_8001A97C(proc->unk_30->playerProc.unk_0C) & 255);
+                func_8002EB90(func_8001A97C(proc->data->playerProc.unk_0C) & 255);
                 break;
             case 3:
-                func_8002EB90(func_8001A894(proc->unk_30->playerProc.unk_0C, proc) & 255);
+                func_8002EB90(func_8001A894(proc->data->playerProc.unk_0C, proc) & 255);
                 break;
             }
             ProcPostMessage(proc, 5, 0);
@@ -51,7 +51,7 @@ struct procResult_s func_8001BED8(proc_t *proc) {
             if (func_80007888(D_800B61B5, 2) > 0) {
                 func_80007DAC(D_800B61B5);
                 task = CreatProc(func_80010574, 0x1000000);
-                task->unk_30->data80010574.letter = D_800B61B5;
+                task->data->data80010574.letter = D_800B61B5;
                 sp10.w[1] = 2;
                 sp10.w[0] = 6;
                 return sp10;
@@ -70,9 +70,9 @@ struct procResult_s func_8001BED8(proc_t *proc) {
             func_8002FD50();
             ratio = CheckPercentDone();
             if (ratio > 0.7) {
-                task = CreatProc(func_8001BC44, proc->unk_30->playerProc.player | 0x2000300);
-                task->unk_30->playerProc.player = proc->unk_30->playerProc.player;
-                task->unk_30->playerProc.unk_0C = proc->unk_30->playerProc.unk_0C;
+                task = CreatProc(func_8001BC44, proc->data->playerProc.player | 0x2000300);
+                task->data->playerProc.player = proc->data->playerProc.player;
+                task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
                 sp10.w[1] = 2;
                 sp10.w[0] = 10;
                 return sp10;

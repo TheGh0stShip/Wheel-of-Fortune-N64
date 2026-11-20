@@ -11,7 +11,7 @@ void InitControllers(void) {
     osCreateThread(&rumbleThread, 8, RumbleThread, 0, (void *)(rumbleThreadStack + 0x2000 / sizeof(u64)), 10);
     osStartThread(&rumbleThread);
     for (i = 0; i < 4; i++) {
-        rumbles[i].unk_00 = 0;
+        rumbles[i].present = 0;
     }
     osCreateMesgQueue(&contMsgQ, &contMsgBuf, 1);
     osCreateThread(&contThread, 9, ControllerThread, 0, (void *)(contThreadStack + 0x2000 / sizeof(u64)), 9);
@@ -29,7 +29,7 @@ void InitControllers(void) {
                     if (result == 10 || result == 11) {
                         result = osMotorInit(&contMsgQ, &contPfs[i], i);
                         if (result == 0) {
-                            rumbles[i].unk_00 = 1;
+                            rumbles[i].present = 1;
                             StopMotor(i);
                         } else {
                             // NOTE: empty in retail, a branch over nothing; guess: a debug message, compiled out

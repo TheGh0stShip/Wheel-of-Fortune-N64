@@ -4,14 +4,14 @@ void func_80030B5C(obj_t *obj, frame_t *frame) {
     proc_t *actor;
     s16 *pixels;
 
-    if (obj->unk_44 == 0) {
+    if (obj->image == 0) {
         return;
     }
     if (D_800BCD54 == 6) {
         actor = FindProc(0xA000400, -1);
         if (actor != 0) {
-            pixels = actor->unk_30->vannaAnim.unk_08 + actor->unk_30->vannaAnim.unk_10 * ( 64 * 96 );
-            func_8003143C(pixels, actor->unk_30->vannaAnim.unk_20 * D_800B61A8);
+            pixels = actor->data->vannaAnim.unk_08 + actor->data->vannaAnim.unk_10 * ( 64 * 96 );
+            func_8003143C(pixels, actor->data->vannaAnim.unk_20 * D_800B61A8);
         }
     }
     gSPMatrix(glistp++, &D_0113AE28, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
@@ -21,16 +21,16 @@ void func_80030B5C(obj_t *obj, frame_t *frame) {
     gDPPipeSync(glistp++);
     gDPSetRenderMode(glistp++, G_RM_AA_ZB_TEX_EDGE, G_RM_AA_ZB_TEX_EDGE2);
     gDPSetCombineMode(glistp++, G_CC_MODULATERGBDECALA, G_CC_MODULATERGBDECALA);
-    gDPLoadTextureBlock(glistp++, obj->unk_44, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
+    gDPLoadTextureBlock(glistp++, obj->image, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                         6, 5, G_TX_NOLOD, G_TX_NOLOD);
     gDPPipeSync(glistp++);
     gSPDisplayList(glistp++, D_0113AD08);
-    gDPLoadTextureBlock(glistp++, obj->unk_44 + 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
+    gDPLoadTextureBlock(glistp++, obj->image + 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                         6, 5, G_TX_NOLOD, G_TX_NOLOD);
     gSPDisplayList(glistp++, D_0113AD28);
-    gDPLoadTextureBlock(glistp++, obj->unk_44 + 0x2000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
+    gDPLoadTextureBlock(glistp++, obj->image + 0x2000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                         6, 5, G_TX_NOLOD, G_TX_NOLOD);
     gSPDisplayList(glistp++, D_0113AD48);

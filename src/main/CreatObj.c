@@ -13,9 +13,9 @@ obj_t *CreatObj(s32 owner, objDraw_t draw, s32 cls) {
         return 0;
     }
     tail->next = node;
-    node->unk_0C = draw;
-    node->unk_08 = cls;
-    node->unk_04 = owner;
+    node->draw = draw;
+    node->cls = cls;
+    node->owner = owner;
     node->next = 0;
     return node;
 }

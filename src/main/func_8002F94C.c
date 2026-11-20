@@ -16,21 +16,21 @@ struct procResult_s func_8002F94C(proc_t *proc) {
         }
         switch (sp28) {
         case 8:
-            proc->unk_30->timer.start = (s32)(osGetTime() / osClockRate);
+            proc->data->timer.start = (s32)(osGetTime() / osClockRate);
             break;
         }
     }
-    proc->unk_30->timer.start = proc->unk_30->timer.start + D_800BCA1C;
+    proc->data->timer.start = proc->data->timer.start + D_800BCA1C;
     sp2C = (s32)(osGetTime() / osClockRate);
     if (D_800BCD54 == 4) {
-        D_800B40C0 = 20 - (sp2C - proc->unk_30->timer.start);
-        if ((sp2C - proc->unk_30->timer.start) >= 20) {
+        D_800B40C0 = 20 - (sp2C - proc->data->timer.start);
+        if ((sp2C - proc->data->timer.start) >= 20) {
             D_800B40C0 = 0;
             ProcPostMessageClass(33, 0, 0, 0);
             sp10.w[1] = 0;
         }
     } else {
-        if ((sp2C - proc->unk_30->timer.start) >= 8) {
+        if ((sp2C - proc->data->timer.start) >= 8) {
             ProcPostMessageClass(33, 0, 0, 0);
             ProcPostEvent(33);
             sp10.w[1] = 0;

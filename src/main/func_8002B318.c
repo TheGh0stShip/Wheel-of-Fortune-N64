@@ -23,7 +23,7 @@ struct procResult_s func_8002B318(proc_t *proc) {
             }
             ResetMotors();
             func_80027218(0, 0, func_80028064, 0x5050000);
-            proc->unk_30->data8002B318.step = 0;
+            proc->data->data8002B318.step = 0;
             D_800BCD54 = 8;
             FreeObjClass(0x5050100, -1);
             KillProcClass(0xA000400, -1, 1);
@@ -49,18 +49,18 @@ struct procResult_s func_8002B318(proc_t *proc) {
             return ret;
         }
     }
-    if (proc->unk_30->data8002B318.step >= 22) {
+    if (proc->data->data8002B318.step >= 22) {
         ProcPostMessage(proc, 46, 0);
         return ret;
     }
     func_800161A8();
-    func_80006E54(0, D_8005C1E8[proc->unk_30->data8002B318.step]);
-    if (D_8005C33C[proc->unk_30->data8002B318.step] != 0) {
-        StrCopy(D_800B9544, D_8005C33C[proc->unk_30->data8002B318.step]);
+    func_80006E54(0, D_8005C1E8[proc->data->data8002B318.step]);
+    if (D_8005C33C[proc->data->data8002B318.step] != 0) {
+        StrCopy(D_800B9544, D_8005C33C[proc->data->data8002B318.step]);
         func_80029440();
     }
     func_80011B24();
-    proc->unk_30->data8002B318.step++;
+    proc->data->data8002B318.step++;
     ret.w[0] = 65 / frameRetraces;
     return ret;
 }

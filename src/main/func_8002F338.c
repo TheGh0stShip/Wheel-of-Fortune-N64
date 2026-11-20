@@ -31,13 +31,13 @@ struct procResult_s func_8002F338(proc_t *proc) {
                 sp30++;
             }
         case 43:
-            proc->unk_30->timer.start = (s32)(osGetTime() / osClockRate);
+            proc->data->timer.start = (s32)(osGetTime() / osClockRate);
             break;
         }
     }
     D_800B81DC = D_800B81DC + D_800BCA1C;
     sp2C = (s32)(osGetTime() / osClockRate);
-    if ((sp2C - proc->unk_30->timer.start) >= D_800B81DC) {
+    if ((sp2C - proc->data->timer.start) >= D_800B81DC) {
         if (FindProc(0x5010000, -1) != 0) {
             return sp10;
         }

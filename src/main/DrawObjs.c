@@ -6,12 +6,12 @@ void DrawObjs(frame_t *frame) {
     node = &objst[0];
     while (node->next != 0) {
         node = node->next;
-        if (node->unk_0C == 0) {
+        if (node->draw == 0) {
             func_80009F38("DrawObjs: Tried to execute a NULL ID\n");
             return;
         }
-        if ((node->unk_08 & 0xFF000000) != 0x5000000) {
-            node->unk_0C(node, frame);
+        if ((node->cls & 0xFF000000) != 0x5000000) {
+            node->draw(node, frame);
         }
     }
 }

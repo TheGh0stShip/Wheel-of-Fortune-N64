@@ -7,7 +7,7 @@ struct procResult_s func_800345E8(proc_t *proc) {
     s32 sp34;
     obj_t *sp38;
 
-    sp38 = proc->unk_30->obj;
+    sp38 = proc->data->obj;
     for (;;) {
         sp30 = ProcGetMessage(proc);
         if (sp30 == 0) {
@@ -15,23 +15,23 @@ struct procResult_s func_800345E8(proc_t *proc) {
         }
         switch (sp30) {
         case 8:
-            proc->unk_30->data800345E8.unk_04 = 10;
+            proc->data->data800345E8.unk_04 = 10;
             break;
         }
     }
-    proc->unk_30->data800345E8.unk_04--;
-    if (proc->unk_30->data800345E8.unk_04 < 0) {
-        if (proc->unk_30->data800345E8.unk_04 < -40) {
+    proc->data->data800345E8.unk_04--;
+    if (proc->data->data800345E8.unk_04 < 0) {
+        if (proc->data->data800345E8.unk_04 < -40) {
             sp20.w[1] = 0;
             sp20.w[0] = 1;
             return sp20;
         }
-        if (proc->unk_30->data800345E8.unk_04 >= -9) {
+        if (proc->data->data800345E8.unk_04 >= -9) {
             func_800343F8(80, 150, 60, 80, 30, 10, 2, 1);
         } else {
             func_800343F8(80, 150, 60, 80, 30, 10, 2, 1);
             sp20.w[1] = 1;
-            sp20.w[0] = ((guRandom() % -1) * proc->unk_30->data800345E8.unk_04) / frameRetraces;
+            sp20.w[0] = ((guRandom() % -1) * proc->data->data800345E8.unk_04) / frameRetraces;
             return sp20;
         }
     } else {

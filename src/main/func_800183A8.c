@@ -10,7 +10,7 @@ struct procResult_s func_800183A8(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    if (proc->unk_30->playerProc.player != D_800FB808) {
+    if (proc->data->playerProc.player != D_800FB808) {
         ProcClearMessages(proc);
         return result;
     }
@@ -26,13 +26,13 @@ struct procResult_s func_800183A8(proc_t *proc) {
             func_80017C00(0, 0);
             task = CreatProc(func_8000FDFC, 0x4030000);
             node = FindObj(0x4010000, 0xFFFF0000);
-            task->unk_30->data8000FDFC.unk_00 = node;
+            task->data->data8000FDFC.unk_00 = node;
             if (D_800BCCF0 > 50.0f) {
-                task->unk_30->data8000FDFC.unk_0C = D_800BCCF0 + guRandom() % 10;
+                task->data->data8000FDFC.unk_0C = D_800BCCF0 + guRandom() % 10;
             } else {
-                task->unk_30->data8000FDFC.unk_0C = (f32)(guRandom() % 10 + 50) + D_800BCCF0;
+                task->data->data8000FDFC.unk_0C = (f32)(guRandom() % 10 + 50) + D_800BCCF0;
             }
-            if (task->unk_30->data8000FDFC.unk_0C > 80.0) {
+            if (task->data->data8000FDFC.unk_0C > 80.0) {
                 ProcPostMessage(proc, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 40 / frameRetraces;
@@ -45,7 +45,7 @@ struct procResult_s func_800183A8(proc_t *proc) {
             break;
         case 7:
             task = FindProc(0x4030000, -1);
-            if (task->unk_30->data8000FDFC.unk_0C >= 110.0) {
+            if (task->data->data8000FDFC.unk_0C >= 110.0) {
                 if (guRandom() % 100 >= 51) {
                     func_80017C00(11, 0);
                 } else {
@@ -115,7 +115,7 @@ struct procResult_s func_800183A8(proc_t *proc) {
             if (func_80007888(D_800B61B5, 0) > 0) {
                 func_80007DAC(D_800B61B5);
                 task = CreatProc(func_80010574, 0x1000000);
-                task->unk_30->data80010574.letter = D_800B61B5;
+                task->data->data80010574.letter = D_800B61B5;
                 result.w[1] = 2;
                 result.w[0] = 6;
             } else {

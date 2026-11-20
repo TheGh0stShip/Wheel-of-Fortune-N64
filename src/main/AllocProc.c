@@ -9,7 +9,7 @@ proc_t *AllocProc(void) {
     }
     i = 1;
     while (i < 70) {
-        if (procst[i].unk_00 == 0) {
+        if (procst[i].handler == 0) {
             numProcs++;
             return &procst[i];
         }

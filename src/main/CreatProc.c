@@ -13,15 +13,15 @@ proc_t *CreatProc(procHandler_t handler, s32 cls) {
         return 0;
     }
     last->next = task;
-    task->unk_00 = handler;
-    task->unk_08 = cls;
-    task->unk_0C = 0;
-    task->unk_10 = 0;
+    task->handler = handler;
+    task->cls = cls;
+    task->sleep = 0;
+    task->event = 0;
     task->items[0] = 8;
     task->count = 1;
     task->next = 0;
     task->unk_34 = 0;
     task->unk_38 = 0;
-    task->unk_30 = AllocBlock(task->unk_04);
+    task->data = AllocBlock(task->id);
     return task;
 }

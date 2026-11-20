@@ -12,13 +12,13 @@ struct procResult_s func_80033A28(proc_t *proc) {
         case 8:
             PlaySound(10);
             D_800B96A8 = 2;
-            proc->unk_30->data80033A28.unk_04 = 0;
-            proc->unk_30->data80033A28.unk_08 = 0;
+            proc->data->data80033A28.unk_04 = 0;
+            proc->data->data80033A28.unk_08 = 0;
             break;
         }
     }
-    if (proc->unk_30->data80033A28.unk_04 > 0) {
-        switch (proc->unk_30->data80033A28.unk_04) {
+    if (proc->data->data80033A28.unk_04 > 0) {
+        switch (proc->data->data80033A28.unk_04) {
         case 1:
             sp24 = PlaySound(8);
             break;
@@ -31,13 +31,13 @@ struct procResult_s func_80033A28(proc_t *proc) {
         default:
             sp24 = PlaySound(guRandom() % 3 + 16);
         }
-        if (D_800B96A8 == proc->unk_30->data80033A28.unk_04) {
+        if (D_800B96A8 == proc->data->data80033A28.unk_04) {
             D_800B96A8 = 0;
-            proc->unk_30->data80033A28.unk_04 = 0;
+            proc->data->data80033A28.unk_04 = 0;
         }
     }
-    if (proc->unk_30->data80033A28.unk_04 < D_800B96A8) {
-        proc->unk_30->data80033A28.unk_04++;
+    if (proc->data->data80033A28.unk_04 < D_800B96A8) {
+        proc->data->data80033A28.unk_04++;
         result.w[0] = 10 / frameRetraces;
     }
     return result;

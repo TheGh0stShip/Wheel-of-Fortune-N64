@@ -40,8 +40,8 @@ struct procResult_s func_8002EFC0(proc_t *proc) {
     func_80017C00(0, 1);
     task = CreatProc(func_8000FDFC, 0x4000000);
     node = FindObj(0x4010000, 0xFFFF0000);
-    task->unk_30->data8000FDFC.unk_00 = node;
-    task->unk_30->data8000FDFC.unk_0C = guRandom() % 25 + 75;
+    task->data->data8000FDFC.unk_00 = node;
+    task->data->data8000FDFC.unk_0C = guRandom() % 25 + 75;
     result.w[1] = 2;
     result.w[0] = 2;
     return result;

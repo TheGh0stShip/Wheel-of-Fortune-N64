@@ -262,3 +262,27 @@ memStackFree	global	0x800B9984	invented	the bytes left
 memStackMarks	global	0x800BEDB0	invented	the tops PushMemStack saves
 memStackDepth	global	0x800BCA04	invented	how many of memStackMarks are in use
 procResult_s	type	wof.h	invented	what a proc's handler returns to DoProcs (a struct tag the code names directly)
+handler	member	proc_t	invented	what DoProcs calls; 0 if free
+id	member	proc_t	invented	its number: InitProcs sets it to the entry; blocks and objs are tagged with it
+cls	member	proc_t	invented	the class FindProc and ProcPostMessageClass select on, given to CreatProc
+sleep	member	proc_t	invented	frames until DoProcs runs the handler again
+event	member	proc_t	invented	the event the proc waits for; ProcPostEvent matches it, -1 matches any
+waiting	member	proc_t	invented	not 0: DoProcs skips the proc until its event comes
+data	member	proc_t	invented	its data block, from AllocBlock
+owner	member	obj_t	invented	the id of the proc the obj belongs to; FreeProcObjs selects on it
+cls	member	obj_t	invented	the class FindObj selects on, given to CreatObj
+draw	member	obj_t	invented	the draw function DrawObjs calls; 0 if free
+roll	member	obj_t	invented	the first angle given to guRotateRPY (its r)
+pitch	member	obj_t	invented	the second angle given to guRotateRPY (its p)
+heading	member	obj_t	invented	the third angle given to guRotateRPY (its h)
+mtx	member	obj_t	invented	a matrix its draw function applies first, if not 0
+image	member	obj_t	invented	the segment address of the picture the draw function loads
+dl	member	obj_t	invented	its display list
+secondDl	member	obj_t	invented	the display list drawn with the second half of the picture
+roll	member	view_t	invented	what the roll of the camera obj becomes
+pitch	member	view_t	invented	what the pitch of the camera obj becomes
+heading	member	view_t	invented	what the heading of the camera obj becomes
+present	member	rumble_t	invented	1 once osMotorInit found a rumble pak
+level	member	rumble_t	invented	the sum of strength: ReadControllers runs the motor a frame each time it reaches 1
+strength	member	rumble_t	invented	added to level each frame
+frames	member	rumble_t	invented	frames of rumble left

@@ -10,8 +10,8 @@ s32 FreeObj(obj_t *obj) {
     }
     next = obj->next;
     prev->next = next;
-    obj->unk_0C = 0;
-    obj->unk_04 = 0;
+    obj->draw = 0;
+    obj->owner = 0;
     numObjs--;
     return 1;
 }

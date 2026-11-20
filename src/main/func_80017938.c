@@ -7,7 +7,7 @@ struct procResult_s func_80017938(proc_t *proc) {
 
     sp10.w[1] = 1;
     sp10.w[0] = 0;
-    if (proc->unk_30->data80017938.unk_04 != D_800FB808) {
+    if (proc->data->data80017938.unk_04 != D_800FB808) {
         return sp10;
     }
     if ((playerPad.button & 1 & 0xFFFF) != 0) {
@@ -23,7 +23,7 @@ struct procResult_s func_80017938(proc_t *proc) {
         D_800B39A0[D_800FB808][0] = D_800B39A0[D_800FB808][0] + 0.5;
     }
     cam = FindObj(0x3000000, 0xFF000000);
-    cam->unk_28 = D_80057F50[1].unk_0C + D_800B39A0[D_800FB808][0];
-    cam->unk_2C = D_80057F50[1].unk_10 + D_800B39A0[D_800FB808][1];
+    cam->roll = D_80057F50[1].roll + D_800B39A0[D_800FB808][0];
+    cam->pitch = D_80057F50[1].pitch + D_800B39A0[D_800FB808][1];
     return sp10;
 }
