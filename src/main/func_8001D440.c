@@ -1,97 +1,26 @@
 #include "wof.h"
 
 void func_8001D440(obj_t *obj, frame_t *frame) {
-    Gfx *gfx;
-    Gfx *gfx2;
-
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xE7000000;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xB900031D;
-    gfx->words.w1 = 0xF0A4000;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0x6000000;
-    gfx->words.w1 = (s32)&D_01021970;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xBA001402;
-    gfx->words.w1 = 0x200000;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xFD100000;
-    gfx->words.w1 = obj->unk_44;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xF5100000;
-    gfx->words.w1 = 0x7058150;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xE6000000;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xF3000000;
-    gfx->words.w1 = 0x77FF100;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xE7000000;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xF5101000;
-    gfx->words.w1 = 0x58150;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xF2000000;
-    gfx->words.w1 = 0x7C0FC;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xE7000000;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = (((((obj->x + 34) << 2) & 4095) << 12) | 0xE4000000) | (((obj->y + 66) << 2) & 4095);
-    gfx->words.w1 = ((((obj->x + 3) << 2) & 4095) << 12) | (((obj->y + 3) << 2) & 4095);
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xB4000000;
-    gfx2->words.w1 = 0;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xB3000000;
-    gfx2->words.w1 = 0x10000400;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xE7000000;
-    gfx2->words.w1 = 0;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xFD100000;
-    gfx2->words.w1 = obj->unk_44 + 0x1000;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xF5100000;
-    gfx2->words.w1 = 0x7058150;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xE6000000;
-    gfx2->words.w1 = 0;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xF3000000;
-    gfx2->words.w1 = 0x77FF100;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xE7000000;
-    gfx2->words.w1 = 0;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xF5101000;
-    gfx2->words.w1 = 0x58150;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xF2000000;
-    gfx2->words.w1 = 0x7C0FC;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xE7000000;
-    gfx2->words.w1 = 0;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = (((((obj->x + 66) << 2) & 4095) << 12) | 0xE4000000) | (((obj->y + 66) << 2) & 4095);
-    gfx2->words.w1 = ((((obj->x + 35) << 2) & 4095) << 12) | (((obj->y + 3) << 2) & 4095);
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xB4000000;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xB3000000;
-    gfx->words.w1 = 0x10000400;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xE7000000;
-    gfx2->words.w1 = 0;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xBA001402;
-    gfx2->words.w1 = 0;
-    gfx2 = D_800B81E8++;
-    gfx2->words.w0 = 0xB900031D;
-    gfx2->words.w1 = 0x552078;
+    gDPPipeSync(D_800B81E8++);
+    gDPSetRenderMode(D_800B81E8++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gSPDisplayList(D_800B81E8++, D_01021970);
+    gDPSetCycleType(D_800B81E8++, G_CYC_COPY);
+    gDPLoadTextureBlock(D_800B81E8++, obj->unk_44, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 64, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        5, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(D_800B81E8++);
+    gSPTextureRectangle(D_800B81E8++, (obj->x + 3) << 2, (obj->y + 3) << 2,
+                        (obj->x + 34) << 2, (obj->y + 66) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(D_800B81E8++);
+    gDPLoadTextureBlock(D_800B81E8++, obj->unk_44 + 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 64, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        5, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(D_800B81E8++);
+    gSPTextureRectangle(D_800B81E8++, (obj->x + 35) << 2, (obj->y + 3) << 2,
+                        (obj->x + 66) << 2, (obj->y + 66) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(D_800B81E8++);
+    gDPSetCycleType(D_800B81E8++, G_CYC_1CYCLE);
+    gDPSetRenderMode(D_800B81E8++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
 }

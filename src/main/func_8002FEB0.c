@@ -1,95 +1,29 @@
 #include "wof.h"
 
 void func_8002FEB0(obj_t *obj, frame_t *frame) {
-    Gfx *gfx;
-
     if (obj->unk_44 == 0) {
         return;
     }
     switch (func_80016638()) {
     case 0:
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xBC00400A;
-        gfx->words.w1 = 0xCCCCCCCC;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xBC00440A;
-        gfx->words.w1 = 0xCCCCCCCC;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xBC00600A;
-        gfx->words.w1 = 0xCCCCCCCC;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xBC00640A;
-        gfx->words.w1 = 0xCCCCCCCC;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xBB000001;
-        gfx->words.w1 = -1;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xE7000000;
-        gfx->words.w1 = 0;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xB900031D;
-        gfx->words.w1 = 0x553078;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xFC127E24;
-        gfx->words.w1 = -3079;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xFD100000;
-        gfx->words.w1 = obj->unk_44;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xF5100000;
-        gfx->words.w1 = 0x7098250;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xE6000000;
-        gfx->words.w1 = 0;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xF3000000;
-        gfx->words.w1 = 0x77FF100;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xE7000000;
-        gfx->words.w1 = 0;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xF5101000;
-        gfx->words.w1 = 0x98250;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xF2000000;
-        gfx->words.w1 = 0x7C0FC;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xE7000000;
-        gfx->words.w1 = 0;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0x6000000;
-        gfx->words.w1 = obj->unk_48;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xFD100000;
-        gfx->words.w1 = obj->unk_44 + 0x1000;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xF5100000;
-        gfx->words.w1 = 0x7098250;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xE6000000;
-        gfx->words.w1 = 0;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xF3000000;
-        gfx->words.w1 = 0x77FF100;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xE7000000;
-        gfx->words.w1 = 0;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xF5101000;
-        gfx->words.w1 = 0x98250;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xF2000000;
-        gfx->words.w1 = 0x7C0FC;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0x6000000;
-        gfx->words.w1 = obj->unk_4C;
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xE7000000;
-        gfx->words.w1 = 0;
+        gSPLightColor(D_800B81E8++, LIGHT_3, 0xCCCCCCCC);
+        gSPLightColor(D_800B81E8++, LIGHT_4, 0xCCCCCCCC);
+        gSPTexture(D_800B81E8++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+        gDPPipeSync(D_800B81E8++);
+        gDPSetRenderMode(D_800B81E8++, G_RM_AA_ZB_TEX_EDGE, G_RM_AA_ZB_TEX_EDGE2);
+        gDPSetCombineMode(D_800B81E8++, G_CC_MODULATERGBDECALA, G_CC_MODULATERGBDECALA);
+        gDPLoadTextureBlock(D_800B81E8++, obj->unk_44, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 64, 0,
+                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                            5, 6, G_TX_NOLOD, G_TX_NOLOD);
+        gDPPipeSync(D_800B81E8++);
+        gSPDisplayList(D_800B81E8++, obj->unk_48);
+        gDPLoadTextureBlock(D_800B81E8++, obj->unk_44 + 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 64, 0,
+                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                            5, 6, G_TX_NOLOD, G_TX_NOLOD);
+        gSPDisplayList(D_800B81E8++, obj->unk_4C);
+        gDPPipeSync(D_800B81E8++);
         func_80005300(3);
         func_80005300(4);
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xB900031D;
-        gfx->words.w1 = 0x552078;
+        gDPSetRenderMode(D_800B81E8++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
     }
 }

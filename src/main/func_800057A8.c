@@ -4,7 +4,6 @@ void func_800057A8(gfxInfo_t *info) {
     frame_t *frame;
     OSScTask *t;
     obj_t *cam;
-    Gfx *gfx;
 
     cam = func_8000B5DC(0x3000000, 0xFF000000);
     if (cam != 0) {
@@ -17,94 +16,47 @@ void func_800057A8(gfxInfo_t *info) {
     }
     frame = &info->frame;
     D_800B81E8 = info->frame.glist;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xBC000006;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xBC000406;
-    gfx->words.w1 = osVirtualToPhysical(D_800BCA08);
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xBC000806;
-    gfx->words.w1 = osVirtualToPhysical(frame);
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0x6000000;
-    gfx->words.w1 = (s32)D_01021948;
+    gSPSegment(D_800B81E8++, 0, 0x0);
+    gSPSegment(D_800B81E8++, 1, osVirtualToPhysical(D_800BCA08));
+    gSPSegment(D_800B81E8++, 2, osVirtualToPhysical(frame));
+    gSPDisplayList(D_800B81E8++, D_01021948);
     if (D_8004B830 != 0) {
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0x6000000;
-        gfx->words.w1 = (s32)D_010217E0;
+        gSPDisplayList(D_800B81E8++, D_010217E0);
         D_8004B830 = 0;
     }
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0x6000000;
-    gfx->words.w1 = (s32)D_010218C8;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xFE000000;
-    gfx->words.w1 = osVirtualToPhysical(D_8038F800);
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xE7000000;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xBA001402;
-    gfx->words.w1 = 0x300000;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xFF10013F;
-    gfx->words.w1 = osVirtualToPhysical(D_8038F800);
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xF7000000;
-    gfx->words.w1 = 0xFFFCFFFC;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xF64FC3BC;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xE7000000;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xFF10013F;
-    gfx->words.w1 = osVirtualToPhysical(info->framebuffer);
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xF7000000;
-    gfx->words.w1 = 0x10001;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xF64FC3BC;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xE7000000;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xBA001402;
-    gfx->words.w1 = 0;
+    gSPDisplayList(D_800B81E8++, D_010218C8);
+    gDPSetDepthImage(D_800B81E8++, osVirtualToPhysical(D_8038F800));
+    gDPPipeSync(D_800B81E8++);
+    gDPSetCycleType(D_800B81E8++, G_CYC_FILL);
+    gDPSetColorImage(D_800B81E8++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, osVirtualToPhysical(D_8038F800));
+    gDPSetFillColor(D_800B81E8++, GPACK_ZDZ(G_MAXFBZ, 0) << 16 | GPACK_ZDZ(G_MAXFBZ, 0));
+    gDPFillRectangle(D_800B81E8++, 0, 0, 320 - 1, 240 - 1);
+    gDPPipeSync(D_800B81E8++);
+    gDPSetColorImage(D_800B81E8++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320,
+                     osVirtualToPhysical(info->framebuffer));
+    gDPSetFillColor(D_800B81E8++, GPACK_RGBA5551(0, 0, 0, 1) << 16 | GPACK_RGBA5551(0, 0, 0, 1));
+    gDPFillRectangle(D_800B81E8++, 0, 0, 320 - 1, 240 - 1);
+    gDPPipeSync(D_800B81E8++);
+    gDPSetCycleType(D_800B81E8++, G_CYC_1CYCLE);
     switch (D_800BCD54) {
     case 1:
     case 5:
     case 7:
     case 8:
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xED000000;
-        gfx->words.w1 = 0x5003C0;
+        gDPSetScissor(D_800B81E8++, G_SC_NON_INTERLACE, 0, 0, 320, 240);
         break;
     case 4:
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xED000000;
-        gfx->words.w1 = 0x5002BC;
+        gDPSetScissor(D_800B81E8++, G_SC_NON_INTERLACE, 0, 0, 320, 175);
         break;
     default:
-        gfx = D_800B81E8++;
-        gfx->words.w0 = 0xED000000;
-        gfx->words.w1 = 0x5002AC;
+        gDPSetScissor(D_800B81E8++, G_SC_NON_INTERLACE, 0, 0, 320, 171);
     }
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xB900031D;
-    gfx->words.w1 = 0x552078;
+    gDPSetRenderMode(D_800B81E8++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
     func_8000B468(frame);
     func_80005FD0(frame);
     func_8000B528(frame);
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xE9000000;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xB8000000;
-    gfx->words.w1 = 0;
+    gDPFullSync(D_800B81E8++);
+    gSPEndDisplayList(D_800B81E8++);
     osWritebackDCache(&info->frame, (s32)D_800B81E8 - (s32)&info->frame);
     if (D_800B81E8 - frame->glist >= 3048) {
         func_80009F38("GFX Error: GLIST OVERFLOW\n");
