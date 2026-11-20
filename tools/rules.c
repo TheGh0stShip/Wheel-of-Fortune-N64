@@ -373,8 +373,19 @@ static void check_body(File *f, Func *fn) {
             if (!strcmp(a, b)) finding(f, fn, R17, t->line, "self-assignment of %s", a);
         }
         if (is(f, i, "+") && is(f, i + 1, "0") && !is(f, i + 2, ".")) finding(f, fn, R17, t->line, "'+ 0'");
-        if (is(f, i, "*") && is(f, i + 1, "1") && i > 0 && (f->tok[i - 1].kind != 'p' || is(f, i - 1, ")") || is(f, i - 1, "]")))
-            finding(f, fn, R17, t->line, "'* 1'");
+        /* "DCTSIZE * 1" multiplies a named constant by a row number, the way the code spells its other rows:
+           not fake code (the user's ruling) */
+        if (is(f, i, "*") && is(f, i + 1, "1") && i > 0 && (f->tok[i - 1].kind != 'p' || is(f, i - 1, ")") || is(f, i - 1, "]"))) {
+            int constant = 0;
+            if (f->tok[i - 1].kind == 'i' && !(i > 1 && (is(f, i - 2, ".") || is(f, i - 2, "->")))) {
+                const char *c;
+                tok_text(f, i - 1, a, sizeof a);
+                constant = 1;
+                for (c = a; *c; c++)
+                    if (islower((unsigned char)*c)) constant = 0;
+            }
+            if (!constant) finding(f, fn, R17, t->line, "'* 1'");
+        }
         /* (char *)x + N, then dereferenced through another cast */
         if (is(f, i, "(") && (is(f, i + 1, "char") || is(f, i + 1, "u8") || is(f, i + 1, "s8") || (is(f, i + 1, "unsigned") && is(f, i + 2, "char")))) {
             int close = match_close(f, i, "(", ")");

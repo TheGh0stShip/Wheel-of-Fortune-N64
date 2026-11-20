@@ -586,7 +586,7 @@ void j_rev_dct( DCTBLOCK data ) {
     dataptr = data;
     for ( rowctr = DCTSIZE - 1; rowctr >= 0; rowctr-- ) {
         d0 = dataptr[DCTSIZE * 0];
-        d1 = dataptr[DCTSIZE];
+        d1 = dataptr[DCTSIZE * 1];
         d2 = dataptr[DCTSIZE * 2];
         d3 = dataptr[DCTSIZE * 3];
         d4 = dataptr[DCTSIZE * 4];
@@ -1001,7 +1001,7 @@ void j_rev_dct( DCTBLOCK data ) {
             CONST_BITS + PASS1_BITS + 3 );
         dataptr[DCTSIZE * 7] = (DCTELEM)DESCALE( tmp10 - tmp3,
             CONST_BITS + PASS1_BITS + 3 );
-        dataptr[DCTSIZE] = (DCTELEM)DESCALE( tmp11 + tmp2,
+        dataptr[DCTSIZE * 1] = (DCTELEM)DESCALE( tmp11 + tmp2,
             CONST_BITS + PASS1_BITS + 3 );
         dataptr[DCTSIZE * 6] = (DCTELEM)DESCALE( tmp11 - tmp2,
             CONST_BITS + PASS1_BITS + 3 );
