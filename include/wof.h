@@ -222,6 +222,17 @@ typedef struct {
     /* 0x08 */ s32 unk_08;
 } vec_t;    // size 0xC
 
+// The sounds of one of the six contestants a player can be: D_8005A3E4[6]. func_80024D60 copies
+// them into unk_0FC to unk_110 of the player_t, in this order.
+typedef struct {
+    /* 0x00 */ s32 unk_00;      // the first of 26 sounds: the letters, as the contestant calls them
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 unk_10;
+    /* 0x14 */ s32 unk_14;      // -1: the contestant has none
+} voice_t;    // size 0x18
+
 // One of the three contestants: D_800B9990[3].
 typedef struct {
     /* 0x000 */ s32 unk_000;
@@ -773,6 +784,7 @@ extern image_t D_80059008[];
 extern image_t D_80059120[];
 extern vec_t D_8005A390;
 extern vec_t D_8005A39C[];
+extern voice_t D_8005A3E4[];
 extern vec_t D_8005A474[];
 extern u8 D_8005A498[][10];
 extern image_t D_8005A4B8[][2];
