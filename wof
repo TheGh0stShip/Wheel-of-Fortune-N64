@@ -29,4 +29,18 @@ if [ -z "$WOF_ROM" ]; then
     done
     export WOF_ROM
 fi
+if [ ! -x "$WOF_BUILD/rules" ] || [ tools/rules.c -nt "$WOF_BUILD/rules" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/rules" tools/rules.c || exit 2
+fi
+case "$1" in
+rules)
+    shift
+    exec "$WOF_BUILD/rules" "$@"
+    ;;
+report)
+    # both score numbers, each from its own tool
+    "$WOF_BUILD/wof" gate | tail -3
+    exec "$WOF_BUILD/rules"
+    ;;
+esac
 exec "$WOF_BUILD/wof" "$@"
