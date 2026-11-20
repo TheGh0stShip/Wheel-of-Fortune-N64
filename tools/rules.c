@@ -365,7 +365,29 @@ static void check_body(File *f, Func *fn) {
             }
             if (!loop_body) finding(f, fn, R17, t->line, "bare ';' statement");
         }
-        if (is(f, i, "volatile")) finding(f, fn, R17, t->line, "volatile in a function body");
+        if (is(f, i, "volatile")) {
+            /* a local that only ever receives a hardware register read (IO_READ) is the hardware's volatile,
+               not a carrier for steering the compiler */
+            int k = i + 1, m, hw = 0;
+            while (k < fn->last && !is(f, k, ";") && !is(f, k, "=") && !is(f, k, ",")) k++;
+            if (f->tok[k - 1].kind == 'i' && !is(f, k, "=")) {
+                tok_text(f, k - 1, a, sizeof a);
+                hw = 1;
+                for (m = k; m <= fn->last && hw; m++) {
+                    if (f->tok[m].kind != 'i' || !is(f, m + 1, "=") || is(f, m - 1, ".") || is(f, m - 1, "->")) continue;
+                    tok_text(f, m, b, sizeof b);
+                    if (!strcmp(a, b)) hw = is(f, m + 2, "IO_READ");
+                }
+                hw = hw && k < fn->last;
+                /* it has to be read from the hardware at least once */
+                for (m = k, hw = hw ? 2 : 0; hw == 2 && m <= fn->last; m++) {
+                    tok_text(f, m, b, sizeof b);
+                    if (!strcmp(a, b) && is(f, m + 1, "=") && is(f, m + 2, "IO_READ")) hw = 1;
+                }
+                if (hw == 2) hw = 0;
+            }
+            if (!hw) finding(f, fn, R17, t->line, "volatile in a function body");
+        }
         if (is(f, i, "__asm__") || is(f, i, "asm") || is(f, i, "__asm")) finding(f, fn, R18, t->line, "inline assembly");
         if (t->kind == 'i' && is(f, i + 1, "=") && is(f, i + 3, ";") && f->tok[i + 2].kind == 'i' &&
             (is(f, i - 1, ";") || is(f, i - 1, "{") || is(f, i - 1, "}") || is(f, i - 1, ")"))) {

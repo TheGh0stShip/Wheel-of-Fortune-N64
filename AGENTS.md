@@ -142,7 +142,7 @@ The full catalogue is the user-level `decomp-code-rules` skill (`references/rule
 | R1 | a type name defined in more than one file, with the same body or a different one |
 | R2 | an `extern` of a global in a `.c` file; one global declared with different types |
 | R4 | a constant added to a `(char *)`/`(u8 *)` cast |
-| R17 | a local nothing uses (unless its line carries `NOTE:`, `BUG:`, `guess:` or `RULE-EXCEPTION`); `volatile` in a function body; an empty `if`/`else` block (unless a line of the block carries one of those labels); a bare `;`; `do { } while (0)` in a body; self-assignment; `+ 0`; `* 1` (except a named constant times 1); a `pad` member |
+| R17 | a local nothing uses (unless its line carries `NOTE:`, `BUG:`, `guess:` or `RULE-EXCEPTION`); `volatile` in a function body (except a local that only ever receives `IO_READ` of a hardware register); an empty `if`/`else` block (unless a line of the block carries one of those labels); a bare `;`; `do { } while (0)` in a body; self-assignment; `+ 0`; `* 1` (except a named constant times 1); a `pad` member |
 | R18 | `__asm__`, `asm` |
 
 The checker judges only what a unit compiles: the gate leaves each unit's preprocessor output beside its
