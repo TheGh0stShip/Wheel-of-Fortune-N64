@@ -1,6 +1,5 @@
 #include "wof.h"
 
-struct gd_4_s32 { u8 pad[0x4]; s32 v; };
 
 struct n64dk_r12 func_800345E8(s32 arg1) {
     struct n64dk_r12 sp20;
@@ -16,23 +15,23 @@ struct n64dk_r12 func_800345E8(s32 arg1) {
         }
         switch (sp30) {
         case 8:
-            ((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v = 10;
+            ((data800345E8_t *)((proc_t *)arg1)->unk_30)->unk_04 = 10;
             break;
         }
     }
-    ((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v--;
-    if (((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v < 0) {
-        if (((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v < -40) {
+    ((data800345E8_t *)((proc_t *)arg1)->unk_30)->unk_04--;
+    if (((data800345E8_t *)((proc_t *)arg1)->unk_30)->unk_04 < 0) {
+        if (((data800345E8_t *)((proc_t *)arg1)->unk_30)->unk_04 < -40) {
             sp20.w[1] = 0;
             sp20.w[0] = 1;
             return sp20;
         }
-        if (((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v >= -9) {
+        if (((data800345E8_t *)((proc_t *)arg1)->unk_30)->unk_04 >= -9) {
             func_800343F8(80, 150, 60, 80, 30, 10, 2, 1);
         } else {
             func_800343F8(80, 150, 60, 80, 30, 10, 2, 1);
             sp20.w[1] = 1;
-            sp20.w[0] = ((guRandom() % -1) * ((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v) / D_800B96B4;
+            sp20.w[0] = ((guRandom() % -1) * ((data800345E8_t *)((proc_t *)arg1)->unk_30)->unk_04) / D_800B96B4;
             return sp20;
         }
     } else {

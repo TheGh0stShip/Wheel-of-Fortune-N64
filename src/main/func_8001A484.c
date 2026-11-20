@@ -1,12 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-} Pair;
-
-extern Pair D_800B39A0[];
-
 void func_8001A484(void) {
     s32 pad0[2];
     s32 i;
@@ -20,8 +13,8 @@ void func_8001A484(void) {
         } else {
             func_8001D3CC(i);
         }
-        D_800B39A0[i].unk_00 = 0;
-        D_800B39A0[i].unk_04 = 0;
+        D_800B39A0[i][0] = 0;
+        D_800B39A0[i][1] = 0;
     }
     if (D_800BCD54 == 3) {
         func_80017C00(17, 0);

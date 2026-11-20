@@ -8,7 +8,7 @@ struct n64dk_r12 func_8001BC44(s32 arg1) {
 
     sp10.w[1] = 1;
     sp10.w[0] = 0;
-    if (((data8001BC44_t *)((proc_t *)arg1)->unk_30)->unk_04 != D_800FB808) {
+    if (((playerProc_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
         func_8000AD9C(arg1);
         return sp10;
     }

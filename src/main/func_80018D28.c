@@ -9,7 +9,7 @@ struct n64dk_r12 func_80018D28(s32 arg1) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (((data80018D28_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
+    if (((playerProc_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
         func_8000AD9C(arg1);
         return ret;
     }
@@ -56,7 +56,7 @@ struct n64dk_r12 func_80018D28(s32 arg1) {
             if (func_80007888(D_800B61B5, 1) > 0) {
                 func_80007DAC(D_800B61B5);
                 task = func_8000A56C((s32)func_80010574, 0x1000000);
-                ((data80018D28_t *)((proc_t *)task)->unk_30)->unk_10 = D_800B61B5;
+                ((playerProc_t *)((proc_t *)task)->unk_30)->unk_10 = D_800B61B5;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {

@@ -10,7 +10,7 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    if (((data800183A8_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
+    if (((playerProc_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
         func_8000AD9C(arg1);
         return result;
     }
@@ -26,13 +26,13 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
             func_80017C00(0, 0);
             obj = (proc_t *)func_8000A56C((s32)func_8000FDFC, 0x4030000);
             node = func_8000B5DC(0x4010000, 0xFFFF0000);
-            ((data800183A8_t *)obj->unk_30)->unk_00 = node;
+            ((playerProc_t *)obj->unk_30)->unk_00 = node;
             if (D_800BCCF0 > 50.0f) {
-                ((data800183A8_t *)obj->unk_30)->unk_0C = D_800BCCF0 + guRandom() % 10;
+                ((playerProc_t *)obj->unk_30)->unk_0C = D_800BCCF0 + guRandom() % 10;
             } else {
-                ((data800183A8_t *)obj->unk_30)->unk_0C = (f32)(guRandom() % 10 + 50) + D_800BCCF0;
+                ((playerProc_t *)obj->unk_30)->unk_0C = (f32)(guRandom() % 10 + 50) + D_800BCCF0;
             }
-            if (((data800183A8_t *)obj->unk_30)->unk_0C > 80.0) {
+            if (((playerProc_t *)obj->unk_30)->unk_0C > 80.0) {
                 func_8000AAB0(arg1, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 40 / D_800B96B4;
@@ -45,7 +45,7 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
             break;
         case 7:
             obj = (proc_t *)func_8000A990(0x4030000, -1);
-            if (((data800183A8_t *)obj->unk_30)->unk_0C >= 110.0) {
+            if (((playerProc_t *)obj->unk_30)->unk_0C >= 110.0) {
                 if (guRandom() % 100 >= 51) {
                     func_80017C00(11, 0);
                 } else {
@@ -115,7 +115,7 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
             if (func_80007888(D_800B61B5, 0) > 0) {
                 func_80007DAC(D_800B61B5);
                 obj = (proc_t *)func_8000A56C((s32)func_80010574, 0x1000000);
-                ((data800183A8_t *)obj->unk_30)->unk_10 = D_800B61B5;
+                ((playerProc_t *)obj->unk_30)->unk_10 = D_800B61B5;
                 result.w[1] = 2;
                 result.w[0] = 6;
             } else {

@@ -10,7 +10,7 @@ struct n64dk_r12 func_8001933C(s32 arg1) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (((data8001933C_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
+    if (((playerProc_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
         func_8000AD9C(arg1);
         return ret;
     }

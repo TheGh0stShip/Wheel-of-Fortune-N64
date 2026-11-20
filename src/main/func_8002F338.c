@@ -1,10 +1,9 @@
 #include "wof.h"
 
-struct gd_4_s32 { u8 pad[0x4]; s32 v; };
 
 struct n64dk_r12 func_8002F338(s32 arg1) {
     struct n64dk_r12 sp10;
-    s32 pad0[2];
+    OSTime time; /* NOTE: unused in the original. Eight bytes nothing touches; guess: an OSTime */
     s32 sp28;
     s32 sp2C;
     s32 sp30;
@@ -32,13 +31,13 @@ struct n64dk_r12 func_8002F338(s32 arg1) {
                 sp30++;
             }
         case 43:
-            ((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v = (s32)(osGetTime() / D_80084218);
+            ((timer_t *)((proc_t *)arg1)->unk_30)->start = (s32)(osGetTime() / D_80084218);
             break;
         }
     }
     D_800B81DC = D_800B81DC + D_800BCA1C;
     sp2C = (s32)(osGetTime() / D_80084218);
-    if ((sp2C - ((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v) >= D_800B81DC) {
+    if ((sp2C - ((timer_t *)((proc_t *)arg1)->unk_30)->start) >= D_800B81DC) {
         if (func_8000A990(0x5010000, -1) != 0) {
             return sp10;
         }

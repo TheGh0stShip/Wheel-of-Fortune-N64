@@ -1,48 +1,29 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-} Ref;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x28];
-    /* 0x28 */ f32 unk_28;
-    /* 0x2C */ f32 unk_2C;
-    /* 0x30 */ Ref *unk_30;
-} Task;
-
-typedef struct {
-    /* 0x00 */ f32 x;
-    /* 0x04 */ f32 y;
-} Vec2f;
-
-extern Vec2f D_800B39A0[];
-
 struct n64dk_r12 func_80017938(s32 arg1) {
     struct n64dk_r12 sp10;
     s32 pad0;
-    Task *task;
+    obj_t *cam;
 
     sp10.w[1] = 1;
     sp10.w[0] = 0;
-    if (((Task *)arg1)->unk_30->unk_04 != D_800FB808) {
+    if (((data80017938_t *)((proc_t *)arg1)->unk_30)->unk_04 != D_800FB808) {
         return sp10;
     }
     if ((D_800B9954.button & 1 & 0xFFFF) != 0) {
-        D_800B39A0[D_800FB808].y = D_800B39A0[D_800FB808].y - 0.5;
+        D_800B39A0[D_800FB808][1] = D_800B39A0[D_800FB808][1] - 0.5;
     }
     if ((D_800B9954.button & 2 & 0xFFFF) != 0) {
-        D_800B39A0[D_800FB808].y = D_800B39A0[D_800FB808].y + 0.5;
+        D_800B39A0[D_800FB808][1] = D_800B39A0[D_800FB808][1] + 0.5;
     }
     if ((D_800B9954.button & 4 & 0xFFFF) != 0) {
-        D_800B39A0[D_800FB808].x = D_800B39A0[D_800FB808].x - 0.5;
+        D_800B39A0[D_800FB808][0] = D_800B39A0[D_800FB808][0] - 0.5;
     }
     if ((D_800B9954.button & 8 & 0xFFFF) != 0) {
-        D_800B39A0[D_800FB808].x = D_800B39A0[D_800FB808].x + 0.5;
+        D_800B39A0[D_800FB808][0] = D_800B39A0[D_800FB808][0] + 0.5;
     }
-    task = (Task *)func_8000B5DC(0x3000000, 0xFF000000);
-    task->unk_28 = D_80057F7C + D_800B39A0[D_800FB808].x;
-    task->unk_2C = D_80057F80 + D_800B39A0[D_800FB808].y;
+    cam = (obj_t *)func_8000B5DC(0x3000000, 0xFF000000);
+    cam->unk_28 = D_80057F50[1].unk_0C + D_800B39A0[D_800FB808][0];
+    cam->unk_2C = D_80057F50[1].unk_10 + D_800B39A0[D_800FB808][1];
     return sp10;
 }

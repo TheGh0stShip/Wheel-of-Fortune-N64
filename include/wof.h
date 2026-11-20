@@ -457,89 +457,26 @@ typedef struct {
     /* 0x10 */ s32 unk_10;          // how many frames the move has
 } data80016734_t;    // size 0x14
 
-// the data of the proc whose handler is func_80017DBC
+// the data of the proc whose handler is func_80017938, created by func_80017C00
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-} data80017DBC_t;    // size 0x8
+    /* 0x00 */ u8  unk_00[0x4];
+    /* 0x04 */ s32 unk_04;      // the player whose turn it was made in
+} data80017938_t;    // size 0x8
 
-// the data of the proc whose handler is func_800183A8
+// The data of a player proc: the proc of a turn, whose handler is func_80019AAC for a person
+// and func_8001C584 for the machine, and the procs a turn makes for its steps, to which it
+// copies player, and from func_8001C584 unk_0C as well, through this struct: func_80017DBC,
+// func_800183A8, func_80018D28, func_8001933C, func_80019630, func_8001AE18, func_8001B6BC,
+// func_8001BC44 and func_8001BED8. func_80017DBC is made by both kinds of turn. The name is
+// from the ROM message "Status Proc: player proc does not exist", which func_8002CBF4 prints
+// when no proc of this class answers.
 typedef struct {
     /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 player;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ s8 unk_10;
-} data800183A8_t;    // size 0x14
-
-// the data of the proc whose handler is func_80018D28
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 player;
-    /* 0x08 */ u8 unk_08[0x8];
-    /* 0x10 */ s8 unk_10;
-} data80018D28_t;    // size 0x14
-
-// the data of the proc whose handler is func_8001933C
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 player;
-} data8001933C_t;    // size 0x8
-
-// the data of the proc whose handler is func_80019630
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x8];
-    /* 0x10 */ s8 unk_10;
-} data80019630_t;    // size 0x14
-
-// the data of the proc whose handler is func_80019AAC, created by func_8001A424 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 player;
-} data80019AAC_t;    // size 0x8
-
-// the data of the proc whose handler is func_8001AE18
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ s8 unk_10;
-} data8001AE18_t;    // size 0x14
-
-// the data of the proc whose handler is func_8001B6BC
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 player;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ s8 unk_10;
-} data8001B6BC_t;    // size 0x14
-
-// the data of the proc whose handler is func_8001BC44
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-} data8001BC44_t;    // size 0x8
-
-// the data of the proc whose handler is func_8001BED8
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ s8 unk_10;
-} data8001BED8_t;    // size 0x14
-
-// the data of the proc whose handler is func_8001C584, created by func_8001D320 func_8001D3CC 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
+    /* 0x04 */ s32 player;      // the contestant: 0, 1 or 2
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ f32 unk_0C;
-} data8001C584_t;    // size 0x10
+    /* 0x10 */ s8  unk_10;
+} playerProc_t;    // size 0x14
 
 // the data of the proc whose handler is func_80021744, created by func_80021C8C 
 typedef struct {
@@ -584,6 +521,21 @@ typedef struct {
     /* 0x04 */ u8 unk_04[0x8];
     /* 0x0C */ f32 unk_0C;
 } data8002EFC0_t;    // size 0x10
+
+// The data of the procs that time something out: handlers func_8002F338, func_8002F7CC,
+// func_8002F94C and func_8002FB60. The four are procs of one class (0x07) that keep the same
+// thing in the same place and share no helper; the ROM calls the third the "Solve Timer Proc"
+// (in func_8002FD8C), which is where the name is from.
+typedef struct {
+    /* 0x00 */ u8  unk_00[0x4];
+    /* 0x04 */ s32 start;       // when it was started or reset, in seconds since the boot
+} timer_t;    // size 0x8
+
+// the data of the proc whose handler is func_800345E8
+typedef struct {
+    /* 0x00 */ u8  unk_00[0x4];
+    /* 0x04 */ s32 unk_04;      // counts down from 10, a step a frame
+} data800345E8_t;    // size 0x8
 
 // the data of the proc whose handler is func_80033A28
 typedef struct {
@@ -775,8 +727,6 @@ extern s32 D_80057F34[];
 extern f32 D_80057F44;
 extern s32 D_80057F48;
 extern view_t D_80057F50[];
-extern f32 D_80057F7C;
-extern f32 D_80057F80;
 extern s32 D_800581F0[];
 extern s32 D_800581F4;
 extern s32 D_800581FC[];
@@ -916,6 +866,7 @@ extern s32 D_800B3988;
 extern ALBankFile *D_800B3990;
 extern s32 D_800B3994;
 extern ALBankFile *D_800B3998;      // NOTE: nothing sets it
+extern f32 D_800B39A0[][2];         // [3], for each player what the buttons have added to unk_28 and unk_2C of the camera
 extern wedge_t D_800B39B8[];
 extern s32 D_800B3CB8;
 extern u64 D_800B3CC0[];            // the stack of the graphics microcode: SP_DRAM_STACK_SIZE8 bytes

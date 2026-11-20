@@ -1,10 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-} State;
-
 void func_80017C00(s32 arg0, s32 arg1) {
     s32 sp10;
     s32 task;
@@ -22,7 +17,7 @@ void func_80017C00(s32 arg0, s32 arg1) {
         task = func_8000A990(0x2010000, 0xFFFF0000);
         if (task == 0 && arg1 == 0) {
             task = func_8000A56C((s32)&func_80017938, D_800FB808 | 0x2010000);
-            ((State *)((proc_t *)task)->unk_30)->unk_04 = D_800FB808;
+            ((data80017938_t *)((proc_t *)task)->unk_30)->unk_04 = D_800FB808;
         }
         func_80016944(sp10, arg0);
         return;
