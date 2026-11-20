@@ -10,8 +10,6 @@ typedef struct {
     /* 0x30 */ Actor **unk_30;
 } Obj;
 
-extern f64 D_80000BDC;
-extern f64 D_80000BE4;
 extern u16 D_800B9954;
 
 struct n64dk_r12 func_8000F740(s32 arg1) {
@@ -23,10 +21,10 @@ struct n64dk_r12 func_8000F740(s32 arg1) {
     result.w[1] = 1;
     result.w[0] = 0;
     if ((D_800B9954 & 16 & 0xFFFF) != 0) {
-        actor->unk_2C = actor->unk_2C - D_80000BDC;
+        actor->unk_2C = actor->unk_2C - 0.25;
     }
     if ((D_800B9954 & 32 & 0xFFFF) != 0) {
-        actor->unk_2C = actor->unk_2C + D_80000BE4;
+        actor->unk_2C = actor->unk_2C + 0.25;
     }
     return result;
 }

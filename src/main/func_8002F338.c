@@ -4,7 +4,6 @@ struct gd_4_s32 { u8 pad[0x4]; s32 v; };
 struct gd_30_s32 { u8 pad[0x30]; s32 v; };
 struct n64dk_a800B99A4 { s32 m0; u8 pad4[0x110]; };
 extern struct n64dk_a800B99A4 D_800B99A4[];
-extern f64 D_80001920;
 
 struct n64dk_r12 func_8002F338(s32 arg1) {
     struct n64dk_r12 sp10;
@@ -64,7 +63,7 @@ struct n64dk_r12 func_8002F338(s32 arg1) {
         if (func_8000A990(0x7050000, 0xFF00FF00) != 0) {
             return sp10;
         }
-        if (((f64)func_80008628()) < D_80001920) {
+        if (((f64)func_80008628()) < 0.6) {
             func_80002CE0(3);
             func_8000A56C(((s32)&func_8002EFC0), 0x7020000);
             func_8000ABB8(30, 0, 0, 0);

@@ -5,7 +5,6 @@ typedef struct {
     /* 0x50 */ s32 next;
 } Node;
 
-extern s32 D_800009F0;
 extern Node D_800B40C8;
 
 s32 func_8000B060(s32 arg0) {
@@ -21,6 +20,6 @@ s32 func_8000B060(s32 arg0) {
         node = (Node *)next;
         next = node->next;
     }
-    func_80009F38(&D_800009F0);
+    func_80009F38("GetObjBefore: Could not find obj\n");
     return 0;
 }

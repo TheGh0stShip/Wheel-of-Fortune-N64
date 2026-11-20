@@ -17,10 +17,6 @@ typedef struct {
     /* 0x30 */ State *unk_30;
 } Task;
 
-extern f32 D_80000BEC;
-extern f64 D_80000BF0;
-extern f32 D_80000BF8;
-extern f32 D_80000BFC;
 
 struct n64dk_r12 func_8000FC3C(s32 arg1) {
     struct n64dk_r12 ret;
@@ -34,11 +30,11 @@ struct n64dk_r12 func_8000FC3C(s32 arg1) {
         ret.w[1] = 0;
         ret.w[0] = 0;
     } else {
-        obj->unk_2C = obj->unk_2C - ((Task *)arg1)->unk_30->unk_0C / D_80000BEC * D_800B96B4;
-        ((Task *)arg1)->unk_30->unk_0C = ((Task *)arg1)->unk_30->unk_0C - D_800B96B4 * D_80000BF0;
+        obj->unk_2C = obj->unk_2C - ((Task *)arg1)->unk_30->unk_0C / 60.0f * D_800B96B4;
+        ((Task *)arg1)->unk_30->unk_0C = ((Task *)arg1)->unk_30->unk_0C - D_800B96B4 * 0.5;
     }
-    if (((Task *)arg1)->unk_30->unk_0C <= D_80000BF8) {
-        if (((Task *)arg1)->unk_30->unk_10 > D_80000BFC) {
+    if (((Task *)arg1)->unk_30->unk_0C <= 50.0f) {
+        if (((Task *)arg1)->unk_30->unk_10 > 50.0f) {
             func_8000A850(4);
         }
     }

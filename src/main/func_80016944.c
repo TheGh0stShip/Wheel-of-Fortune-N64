@@ -44,14 +44,13 @@ typedef struct {
 
 extern Angles D_80057F52[];
 extern Pose D_80057F5C[];
-extern f32 D_80000E88;
 extern s32 D_800BA5D8;
 
 void func_80016944(s32 arg0, s32 arg1) {
     s32 task;
 
     D_800BA2BC = arg1;
-    ((Obj *)arg0)->unk_18 = D_80000E88;
+    ((Obj *)arg0)->unk_18 = 1.0f;
     ((Obj *)arg0)->unk_10 = D_80057F52[arg1].unk_00;
     ((Obj *)arg0)->unk_12 = D_80057F52[arg1].unk_04;
     ((Obj *)arg0)->unk_14 = D_80057F52[arg1].unk_08;

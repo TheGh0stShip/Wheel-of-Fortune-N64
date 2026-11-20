@@ -15,7 +15,6 @@ typedef struct {
     /* 0x30 */ State *unk_30;
 } Task;
 
-extern f32 D_80000ECC;
 
 struct n64dk_r12 func_80017DBC(s32 arg1) {
     struct n64dk_r12 result;
@@ -67,7 +66,7 @@ struct n64dk_r12 func_80017DBC(s32 arg1) {
         }
         obj = (Obj *)func_8000B5DC(0x4010000, -1);
         obj->unk_2C = D_8004B848[D_800B619C] - D_800581F4;
-        obj->unk_2C = obj->unk_2C - D_80000ECC;
+        obj->unk_2C = obj->unk_2C - 360.0f;
         result.w[1] = 2;
         result.w[0] = 45;
         return result;

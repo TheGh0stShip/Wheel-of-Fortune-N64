@@ -1,14 +1,12 @@
 #include "wof.h"
 
-extern char D_800007D8[];
-extern char D_800007DC[];
 
 void func_80009AE0(s32 arg0, s32 arg1) {
     s32 i;
     s8 buf[24];
 
     if (arg1 == 0) {
-        func_80009900(arg0, (s32)D_800007D8);
+        func_80009900(arg0, (s32)"0");
         return;
     }
     i = 19;
@@ -24,7 +22,7 @@ void func_80009AE0(s32 arg0, s32 arg1) {
     }
     *(s8 *)arg0 = 0;
     if (arg1 < 0) {
-        func_80009900(arg0, (s32)D_800007DC);
+        func_80009900(arg0, (s32)"-");
     }
     func_80009900(arg0, (s32)&buf[i]);
 }

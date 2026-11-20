@@ -1,11 +1,10 @@
 #include "wof.h"
 
-extern f32 D_800007CC;
 
 void func_80009108(f32 arg0) {
     s32 angle;
 
-    if (arg0 == D_800007CC) {
+    if (arg0 == -1.0f) {
         D_800BEDA8 += func_80009C98(24);
     } else {
         angle = (s32)arg0;

@@ -21,7 +21,6 @@ typedef struct {
     /* 0x30 */ Obj **unk_30;
 } Task;
 
-extern f32 D_8000168C;
 
 s32 func_80027218(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     Obj *obj;
@@ -38,7 +37,7 @@ s32 func_80027218(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (arg0 != 0) {
         *((Task *)arg0)->unk_30 = obj;
     }
-    obj->unk_18 = D_8000168C;
+    obj->unk_18 = 1.0f;
     obj->unk_10 = -160;
     obj->unk_12 = -80;
     obj->unk_14 = -450;

@@ -7,14 +7,12 @@ typedef struct {
 } Node;
 
 extern Node D_800B40C8[];
-extern s32 D_80000A14;
-extern s32 D_80000A30;
 
 s32 func_8000B10C(void) {
     s32 i;
 
     if (D_800BCA10 == 100) {
-        func_80009F38(&D_80000A14);
+        func_80009F38("AllocObj: Out of Objects\n");
         return 0;
     }
     i = 1;
@@ -25,6 +23,6 @@ s32 func_8000B10C(void) {
         }
         i++;
     }
-    func_80009F38(&D_80000A30);
+    func_80009F38("AllocObj: Reached end of objst.\n");
     return 0;
 }

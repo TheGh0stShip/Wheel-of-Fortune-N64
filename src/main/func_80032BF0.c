@@ -30,7 +30,6 @@ typedef struct {
 extern Pair D_8005C3A0[];
 extern Slot D_8005C7F0[];
 extern Player D_800B99A8[];
-extern s32 D_80001A0C;
 extern Slot D_8005C3B8[][2];
 
 void func_80032BF0(void) {
@@ -51,7 +50,7 @@ void func_80032BF0(void) {
     D_800BCA60 = func_8000B978();
     for (i = 0; i < 3; i++) {
         if (D_800B99A8[i].unk_00 >= 6) {
-            func_80009F38(&D_80001A0C);
+            func_80009F38("InitContestants: invalid image num");
         }
         slots = D_8005C3B8[D_800B99A8[i].unk_00];
         for (j = 0; j < 2; j++) {

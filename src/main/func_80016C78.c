@@ -26,9 +26,6 @@ typedef struct {
 } Camera;
 
 extern Camera D_8005EB48[];
-extern f32 D_80000E8C;
-extern f32 D_80000E90;
-extern f32 D_80000E94;
 extern Gfx *D_800B81E8;
 extern Camera *D_800BA5D8;
 
@@ -41,7 +38,7 @@ void func_80016C78(s32 arg0, s32 arg1) {
     f32 up[4][4];
     Gfx *gfx;
 
-    func_8003E248(arg1, &perspNorm, 33.0f, 4.0f / 3.0f, D_80000E8C, D_80000E90, ((Obj *)arg0)->unk_18);
+    func_8003E248(arg1, &perspNorm, 33.0f, 4.0f / 3.0f, 200.0f, 5000.0f, ((Obj *)arg0)->unk_18);
     gfx = D_800B81E8++;
     gfx->w0 = 0xBC00000E;
     gfx->w1 = perspNorm;
@@ -56,7 +53,7 @@ void func_80016C78(s32 arg0, s32 arg1) {
         func_8004A460(arg1 + 64, D_8005EB48[frame].eyeX, D_8005EB48[frame].eyeY, D_8005EB48[frame].eyeZ, D_8005EB48[frame].atX, D_8005EB48[frame].atY, D_8005EB48[frame].atZ, D_8005EB48[frame].upX, D_8005EB48[frame].upY, D_8005EB48[frame].upZ);
     } else if (D_800BA5D8 != 0) {
         if (D_800B6BE8 + D_800B6BEC + D_800B6BF0 == 0.0f) {
-            func_8004A460(arg1 + 64, D_800BA5D8->eyeX, D_800BA5D8->eyeY, D_800BA5D8->eyeZ, D_800BA5D8->atX, D_800BA5D8->atY, D_800BA5D8->atZ, 0.0f, D_80000E94, 0.0f);
+            func_8004A460(arg1 + 64, D_800BA5D8->eyeX, D_800BA5D8->eyeY, D_800BA5D8->eyeZ, D_800BA5D8->atX, D_800BA5D8->atY, D_800BA5D8->atZ, 0.0f, 1.0f, 0.0f);
         } else {
             func_8004A460(arg1 + 64, D_800BA5D8->eyeX, D_800BA5D8->eyeY, D_800BA5D8->eyeZ, D_800BA5D8->atX, D_800BA5D8->atY, D_800BA5D8->atZ, D_800B6BE8, D_800B6BEC, D_800B6BF0);
         }

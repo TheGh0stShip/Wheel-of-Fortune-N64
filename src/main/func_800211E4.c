@@ -19,7 +19,6 @@ typedef struct {
     /* 0x48 */ s32 unk_48;
 } Task;
 
-extern f32 D_80001558;
 
 s32 func_800211E4(s32 arg0, s32 arg1, f32 arg2, f32 arg3, s32 arg4) {
     s32 parent;
@@ -30,7 +29,7 @@ s32 func_800211E4(s32 arg0, s32 arg1, f32 arg2, f32 arg3, s32 arg4) {
         parent = ((Parent *)arg0)->unk_04;
     }
     task = (Task *)func_8000B3B0(parent, (s32)&func_80020150, 0x5010000);
-    task->unk_18 = D_80001558;
+    task->unk_18 = 1.0f;
     task->unk_10 = arg2;
     task->unk_12 = arg3;
     task->unk_14 = 0;

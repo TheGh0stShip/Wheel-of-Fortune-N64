@@ -11,11 +11,6 @@ typedef struct {
     /* 0x244 */ u8 unk_244[0xC];
     /* 0x250 */ f64 unk_250;
 } Ctx;
-extern s32 D_8008823C;
-extern s32 D_80088244;
-extern s32 D_80088248;
-extern s32 D_8008825C;
-extern s32 D_80088278;
 extern Ctx *D_800FD2C0;
 extern Ctx *D_80107884;
 
@@ -44,20 +39,20 @@ void func_8009CEC0(s32 arg0, s32 arg1) {
     sp14 = 1;
     D_80086D3C = arg1;
     D_8010346C = 0;
-    D_801084A0 = &D_8008823C;
+    D_801084A0 = "stdin";
     D_800FD2C0 = 0;
     D_80107884 = 0;
     D_80103414 = -1;
     D_80103418 = -1;
     D_80103468 = 0;
-    sp10 = &D_80088244;
+    sp10 = "";
     D_80107880 = 8;
     D_80103474 = 4;
     D_80103478 = 4;
     D_80086D28 = 0;
     D_8010346C = func_800A4DD0(arg0);
     if (D_8010346C == 0) {
-        func_80009F38(&D_80088248);
+        func_80009F38("MPEG: input == NULL");
     }
     D_801084A0 = 0;
     D_80103470 = sp18;
@@ -65,7 +60,7 @@ void func_8009CEC0(s32 arg0, s32 arg1) {
     if (D_80086D34 != -1) {
         if (D_80086D38 != -1) {
             if (D_80086D38 < D_80086D34) {
-                func_80009F38(&D_8008825C);
+                func_80009F38("MPEG: endFrame < startFrame");
             }
         }
     }
@@ -98,7 +93,7 @@ void func_8009CEC0(s32 arg0, s32 arg1) {
     sp14 = D_80086D20;
     D_80086D20 = 1;
     if (func_80089B10(0, (s32)D_800FD2C0, 1, (s32)&D_801033F8) == 0) {
-        func_80009F38(&D_80088278);
+        func_80009F38("MPEG: mpegVidRsrc returned NULL");
     }
     D_80086D20 = sp14;
     sp5C = 1;

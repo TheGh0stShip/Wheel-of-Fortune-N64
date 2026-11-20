@@ -17,7 +17,6 @@ typedef struct {
     /* 0x40 */ s32 unk_40;
 } Task;
 
-extern s32 D_80000870;
 
 s32 func_8000A56C(s32 arg0, s32 arg1) {
     Task *last;
@@ -27,7 +26,7 @@ s32 func_8000A56C(s32 arg0, s32 arg1) {
     last = (Task *)func_8000A0E4();
     task = (Task *)func_8000A204();
     if (task == 0) {
-        func_80009F38(&D_80000870);
+        func_80009F38("CreatProc: Failed to alloc proc\n");
         return 0;
     }
     last->unk_40 = (s32)task;

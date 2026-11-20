@@ -16,7 +16,6 @@ typedef struct {
     /* 0x48 */ s32 unk_48;
 } Obj;
 
-extern f32 D_80000D0C;
 
 s32 func_80015848(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     Obj *obj;
@@ -33,7 +32,7 @@ s32 func_80015848(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (arg0 != 0) {
         *((Obj *)arg0)->unk_30 = (s32)obj;
     }
-    obj->unk_18 = D_80000D0C;
+    obj->unk_18 = 1.0f;
     obj->unk_10 = 0;
     obj->unk_12 = 0;
     obj->unk_14 = 0;

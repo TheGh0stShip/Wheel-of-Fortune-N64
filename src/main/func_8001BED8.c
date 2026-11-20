@@ -19,7 +19,6 @@ typedef struct {
 } Player;
 
 extern Player D_800B9A8C[];
-extern f64 D_80001408;
 
 struct n64dk_r12 func_8001BED8(s32 arg1) {
     struct n64dk_r12 sp10;
@@ -89,7 +88,7 @@ struct n64dk_r12 func_8001BED8(s32 arg1) {
             func_80029974(0);
             func_8002FD50();
             ratio = func_80008628();
-            if (ratio > D_80001408) {
+            if (ratio > 0.7) {
                 task = func_8000A56C((s32)&func_8001BC44, ((Task *)arg1)->unk_30->unk_04 | 0x2000300);
                 ((Task *)task)->unk_30->unk_04 = ((Task *)arg1)->unk_30->unk_04;
                 ((Task *)task)->unk_30->unk_0C = ((Task *)arg1)->unk_30->unk_0C;

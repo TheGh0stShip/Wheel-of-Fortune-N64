@@ -9,17 +9,14 @@ typedef struct {
     /* 0x1C */ s32 items[5];
 } Obj;
 
-extern s32 D_800008FC;
-extern s32 D_80000918;
-extern s32 D_80000938;
 
 void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2) {
     if (arg0 == 0) {
-        func_80009F38(&D_800008FC);
+        func_80009F38("ProcPostMessage: NULL proc\n");
         return;
     }
     if (arg1 >= 53) {
-        func_80009F38(&D_80000918);
+        func_80009F38("ProcPostMessage: bogus message\n");
         return;
     }
     if (((Obj *)arg0)->count < 5) {
@@ -31,5 +28,5 @@ void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2) {
         }
         return;
     }
-    func_80009F38(&D_80000938);
+    func_80009F38("ProcPostMessage: Message Que overrun.\n");
 }

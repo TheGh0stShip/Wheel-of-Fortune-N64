@@ -16,11 +16,6 @@ typedef struct {
 } Player;
 
 extern Player D_800B9990[];
-extern f64 D_800011CC;
-extern f64 D_800011D4;
-extern f32 D_800011DC;
-extern f32 D_800011E0;
-extern f64 D_800011E4;
 
 void func_8001AA60(s32 arg0) {
     s32 task;
@@ -34,14 +29,14 @@ void func_8001AA60(s32 arg0) {
     task = func_8000A990(0x5000000, -1);
     if (D_800B9D00 != 0) {
         if (D_800B96A0 != 0) {
-            if (sp20 > D_800011CC) {
+            if (sp20 > 0.6) {
                 D_800B61B5 = 50;
                 func_8000AAB0(arg0, 14, 0);
                 func_8000AAB0(task, 27, 0);
                 return;
             }
         }
-        if (sp20 > D_800011D4 || D_800B9CF8 == 0) {
+        if (sp20 > 0.7 || D_800B9CF8 == 0) {
             D_800B61B5 = 50;
             func_8000AAB0(arg0, 14, 0);
             func_8000AAB0(task, 27, 0);
@@ -50,10 +45,10 @@ void func_8001AA60(s32 arg0) {
     }
     if (D_800B9CF8 != 0) {
         sp1C = (f32)func_80009C98(100);
-        sp1C = sp1C / D_800011DC;
+        sp1C = sp1C / 100.0f;
         score = (f32)func_80009A74((s32)&D_800B61C0);
-        score = score / D_800011E0;
-        score = score * D_800011E4;
+        score = score / 21.0f;
+        score = score * 0.15;
         score = score + sp1C;
         switch (func_800084E8()) {
         case 4:

@@ -33,7 +33,6 @@ typedef struct {
 } Entry;
 
 extern Entry D_8005C720[];
-extern s32 D_80001974;
 
 void func_800323C4(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     Task *task;
@@ -43,7 +42,7 @@ void func_800323C4(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         return;
     }
     if (arg0 >= 6) {
-        func_80009F38(&D_80001974);
+        func_80009F38("InitAnim: invalid animation number");
     }
     if (D_8005C720[arg0].unk_10 == 0) {
         return;

@@ -6,14 +6,12 @@ typedef struct {
 } Obj;
 
 extern Obj D_800B82A0[];
-extern s32 D_80000814;
-extern s32 D_80000830;
 
 s32 func_8000A204(void) {
     s32 i;
 
     if (D_800BEE50 == 69) {
-        func_80009F38(&D_80000814);
+        func_80009F38("AllocProc: Out of Procs\n");
         return 0;
     }
     i = 1;
@@ -24,6 +22,6 @@ s32 func_8000A204(void) {
         }
         i++;
     }
-    func_80009F38(&D_80000830);
+    func_80009F38("AllocProc: Reached end of procst.\n");
     return 0;
 }

@@ -17,7 +17,6 @@ typedef struct {
 
 extern Status D_800A70A0[];
 extern Slot D_800BEE60[];
-extern s32 D_800004C0;
 extern Entry D_800AB448[];
 
 void func_8000420C(void) {
@@ -37,7 +36,7 @@ void func_8000420C(void) {
     D_800A70C8 = 5;
     func_8003E608(5, &D_800B3970, &D_800A70C8);
     if ((i = (s32)func_80048458(&D_800B3970, &D_800B96C4, D_800A70A0)) != 0) {
-        func_80009F98((s32)&D_800004C0);
+        func_80009F98((s32)"Failure initing controllers\n");
     }
     i = 0;
     while (i < 4) {

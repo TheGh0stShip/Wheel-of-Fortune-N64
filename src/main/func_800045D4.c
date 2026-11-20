@@ -22,8 +22,6 @@ typedef struct {
 
 extern Player D_800B99A4[];
 extern Rumble D_800BEE60[];
-extern f64 D_800004E0;
-extern f64 D_800004E8;
 extern Pad D_800A70B0[];
 extern Pad D_800B9954;
 
@@ -46,10 +44,10 @@ void func_800045D4(void) {
                     if (D_800BEE60[i].unk_0C > 0) {
                         D_800BEE60[i].unk_0C--;
                         D_800BEE60[i].unk_04 += D_800BEE60[i].unk_08;
-                        if ((f64)D_800BEE60[i].unk_04 < D_800004E0) {
+                        if ((f64)D_800BEE60[i].unk_04 < 1.0) {
                             func_80004EB0(i);
                         } else {
-                            D_800BEE60[i].unk_04 = (f32)((f64)D_800BEE60[i].unk_04 - D_800004E8);
+                            D_800BEE60[i].unk_04 = (f32)((f64)D_800BEE60[i].unk_04 - 1.0);
                             func_80004E50(i);
                         }
                     } else if (D_800BEDE8[i] != 0) {

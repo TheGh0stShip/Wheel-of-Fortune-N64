@@ -17,7 +17,6 @@ typedef struct {
     /* 0x248 */ s32 unk_248;
 } Stream;
 
-extern s32 D_8008855C;
 
 void func_800A2D84(s32 arg0) {
     s32 err;
@@ -28,7 +27,7 @@ void func_800A2D84(s32 arg0) {
     }
     err = func_800A4BB4(((Stream *)arg0)->unk_208, ((Stream *)arg0)->unk_20C, 0);
     if (err != 0) {
-        func_80009F38(&D_8008855C);
+        func_80009F38("mpeg_play");
     }
     ((Stream *)arg0)->unk_20C = -((Stream *)arg0)->unk_20C;
     ((Stream *)arg0)->unk_248 = 0;

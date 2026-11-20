@@ -1,6 +1,5 @@
 #include "wof.h"
 
-extern f64 D_800880C0;
 
 void func_8009C754(s32 arg0) {
     s32 i;
@@ -26,7 +25,7 @@ void func_8009C754(s32 arg0) {
             for (k = 0; k < 8; k++) {
                 sum = sum + D_800FD098[k][i] * tmp[k * 8 + j];
             }
-            value = (s32)func_800A4F24(sum + D_800880C0);
+            value = (s32)func_800A4F24(sum + 0.5);
             ((s16 *)arg0)[i * 8 + j] = (value < -256) ? -256 : ((value >= 256) ? 255 : (u16)value);
         }
         j++;

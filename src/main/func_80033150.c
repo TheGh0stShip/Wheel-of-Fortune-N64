@@ -14,8 +14,6 @@ typedef struct {
 } Entry;
 
 extern Entry D_800B99A8[];
-extern s32 D_800019BC;
-extern s32 D_80001A0C;
 extern Slot D_8005C568[][2];
 
 s32 func_80033150(s32 arg0, s32 arg1, s32 arg2) {
@@ -29,13 +27,13 @@ s32 func_80033150(s32 arg0, s32 arg1, s32 arg2) {
 
     sp34 = 0x2000000;
     if (D_800B99A8[arg2].unk_00 >= 6) {
-        func_80009F38(&D_80001A0C);
+        func_80009F38("InitContestants: invalid image num");
     }
     slots = D_8005C568[D_800B99A8[arg2].unk_00];
     if (slots[arg0].unk_08 > 0) {
         task = func_8000B5DC(arg2 | 0xA020000, -1);
         if (task == 0) {
-            func_80009F38(&D_800019BC);
+            func_80009F38(D_800019BC);
         }
         other = func_8000A990(arg2 | 0xA000300, -1);
         if (other != 0) {

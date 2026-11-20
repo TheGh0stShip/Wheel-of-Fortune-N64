@@ -10,8 +10,6 @@ typedef struct Node {
     /* 0x40 */ struct Node *next;
 } Node;
 
-extern s32 D_800008B8;
-extern s32 D_800008D4;
 extern Node D_800B82A0;
 
 void func_8000A850(s32 arg0) {
@@ -19,7 +17,7 @@ void func_8000A850(s32 arg0) {
     Node *node;
 
     if (arg0 >= 53) {
-        func_80009F38(&D_800008B8);
+        func_80009F38("ProcPostEvent: bogus event\n");
         return;
     }
     node = &D_800B82A0;
@@ -33,7 +31,7 @@ void func_8000A850(s32 arg0) {
                 node->unk_1C[node->count] = arg0;
                 node->count++;
             } else {
-                func_80009F38(&D_800008D4);
+                func_80009F38("ProcPostEvent: Message Que overrun.\n");
             }
         }
     }

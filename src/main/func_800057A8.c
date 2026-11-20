@@ -41,7 +41,6 @@ typedef struct {
     /* 0x1E478 */ s32 unk_1E478;
 } Frame;
 
-extern s32 D_80000520;
 extern Gfx *D_800B81E8;
 
 void func_800057A8(s32 arg0) {
@@ -151,7 +150,7 @@ void func_800057A8(s32 arg0) {
     gfx->w1 = 0;
     func_800453B8(arg0 + 88, (s32)D_800B81E8 - (arg0 + 88));
     if (D_800B81E8 - (Gfx *)(sp10 + 0x4CC0) >= 3048) {
-        func_80009F38(&D_80000520);
+        func_80009F38("GFX Error: GLIST OVERFLOW\n");
     }
     task = (Task *)arg0;
     task->unk_40 = sp10 + 0x4CC0;

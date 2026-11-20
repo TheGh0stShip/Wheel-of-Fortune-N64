@@ -94,6 +94,14 @@ extern s32 D_01176D08;
 extern s32 D_01197D78;
 
 //
+// string literals that cannot be written as literals until their unit is merged: the unit's
+// read-only data starts in an earlier function, which fixes where this one's strings and jump
+// tables fall
+//
+extern char D_80001594[];   // "MainMenu1 Proc: button press invalid\n", in func_800232AC
+extern char D_800019BC[];   // "InitAnim: cannot find contestant obj", in func_80033150
+
+//
 // globals, in address order
 //
 extern s32 D_800349B8;
@@ -581,7 +589,7 @@ s32 func_80009C98( s32 arg0 );
 void func_80009D08( s32 arg0 );
 s32 func_80009D2C( s32 arg0 );
 void func_80009D78( s32 arg0 );
-void func_80009F38( s32 *arg0 );
+void func_80009F38( char *arg0 );
 void func_80009F98( s32 arg0 );
 void func_80009FD8( void );
 s32 func_8000A0E4( void );

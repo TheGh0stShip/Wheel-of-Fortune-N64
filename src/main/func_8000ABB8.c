@@ -9,8 +9,6 @@ typedef struct {
     /* 0x1C */ s32 items[5];
 } Node;
 
-extern s32 D_80000960;
-extern s32 D_80000988;
 
 void func_8000ABB8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     Node *node;
@@ -18,14 +16,14 @@ void func_8000ABB8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     node = (Node *)func_8000A990(arg1, arg2);
     while (node != 0) {
         if (arg0 >= 53) {
-            func_80009F38(&D_80000960);
+            func_80009F38("ProcPostMessageClass: bogus message\n");
             return;
         }
         if (node->count < 5) {
             node->items[node->count] = arg0;
             node->count++;
         } else {
-            func_80009F38(&D_80000988);
+            func_80009F38("ProcPostMessageClass: Message Que overrun.\n");
         }
         if (arg3 != 0) {
             node->unk_14 = 0;

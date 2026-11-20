@@ -23,7 +23,6 @@ typedef struct {
 } Slot;
 
 extern Slot D_80058568[];
-extern s32 D_80001594;
 extern Item D_800584C8[];
 extern s32 D_800584E0;
 extern s32 D_80058548;
@@ -68,7 +67,7 @@ struct n64dk_r12 func_800232AC(s32 arg1) {
             result.w[0] = 1;
             return result;
         default:
-            func_80009F38(&D_80001594);
+            func_80009F38(D_80001594);
         }
     }
     if ((D_800B96B0 & 0x5000 & 0xFFFF) != 0) {

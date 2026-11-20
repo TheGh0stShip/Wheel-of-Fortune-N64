@@ -34,12 +34,6 @@ typedef struct {
 } Entry;
 
 extern Entry D_80057808[];
-extern f32 D_80000AE4;
-extern f32 D_80000AE8;
-extern f32 D_80000AEC;
-extern f32 D_80000AF0;
-extern f32 D_80000AF4;
-extern f32 D_80000AF8;
 
 void func_8000E7D4(void) {
     Task *task;
@@ -65,15 +59,15 @@ void func_8000E7D4(void) {
     obj->unk_12 = -20;
     task = (Task *)func_8000A56C((s32)func_8000BEA8, 0x8000000);
     obj = (Obj *)func_80015848((s32)task, (s32)&D_01197D78, (s32)func_8000D400, 0x8010000);
-    task->data->unk_0C = D_80000AE4;
-    task->data->unk_10 = D_80000AE8;
-    task->data->unk_14 = D_80000AEC;
+    task->data->unk_0C = -272.0f;
+    task->data->unk_10 = 306.0f;
+    task->data->unk_14 = -411.0f;
     obj->unk_10 = -272;
     obj->unk_12 = 306;
     obj->unk_14 = -411;
-    obj->unk_28 = D_80000AF0;
-    obj->unk_2C = D_80000AF4;
-    obj->unk_30 = D_80000AF8;
+    obj->unk_28 = -61.317f;
+    obj->unk_2C = 58.385f;
+    obj->unk_30 = -9.848f;
     D_800B61AC = 0;
     task->data->unk_04 = func_80002CE0(15);
     for (i = 0; i < 24; i++) {

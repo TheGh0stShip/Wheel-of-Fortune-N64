@@ -13,13 +13,12 @@ typedef struct {
 
 extern Slot D_800584E0[];
 extern Player D_800B99A4[];
-extern f32 D_80001674;
 
 void func_80026FD4(void) {
     s32 i;
     s32 count;
 
-    D_800B8298 = D_80001674;
+    D_800B8298 = 0.65f;
     D_800B96C0 = 6;
     for (i = 0; i < 3; i++) {
         D_800584E0[i].unk_00 = 4;

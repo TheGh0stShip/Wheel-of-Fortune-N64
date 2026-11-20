@@ -6,9 +6,6 @@ typedef struct {
 } Player;
 
 extern Player D_800B99A8[];
-extern f32 D_800015FC;
-extern f32 D_80001600;
-extern f32 D_80001604;
 
 void func_8002500C(void) {
     s32 i;
@@ -19,13 +16,13 @@ void func_8002500C(void) {
     func_80023200();
     switch (D_80058E88) {
     case 0:
-        D_800B8298 = D_800015FC;
+        D_800B8298 = 0.3f;
         break;
     case 1:
-        D_800B8298 = D_80001600;
+        D_800B8298 = 0.65f;
         break;
     case 2:
-        D_800B8298 = D_80001604;
+        D_800B8298 = 0.9f;
     }
     D_800B96C0 = D_80058FE0 + 3;
 }

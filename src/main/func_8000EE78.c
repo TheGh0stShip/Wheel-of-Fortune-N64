@@ -1,13 +1,12 @@
 #include "wof.h"
 
-extern f32 D_80000B8C;
 
 void func_8000EE78(void) {
     s32 pad0[2];
     s8 pad1;
 
     D_800BCD54 = 3;
-    D_800B8298 = D_80000B8C;
+    D_800B8298 = 0.65f;
     do {
     } while (D_800BEDE4 != 0 && D_800B96AC < 100);
     func_800174DC();

@@ -1,9 +1,5 @@
 #include "wof.h"
 
-extern f64 D_800883E4;
-extern f64 D_800883EC;
-extern f64 D_800883F4;
-extern f64 D_800883FC;
 extern s32 *D_800FF2DC;
 extern s32 *D_800FF2E0;
 extern s32 *D_800FF2E4;
@@ -52,10 +48,10 @@ void func_800A1BE4(s32 arg0) {
             sp24 -= 128;
             sp20 -= 128;
         }
-        D_800FF2CC[i] = sp20 * D_800883E4;
-        D_800FF2D0[i] = sp20 * D_800883EC;
-        D_800FF2D4[i] = sp24 * D_800883F4;
-        D_800FF2D8[i] = sp24 * D_800883FC;
+        D_800FF2CC[i] = sp20 * 1.4013377926421404;
+        D_800FF2D0[i] = sp20 * -0.7136038186157518;
+        D_800FF2D4[i] = sp24 * -0.34441087613293053;
+        D_800FF2D8[i] = sp24 * 1.7734138972809665;
     }
     i = 0;
     while (i < 256) {

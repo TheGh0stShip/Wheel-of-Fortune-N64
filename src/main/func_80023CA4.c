@@ -22,7 +22,6 @@ typedef struct {
 } Player;
 
 extern Player D_800B99A8[];
-extern s32 D_80001594;
 extern Item D_80058868[];
 extern s32 D_800588F0;
 
@@ -69,7 +68,7 @@ struct n64dk_r12 func_80023CA4(s32 arg1) {
                 return ret;
             }
         default:
-            func_80009F38(&D_80001594);
+            func_80009F38("MainMenu1 Proc: button press invalid\n");
         }
     }
     if ((D_800B96B0 & 0x5000) & 0xFFFF) {

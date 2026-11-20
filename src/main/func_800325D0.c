@@ -30,9 +30,6 @@ typedef struct {
 
 extern Entry D_8005C3C0[][2];
 extern Player D_800B99A8[];
-extern s32 D_80001974;
-extern s32 D_80001998;
-extern s32 D_800019BC;
 
 void func_800325D0(s32 arg0, s32 arg1) {
     Task *task;
@@ -43,18 +40,18 @@ void func_800325D0(s32 arg0, s32 arg1) {
         return;
     }
     if (arg0 >= 2) {
-        func_80009F38(&D_80001974);
+        func_80009F38("InitAnim: invalid animation number");
     }
     kind = D_800B99A8[arg1].unk_00;
     if (kind >= 6) {
-        func_80009F38(&D_80001998);
+        func_80009F38("InitAnim: invalid contestant number");
     }
     if (D_8005C3C0[kind][arg0].unk_10 == 0) {
         return;
     }
     obj = func_8000B5DC(arg1 | 0xA020000, -1);
     if (obj == 0) {
-        func_80009F38(&D_800019BC);
+        func_80009F38("InitAnim: cannot find contestant obj");
     }
     task = (Task *)func_8000A990(arg1 | 0xA000300, -1);
     if (task != 0) {

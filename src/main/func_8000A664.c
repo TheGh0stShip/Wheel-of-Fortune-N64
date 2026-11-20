@@ -16,7 +16,6 @@ typedef struct Task {
     /* 0x40 */ struct Task *next;
 } Task;
 
-extern s32 D_80000894;
 extern Task D_800B82A0;
 
 void func_8000A664(void) {
@@ -28,7 +27,7 @@ void func_8000A664(void) {
     while (task->next != 0) {
         task = task->next;
         if (task->func == 0) {
-            func_80009F38(&D_80000894);
+            func_80009F38("DoProcs: Tried to execute a NULL\n");
             return;
         }
         if (task->unk_14 == 0) {

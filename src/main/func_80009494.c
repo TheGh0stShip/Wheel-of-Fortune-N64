@@ -4,7 +4,6 @@ typedef struct {
     u8 unk_00[0x14];
 } Entry;
 
-extern s32 D_800007D0;
 extern s32 D_800B9990;
 extern s32 D_800B9994;
 extern Entry D_800B99C0[];
@@ -18,18 +17,18 @@ void func_80009494(void) {
     D_800B9994 = 0;
     D_800B9A88 = 0;
     for (i = 0; i < 10; i++) {
-        func_80009900((s32)&D_800B99C0[i], (s32)&D_800007D0);
+        func_80009900((s32)&D_800B99C0[i], (s32)"0");
     }
     D_800B9AA4 = 0;
     D_800B9AA8 = 0;
     D_800B9B9C = 0;
     for (i = 0; i < 10; i++) {
-        func_80009900((s32)&D_800B9AD4[i], (s32)&D_800007D0);
+        func_80009900((s32)&D_800B9AD4[i], (s32)"0");
     }
     D_800B9BB8 = 0;
     D_800B9BBC = 0;
     D_800B9CB0 = 0;
     for (i = 0; i < 10; i++) {
-        func_80009900((s32)&D_800B9BE8[i], (s32)&D_800007D0);
+        func_80009900((s32)&D_800B9BE8[i], (s32)"0");
     }
 }

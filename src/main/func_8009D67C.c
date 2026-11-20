@@ -1,13 +1,5 @@
 #include "wof.h"
 
-extern f64 D_80088328;
-extern f64 D_80088330;
-extern f64 D_80088338;
-extern f64 D_80088340;
-extern f64 D_80088348;
-extern f64 D_80088350;
-extern f64 D_80088358;
-extern f64 D_80088360;
 
 void func_8009D67C(s32 arg0) {
     register s16 *p;
@@ -149,7 +141,7 @@ void func_8009D67C(s32 arg0) {
                         if (sp3C != 0) {
                             if (sp34 != 0) {
                                 sp8 = sp3C * 0x1151;
-                                spC = (s32)((f64)sp3C * D_80088328);
+                                spC = (s32)((f64)sp3C * 10703.5);
                                 sp0 = (sp34 + sp44) << 13;
                                 sp4 = (sp34 - sp44) << 13;
                                 sp10 = sp0 + spC;
@@ -158,7 +150,7 @@ void func_8009D67C(s32 arg0) {
                                 sp18 = sp4 - sp8;
                             } else {
                                 sp8 = sp3C * 0x1151;
-                                spC = (s32)((f64)sp3C * D_80088330);
+                                spC = (s32)((f64)sp3C * 10703.5);
                                 sp0 = sp44 << 13;
                                 sp10 = sp0 + spC;
                                 sp1C = sp0 - spC;
@@ -178,7 +170,7 @@ void func_8009D67C(s32 arg0) {
                         if (sp3C != 0) {
                             if (sp34 != 0) {
                                 sp8 = sp3C * 0x1151;
-                                spC = (s32)((f64)sp3C * D_80088338);
+                                spC = (s32)((f64)sp3C * 10703.5);
                                 sp0 = sp34 << 13;
                                 sp10 = sp0 + spC;
                                 sp1C = sp0 - spC;
@@ -186,7 +178,7 @@ void func_8009D67C(s32 arg0) {
                                 sp18 = sp0 - sp8;
                             } else {
                                 sp8 = sp3C * 0x1151;
-                                spC = (s32)((f64)sp3C * D_80088340);
+                                spC = (s32)((f64)sp3C * 10703.5);
                                 sp10 = spC;
                                 sp1C = -spC;
                                 sp14 = sp8;
@@ -530,7 +522,7 @@ void func_8009D67C(s32 arg0) {
                 if (sp3C != 0) {
                     if (sp34 != 0) {
                         sp8 = sp3C * 0x1151;
-                        spC = (s32)((f64)sp3C * D_80088348);
+                        spC = (s32)((f64)sp3C * 10703.5);
                         sp0 = (sp34 + sp44) << 13;
                         sp4 = (sp34 - sp44) << 13;
                         sp10 = sp0 + spC;
@@ -539,7 +531,7 @@ void func_8009D67C(s32 arg0) {
                         sp18 = sp4 - sp8;
                     } else {
                         sp8 = sp3C * 0x1151;
-                        spC = (s32)((f64)sp3C * D_80088350);
+                        spC = (s32)((f64)sp3C * 10703.5);
                         sp0 = sp44 << 13;
                         sp10 = sp0 + spC;
                         sp1C = sp0 - spC;
@@ -559,7 +551,7 @@ void func_8009D67C(s32 arg0) {
                 if (sp3C != 0) {
                     if (sp34 != 0) {
                         sp8 = sp3C * 0x1151;
-                        spC = (s32)((f64)sp3C * D_80088358);
+                        spC = (s32)((f64)sp3C * 10703.5);
                         sp0 = sp34 << 13;
                         sp10 = sp0 + spC;
                         sp1C = sp0 - spC;
@@ -567,7 +559,7 @@ void func_8009D67C(s32 arg0) {
                         sp18 = sp0 - sp8;
                     } else {
                         sp8 = sp3C * 0x1151;
-                        spC = (s32)((f64)sp3C * D_80088360);
+                        spC = (s32)((f64)sp3C * 10703.5);
                         sp10 = spC;
                         sp1C = -spC;
                         sp14 = sp8;

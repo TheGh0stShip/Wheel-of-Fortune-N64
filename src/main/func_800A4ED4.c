@@ -1,8 +1,7 @@
 #include "wof.h"
 
-extern s32 D_8008878C;
 
 f64 func_800A4ED4(f64 arg0) {
-    func_80009F38(&D_8008878C);
+    func_80009F38("cos: function not yet implemented");
     return 0.0;
 }

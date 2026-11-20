@@ -10,7 +10,6 @@ typedef struct {
     /* 0x18 */ s32 sel;
 } Grid;
 
-extern s32 D_80001574;
 
 void func_80022784(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 sel;
@@ -18,7 +17,7 @@ void func_80022784(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     sel = ((Grid *)arg2)->sel;
     if (sel < 0 || sel >= ((Grid *)arg2)->rows) {
-        func_80009F38(&D_80001574);
+        func_80009F38("InitMainFlash: Invalid button");
     }
     func_800226BC(((Grid *)arg2)->unk_04 * 40 + arg1, ((Grid *)arg2)->unk_08, arg3 * 2);
     for (i = 0; i < ((Grid *)arg2)->rows * ((Grid *)arg2)->cols; i += ((Grid *)arg2)->cols) {

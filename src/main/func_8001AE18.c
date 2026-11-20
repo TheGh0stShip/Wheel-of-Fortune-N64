@@ -19,7 +19,6 @@ typedef struct {
 } Player;
 
 extern Player D_800B9A8C[];
-extern f64 D_8000129C;
 
 struct n64dk_r12 func_8001AE18(s32 arg1) {
     struct n64dk_r12 result;
@@ -45,7 +44,7 @@ struct n64dk_r12 func_8001AE18(s32 arg1) {
             target = func_8000B5DC(0x4010000, 0xFFFF0000);
             obj->state->unk_00 = target;
             obj->state->unk_0C = (f32)(func_8003CE58() % 50 + 100);
-            if ((f64)obj->state->unk_0C > D_8000129C) {
+            if ((f64)obj->state->unk_0C > 80.0) {
                 func_8000AAB0(arg1, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 30 / D_800B96B4;

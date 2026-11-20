@@ -10,7 +10,6 @@ typedef struct {
 } Glyph;
 
 extern Glyph D_8005B710[];
-extern s32 D_80001690;
 extern u8 D_800B9544[];
 
 void func_80029440(void) {
@@ -23,7 +22,7 @@ void func_80029440(void) {
 
     len = func_80009A74((s32)D_800B9544);
     if (len >= 21) {
-        func_80009F38(&D_80001690);
+        func_80009F38("InitCategory: category strlen > 20");
     }
     i = 0;
     while (i < 22) {

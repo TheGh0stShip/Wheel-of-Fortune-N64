@@ -1,8 +1,5 @@
 #include "wof.h"
 
-extern f64 D_80088588;
-extern f64 D_80088590;
-extern f64 D_800885A0;
 
 s32 func_800A4920(u8 arg0, s32 arg1, s32 arg2) {
     if ((arg0 != 0) && (arg0 != 1)) {

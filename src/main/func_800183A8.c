@@ -22,9 +22,6 @@ typedef struct {
 } Player;
 
 extern Player D_800B99A4[];
-extern f32 D_80000F7C;
-extern f64 D_80000F80;
-extern f64 D_80000F88;
 
 struct n64dk_r12 func_800183A8(s32 arg1) {
     struct n64dk_r12 result;
@@ -51,12 +48,12 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
             obj = (Obj *)func_8000A56C((s32)func_8000FDFC, 0x4030000);
             node = func_8000B5DC(0x4010000, 0xFFFF0000);
             obj->unk_30->unk_00 = node;
-            if (D_800BCCF0 > D_80000F7C) {
+            if (D_800BCCF0 > 50.0f) {
                 obj->unk_30->unk_0C = D_800BCCF0 + func_8003CE58() % 10;
             } else {
                 obj->unk_30->unk_0C = (f32)(func_8003CE58() % 10 + 50) + D_800BCCF0;
             }
-            if (obj->unk_30->unk_0C > D_80000F80) {
+            if (obj->unk_30->unk_0C > 80.0) {
                 func_8000AAB0(arg1, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 40 / D_800B96B4;
@@ -69,7 +66,7 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
             break;
         case 7:
             obj = (Obj *)func_8000A990(0x4030000, -1);
-            if (obj->unk_30->unk_0C >= D_80000F88) {
+            if (obj->unk_30->unk_0C >= 110.0) {
                 if (func_8003CE58() % 100 >= 51) {
                     func_80017C00(11, 0);
                 } else {

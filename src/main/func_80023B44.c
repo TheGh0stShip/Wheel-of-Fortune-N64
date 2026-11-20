@@ -17,7 +17,6 @@ typedef struct {
 } Entry;
 
 extern Entry D_8005A39E[];
-extern s32 D_800015D4;
 
 void func_80023B44(void) {
     s32 i;
@@ -26,7 +25,7 @@ void func_80023B44(void) {
     for (i = 0; i < 6; i++) {
         obj = (Obj *)func_8000B5DC(i | 0xA020000, -1);
         if (obj == 0) {
-            func_80009F38(&D_800015D4);
+            func_80009F38("SwitchImage: could not find contestant");
         }
         if (i == D_80058880) {
             obj->unk_10 = D_8005A392;

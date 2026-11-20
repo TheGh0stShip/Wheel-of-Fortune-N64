@@ -1,8 +1,5 @@
 #include "wof.h"
 
-extern s32 D_80000768;
-extern f32 D_80000790;
-extern f32 D_80000794;
 extern u8 D_800B9559[][21];
 extern u8 D_800B9601[][21];
 
@@ -37,7 +34,7 @@ f32 func_80008628(void) {
     }
     sp18 = sp1C - sp18;
     if (sp1C == 0.0f) {
-        func_80009F38(((s32)&D_80000768));
+        func_80009F38(((s32)"CheckPercentDone: No letters in puzzle\n"));
     }
     return sp18 / sp1C;
 }

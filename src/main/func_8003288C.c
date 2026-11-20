@@ -29,7 +29,6 @@ typedef struct {
 } Entry;
 
 extern Entry D_8005C7F8[];
-extern s32 D_800019E4;
 
 s32 func_8003288C(s32 arg0, s32 arg1) {
     Task *task;
@@ -43,7 +42,7 @@ s32 func_8003288C(s32 arg0, s32 arg1) {
     if (arg0 == 80) {
         arg0 = 2;
     } else if (arg0 >= 6) {
-        func_80009F38(&D_800019E4);
+        func_80009F38("InitVannaAnim: invalid animation number");
     }
     if (D_8005C7F8[arg0].unk_10 == 0) {
         return 0;

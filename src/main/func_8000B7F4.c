@@ -1,12 +1,11 @@
 #include "wof.h"
 
-extern s32 D_80000AA0;
 
 s32 func_8000B7F4(s32 arg0) {
     s32 result;
 
     if ((u32)arg0 > (u32)D_800B9984) {
-        func_80009F38(&D_80000AA0);
+        func_80009F38("mem_stack: OUT OF MEMMORY!!!");
         return 0;
     }
     result = D_800B8290;

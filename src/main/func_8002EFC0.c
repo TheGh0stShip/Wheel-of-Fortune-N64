@@ -11,8 +11,6 @@ typedef struct {
     /* 0x30 */ Actor *unk_30;
 } Obj;
 
-extern s32 D_8000190C;
-extern s32 D_8000191C;
 
 struct n64dk_r12 func_8002EFC0(s32 arg1) {
     struct n64dk_r12 result;
@@ -42,9 +40,9 @@ struct n64dk_r12 func_8002EFC0(s32 arg1) {
                 return result;
             }
             func_8000A850(32);
-            func_80009F98((s32)&D_8000190C);
+            func_80009F98((s32)"Final spin is ");
             func_80009D78(func_8000928C());
-            func_80009F98((s32)&D_8000191C);
+            func_80009F98((s32)"\n");
             result.w[1] = 0;
             result.w[0] = 0;
             return result;

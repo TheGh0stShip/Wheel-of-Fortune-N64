@@ -18,7 +18,6 @@ typedef struct {
 } Player;
 
 extern Player D_800B99A4[];
-extern f32 D_800014B0;
 
 void func_8001D320(s32 arg0) {
     Task *task;
@@ -27,7 +26,7 @@ void func_8001D320(s32 arg0) {
 
     task = (Task *)func_8000A56C((s32)&func_8001C584, arg0 | 0x2030000);
     task->state->unk_04 = arg0;
-    task->state->unk_0C = D_800014B0;
+    task->state->unk_0C = 0.65f;
     D_800B99A4[arg0].unk_00 = 4;
     func_80024D60(arg0);
 }

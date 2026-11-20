@@ -17,8 +17,6 @@ typedef struct {
     /* 0x30 */ Data *data;
 } Object;
 
-extern f64 D_80000AD4;
-extern f64 D_80000ADC;
 extern u16 D_800B9954;
 
 struct n64dk_r12 func_8000C8A8(s32 arg1) {
@@ -55,10 +53,10 @@ struct n64dk_r12 func_8000C8A8(s32 arg1) {
         }
     }
     if (D_800B9954 & 0x10) {
-        cam->unk_30 = cam->unk_30 - D_80000AD4;
+        cam->unk_30 = cam->unk_30 - 0.5;
     }
     if (D_800B9954 & 0x20) {
-        cam->unk_30 = cam->unk_30 + D_80000ADC;
+        cam->unk_30 = cam->unk_30 + 0.5;
     }
     if (D_800B9954 & 0x200) {
         cam->unk_14 = (u16)cam->unk_14 + 10;

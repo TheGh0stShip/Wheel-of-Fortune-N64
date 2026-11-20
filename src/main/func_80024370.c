@@ -16,7 +16,6 @@ typedef struct {
     /* 0x00 */ u8 unk_00[0x20];
 } Item;
 
-extern s32 D_80001594;
 extern Item D_80058E70[];
 extern s32 D_80058EB0;
 
@@ -50,7 +49,7 @@ struct n64dk_r12 func_80024370(s32 arg1) {
             sp18.w[0] = 1;
             return sp18;
         default:
-            func_80009F38(&D_80001594);
+            func_80009F38("MainMenu1 Proc: button press invalid\n");
         }
     }
     if ((D_800B96B0 & 0x5000 & 0xFFFF) != 0) {

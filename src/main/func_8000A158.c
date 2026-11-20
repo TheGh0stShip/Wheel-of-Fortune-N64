@@ -5,7 +5,6 @@ typedef struct Obj {
     /* 0x40 */ struct Obj *next;
 } Obj;
 
-extern s32 D_800007F0;
 extern Obj D_800B82A0;
 
 s32 func_8000A158(s32 arg0) {
@@ -21,6 +20,6 @@ s32 func_8000A158(s32 arg0) {
         prev = cur;
         cur = prev->next;
     }
-    func_80009F38(&D_800007F0);
+    func_80009F38("GetProcBefore: Could not find proc\n");
     return 0;
 }

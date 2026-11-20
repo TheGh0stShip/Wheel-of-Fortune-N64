@@ -24,14 +24,6 @@ typedef struct {
 } Player;
 
 extern Player D_800B99A4[];
-extern f32 D_80000BB4;
-extern f32 D_80000BB8;
-extern f64 D_80000BBC;
-extern f32 D_80000BC4;
-extern f32 D_80000BC8;
-extern f64 D_80000BCC;
-extern f32 D_80000BD4;
-extern f32 D_80000BD8;
 
 struct n64dk_r12 func_8000F274(s32 arg1) {
     struct n64dk_r12 result;
@@ -62,10 +54,10 @@ struct n64dk_r12 func_8000F274(s32 arg1) {
         return result;
     }
     sp28 = target->unk_2C + (f32)D_800581F0[((Obj *)arg1)->unk_08 & 255];
-    sp30 = (s32)(sp28 / D_80000BB4);
+    sp30 = (s32)(sp28 / 5.0f);
     sp28 = sp28 - (f32)(sp30 * 5);
-    if ((f64)((D_800BCCF0 / D_80000BB8) * (f32)D_800B96B4) > D_80000BBC) {
-        sp2C = sp28 * D_80000BC4 + D_80000BC8;
+    if ((f64)((D_800BCCF0 / 60.0f) * (f32)D_800B96B4) > 2.5) {
+        sp2C = sp28 * -4.0f + 30.0f;
         if ((((Obj *)arg1)->unk_08 & 255) == D_800FB808) {
             if (D_800B99A4[D_800FB808].unk_00 < 4) {
                 // RULE-EXCEPTION: R25, no prototype in scope: retail passes the 1.0 as a double
@@ -76,8 +68,8 @@ struct n64dk_r12 func_8000F274(s32 arg1) {
             }
         }
     } else {
-        if ((f64)sp28 > D_80000BCC && sp28 < D_80000BD4) {
-            sp2C = sp28 * D_80000BD8;
+        if ((f64)sp28 > -4.5 && sp28 < -1.0f) {
+            sp2C = sp28 * -10.0f;
         } else {
             sp28 = 0;
             sp2C = 0;

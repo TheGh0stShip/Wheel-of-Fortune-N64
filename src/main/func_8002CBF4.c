@@ -34,8 +34,6 @@ extern ItemPair D_8005A4C8[];
 extern Item D_8005A838[];
 extern Item D_8005A9A8[];
 extern Player D_800B99A4[];
-extern s32 D_80001758;
-extern s32 D_80001784;
 void func_80028C4C(s32 arg0);
 
 struct n64dk_r12 func_8002CBF4(s32 arg1) {
@@ -144,7 +142,7 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
     func_8002AFDC();
     handle = func_8000A990(D_800FB808 | 0x2000000, 0xFF0000FF);
     if (handle == 0) {
-        func_80009F38(&D_80001758);
+        func_80009F38("Status Proc: player proc does not exist\n");
     }
     if (D_800BCA00 == 1) {
         D_8005A838[((Obj *)arg1)->unk_30->selection].unk_00 = 0;
@@ -196,7 +194,7 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
             func_8002FD14();
             return result;
         default:
-            func_80009F38(&D_80001784);
+            func_80009F38("Status Proc: button press invalid\n");
         }
     }
     if ((D_800B96B0 & 2048 & 0xFFFF) != 0) {

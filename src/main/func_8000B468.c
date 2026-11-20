@@ -8,7 +8,6 @@ typedef struct Node {
     /* 0x50 */ struct Node *unk_50;
 } Node;
 
-extern s32 D_80000A74;
 extern Node D_800B40C8;
 
 void func_8000B468(s32 arg0) {
@@ -18,7 +17,7 @@ void func_8000B468(s32 arg0) {
     while (node->unk_50 != 0) {
         node = node->unk_50;
         if (node->unk_0C == 0) {
-            func_80009F38(&D_80000A74);
+            func_80009F38("DrawObjs: Tried to execute a NULL ID\n");
             return;
         }
         if ((node->unk_08 & 0xFF000000) != 0x5000000) {
