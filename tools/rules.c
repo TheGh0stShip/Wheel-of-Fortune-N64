@@ -342,8 +342,13 @@ static void check_body(File *f, Func *fn) {
                           is(f, i - 2, "enum") || (sp > 0 && !kind[stack[sp - 1]]));
             kind[i] = block;
             if (sp < 512) stack[sp++] = i;
-            if (block && is(f, i + 1, "}") && (is(f, i - 1, "else") || (is(f, i - 1, ")") && is(f, match_open(f, i - 1, "(", ")") - 1, "if"))))
-                finding(f, fn, R17, t->line, "empty %s block", is(f, i - 1, "else") ? "else" : "if");
+            if (block && is(f, i + 1, "}") && (is(f, i - 1, "else") || (is(f, i - 1, ")") && is(f, match_open(f, i - 1, "(", ")") - 1, "if")))) {
+                /* an empty block retail really has (a branch over nothing) passes when a label on one of
+                   its lines says so: the user's ruling */
+                int l, labelled = 0;
+                for (l = t->line; l <= f->tok[i + 1].line && !labelled; l++) labelled = line_has_note(f, l);
+                if (!labelled) finding(f, fn, R17, t->line, "empty %s block", is(f, i - 1, "else") ? "else" : "if");
+            }
         }
         if (is(f, i, "}") && sp > 0) {
             kind[i] = kind[stack[--sp]];
