@@ -1,6 +1,6 @@
 #include "wof.h"
 
-s32 func_8003288C(s32 arg0, s32 arg1) {
+proc_t *func_8003288C(s32 arg0, s32 arg1) {
     proc_t *task;
     obj_t *child;
     s32 id;
@@ -31,5 +31,5 @@ s32 func_8003288C(s32 arg0, s32 arg1) {
     task->unk_30->vannaAnim.unk_1C = D_8005C7F0[arg0].unk_10;
     task->unk_30->vannaAnim.unk_20 = D_8005C7F0[arg0].unk_14;
     task->unk_30->vannaAnim.obj = child;
-    return (s32)task;
+    return task;
 }

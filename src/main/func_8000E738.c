@@ -2,7 +2,7 @@
 
 void func_8000E738(void) {
     s32 unused;  /* NOTE: unused in the original */
-    s32 result;
+    obj_t *result;
 
     D_800BCD54 = 1;
     func_80005700();

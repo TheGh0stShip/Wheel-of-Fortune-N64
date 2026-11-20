@@ -2,7 +2,7 @@
 
 struct n64dk_r12 func_8000BC64(proc_t *proc) {
     struct n64dk_r12 result;
-    s32 sp20;
+    obj_t *sp20;
     s32 event;
 
     sp20 = proc->unk_30->obj;

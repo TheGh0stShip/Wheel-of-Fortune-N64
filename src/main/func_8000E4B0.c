@@ -2,7 +2,7 @@
 
 struct n64dk_r12 func_8000E4B0(proc_t *proc) {
     struct n64dk_r12 result;
-    s32 sp20;
+    obj_t *sp20;
     s32 event;
 
     sp20 = proc->unk_30->obj;
@@ -25,8 +25,8 @@ struct n64dk_r12 func_8000E4B0(proc_t *proc) {
     }
     func_8000B234(sp20);
     sp20 = func_80015848(0, 0, func_8000DF2C, 0x5020000);
-    ((obj_t *)sp20)->x = 64;
-    ((obj_t *)sp20)->y = 110;
+    sp20->x = 64;
+    sp20->y = 110;
     proc->unk_30->obj = sp20;
     func_800219B8(23, 16, 104, 20);
     result.w[1] = 2;

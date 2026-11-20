@@ -3,7 +3,7 @@
 
 struct n64dk_r12 func_8001BED8(proc_t *proc) {
     struct n64dk_r12 sp10;
-    s32 task;
+    proc_t *task;
     s32 unused;  /* NOTE: unused in the original */
     s32 event;
     f32 ratio;
@@ -51,7 +51,7 @@ struct n64dk_r12 func_8001BED8(proc_t *proc) {
             if (func_80007888(D_800B61B5, 2) > 0) {
                 func_80007DAC(D_800B61B5);
                 task = func_8000A56C(func_80010574, 0x1000000);
-                ((proc_t *)task)->unk_30->playerProc.unk_10 = D_800B61B5;
+                task->unk_30->data80010574.letter = D_800B61B5;
                 sp10.w[1] = 2;
                 sp10.w[0] = 6;
                 return sp10;
@@ -71,8 +71,8 @@ struct n64dk_r12 func_8001BED8(proc_t *proc) {
             ratio = func_80008628();
             if (ratio > 0.7) {
                 task = func_8000A56C(func_8001BC44, proc->unk_30->playerProc.player | 0x2000300);
-                ((proc_t *)task)->unk_30->playerProc.player = proc->unk_30->playerProc.player;
-                ((proc_t *)task)->unk_30->playerProc.unk_0C = proc->unk_30->playerProc.unk_0C;
+                task->unk_30->playerProc.player = proc->unk_30->playerProc.player;
+                task->unk_30->playerProc.unk_0C = proc->unk_30->playerProc.unk_0C;
                 sp10.w[1] = 2;
                 sp10.w[0] = 10;
                 return sp10;

@@ -7,7 +7,7 @@ void func_8002A014(void) {
     s32 x;
     s32 pos;
     u8 buf[24];
-    s32 task;
+    proc_t *task;
 
     switch (D_800B619C) {
     case 2:

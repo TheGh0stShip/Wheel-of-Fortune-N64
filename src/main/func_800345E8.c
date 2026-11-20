@@ -5,7 +5,7 @@ struct n64dk_r12 func_800345E8(proc_t *proc) {
     struct n64dk_r12 sp20;
     s32 sp30;
     s32 sp34;
-    s32 sp38;
+    obj_t *sp38;
 
     sp38 = proc->unk_30->obj;
     for (;;) {

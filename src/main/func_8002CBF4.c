@@ -5,7 +5,7 @@ struct n64dk_r12 func_8002CBF4(proc_t *proc) {
     s32 event;
     s32 i;
     struct n64dk_r12 result;
-    s32 handle;
+    proc_t *handle;
 
     result.w[1] = 1;
     result.w[0] = 0;

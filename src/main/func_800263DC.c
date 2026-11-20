@@ -2,7 +2,7 @@
 
 void func_800263DC(void) {
     s32 i;
-    s32 task;
+    proc_t *task;
 
     i = D_800FB808;
     while (D_800B9990[i].unk_014 >= 4) {

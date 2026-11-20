@@ -6,8 +6,8 @@ void func_80029440(void) {
     s32 x;
     s32 n;
     s32 i;
-    s32 task;
-    s32 sp24;
+    proc_t *task;
+    obj_t *sp24;
 
     len = func_80009A74((s32)D_800B9544);
     if (len >= 21) {

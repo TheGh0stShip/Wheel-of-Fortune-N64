@@ -2,7 +2,7 @@
 
 
 void func_8002EC60(void) {
-    s32 sp10;
+    proc_t *sp10;
     s32 i;
     s32 j;
 

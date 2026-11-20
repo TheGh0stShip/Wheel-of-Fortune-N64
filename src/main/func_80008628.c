@@ -32,7 +32,7 @@ f32 func_80008628(void) {
     }
     sp18 = sp1C - sp18;
     if (sp1C == 0.0f) {
-        func_80009F38(((s32)"CheckPercentDone: No letters in puzzle\n"));
+        func_80009F38("CheckPercentDone: No letters in puzzle\n");
     }
     return sp18 / sp1C;
 }

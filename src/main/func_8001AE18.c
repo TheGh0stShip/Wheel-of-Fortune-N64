@@ -3,8 +3,8 @@
 
 struct n64dk_r12 func_8001AE18(proc_t *proc) {
     struct n64dk_r12 result;
-    proc_t *obj;
-    s32 target;
+    proc_t *task;
+    obj_t *target;
     s32 event;
 
     result.w[1] = 1;
@@ -21,11 +21,11 @@ struct n64dk_r12 func_8001AE18(proc_t *proc) {
         switch (event) {
         case 8:
             func_80017C00(0, 1);
-            obj = func_8000A56C(func_8000FDFC, 0x4000000);
+            task = func_8000A56C(func_8000FDFC, 0x4000000);
             target = func_8000B5DC(0x4010000, 0xFFFF0000);
-            obj->unk_30->playerProc.unk_00 = target;
-            obj->unk_30->playerProc.unk_0C = (f32)(guRandom() % 50 + 100);
-            if ((f64)obj->unk_30->playerProc.unk_0C > 80.0) {
+            task->unk_30->data8000FDFC.unk_00 = target;
+            task->unk_30->data8000FDFC.unk_0C = (f32)(guRandom() % 50 + 100);
+            if ((f64)task->unk_30->data8000FDFC.unk_0C > 80.0) {
                 func_8000AAB0(proc, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 30 / D_800B96B4;
@@ -103,12 +103,12 @@ struct n64dk_r12 func_8001AE18(proc_t *proc) {
             return result;
         case 44:
             func_8002A014();
-            obj = func_8000A990(0x5010000, -1);
-            func_8000AAB0(obj, 23, 0);
+            task = func_8000A990(0x5010000, -1);
+            func_8000AAB0(task, 23, 0);
             if (func_80007888(D_800B61B5, 0) > 0) {
                 func_80007DAC(D_800B61B5);
-                obj = func_8000A56C(func_80010574, 0x1000000);
-                obj->unk_30->playerProc.unk_10 = D_800B61B5;
+                task = func_8000A56C(func_80010574, 0x1000000);
+                task->unk_30->data80010574.letter = D_800B61B5;
                 result.w[1] = 2;
                 result.w[0] = 6;
                 return result;

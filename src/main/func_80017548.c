@@ -2,7 +2,7 @@
 
 
 s32 func_80017548(void) {
-    s32 handle;
+    proc_t *handle;
 
     if (D_800B9990[D_800FB808].unk_008 != 0 && D_800BCA00 == 0) {
         func_8000ABB8(37, D_800FB808 | 0x2000000, 0xFF0000FF, 1);

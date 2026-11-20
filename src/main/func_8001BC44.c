@@ -2,7 +2,7 @@
 
 struct n64dk_r12 func_8001BC44(proc_t *proc) {
     struct n64dk_r12 sp10;
-    s32 task;
+    proc_t *task;
     s32 unused;  /* NOTE: unused in the original */
     s32 event;
 

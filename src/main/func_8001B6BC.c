@@ -2,7 +2,7 @@
 
 struct n64dk_r12 func_8001B6BC(proc_t *proc) {
     struct n64dk_r12 ret;
-    s32 task;
+    proc_t *task;
     s32 unused;  /* NOTE: unused in the original */
     s32 event;
 
@@ -46,7 +46,7 @@ struct n64dk_r12 func_8001B6BC(proc_t *proc) {
             if (func_80007888(D_800B61B5, 1) > 0) {
                 func_80007DAC(D_800B61B5);
                 task = func_8000A56C(func_80010574, 0x1000000);
-                ((proc_t *)task)->unk_30->playerProc.unk_10 = D_800B61B5;
+                task->unk_30->data80010574.letter = D_800B61B5;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {

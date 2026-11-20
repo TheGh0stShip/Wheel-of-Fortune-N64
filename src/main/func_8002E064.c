@@ -1,8 +1,8 @@
 #include "wof.h"
 
 
-s32 func_8002E064(void) {
-    s32 result;
+proc_t *func_8002E064(void) {
+    proc_t *result;
 
     result = func_8000A990(0x1020000, -1);
     if (result == 0) {

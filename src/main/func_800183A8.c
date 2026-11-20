@@ -4,8 +4,8 @@
 
 struct n64dk_r12 func_800183A8(proc_t *proc) {
     struct n64dk_r12 result;
-    proc_t *obj;
-    s32 node;
+    proc_t *task;
+    obj_t *node;
     s32 event;
 
     result.w[1] = 1;
@@ -18,21 +18,21 @@ struct n64dk_r12 func_800183A8(proc_t *proc) {
         switch (event) {
         case 8:
             func_80017C00(0, 0);
-            obj = func_8000A56C(func_8000EF68, 0x4000000);
+            task = func_8000A56C(func_8000EF68, 0x4000000);
             result.w[1] = 2;
             result.w[0] = 29;
             return result;
         case 29:
             func_80017C00(0, 0);
-            obj = func_8000A56C(func_8000FDFC, 0x4030000);
+            task = func_8000A56C(func_8000FDFC, 0x4030000);
             node = func_8000B5DC(0x4010000, 0xFFFF0000);
-            obj->unk_30->playerProc.unk_00 = node;
+            task->unk_30->data8000FDFC.unk_00 = node;
             if (D_800BCCF0 > 50.0f) {
-                obj->unk_30->playerProc.unk_0C = D_800BCCF0 + guRandom() % 10;
+                task->unk_30->data8000FDFC.unk_0C = D_800BCCF0 + guRandom() % 10;
             } else {
-                obj->unk_30->playerProc.unk_0C = (f32)(guRandom() % 10 + 50) + D_800BCCF0;
+                task->unk_30->data8000FDFC.unk_0C = (f32)(guRandom() % 10 + 50) + D_800BCCF0;
             }
-            if (obj->unk_30->playerProc.unk_0C > 80.0) {
+            if (task->unk_30->data8000FDFC.unk_0C > 80.0) {
                 func_8000AAB0(proc, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 40 / D_800B96B4;
@@ -44,8 +44,8 @@ struct n64dk_r12 func_800183A8(proc_t *proc) {
             }
             break;
         case 7:
-            obj = func_8000A990(0x4030000, -1);
-            if (obj->unk_30->playerProc.unk_0C >= 110.0) {
+            task = func_8000A990(0x4030000, -1);
+            if (task->unk_30->data8000FDFC.unk_0C >= 110.0) {
                 if (guRandom() % 100 >= 51) {
                     func_80017C00(11, 0);
                 } else {
@@ -114,8 +114,8 @@ struct n64dk_r12 func_800183A8(proc_t *proc) {
             func_8002A014();
             if (func_80007888(D_800B61B5, 0) > 0) {
                 func_80007DAC(D_800B61B5);
-                obj = func_8000A56C(func_80010574, 0x1000000);
-                obj->unk_30->playerProc.unk_10 = D_800B61B5;
+                task = func_8000A56C(func_80010574, 0x1000000);
+                task->unk_30->data80010574.letter = D_800B61B5;
                 result.w[1] = 2;
                 result.w[0] = 6;
             } else {

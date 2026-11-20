@@ -3,7 +3,7 @@
 struct n64dk_r12 func_80016734(proc_t *proc) {
     s32 event;
     struct n64dk_r12 result;
-    s32 sp28;
+    obj_t *sp28;
 
     sp28 = proc->unk_30->data80016734.unk_00;
     result.w[1] = 1;

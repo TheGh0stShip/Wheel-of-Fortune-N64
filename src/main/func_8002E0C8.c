@@ -5,7 +5,7 @@ struct n64dk_r12 func_8002E0C8(proc_t *proc) {
     s32 event;
     struct n64dk_r12 result;
     s32 unused;  /* NOTE: unused in the original */
-    s32 task;
+    proc_t *task;
 
     result.w[1] = 1;
     result.w[0] = 0;

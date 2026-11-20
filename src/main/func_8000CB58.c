@@ -4,9 +4,9 @@ void func_8000CB58(obj_t *obj, frame_t *frame) {
     s32 unused;  /* NOTE: unused in the original */
 
     if (D_800B3994 >= 318) {
-        guTranslate((s32)&frame->translate[obj->index], (f32)obj->x, (f32)obj->y, (f32)obj->z);
-        guScale((s32)&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
-        guRotateRPY((s32)&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
+        guTranslate(&frame->translate[obj->index], (f32)obj->x, (f32)obj->y, (f32)obj->z);
+        guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
+        guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
         gSPMatrix(D_800B81E8++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
         gSPMatrix(D_800B81E8++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
         gSPMatrix(D_800B81E8++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
@@ -21,7 +21,7 @@ void func_8000CB58(obj_t *obj, frame_t *frame) {
     }
     if (D_800B3994 < 318) {
         gSPMatrix(D_800B81E8++, &D_01176D08, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-        guTranslate((s32)&frame->translate[obj->index], (f32)(obj->x + 30), (f32)(obj->y - 50), (f32)(obj->z + 60));
+        guTranslate(&frame->translate[obj->index], (f32)(obj->x + 30), (f32)(obj->y - 50), (f32)(obj->z + 60));
         gSPMatrix(D_800B81E8++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
         gSPDisplayList(D_800B81E8++, &D_010219C8);
         gSPLightColor(D_800B81E8++, LIGHT_1, 0);

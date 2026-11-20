@@ -1,6 +1,6 @@
 #include "wof.h"
 
-void func_8001EFF0(s32 arg0, s32 arg1) {
+void func_8001EFF0(obj_t *obj, frame_t *frame) {
     Gfx *gfx;
     Gfx *gfx2;
 
@@ -18,7 +18,7 @@ void func_8001EFF0(s32 arg0, s32 arg1) {
     gfx->words.w1 = 0x200000;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xFD100000;
-    gfx->words.w1 = ((obj_t *)arg0)->unk_44;
+    gfx->words.w1 = obj->unk_44;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xF5100000;
     gfx->words.w1 = 0x7018060;
@@ -41,8 +41,8 @@ void func_8001EFF0(s32 arg0, s32 arg1) {
     gfx->words.w0 = 0xE7000000;
     gfx->words.w1 = 0;
     gfx = D_800B81E8++;
-    gfx->words.w0 = ((((obj_t *)arg0)->x + 66) << 2 & 4095) << 12 | 0xE4000000 | ((((obj_t *)arg0)->y + 34) << 2 & 4095);
-    gfx->words.w1 = ((((obj_t *)arg0)->x + 3) << 2 & 4095) << 12 | ((((obj_t *)arg0)->y + 3) << 2 & 4095);
+    gfx->words.w0 = ((obj->x + 66) << 2 & 4095) << 12 | 0xE4000000 | ((obj->y + 34) << 2 & 4095);
+    gfx->words.w1 = ((obj->x + 3) << 2 & 4095) << 12 | ((obj->y + 3) << 2 & 4095);
     gfx2 = D_800B81E8++;
     gfx2->words.w0 = 0xB4000000;
     gfx2->words.w1 = 0;
@@ -54,7 +54,7 @@ void func_8001EFF0(s32 arg0, s32 arg1) {
     gfx2->words.w1 = 0;
     gfx2 = D_800B81E8++;
     gfx2->words.w0 = 0xFD100000;
-    gfx2->words.w1 = ((obj_t *)arg0)->unk_44 + 0x1000;
+    gfx2->words.w1 = obj->unk_44 + 0x1000;
     gfx2 = D_800B81E8++;
     gfx2->words.w0 = 0xF5100000;
     gfx2->words.w1 = 0x7058160;
@@ -77,8 +77,8 @@ void func_8001EFF0(s32 arg0, s32 arg1) {
     gfx2->words.w0 = 0xE7000000;
     gfx2->words.w1 = 0;
     gfx2 = D_800B81E8++;
-    gfx2->words.w0 = ((((obj_t *)arg0)->x + 114) << 2 & 4095) << 12 | 0xE4000000 | ((((obj_t *)arg0)->y + 34) << 2 & 4095);
-    gfx2->words.w1 = ((((obj_t *)arg0)->x + 67) << 2 & 4095) << 12 | ((((obj_t *)arg0)->y + 3) << 2 & 4095);
+    gfx2->words.w0 = ((obj->x + 114) << 2 & 4095) << 12 | 0xE4000000 | ((obj->y + 34) << 2 & 4095);
+    gfx2->words.w1 = ((obj->x + 67) << 2 & 4095) << 12 | ((obj->y + 3) << 2 & 4095);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xB4000000;
     gfx->words.w1 = 0;
@@ -90,7 +90,7 @@ void func_8001EFF0(s32 arg0, s32 arg1) {
     gfx2->words.w1 = 0;
     gfx2 = D_800B81E8++;
     gfx2->words.w0 = 0xFD100000;
-    gfx2->words.w1 = ((obj_t *)arg0)->unk_44 + 0x1C00;
+    gfx2->words.w1 = obj->unk_44 + 0x1C00;
     gfx2 = D_800B81E8++;
     gfx2->words.w0 = 0xF5100000;
     gfx2->words.w1 = 0x7018060;
@@ -113,8 +113,8 @@ void func_8001EFF0(s32 arg0, s32 arg1) {
     gfx2->words.w0 = 0xE7000000;
     gfx2->words.w1 = 0;
     gfx2 = D_800B81E8++;
-    gfx2->words.w0 = ((((obj_t *)arg0)->x + 66) << 2 & 4095) << 12 | 0xE4000000 | ((((obj_t *)arg0)->y + 66) << 2 & 4095);
-    gfx2->words.w1 = ((((obj_t *)arg0)->x + 3) << 2 & 4095) << 12 | ((((obj_t *)arg0)->y + 35) << 2 & 4095);
+    gfx2->words.w0 = ((obj->x + 66) << 2 & 4095) << 12 | 0xE4000000 | ((obj->y + 66) << 2 & 4095);
+    gfx2->words.w1 = ((obj->x + 3) << 2 & 4095) << 12 | ((obj->y + 35) << 2 & 4095);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xB4000000;
     gfx->words.w1 = 0;
@@ -126,7 +126,7 @@ void func_8001EFF0(s32 arg0, s32 arg1) {
     gfx2->words.w1 = 0;
     gfx2 = D_800B81E8++;
     gfx2->words.w0 = 0xFD100000;
-    gfx2->words.w1 = ((obj_t *)arg0)->unk_44 + 0x2C00;
+    gfx2->words.w1 = obj->unk_44 + 0x2C00;
     gfx2 = D_800B81E8++;
     gfx2->words.w0 = 0xF5100000;
     gfx2->words.w1 = 0x7058160;
@@ -149,8 +149,8 @@ void func_8001EFF0(s32 arg0, s32 arg1) {
     gfx2->words.w0 = 0xE7000000;
     gfx2->words.w1 = 0;
     gfx2 = D_800B81E8++;
-    gfx2->words.w0 = ((((obj_t *)arg0)->x + 114) << 2 & 4095) << 12 | 0xE4000000 | ((((obj_t *)arg0)->y + 66) << 2 & 4095);
-    gfx2->words.w1 = ((((obj_t *)arg0)->x + 67) << 2 & 4095) << 12 | ((((obj_t *)arg0)->y + 35) << 2 & 4095);
+    gfx2->words.w0 = ((obj->x + 114) << 2 & 4095) << 12 | 0xE4000000 | ((obj->y + 66) << 2 & 4095);
+    gfx2->words.w1 = ((obj->x + 67) << 2 & 4095) << 12 | ((obj->y + 35) << 2 & 4095);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xB4000000;
     gfx->words.w1 = 0;
@@ -162,7 +162,7 @@ void func_8001EFF0(s32 arg0, s32 arg1) {
     gfx2->words.w1 = 0;
     gfx2 = D_800B81E8++;
     gfx2->words.w0 = 0xFD100000;
-    gfx2->words.w1 = ((obj_t *)arg0)->unk_44 + 0x3800;
+    gfx2->words.w1 = obj->unk_44 + 0x3800;
     gfx2 = D_800B81E8++;
     gfx2->words.w0 = 0xF5100000;
     gfx2->words.w1 = 0x7018060;
@@ -185,8 +185,8 @@ void func_8001EFF0(s32 arg0, s32 arg1) {
     gfx2->words.w0 = 0xE7000000;
     gfx2->words.w1 = 0;
     gfx2 = D_800B81E8++;
-    gfx2->words.w0 = ((((obj_t *)arg0)->x + 66) << 2 & 4095) << 12 | 0xE4000000 | ((((obj_t *)arg0)->y + 82) << 2 & 4095);
-    gfx2->words.w1 = ((((obj_t *)arg0)->x + 3) << 2 & 4095) << 12 | ((((obj_t *)arg0)->y + 67) << 2 & 4095);
+    gfx2->words.w0 = ((obj->x + 66) << 2 & 4095) << 12 | 0xE4000000 | ((obj->y + 82) << 2 & 4095);
+    gfx2->words.w1 = ((obj->x + 3) << 2 & 4095) << 12 | ((obj->y + 67) << 2 & 4095);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xB4000000;
     gfx->words.w1 = 0;
@@ -198,7 +198,7 @@ void func_8001EFF0(s32 arg0, s32 arg1) {
     gfx2->words.w1 = 0;
     gfx2 = D_800B81E8++;
     gfx2->words.w0 = 0xFD100000;
-    gfx2->words.w1 = ((obj_t *)arg0)->unk_44 + 0x4000;
+    gfx2->words.w1 = obj->unk_44 + 0x4000;
     gfx2 = D_800B81E8++;
     gfx2->words.w0 = 0xF5100000;
     gfx2->words.w1 = 0x7058160;
@@ -221,8 +221,8 @@ void func_8001EFF0(s32 arg0, s32 arg1) {
     gfx2->words.w0 = 0xE7000000;
     gfx2->words.w1 = 0;
     gfx2 = D_800B81E8++;
-    gfx2->words.w0 = ((((obj_t *)arg0)->x + 114) << 2 & 4095) << 12 | 0xE4000000 | ((((obj_t *)arg0)->y + 82) << 2 & 4095);
-    gfx2->words.w1 = ((((obj_t *)arg0)->x + 67) << 2 & 4095) << 12 | ((((obj_t *)arg0)->y + 67) << 2 & 4095);
+    gfx2->words.w0 = ((obj->x + 114) << 2 & 4095) << 12 | 0xE4000000 | ((obj->y + 82) << 2 & 4095);
+    gfx2->words.w1 = ((obj->x + 67) << 2 & 4095) << 12 | ((obj->y + 67) << 2 & 4095);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xB4000000;
     gfx->words.w1 = 0;

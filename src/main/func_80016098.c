@@ -2,7 +2,7 @@
 
 void func_80016098(void) {
     proc_t *task;
-    s32 sp14;
+    obj_t *sp14;
 
     sp14 = func_8000B5DC(0xA010100, -1);
     if (sp14 != 0) {

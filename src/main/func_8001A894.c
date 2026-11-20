@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-s32 func_8001A894(f32 arg0, s32 arg1) {
+s32 func_8001A894(f32 arg0, proc_t *proc) {
     f32 roll;
     u8 result;
 

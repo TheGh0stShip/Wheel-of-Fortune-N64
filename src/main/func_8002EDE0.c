@@ -2,7 +2,7 @@
 
 
 void func_8002EDE0(void) {
-    s32 handle;
+    proc_t *handle;
     s32 i;
 
     D_800B619C = 6;

@@ -3,8 +3,8 @@
 
 struct n64dk_r12 func_8002EFC0(proc_t *proc) {
     struct n64dk_r12 result;
-    proc_t *obj;
-    s32 node;
+    proc_t *task;
+    obj_t *node;
     s32 event;
 
     result.w[1] = 1;
@@ -38,10 +38,10 @@ struct n64dk_r12 func_8002EFC0(proc_t *proc) {
         }
     }
     func_80017C00(0, 1);
-    obj = func_8000A56C(func_8000FDFC, 0x4000000);
+    task = func_8000A56C(func_8000FDFC, 0x4000000);
     node = func_8000B5DC(0x4010000, 0xFFFF0000);
-    obj->unk_30->data8002EFC0.unk_00 = node;
-    obj->unk_30->data8002EFC0.unk_0C = guRandom() % 25 + 75;
+    task->unk_30->data8000FDFC.unk_00 = node;
+    task->unk_30->data8000FDFC.unk_0C = guRandom() % 25 + 75;
     result.w[1] = 2;
     result.w[0] = 2;
     return result;

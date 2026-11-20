@@ -2,8 +2,8 @@
 
 void func_800334E4(void) {
     s32 i;
-    s32 sp14;
-    s32 sp18;
+    obj_t *sp14;
+    proc_t *sp18;
 
     for (i = 0; i < 3; i++) {
         if (i != D_800FB808) {

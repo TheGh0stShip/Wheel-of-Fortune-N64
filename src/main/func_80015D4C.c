@@ -2,7 +2,7 @@
 
 
 void func_80015D4C(void) {
-    s32 obj;
+    obj_t *obj;
 
     func_80009F98((s32)&D_800B9544);
     func_80009F98((s32)"\n");

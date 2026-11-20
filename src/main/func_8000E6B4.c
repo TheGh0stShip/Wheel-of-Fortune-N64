@@ -2,7 +2,7 @@
 
 void func_8000E6B4(void) {
     proc_t *task;
-    s32 sp14;
+    obj_t *sp14;
 
     D_800BCD54 = 1;
     func_80005700();

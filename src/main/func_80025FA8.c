@@ -4,7 +4,7 @@ void func_80025FA8(void) {
     s32 i;
     s32 j;
     s32 unused;  /* NOTE: unused in the original */
-    s32 task;
+    proc_t *task;
 
     task = func_8000A56C(func_800232AC, 0x5000000);
     func_80027218(task, 0, func_80021E88, 0x5000000);

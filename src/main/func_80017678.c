@@ -1,7 +1,7 @@
 #include "wof.h"
 
 void func_80017678(void) {
-    s32 handle;
+    proc_t *handle;
 
     func_8000963C(0);
     func_800132EC(D_800FB808);

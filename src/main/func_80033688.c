@@ -2,7 +2,7 @@
 
 struct n64dk_r12 func_80033688(proc_t *proc) {
     struct n64dk_r12 sp10;
-    s32 sp20;
+    proc_t *sp20;
     s32 unused;  /* NOTE: unused in the original */
     s32 sp28;
 

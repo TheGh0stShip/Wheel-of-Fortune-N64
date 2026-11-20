@@ -4,7 +4,7 @@
 
 struct n64dk_r12 func_8001933C(proc_t *proc) {
     struct n64dk_r12 ret;
-    s32 task;
+    proc_t *task;
     s32 unused;  /* NOTE: unused in the original */
     s32 event;
 

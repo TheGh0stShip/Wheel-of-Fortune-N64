@@ -4,7 +4,7 @@ struct n64dk_r12 func_8002C094(proc_t *proc) {
     s32 event;
     s32 i;
     struct n64dk_r12 ret;
-    s32 task;
+    proc_t *task;
 
     ret.w[1] = 1;
     ret.w[0] = 0;
@@ -42,9 +42,9 @@ struct n64dk_r12 func_8002C094(proc_t *proc) {
                 func_80007DAC(D_8005C394[i]);
             }
             task = func_8000A56C(func_80010D3C, 0x1000000);
-            ((proc_t *)task)->unk_30->data8002C094.unk_04 = 0;
-            ((proc_t *)task)->unk_30->data8002C094.unk_08 = 0;
-            ((proc_t *)task)->unk_30->data8002C094.unk_14 = (s32)D_8005C394;
+            task->unk_30->data8002C094.unk_04 = 0;
+            task->unk_30->data8002C094.unk_08 = 0;
+            task->unk_30->data8002C094.unk_14 = (s32)D_8005C394;
             ret.w[1] = 2;
             ret.w[0] = 6;
             return ret;
@@ -109,9 +109,9 @@ struct n64dk_r12 func_8002C094(proc_t *proc) {
             D_800B61AA[i] = D_800B61B5;
             if (func_80009A74((s32)D_800B61B0) == 4) {
                 task = func_8000A56C(func_80010D3C, 0x1000000);
-                ((proc_t *)task)->unk_30->data8002C094.unk_04 = 0;
-                ((proc_t *)task)->unk_30->data8002C094.unk_08 = 0;
-                ((proc_t *)task)->unk_30->data8002C094.unk_14 = (s32)D_800B61B0;
+                task->unk_30->data8002C094.unk_04 = 0;
+                task->unk_30->data8002C094.unk_08 = 0;
+                task->unk_30->data8002C094.unk_14 = (s32)D_800B61B0;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {

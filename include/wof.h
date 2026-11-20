@@ -433,25 +433,22 @@ typedef struct {
     /* 0x08 */ s32 unk_08;
 } data8000F274_t;    // size 0xC
 
-// the data of the proc whose handler is func_8000F84C
+// the data of the proc whose handler is func_8000F84C, created by func_8000FC3C
 typedef struct {
-    /* 0x00 */ s32 unk_00;
+    /* 0x00 */ obj_t *unk_00;   // NOTE: no obj is made for this proc; the handler reads it all the same
     /* 0x04 */ s32 unk_04;
 } data8000F84C_t;    // size 0x8
 
-// the data of the proc whose handler is func_8000FC3C
+// The data of the proc whose handler is func_8000FDFC, which ends each frame in func_8000FC3C
+// on the same data. func_800183A8, func_8001AE18 and func_8002EFC0 create it and put the obj
+// of class 0x401 in unk_00.
 typedef struct {
     /* 0x00 */ obj_t *unk_00;
-    /* 0x04 */ u8 unk_04[0x8];
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ u8 unk_08[0x4];
     /* 0x0C */ f32 unk_0C;
     /* 0x10 */ f32 unk_10;
-} data8000FC3C_t;    // size 0x14
-
-// the data of the proc whose handler is func_8000FDFC
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-} data8000FDFC_t;    // size 0x8
+} data8000FDFC_t;    // size 0x14
 
 // the data of the proc whose handler is func_8000FFE0
 typedef struct {
@@ -492,9 +489,9 @@ typedef struct {
     /* 0x14 */ u8 *text;
 } data80010D3C_t;    // size 0x18
 
-// the data of the proc whose handler is func_80016734
+// the data of the proc whose handler is func_80016734, created by func_80016944
 typedef struct {
-    /* 0x00 */ s32 unk_00;
+    /* 0x00 */ obj_t *unk_00;   // NOTE: no obj is made for this proc; the handler reads it all the same
     /* 0x04 */ u8 unk_04[0x4];
     /* 0x08 */ camera_t *unk_08;    // the move it plays
     /* 0x0C */ s32 unk_0C;          // the frame it is at
@@ -515,12 +512,11 @@ typedef struct {
 // from the ROM message "Status Proc: player proc does not exist", which func_8002CBF4 prints
 // when no proc of this class answers.
 typedef struct {
-    /* 0x00 */ s32 unk_00;
+    /* 0x00 */ u8  unk_00[0x4];
     /* 0x04 */ s32 player;      // the contestant: 0, 1 or 2
-    /* 0x08 */ s32 unk_08;
+    /* 0x08 */ u8  unk_08[0x4];
     /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ s8  unk_10;
-} playerProc_t;    // size 0x14
+} playerProc_t;    // size 0x10
 
 // the data of the proc whose handler is func_80021744, created by func_80021C8C 
 typedef struct {
@@ -559,12 +555,6 @@ typedef struct {
     /* 0x14 */ s32 unk_14;
 } data8002C094_t;    // size 0x18
 
-// the data of the proc whose handler is func_8002EFC0
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x8];
-    /* 0x0C */ f32 unk_0C;
-} data8002EFC0_t;    // size 0x10
 
 // The data of the procs that time something out: handlers func_8002F338, func_8002F7CC,
 // func_8002F94C and func_8002FB60. The four are procs of one class (0x07) that keep the same
@@ -650,7 +640,6 @@ typedef union procData_u {
     data8000EF68_t  data8000EF68;
     data8000F274_t  data8000F274;
     data8000F84C_t  data8000F84C;
-    data8000FC3C_t  data8000FC3C;
     data8000FDFC_t  data8000FDFC;
     data8000FFE0_t  data8000FFE0;
     data800101F4_t  data800101F4;
@@ -665,7 +654,6 @@ typedef union procData_u {
     data80029C98_t  data80029C98;
     data8002B318_t  data8002B318;
     data8002C094_t  data8002C094;
-    data8002EFC0_t  data8002EFC0;
     timer_t         timer;
     data800345E8_t  data800345E8;
     data80033A28_t  data80033A28;
@@ -1274,7 +1262,7 @@ void func_80016944( obj_t *obj, s32 arg1 );
 void func_80016B9C( s32 arg0 );
 struct n64dk_r12 func_80016BEC( proc_t *proc );
 void func_80016C78( obj_t *obj, frame_t *frame );
-void func_8001745C( s32 arg0 );
+void func_8001745C( proc_t *proc );
 void func_800174DC( void );
 s32 func_80017548( void );
 void func_80017678( void );
@@ -1296,9 +1284,9 @@ void func_8001A5D0( void );
 void func_8001A628( s32 arg0 );
 s32 func_8001A6DC( s32 arg0 );
 s32 func_8001A7A8( s32 arg0 );
-s32 func_8001A894( f32 arg0, s32 arg1 );
+s32 func_8001A894( f32 arg0, proc_t *proc );
 s32 func_8001A97C( f32 arg0 );
-void func_8001AA60( s32 arg0 );
+void func_8001AA60( proc_t *proc );
 struct n64dk_r12 func_8001AE18( proc_t *proc );
 struct n64dk_r12 func_8001B6BC( proc_t *proc );
 struct n64dk_r12 func_8001BC44( proc_t *proc );
@@ -1306,10 +1294,10 @@ struct n64dk_r12 func_8001BED8( proc_t *proc );
 struct n64dk_r12 func_8001C584( proc_t *proc );
 void func_8001D320( s32 arg0 );
 void func_8001D3CC( s32 arg0 );
-void func_8001D440( s32 arg0, s32 arg1 );
-void func_8001DAF0( s32 arg0, s32 arg1 );
+void func_8001D440( obj_t *obj, frame_t *frame );
+void func_8001DAF0( obj_t *obj, frame_t *frame );
 void func_8001ED48( s32 arg0 );
-void func_8001EFF0( s32 arg0, s32 arg1 );
+void func_8001EFF0( obj_t *obj, frame_t *frame );
 void func_80020150( s32 arg0, s32 arg1 );
 void func_800202A0( s32 arg0 );
 void func_800206C8( s32 arg0 );
@@ -1379,10 +1367,10 @@ void func_80029BFC( s32 arg0 );
 struct n64dk_r12 func_80029C98( proc_t *proc );
 void func_8002A014( void );
 void func_8002A538( void );
-void func_8002A8C8( s32 arg0, s32 arg1 );
-void func_8002AAD0( s32 arg0, s32 arg1, s32 arg2 );
-void func_8002ACE8( s32 arg0 );
-void func_8002AE60( s32 arg0 );
+void func_8002A8C8( proc_t *proc, s32 arg1 );
+void func_8002AAD0( proc_t *proc, s32 arg1, s32 arg2 );
+void func_8002ACE8( proc_t *proc );
+void func_8002AE60( proc_t *proc );
 void func_8002AFDC( void );
 void func_8002B054( void );
 struct n64dk_r12 func_8002B094( proc_t *proc );
@@ -1395,10 +1383,10 @@ struct n64dk_r12 func_8002BE84( proc_t *proc );
 struct n64dk_r12 func_8002C094( proc_t *proc );
 void func_8002CAB4( void );
 struct n64dk_r12 func_8002CBF4( proc_t *proc );
-void func_8002D8B0( s32 arg0 );
+void func_8002D8B0( proc_t *proc );
 struct n64dk_r12 func_8002D930( proc_t *proc );
 s32 func_8002DF80( void );
-s32 func_8002E064( void );
+proc_t *func_8002E064( void );
 struct n64dk_r12 func_8002E0C8( proc_t *proc );
 void func_8002EB40( void );
 void func_8002EB90( s32 arg0 );
@@ -1427,7 +1415,7 @@ struct n64dk_r12 func_80031A54( proc_t *proc );
 void func_800323C4( s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4 );
 void func_800325D0( s32 arg0, s32 arg1 );
 void func_80032858( void );
-s32 func_8003288C( s32 arg0, s32 arg1 );
+proc_t *func_8003288C( s32 arg0, s32 arg1 );
 void func_80032AD4( s32 arg0 );
 void func_80032B10( void );
 void func_80032B80( void );

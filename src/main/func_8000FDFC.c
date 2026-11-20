@@ -2,7 +2,7 @@
 
 struct n64dk_r12 func_8000FDFC(proc_t *proc) {
     struct n64dk_r12 ret;
-    s32 sp20;
+    obj_t *sp20;
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
