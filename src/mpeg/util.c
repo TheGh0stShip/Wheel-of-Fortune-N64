@@ -68,7 +68,7 @@ void correct_underflow( VidStream *vid_stream ) {
 
     if ( status < 0 ) {
         if ( !quietFlag ) {
-            func_80009F38( D_800879DC );     // "Unexpected read error."
+            func_80009F38( "Unexpected read error." );
         }
         exit( 1 );
     } else if ( ( status == 0 ) && ( vid_stream->buf_length < 1 ) ) {

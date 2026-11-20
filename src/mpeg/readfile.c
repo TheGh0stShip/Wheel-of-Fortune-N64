@@ -14,24 +14,21 @@
 #include "mpeg/util.h"
 #include "mpeg/dither.h"
 
-// The read-only data of every object in the game opens with the RCS revisions of the system headers it
-// included: their #ident lines, which the assembler of the original build put into the section. Those
-// headers are not in this tree. The revisions are spelled out here, where the object has them, because
-// what follows them is aligned to 8 bytes counted from the start of the section (the jump table of
-// ReadSystemHeader and the double literals of MakeFloatClockTime), and without them it would fall 4 bytes off.
-static const char D_80088488[] =
-    "$Revision: 1.49 $\0"
-    "$Revision: 3.70 $\0"
-    "$Revision: 1.5 $\0"
-    "$Revision: 1.2 $\0"
-    "$Revision: 1.4 $\0"
-    "$Revision: 1.17 $\0"
-    "$Revision: 1.34 $\0"
-    "$Revision: 1.36 $\0"
-    "$Revision: 3.97 $\0"
-    "$Revision: 1.13 $\0"
-    "$Revision: 1.4 $\0"
-    "$Revision: 1.23 $";
+// The #ident lines of the system headers this object included, in their order: the original assembler put
+// each string into the read-only data, which they open. Those headers are not in this tree, so their lines
+// stand here.
+#ident "$Revision: 1.49 $"
+#ident "$Revision: 3.70 $"
+#ident "$Revision: 1.5 $"
+#ident "$Revision: 1.2 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.17 $"
+#ident "$Revision: 1.34 $"
+#ident "$Revision: 1.36 $"
+#ident "$Revision: 3.97 $"
+#ident "$Revision: 1.13 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.23 $"
 
 // the start codes of the system layer
 #define PACK_START_CODE             ( (unsigned int)0x000001ba )

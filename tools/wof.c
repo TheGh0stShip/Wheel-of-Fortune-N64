@@ -533,6 +533,16 @@ static void load_object_file(Unit *u, const char *path) {
             }
         }
     }
+    /* asn64 marks where a data section's items end; what follows is alignment fill, not source */
+    for (i = 0; i < u->nsym; i++) {
+        const Sym *y = &u->sym[i];
+        Sec *s;
+        if (strcmp(y->name, "__asn64_end_rdata") && strcmp(y->name, "__asn64_end_data")) continue;
+        if (y->shndx == 0 || y->shndx >= shnum) continue;
+        s = &u->sec[y->shndx];
+        if (y->value == 0) s->placed = 0, s->size = 0;
+        else if (y->value < s->size) s->size = y->value;
+    }
     if (u->text < 0) {
         /* an object of data alone: the unit's address is that of its first section with contents, or else of
            its uninitialised data */

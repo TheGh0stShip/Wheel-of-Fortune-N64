@@ -15,7 +15,13 @@
  *   - l.d and s.d are two single-word coprocessor moves, high word first, as on a 32-bit FPU;
  *   - li.d into an integer register pair is two li instructions, low word first;
  *   - li.s and li.d into FPU registers load their constant from a 4-byte-aligned literal that the assembler adds to .rdata
- *     at that point.
+ *     at that point;
+ *   - an .ident string from an #ident line goes into .rdata at that point, NUL-terminated and unaligned:
+ *     every original object's read-only data opens with the run of RCS revisions of the system headers it
+ *     included, one string after another.  cc1's own "GCC: (GNU) 2.7.2" ident is not in retail and stays
+ *     out of the image;
+ *   - the end of .rdata and of .data gets a local label (__asn64_end_rdata, __asn64_end_data), so that the
+ *     gate compares a data section only up to its last item, not through the alignment fill GNU as adds.
  *
  * Each rule was derived from retail bytes and holds across every game unit that the gate verifies.
  *
@@ -86,7 +92,7 @@ static void emit(const char *text, int count) {
 }
 
 int main(void) {
-    static char buf[4096], out[8192];
+    static char buf[4096], out[8192], section[4096] = "\t.text\n";
     char mn[64], ops[2048];
     int noreorder = 0, literals = 0, i;
     while (fgets(buf, sizeof buf, stdin) && nlines < MAX_LINES) lines[nlines++] = strdup(buf);
@@ -107,6 +113,15 @@ int main(void) {
             fputs(line, stdout);
             continue;
         }
+        /* cc1's own "GCC: (GNU) 2.7.2" at the end of every file is not in retail: it stays where GNU as
+           puts it, outside the image */
+        if (!strcmp(mn, ".ident") && strncmp(ops, "\"GCC: ", 6)) {
+            printf("\t.rdata\n\t.ascii\t%s\n\t.byte\t0\n%s", ops, section);
+            continue;
+        }
+        if (!strcmp(mn, ".text") || !strcmp(mn, ".data") || !strcmp(mn, ".rdata") || !strcmp(mn, ".sdata") ||
+            !strcmp(mn, ".bss") || !strcmp(mn, ".section"))
+            snprintf(section, sizeof section, "%s", line);
         if (!is_insn(mn)) {
             fputs(line, stdout);
             continue;
@@ -197,5 +212,8 @@ int main(void) {
             if (IN(mn, branches)) emit("\tnop\n", 1);
         }
     }
+    /* where the data the source defines ends: GNU as pads a section to its alignment after the last item,
+       but retail's fill there is whatever the original assembler left, so the gate stops at these labels */
+    puts("\t.rdata\n__asn64_end_rdata:\n\t.data\n__asn64_end_data:");
     return 0;
 }

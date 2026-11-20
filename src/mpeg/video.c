@@ -636,7 +636,7 @@ int ParsePicture( VidStream *vid_stream, TimeStamp time_stamp ) {
 
     while ( vid_stream->ring[i]->locked != 0 ) {
         if ( ++i >= RING_BUF_SIZE ) {
-            func_80009F38( D_80087EE0 );     // "Fatal error. Ring buffer full."
+            func_80009F38( "Fatal error. Ring buffer full." );
             exit( 1 );
         }
     }
