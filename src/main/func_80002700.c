@@ -1,12 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 pad0[0xE];
-    /* 0x0E */ s16 count;
-} Header;
-
-extern Header *D_800A5090;
-
 s32 func_80002700(void) {
     s32 i;
 
@@ -23,7 +16,7 @@ s32 func_80002700(void) {
         }
     }
     i = 0;
-    while (i < D_800A5090->count) {
+    while (i < D_800A5090->soundCount) {
         if (D_800A509C[i] == -1) {
             return i;
         }

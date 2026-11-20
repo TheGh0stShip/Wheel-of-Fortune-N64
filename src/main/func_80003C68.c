@@ -1,6 +1,6 @@
 #include "wof.h"
 
-void func_80003C68(s32 arg0) {
+void func_80003C68(AudioInfo *info) {
     u32 sp10;
 
     sp10 = osAiGetLength() >> 2;

@@ -1,65 +1,61 @@
 #include "wof.h"
 
-typedef struct Block {
-    /* 0x00 */ struct Block *next;
-    /* 0x04 */ struct Block *prev;
-    /* 0x08 */ s32 addr;
-    /* 0x0C */ s32 stamp;
-    /* 0x10 */ s32 buf;
-} Block;
+/*
+=====================
+func_80003CC8
 
-typedef struct {
-    u8 b[24];
-} Req;
+guess: __amDMA of the audiomgr.c of the SDK demos, the DMA callback of the synthesizer. Returns
+the address of sample data from the cartridge: from a buffer that already holds it, or else from
+a free buffer that it starts a read into.
+=====================
+*/
+s32 func_80003CC8( s32 addr, s32 len, void *state ) {
+    void        *foundBuffer;
+    s32         delta;
+    s32         addrEnd;
+    s32         buffEnd;
+    AMDMABuffer *dmaPtr;
+    AMDMABuffer *lastDmaPtr;
 
-extern Block *D_800BA5CC;
-extern Block *D_800BA5D0;
-extern Req D_800BC700[];
-
-s32 func_80003CC8(s32 arg0, s32 arg1, s32 arg2) {
-    s32 buf;
-    s32 odd;
-    s32 end;
-    s32 blockEnd;
-    Block *block;
-    Block *prev;
-
-    prev = 0;
-    block = D_800BA5CC;
-    end = arg0 + arg1;
-    while (block != 0) {
-        blockEnd = block->addr + 2048;
-        if ((u32)block->addr > (u32)arg0) {
+    lastDmaPtr = 0;
+    dmaPtr = D_800BA5C8.firstUsed;
+    addrEnd = addr + len;
+    // the buffers are in address order
+    while ( dmaPtr ) {
+        buffEnd = dmaPtr->startAddr + DMA_BUFFER_LENGTH;
+        if ( dmaPtr->startAddr > addr ) {
             break;
-        } else if (end <= blockEnd) {
-            block->stamp = D_8004B7A8;
-            buf = block->buf + arg0 - block->addr;
-            return osVirtualToPhysical(buf);
+        } else if ( addrEnd <= buffEnd ) {
+            dmaPtr->lastFrame = D_8004B7A8;
+            foundBuffer = dmaPtr->ptr + addr - dmaPtr->startAddr;
+            return (int)osVirtualToPhysical( foundBuffer );
         }
-        prev = block;
-        block = block->next;
+        lastDmaPtr = dmaPtr;
+        dmaPtr = (AMDMABuffer *)dmaPtr->node.next;
     }
-    block = D_800BA5D0;
-    D_800BA5D0 = block->next;
-    alUnlink(block);
-    if (prev != 0) {
-        alLink(block, prev);
-    } else if (D_800BA5CC != 0) {
-        prev = D_800BA5CC;
-        D_800BA5CC = block;
-        block->next = prev;
-        block->prev = 0;
-        prev->prev = block;
+    // no buffer holds it: take one from the free list
+    dmaPtr = D_800BA5C8.firstFree;
+    D_800BA5C8.firstFree = (AMDMABuffer *)dmaPtr->node.next;
+    alUnlink( (ALLink *)dmaPtr );
+    if ( lastDmaPtr ) {
+        alLink( (ALLink *)dmaPtr, (ALLink *)lastDmaPtr );
+    } else if ( D_800BA5C8.firstUsed ) {
+        lastDmaPtr = D_800BA5C8.firstUsed;
+        D_800BA5C8.firstUsed = dmaPtr;
+        dmaPtr->node.next = (ALLink *)lastDmaPtr;
+        dmaPtr->node.prev = 0;
+        lastDmaPtr->node.prev = (ALLink *)dmaPtr;
     } else {
-        D_800BA5CC = block;
-        block->next = 0;
-        block->prev = 0;
+        D_800BA5C8.firstUsed = dmaPtr;
+        dmaPtr->node.next = 0;
+        dmaPtr->node.prev = 0;
     }
-    buf = block->buf;
-    odd = arg0 & 1;
-    arg0 -= odd;
-    block->addr = arg0;
-    block->stamp = D_8004B7A8;
-    osPiStartDma(&D_800BC700[D_8004B7AC++], 0, 0, arg0, buf, 2048, &D_800BA598);
-    return osVirtualToPhysical(buf) + odd;
+    foundBuffer = dmaPtr->ptr;
+    delta = addr & 0x1;
+    addr -= delta;
+    dmaPtr->startAddr = addr;
+    dmaPtr->lastFrame = D_8004B7A8;
+    osPiStartDma( &D_800BC700[D_8004B7AC++], OS_MESG_PRI_NORMAL, OS_READ, addr, foundBuffer,
+                  DMA_BUFFER_LENGTH, &D_800BA598 );
+    return (int)osVirtualToPhysical( foundBuffer ) + delta;
 }

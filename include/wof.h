@@ -6,6 +6,81 @@
 #include <ultra64.h>
 #include <PR/sched.h>
 
+//
+// The audio manager (func_800032A8 to func_80003FDC) is the audiomgr.c of the SDK's demos. The
+// binary holds none of its names; the types, their members and the constants below carry the
+// names of that source (guess: from the lineage), in the SDK's style.
+//
+#define MAX_UPDATES         48
+#define MAX_EVENTS          48
+#define MAX_VOICES          32
+#define MAX_CHANNELS        32
+#define MAX_SOUNDS          32
+#define AUDIO_HEAP_SIZE     200000
+#define OUTPUT_RATE         22050
+#define MAX_MESGS           8
+#define QUIT_MSG            10
+#define EXTRA_SAMPLES       80
+#define NUM_OUTPUT_BUFFERS  3
+#define NUM_ACMD_LISTS      2
+#define MAX_RSP_CMDS        4096
+#define DMA_BUFFER_LENGTH   0x800
+#define NUM_DMA_BUFFERS     36
+#define NUM_DMA_MESSAGES    32
+#define FRAME_LAG           1
+#define AUDIO_STACKSIZE     0x2000
+
+// the demos' debug print, which their header turns off
+#define PRINTF( args )
+
+typedef struct {
+    u32 outputRate;
+    u32 framesPerField;
+    u32 maxACMDSize;
+} amConfig;
+
+typedef union {
+    struct {
+        short type;
+    } gen;
+    struct {
+        short               type;
+        struct AudioInfo_s  *info;
+    } done;
+    OSScMsg app;
+} AudioMsg;
+
+typedef struct AudioInfo_s {
+    short       *data;          // output data pointer
+    short       frameSamples;   // number of samples synthesized in this frame
+    OSScTask    task;           // scheduler structure
+    AudioMsg    msg;            // completion message
+} AudioInfo;
+
+typedef struct {
+    Acmd        *ACMDList[NUM_ACMD_LISTS];
+    AudioInfo   *audioInfo[NUM_OUTPUT_BUFFERS];
+    OSThread    thread;
+    OSMesgQueue audioFrameMsgQ;
+    OSMesg      audioFrameMsgBuf[MAX_MESGS];
+    OSMesgQueue audioReplyMsgQ;
+    OSMesg      audioReplyMsgBuf[MAX_MESGS];
+    ALGlobals   g;
+} AMAudioMgr;
+
+typedef struct {
+    ALLink  node;
+    u32     startAddr;
+    u32     lastFrame;
+    char    *ptr;
+} AMDMABuffer;
+
+typedef struct {
+    u8          initialized;
+    AMDMABuffer *firstUsed;
+    AMDMABuffer *firstFree;
+} AMDMAState;
+
 // What a proc's handler returns to DoProcs: w[1] says what becomes of the proc (0: it ends,
 // 1: it sleeps w[0] frames, 2 and 3: it waits for event w[0]). The third word is not read.
 struct n64dk_r12 {
@@ -558,14 +633,14 @@ extern char D_800019BC[];   // "InitAnim: cannot find contestant obj", in func_8
 //
 // globals, in address order
 //
-extern s32 D_800349B8;
-extern s32 D_80034A88;
-extern s32 D_80037298;
-extern s32 D_8004B718;
-extern s32 D_8004B71C;
-extern u32 D_8004B7A8;
-extern u32 D_8004B7AC;
-extern s32 D_8004B7B0;
+extern long long int D_800349B8[];  // rspbootTextStart
+extern long long int D_80034A88[];  // rspbootTextEnd
+extern long long int D_80037298[];  // aspMainTextStart
+extern ALSndPlayer *D_8004B718;
+extern s32 D_8004B71C[];            // the parameters of the custom reverb
+extern u32 D_8004B7A8;              // audFrameCt
+extern u32 D_8004B7AC;              // nextDMA
+extern u32 D_8004B7B0;              // curAcmdList
 extern s32 D_8004B7B4;
 extern s32 D_8004B7B8;
 extern s32 D_8004B7C0;
@@ -685,7 +760,7 @@ extern s32 D_8006DD08;
 extern s32 D_8006DD0C;
 extern s32 D_8006DDC4;
 extern s32 D_80082BC8;
-extern s32 D_80083BC8;
+extern long long int D_80083BC8[];  // aspMainDataStart
 extern u64 D_80084218;
 extern s32 D_80085108[];
 extern s32 D_800851C8[];
@@ -722,11 +797,12 @@ extern s32 D_80087C98[];
 extern f64 D_80087E98;
 extern u8 D_80087EA0[];
 extern s32 D_80087EE0;
-extern s32 D_800A507C[];
-extern s32 D_800A5084;
-extern s32 D_800A5088;
-extern s32 *D_800A508C;
-extern s16 *D_800A509C;
+extern ALCSeq *D_800A507C[];
+extern ALSndpConfig D_800A5084;
+extern ALInstrument *D_800A5090;    // the first instrument of the bank: its sounds are the sound effects
+extern ALSound *D_800A5098;
+extern ALSndId *D_800A509C;         // [MAX_SOUNDS], -1 where no sound is allocated
+extern u64 D_800A50A0[];            // audioStack: AUDIO_STACKSIZE bytes
 extern OSContStatus D_800A70A0[];
 extern OSContPad D_800A70B0[];
 extern s16 D_800A70C8;
@@ -743,8 +819,9 @@ extern s32 D_800AFE50;
 extern s32 D_800AFE58;
 extern s32 D_800B3970;
 extern s32 D_800B3988;
-extern s32 D_800B3990;
+extern ALBankFile *D_800B3990;
 extern s32 D_800B3994;
+extern ALBankFile *D_800B3998;      // NOTE: nothing sets it
 extern wedge_t D_800B39B8[];
 extern s32 D_800B3CB8;
 extern s32 D_800B3CC0;
@@ -772,6 +849,7 @@ extern f32 D_800B6BE8;
 extern f32 D_800B6BEC;
 extern f32 D_800B6BF0;
 extern s32 D_800B6BF4;
+extern ALSeqFile *D_800B81D8;
 extern s32 D_800B81DC;
 extern s32 D_800B81E0;
 extern s32 *D_800B81E4;
@@ -800,14 +878,13 @@ extern u16 D_800B96B0;
 extern s32 D_800B96B4;
 extern u16 D_800B96B6;
 extern s32 D_800B96B8;
-extern u32 D_800B96BC;
-extern u16 D_800B96BE;
+extern u32 D_800B96BC;              // minFrameSize
 extern s32 D_800B96C0;
 extern u8 D_800B96C4;
-extern s32 D_800B96C8;
-extern s32 D_800B9950;
+extern OSSched D_800B96C8;
+extern u32 D_800B9950;              // maxFrameSize
 extern OSContPad D_800B9954;
-extern s32 D_800B9960;
+extern ALHeap D_800B9960;
 extern s32 D_800B9974;
 extern s32 D_800B9980;
 extern s32 D_800B9984;
@@ -833,16 +910,15 @@ extern s32 D_800BA168;
 extern tile_t D_800BA16C[];
 extern s32 D_800BA2BC;
 extern s32 D_800BA2C0;
-extern s32 D_800BA2C8;
-extern s32 D_800BA2CC;
-extern s32 D_800BA2DC;
-extern s32 D_800BA598;
+extern AMDMABuffer D_800BA2C8[];     // dmaBuffs[NUM_DMA_BUFFERS]
+extern OSMesgQueue D_800BA598;       // audDMAMessageQ
 extern s32 D_800BA5B0;
-extern u8 D_800BA5C8;
+extern AMDMAState D_800BA5C8;        // dmaState
 extern s32 D_800BA5D4;
 extern s32 D_800BA5E0[];
 extern u16 D_800BC6F8;
 extern s32 D_800BC6FC;
+extern OSIoMesg D_800BC700[];       // audDMAIOMesgBuf[NUM_DMA_MESSAGES]
 extern s32 D_800BCA00;
 extern s32 D_800BCA04;
 extern s32 D_800BCA08;
@@ -858,27 +934,19 @@ extern s16 D_800BCA30;
 extern s32 D_800BCA34;
 extern s32 D_800BCA40;
 extern s32 D_800BCA60;
-extern s32 D_800BCA68[];
-extern s32 D_800BCA70[];
-extern s32 D_800BCA80;
-extern s32 D_800BCC30;
-extern s32 D_800BCC48;
-extern s32 D_800BCC68;
-extern s32 D_800BCC80;
-extern s32 D_800BCCA0;
+extern AMAudioMgr D_800BCA68;        // __am
 extern f32 D_800BCCF0;
 extern s32 D_800BCCF4;
 extern s32 D_800BCD50;
 extern s32 D_800BCD54;
 extern s32 D_800BCD58;
-extern s32 D_800BCD64;
-extern u16 D_800BCD66;
+extern u32 D_800BCD64;              // frameSize
 extern s32 D_800BCD68;
 extern s32 D_800BCD70;
 extern s32 D_800BED88;
-extern s32 D_800BED90[];
+extern ALCSPlayer *D_800BED90[];
 extern s32 D_800BED98;
-extern s32 D_800BEDA4;
+extern u32 D_800BEDA4;              // maxRSPCmds
 extern s32 D_800BEDA8;
 extern s32 D_800BEDB0[];
 extern s32 D_800BEDD8[];
@@ -901,7 +969,7 @@ extern s32 D_800BEE50;
 extern s32 D_800BEE54;
 extern u16 D_800BEE58[];
 extern rumble_t D_800BEE60[];
-extern s32 D_800BEEA0;
+extern OSMesgQueue *D_800BEEA0;      // the command queue of the scheduler
 extern s32 D_800BEEA8[][8];
 extern u8 D_800BEF08[][0x1E480];
 extern s16 D_800C9B60[][0x1000];
@@ -913,7 +981,7 @@ extern s32 *D_800FB800;
 extern s32 D_800FB808;
 extern s32 D_800FB80C;
 extern u64 D_800FB810;
-extern s32 D_800FB818;
+extern OSMesg D_800FB818[];          // audDMAMessageBuf[NUM_DMA_MESSAGES]
 extern u8 D_800FC098[];
 extern f64 D_800FD098[][8];
 extern s32 D_800FD298;
@@ -974,7 +1042,7 @@ extern s32 D_803DA800;
 // functions, in address order: the unit boundaries are not known yet
 //
 void func_80002348( void );
-void func_80002598( s32 arg0, s32 arg1 );
+void func_80002598( s32 seqNo, s32 player );
 void func_800026B0( s32 arg0 );
 s32 func_80002700( void );
 void func_800028E4( void );
@@ -987,12 +1055,12 @@ void func_800030E8( s32 arg0, f32 arg1 );
 void func_8000315C( void );
 s32 func_80003234( void );
 s32 func_8000326C( void );
-void func_800032A8( s32 arg0, s32 arg1, s32 arg2 );
-void func_800037A0( s32 arg0 );
-s32 func_80003944( s32 arg0, s32 arg1 );
-void func_80003C68( s32 arg0 );
-s32 func_80003CC8( s32 arg0, s32 arg1, s32 arg2 );
-s32 *func_80003F64( u8 **arg0 );
+void func_800032A8( ALSynConfig *c, OSPri pri, amConfig *amc );
+void func_800037A0( void *arg );
+u32 func_80003944( AudioInfo *info, AudioInfo *lastInfo );
+void func_80003C68( AudioInfo *info );
+s32 func_80003CC8( s32 addr, s32 len, void *state );
+ALDMAproc func_80003F64( AMDMAState **state );
 void func_80003FDC( void );
 void func_80004160( s32 arg0 );
 void func_8000420C( void );
