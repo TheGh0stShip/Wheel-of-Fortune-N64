@@ -10,15 +10,15 @@ requires its SHA-1 to equal the retail ROM's.
 
 | measure | C functions | of |
 |---|---:|---:|
-| **Matched under the rules** (byte-identical and passing every [match] code rule) | **698** | 746 |
+| **Matched under the rules** (byte-identical and passing every [match] code rule) | **742** | 746 |
 | Bytes matched (byte-identical at the gate) | 746 | 746 |
 
-- Every code range of the image now builds from source: 604 units, 402,756 of 402,756 code bytes, covering all
+- Every code range of the image now builds from source: 535 units, 402,756 of 402,756 code bytes, covering all
   773 inventoried function ranges (745 C, 28 original assembly).
-- The game is 441 functions built with GCC 2.7.2. 394 pass the rules; 47 are `MATCH-PENDING`: the bytes are
-  right, but the source still has per-file copies of some types and globals, or stand-in locals that only hold
-  the stack layout. That is open work, not progress. Passing the rules is not the end either: nearly every
-  game function still has placeholder names.
+- The game is 441 functions built with GCC 2.7.2. 438 pass the rules; 3 are `MATCH-PENDING`. Passing the rules
+  is not the end: outside the MPEG player (the Berkeley `mpeg_play` decoder, rebuilt as its 13 original
+  objects with that source's names as `guess:`), nearly every game function still has placeholder names, sits
+  one function per file, and passes handles as integers.
 - The library is libultra (IDO 5.3, built from the `ultralib` reconstruction under `lib/ultralib`) and three
   libgcc functions: 305 C functions, of which 304 pass the rules.
 - Data is mostly not reconstructed: 24,164 bytes of it are linked from source, and about 260,000 bytes of the
