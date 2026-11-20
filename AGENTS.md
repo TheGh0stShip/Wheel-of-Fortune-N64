@@ -27,6 +27,7 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
 | `rules [<unit>]` | `./wof rules [-v] [UNIT...]` |
 | `disasm` | `./wof diff UNIT`; for ranges outside a unit, `mips-linux-gnu-objdump -D -b binary -m mips:4300 -EB` on the ROM |
 | symbol proposals | `./wof infer` (not a gate: it reads addresses from retail and writes proposals to the build directory) |
+| unit boundaries | `./wof unitmap [-v]` (not a gate: prints the evidence for original object boundaries among the game functions, from the ROM and the last gate's unit list; `-v` adds the strings each function uses) |
 | `permute` | none |
 
 - **Toolchain.** GCC 2.7.2 for MIPS (`gcc`, `cc1`, `as` 2.6) in `$WOF_TOOLCHAIN`, default `~/wof/gcc272` inside
