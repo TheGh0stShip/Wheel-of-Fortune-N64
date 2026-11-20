@@ -69,7 +69,7 @@ typedef struct {
 
 typedef struct {
     const char *name;
-    u32 value;
+    u32 value, size;
     u8 bind, type;
     u16 shndx;
 } Sym;
@@ -130,6 +130,7 @@ static const char *toolchain;
 static const char *ido;
 static int infer_mode;
 static int verbose;
+static FILE *refs_out; /* the gate's list of resolved references, for the data tools */
 
 static void die(const char *fmt, ...) {
     va_list ap;
@@ -527,6 +528,7 @@ static void load_object_file(Unit *u, const char *path) {
             for (k = 0; k < u->nsym; k++) {
                 u->sym[k].name = (const char *)str + be32(st + k * 16);
                 u->sym[k].value = be32(st + k * 16 + 4);
+                u->sym[k].size = be32(st + k * 16 + 8);
                 u->sym[k].bind = st[k * 16 + 12] >> 4;
                 u->sym[k].type = st[k * 16 + 12] & 15;
                 u->sym[k].shndx = be16(st + k * 16 + 14);
@@ -796,6 +798,11 @@ static void relocate(Unit *u, int si, int apply) {
                 wr32(sec->buf + off, (insn & 0xFFFF0000) | ((addend + S) & 0xFFFF));
                 break;
             }
+            /* a lo half alone does not give the whole target: its hi half (or the jump) is the record */
+            if (refs_out && type != R_MIPS_LO16)
+                fprintf(refs_out, "%s\t%s\t0x%08X\t%s\t%s\t0x%08X\n", u->name, sec->name, sec->base + off,
+                        type == R_MIPS_32 ? "word" : type == R_MIPS_26 ? "jump" : "hilo",
+                        s->name[0] ? s->name : u->sec[s->shndx < u->nsec ? s->shndx : 0].name, addend + S);
         }
     }
     if (!apply) sec->noted = 1;
@@ -916,10 +923,15 @@ static void verify(Unit *u) {
     for (k = 0; k < u->nsec; k++) {
         Sec *d = &u->sec[k];
         u32 len;
+        int y;
         if (!d->placed || k == u->text || !d->buf) continue;
         len = d->size;
         while (len && !d->buf[len - 1]) len--; /* trailing alignment padding belongs to nobody */
         len = (len + 3) & ~3u;
+        /* but a datum the object sizes is its own, zero or not (a global initialised to 0 at the end) */
+        for (y = 0; y < u->nsym; y++)
+            if (u->sym[y].shndx == k && u->sym[y].type == 1 && u->sym[y].size && u->sym[y].value + u->sym[y].size > len)
+                len = u->sym[y].value + u->sym[y].size;
         if (len > d->size) len = d->size;
         if (!in_image(d->base, len)) {
             fail(u, ST_DIFF, "%s placed at 0x%08X, outside the image", d->name, d->base);
@@ -985,6 +997,49 @@ static void print_unit(const Unit *u) {
            u->status == ST_OK && u->data_bytes ? " +data" : "");
 }
 
+/*
+ * symbols.map: name, address, size, unit, global/local, section -- every named function and datum the units
+ * place, so the data tools can name what a pointer in retail's data points at.
+ */
+static void write_symbol_map(void) {
+    char path[400];
+    FILE *f;
+    int i, k;
+    snprintf(path, sizeof path, "%s/symbols.map", build_dir);
+    f = fopen(path, "w");
+    if (!f) return;
+    for (i = 0; i < nunits; i++) {
+        const Unit *u = &units[i];
+        if (u->status == ST_ERR) continue;
+        for (k = 0; k < u->nsym; k++) {
+            const Sym *s = &u->sym[k];
+            const Sec *d;
+            if (!s->name[0] || (s->bind != 0 && s->bind != 1 && s->bind != 2) || (s->type != 1 && s->type != 2)) continue;
+            if (s->shndx == SHN_UNDEF || s->shndx >= u->nsec) continue;
+            d = &u->sec[s->shndx];
+            if (!d->placed || !d->base_known) continue;
+            fprintf(f, "%s\t0x%08X\t0x%X\t%s\t%s\t%s\n", s->name, d->base + s->value, s->size, u->name,
+                    s->bind == 0 ? "local" : "global", d->name);
+        }
+    }
+    for (i = 0; i < nglobals; i++) /* commons and declared addresses: no section of their own */
+        if (strcmp(globals[i].owner, "inferred") && !globals[i].conflict) {
+            const Unit *u = NULL;
+            int common = 0;
+            for (k = 0; k < nunits && !u; k++)
+                if (!strcmp(units[k].name, globals[i].owner)) u = &units[k];
+            for (k = 0; u && k < u->nsym; k++)
+                if (u->sym[k].shndx == SHN_COMMON && !strcmp(u->sym[k].name, globals[i].name)) {
+                    fprintf(f, "%s\t0x%08X\t0x%X\t%s\tglobal\tCOMMON\n", globals[i].name, globals[i].addr, u->sym[k].size,
+                            u->name);
+                    common = 1;
+                    break;
+                }
+            if (!u && !common) fprintf(f, "%s\t0x%08X\t0x0\t%s\tglobal\tABS\n", globals[i].name, globals[i].addr, globals[i].owner);
+        }
+    fclose(f);
+}
+
 static int cmd_gate(void) {
     u8 *img;
     char digest[41], path[400];
@@ -997,7 +1052,13 @@ static int cmd_gate(void) {
         for (k = i + 1; k < nunits; k++)
             if (units[i].vram < units[k].vram + units[k].size && units[k].vram < units[i].vram + units[i].size)
                 die("units %s and %s overlap", units[i].name, units[k].name);
+    /* refs.tsv: unit, section, field address, word/jump/hilo, symbol, target -- every resolved reference */
+    snprintf(path, sizeof path, "%s/refs.tsv", build_dir);
+    refs_out = fopen(path, "w");
     run_units(1);
+    if (refs_out) fclose(refs_out);
+    refs_out = NULL;
+    write_symbol_map();
     img = malloc(rom_size);
     memcpy(img, rom, rom_size);
     snprintf(path, sizeof path, "%s/units.txt", build_dir);
