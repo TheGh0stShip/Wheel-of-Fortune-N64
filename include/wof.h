@@ -922,8 +922,6 @@ extern u64 D_800B3CC0[];            // the stack of the graphics microcode: SP_D
 extern s32 D_800B40C0;
 extern s32 D_800B40C4;
 extern obj_t D_800B40C8[];
-extern s32 D_800B40D4;
-extern s32 D_800B4118;
 extern s32 D_800B6198;
 extern s32 D_800B619C;
 extern s32 D_800B61A0;
@@ -954,7 +952,6 @@ extern s32 D_800B8290;
 extern s32 D_800B8294;
 extern f32 D_800B8298;
 extern proc_t D_800B82A0[];
-extern s32 D_800B82E0;
 extern s32 D_800B9538;
 extern s32 D_800B953C;
 extern s32 D_800B9540;
