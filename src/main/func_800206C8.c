@@ -22,8 +22,8 @@ void func_800206C8(s32 arg0) {
     s32 base;
 
     base = 0x2000000;
-    diff = func_8003FF78(D_800BEF5C[D_800B61A0].unk_04 + 0xAC00);
-    diff = diff - func_8003FF78(D_800BEF60[D_800B61A0]);
+    diff = osVirtualToPhysical(D_800BEF5C[D_800B61A0].unk_04 + 0xAC00);
+    diff = diff - osVirtualToPhysical(D_800BEF60[D_800B61A0]);
     src = (u16 *)arg0;
     dst = (s16 *)(D_800BEF5C[D_800B61A0].unk_04 + 0xAC00);
     if (D_800B96A4 != 0) {

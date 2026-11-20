@@ -11,11 +11,6 @@ typedef struct {
 } State;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *unk_30;
-} Task;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0x24];
 } Letter;
@@ -45,11 +40,11 @@ struct n64dk_r12 func_8002D930(s32 arg1) {
         switch (event) {
         case 8:
             func_8002D8B0(arg1);
-            D_8005A9A8[((Task *)arg1)->unk_30->unk_04.index].unk_00 = 1;
-            ((Task *)arg1)->unk_30->unk_0C = 0;
+            D_8005A9A8[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_00 = 1;
+            ((State *)((proc_t *)arg1)->unk_30)->unk_0C = 0;
             return result;
         case 23:
-            D_8005A9A8[((Task *)arg1)->unk_30->unk_04.index].unk_00 = 0;
+            D_8005A9A8[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_00 = 0;
             func_8000A850(5);
             result.w[1] = 0;
             result.w[0] = 0;
@@ -65,23 +60,23 @@ struct n64dk_r12 func_8002D930(s32 arg1) {
             return result;
         }
     }
-    D_800B61B5 = ((Task *)arg1)->unk_30->unk_04.bytes[3] + 65;
-    D_8005A9A8[((Task *)arg1)->unk_30->unk_04.index].unk_00 = 0;
+    D_800B61B5 = ((State *)((proc_t *)arg1)->unk_30)->unk_04.bytes[3] + 65;
+    D_8005A9A8[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_00 = 0;
     if (D_800B99A4[D_800FB808].unk_00 == 4) {
-        D_8005A9A8[((Task *)arg1)->unk_30->unk_04.index].unk_00 = 1;
+        D_8005A9A8[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_00 = 1;
         return result;
     }
     if ((D_800B96B0 & 0xA000) != 0) {
         D_800BED88++;
-        if (D_800B966A[((Task *)arg1)->unk_30->unk_04.index] != ' ') {
-            D_800B61B5 = ((Task *)arg1)->unk_30->unk_04.bytes[3] + 65;
+        if (D_800B966A[((State *)((proc_t *)arg1)->unk_30)->unk_04.index] != ' ') {
+            D_800B61B5 = ((State *)((proc_t *)arg1)->unk_30)->unk_04.bytes[3] + 65;
             func_8000A850(5);
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
         } else {
             if (D_800B619C != 6) {
-                D_800B61B5 = ((Task *)arg1)->unk_30->unk_04.bytes[3] + 65;
+                D_800B61B5 = ((State *)((proc_t *)arg1)->unk_30)->unk_04.bytes[3] + 65;
                 func_8000A850(5);
                 result.w[1] = 0;
                 result.w[0] = 0;
@@ -92,7 +87,7 @@ struct n64dk_r12 func_8002D930(s32 arg1) {
             return result;
         }
     }
-    if (((Task *)arg1)->unk_30->unk_0C <= 0) {
+    if (((State *)((proc_t *)arg1)->unk_30)->unk_0C <= 0) {
         if ((D_800B9954 & 0x800) != 0) {
             func_8002ACE8(arg1);
         } else if ((D_800B9954 & 0x400) != 0) {
@@ -116,13 +111,13 @@ struct n64dk_r12 func_8002D930(s32 arg1) {
             }
         }
     } else {
-        ((Task *)arg1)->unk_30->unk_0C -= D_800B96B4;
+        ((State *)((proc_t *)arg1)->unk_30)->unk_0C -= D_800B96B4;
     }
-    if (((Task *)arg1)->unk_30->unk_04.index < 0) {
-        ((Task *)arg1)->unk_30->unk_04.index = 25;
-    } else if (((Task *)arg1)->unk_30->unk_04.index >= 26) {
-        ((Task *)arg1)->unk_30->unk_04.index = 0;
+    if (((State *)((proc_t *)arg1)->unk_30)->unk_04.index < 0) {
+        ((State *)((proc_t *)arg1)->unk_30)->unk_04.index = 25;
+    } else if (((State *)((proc_t *)arg1)->unk_30)->unk_04.index >= 26) {
+        ((State *)((proc_t *)arg1)->unk_30)->unk_04.index = 0;
     }
-    D_8005A9A8[((Task *)arg1)->unk_30->unk_04.index].unk_00 = 1;
+    D_8005A9A8[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_00 = 1;
     return result;
 }

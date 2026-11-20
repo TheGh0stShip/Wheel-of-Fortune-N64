@@ -62,16 +62,16 @@ s32 func_80003944(s32 arg0, s32 arg1) {
         D_800B96B8 = count;
     }
     func_80003FDC();
-    sp10 = func_8003FF78(((Req *)arg0)->unk_00);
+    sp10 = osVirtualToPhysical(((Req *)arg0)->unk_00);
     if (arg1 != 0) {
-        func_800388B8(((Buf *)arg1)->unk_00, ((Buf *)arg1)->unk_04 << 2);
+        osAiSetNextBuffer(((Buf *)arg1)->unk_00, ((Buf *)arg1)->unk_04 << 2);
     }
-    sp1C = (u32)func_80038748() >> 2;
+    sp1C = (u32)osAiGetLength() >> 2;
     ((Req *)arg0)->unk_04 = (D_800BCD66 - (u16)sp1C + 96) & 0xFFF0u;
     if ((u32)((Req *)arg0)->unk_04 < D_800B96BC) {
         ((Req *)arg0)->unk_04 = D_800B96BE;
     }
-    sp14 = func_80039980(D_800BCA68[D_8004B7B0], &sp18, sp10, ((Req *)arg0)->unk_04);
+    sp14 = alAudioFrame(D_800BCA68[D_8004B7B0], &sp18, sp10, ((Req *)arg0)->unk_04);
     if (sp18 == 0) {
         return 0;
     }
@@ -95,7 +95,7 @@ s32 func_80003944(s32 arg0, s32 arg1) {
     task->unk_3C = 0;
     task->unk_48 = 0;
     task->unk_4C = 0;
-    func_8003E4B8(D_800BEEA0, task, 1);
+    osSendMesg(D_800BEEA0, task, 1);
     D_8004B7B0 ^= 1;
     return 1;
 }

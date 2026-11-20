@@ -23,8 +23,8 @@ void func_800202A0(s32 arg0) {
     s32 sp2C;
 
     sp2C = 0x2000000;
-    size = func_8003FF78((s32)(D_800BEF5C[D_800B61A0].data + 0x19C00));
-    size = size - func_8003FF78((s32)&D_800BEF60[D_800B61A0]);
+    size = osVirtualToPhysical((s32)(D_800BEF5C[D_800B61A0].data + 0x19C00));
+    size = size - osVirtualToPhysical((s32)&D_800BEF60[D_800B61A0]);
     src = (u16 *)arg0;
     dst = (s16 *)(D_800BEF5C[D_800B61A0].data + 0x19C00);
     n = 0;

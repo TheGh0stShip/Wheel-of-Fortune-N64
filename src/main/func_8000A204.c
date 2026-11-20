@@ -1,11 +1,6 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x40];
-} Obj;
-
-extern Obj D_800B82A0[];
+extern proc_t D_800B82A0[];
 
 s32 func_8000A204(void) {
     s32 i;

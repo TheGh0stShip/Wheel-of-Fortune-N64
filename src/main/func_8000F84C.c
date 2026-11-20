@@ -5,18 +5,13 @@ typedef struct {
     /* 0x04 */ s32 unk_04;
 } Data;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Obj;
-
 struct n64dk_r12 func_8000F84C(s32 arg1) {
     struct n64dk_r12 ret;
     s32 sp20;
     s32 event;
     s8 pad0;
 
-    sp20 = ((Obj *)arg1)->data->unk_00;
+    sp20 = ((Data *)((proc_t *)arg1)->unk_30)->unk_00;
     ret.w[1] = 1;
     ret.w[0] = 0;
     while ((event = func_8000ACE8(arg1)) != 0) {
@@ -35,7 +30,7 @@ struct n64dk_r12 func_8000F84C(s32 arg1) {
                 D_800B96A8++;
                 break;
             case 3500:
-                ((Obj *)arg1)->data->unk_04 = 1;
+                ((Data *)((proc_t *)arg1)->unk_30)->unk_04 = 1;
                 D_800B96A8++;
                 func_8000AAB0(arg1, 41, 0);
                 ret.w[1] = 1;

@@ -10,11 +10,6 @@ typedef struct {
 } State;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *unk_30;
-} Obj;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0xE4];
     /* 0xE8 */ s32 unk_E8;
@@ -25,13 +20,13 @@ extern Player D_800B99A4[];
 
 struct n64dk_r12 func_800183A8(s32 arg1) {
     struct n64dk_r12 result;
-    Obj *obj;
+    proc_t *obj;
     s32 node;
     s32 event;
 
     result.w[1] = 1;
     result.w[0] = 0;
-    if (((Obj *)arg1)->unk_30->player != D_800FB808) {
+    if (((State *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
         func_8000AD9C(arg1);
         return result;
     }
@@ -39,21 +34,21 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
         switch (event) {
         case 8:
             func_80017C00(0, 0);
-            obj = (Obj *)func_8000A56C((s32)func_8000EF68, 0x4000000);
+            obj = (proc_t *)func_8000A56C((s32)func_8000EF68, 0x4000000);
             result.w[1] = 2;
             result.w[0] = 29;
             return result;
         case 29:
             func_80017C00(0, 0);
-            obj = (Obj *)func_8000A56C((s32)func_8000FDFC, 0x4030000);
+            obj = (proc_t *)func_8000A56C((s32)func_8000FDFC, 0x4030000);
             node = func_8000B5DC(0x4010000, 0xFFFF0000);
-            obj->unk_30->unk_00 = node;
+            ((State *)obj->unk_30)->unk_00 = node;
             if (D_800BCCF0 > 50.0f) {
-                obj->unk_30->unk_0C = D_800BCCF0 + func_8003CE58() % 10;
+                ((State *)obj->unk_30)->unk_0C = D_800BCCF0 + guRandom() % 10;
             } else {
-                obj->unk_30->unk_0C = (f32)(func_8003CE58() % 10 + 50) + D_800BCCF0;
+                ((State *)obj->unk_30)->unk_0C = (f32)(guRandom() % 10 + 50) + D_800BCCF0;
             }
-            if (obj->unk_30->unk_0C > 80.0) {
+            if (((State *)obj->unk_30)->unk_0C > 80.0) {
                 func_8000AAB0(arg1, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 40 / D_800B96B4;
@@ -65,9 +60,9 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
             }
             break;
         case 7:
-            obj = (Obj *)func_8000A990(0x4030000, -1);
-            if (obj->unk_30->unk_0C >= 110.0) {
-                if (func_8003CE58() % 100 >= 51) {
+            obj = (proc_t *)func_8000A990(0x4030000, -1);
+            if (((State *)obj->unk_30)->unk_0C >= 110.0) {
+                if (guRandom() % 100 >= 51) {
                     func_80017C00(11, 0);
                 } else {
                     func_80017C00(15, 1);
@@ -135,8 +130,8 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
             func_8002A014();
             if (func_80007888(D_800B61B5, 0) > 0) {
                 func_80007DAC(D_800B61B5);
-                obj = (Obj *)func_8000A56C((s32)func_80010574, 0x1000000);
-                obj->unk_30->unk_10 = D_800B61B5;
+                obj = (proc_t *)func_8000A56C((s32)func_80010574, 0x1000000);
+                ((State *)obj->unk_30)->unk_10 = D_800B61B5;
                 result.w[1] = 2;
                 result.w[0] = 6;
             } else {

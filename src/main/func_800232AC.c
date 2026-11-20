@@ -8,11 +8,6 @@ typedef struct {
 } MenuData;
 
 typedef struct {
-    /* 0x00 */ u8 pad0[0x30];
-    /* 0x30 */ MenuData *data;
-} Task;
-
-typedef struct {
     u8 b[32];
 } Item;
 
@@ -38,8 +33,8 @@ struct n64dk_r12 func_800232AC(s32 arg1) {
     while ((event = func_8000ACE8(arg1)) != 0) {
         switch (event) {
         case 8:
-            ((Task *)arg1)->data->cursor = 0;
-            ((Task *)arg1)->data->unk_04 = D_800584E0;
+            ((MenuData *)((proc_t *)arg1)->unk_30)->cursor = 0;
+            ((MenuData *)((proc_t *)arg1)->unk_30)->unk_04 = D_800584E0;
             func_80022784(arg1, (s32)&D_80058548, (s32)&D_800584E8, 0);
             func_80022784(arg1, (s32)&D_80058548, (s32)&D_80058508, 0);
             func_80022784(arg1, (s32)&D_80058548, (s32)&D_80058528, 0);
@@ -48,9 +43,9 @@ struct n64dk_r12 func_800232AC(s32 arg1) {
         }
     }
     if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
-        ((Task *)arg1)->data->delay = 0;
+        ((MenuData *)((proc_t *)arg1)->unk_30)->delay = 0;
         func_80002CE0(42);
-        switch (((Task *)arg1)->data->cursor) {
+        switch (((MenuData *)((proc_t *)arg1)->unk_30)->cursor) {
         case 0:
             func_80022BC8(arg1, (s32)&D_80058548, (s32)D_800584C8, 4);
             break;
@@ -82,17 +77,17 @@ struct n64dk_r12 func_800232AC(s32 arg1) {
     } else if ((D_800B96B0 & 1024 & 0xFFFF) != 0) {
         func_80022BC8(arg1, (s32)&D_80058548, (s32)D_800584C8, 4);
     } else if ((D_800B96B0 & 512 & 0xFFFF) != 0) {
-        func_80022DC0(arg1, (s32)&D_80058548, (s32)&D_800584C8[((Task *)arg1)->data->cursor], 1);
+        func_80022DC0(arg1, (s32)&D_80058548, (s32)&D_800584C8[((MenuData *)((proc_t *)arg1)->unk_30)->cursor], 1);
     } else if ((D_800B96B0 & 256 & 0xFFFF) != 0) {
-        func_80022FE0(arg1, (s32)&D_80058548, (s32)&D_800584C8[((Task *)arg1)->data->cursor], 1);
+        func_80022FE0(arg1, (s32)&D_80058548, (s32)&D_800584C8[((MenuData *)((proc_t *)arg1)->unk_30)->cursor], 1);
     } else if ((D_800B96B0 & 0x8000 & 0xFFFF) != 0) {
         return result;
     }
-    if (((Task *)arg1)->data->delay <= 0) {
+    if (((MenuData *)((proc_t *)arg1)->unk_30)->delay <= 0) {
         if (D_800B9956 >= 41) {
-            func_80022FE0(arg1, (s32)&D_80058548, (s32)&D_800584C8[((Task *)arg1)->data->cursor], 1);
+            func_80022FE0(arg1, (s32)&D_80058548, (s32)&D_800584C8[((MenuData *)((proc_t *)arg1)->unk_30)->cursor], 1);
         } else if (D_800B9956 < -40) {
-            func_80022DC0(arg1, (s32)&D_80058548, (s32)&D_800584C8[((Task *)arg1)->data->cursor], 1);
+            func_80022DC0(arg1, (s32)&D_80058548, (s32)&D_800584C8[((MenuData *)((proc_t *)arg1)->unk_30)->cursor], 1);
         }
         if (D_800B9957 >= 41) {
             func_800229D0(arg1, (s32)&D_80058548, (s32)D_800584C8, 4);
@@ -100,11 +95,11 @@ struct n64dk_r12 func_800232AC(s32 arg1) {
             func_80022BC8(arg1, (s32)&D_80058548, (s32)D_800584C8, 4);
         }
     } else {
-        ((Task *)arg1)->data->delay -= D_800B96B4;
+        ((MenuData *)((proc_t *)arg1)->unk_30)->delay -= D_800B96B4;
     }
-    cursor = ((Task *)arg1)->data->cursor;
+    cursor = ((MenuData *)((proc_t *)arg1)->unk_30)->cursor;
     if (cursor < 3) {
-        switch (((Task *)arg1)->data->unk_04) {
+        switch (((MenuData *)((proc_t *)arg1)->unk_30)->unk_04) {
         case 0:
             D_80058568[(cursor * 4) + 10].unk_00 = (s32)&D_01158068;
             D_80058568[(cursor * 4) + 10].unk_04 = (s32)&D_0115B868;

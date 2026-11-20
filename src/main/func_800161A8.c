@@ -1,10 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x48];
-    /* 0x48 */ s32 unk_48;
-} Object;
-
 void func_800161A8(void) {
     s32 child;
     s32 obj;
@@ -22,7 +17,7 @@ void func_800161A8(void) {
             func_8000A4A4(child, 0);
         }
     }
-    ((Object *)obj)->unk_48 = (s32)&D_01092090;
+    ((obj_t *)obj)->unk_48 = (s32)&D_01092090;
     func_80015EDC((s32)&D_800579F0, (s32)&D_800B9D08, 0, 12);
     func_80015EDC((s32)&D_80057A20, (s32)&D_800B9E58, 1, 14);
     func_80015EDC((s32)&D_80057A58, (s32)&D_800B9FE0, 2, 14);

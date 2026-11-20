@@ -1,22 +1,10 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ u8 unk_10[0x4];
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ s32 unk_1C;
-    /* 0x20 */ s32 unk_20;
-} State;
-
-typedef struct {
     /* 0x00 */ u8 unk_00[0x10];
     /* 0x10 */ s16 unk_10;
     /* 0x12 */ u8 unk_12[0x1E];
-    /* 0x30 */ State *state;
+    /* 0x30 */ vannaAnim_t *state;
 } Task;
 
 typedef struct {
@@ -60,6 +48,6 @@ s32 func_8003288C(s32 arg0, s32 arg1) {
     task->state->unk_14 = D_8005C7F8[arg0].unk_04;
     task->state->unk_1C = D_8005C7F8[arg0].unk_08;
     task->state->unk_20 = D_8005C7F8[arg0].unk_0C;
-    task->state->unk_00 = (s32)child;
+    task->state->obj = (obj_t *)child;
     return (s32)task;
 }

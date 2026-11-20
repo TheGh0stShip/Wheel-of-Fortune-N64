@@ -6,11 +6,6 @@ typedef struct {
 } Data;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Obj;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ u8 unk_08[0x20];
@@ -41,7 +36,7 @@ struct n64dk_r12 func_8002B318(s32 arg1) {
             }
             func_80005258();
             func_80027218(0, 0, (s32)func_80028064, 0x5050000);
-            ((Obj *)arg1)->data->step = 0;
+            ((Data *)((proc_t *)arg1)->unk_30)->step = 0;
             D_800BCD54 = 8;
             func_8000B6FC(0x5050100, -1);
             func_8000AE70(0xA000400, -1, 1);
@@ -67,18 +62,18 @@ struct n64dk_r12 func_8002B318(s32 arg1) {
             return ret;
         }
     }
-    if (((Obj *)arg1)->data->step >= 22) {
+    if (((Data *)((proc_t *)arg1)->unk_30)->step >= 22) {
         func_8000AAB0(arg1, 46, 0);
         return ret;
     }
     func_800161A8();
-    func_80006E54(0, D_8005C1E8[((Obj *)arg1)->data->step]);
-    if (D_8005C33C[((Obj *)arg1)->data->step] != 0) {
-        func_80009900((s32)&D_800B9544, D_8005C33C[((Obj *)arg1)->data->step]);
+    func_80006E54(0, D_8005C1E8[((Data *)((proc_t *)arg1)->unk_30)->step]);
+    if (D_8005C33C[((Data *)((proc_t *)arg1)->unk_30)->step] != 0) {
+        func_80009900((s32)&D_800B9544, D_8005C33C[((Data *)((proc_t *)arg1)->unk_30)->step]);
         func_80029440();
     }
     func_80011B24();
-    ((Obj *)arg1)->data->step++;
+    ((Data *)((proc_t *)arg1)->unk_30)->step++;
     ret.w[0] = 65 / D_800B96B4;
     return ret;
 }

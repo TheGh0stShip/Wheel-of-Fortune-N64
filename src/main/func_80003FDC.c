@@ -17,7 +17,7 @@ void func_80003FDC(void) {
     Node *next;
 
     for (i = 0; i < D_8004B7AC; i++) {
-        if (func_8003E318(&D_800BA598, &msg, 0) == -1) {
+        if (osRecvMesg(&D_800BA598, &msg, 0) == -1) {
         }
     }
     node = D_800BA5CC;
@@ -27,9 +27,9 @@ void func_80003FDC(void) {
             if (D_800BA5CC == node) {
                 D_800BA5CC = node->next;
             }
-            func_8003A538(node);
+            alUnlink(node);
             if (D_800BA5D0 != 0) {
-                func_8003A568(node, D_800BA5D0);
+                alLink(node, D_800BA5D0);
             } else {
                 D_800BA5D0 = node;
                 node->next = 0;

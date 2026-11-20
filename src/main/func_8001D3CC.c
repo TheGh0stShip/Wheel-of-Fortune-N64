@@ -7,17 +7,12 @@ typedef struct {
     /* 0x0C */ f32 unk_0C;
 } Data;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Obj;
-
 void func_8001D3CC(s32 arg0) {
-    Obj *obj;
+    proc_t *obj;
     s32 pad0;
     s8 pad1;
 
-    obj = (Obj *)func_8000A56C((s32)func_8001C584, arg0 | 0x2030000);
-    obj->data->unk_04 = arg0;
-    obj->data->unk_0C = D_800B8298;
+    obj = (proc_t *)func_8000A56C((s32)func_8001C584, arg0 | 0x2030000);
+    ((Data *)obj->unk_30)->unk_04 = arg0;
+    ((Data *)obj->unk_30)->unk_0C = D_800B8298;
 }

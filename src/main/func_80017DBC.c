@@ -10,11 +10,6 @@ typedef struct {
     /* 0x04 */ s32 unk_04;
 } State;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *unk_30;
-} Task;
-
 
 struct n64dk_r12 func_80017DBC(s32 arg1) {
     struct n64dk_r12 result;
@@ -74,7 +69,7 @@ struct n64dk_r12 func_80017DBC(s32 arg1) {
         func_8000AE70(0x7010000, -1, 0);
         D_800B9CF0 = 1;
         D_800B619C = 6;
-        func_8000A56C((s32)&func_800181A4, ((Task *)arg1)->unk_30->unk_04 | 0x2000600);
+        func_8000A56C((s32)&func_800181A4, ((State *)((proc_t *)arg1)->unk_30)->unk_04 | 0x2000600);
         func_80017848();
         result.w[1] = 0;
         result.w[0] = 0;

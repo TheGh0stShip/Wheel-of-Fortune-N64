@@ -19,11 +19,6 @@ typedef struct {
     /* 0x07 */ u8 unk_07;
 } CursorBytes;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Cursor *cursor;
-} Menu;
-
 extern Key D_8005A83C[];
 extern Key D_8005A9AC[];
 
@@ -33,23 +28,23 @@ void func_8002AAD0(s32 arg0, s32 arg1, s32 arg2) {
         func_80002CE0(43);
     }
     if (arg1 != 0) {
-        ((Menu *)arg0)->cursor->index++;
-        if (((Menu *)arg0)->cursor->index == 13) {
-            ((Menu *)arg0)->cursor->index = 0;
+        ((Cursor *)((proc_t *)arg0)->unk_30)->index++;
+        if (((Cursor *)((proc_t *)arg0)->unk_30)->index == 13) {
+            ((Cursor *)((proc_t *)arg0)->unk_30)->index = 0;
         }
-        if (((Menu *)arg0)->cursor->index >= 26) {
-            ((Menu *)arg0)->cursor->index = 13;
+        if (((Cursor *)((proc_t *)arg0)->unk_30)->index >= 26) {
+            ((Cursor *)((proc_t *)arg0)->unk_30)->index = 13;
         }
-        D_8005A9AC[((Menu *)arg0)->cursor->index].unk_08 = D_8005A9AC[((Menu *)arg0)->cursor->index].unk_00;
+        D_8005A9AC[((Cursor *)((proc_t *)arg0)->unk_30)->index].unk_08 = D_8005A9AC[((Cursor *)((proc_t *)arg0)->unk_30)->index].unk_00;
     } else {
-        if (((Menu *)arg0)->cursor->index != 3) {
-            ((Menu *)arg0)->cursor->index++;
-            if (((Menu *)arg0)->cursor->index >= 3) {
-                ((Menu *)arg0)->cursor->index = 0;
+        if (((Cursor *)((proc_t *)arg0)->unk_30)->index != 3) {
+            ((Cursor *)((proc_t *)arg0)->unk_30)->index++;
+            if (((Cursor *)((proc_t *)arg0)->unk_30)->index >= 3) {
+                ((Cursor *)((proc_t *)arg0)->unk_30)->index = 0;
             }
         }
-        D_8005A83C[((Menu *)arg0)->cursor->index].unk_08 = D_8005A83C[((Menu *)arg0)->cursor->index].unk_00;
+        D_8005A83C[((Cursor *)((proc_t *)arg0)->unk_30)->index].unk_08 = D_8005A83C[((Cursor *)((proc_t *)arg0)->unk_30)->index].unk_00;
     }
-    D_800B61B5 = ((CursorBytes *)((Menu *)arg0)->cursor)->unk_07 + 65;
-    ((Menu *)arg0)->cursor->unk_0C = 15;
+    D_800B61B5 = ((CursorBytes *)((proc_t *)arg0)->unk_30)->unk_07 + 65;
+    ((Cursor *)((proc_t *)arg0)->unk_30)->unk_0C = 15;
 }

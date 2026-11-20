@@ -13,9 +13,9 @@ s32 func_80002700(void) {
     D_800BC6F8 = 0;
     for (i = 31; i > 0; i--) {
         if (D_800A509C[i] != -1) {
-            func_80049FA8(D_8004B718, D_800A509C[i]);
-            if ((D_800B81F0[i] = func_8003CE38(D_8004B718)) == 0) {
-                func_80049F58(D_8004B718, D_800A509C[i]);
+            alSndpSetSound(D_8004B718, D_800A509C[i]);
+            if ((D_800B81F0[i] = alSndpGetState(D_8004B718)) == 0) {
+                alSndpDeallocate(D_8004B718, D_800A509C[i]);
                 D_800A509C[i] = -1;
             } else {
                 D_800BC6F8++;

@@ -6,11 +6,6 @@ typedef struct {
 } State;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *unk_30;
-} Task;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ u8 unk_08[0x10];
@@ -40,11 +35,11 @@ struct n64dk_r12 func_80029C98(s32 arg1) {
     while ((event = func_8000ACE8(arg1)) != 0) {
         switch (event) {
         case 8:
-            ((Task *)arg1)->unk_30->unk_10 = 0;
+            ((State *)((proc_t *)arg1)->unk_30)->unk_10 = 0;
         }
     }
-    ((Task *)arg1)->unk_30->unk_10 = ((Task *)arg1)->unk_30->unk_10 + 1;
-    count = ((Task *)arg1)->unk_30->unk_10;
+    ((State *)((proc_t *)arg1)->unk_30)->unk_10 = ((State *)((proc_t *)arg1)->unk_30)->unk_10 + 1;
+    count = ((State *)((proc_t *)arg1)->unk_30)->unk_10;
     if (count >= 17) {
         for (i = 0; i < 9; i++) {
             D_8005B368[i].unk_18 = 0;

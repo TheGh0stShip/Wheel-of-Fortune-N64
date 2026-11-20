@@ -8,11 +8,6 @@ typedef struct {
 } State;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *state;
-} Task;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0x14];
     /* 0x18 */ s32 unk_18;
@@ -21,18 +16,18 @@ typedef struct {
 
 void func_80022BC8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     func_80002CE0(44);
-    func_80022784(arg0, arg1, (s32)&((Entry *)arg2)[((Task *)arg0)->state->index], 0);
-    ((Entry *)arg2)[((Task *)arg0)->state->index].unk_18 = ((Task *)arg0)->state->unk_04;
+    func_80022784(arg0, arg1, (s32)&((Entry *)arg2)[((State *)((proc_t *)arg0)->unk_30)->index], 0);
+    ((Entry *)arg2)[((State *)((proc_t *)arg0)->unk_30)->index].unk_18 = ((State *)((proc_t *)arg0)->unk_30)->unk_04;
     do {
-        ((Task *)arg0)->state->index++;
-        if (((Task *)arg0)->state->index >= arg3) {
-            ((Task *)arg0)->state->index = 0;
+        ((State *)((proc_t *)arg0)->unk_30)->index++;
+        if (((State *)((proc_t *)arg0)->unk_30)->index >= arg3) {
+            ((State *)((proc_t *)arg0)->unk_30)->index = 0;
         }
-    } while (((Entry *)arg2)[((Task *)arg0)->state->index].unk_00 == 0);
-    ((Task *)arg0)->state->unk_04 = ((Entry *)arg2)[((Task *)arg0)->state->index].unk_18;
-    if (((Entry *)arg2)[((Task *)arg0)->state->index].callback != 0) {
-        ((Entry *)arg2)[((Task *)arg0)->state->index].callback(((Task *)arg0)->state->index);
+    } while (((Entry *)arg2)[((State *)((proc_t *)arg0)->unk_30)->index].unk_00 == 0);
+    ((State *)((proc_t *)arg0)->unk_30)->unk_04 = ((Entry *)arg2)[((State *)((proc_t *)arg0)->unk_30)->index].unk_18;
+    if (((Entry *)arg2)[((State *)((proc_t *)arg0)->unk_30)->index].callback != 0) {
+        ((Entry *)arg2)[((State *)((proc_t *)arg0)->unk_30)->index].callback(((State *)((proc_t *)arg0)->unk_30)->index);
     }
-    func_80022784(arg0, arg1, (s32)&((Entry *)arg2)[((Task *)arg0)->state->index], 1);
-    ((Task *)arg0)->state->unk_0C = 15;
+    func_80022784(arg0, arg1, (s32)&((Entry *)arg2)[((State *)((proc_t *)arg0)->unk_30)->index], 1);
+    ((State *)((proc_t *)arg0)->unk_30)->unk_0C = 15;
 }

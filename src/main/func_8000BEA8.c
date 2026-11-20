@@ -1,18 +1,7 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x10];
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ s16 unk_12;
-    /* 0x14 */ s16 unk_14;
-    /* 0x16 */ u8 unk_16[0x12];
-    /* 0x28 */ f32 unk_28;
-    /* 0x2C */ f32 unk_2C;
-    /* 0x30 */ f32 unk_30;
-} Obj;
-
-typedef struct {
-    /* 0x00 */ Obj *unk_00;
+    /* 0x00 */ obj_t *unk_00;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ u8 unk_08[0x4];
     /* 0x0C */ f32 unk_0C;
@@ -20,19 +9,14 @@ typedef struct {
     /* 0x14 */ f32 unk_14;
 } State;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *unk_30;
-} Task;
-
 struct n64dk_r12 func_8000BEA8(s32 arg1) {
     f32 mtx[4][4];
     f32 rot[4][4];
     struct n64dk_r12 result;
-    Obj *obj;
+    obj_t *obj;
     s32 event;
 
-    obj = ((Task *)arg1)->unk_30->unk_00;
+    obj = ((State *)((proc_t *)arg1)->unk_30)->unk_00;
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
@@ -70,7 +54,7 @@ struct n64dk_r12 func_8000BEA8(s32 arg1) {
         result.w[0] = 2;
         return result;
     }
-    if (func_80002C34(((Task *)arg1)->unk_30->unk_04) != 0 || D_800B3994 >= 720) {
+    if (func_80002C34(((State *)((proc_t *)arg1)->unk_30)->unk_04) != 0 || D_800B3994 >= 720) {
         func_8000ADEC(arg1);
         func_8000AF00();
         func_8000B9FC(1);
@@ -86,12 +70,12 @@ struct n64dk_r12 func_8000BEA8(s32 arg1) {
     }
     D_800B61AC = D_800B61AC - D_800B96B4;
     D_800B3994 = D_800B3994 + D_800B96B4;
-    func_8003C2A8(mtx, 0, D_800BEE24, 0);
-    func_8003BEA8(rot, obj->unk_28, obj->unk_2C, obj->unk_30);
-    func_80041018(mtx, rot, mtx);
-    obj->unk_10 = ((Task *)arg1)->unk_30->unk_0C + mtx[3][0];
-    obj->unk_12 = ((Task *)arg1)->unk_30->unk_10 + mtx[3][1];
-    obj->unk_14 = ((Task *)arg1)->unk_30->unk_14 + mtx[3][2];
+    guTranslateF(mtx, 0, D_800BEE24, 0);
+    guRotateRPYF(rot, obj->unk_28, obj->unk_2C, obj->unk_30);
+    guMtxCatF(mtx, rot, mtx);
+    obj->x = ((State *)((proc_t *)arg1)->unk_30)->unk_0C + mtx[3][0];
+    obj->y = ((State *)((proc_t *)arg1)->unk_30)->unk_10 + mtx[3][1];
+    obj->z = ((State *)((proc_t *)arg1)->unk_30)->unk_14 + mtx[3][2];
     if (D_800B3994 >= 721) {
         D_800B3994 = 720;
     }

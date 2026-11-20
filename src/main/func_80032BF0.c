@@ -20,20 +20,13 @@ typedef struct {
     /* 0x04 */ u8 unk_04[0x110];
 } Player;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x44];
-    /* 0x44 */ s32 unk_44;
-    /* 0x48 */ u8 unk_48[0x4];
-    /* 0x4C */ s32 unk_4C;
-} Obj;
-
 extern Pair D_8005C3A0[];
 extern Slot D_8005C7F0[];
 extern Player D_800B99A8[];
 extern Slot D_8005C3B8[][2];
 
 void func_80032BF0(void) {
-    Obj *obj;
+    obj_t *obj;
     s32 pad0;
     Slot *slots;
     s32 i;
@@ -73,7 +66,7 @@ void func_80032BF0(void) {
     D_800B61A8 = 1;
     D_800B9988 = 0;
     for (i = 0; i < 3; i++) {
-        obj = (Obj *)func_80015848(0, D_8005C3A0[i].unk_00, (s32)&func_8002FEB0, i | 0xA020000);
+        obj = (obj_t *)func_80015848(0, D_8005C3A0[i].unk_00, (s32)&func_8002FEB0, i | 0xA020000);
         obj->unk_4C = D_8005C3A0[i].unk_04;
         obj->unk_44 = 0;
     }

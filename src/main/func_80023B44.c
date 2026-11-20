@@ -1,13 +1,6 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x10];
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ s16 unk_12;
-    /* 0x14 */ s16 unk_14;
-} Obj;
-
-typedef struct {
     /* 0x00 */ u16 unk_00;
     /* 0x02 */ u8 unk_02[0x2];
     /* 0x04 */ u16 unk_04;
@@ -20,21 +13,21 @@ extern Entry D_8005A39E[];
 
 void func_80023B44(void) {
     s32 i;
-    Obj *obj;
+    obj_t *obj;
 
     for (i = 0; i < 6; i++) {
-        obj = (Obj *)func_8000B5DC(i | 0xA020000, -1);
+        obj = (obj_t *)func_8000B5DC(i | 0xA020000, -1);
         if (obj == 0) {
             func_80009F38("SwitchImage: could not find contestant");
         }
         if (i == D_80058880) {
-            obj->unk_10 = D_8005A392;
-            obj->unk_12 = D_8005A396;
-            obj->unk_14 = D_8005A39A;
+            obj->x = D_8005A392;
+            obj->y = D_8005A396;
+            obj->z = D_8005A39A;
         } else {
-            obj->unk_10 = D_8005A39E[i].unk_00;
-            obj->unk_12 = D_8005A39E[i].unk_04;
-            obj->unk_14 = D_8005A39E[i].unk_08;
+            obj->x = D_8005A39E[i].unk_00;
+            obj->y = D_8005A39E[i].unk_04;
+            obj->z = D_8005A39E[i].unk_08;
         }
     }
 }

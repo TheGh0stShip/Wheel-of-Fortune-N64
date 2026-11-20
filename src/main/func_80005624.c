@@ -11,5 +11,5 @@ void func_80005624(void) {
     D_800DD380 = &D_803B5000;
     D_800FB7E0 = 2;
     D_800FB800 = &D_803DA800;
-    func_8004B198(64);
+    osViSetSpecialFeatures(64);
 }

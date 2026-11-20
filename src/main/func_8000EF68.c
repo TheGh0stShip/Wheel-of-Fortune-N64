@@ -10,11 +10,6 @@ typedef struct {
     /* 0x0C */ f32 unk_0C;
 } State;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *unk_30;
-} Task;
-
 
 struct n64dk_r12 func_8000EF68(s32 arg1) {
     struct n64dk_r12 ret;
@@ -38,7 +33,7 @@ struct n64dk_r12 func_8000EF68(s32 arg1) {
         }
         switch (event) {
         case 8:
-            ((Task *)arg1)->unk_30->unk_0C = obj->unk_2C;
+            ((State *)((proc_t *)arg1)->unk_30)->unk_0C = obj->unk_2C;
             break;
         case 34:
             ret.w[1] = 0;
@@ -46,7 +41,7 @@ struct n64dk_r12 func_8000EF68(s32 arg1) {
             return ret;
         }
     }
-    delta = ((Task *)arg1)->unk_30->unk_0C - D_800B9956 / D_80057F44;
+    delta = ((State *)((proc_t *)arg1)->unk_30)->unk_0C - D_800B9956 / D_80057F44;
     if (delta > 0.0f) {
         delta = delta * -1.0f;
     }
@@ -55,7 +50,7 @@ struct n64dk_r12 func_8000EF68(s32 arg1) {
     D_800BCCF0 = delta * -1.0f * 60.0f;
     obj->unk_2C = obj->unk_2C + delta;
     if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
-        D_800BCCF0 = (f32)(func_8003CE58() % 40) + 100.0f;
+        D_800BCCF0 = (f32)(guRandom() % 40) + 100.0f;
         func_8000A850(29);
         ret.w[1] = 0;
         ret.w[0] = 0;

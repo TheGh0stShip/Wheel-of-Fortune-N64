@@ -9,7 +9,7 @@ void func_80004160(s32 arg0) {
 
     msg = 0;
     while (1) {
-        func_8003E318(&D_800B3970, &msg, 1);
+        osRecvMesg(&D_800B3970, &msg, 1);
         switch (msg->type) {
         case 5:
             if (D_800FB80C != 0) {

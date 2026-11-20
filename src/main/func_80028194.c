@@ -1,18 +1,14 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x28];
-} Sprite;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0x24];
 } Entry;
 
 extern Entry D_8005A9B8[];
-extern Sprite D_8005A998[];
-extern Sprite D_8005B710[];
-extern Sprite D_8005BE00[];
+extern image_t D_8005A998[];
+extern image_t D_8005B710[];
+extern image_t D_8005BE00[];
 extern Gfx *D_800B81E8;
 extern u8 D_800B966A[];
 
@@ -23,14 +19,14 @@ void func_80028194(s32 arg0, s32 arg1) {
     Gfx *gfx;
 
     gfx = D_800B81E8++;
-    gfx->w0 = 0xE7000000;
-    gfx->w1 = 0;
+    gfx->words.w0 = 0xE7000000;
+    gfx->words.w1 = 0;
     gfx = D_800B81E8++;
-    gfx->w0 = 0x6000000;
-    gfx->w1 = (u32)&D_01021970;
+    gfx->words.w0 = 0x6000000;
+    gfx->words.w1 = (u32)&D_01021970;
     gfx = D_800B81E8++;
-    gfx->w0 = 0xBA001402;
-    gfx->w1 = 0x200000;
+    gfx->words.w0 = 0xBA001402;
+    gfx->words.w1 = 0x200000;
     i = 0;
     while (i < 26) {
         if (D_800B966A[i] == ' ') {

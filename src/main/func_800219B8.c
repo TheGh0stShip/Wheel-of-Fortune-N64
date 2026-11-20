@@ -8,11 +8,6 @@ typedef struct {
 } Data;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Obj;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0x4];
     /* 0x08 */ s32 unk_08;
@@ -22,7 +17,7 @@ typedef struct {
 extern Board D_8005822C[];
 
 void func_800219B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    Obj *obj;
+    proc_t *obj;
     s32 sp1C;
 
     if (D_80086D58 != 0) {
@@ -31,10 +26,10 @@ void func_800219B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
     D_800BCA28 = arg0;
     D_800B96A4 = 0;
-    obj = (Obj *)func_8000A56C((s32)func_80021548, 0x5010000);
-    obj->data->unk_00 = func_800211E4((s32)obj, &D_80058488, arg2, arg3, arg0);
-    obj->data->unk_24 = D_8005822C[arg0].unk_00;
-    obj->data->unk_20 = arg1;
+    obj = (proc_t *)func_8000A56C((s32)func_80021548, 0x5010000);
+    ((Data *)obj->unk_30)->unk_00 = func_800211E4((s32)obj, &D_80058488, arg2, arg3, arg0);
+    ((Data *)obj->unk_30)->unk_24 = D_8005822C[arg0].unk_00;
+    ((Data *)obj->unk_30)->unk_20 = arg1;
     D_800BCA0C = func_8000B978();
     D_800B40C4 = 0;
     sp1C = func_80021908(arg0);

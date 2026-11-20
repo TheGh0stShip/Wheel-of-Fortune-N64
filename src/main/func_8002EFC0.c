@@ -6,15 +6,10 @@ typedef struct {
     /* 0x0C */ f32 unk_0C;
 } Actor;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Actor *unk_30;
-} Obj;
-
 
 struct n64dk_r12 func_8002EFC0(s32 arg1) {
     struct n64dk_r12 result;
-    Obj *obj;
+    proc_t *obj;
     s32 node;
     s32 event;
 
@@ -49,10 +44,10 @@ struct n64dk_r12 func_8002EFC0(s32 arg1) {
         }
     }
     func_80017C00(0, 1);
-    obj = (Obj *)func_8000A56C((s32)func_8000FDFC, 0x4000000);
+    obj = (proc_t *)func_8000A56C((s32)func_8000FDFC, 0x4000000);
     node = func_8000B5DC(0x4010000, 0xFFFF0000);
-    obj->unk_30->unk_00 = node;
-    obj->unk_30->unk_0C = func_8003CE58() % 25 + 75;
+    ((Actor *)obj->unk_30)->unk_00 = node;
+    ((Actor *)obj->unk_30)->unk_0C = guRandom() % 25 + 75;
     result.w[1] = 2;
     result.w[0] = 2;
     return result;

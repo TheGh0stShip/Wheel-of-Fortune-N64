@@ -10,11 +10,6 @@ typedef struct {
 } TaskData;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ TaskData *data;
-} Task;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0x4];
     /* 0x08 */ s32 unk_08;
@@ -32,7 +27,7 @@ extern Entry D_8005C3C0[][2];
 extern Player D_800B99A8[];
 
 void func_800325D0(s32 arg0, s32 arg1) {
-    Task *task;
+    proc_t *task;
     s32 obj;
     s32 kind;
 
@@ -53,14 +48,14 @@ void func_800325D0(s32 arg0, s32 arg1) {
     if (obj == 0) {
         func_80009F38("InitAnim: cannot find contestant obj");
     }
-    task = (Task *)func_8000A990(arg1 | 0xA000300, -1);
+    task = (proc_t *)func_8000A990(arg1 | 0xA000300, -1);
     if (task != 0) {
         func_8000A4A4((s32)task, 0);
     }
-    task = (Task *)func_8000A56C((s32)func_800315FC, arg1 | 0xA000300);
-    task->data->unk_04 = arg1;
-    task->data->unk_08 = D_8005C3C0[kind][arg0].unk_10;
-    task->data->unk_18 = D_8005C3C0[kind][arg0].unk_00;
-    task->data->unk_1C = D_8005C3C0[kind][arg0].unk_08;
-    task->data->unk_00 = obj;
+    task = (proc_t *)func_8000A56C((s32)func_800315FC, arg1 | 0xA000300);
+    ((TaskData *)task->unk_30)->unk_04 = arg1;
+    ((TaskData *)task->unk_30)->unk_08 = D_8005C3C0[kind][arg0].unk_10;
+    ((TaskData *)task->unk_30)->unk_18 = D_8005C3C0[kind][arg0].unk_00;
+    ((TaskData *)task->unk_30)->unk_1C = D_8005C3C0[kind][arg0].unk_08;
+    ((TaskData *)task->unk_30)->unk_00 = obj;
 }

@@ -1,30 +1,17 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x12];
-    /* 0x12 */ s16 unk_12;
-    /* 0x14 */ s16 unk_14;
-    /* 0x16 */ u8 unk_16[0x1A];
-    /* 0x30 */ f32 unk_30;
-} Camera;
-
-typedef struct {
-    /* 0x00 */ Camera *cam;
+    /* 0x00 */ obj_t *cam;
 } Data;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Object;
 
 extern u16 D_800B9954;
 
 struct n64dk_r12 func_8000C8A8(s32 arg1) {
     struct n64dk_r12 ret;
-    Camera *cam;
+    obj_t *cam;
     s32 event;
 
-    cam = ((Object *)arg1)->data->cam;
+    cam = ((Data *)((proc_t *)arg1)->unk_30)->cam;
     ret.w[1] = 1;
     ret.w[0] = 0;
     for (;;) {
@@ -34,8 +21,8 @@ struct n64dk_r12 func_8000C8A8(s32 arg1) {
         }
         switch (event) {
         case 8:
-            cam->unk_12 = -140;
-            cam->unk_14 = -380;
+            cam->y = -140;
+            cam->z = -380;
         }
     }
     ret.w[1] = 1;
@@ -59,16 +46,16 @@ struct n64dk_r12 func_8000C8A8(s32 arg1) {
         cam->unk_30 = cam->unk_30 + 0.5;
     }
     if (D_800B9954 & 0x200) {
-        cam->unk_14 = (u16)cam->unk_14 + 10;
+        cam->z = (u16)cam->z + 10;
     }
     if (D_800B9954 & 0x100) {
-        cam->unk_14 = (u16)cam->unk_14 - 10;
+        cam->z = (u16)cam->z - 10;
     }
     if (D_800B9954 & 0x800) {
-        cam->unk_12 = (u16)cam->unk_12 + 10;
+        cam->y = (u16)cam->y + 10;
     }
     if (D_800B9954 & 0x400) {
-        cam->unk_12 = (u16)cam->unk_12 - 10;
+        cam->y = (u16)cam->y - 10;
     }
     return ret;
 }

@@ -33,7 +33,7 @@ void func_800045D4(void) {
     u16 sp1E;
 
     sp1E = 1;
-    func_800482BC(D_800A70B0);
+    osContGetReadData(D_800A70B0);
     i = 0;
     while (i < 4) {
         if ((D_800B96C4 >> i) % 2 != 0) {

@@ -8,11 +8,6 @@ typedef struct {
     /* 0x24 */ s32 unk_24;
 } Data;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *unk_30;
-} Obj;
-
 void func_800213CC(s32 arg0);
 
 struct n64dk_r12 func_80021744(s32 arg1) {
@@ -25,8 +20,8 @@ struct n64dk_r12 func_80021744(s32 arg1) {
     while ((event = func_8000ACE8(arg1)) != 0) {
         switch (event) {
         case 8:
-            if (((Obj *)arg1)->unk_30->unk_24 > 0) {
-                D_800B8294 = ((Obj *)arg1)->unk_30->unk_24;
+            if (((Data *)((proc_t *)arg1)->unk_30)->unk_24 > 0) {
+                D_800B8294 = ((Data *)((proc_t *)arg1)->unk_30)->unk_24;
             }
             D_800B3CB8 = 8;
             break;
@@ -44,9 +39,9 @@ struct n64dk_r12 func_80021744(s32 arg1) {
         D_800B3CB8 = 0;
         result.w[1] = 0;
         result.w[0] = 1;
-        func_800325D0(1, ((Obj *)arg1)->unk_30->unk_10);
-        if (((Obj *)arg1)->unk_30->unk_20 != 0) {
-            func_8000A850(((Obj *)arg1)->unk_30->unk_20);
+        func_800325D0(1, ((Data *)((proc_t *)arg1)->unk_30)->unk_10);
+        if (((Data *)((proc_t *)arg1)->unk_30)->unk_20 != 0) {
+            func_8000A850(((Data *)((proc_t *)arg1)->unk_30)->unk_20);
         }
     }
     return result;

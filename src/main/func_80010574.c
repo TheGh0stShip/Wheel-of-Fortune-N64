@@ -9,11 +9,6 @@ typedef struct {
 } Data;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Obj;
-
-typedef struct {
     /* 0x00 */ s32 color;
     /* 0x04 */ u8 unk_04[0x18];
 } Tile;
@@ -36,12 +31,12 @@ struct n64dk_r12 func_80010574(s32 arg1) {
     while ((event = func_8000ACE8(arg1)) != 0) {
         switch (event) {
         case 8:
-            ((Obj *)arg1)->data->unk_0C = 0;
-            ((Obj *)arg1)->data->row = 0;
+            ((Data *)((proc_t *)arg1)->unk_30)->unk_0C = 0;
+            ((Data *)((proc_t *)arg1)->unk_30)->row = 0;
             if (D_800B61A8 == 1) {
-                ((Obj *)arg1)->data->col = 0;
+                ((Data *)((proc_t *)arg1)->unk_30)->col = 0;
             } else {
-                ((Obj *)arg1)->data->col = 13;
+                ((Data *)((proc_t *)arg1)->unk_30)->col = 13;
             }
             D_800B96A8 = D_800B96A8 + 2;
             ret.w[1] = 1;
@@ -59,19 +54,19 @@ struct n64dk_r12 func_80010574(s32 arg1) {
             return ret;
         }
     }
-    letter = ((Obj *)arg1)->data->letter;
-    col = ((Obj *)arg1)->data->col;
-    startRow = ((Obj *)arg1)->data->row;
-    if (((Obj *)arg1)->data->unk_0C == 0) {
+    letter = ((Data *)((proc_t *)arg1)->unk_30)->letter;
+    col = ((Data *)((proc_t *)arg1)->unk_30)->col;
+    startRow = ((Data *)((proc_t *)arg1)->unk_30)->row;
+    if (((Data *)((proc_t *)arg1)->unk_30)->unk_0C == 0) {
         if (D_800B61A8 == 1) {
             if (col >= 7) {
                 func_80032AD4(0);
-                ((Obj *)arg1)->data->unk_0C = 1;
+                ((Data *)((proc_t *)arg1)->unk_30)->unk_0C = 1;
             }
         } else {
             if (col < 7) {
                 func_80032AD4(0);
-                ((Obj *)arg1)->data->unk_0C = 1;
+                ((Data *)((proc_t *)arg1)->unk_30)->unk_0C = 1;
             }
         }
     }
@@ -80,11 +75,11 @@ struct n64dk_r12 func_80010574(s32 arg1) {
         while (row < 4) {
             startRow = 0;
             if (letter == D_800B9601[row][col]) {
-                ((Obj *)arg1)->data->row = row + 1;
-                ((Obj *)arg1)->data->col = col;
-                if (((Obj *)arg1)->data->row >= 4) {
-                    ((Obj *)arg1)->data->row = 0;
-                    ((Obj *)arg1)->data->col = col + D_800B61A8;
+                ((Data *)((proc_t *)arg1)->unk_30)->row = row + 1;
+                ((Data *)((proc_t *)arg1)->unk_30)->col = col;
+                if (((Data *)((proc_t *)arg1)->unk_30)->row >= 4) {
+                    ((Data *)((proc_t *)arg1)->unk_30)->row = 0;
+                    ((Data *)((proc_t *)arg1)->unk_30)->col = col + D_800B61A8;
                 }
                 switch (row) {
                 case 0:
@@ -109,9 +104,9 @@ struct n64dk_r12 func_80010574(s32 arg1) {
         }
         col = col + D_800B61A8;
     }
-    if (((Obj *)arg1)->data->unk_0C == 0) {
+    if (((Data *)((proc_t *)arg1)->unk_30)->unk_0C == 0) {
         func_80032AD4(0);
-        ((Obj *)arg1)->data->unk_0C = 1;
+        ((Data *)((proc_t *)arg1)->unk_30)->unk_0C = 1;
     }
     ret.w[1] = 2;
     ret.w[0] = 49;

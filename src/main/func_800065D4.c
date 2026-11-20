@@ -8,9 +8,9 @@ void func_800065D4(s32 arg0) {
     D_800BEDE4 = 0;
     D_800FB80C = 0;
     func_800068F0();
-    func_800447D8(&D_800AD950);
+    osStartThread(&D_800AD950);
     while (1) {
-        func_8003E318(&D_800B9688, &msg, 1);
+        osRecvMesg(&D_800B9688, &msg, 1);
         switch (*msg) {
         case 1:
             D_800B96AC++;
@@ -18,7 +18,7 @@ void func_800065D4(s32 arg0) {
             if (D_800B96C4 != 0 && D_800FB80C == 0) {
                 D_800FB80C = 1;
                 func_8000BB10();
-                func_800481F8(&D_800B3970);
+                osContStartReadData(&D_800B3970);
             } else if (D_800B96C4 == 0) {
                 D_800B9D04 = 0;
             }

@@ -1,7 +1,6 @@
 #include "wof.h"
 
 struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-struct gd_30_s32 { u8 pad[0x30]; s32 v; };
 
 struct n64dk_r12 func_8002FB60(s32 arg1) {
     struct n64dk_r12 sp10;
@@ -18,13 +17,13 @@ struct n64dk_r12 func_8002FB60(s32 arg1) {
         }
         switch (sp28) {
         case 8:
-            ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v = (s32)(func_80044988() / D_80084218);
+            ((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v = (s32)(osGetTime() / D_80084218);
             break;
         }
     }
-    ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v = ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v + D_800BCA1C;
-    sp2C = (s32)(func_80044988() / D_80084218);
-    if ((sp2C - ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v) >= 5) {
+    ((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v = ((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v + D_800BCA1C;
+    sp2C = (s32)(osGetTime() / D_80084218);
+    if ((sp2C - ((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v) >= 5) {
         func_8000A850(48);
         sp10.w[1] = 0;
     }

@@ -1,15 +1,10 @@
 #include "wof.h"
 
-typedef struct Obj {
-    /* 0x00 */ u8 unk_00[0x40];
-    /* 0x40 */ struct Obj *next;
-} Obj;
-
-extern Obj D_800B82A0;
+extern proc_t D_800B82A0;
 
 s32 func_8000A158(s32 arg0) {
-    Obj *cur;
-    Obj *prev;
+    proc_t *cur;
+    proc_t *prev;
 
     prev = &D_800B82A0;
     cur = prev->next;

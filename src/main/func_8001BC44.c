@@ -5,11 +5,6 @@ typedef struct {
     /* 0x04 */ s32 unk_04;
 } State;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *unk_30;
-} Task;
-
 struct n64dk_r12 func_8001BC44(s32 arg1) {
     struct n64dk_r12 sp10;
     s32 task;
@@ -18,7 +13,7 @@ struct n64dk_r12 func_8001BC44(s32 arg1) {
 
     sp10.w[1] = 1;
     sp10.w[0] = 0;
-    if (((Task *)arg1)->unk_30->unk_04 != D_800FB808) {
+    if (((State *)((proc_t *)arg1)->unk_30)->unk_04 != D_800FB808) {
         func_8000AD9C(arg1);
         return sp10;
     }

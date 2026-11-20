@@ -6,11 +6,6 @@ typedef struct {
 } State;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *state;
-} Task;
-
-typedef struct {
     /* 0x000 */ s32 unk_00;
     /* 0x004 */ u8 unk_04[0x110];
 } Player;
@@ -23,14 +18,14 @@ struct n64dk_r12 func_8000FDFC(s32 arg1) {
     s32 event;
     s8 pad0;
 
-    sp20 = ((Task *)arg1)->state->unk_00;
+    sp20 = ((State *)((proc_t *)arg1)->unk_30)->unk_00;
     while ((event = func_8000ACE8(arg1)) != 0) {
         switch (event) {
         case 8:
             func_80016098();
             func_80032B10();
             func_80032AD4(1);
-            ((Task *)arg1)->state->unk_04 = 0;
+            ((State *)((proc_t *)arg1)->unk_30)->unk_04 = 0;
             D_800B96A8++;
             func_8000AAB0(arg1, 41, 0);
             return func_8000FC3C(arg1);

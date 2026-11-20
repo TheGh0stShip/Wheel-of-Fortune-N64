@@ -34,16 +34,16 @@ s32 func_80003CC8(s32 arg0, s32 arg1, s32 arg2) {
         } else if (end <= blockEnd) {
             block->stamp = D_8004B7A8;
             buf = block->buf + arg0 - block->addr;
-            return func_8003FF78(buf);
+            return osVirtualToPhysical(buf);
         }
         prev = block;
         block = block->next;
     }
     block = D_800BA5D0;
     D_800BA5D0 = block->next;
-    func_8003A538(block);
+    alUnlink(block);
     if (prev != 0) {
-        func_8003A568(block, prev);
+        alLink(block, prev);
     } else if (D_800BA5CC != 0) {
         prev = D_800BA5CC;
         D_800BA5CC = block;
@@ -60,6 +60,6 @@ s32 func_80003CC8(s32 arg0, s32 arg1, s32 arg2) {
     arg0 -= odd;
     block->addr = arg0;
     block->stamp = D_8004B7A8;
-    func_80045628(&D_800BC700[D_8004B7AC++], 0, 0, arg0, buf, 2048, &D_800BA598);
-    return func_8003FF78(buf) + odd;
+    osPiStartDma(&D_800BC700[D_8004B7AC++], 0, 0, arg0, buf, 2048, &D_800BA598);
+    return osVirtualToPhysical(buf) + odd;
 }

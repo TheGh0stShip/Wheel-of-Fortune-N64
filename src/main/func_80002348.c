@@ -42,7 +42,7 @@ void func_80002348(void) {
     s32 i;
 
     heap = func_8000B924(0x30D40);
-    func_8003A5F8(&D_800B9960, heap, 0x30D40);
+    alHeapInit(&D_800B9960, heap, 0x30D40);
     sp18 = 32;
     sp1C = 32;
     sp20 = 48;
@@ -64,15 +64,15 @@ void func_80002348(void) {
     sp58 = 0;
     sp49 = 7;
     D_800BED90[0] = func_8000B924(136);
-    func_800422B8(D_800BED90[0], &sp40);
+    alCSPNew(D_800BED90[0], &sp40);
     D_800A5084 = 32;
     D_800A5088 = 64;
     D_800A508C = &D_800B9960;
-    func_8004AABC(D_8004B718, &D_800A5084);
+    alSndpNew(D_8004B718, &D_800A5084);
     size = D_8006DD08 - D_8006DD04;
     D_800B3990 = func_8000B924(size);
     func_80006828(D_8006DD04, D_800B3990, size);
-    func_8003EA1C(D_800B3990, D_8006DD0C);
+    alBnkfNew(D_800B3990, D_8006DD0C);
     D_800A5090 = ((Header *)D_800B3990)->unk_04->unk_0C;
     D_800A509C = (s16 *)func_8000B924(64);
     i = 0;

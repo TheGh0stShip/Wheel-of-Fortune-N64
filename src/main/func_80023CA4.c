@@ -8,11 +8,6 @@ typedef struct {
 } Cursor;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Cursor *cursor;
-} Menu;
-
-typedef struct {
     u8 unk_00[0x20];
 } Item;
 
@@ -35,17 +30,17 @@ struct n64dk_r12 func_80023CA4(s32 arg1) {
     while ((event = func_8000ACE8(arg1)) != 0) {
         switch (event) {
         case 8:
-            ((Menu *)arg1)->cursor->index = 0;
-            ((Menu *)arg1)->cursor->unk_04 = D_80058880;
+            ((Cursor *)((proc_t *)arg1)->unk_30)->index = 0;
+            ((Cursor *)((proc_t *)arg1)->unk_30)->unk_04 = D_80058880;
             func_80022784(arg1, (s32)&D_800588F0, (s32)&D_80058888, 0);
             func_80022784(arg1, (s32)&D_800588F0, (s32)D_80058868, 1);
             return ret;
         }
     }
     if ((D_800B96B0 & 0xA000) & 0xFFFF) {
-        ((Menu *)arg1)->cursor->timer = 0;
+        ((Cursor *)((proc_t *)arg1)->unk_30)->timer = 0;
         func_80002CE0(42);
-        switch (((Menu *)arg1)->cursor->index) {
+        switch (((Cursor *)((proc_t *)arg1)->unk_30)->index) {
         case 0:
             func_80022BC8(arg1, (s32)&D_800588F0, (s32)D_80058868, 2);
             break;
@@ -85,25 +80,25 @@ struct n64dk_r12 func_80023CA4(s32 arg1) {
     } else if ((D_800B96B0 & 0x400) & 0xFFFF) {
         func_80022BC8(arg1, (s32)&D_800588F0, (s32)D_80058868, 2);
     } else if ((D_800B96B0 & 0x200) & 0xFFFF) {
-        func_80022DC0(arg1, (s32)&D_800588F0, (s32)&D_80058868[((Menu *)arg1)->cursor->index], 0);
-        if (((Menu *)arg1)->cursor->index == 0) {
+        func_80022DC0(arg1, (s32)&D_800588F0, (s32)&D_80058868[((Cursor *)((proc_t *)arg1)->unk_30)->index], 0);
+        if (((Cursor *)((proc_t *)arg1)->unk_30)->index == 0) {
             func_80023B44();
         }
     } else if ((D_800B96B0 & 0x100) & 0xFFFF) {
-        func_80022FE0(arg1, (s32)&D_800588F0, (s32)&D_80058868[((Menu *)arg1)->cursor->index], 0);
-        if (((Menu *)arg1)->cursor->index == 0) {
+        func_80022FE0(arg1, (s32)&D_800588F0, (s32)&D_80058868[((Cursor *)((proc_t *)arg1)->unk_30)->index], 0);
+        if (((Cursor *)((proc_t *)arg1)->unk_30)->index == 0) {
             func_80023B44();
         }
     }
-    if (((Menu *)arg1)->cursor->timer <= 0) {
+    if (((Cursor *)((proc_t *)arg1)->unk_30)->timer <= 0) {
         if (D_800B9956 >= 41) {
-            func_80022FE0(arg1, (s32)&D_800588F0, (s32)&D_80058868[((Menu *)arg1)->cursor->index], 0);
-            if (((Menu *)arg1)->cursor->index == 0) {
+            func_80022FE0(arg1, (s32)&D_800588F0, (s32)&D_80058868[((Cursor *)((proc_t *)arg1)->unk_30)->index], 0);
+            if (((Cursor *)((proc_t *)arg1)->unk_30)->index == 0) {
                 func_80023B44();
             }
         } else if (D_800B9956 < -40) {
-            func_80022DC0(arg1, (s32)&D_800588F0, (s32)&D_80058868[((Menu *)arg1)->cursor->index], 0);
-            if (((Menu *)arg1)->cursor->index == 0) {
+            func_80022DC0(arg1, (s32)&D_800588F0, (s32)&D_80058868[((Cursor *)((proc_t *)arg1)->unk_30)->index], 0);
+            if (((Cursor *)((proc_t *)arg1)->unk_30)->index == 0) {
                 func_80023B44();
             }
         }
@@ -113,7 +108,7 @@ struct n64dk_r12 func_80023CA4(s32 arg1) {
             func_80022BC8(arg1, (s32)&D_800588F0, (s32)D_80058868, 2);
         }
     } else {
-        ((Menu *)arg1)->cursor->timer = ((Menu *)arg1)->cursor->timer - D_800B96B4;
+        ((Cursor *)((proc_t *)arg1)->unk_30)->timer = ((Cursor *)((proc_t *)arg1)->unk_30)->timer - D_800B96B4;
     }
     return ret;
 }

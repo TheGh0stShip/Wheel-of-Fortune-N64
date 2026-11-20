@@ -14,25 +14,20 @@ typedef struct {
     /* 0x0C */ s32 unk_0C;
 } Cursor;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Cursor *cursor;
-} Menu;
-
 void func_800229D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     func_80002CE0(44);
-    func_80022784(arg0, arg1, (s32)&((Item *)arg2)[((Menu *)arg0)->cursor->index], 0);
-    ((Item *)arg2)[((Menu *)arg0)->cursor->index].unk_18 = ((Menu *)arg0)->cursor->unk_04;
+    func_80022784(arg0, arg1, (s32)&((Item *)arg2)[((Cursor *)((proc_t *)arg0)->unk_30)->index], 0);
+    ((Item *)arg2)[((Cursor *)((proc_t *)arg0)->unk_30)->index].unk_18 = ((Cursor *)((proc_t *)arg0)->unk_30)->unk_04;
     do {
-        ((Menu *)arg0)->cursor->index--;
-        if (((Menu *)arg0)->cursor->index < 0) {
-            ((Menu *)arg0)->cursor->index = arg3 - 1;
+        ((Cursor *)((proc_t *)arg0)->unk_30)->index--;
+        if (((Cursor *)((proc_t *)arg0)->unk_30)->index < 0) {
+            ((Cursor *)((proc_t *)arg0)->unk_30)->index = arg3 - 1;
         }
-    } while (((Item *)arg2)[((Menu *)arg0)->cursor->index].unk_00 == 0);
-    ((Menu *)arg0)->cursor->unk_04 = ((Item *)arg2)[((Menu *)arg0)->cursor->index].unk_18;
-    if (((Item *)arg2)[((Menu *)arg0)->cursor->index].callback != 0) {
-        ((Item *)arg2)[((Menu *)arg0)->cursor->index].callback(((Menu *)arg0)->cursor->index);
+    } while (((Item *)arg2)[((Cursor *)((proc_t *)arg0)->unk_30)->index].unk_00 == 0);
+    ((Cursor *)((proc_t *)arg0)->unk_30)->unk_04 = ((Item *)arg2)[((Cursor *)((proc_t *)arg0)->unk_30)->index].unk_18;
+    if (((Item *)arg2)[((Cursor *)((proc_t *)arg0)->unk_30)->index].callback != 0) {
+        ((Item *)arg2)[((Cursor *)((proc_t *)arg0)->unk_30)->index].callback(((Cursor *)((proc_t *)arg0)->unk_30)->index);
     }
-    func_80022784(arg0, arg1, (s32)&((Item *)arg2)[((Menu *)arg0)->cursor->index], 1);
-    ((Menu *)arg0)->cursor->unk_0C = 15;
+    func_80022784(arg0, arg1, (s32)&((Item *)arg2)[((Cursor *)((proc_t *)arg0)->unk_30)->index], 1);
+    ((Cursor *)((proc_t *)arg0)->unk_30)->unk_0C = 15;
 }

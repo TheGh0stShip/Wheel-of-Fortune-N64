@@ -32,11 +32,11 @@ s32 func_80002CE0(s32 arg0) {
     if (slot == -1) {
         return -1;
     }
-    D_800A509C[slot] = func_80049EB8(D_8004B718, D_800A5098);
+    D_800A509C[slot] = alSndpAllocate(D_8004B718, D_800A5098);
     if (D_800A509C[slot] == -1) {
         return -1;
     }
-    func_80049FA8(D_8004B718, D_800A509C[slot]);
+    alSndpSetSound(D_8004B718, D_800A509C[slot]);
     switch (D_800A5098->info->type) {
     case 0:
         sp10 = 0.18728799f;
@@ -72,7 +72,7 @@ s32 func_80002CE0(s32 arg0) {
         sp10 = 1.0f;
         break;
     }
-    func_800396B8(D_8004B718, sp10);
-    func_80049FC8(D_8004B718);
+    alSndpSetPitch(D_8004B718, sp10);
+    alSndpPlay(D_8004B718);
     return slot;
 }

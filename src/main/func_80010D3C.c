@@ -9,11 +9,6 @@ typedef struct {
 } Cursor;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Cursor *unk_30;
-} Obj;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0x18];
 } Slot;
@@ -55,24 +50,24 @@ struct n64dk_r12 func_80010D3C(s32 arg1) {
             return result;
         }
     }
-    c = *((Obj *)arg1)->unk_30->text;
+    c = *((Cursor *)((proc_t *)arg1)->unk_30)->text;
     if (c == 0) {
         func_80032AD4(0);
         result.w[1] = 2;
         result.w[0] = 49;
         return result;
     }
-    row = ((Obj *)arg1)->unk_30->row;
+    row = ((Cursor *)((proc_t *)arg1)->unk_30)->row;
     while (row < 4) {
-        p = &D_800B9601[row][((Obj *)arg1)->unk_30->col];
+        p = &D_800B9601[row][((Cursor *)((proc_t *)arg1)->unk_30)->col];
         while (p != 0) {
             p = (u8 *)func_800099B0((s32)p, c);
             if (p != 0) {
                 p++;
-                ((Obj *)arg1)->unk_30->row = row;
-                ((Obj *)arg1)->unk_30->col = (s32)p - (s32)D_800B9601 - row * 21;
-                foundRow = ((Obj *)arg1)->unk_30->row;
-                foundCol = ((Obj *)arg1)->unk_30->col - 1;
+                ((Cursor *)((proc_t *)arg1)->unk_30)->row = row;
+                ((Cursor *)((proc_t *)arg1)->unk_30)->col = (s32)p - (s32)D_800B9601 - row * 21;
+                foundRow = ((Cursor *)((proc_t *)arg1)->unk_30)->row;
+                foundCol = ((Cursor *)((proc_t *)arg1)->unk_30)->col - 1;
                 switch (foundRow) {
                 case 0:
                     D_800B9D20[foundCol].unk_00 = 0x1111AAFF;
@@ -93,11 +88,11 @@ struct n64dk_r12 func_80010D3C(s32 arg1) {
                 return result;
             }
         }
-        ((Obj *)arg1)->unk_30->col = 0;
+        ((Cursor *)((proc_t *)arg1)->unk_30)->col = 0;
         row++;
     }
-    ((Obj *)arg1)->unk_30->text++;
-    ((Obj *)arg1)->unk_30->col = 0;
-    ((Obj *)arg1)->unk_30->row = 0;
+    ((Cursor *)((proc_t *)arg1)->unk_30)->text++;
+    ((Cursor *)((proc_t *)arg1)->unk_30)->col = 0;
+    ((Cursor *)((proc_t *)arg1)->unk_30)->row = 0;
     return result;
 }

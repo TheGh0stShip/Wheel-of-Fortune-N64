@@ -5,18 +5,13 @@ typedef struct {
     /* 0x2C */ f32 unk_2C;
 } Actor;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Actor **unk_30;
-} Obj;
-
 extern u16 D_800B9954;
 
 struct n64dk_r12 func_8000F740(s32 arg1) {
     struct n64dk_r12 result;
     Actor *actor;
 
-    actor = *((Obj *)arg1)->unk_30;
+    actor = *(Actor **)((proc_t *)arg1)->unk_30;
     func_8000AD9C(arg1);
     result.w[1] = 1;
     result.w[0] = 0;

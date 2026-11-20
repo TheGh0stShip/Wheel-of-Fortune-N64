@@ -1,22 +1,11 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x10];
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ s16 unk_12;
-} Obj;
-
-typedef struct {
-    /* 0x00 */ Obj *unk_00;
+    /* 0x00 */ obj_t *unk_00;
     /* 0x04 */ u8 unk_04[0x1C];
     /* 0x20 */ s32 unk_20;
     /* 0x24 */ s32 unk_24;
 } State;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *unk_30;
-} Task;
 
 struct n64dk_r12 func_80021548(s32 arg1) {
     s32 event;
@@ -32,8 +21,8 @@ struct n64dk_r12 func_80021548(s32 arg1) {
         }
         switch (event) {
         case 8:
-            if (((Task *)arg1)->unk_30->unk_24 > 0) {
-                D_800B8294 = ((Task *)arg1)->unk_30->unk_24;
+            if (((State *)((proc_t *)arg1)->unk_30)->unk_24 > 0) {
+                D_800B8294 = ((State *)((proc_t *)arg1)->unk_30)->unk_24;
             }
             D_800B3CB8 = 4;
             break;
@@ -51,9 +40,9 @@ struct n64dk_r12 func_80021548(s32 arg1) {
         ret.w[0] = 1;
         if (D_800B40C4 == 2) {
             func_800A4E58(0);
-            func_800219B8(D_800BCA28, ((Task *)arg1)->unk_30->unk_20, ((Task *)arg1)->unk_30->unk_00->unk_10, ((Task *)arg1)->unk_30->unk_00->unk_12);
-        } else if (((Task *)arg1)->unk_30->unk_20 != 0) {
-            func_8000A850(((Task *)arg1)->unk_30->unk_20);
+            func_800219B8(D_800BCA28, ((State *)((proc_t *)arg1)->unk_30)->unk_20, ((State *)((proc_t *)arg1)->unk_30)->unk_00->x, ((State *)((proc_t *)arg1)->unk_30)->unk_00->y);
+        } else if (((State *)((proc_t *)arg1)->unk_30)->unk_20 != 0) {
+            func_8000A850(((State *)((proc_t *)arg1)->unk_30)->unk_20);
         }
     }
     return ret;

@@ -923,10 +923,11 @@ static void cmd_unify(const char *spec_path, int do_apply) {
     for (v = 0; v < nviews; v++) {
         File *f = load(views[v].path);
         size_t n = strlen(f->raw), a, b, o = 0;
-        char *res = malloc(n * 2 + 4096);
+        char *res = malloc(n * 4 + 4096);
+        char (*before)[160] = calloc(f->ntok + 2, 160), (*after)[8] = calloc(f->ntok + 2, 8);
         int t, it_first = -1, it_last = -1, pos = 0, nren = 0;
         struct {
-            char from[64], to[64];
+            char from[64], to[64], cast[140];
         } ren[200];
         for (i = 0; i < f->nitem; i++)
             if (!strcmp(f->item[i].kind, "type") && !strcmp(f->item[i].name, views[v].local)) {
@@ -941,6 +942,7 @@ static void cmd_unify(const char *spec_path, int do_apply) {
         for (i = views[v].first_mem; i < views[v].first_mem + views[v].nmem; i++) {
             const Mem *m = &rec[i], *c = NULL;
             int other = 0, j;
+            char cast[140] = "";
             if (m->filler == 1) continue;
             for (k = 0; k < nout; k++)
                 if (out[k].off == m->off) c = &out[k];
@@ -949,9 +951,13 @@ static void cmd_unify(const char *spec_path, int do_apply) {
                 manual++;
                 continue;
             }
-            if (c->size != m->size || strcmp(c->decl, m->decl))
+            /* a typed view of a `void *` member: the uses that dereference it get a cast to the view's type */
+            if (!strcmp(c->decl, "void *@") && strcmp(m->decl, c->decl) && strchr(m->decl, '*') && m->decl[strlen(m->decl) - 1] == '@') {
+                snprintf(cast, sizeof cast, "%.*s", (int)strlen(m->decl) - 1, m->decl);
+            } else if (c->size != m->size || strcmp(c->decl, m->decl)) {
                 printf("NOTE   %s: %s is `%s` in the view, `%s` merged\n", views[v].path, m->name, m->decl, c->decl);
-            if (!strcmp(c->name, m->name)) continue;
+            }
+            if (!strcmp(c->name, m->name) && !cast[0]) continue;
             /* is the old name also a member of another struct this file still defines? */
             for (j = 0; j < f->nitem; j++) {
                 int q;
@@ -962,14 +968,67 @@ static void cmd_unify(const char *spec_path, int do_apply) {
                         other = 1;
             }
             if (other) {
-                printf("MANUAL %s: rename member %s -> %s of %s by hand (another struct here has a %s)\n", views[v].path, m->name, c->name,
-                       canon, m->name);
+                printf("MANUAL %s: member %s -> %s of %s%s%s by hand (another struct here has a %s)\n", views[v].path, m->name, c->name, canon,
+                       cast[0] ? ", cast to " : "", cast, m->name);
                 manual++;
                 continue;
             }
             strcpy(ren[nren].from, m->name);
             strcpy(ren[nren].to, c->name);
+            strcpy(ren[nren].cast, cast);
             nren++;
+        }
+        /* where a cast goes: around the member expression when it is dereferenced or indexed */
+        for (t = 0; t < f->ntok; t++) {
+            int op, s, cur, arrow;
+            char w[120];
+            if (f->tok[t].kind != 'i') continue;
+            arrow = is(f, t - 1, ">") && is(f, t - 2, "-");
+            if (!arrow && !is(f, t - 1, ".")) continue;
+            tok_text(f, t, w, sizeof w);
+            for (k = 0; k < nren; k++)
+                if (ren[k].cast[0] && !strcmp(w, ren[k].from)) break;
+            if (k == nren) continue;
+            op = arrow ? t - 2 : t - 1;
+            /* the start of the postfix expression that ends before the operator */
+            cur = op - 1;
+            for (;;) {
+                if (is(f, cur, ")")) {
+                    cur = match_open(f, cur, "(", ")") - 1;
+                    if (cur >= 0 && f->tok[cur].kind == 'i' && !is(f, cur, "return") && !is(f, cur, "sizeof") && !is(f, cur, "if") &&
+                        !is(f, cur, "while") && !is(f, cur, "switch") && !is(f, cur, "case") && !is(f, cur, "else") && !is(f, cur, "for"))
+                        cur--;
+                } else if (is(f, cur, "]")) {
+                    cur = match_open(f, cur, "[", "]") - 1;
+                    continue;
+                } else if (cur >= 0 && f->tok[cur].kind != 'p') {
+                    cur--;
+                } else {
+                    break;
+                }
+                if (is(f, cur, ".")) {
+                    cur--;
+                    continue;
+                }
+                if (is(f, cur, ">") && is(f, cur - 1, "-")) {
+                    cur -= 2;
+                    continue;
+                }
+                break;
+            }
+            s = cur + 1;
+            if ((is(f, t + 1, "-") && is(f, t + 2, ">")) || is(f, t + 1, "[")) {
+                snprintf(before[s] + strlen(before[s]), 160 - strlen(before[s]), "((%s)", ren[k].cast);
+                strcat(after[t], ")");
+            } else if (is(f, s - 1, "*") && !(s >= 2 && (f->tok[s - 2].kind != 'p' || is(f, s - 2, ")") || is(f, s - 2, "]")))) {
+                snprintf(before[s] + strlen(before[s]), 160 - strlen(before[s]), "(%s)", ren[k].cast);
+            } else if (!(is(f, t + 1, "=") && !is(f, t + 2, "=")) && !is(f, t + 1, ";") && !is(f, t + 1, ",") && !is(f, t + 1, ")")) {
+                int line = 1, q;
+                for (q = 0; q < f->tok[t].s; q++)
+                    if (f->clean[q] == '\n') line++;
+                printf("MANUAL %s:%d: %s is used as `%s` in a way the tool does not rewrite\n", views[v].path, line, ren[k].from, ren[k].cast);
+                manual++;
+            }
         }
         /* cut the lines of the definition */
         a = f->tok[it_first].s;
@@ -980,6 +1039,14 @@ static void cmd_unify(const char *spec_path, int do_apply) {
         if (b < n && f->raw[b] == '\n') b++; /* and the blank line after it */
         for (t = 0; t <= f->ntok; t++) {
             int ts = t < f->ntok ? f->tok[t].s : (int)n;
+            if (t > 0) { /* finish the previous token, then what follows it */
+                int pe = f->tok[t - 1].s + f->tok[t - 1].len;
+                while (pos < pe) {
+                    if ((size_t)pos < a || (size_t)pos >= b) res[o++] = f->raw[pos];
+                    pos++;
+                }
+                o += sprintf(res + o, "%s", after[t - 1]);
+            }
             while (pos < ts) { /* the text between tokens */
                 if ((size_t)pos < a || (size_t)pos >= b) res[o++] = f->raw[pos];
                 pos++;
@@ -989,6 +1056,7 @@ static void cmd_unify(const char *spec_path, int do_apply) {
                 pos = ts + f->tok[t].len;
                 continue;
             }
+            o += sprintf(res + o, "%s", before[t]);
             if (f->tok[t].kind == 'i') {
                 char w[120];
                 int member_use = is(f, t - 1, ".") || (is(f, t - 1, ">") && is(f, t - 2, "-"));
@@ -1017,6 +1085,8 @@ static void cmd_unify(const char *spec_path, int do_apply) {
             fclose(fp);
         }
         free(res);
+        free(before);
+        free(after);
     }
     printf("decls: %d views replaced by %s; %d places need a hand\n", nviews, canon, manual);
 }

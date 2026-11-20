@@ -1,17 +1,12 @@
 #include "wof.h"
 
-typedef struct Node {
-    /* 0x00 */ u8 unk_00[0x40];
-    /* 0x40 */ struct Node *next;
-} Node;
-
-extern Node D_800B82A0;
+extern proc_t D_800B82A0;
 
 void func_8000ADEC(s32 arg0) {
     s32 sp10;
     s32 pad0;
     s32 pad1[2];
-    Node *node;
+    proc_t *node;
 
     node = &D_800B82A0;
     while (node->next != 0) {

@@ -8,11 +8,6 @@ typedef struct {
 } State;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *state;
-} Task;
-
-typedef struct {
     /* 0x000 */ s32 unk_00;
     /* 0x004 */ u8 unk_04[0x110];
 } Player;
@@ -20,13 +15,13 @@ typedef struct {
 extern Player D_800B99A4[];
 
 void func_8001D320(s32 arg0) {
-    Task *task;
+    proc_t *task;
     s32 pad0;
     s8 pad1;
 
-    task = (Task *)func_8000A56C((s32)&func_8001C584, arg0 | 0x2030000);
-    task->state->unk_04 = arg0;
-    task->state->unk_0C = 0.65f;
+    task = (proc_t *)func_8000A56C((s32)&func_8001C584, arg0 | 0x2030000);
+    ((State *)task->unk_30)->unk_04 = arg0;
+    ((State *)task->unk_30)->unk_0C = 0.65f;
     D_800B99A4[arg0].unk_00 = 4;
     func_80024D60(arg0);
 }

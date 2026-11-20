@@ -25,17 +25,17 @@ void func_8000420C(void) {
     s32 result;
 
     D_800B96C4 = 0;
-    func_80045498(&D_800BCD70, &D_800B6BF4, 1);
-    func_8003E6C8(&D_800A70E8, 8, func_80004F6C, 0, &D_800A9298, 10);
-    func_800447D8(&D_800A70E8);
+    osCreateMesgQueue(&D_800BCD70, &D_800B6BF4, 1);
+    osCreateThread(&D_800A70E8, 8, func_80004F6C, 0, &D_800A9298, 10);
+    osStartThread(&D_800A70E8);
     for (i = 0; i < 4; i++) {
         D_800BEE60[i].unk_00 = 0;
     }
-    func_80045498(&D_800B3970, &D_800BCD68, 1);
-    func_8003E6C8(&D_800A9298, 9, func_80004160, 0, (s32 *)D_800AB448, 9);
+    osCreateMesgQueue(&D_800B3970, &D_800BCD68, 1);
+    osCreateThread(&D_800A9298, 9, func_80004160, 0, (s32 *)D_800AB448, 9);
     D_800A70C8 = 5;
-    func_8003E608(5, &D_800B3970, &D_800A70C8);
-    if ((i = (s32)func_80048458(&D_800B3970, &D_800B96C4, D_800A70A0)) != 0) {
+    osSetEventMesg(5, &D_800B3970, &D_800A70C8);
+    if ((i = (s32)osContInit(&D_800B3970, &D_800B96C4, D_800A70A0)) != 0) {
         func_80009F98((s32)"Failure initing controllers\n");
     }
     i = 0;
@@ -43,9 +43,9 @@ void func_8000420C(void) {
         if ((D_800B96C4 >> i) % 2 != 0) {
             if ((D_800A70A0[i].unk_00 & 4) != 0) {
                 if ((D_800A70A0[i].unk_02 & 1) != 0) {
-                    result = func_80046808(&D_800B3970, &D_800AB448[i], i);
+                    result = osPfsInit(&D_800B3970, &D_800AB448[i], i);
                     if (result == 10 || result == 11) {
-                        result = func_8003A368(&D_800B3970, &D_800AB448[i], i);
+                        result = osMotorInit(&D_800B3970, &D_800AB448[i], i);
                         if (result == 0) {
                             D_800BEE60[i].unk_00 = 1;
                             func_80004EB0(i);
@@ -63,5 +63,5 @@ void func_8000420C(void) {
         i++;
     }
     D_800B9D04 = 0;
-    func_800447D8(&D_800A9298);
+    osStartThread(&D_800A9298);
 }

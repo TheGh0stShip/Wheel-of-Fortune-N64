@@ -1,28 +1,23 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ s32 *unk_30;
-} Task;
-
 void func_80016098(void) {
-    Task *task;
+    proc_t *task;
     s32 sp14;
 
     sp14 = func_8000B5DC(0xA010100, -1);
     if (sp14 != 0) {
-        task = (Task *)func_8000A990(0xA010100, -1);
+        task = (proc_t *)func_8000A990(0xA010100, -1);
         if (task == 0) {
-            task = (Task *)func_8000A56C((s32)&func_800101F4, 0xA010100);
-            *task->unk_30 = sp14;
+            task = (proc_t *)func_8000A56C((s32)&func_800101F4, 0xA010100);
+            *(s32 *)task->unk_30 = sp14;
         }
     }
     sp14 = func_8000B5DC(0xA010200, -1);
     if (sp14 != 0) {
-        task = (Task *)func_8000A990(0xA010200, -1);
+        task = (proc_t *)func_8000A990(0xA010200, -1);
         if (task == 0) {
-            task = (Task *)func_8000A56C((s32)&func_800103B4, 0xA010200);
-            *task->unk_30 = sp14;
+            task = (proc_t *)func_8000A56C((s32)&func_800103B4, 0xA010200);
+            *(s32 *)task->unk_30 = sp14;
         }
     }
 }

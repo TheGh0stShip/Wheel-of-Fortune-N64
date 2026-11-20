@@ -9,11 +9,6 @@ typedef struct {
 } Data;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Object;
-
-typedef struct {
     /* 0x000 */ s32 unk_00;
     /* 0x004 */ u8 unk_04[0x10];
     /* 0x014 */ s32 unk_14;
@@ -32,7 +27,7 @@ struct n64dk_r12 func_80018D28(s32 arg1) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (((Object *)arg1)->data->player != D_800FB808) {
+    if (((Data *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
         func_8000AD9C(arg1);
         return ret;
     }
@@ -79,7 +74,7 @@ struct n64dk_r12 func_80018D28(s32 arg1) {
             if (func_80007888(D_800B61B5, 1) > 0) {
                 func_80007DAC(D_800B61B5);
                 task = func_8000A56C((s32)func_80010574, 0x1000000);
-                ((Object *)task)->data->unk_10 = D_800B61B5;
+                ((Data *)((proc_t *)task)->unk_30)->unk_10 = D_800B61B5;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {

@@ -1,7 +1,6 @@
 #include "wof.h"
 
 struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-struct gd_30_s32 { u8 pad[0x30]; s32 v; };
 struct n64dk_a800B99A4 { s32 m0; u8 pad4[0x110]; };
 extern struct n64dk_a800B99A4 D_800B99A4[];
 
@@ -35,13 +34,13 @@ struct n64dk_r12 func_8002F338(s32 arg1) {
                 sp30++;
             }
         case 43:
-            ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v = (s32)(func_80044988() / D_80084218);
+            ((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v = (s32)(osGetTime() / D_80084218);
             break;
         }
     }
     D_800B81DC = D_800B81DC + D_800BCA1C;
-    sp2C = (s32)(func_80044988() / D_80084218);
-    if ((sp2C - ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v) >= D_800B81DC) {
+    sp2C = (s32)(osGetTime() / D_80084218);
+    if ((sp2C - ((struct gd_4_s32 *)((proc_t *)arg1)->unk_30)->v) >= D_800B81DC) {
         if (func_8000A990(0x5010000, -1) != 0) {
             return sp10;
         }

@@ -1,22 +1,10 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x10];
-    /* 0x10 */ s16 x;
-    /* 0x12 */ s16 y;
-    /* 0x14 */ s16 z;
-} Pos;
-
-typedef struct {
-    /* 0x00 */ Pos *pos;
+    /* 0x00 */ obj_t *pos;
     /* 0x04 */ u8 unk_04[0x4];
     /* 0x08 */ s32 unk_08;
 } Data;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Object;
 
 typedef struct {
     /* 0x00 */ f32 unk_00;
@@ -29,11 +17,11 @@ struct n64dk_r12 func_8000C6C4(s32 arg1) {
     f32 mtx[4][4];
     f32 rot[4][4];
     struct n64dk_r12 ret;
-    Pos *pos;
+    obj_t *pos;
     s32 event;
     s32 index;
 
-    pos = ((Object *)arg1)->data->pos;
+    pos = ((Data *)((proc_t *)arg1)->unk_30)->pos;
     for (;;) {
         event = func_8000ACE8(arg1);
         if (event == 0) {
@@ -47,10 +35,10 @@ struct n64dk_r12 func_8000C6C4(s32 arg1) {
             return ret;
         }
     }
-    index = ((Object *)arg1)->data->unk_08;
-    func_8003C2A8(mtx, (f32)D_800BEE24 * D_80057810[index].unk_00, (f32)D_800BEE24, 0);
-    func_8003BEA8(rot, -61.317f, 58.385f, -9.848f);
-    func_80041018(mtx, rot, mtx);
+    index = ((Data *)((proc_t *)arg1)->unk_30)->unk_08;
+    guTranslateF(mtx, (f32)D_800BEE24 * D_80057810[index].unk_00, (f32)D_800BEE24, 0);
+    guRotateRPYF(rot, -61.317f, 58.385f, -9.848f);
+    guMtxCatF(mtx, rot, mtx);
     pos->x = (s32)mtx[3][0];
     pos->y = (s32)mtx[3][1];
     pos->z = (s32)mtx[3][2];

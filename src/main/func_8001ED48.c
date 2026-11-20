@@ -21,8 +21,8 @@ void func_8001ED48(s32 arg0) {
     s32 sp38;
 
     sp38 = 0x2000000;
-    sp10 = func_8003FF78((s32)&D_800BEF5C[D_800B61A0].unk_04[0x19C00]);
-    sp10 = sp10 - func_8003FF78((s32)&D_800BEF60[D_800B61A0]);
+    sp10 = osVirtualToPhysical((s32)&D_800BEF5C[D_800B61A0].unk_04[0x19C00]);
+    sp10 = sp10 - osVirtualToPhysical((s32)&D_800BEF60[D_800B61A0]);
     src = (u16 *)arg0;
     dst = (s16 *)&D_800BEF5C[D_800B61A0].unk_04[0x19C00];
     n = 0;

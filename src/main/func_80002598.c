@@ -21,8 +21,8 @@ void func_80002598(s32 arg0, s32 arg1) {
     s32 sp10;
 
     sp10 = D_800B81D8 + ((Table *)D_800B81D8)->entries[arg0].offset;
-    func_8003B944(D_800A507C[arg1], sp10);
-    func_80041188(D_800BED90[arg1], D_800A507C[arg1]);
-    func_8003B3A8(D_800BED90[arg1], D_800B3998->unk_04);
-    func_8003B378(D_800BED90[arg1]);
+    alCSeqNew(D_800A507C[arg1], sp10);
+    alCSPSetSeq(D_800BED90[arg1], D_800A507C[arg1]);
+    alCSPSetBank(D_800BED90[arg1], D_800B3998->unk_04);
+    alCSPPlay(D_800BED90[arg1]);
 }

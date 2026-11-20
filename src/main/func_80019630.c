@@ -9,11 +9,6 @@ typedef struct {
 } State;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *state;
-} Task;
-
-typedef struct {
     /* 0x000 */ s32 unk_00;
     /* 0x004 */ u8 unk_04[0xE4];
     /* 0x0E8 */ s32 unk_E8;
@@ -30,7 +25,7 @@ struct n64dk_r12 func_80019630(s32 arg1) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (((Task *)arg1)->state->unk_04 != D_800FB808) {
+    if (((State *)((proc_t *)arg1)->unk_30)->unk_04 != D_800FB808) {
         func_8000AD9C(arg1);
         return ret;
     }
@@ -53,7 +48,7 @@ struct n64dk_r12 func_80019630(s32 arg1) {
             if (func_80007888(D_800B61B5, 2) > 0) {
                 func_80007DAC(D_800B61B5);
                 task = func_8000A56C((s32)&func_80010574, 0x1000000);
-                ((Task *)task)->state->unk_10 = D_800B61B5;
+                ((State *)((proc_t *)task)->unk_30)->unk_10 = D_800B61B5;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {
@@ -70,8 +65,8 @@ struct n64dk_r12 func_80019630(s32 arg1) {
         case 6:
             func_80029974(0);
             func_8002FD50();
-            task = func_8000A56C((s32)&func_8001933C, ((Task *)arg1)->state->unk_04 | 0x2000300);
-            ((Task *)task)->state->unk_04 = ((Task *)arg1)->state->unk_04;
+            task = func_8000A56C((s32)&func_8001933C, ((State *)((proc_t *)arg1)->unk_30)->unk_04 | 0x2000300);
+            ((State *)((proc_t *)task)->unk_30)->unk_04 = ((State *)((proc_t *)arg1)->unk_30)->unk_04;
             ret.w[1] = 2;
             ret.w[0] = 10;
             return ret;

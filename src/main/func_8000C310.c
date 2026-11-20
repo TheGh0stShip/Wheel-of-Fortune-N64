@@ -12,17 +12,12 @@ typedef struct {
     /* 0x48 */ s32 *unk_48;
 } State;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State **state;
-} Obj;
-
 struct n64dk_r12 func_8000C310(s32 arg1) {
     struct n64dk_r12 result;
     State *state;
     s32 event;
 
-    state = *((Obj *)arg1)->state;
+    state = *(State **)((proc_t *)arg1)->unk_30;
     for (;;) {
         event = func_8000ACE8(arg1);
         if (event == 0) {

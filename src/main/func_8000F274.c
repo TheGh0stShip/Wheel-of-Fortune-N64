@@ -12,13 +12,6 @@ typedef struct {
 } State;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x8];
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ u8 unk_0C[0x24];
-    /* 0x30 */ State *state;
-} Obj;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0x110];
 } Player;
@@ -46,19 +39,19 @@ struct n64dk_r12 func_8000F274(s32 arg1) {
             return result;
         }
     }
-    actor = ((Obj *)arg1)->state->actor;
+    actor = ((State *)((proc_t *)arg1)->unk_30)->actor;
     result.w[1] = 1;
     result.w[0] = 0;
     target = (Actor *)func_8000B5DC(0x4010000, 0xFFFF0000);
     if (target == 0) {
         return result;
     }
-    sp28 = target->unk_2C + (f32)D_800581F0[((Obj *)arg1)->unk_08 & 255];
+    sp28 = target->unk_2C + (f32)D_800581F0[((proc_t *)arg1)->unk_08 & 255];
     sp30 = (s32)(sp28 / 5.0f);
     sp28 = sp28 - (f32)(sp30 * 5);
     if ((f64)((D_800BCCF0 / 60.0f) * (f32)D_800B96B4) > 2.5) {
         sp2C = sp28 * -4.0f + 30.0f;
-        if ((((Obj *)arg1)->unk_08 & 255) == D_800FB808) {
+        if ((((proc_t *)arg1)->unk_08 & 255) == D_800FB808) {
             if (D_800B99A4[D_800FB808].unk_00 < 4) {
                 // RULE-EXCEPTION: R25, no prototype in scope: retail passes the 1.0 as a double
                 func_800051B4(D_800B99A4[D_800FB808].unk_00, 2, 1.0);
@@ -74,9 +67,9 @@ struct n64dk_r12 func_8000F274(s32 arg1) {
             sp28 = 0;
             sp2C = 0;
         }
-        if ((((Obj *)arg1)->unk_08 & 255) == D_800FB808) {
+        if ((((proc_t *)arg1)->unk_08 & 255) == D_800FB808) {
             if (sp2C - actor->unk_2C < 0.0f) {
-                if (((Obj *)arg1)->state->unk_08 > 0) {
+                if (((State *)((proc_t *)arg1)->unk_30)->unk_08 > 0) {
                     func_80002CE0(func_80009C98(2) + 25);
                     if (D_800B99A4[D_800FB808].unk_00 < 4) {
                         // RULE-EXCEPTION: R25, as above
@@ -86,10 +79,10 @@ struct n64dk_r12 func_8000F274(s32 arg1) {
             }
         }
     }
-    if ((((Obj *)arg1)->unk_08 & 255) == D_800FB808) {
-        func_80009108(target->unk_2C + (f32)D_800581F0[D_800FB808] - sp28 + ((Obj *)arg1)->state->unk_04);
+    if ((((proc_t *)arg1)->unk_08 & 255) == D_800FB808) {
+        func_80009108(target->unk_2C + (f32)D_800581F0[D_800FB808] - sp28 + ((State *)((proc_t *)arg1)->unk_30)->unk_04);
     }
-    ((Obj *)arg1)->state->unk_08 = (s32)(sp2C - actor->unk_2C);
+    ((State *)((proc_t *)arg1)->unk_30)->unk_08 = (s32)(sp2C - actor->unk_2C);
     actor->unk_2C = sp2C;
     return result;
 }

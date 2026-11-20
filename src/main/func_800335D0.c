@@ -5,7 +5,7 @@ void func_800335D0(void) {
         return;
     }
     func_80005258();
-    D_800BA2C0 = (s32)(func_80044988() / D_80084218);
+    D_800BA2C0 = (s32)(osGetTime() / D_80084218);
     D_800BED98 = D_800BCD54;
     D_800BCD54 = 6;
     func_80015848(0, 0, ((s32)&func_80028B1C), 0x5020000);

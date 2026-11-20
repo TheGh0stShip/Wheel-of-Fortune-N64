@@ -6,11 +6,6 @@ typedef struct {
     /* 0x08 */ s32 unk_08;
 } Data;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *unk_30;
-} Obj;
-
 struct n64dk_r12 func_80033A28(s32 arg1) {
     struct n64dk_r12 result;
     s32 event;
@@ -23,13 +18,13 @@ struct n64dk_r12 func_80033A28(s32 arg1) {
         case 8:
             func_80002CE0(10);
             D_800B96A8 = 2;
-            ((Obj *)arg1)->unk_30->unk_04 = 0;
-            ((Obj *)arg1)->unk_30->unk_08 = 0;
+            ((Data *)((proc_t *)arg1)->unk_30)->unk_04 = 0;
+            ((Data *)((proc_t *)arg1)->unk_30)->unk_08 = 0;
             break;
         }
     }
-    if (((Obj *)arg1)->unk_30->unk_04 > 0) {
-        switch (((Obj *)arg1)->unk_30->unk_04) {
+    if (((Data *)((proc_t *)arg1)->unk_30)->unk_04 > 0) {
+        switch (((Data *)((proc_t *)arg1)->unk_30)->unk_04) {
         case 1:
             sp24 = func_80002CE0(8);
             break;
@@ -40,15 +35,15 @@ struct n64dk_r12 func_80033A28(s32 arg1) {
             sp24 = func_80002CE0(10);
             break;
         default:
-            sp24 = func_80002CE0(func_8003CE58() % 3 + 16);
+            sp24 = func_80002CE0(guRandom() % 3 + 16);
         }
-        if (D_800B96A8 == ((Obj *)arg1)->unk_30->unk_04) {
+        if (D_800B96A8 == ((Data *)((proc_t *)arg1)->unk_30)->unk_04) {
             D_800B96A8 = 0;
-            ((Obj *)arg1)->unk_30->unk_04 = 0;
+            ((Data *)((proc_t *)arg1)->unk_30)->unk_04 = 0;
         }
     }
-    if (((Obj *)arg1)->unk_30->unk_04 < D_800B96A8) {
-        ((Obj *)arg1)->unk_30->unk_04++;
+    if (((Data *)((proc_t *)arg1)->unk_30)->unk_04 < D_800B96A8) {
+        ((Data *)((proc_t *)arg1)->unk_30)->unk_04++;
         result.w[0] = 10 / D_800B96B4;
     }
     return result;

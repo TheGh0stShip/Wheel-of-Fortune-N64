@@ -1,16 +1,11 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 pad0[0x30];
-    /* 0x30 */ s32 *unk_30;
-} Obj;
-
 struct n64dk_r12 func_8000BC64(s32 arg1) {
     struct n64dk_r12 result;
     s32 sp20;
     s32 event;
 
-    sp20 = *((Obj *)arg1)->unk_30;
+    sp20 = *(s32 *)((proc_t *)arg1)->unk_30;
     result.w[1] = 1;
     result.w[0] = 0;
     while ((event = func_8000ACE8(arg1)) != 0) {

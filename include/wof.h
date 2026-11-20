@@ -3,13 +3,80 @@
 #ifndef WOF_H
 #define WOF_H
 
-#include "types.h"
-#include "library.h"
+#include <ultra64.h>
+#include <PR/sched.h>
 
 // what an object's state handler returns
 struct n64dk_r12 {
     s32 w[3];
 };
+
+// A proc: a task with a message queue. DoProcs runs each proc's handler once a frame.
+// The procs are D_800B82A0[70]; entry 0 only heads the list of live procs.
+typedef struct proc_s {
+    /* 0x00 */ struct n64dk_r12 ( *unk_00 )( struct proc_s *proc );  // handler; 0 if free
+    /* 0x04 */ s32              unk_04;
+    /* 0x08 */ s32              unk_08;
+    /* 0x0C */ s32              unk_0C;
+    /* 0x10 */ s32              unk_10;
+    /* 0x14 */ s32              unk_14;
+    /* 0x18 */ s32              count;          // messages waiting in items
+    /* 0x1C */ s32              items[5];
+    /* 0x30 */ void             *unk_30;        // its data: a struct of its own for each kind of proc
+    /* 0x34 */ s32              unk_34;
+    /* 0x38 */ s32              unk_38;
+    /* 0x3C */ u8               unk_3C[0x4];
+    /* 0x40 */ struct proc_s    *next;
+} proc_t;   // size 0x44
+
+// An obj: something DrawObjs draws each frame.
+// The objs are D_800B40C8[100]; entry 0 only heads the list of live objs.
+typedef struct obj_s {
+    /* 0x00 */ s32              index;          // its entry in D_800B40C8 and in the matrix arrays
+    /* 0x04 */ s32              unk_04;
+    /* 0x08 */ s32              unk_08;
+    /* 0x0C */ s32              ( *unk_0C )();  // draw function: ( obj, frame )
+    /* 0x10 */ s16              x;
+    /* 0x12 */ s16              y;
+    /* 0x14 */ s16              z;
+    /* 0x18 */ f32              scale;
+    /* 0x1C */ u8               unk_1C[0xC];
+    /* 0x28 */ f32              unk_28;         // unk_28..unk_30: guRotateRPY r, p, h
+    /* 0x2C */ f32              unk_2C;
+    /* 0x30 */ f32              unk_30;
+    /* 0x34 */ u8               unk_34[0x8];
+    /* 0x3C */ s32              unk_3C;
+    /* 0x40 */ u8               unk_40[0x4];
+    /* 0x44 */ s32              unk_44;
+    /* 0x48 */ s32              unk_48;
+    /* 0x4C */ s32              unk_4C;
+    /* 0x50 */ struct obj_s     *next;
+} obj_t;    // size 0x54
+
+// the data of the proc that animates Vanna (InitVannaAnim creates it)
+typedef struct {
+    /* 0x00 */ obj_t *obj;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 unk_10;
+    /* 0x14 */ s32 unk_14;
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ s32 unk_1C;
+    /* 0x20 */ s32 unk_20;
+    /* 0x24 */ s32 unk_24;
+    /* 0x28 */ s32 unk_28;
+} vannaAnim_t;    // size 0x2C
+
+// A picture func_8002741C draws: where it goes and how big it is. The tables of them start at
+// D_80058548; what lies behind the size is not named yet.
+typedef struct {
+    /* 0x00 */ s32 x;
+    /* 0x04 */ s32 y;
+    /* 0x08 */ s32 width;
+    /* 0x0C */ s32 height;
+    /* 0x10 */ u8 unk_10[0x18];
+} image_t;    // size 0x28
 
 //
 // addresses in segment 1, the display list and texture data the game loads: only their

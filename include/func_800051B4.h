@@ -8,7 +8,7 @@
 #ifndef FUNC_800051B4_H
 #define FUNC_800051B4_H
 
-#include "types.h"
+#include <ultra64.h>
 
 void func_800051B4( s32 arg0, s32 arg1, f32 arg2 );
 
