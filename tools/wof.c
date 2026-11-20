@@ -63,6 +63,7 @@ typedef struct {
     int base_known;
     int by_reference; /* placed where other units point, not by the unit's own code or a declaration */
     int noted;        /* its references to undefined symbols are already counted */
+    int marked;       /* asn64 marked where its last item ends: its size is exact */
     u32 base;
     u8 *buf; /* relocated copy of the contents */
 } Sec;
@@ -542,6 +543,7 @@ static void load_object_file(Unit *u, const char *path) {
         if (strcmp(y->name, "__asn64_end_rdata") && strcmp(y->name, "__asn64_end_data")) continue;
         if (y->shndx == 0 || y->shndx >= shnum) continue;
         s = &u->sec[y->shndx];
+        s->marked = 1;
         if (y->value == 0) s->placed = 0, s->size = 0;
         else if (y->value < s->size) s->size = y->value;
     }
@@ -926,10 +928,10 @@ static void verify(Unit *u) {
         int y;
         if (!d->placed || k == u->text || !d->buf) continue;
         len = d->size;
-        if (strcmp(flagmode[class_index(u->cls)], "ido")) {
-            /* GNU as pads a section to its alignment; the original assembler's fill there is stale bytes,
-               so the trailing zeros belong to nobody (asn64 has already cut the game's sections at their
-               last item).  IDO's own section sizes include the padding: an IDO object owns all of it. */
+        if (!d->marked && strcmp(flagmode[class_index(u->cls)], "ido")) {
+            /* GNU as pads a section to its alignment, and the original assembler's fill there is stale
+               bytes, so trailing zeros belong to nobody; a section asn64 marked ends at its last item, zero
+               or not.  IDO's own section sizes include the padding: an IDO object owns all of it. */
             while (len && !d->buf[len - 1]) len--;
             len = (len + 3) & ~3u;
             /* but a datum the object sizes is its own, zero or not (a global initialised to 0 at the end) */
