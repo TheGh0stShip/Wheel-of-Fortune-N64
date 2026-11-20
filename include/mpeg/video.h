@@ -3,7 +3,9 @@
 // guess: the player descends from the Berkeley mpeg_play decoder (the reentrant 2.3-patched line,
 // where the decoder state lives in VidStream and the X state in XInfo). The type, member, macro and
 // file names in this module are that decoder's wherever retail's layout and code agree with it; the
-// binary itself records none of them.
+// binary itself records none of them but the few in the messages of main.c. mpeg_play is Copyright (c)
+// 1995 The Regents of the University of California, with portions Copyright (c) 1995 Brown University;
+// both grant permission to use, copy, modify and distribute it without fee.
 
 #ifndef MPEG_VIDEO_H
 #define MPEG_VIDEO_H

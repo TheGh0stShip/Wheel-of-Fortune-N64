@@ -220,14 +220,17 @@ double floor( double x ) {
 gettimeofday
 
 The time since the console was switched on.
+
+BUG: the tick count goes through a long, so the time is that of the low 32 bits of the count: it
+starts again from zero, by way of the negative numbers, every 2 to the 32nd ticks.
 =====================
 */
 int gettimeofday( struct timeval *tp, ... ) {
     long ticks;
 
     ticks = osGetTime();
-    tp->tv_sec = ticks / D_80084218;
-    ticks = ticks % D_80084218;
-    tp->tv_usec = ( (s64)ticks * 1000000 ) / D_80084218;
+    tp->tv_sec = ticks / osClockRate;
+    ticks = ticks % osClockRate;
+    tp->tv_usec = ( (s64)ticks * 1000000 ) / osClockRate;
     return 0;
 }

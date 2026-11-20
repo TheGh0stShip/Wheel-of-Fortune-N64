@@ -381,7 +381,7 @@ Parses a sequence header, and allocates the stream's frames once the picture siz
 int ParseSeqHead( VidStream *vid_stream, XInfo *xinfo ) {
     unsigned int data;
     int          i;
-    int          ditherType = vid_stream->ditherType;   /* NOTE: unused in the original; the dithers that read it are compiled out */
+    int          ditherType = vid_stream->ditherType;   /* NOTE: unused in the original: only the dithers read it */
 
     flush_bits32;
 
@@ -706,8 +706,8 @@ int ParseMacroBlock( VidStream *vid_stream ) {
     int          mask, i, recon_right_for, recon_down_for, recon_right_back, recon_down_back;
     int          zero_block_flag;
     BOOLEAN      mb_quant = 0, mb_motion_forw = 0, mb_motion_back = 0, mb_pattern = 0;
-    int          no_dith_flag = 0;                      /* NOTE: unused in the original; so is this */
-    int          ditherType = vid_stream->ditherType;   /* NOTE: unused in the original; the dithers that read it are compiled out */
+    int          no_dith_flag = 0;                      /* NOTE: unused in the original, likewise */
+    int          ditherType = vid_stream->ditherType;   /* NOTE: unused in the original: only the dithers read it */
 
     // the address increment; an escape stands for 33 and is followed by another
     do {
@@ -1677,7 +1677,7 @@ void ProcessSkippedPFrameMBlocks( VidStream *vid_stream ) {
     int row_size, half_row, mb_row, mb_col, row, col, rr;
     int addr, row_incr, half_row_incr, crow, ccol;
     int *dest, *src, *dest1, *src1;
-    int ditherType = vid_stream->ditherType;    /* NOTE: unused in the original; the dithers that read it are compiled out */
+    int ditherType = vid_stream->ditherType;    /* NOTE: unused in the original: only the dithers read it */
 
     row_size = vid_stream->mb_width << 4;
     half_row = ( row_size >> 1 );
@@ -1773,7 +1773,7 @@ void ProcessSkippedBFrameMBlocks( VidStream *vid_stream ) {
     unsigned char back_lum[256], back_cr[64], back_cb[64];
     int row_incr, half_row_incr;
     int ccol, crow;
-    int ditherType = vid_stream->ditherType;    /* NOTE: unused in the original; the dithers that read it are compiled out */
+    int ditherType = vid_stream->ditherType;    /* NOTE: unused in the original: only the dithers read it */
 
     row_size = vid_stream->mb_width << 4;
     half_row = ( row_size >> 1 );

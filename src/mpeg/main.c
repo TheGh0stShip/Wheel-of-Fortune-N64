@@ -2,8 +2,9 @@
 //
 // guess: the file is what the player keeps of main.c of the Berkeley mpeg_play decoder. func_8009CEC0
 // is its main with the command line taken out and one movie instead of fifteen; func_8009D244 is the
-// body of the loop main ended with, once round; DoDitherImage is DoDitherImage. The flags are the ones
-// the command line set.
+// body of the loop main ended with, once round; DoDitherImage is the decoder's. The flags are the ones
+// its command line set. The two functions and D_80086D58 keep placeholder names because game code
+// outside the player uses them, and D_80107884, the decoder's curVidStream, for the same reason.
 
 #include "wof.h"
 #include "mpeg/proto.h"
@@ -16,11 +17,11 @@
 FILE *input;
 char *inputName;
 
-int loopFlag = 0;     // loop: play the film again when it ends
+int loopFlag = 0;             // play the film again when it ends
 int shmemFlag = 0;
-int quietFlag = 0;     // quiet
+int quietFlag = 0;
 int requireKeypressFlag = 0;
-int noDisplayFlag = 0;     // decode without showing anything
+int noDisplayFlag = 0;        // decode without showing anything
 
 // frames a second: -1 for what the stream says, 0 for as fast as possible
 int framerate = -1;
@@ -38,11 +39,12 @@ double chromaCorrect = 0.8;
 // average over four pixels where a vector has two half-pel components, not over two
 int qualityFlag = 1;
 
-static BOOLEAN exiting = FALSE;  /* NOTE: unused in the original */
+static BOOLEAN exiting = FALSE;     /* NOTE: unused in the original: its users, the signal handlers, are gone */
 
 // set while a movie is open
 s32 D_80086D58 = 0;
 
+// the stream being decoded
 VidStream *D_80107884;
 
 // where the movie is shown
