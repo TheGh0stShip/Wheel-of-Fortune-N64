@@ -17,8 +17,8 @@ void func_80013500(s32 arg0) {
         } else {
             value = D_800B9990[i].unk_000;
         }
-        func_80009AE0((s32)digits, value);
-        len = func_80009A74((s32)digits);
+        func_80009AE0(digits, value);
+        len = func_80009A74(digits);
         if (len >= 8) {
             len = 7;
         }

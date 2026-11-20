@@ -13,8 +13,8 @@ void func_8002A538(void) {
         D_8005B4C8[i].unk_20 = 0;
     }
     x = D_800B9990[D_800FB808].unk_004;
-    func_80009AE0((s32)buf, x);
-    len = func_80009A74((s32)buf);
+    func_80009AE0(buf, x);
+    len = func_80009A74(buf);
     if (len >= 7) {
         len = 6;
     }

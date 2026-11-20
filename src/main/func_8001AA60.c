@@ -29,7 +29,7 @@ void func_8001AA60(proc_t *proc) {
     if (D_800B9CF8 != 0) {
         sp1C = (f32)func_80009C98(100);
         sp1C = sp1C / 100.0f;
-        score = (f32)func_80009A74((s32)&D_800B61C0);
+        score = (f32)func_80009A74(D_800B61C0);
         score = score / 21.0f;
         score = score * 0.15;
         score = score + sp1C;
@@ -53,7 +53,7 @@ void func_8001AA60(proc_t *proc) {
             break;
         }
     } else if (D_800B9CFC != 0) {
-        if (func_80009A74((s32)&D_800B6AE0) != 0) {
+        if (func_80009A74(D_800B6AE0) != 0) {
             D_800B61B5 = 49;
             func_8000AAB0(proc, 13, 0);
         } else {

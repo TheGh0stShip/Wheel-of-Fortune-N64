@@ -7,7 +7,7 @@ s32 func_800076E0(register s32 arg0) {
     u8 *p;
 
     ch = arg0;
-    p = (u8 *)func_800099B0((s32)&D_800B966A, ch);
+    p = func_800099B0(D_800B966A, ch);
     if (p == 0) {
         return -1;
     }
@@ -15,7 +15,7 @@ s32 func_800076E0(register s32 arg0) {
     for (i = 0; i < 4; i++) {
         p = D_800B9601[i];
         while (p != 0) {
-            p = (u8 *)func_800099B0((s32)p, ch);
+            p = func_800099B0(p, ch);
             if (p != 0) {
                 count++;
                 p++;

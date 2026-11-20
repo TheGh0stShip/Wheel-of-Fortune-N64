@@ -354,7 +354,7 @@ typedef struct {
 // One puzzle of the built-in list: D_8004BB98[].
 typedef struct {
     /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
+    /* 0x04 */ u8  *unk_04;     // its category, which func_80006E54 copies into D_800B9544
     /* 0x08 */ s32 unk_08;
 } puzzle_t;    // size 0xC
 
@@ -483,7 +483,7 @@ typedef struct {
     /* 0x10 */ u8 letter;
 } data80010574_t;    // size 0x14
 
-// the data of the proc whose handler is func_80010D3C
+// the data of the proc whose handler is func_80010D3C, created by func_8002C094
 typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 row;
@@ -548,15 +548,6 @@ typedef struct {
     /* 0x00 */ u8 unk_00[0x8];
     /* 0x08 */ s32 step;
 } data8002B318_t;    // size 0xC
-
-// the data of the proc whose handler is func_8002C094
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ u8 unk_0C[0x8];
-    /* 0x14 */ s32 unk_14;
-} data8002C094_t;    // size 0x18
 
 
 // The data of the procs that time something out: handlers func_8002F338, func_8002F7CC,
@@ -656,7 +647,6 @@ typedef union procData_u {
     data80029098_t  data80029098;
     data80029C98_t  data80029C98;
     data8002B318_t  data8002B318;
-    data8002C094_t  data8002C094;
     timer_t         timer;
     data800345E8_t  data800345E8;
     data80033A28_t  data80033A28;
@@ -780,7 +770,7 @@ extern s32 D_8004B860[];
 extern s32 D_8004B8C0[];
 extern s32 D_8004B920[];
 extern s32 D_8004B980[];
-extern s32 D_8004B9E0;
+extern u8 D_8004B9E0[];          // "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 extern s8 D_8004B9FC[];
 extern s8 D_8004BA04[];
 extern puzzle_t D_8004BB98[];
@@ -807,8 +797,8 @@ extern view_t D_80057F50[];
 extern s32 D_800581F0[];
 extern s32 D_800581F4;
 extern s32 D_800581FC[];
-extern s32 D_80058208;
-extern s32 D_80058220;
+extern u8 D_80058208[];          // "RSTLNCBDMHFYKJGPQVWXZ"
+extern u8 D_80058220[];          // "EAIOU"
 extern movie_t D_80058228[];
 extern char D_80058488[];           // "You are the BIG winner!"
 extern s32 D_800584A0[][2];         // [5], x and y of pictures 2 to 6 of the first menu
@@ -858,8 +848,8 @@ extern s32 D_8005BA80[];
 extern image_t D_8005BAC0[];
 extern letterImage_t D_8005BCC8[];
 extern image_t D_8005BE00[];
-extern s32 D_8005C1E8[];
-extern s32 D_8005C33C[];
+extern u8 *D_8005C1E8[];
+extern u8 *D_8005C33C[];
 extern u8 D_8005C394[];
 extern Gfx *D_8005C3A0[][2];        // [3], unk_48 and unk_4C of the obj of each contestant
 extern clip_t D_8005C3B8[][2];
@@ -934,10 +924,10 @@ extern f32 D_800B61AC;
 extern s8 D_800B61B0[];
 extern u8 D_800B61B5;
 extern s32 D_800B61B8;
-extern s32 D_800B61C0;
+extern u8 D_800B61C0[];          // func_8001A5D0 copies D_80058208 here
 extern s32 D_800B61D8;
 extern u64 D_800B61E0[];            // the yield buffer of the graphics task: 0x900 bytes
-extern s32 D_800B6AE0;
+extern u8 D_800B6AE0[];          // func_8001A5D0 copies D_80058220 here
 extern s32 D_800B6AE8[][16];
 extern f32 D_800B6BE8;
 extern f32 D_800B6BEC;
@@ -1119,7 +1109,7 @@ void func_800068F0( void );
 void func_80006B28( void );
 void func_80006B58( void );
 void func_80006BFC( void );
-void func_80006E54( s32 arg0, s32 arg1 );
+void func_80006E54( s32 arg0, u8 *arg1 );
 s32 func_800076E0( s32 arg0 );
 s32 func_80007818( s32 arg0 );
 s32 func_80007888( s32 arg0, s32 arg1 );
@@ -1137,18 +1127,18 @@ s32 func_8000928C( void );
 void func_80009364( s32 arg0 );
 void func_80009494( void );
 void func_8000963C( s32 arg0 );
-s32 func_80009748( s32 arg0, s32 arg1, s32 arg2 );
-s32 func_80009804( s32 arg0, s32 arg1 );
-s32 func_80009900( s32 arg0, s32 arg1 );
-s32 func_800099B0( s32 arg0, s32 arg1 );
-s32 func_80009A74( s32 arg0 );
-void func_80009AE0( s32 arg0, s32 arg1 );
+u8 *func_80009748( u8 *arg0, u8 *arg1, s32 arg2 );
+u8 *func_80009804( u8 *arg0, u8 *arg1 );
+u8 *func_80009900( u8 *arg0, u8 *arg1 );
+u8 *func_800099B0( u8 *arg0, s32 arg1 );
+s32 func_80009A74( u8 *arg0 );
+void func_80009AE0( u8 *arg0, s32 arg1 );
 s32 func_80009C98( s32 arg0 );
 void func_80009D08( s32 arg0 );
 s32 func_80009D2C( s32 arg0 );
 void func_80009D78( s32 arg0 );
 void func_80009F38( char *arg0 );
-void func_80009F98( s32 arg0 );
+void func_80009F98( u8 *arg0 );
 void func_80009FD8( void );
 proc_t *func_8000A0E4( void );
 proc_t *func_8000A158( proc_t *proc );
@@ -1280,9 +1270,9 @@ struct n64dk_r12 func_80019AAC( proc_t *proc );
 void func_8001A424( s32 arg0 );
 void func_8001A484( void );
 void func_8001A5D0( void );
-void func_8001A628( s32 arg0 );
-s32 func_8001A6DC( s32 arg0 );
-s32 func_8001A7A8( s32 arg0 );
+void func_8001A628( u8 *arg0 );
+s32 func_8001A6DC( u8 *arg0 );
+s32 func_8001A7A8( u8 *arg0 );
 s32 func_8001A894( f32 arg0, proc_t *proc );
 s32 func_8001A97C( f32 arg0 );
 void func_8001AA60( proc_t *proc );

@@ -29,9 +29,9 @@ struct n64dk_r12 func_8002EFC0(proc_t *proc) {
                 return result;
             }
             func_8000A850(32);
-            func_80009F98((s32)"Final spin is ");
+            func_80009F98("Final spin is ");
             func_80009D78(func_8000928C());
-            func_80009F98((s32)"\n");
+            func_80009F98("\n");
             result.w[1] = 0;
             result.w[0] = 0;
             return result;

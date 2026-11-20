@@ -56,7 +56,7 @@ struct n64dk_r12 func_8002B318(proc_t *proc) {
     func_800161A8();
     func_80006E54(0, D_8005C1E8[proc->unk_30->data8002B318.step]);
     if (D_8005C33C[proc->unk_30->data8002B318.step] != 0) {
-        func_80009900((s32)&D_800B9544, D_8005C33C[proc->unk_30->data8002B318.step]);
+        func_80009900(D_800B9544, D_8005C33C[proc->unk_30->data8002B318.step]);
         func_80029440();
     }
     func_80011B24();

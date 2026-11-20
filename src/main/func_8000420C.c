@@ -18,7 +18,7 @@ void func_8000420C(void) {
     D_800A70C8.type = 5;
     osSetEventMesg(OS_EVENT_SI, &D_800B3970, (OSMesg)&D_800A70C8);
     if ((i = (s32)osContInit(&D_800B3970, &D_800B96C4, D_800A70A0)) != 0) {
-        func_80009F98((s32)"Failure initing controllers\n");
+        func_80009F98("Failure initing controllers\n");
     }
     i = 0;
     while (i < 4) {

@@ -13,9 +13,9 @@ s32 func_80007EEC(s32 arg0) {
     for (row = 0; row < 4; row++) {
         p = D_800B9559[row];
         while (p != 0) {
-            p = (u8 *)func_800099B0((s32)p, 43);
+            p = func_800099B0(p, 43);
             if (p != 0) {
-                c = D_800B9601[row][(s32)p - (s32)D_800B9559 - row * 21];
+                c = D_800B9601[row][p - D_800B9559[0] - row * 21];
                 switch (c) {
                 case 'A':
                 case 'E':

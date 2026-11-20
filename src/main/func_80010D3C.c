@@ -43,11 +43,11 @@ struct n64dk_r12 func_80010D3C(proc_t *proc) {
     while (row < 4) {
         p = &D_800B9601[row][proc->unk_30->data80010D3C.col];
         while (p != 0) {
-            p = (u8 *)func_800099B0((s32)p, c);
+            p = func_800099B0(p, c);
             if (p != 0) {
                 p++;
                 proc->unk_30->data80010D3C.row = row;
-                proc->unk_30->data80010D3C.col = (s32)p - (s32)D_800B9601 - row * 21;
+                proc->unk_30->data80010D3C.col = p - D_800B9601[0] - row * 21;
                 foundRow = proc->unk_30->data80010D3C.row;
                 foundCol = proc->unk_30->data80010D3C.col - 1;
                 switch (foundRow) {

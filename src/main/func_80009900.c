@@ -1,13 +1,13 @@
 #include "wof.h"
 
-s32 func_80009900(s32 arg0, s32 arg1) {
+u8 *func_80009900(u8 *arg0, u8 *arg1) {
     s32 i;
 
     i = 0;
-    while (((u8 *)arg1)[i] != 0) {
-        ((s8 *)arg0)[i] = ((u8 *)arg1)[i];
+    while (arg1[i] != 0) {
+        arg0[i] = arg1[i];
         i++;
     }
-    ((s8 *)arg0)[i] = ((u8 *)arg1)[i];
+    arg0[i] = arg1[i];
     return arg0;
 }

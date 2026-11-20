@@ -1,15 +1,15 @@
 #include "wof.h"
 
-void func_80006E54(s32 arg0, s32 arg1) {
+void func_80006E54(s32 arg0, u8 *arg1) {
     s32 line;
     s32 len;
     s32 col;
     s32 maxLen;
     s32 lines;
     s32 indent;
-    s32 text;
-    s32 p;
-    s32 buf[26];
+    u8 *text;
+    u8 *p;
+    u8 buf[104];
 
     for (len = 0; len < 3; len++) {
         D_800B9990[len].unk_000 = 0;
@@ -28,9 +28,9 @@ void func_80006E54(s32 arg0, s32 arg1) {
         D_800B9559[line][14] = 0;
     }
     if (arg1 == 0) {
-        func_80009900((s32)&D_800B9544, D_8004BB98[arg0].unk_04);
+        func_80009900(D_800B9544, D_8004BB98[arg0].unk_04);
         func_80006828(D_8004BB98[arg0].unk_00, buf, 101);
-        text = (s32)buf;
+        text = buf;
         if (D_800BCD54 != 3) {
             D_8004BB98[arg0].unk_08++;
         }
@@ -81,14 +81,14 @@ void func_80006E54(s32 arg0, s32 arg1) {
         if (col < 0) {
             col = 0;
         }
-        func_80009748((s32)&D_800B9601[line][col], text, len);
+        func_80009748(&D_800B9601[line][col], text, len);
         text = text + 1 + len;
         line++;
     }
     len = func_800099B0(text, 10) - text;
-    func_80009748((s32)D_800B9655, text, len);
+    func_80009748(D_800B9655, text, len);
     D_800B9655[len] = 0;
-    func_80009900((s32)&D_800B966A, (s32)&D_8004B9E0);
+    func_80009900(D_800B966A, D_8004B9E0);
     for (line = 0; line < 4; line++) {
         for (len = 0; len < 14; len++) {
             switch (D_800B9601[line][len]) {

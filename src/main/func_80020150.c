@@ -19,9 +19,9 @@ void func_80020150(obj_t *obj, frame_t *frame) {
             return;
         }
         func_80009D78(D_80107884->h_size);
-        func_80009F98((s32)"x");
+        func_80009F98("x");
         func_80009D78(D_80107884->v_size);
-        func_80009F98((s32)" ");
+        func_80009F98(" ");
         func_80009F38("Size Video Not Supported");
     }
 }

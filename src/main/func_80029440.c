@@ -9,7 +9,7 @@ void func_80029440(void) {
     proc_t *task;
     obj_t *sp24;
 
-    len = func_80009A74((s32)D_800B9544);
+    len = func_80009A74(D_800B9544);
     if (len >= 21) {
         func_80009F38("InitCategory: category strlen > 20");
     }

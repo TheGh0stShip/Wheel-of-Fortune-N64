@@ -11,7 +11,7 @@ void func_80026FD4(void) {
         D_800B9990[i].unk_014 = 4;
         D_800B9990[i].unk_018 = i;
         D_800BEDD8[i] = i;
-        func_80009900((s32)D_800B9990[i].unk_01C, (s32)D_8005A498[i]);
+        func_80009900(D_800B9990[i].unk_01C, D_8005A498[i]);
     }
     count = 0;
     i = 0;
