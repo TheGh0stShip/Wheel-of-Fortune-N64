@@ -1,0 +1,32 @@
+#!/bin/sh
+# wof -- run the project tool (tools/wof.c). From a Windows shell this re-enters WSL, where the compiler lives.
+here=$(cd "$(dirname "$0")" && pwd)
+if [ "$(uname -s)" != Linux ]; then
+    wslhere=$(printf '%s' "$here" | sed 's|^/\([a-zA-Z]\)/|/mnt/\L\1/|')
+    MSYS_NO_PATHCONV=1 exec wsl -d "${WOF_WSL_DISTRO:-Ubuntu}" -- sh "$wslhere/wof" "$@"
+fi
+cd "$here" || exit 2
+# Build output lives on the Linux filesystem: the Windows mount is too slow for hundreds of small objects.
+: "${WOF_BUILD:=$HOME/wof/build/$(printf '%s' "$here" | cksum | cut -d' ' -f1)}"
+export WOF_BUILD
+mkdir -p "$WOF_BUILD"
+if [ ! -x "$WOF_BUILD/wof" ] || [ tools/wof.c -nt "$WOF_BUILD/wof" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/wof" tools/wof.c || exit 2
+fi
+if [ ! -x "$WOF_BUILD/asn64" ] || [ tools/asn64.c -nt "$WOF_BUILD/asn64" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/asn64" tools/asn64.c || exit 2
+fi
+if [ -z "$WOF_ROM" ]; then
+    # a git worktree has no ROM of its own: fall back to the main checkout
+    main=$here
+    if [ -f .git ]; then
+        main=$(sed -n 's|^gitdir: \(.*\)/\.git/worktrees/.*|\1|p' .git | sed 's|^\([A-Za-z]\):|/mnt/\L\1|')
+    fi
+    for d in "$here" "$main"; do
+        for f in "$d"/*.z64 "$d"/*.n64 "$d"/*.v64; do
+            [ -f "$f" ] && WOF_ROM=$f && break 2
+        done
+    done
+    export WOF_ROM
+fi
+exec "$WOF_BUILD/wof" "$@"

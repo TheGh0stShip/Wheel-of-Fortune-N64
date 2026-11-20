@@ -1,0 +1,3 @@
+game	asn64	-O0 -g -G0 -mips3 -mgp32 -mfp32
+O2	asn64	-O2 -G0 -mips3 -mgp32 -mfp32
+donor	asn64	-O0 -g -G0 -mips3 -mgp32 -mfp32
