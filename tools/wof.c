@@ -1105,7 +1105,7 @@ static int cmd_diff(int argc, char **argv) {
 }
 
 /*
- * Find where an object's .text sits in the retail image. Fields a relocation fills are ignored, and so is the
+ * Find where an object's .text, or the data of an object without code, sits in the retail image. Fields a relocation fills are ignored, and so is the
  * alignment padding at the end of the section. Prints every address at which the rest is identical, then the
  * object's global functions at the first of them.
  */
@@ -1126,6 +1126,10 @@ static int cmd_locate(int argc, char **argv) {
             continue;
         }
         t = &u->sec[u->text];
+        if (!t->buf) {
+            printf("%-24s 0x%05X uninitialised data only: nothing to find\n", u->name, t->size);
+            continue;
+        }
         n = t->size / 4;
         word = calloc(n + 1, sizeof *word);
         mask = calloc(n + 1, sizeof *mask);
