@@ -3,7 +3,7 @@
 void func_8000E7D4(void) {
     proc_t *task;
     obj_t *obj;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     s32 i;
 
     D_800FB808 = 0;

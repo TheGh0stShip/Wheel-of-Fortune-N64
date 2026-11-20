@@ -3,7 +3,7 @@
 
 s32 func_80002CE0(s32 arg0) {
     f32 sp10;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     s32 slot;
 
     if (arg0 >= D_800A5090->soundCount) {

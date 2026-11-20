@@ -3,7 +3,7 @@
 void func_80025FA8(void) {
     s32 i;
     s32 j;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     s32 task;
 
     task = func_8000A56C((s32)func_800232AC, 0x5000000);

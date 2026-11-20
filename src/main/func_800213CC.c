@@ -2,9 +2,14 @@
 
 void func_800213CC(proc_t *proc) {
     s32 sp10;
-    s32 pad0;
-    s32 pad1[6];
-    s32 pad2;
+    s32 unused;  /* NOTE: unused in the original */
+    s32 unused2;  /* NOTE: unused in the original */
+    s32 unused3;  /* NOTE: unused in the original */
+    s32 unused4;  /* NOTE: unused in the original */
+    s32 unused5;  /* NOTE: unused in the original */
+    s32 unused6;  /* NOTE: unused in the original */
+    s32 unused7;  /* NOTE: unused in the original */
+    s32 unused8;  /* NOTE: unused in the original */
     s32 sp34;
 
     sp34 = 0x2000000;

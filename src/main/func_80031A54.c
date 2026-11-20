@@ -7,7 +7,7 @@ struct n64dk_r12 func_80031A54(s32 arg1) {
     s32 diff;
     s32 sp2C;
     s32 i;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     s16 *frame;
     s32 base;
 

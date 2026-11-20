@@ -2,7 +2,7 @@
 
 struct n64dk_r12 func_80017938(s32 arg1) {
     struct n64dk_r12 sp10;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     obj_t *cam;
 
     sp10.w[1] = 1;

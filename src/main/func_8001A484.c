@@ -1,7 +1,8 @@
 #include "wof.h"
 
 void func_8001A484(void) {
-    s32 pad0[2];
+    s32 unused;  /* NOTE: unused in the original */
+    s32 unused2;  /* NOTE: unused in the original */
     s32 i;
 
     func_8001A5D0();

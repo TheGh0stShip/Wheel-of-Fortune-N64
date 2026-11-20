@@ -4,7 +4,7 @@ void func_8003143C(s16 *arg0, s32 arg1) {
     s32 i;
     s32 j;
     s32 k;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     u16 *src;
     s16 *dst;
 

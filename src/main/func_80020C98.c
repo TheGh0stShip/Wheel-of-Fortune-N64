@@ -10,7 +10,7 @@ void func_80020C98(s32 arg0) {
     s16 *dst;
     s32 *mask;
     s32 bits;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     s32 base;
 
     base = 0x2000000;

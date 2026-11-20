@@ -2,7 +2,7 @@
 
 void func_80032BF0(void) {
     obj_t *obj;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     clip_t *slots;
     s32 i;
     s32 j;

@@ -7,9 +7,10 @@ void func_8001ED48(s32 arg0) {
     s32 k;
     s32 n;
     u16 *src;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     s16 *dst;
-    s32 pad1[2];
+    s32 unused2;  /* NOTE: unused in the original */
+    s32 unused3;  /* NOTE: unused in the original */
     s32 sp38;
 
     sp38 = 0x2000000;

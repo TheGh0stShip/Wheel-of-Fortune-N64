@@ -2,7 +2,7 @@
 
 void func_80021B4C(s32 arg0, s32 arg1, s16 *arg2, s32 *arg3) {
     s32 i;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     s32 sp18;
 
     if (D_80086D58 != 0) {

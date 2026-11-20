@@ -3,10 +3,11 @@
 s32 func_80033150(s32 arg0, s32 arg1, s32 arg2) {
     obj_t *obj;
     proc_t *other;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     clip_t *slots;
-    s32 pad1[2];
-    s32 pad2;
+    s32 unused2;  /* NOTE: unused in the original */
+    s32 unused3;  /* NOTE: unused in the original */
+    s32 unused4;  /* NOTE: unused in the original */
     s32 sp34;
 
     sp34 = 0x2000000;

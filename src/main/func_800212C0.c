@@ -2,9 +2,14 @@
 
 void func_800212C0(proc_t *proc) {
     s32 diff;
-    s32 pad0;
-    s32 pad1[6];
-    s32 pad2;
+    s32 unused;  /* NOTE: unused in the original */
+    s32 unused2;  /* NOTE: unused in the original */
+    s32 unused3;  /* NOTE: unused in the original */
+    s32 unused4;  /* NOTE: unused in the original */
+    s32 unused5;  /* NOTE: unused in the original */
+    s32 unused6;  /* NOTE: unused in the original */
+    s32 unused7;  /* NOTE: unused in the original */
+    s32 unused8;  /* NOTE: unused in the original */
     s32 base;
 
     base = 0x2000000;
