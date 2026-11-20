@@ -1,12 +1,10 @@
 #include "wof.h"
 
-extern proc_t D_800B82A0;
-
 void func_8000A664(void) {
     struct n64dk_r12 res;
     proc_t *task;
 
-    task = &D_800B82A0;
+    task = &D_800B82A0[0];
     while (task->next != 0) {
         task = task->next;
         if (task->unk_00 == 0) {

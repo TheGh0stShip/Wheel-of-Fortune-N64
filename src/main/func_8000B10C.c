@@ -1,13 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0xC];
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ u8 unk_10[0x44];
-} Node;
-
-extern Node D_800B40C8[];
-
 s32 func_8000B10C(void) {
     s32 i;
 

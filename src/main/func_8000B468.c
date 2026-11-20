@@ -1,11 +1,9 @@
 #include "wof.h"
 
-extern obj_t D_800B40C8;
-
 void func_8000B468(s32 arg0) {
     obj_t *node;
 
-    node = &D_800B40C8;
+    node = &D_800B40C8[0];
     while (node->next != 0) {
         node = node->next;
         if (node->unk_0C == 0) {

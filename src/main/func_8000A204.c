@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern proc_t D_800B82A0[];
-
 s32 func_8000A204(void) {
     s32 i;
 

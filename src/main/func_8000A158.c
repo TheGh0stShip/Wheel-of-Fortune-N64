@@ -1,12 +1,10 @@
 #include "wof.h"
 
-extern proc_t D_800B82A0;
-
 s32 func_8000A158(s32 arg0) {
     proc_t *cur;
     proc_t *prev;
 
-    prev = &D_800B82A0;
+    prev = &D_800B82A0[0];
     cur = prev->next;
     while (cur != 0) {
         if ((s32)cur == arg0) {

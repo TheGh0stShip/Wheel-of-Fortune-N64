@@ -1,11 +1,6 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x2C];
-    /* 0x2C */ f32 unk_2C;
-} Obj;
-
-typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 unk_04;
 } State;
@@ -14,7 +9,7 @@ typedef struct {
 struct n64dk_r12 func_80017DBC(s32 arg1) {
     struct n64dk_r12 result;
     s32 pad0;
-    Obj *obj;
+    obj_t *obj;
     s32 event;
 
     result.w[1] = 1;
@@ -59,7 +54,7 @@ struct n64dk_r12 func_80017DBC(s32 arg1) {
             D_800B9540 = 5000;
             func_8002A014();
         }
-        obj = (Obj *)func_8000B5DC(0x4010000, -1);
+        obj = (obj_t *)func_8000B5DC(0x4010000, -1);
         obj->unk_2C = D_8004B848[D_800B619C] - D_800581F4;
         obj->unk_2C = obj->unk_2C - 360.0f;
         result.w[1] = 2;

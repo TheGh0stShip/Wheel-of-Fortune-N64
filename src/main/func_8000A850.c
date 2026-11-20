@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern proc_t D_800B82A0;
-
 void func_8000A850(s32 arg0) {
     s32 pad0[4];
     proc_t *node;
@@ -10,7 +8,7 @@ void func_8000A850(s32 arg0) {
         func_80009F38("ProcPostEvent: bogus event\n");
         return;
     }
-    node = &D_800B82A0;
+    node = &D_800B82A0[0];
     while (node->next != 0) {
         node = node->next;
         if (node->unk_10 == arg0 || node->unk_10 == -1) {

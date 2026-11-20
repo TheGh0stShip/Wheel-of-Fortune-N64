@@ -1,12 +1,7 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x2C];
-    /* 0x2C */ f32 unk_2C;
-} Actor;
-
-typedef struct {
-    /* 0x00 */ Actor *actor;
+    /* 0x00 */ obj_t *actor;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ s32 unk_08;
 } State;
@@ -14,8 +9,8 @@ typedef struct {
 
 struct n64dk_r12 func_8000F274(s32 arg1) {
     struct n64dk_r12 result;
-    Actor *actor;
-    Actor *target;
+    obj_t *actor;
+    obj_t *target;
     f32 sp28;
     f32 sp2C;
     s32 sp30;
@@ -36,7 +31,7 @@ struct n64dk_r12 func_8000F274(s32 arg1) {
     actor = ((State *)((proc_t *)arg1)->unk_30)->actor;
     result.w[1] = 1;
     result.w[0] = 0;
-    target = (Actor *)func_8000B5DC(0x4010000, 0xFFFF0000);
+    target = (obj_t *)func_8000B5DC(0x4010000, 0xFFFF0000);
     if (target == 0) {
         return result;
     }
