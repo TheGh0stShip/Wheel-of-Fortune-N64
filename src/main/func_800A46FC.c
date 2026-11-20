@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 void func_800A46FC(void *arg0, s8 *arg1, s32 *arg2) {
     *arg1 = (((u8 *)arg0)[0] >> 3) & 1;

@@ -1,11 +1,12 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 typedef struct {
     /* 0x00 */ s16 coef[64];
     /* 0x80 */ s16 unk_80;
     /* 0x82 */ s16 unk_82;
     /* 0x84 */ s16 unk_84;
-} Block;
+} BlockView;
 
 typedef struct {
     /* 0x000 */ u8 unk_000[0x20];
@@ -22,7 +23,7 @@ typedef struct {
     /* 0x138 */ u8 unk_138[0x8];
     /* 0x140 */ s32 unk_140;
     /* 0x144 */ u8 unk_144[0x10];
-    /* 0x154 */ Block unk_154;
+    /* 0x154 */ BlockView unk_154;
     /* 0x1DA */ u8 unk_1DA[0x6];
     /* 0x1E0 */ s32 bitPos;
     /* 0x1E4 */ s32 *wordPtr;
@@ -42,7 +43,7 @@ extern VlcEntry D_800864A0[];
 extern VlcEntry D_800865A0[];
 
 void func_800964D0(s32 arg0, s32 arg1) {
-    Block *sp10;
+    BlockView *sp10;
     s32 sp14;
     s32 sp18;
     s32 sp1C;

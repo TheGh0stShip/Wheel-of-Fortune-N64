@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 void func_800A4888(u8 *arg0, s32 *arg1) {
     *arg1 = (arg0[0] & 0x7F & 0xFF) << 0xF;

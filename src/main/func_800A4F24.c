@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 
 f64 func_800A4F24(f64 arg0) {

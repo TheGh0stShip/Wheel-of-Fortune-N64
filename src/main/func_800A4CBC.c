@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 
 void func_800A4CBC(s32 arg0) {

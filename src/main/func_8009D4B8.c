@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 void func_8009D4B8(s32 arg0, s32 arg1) {
     register s32 *p;

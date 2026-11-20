@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 struct gd_4_s32 { u8 pad[0x4]; s32 v; };
 

@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 void func_8009D3D8(void) {
     s32 i;

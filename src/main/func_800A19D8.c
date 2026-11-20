@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 s32 func_800A19D8(u32 arg0) {
     if (arg0 == 0) {

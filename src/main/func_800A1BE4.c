@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 extern s32 *D_800FF2DC;
 extern s32 *D_800FF2E0;

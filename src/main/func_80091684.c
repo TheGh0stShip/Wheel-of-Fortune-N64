@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 typedef struct {
     /* 0x00 */ s32 plane[3];

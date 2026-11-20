@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 f64 func_80089490(void) {
     s32 sec;

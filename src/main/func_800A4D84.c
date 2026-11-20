@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 
 s32 func_800A4D84(s32 arg0, s32 arg1) {

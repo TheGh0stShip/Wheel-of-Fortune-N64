@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 typedef struct {
     /* 0x000 */ s32 unk_000;

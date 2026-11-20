@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "mpeg/proto.h"
 
 s32 func_800A38F8(s32 arg0) {
 restart:
