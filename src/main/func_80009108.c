@@ -1,5 +1,4 @@
-typedef signed int s32;
-typedef float f32;
+#include "wof.h"
 
 extern f32 D_800007CC;
 extern s32 D_800BEDA8;

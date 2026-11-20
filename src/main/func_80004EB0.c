@@ -1,5 +1,5 @@
-typedef signed short s16;
-typedef signed int s32;
+#include "wof.h"
+
 typedef s32 M2C_UNK;
 M2C_UNK osSendMesg();      /* extern */
 extern s16 D_800BCA30;

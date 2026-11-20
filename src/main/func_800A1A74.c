@@ -1,4 +1,5 @@
-typedef unsigned int u32;
+#include "wof.h"
+
 u32 func_800A1A74(u32 arg0) {
     if (arg0 == 0) {
         return 0U;

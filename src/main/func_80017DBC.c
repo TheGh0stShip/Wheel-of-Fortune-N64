@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef signed int s32;
-typedef float f32;
+#include "wof.h"
 
 struct n64dk_r12 { s32 w[3]; };
 

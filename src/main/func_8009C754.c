@@ -1,7 +1,5 @@
-typedef signed short s16;
-typedef unsigned short u16;
-typedef signed int s32;
-typedef double f64;
+#include "wof.h"
+
 extern f64 D_800880C0;
 extern f64 D_800FD098[][8];
 f64 func_800A4F24(f64 arg0);

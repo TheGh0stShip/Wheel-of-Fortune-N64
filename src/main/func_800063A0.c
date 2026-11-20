@@ -1,4 +1,5 @@
-typedef signed int s32;
+#include "wof.h"
+
 typedef s32 M2C_UNK;
 M2C_UNK osCreatePiManager(); /* extern */
 M2C_UNK osCreateThread(); /* extern */

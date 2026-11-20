@@ -1,5 +1,5 @@
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
+
 struct n64dk_r12 { s32 w[3]; };
 struct gd_4_s32 { u8 pad[0x4]; s32 v; };
 struct gd_30_s32 { u8 pad[0x30]; s32 v; };

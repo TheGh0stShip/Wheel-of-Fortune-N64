@@ -1,9 +1,4 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed int s32;
-typedef float f32;
-typedef double f64;
+#include "wof.h"
 
 typedef struct {
     /* 0x00 */ u16 button;

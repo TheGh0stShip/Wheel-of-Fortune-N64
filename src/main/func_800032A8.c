@@ -1,10 +1,5 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed short s16;
-typedef signed int s32;
-typedef unsigned int u32;
-typedef float f32;
-typedef double f64;
+#include "wof.h"
+
 struct gd_4_s32 { u8 pad[0x4]; s32 v; };
 struct gd_8_s32 { u8 pad[0x8]; s32 v; };
 struct gd_10_s32 { u8 pad[0x10]; s32 v; };

@@ -1,6 +1,4 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
 
 void func_800A46FC(void *arg0, s8 *arg1, s32 *arg2) {
     *arg1 = (((u8 *)arg0)[0] >> 3) & 1;

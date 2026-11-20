@@ -1,3 +1,5 @@
+#include "wof.h"
+
 void func_8009A038(void);
 void func_8009A7D0(void);
 void func_8009AF48(void);

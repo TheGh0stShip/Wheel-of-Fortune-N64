@@ -1,5 +1,5 @@
-typedef signed int s32;
-typedef double f64;
+#include "wof.h"
+
 extern f64 D_80087E98;
 s32 func_800A4F74(s32 arg0, ...);
 

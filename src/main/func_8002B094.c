@@ -1,5 +1,5 @@
-typedef signed char s8;
-typedef signed int s32;
+#include "wof.h"
+
 struct n64dk_r12 { s32 w[3]; };
 extern s32 D_800B96A8;
 extern s32 D_800B96B4;

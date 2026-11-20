@@ -1,5 +1,5 @@
-typedef signed int s32;
-typedef unsigned int u32;
+#include "wof.h"
+
 extern s32 D_800B8290;
 extern s32 D_800B9984;
 extern s32 D_800BCA04;

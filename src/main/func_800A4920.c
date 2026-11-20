@@ -1,7 +1,5 @@
-typedef unsigned char u8;
-typedef signed int s32;
-typedef unsigned int u32;
-typedef double f64;
+#include "wof.h"
+
 extern f64 D_80088588;
 extern f64 D_80088590;
 extern f64 D_800885A0;

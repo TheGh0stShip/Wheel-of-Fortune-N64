@@ -1,4 +1,4 @@
-game	asn64	-O0 -g -G0 -mips3 -mgp32 -mfp32
+game	asn64	-I $WOF_BUILD/include -O0 -g -G0 -mips3 -mgp32 -mfp32
 ultra_O1	ido	-Wab,-r4300_mul -G 0 -nostdinc -Xcpluscomm -fullwarn -woff 516,649,838,712 -mips2 -o32 -non_shared -D_MIPS_SZLONG=32 -DF3DEX_GBI -DBUILD_VERSION=VERSION_H -DBUILD_VERSION_STRING=\"2.0H\" -DNDEBUG -D_FINALROM -O1 -I $WOF_BUILD/lib/ultralib/include -I $WOF_BUILD/lib/ultralib/include/compiler/ido -I $WOF_BUILD/lib/ultralib/include/PR
 ultra_O3	ido	-Wab,-r4300_mul -G 0 -nostdinc -Xcpluscomm -fullwarn -woff 516,649,838,712 -mips2 -o32 -non_shared -D_MIPS_SZLONG=32 -DF3DEX_GBI -DBUILD_VERSION=VERSION_H -DBUILD_VERSION_STRING=\"2.0H\" -DNDEBUG -D_FINALROM -O3 -I $WOF_BUILD/lib/ultralib/include -I $WOF_BUILD/lib/ultralib/include/compiler/ido -I $WOF_BUILD/lib/ultralib/include/PR
 ultra_ll	ido	-Wab,-r4300_mul -G 0 -nostdinc -Xcpluscomm -fullwarn -woff 516,649,838,712 -mips3 -32 -non_shared -D_MIPS_SZLONG=32 -DF3DEX_GBI -DBUILD_VERSION=VERSION_H -DBUILD_VERSION_STRING=\"2.0H\" -DNDEBUG -D_FINALROM -O1 -I $WOF_BUILD/lib/ultralib/include -I $WOF_BUILD/lib/ultralib/include/compiler/ido -I $WOF_BUILD/lib/ultralib/include/PR

@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
 
 s32 func_800099B0(s32 arg0, s32 arg1) {
     s32 i;

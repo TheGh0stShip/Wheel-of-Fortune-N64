@@ -11,6 +11,11 @@ cd "$here" || exit 2
 : "${WOF_BUILD:=$HOME/wof/build/$(printf '%s' "$here" | cksum | cut -d' ' -f1)}"
 export WOF_BUILD
 mkdir -p "$WOF_BUILD"
+# The original cpp is a 32-bit program: it cannot #include a file from a Windows mount, where stat() fails on
+# the 64-bit inode numbers ("Value too large for defined data type"). Headers are therefore read from a copy
+# in the build directory, which config/flags.tsv names as $WOF_BUILD/include.
+rm -rf "$WOF_BUILD/include"
+[ -d include ] && cp -r include "$WOF_BUILD/include"
 if [ ! -x "$WOF_BUILD/wof" ] || [ tools/wof.c -nt "$WOF_BUILD/wof" ]; then
     cc -O2 -Wall -o "$WOF_BUILD/wof" tools/wof.c || exit 2
 fi

@@ -1,4 +1,5 @@
-typedef signed int s32;
+#include "wof.h"
+
 typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;

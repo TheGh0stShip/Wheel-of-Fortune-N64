@@ -1,4 +1,5 @@
-typedef signed int s32;
+#include "wof.h"
+
 extern s32 D_80000E10;
 extern s32 D_800579F0;
 extern s32 D_80057A20;

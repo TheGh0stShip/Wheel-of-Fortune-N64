@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
 
 typedef struct {
     /* 0x00 */ s32 w0;

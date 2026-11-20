@@ -1,6 +1,5 @@
-typedef unsigned short u16;
-typedef signed int s32;
-typedef unsigned long long u64;
+#include "wof.h"
+
 struct n64dk_r12 { s32 w[3]; };
 extern u64 D_80084218;
 extern u16 D_800B96B0;

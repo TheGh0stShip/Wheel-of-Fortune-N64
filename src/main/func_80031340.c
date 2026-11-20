@@ -1,6 +1,5 @@
-typedef signed short s16;
-typedef unsigned short u16;
-typedef signed int s32;
+#include "wof.h"
+
 extern s16 D_800C9B60[][0x1000];
 extern s16 D_800E7FE0[][0x1000];
 

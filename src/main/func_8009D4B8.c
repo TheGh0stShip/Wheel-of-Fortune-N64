@@ -1,7 +1,5 @@
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned short u16;
-typedef signed int s32;
+#include "wof.h"
+
 void func_8009D67C(s32 arg0);
 
 void func_8009D4B8(s32 arg0, s32 arg1) {
