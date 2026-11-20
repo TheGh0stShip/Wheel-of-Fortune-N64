@@ -5,12 +5,6 @@ typedef struct {
     /* 0x04 */ s32 unk_04;
 } DlPair;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x1C];
-} Entry;
-
-extern Entry D_800B39D4[];
 extern DlPair *D_80057F08[];
 
 void func_80014F38(s32 arg0, s32 arg1) {
@@ -45,7 +39,7 @@ void func_80014F38(s32 arg0, s32 arg1) {
         gfx->words.w1 = 0xC8C8C8FF;
         i = 0;
         while (i < 24) {
-            if (D_800B39D4[i].unk_00 != 0 && D_80057F08[D_800B619C][i].unk_04 != 0) {
+            if (D_800B39B8[i].unk_1C != 0 && D_80057F08[D_800B619C][i].unk_04 != 0) {
                 gfx = D_800B81E8++;
                 gfx->words.w0 = 0x6000000;
                 gfx->words.w1 = D_80057F08[D_800B619C][i].unk_04;

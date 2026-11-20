@@ -8,15 +8,6 @@ typedef struct {
     /* 0x10 */ u8 letter;
 } Data;
 
-typedef struct {
-    /* 0x00 */ s32 color;
-    /* 0x04 */ u8 unk_04[0x18];
-} Tile;
-
-extern Tile D_800B9D20[];
-extern Tile D_800B9E70[];
-extern Tile D_800B9FF8[];
-extern Tile D_800BA180[];
 
 struct n64dk_r12 func_80010574(s32 arg1) {
     struct n64dk_r12 ret;
@@ -82,16 +73,16 @@ struct n64dk_r12 func_80010574(s32 arg1) {
                 }
                 switch (row) {
                 case 0:
-                    D_800B9D20[col].color = 0x1111AAFF;
+                    D_800B9D0C[col].unk_14 = 0x1111AAFF;
                     break;
                 case 1:
-                    D_800B9E70[col].color = 0x1111AAFF;
+                    D_800B9E5C[col].unk_14 = 0x1111AAFF;
                     break;
                 case 2:
-                    D_800B9FF8[col].color = 0x1111AAFF;
+                    D_800B9FE4[col].unk_14 = 0x1111AAFF;
                     break;
                 case 3:
-                    D_800BA180[col].color = 0x1111AAFF;
+                    D_800BA16C[col].unk_14 = 0x1111AAFF;
                     break;
                 }
                 func_80002CE0(2);

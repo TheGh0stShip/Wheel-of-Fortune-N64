@@ -9,14 +9,6 @@ typedef struct {
     /* 0x14 */ f32 unk_14;
 } Data;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-} Entry;
-
-extern Entry D_80057808[];
-
 void func_8000E7D4(void) {
     proc_t *task;
     obj_t *obj;

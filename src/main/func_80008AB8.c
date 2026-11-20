@@ -1,14 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 value;
-    /* 0x04 */ s8 name[0x14];
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ s32 unk_1C;
-} Wedge;
-
-extern Wedge D_800B39B8[];
-
 void func_80008AB8(void) {
     s32 i;
     s32 value;
@@ -32,33 +23,33 @@ void func_80008AB8(void) {
         D_800B39B8[i].unk_1C = 0;
         if (value == -10000) {
             if (D_800B9538 != 0) {
-                D_800B39B8[i].value = -1;
+                D_800B39B8[i].unk_00 = -1;
                 func_80009900((s32)D_800B39B8[i].name, (s32)"BANKRUPT");
                 D_800B39B8[i].unk_18 = 0;
                 D_800B39B8[i].unk_1C = 1;
             } else {
-                D_800B39B8[i].value = value;
+                D_800B39B8[i].unk_00 = value;
                 func_80009900((s32)D_800B39B8[i].name, (s32)"10000");
                 D_800B39B8[i].unk_18 = 1;
             }
         } else if (value < -4) {
-            D_800B39B8[i].value = value;
+            D_800B39B8[i].unk_00 = value;
             func_80009900((s32)D_800B39B8[i].name, (s32)"FREE SPIN");
             D_800B39B8[i].unk_18 = 1;
         } else if (value == -1) {
-            D_800B39B8[i].value = -1;
+            D_800B39B8[i].unk_00 = -1;
             func_80009900((s32)D_800B39B8[i].name, (s32)"BANKRUPT");
             D_800B39B8[i].unk_18 = 0;
         } else if (value == -2) {
-            D_800B39B8[i].value = -2;
+            D_800B39B8[i].unk_00 = -2;
             func_80009900((s32)D_800B39B8[i].name, (s32)"LOOSE TURN");
             D_800B39B8[i].unk_18 = 0;
         } else if (value == -3) {
-            D_800B39B8[i].value = -3;
+            D_800B39B8[i].unk_00 = -3;
             func_80009900((s32)D_800B39B8[i].name, (s32)"JACKPOT");
             D_800B39B8[i].unk_18 = 1;
         } else {
-            D_800B39B8[i].value = value;
+            D_800B39B8[i].unk_00 = value;
             func_80009AE0((s32)D_800B39B8[i].name, value);
             D_800B39B8[i].unk_18 = 0;
         }

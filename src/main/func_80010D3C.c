@@ -8,15 +8,6 @@ typedef struct {
     /* 0x14 */ u8 *text;
 } Cursor;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x18];
-} Slot;
-
-extern Slot D_800B9D20[];
-extern Slot D_800B9E70[];
-extern Slot D_800B9FF8[];
-extern Slot D_800BA180[];
 
 struct n64dk_r12 func_80010D3C(s32 arg1) {
     struct n64dk_r12 result;
@@ -69,16 +60,16 @@ struct n64dk_r12 func_80010D3C(s32 arg1) {
                 foundCol = ((Cursor *)((proc_t *)arg1)->unk_30)->col - 1;
                 switch (foundRow) {
                 case 0:
-                    D_800B9D20[foundCol].unk_00 = 0x1111AAFF;
+                    D_800B9D0C[foundCol].unk_14 = 0x1111AAFF;
                     break;
                 case 1:
-                    D_800B9E70[foundCol].unk_00 = 0x1111AAFF;
+                    D_800B9E5C[foundCol].unk_14 = 0x1111AAFF;
                     break;
                 case 2:
-                    D_800B9FF8[foundCol].unk_00 = 0x1111AAFF;
+                    D_800B9FE4[foundCol].unk_14 = 0x1111AAFF;
                     break;
                 case 3:
-                    D_800BA180[foundCol].unk_00 = 0x1111AAFF;
+                    D_800BA16C[foundCol].unk_14 = 0x1111AAFF;
                     break;
                 }
                 func_80002CE0(2);

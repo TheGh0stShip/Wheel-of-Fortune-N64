@@ -1,19 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ u8 unk_0C[0x8];
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ u8 unk_18[0x4];
-} Entry;
-
-extern Entry D_800B9D0C[];
-extern Entry D_800B9E5C[];
-extern Entry D_800B9FE4[];
-extern Entry D_800BA16C[];
-
 void func_80011B24(void) {
     s32 i;
 

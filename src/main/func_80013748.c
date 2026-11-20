@@ -1,12 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x14];
-} Layer;
-
-extern Layer D_80057BB0[];
-
 void func_80013748(s32 arg0, s32 arg1) {
     s32 i;
     s32 j;

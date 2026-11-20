@@ -6,12 +6,6 @@ typedef struct {
     /* 0x08 */ s32 unk_08;
 } Data;
 
-typedef struct {
-    /* 0x00 */ f32 unk_00;
-    /* 0x04 */ u8 unk_04[0x8];
-} Scale;
-
-extern Scale D_80057810[];
 
 struct n64dk_r12 func_8000C6C4(s32 arg1) {
     f32 mtx[4][4];
@@ -36,7 +30,7 @@ struct n64dk_r12 func_8000C6C4(s32 arg1) {
         }
     }
     index = ((Data *)((proc_t *)arg1)->unk_30)->unk_08;
-    guTranslateF(mtx, (f32)D_800BEE24 * D_80057810[index].unk_00, (f32)D_800BEE24, 0);
+    guTranslateF(mtx, (f32)D_800BEE24 * D_80057808[index].unk_08, (f32)D_800BEE24, 0);
     guRotateRPYF(rot, -61.317f, 58.385f, -9.848f);
     guMtxCatF(mtx, rot, mtx);
     pos->x = (s32)mtx[3][0];

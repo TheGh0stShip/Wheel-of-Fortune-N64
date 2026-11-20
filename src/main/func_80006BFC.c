@@ -1,16 +1,10 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x8];
-} EntryA;
-
-typedef struct {
     /* 0x00 */ s32 base;
     /* 0x04 */ s32 range;
 } Range;
 
-extern EntryA D_8004BBA0[];
 extern Range D_B025D810[];
 
 void func_80006BFC(void) {
@@ -43,7 +37,7 @@ void func_80006BFC(void) {
     }
     i = D_B025D810[kind].base + func_80009C98(D_B025D810[kind].range);
     if (D_800BCD54 != 3) {
-        while (D_8004BBA0[i].unk_00 != 0) {
+        while (D_8004BB98[i].unk_08 != 0) {
             i = D_B025D810[kind].base + func_80009C98(D_B025D810[kind].range);
         }
     }

@@ -132,6 +132,48 @@ typedef struct {
     /* 0x0C */ s32 unk_0C;
 } rumble_t;    // size 0x10
 
+// One wedge of the wheel: D_800B39B8[].
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s8 name[0x14];
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ s32 unk_1C;
+} wedge_t;    // size 0x20
+
+// One puzzle of the built-in list: D_8004BB98[].
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+} puzzle_t;    // size 0xC
+
+// The entries of D_80057808[]; what they describe is not known yet.
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ f32 unk_08;
+} data80057808_t;    // size 0xC
+
+// The entries of D_80057BB0[].
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ u8 unk_10[0x8];
+} layer_t;    // size 0x18
+
+// One square of the puzzle board. The four rows are D_800B9D0C[12], D_800B9E5C[14],
+// D_800B9FE4[14] and D_800BA16C[12].
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ u8 unk_0C[0x8];
+    /* 0x14 */ s32 unk_14;
+    /* 0x18 */ u8 unk_18[0x4];
+} tile_t;    // size 0x1C
+
 //
 // addresses in segment 1, the display list and texture data the game loads: only their
 // addresses are used, so the s32 is a placeholder for data of a kind not known yet
@@ -254,7 +296,9 @@ extern s32 D_8004B980[];
 extern s32 D_8004B9E0;
 extern s8 D_8004B9FC[];
 extern s8 D_8004BA04[];
+extern puzzle_t D_8004BB98[];
 extern s32 D_80057800;
+extern data80057808_t D_80057808[];
 extern s32 D_800578B0[];
 extern s32 D_80057910[];
 extern s32 D_80057970[][3];
@@ -266,6 +310,7 @@ extern s32 D_80057A58;
 extern s32 D_80057A68[];
 extern s32 D_80057A90;
 extern s32 D_80057B50[][8];
+extern layer_t D_80057BB0[];
 extern s32 D_80057F24[];
 extern s32 D_80057F34[];
 extern f32 D_80057F44;
@@ -409,6 +454,7 @@ extern s32 D_800B3970;
 extern s32 D_800B3988;
 extern s32 D_800B3990;
 extern s32 D_800B3994;
+extern wedge_t D_800B39B8[];
 extern s32 D_800B3CB8;
 extern s32 D_800B3CC0;
 extern s32 D_800B40C0;
@@ -487,9 +533,13 @@ extern s32 D_800B9CFC;
 extern s32 D_800B9D00;
 extern s32 D_800B9D04;
 extern s32 D_800B9D08;
+extern tile_t D_800B9D0C[];
 extern s32 D_800B9E58;
+extern tile_t D_800B9E5C[];
 extern s32 D_800B9FE0;
+extern tile_t D_800B9FE4[];
 extern s32 D_800BA168;
+extern tile_t D_800BA16C[];
 extern s32 D_800BA2BC;
 extern s32 D_800BA2C0;
 extern s32 D_800BA2C8;

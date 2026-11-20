@@ -1,15 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x18];
-} Entry;
-
-extern Entry D_800B9D0C[];
-extern Entry D_800B9E5C[];
-extern Entry D_800B9FE4[];
-extern Entry D_800BA16C[];
-
 void func_8001142C(s32 arg0, s32 arg1, u8 arg2) {
     if (arg2 < 65 || arg2 >= 91) {
         return;

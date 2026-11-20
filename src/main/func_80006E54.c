@@ -1,13 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-} Puzzle;
-
-extern Puzzle D_8004BB98[];
-
 void func_80006E54(s32 arg0, s32 arg1) {
     s32 line;
     s32 len;
