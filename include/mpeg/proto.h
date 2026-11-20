@@ -27,7 +27,6 @@ VidStream *func_800895C4( unsigned int buffer_len );
 void func_80089898( VidStream *vid );
 PictImage *func_80089984( VidStream *vid_stream, XInfo *xinfo );
 
-extern unsigned char D_800FB898[];
 
 // libc.c
 void func_800A4C04( void *ptr );
@@ -78,10 +77,9 @@ void func_800962DC( VidStream *vid_stream, XInfo *xinfo );
 void func_8009646C( BOOLEAN val );
 void func_8009649C( BOOLEAN val );
 
-extern int D_80085308;
-extern int D_8008530C;
 
 extern const int D_80087C98[64];
+extern const int D_80087D98[8][8];
 
 // parseblock.c
 void func_800964D0( int n, VidStream *vid_stream );
