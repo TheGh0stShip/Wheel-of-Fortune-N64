@@ -8,7 +8,7 @@ void func_80012838(tile_t *tiles, s32 count, s32 arg2) {
     if (D_800BCD54 != 6) {
         for (i = 0; i < count; i++) {
             if (arg2 != 0) {
-                if (tiles[i].unk_04 == &D_010A2B88) {
+                if (tiles[i].unk_04 == D_010A2B88) {
                     func_80005300(2);
                     gfx = D_800B81E8++;
                     gfx->words.w0 = 0xE7000000;
@@ -17,7 +17,7 @@ void func_80012838(tile_t *tiles, s32 count, s32 arg2) {
                     gfx->words.w0 = 0x6000000;
                     gfx->words.w1 = tiles[i].unk_00;
                 }
-            } else if (tiles[i].unk_04 != &D_010A2B88) {
+            } else if (tiles[i].unk_04 != D_010A2B88) {
                 gfx = D_800B81E8++;
                 gfx->words.w0 = 0xBC00200A;
                 gfx->words.w1 = func_8001277C(&tiles[i]);

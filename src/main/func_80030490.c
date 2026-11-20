@@ -20,7 +20,7 @@ void func_80030490(s32 arg0, s32 arg1) {
     gfx->words.w1 = (s32)&((frame_t *)arg1)->rotate[((obj_t *)arg0)->index];
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x6000000;
-    gfx->words.w1 = (s32)&D_010219C8;
+    gfx->words.w1 = (s32)D_010219C8;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xBB000001;
     gfx->words.w1 = -1;

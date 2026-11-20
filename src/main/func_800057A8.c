@@ -28,16 +28,16 @@ void func_800057A8(gfxInfo_t *info) {
     gfx->words.w1 = osVirtualToPhysical(frame);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x6000000;
-    gfx->words.w1 = (s32)&D_01021948;
+    gfx->words.w1 = (s32)D_01021948;
     if (D_8004B830 != 0) {
         gfx = D_800B81E8++;
         gfx->words.w0 = 0x6000000;
-        gfx->words.w1 = (s32)&D_010217E0;
+        gfx->words.w1 = (s32)D_010217E0;
         D_8004B830 = 0;
     }
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x6000000;
-    gfx->words.w1 = (s32)&D_010218C8;
+    gfx->words.w1 = (s32)D_010218C8;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xFE000000;
     gfx->words.w1 = osVirtualToPhysical((s32)&D_8038F800);

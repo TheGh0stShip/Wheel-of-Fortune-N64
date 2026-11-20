@@ -369,8 +369,8 @@ typedef struct {
 // D_800B9FE0[14] and D_800BA168[12].
 typedef struct {
     /* 0x00 */ s32 unk_00;      // its display list
-    /* 0x04 */ s32 *unk_04;     // the picture it shows
-    /* 0x08 */ s32 *unk_08;     // the picture of its letter, shown once the square is turned
+    /* 0x04 */ u8  *unk_04;     // the picture it shows
+    /* 0x08 */ u8  *unk_08;     // the picture of its letter, shown once the square is turned
     /* 0x0C */ s32 unk_0C;      // not 0: it blinks
     /* 0x10 */ s32 unk_10;      // the frames one blink takes
     /* 0x14 */ s32 unk_14;      // the frames left of this blink
@@ -626,8 +626,10 @@ typedef struct {
 } data80034028_t;    // size 0x24
 
 //
-// addresses in segment 1, the display list and texture data the game loads: only their
-// addresses are used, so the s32 is a placeholder for data of a kind not known yet
+// Addresses in segment 1, the display list and picture data the game loads. A Gfx one is a
+// display list, from what draws it; a u8 one a picture of four bits a pixel, a u16 one a picture
+// of sixteen, from the texture image command they are given to. Of an s32 one only the address
+// is used in a way that does not tell: the s32 is a placeholder.
 //
 extern s32 D_01010FA0;
 extern s32 D_01017550;
@@ -636,11 +638,11 @@ extern s32 D_01017750;
 extern s32 D_010178D0;
 extern s32 D_01017A50;
 extern s32 D_01017BD0;
-extern s32 D_010217E0;
-extern s32 D_010218C8;
-extern s32 D_01021948;
+extern Gfx D_010217E0[];
+extern Gfx D_010218C8[];
+extern Gfx D_01021948[];
 extern s32 D_01021970;
-extern s32 D_010219C8;
+extern Gfx D_010219C8[];
 extern s32 D_01021A20;
 extern s32 D_01021A70;
 extern s32 D_01021AC8;
@@ -660,43 +662,43 @@ extern s32 D_010920D8;
 extern s32 D_01092120;
 extern s32 D_01092168;
 extern s32 D_01093D50;
-extern s32 D_010A1B88;
-extern s32 D_010A1F88;
-extern s32 D_010A2388;
-extern s32 D_010A2788;
-extern s32 D_010A2B88;
-extern s32 D_010A3388;
-extern s32 D_010A3788;
+extern u8 D_010A1B88[];
+extern u8 D_010A1F88[];
+extern u8 D_010A2388[];
+extern u8 D_010A2788[];
+extern u8 D_010A2B88[];
+extern u8 D_010A3388[];
+extern u8 D_010A3788[];
 extern s32 D_010A6098;
 extern s32 D_010B3728;
 extern s32 D_010E3748;
 extern s32 D_010E4260;
-extern s32 D_010FA038;
+extern Gfx D_010FA038[];
 extern s32 D_0112BBA8;
-extern s32 D_011356C0;
+extern Gfx D_011356C0[];
 extern s32 D_01135878;
-extern s32 D_011358C0;
-extern s32 D_01135908;
+extern Gfx D_011358C0[];
+extern Gfx D_01135908[];
 extern s32 D_01135FF8;
 extern s32 D_01136080;
 extern s32 D_01136108;
-extern s32 D_0113A9B0;
-extern s32 D_0113A9D0;
+extern Gfx D_0113A9B0[];
+extern Gfx D_0113A9D0[];
 extern s32 D_0113AD08;
 extern s32 D_0113AD28;
 extern s32 D_0113AD48;
 extern s32 D_0113AE28;
 extern s32 D_01146E68;
-extern s32 D_01157868;
-extern s32 D_01158068;
-extern s32 D_01158868;
-extern s32 D_01159068;
-extern s32 D_01159868;
-extern s32 D_0115B068;
-extern s32 D_0115B868;
-extern s32 D_0115C068;
-extern s32 D_0115C868;
-extern s32 D_0115D068;
+extern u16 D_01157868[];
+extern u16 D_01158068[];
+extern u16 D_01158868[];
+extern u16 D_01159068[];
+extern u16 D_01159868[];
+extern u16 D_0115B068[];
+extern u16 D_0115B868[];
+extern u16 D_0115C068[];
+extern u16 D_0115C868[];
+extern u16 D_0115D068[];
 extern s32 D_01166598;
 extern s32 D_01166928;
 extern s32 D_01166BF8;
@@ -705,7 +707,7 @@ extern s32 D_0116C028;
 extern s32 D_01176C88;
 extern s32 D_01176CC8;
 extern s32 D_01176D08;
-extern s32 D_01197D78;
+extern Gfx D_01197D78[];
 
 //
 // string literals that cannot be written as literals until their unit is merged: the unit's
@@ -748,7 +750,7 @@ extern s32 D_800578B0[];
 extern s32 D_80057910[];
 extern s32 D_80057970[][3];
 extern s32 D_80057988[];
-extern s32 *D_800579BC[];           // the pictures of the letters, by character
+extern u8 *D_800579BC[];           // the pictures of the letters, by character
 extern s32 D_800579F0[];            // D_800579F0 to D_80057A90: the display lists of the squares of each row
 extern s32 D_80057A20[];
 extern s32 D_80057A58[];

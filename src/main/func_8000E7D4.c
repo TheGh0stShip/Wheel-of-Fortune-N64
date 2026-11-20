@@ -20,10 +20,10 @@ void func_8000E7D4(void) {
         obj->unk_3C = D_80057808[i].unk_04;
     }
     task = (proc_t *)func_8000A56C((s32)func_8000C310, 0x8010000);
-    obj = func_80015848(task, (s32)&D_011356C0, (s32)func_8000D8B8, 0x8010000);
+    obj = func_80015848(task, (s32)D_011356C0, (s32)func_8000D8B8, 0x8010000);
     obj->y = -20;
     task = (proc_t *)func_8000A56C((s32)func_8000BEA8, 0x8000000);
-    obj = func_80015848(task, (s32)&D_01197D78, (s32)func_8000D400, 0x8010000);
+    obj = func_80015848(task, (s32)D_01197D78, (s32)func_8000D400, 0x8010000);
     ((data8000BEA8_t *)task->unk_30)->unk_0C = -272.0f;
     ((data8000BEA8_t *)task->unk_30)->unk_10 = 306.0f;
     ((data8000BEA8_t *)task->unk_30)->unk_14 = -411.0f;
