@@ -8,7 +8,7 @@ void func_8002500C(void) {
         D_800BEDD8[i] = D_800B9990[i].unk_018;
     }
     func_80023200();
-    switch (D_80058E88) {
+    switch (D_80058E70[0].sel) {
     case 0:
         D_800B8298 = 0.3f;
         break;
@@ -18,5 +18,5 @@ void func_8002500C(void) {
     case 2:
         D_800B8298 = 0.9f;
     }
-    D_800B96C0 = D_80058FE0 + 3;
+    D_800B96C0 = D_80058FC8[0].sel + 3;
 }

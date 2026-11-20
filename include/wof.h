@@ -159,6 +159,30 @@ typedef struct {
     /* 0x24 */ s32 unk_24;
 } image_t;    // size 0x28
 
+
+// One line of a menu: a label, and options of which one is chosen. A line holds numbers of
+// pictures in the image_t table of its menu. The menus are D_800584C8[4], D_80058868[2],
+// D_80058AA8[4], D_80058E70[2] and D_80058FC8[2].
+typedef struct {
+    /* 0x00 */ s32  unk_00;                     // 0: the cursor passes the line by
+    /* 0x04 */ s32  unk_04;                     // the first picture of the label
+    /* 0x08 */ s32  unk_08;                     // how many pictures the label has
+    /* 0x0C */ s32  unk_0C;                     // the first picture of the first option
+    /* 0x10 */ s32  rows;                       // how many options
+    /* 0x14 */ s32  cols;                       // how many pictures an option has
+    /* 0x18 */ s32  sel;                        // the chosen option
+    /* 0x1C */ void ( *callback )( s32 line );  // called when the cursor comes to the line
+} menuItem_t;    // size 0x20
+
+// The data of the procs that run a menu (handlers func_800232AC, func_80023CA4, func_80024370,
+// func_80024868 and func_80025150), and of the four helpers that move its cursor. The name is
+// from the ROM message "MainMenu1 Proc: button press invalid".
+typedef struct {
+    /* 0x00 */ u8  unk_00[0x4];
+    /* 0x04 */ s32 sel;         // the chosen option of the line the cursor is on
+    /* 0x08 */ s32 index;       // the line the cursor is on
+    /* 0x0C */ s32 delay;       // frames until the stick moves the cursor again
+} mainMenu_t;    // size 0x10
 // three coordinates: where func_800323C4 puts a contestant's obj
 typedef struct {
     /* 0x00 */ s32 unk_00;
@@ -714,22 +738,17 @@ extern s32 D_800581FC[];
 extern s32 D_80058208;
 extern s32 D_80058220;
 extern s32 D_80058488;
-extern s32 D_800584E8;
-extern s32 D_80058508;
-extern s32 D_80058528;
+extern s32 D_800584A0[][2];         // [5], x and y of pictures 2 to 6 of the first menu
+extern menuItem_t D_800584C8[];
 extern image_t D_80058548[];
-extern s32 D_80058880;
-extern s32 D_80058888;
+extern menuItem_t D_80058868[];
+extern s32 D_800588A8[][3][2];      // [3], for each contestant unk_20 and unk_24 of pictures 0, 7 and 8 of D_800588F0
 extern image_t D_800588F0[];
-extern s32 D_80058AC8;
-extern s32 D_80058AE8;
-extern s32 D_80058B08;
+extern menuItem_t D_80058AA8[];
 extern image_t D_80058B28[];
-extern s32 D_80058E88;
-extern s32 D_80058E90;
+extern menuItem_t D_80058E70[];
 extern image_t D_80058EB0[];
-extern s32 D_80058FE0;
-extern s32 D_80058FE8;
+extern menuItem_t D_80058FC8[];
 extern image_t D_80059008[];
 extern image_t D_80059120[];
 extern vec_t D_8005A390;
@@ -1153,7 +1172,7 @@ s32 func_8000A990( s32 arg0, s32 arg1 );
 s32 func_8000AA24( s32 arg0, s32 arg1, s32 arg2 );
 void func_8000AAB0( s32 arg0, s32 arg1, s32 arg2 );
 void func_8000ABB8( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
-s32 func_8000ACE8( s32 arg0 );
+s32 func_8000ACE8( proc_t *proc );
 void func_8000AD9C( s32 arg0 );
 void func_8000ADEC( s32 arg0 );
 void func_8000AE70( s32 arg0, s32 arg1, s32 arg2 );
@@ -1306,21 +1325,21 @@ void func_8002208C( s32 arg0, s32 arg1 );
 void func_80022218( s32 arg0, s32 arg1 );
 void func_800223A4( s32 arg0, s32 arg1 );
 void func_80022530( s32 arg0, s32 arg1 );
-void func_800226BC( s32 arg0, s32 arg1, s32 arg2 );
-void func_80022784( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
-void func_800229D0( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
-void func_80022BC8( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
-void func_80022DC0( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
-void func_80022FE0( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
+void func_800226BC( image_t *images, s32 count, s32 arg2 );
+void func_80022784( proc_t *proc, image_t *images, menuItem_t *item, s32 arg3 );
+void func_800229D0( proc_t *proc, image_t *images, menuItem_t *items, s32 count );
+void func_80022BC8( proc_t *proc, image_t *images, menuItem_t *items, s32 count );
+void func_80022DC0( proc_t *proc, image_t *images, menuItem_t *item, s32 arg3 );
+void func_80022FE0( proc_t *proc, image_t *images, menuItem_t *item, s32 arg3 );
 void func_80023200( void );
-struct n64dk_r12 func_800232AC( s32 arg1 );
+struct n64dk_r12 func_800232AC( proc_t *proc );
 void func_80023B44( void );
-struct n64dk_r12 func_80023CA4( s32 arg1 );
-struct n64dk_r12 func_80024370( s32 arg1 );
-struct n64dk_r12 func_80024868( s32 arg1 );
+struct n64dk_r12 func_80023CA4( proc_t *proc );
+struct n64dk_r12 func_80024370( proc_t *proc );
+struct n64dk_r12 func_80024868( proc_t *proc );
 void func_80024D60( s32 arg0 );
 void func_8002500C( void );
-struct n64dk_r12 func_80025150( s32 arg1 );
+struct n64dk_r12 func_80025150( proc_t *proc );
 void func_800258BC( void );
 void func_80025FA8( void );
 void func_800263DC( void );

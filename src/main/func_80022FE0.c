@@ -1,36 +1,21 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ s32 unk_0C;
-} State;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0xC];
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ s32 unk_18;
-} Menu;
-
-void func_80022FE0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void func_80022FE0(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
     func_80002CE0(43);
-    func_800226BC((((Menu *)arg2)->unk_0C + ((State *)((proc_t *)arg0)->unk_30)->unk_04 * ((Menu *)arg2)->unk_14) * 40 + arg1, ((Menu *)arg2)->unk_14, 0);
-    ((State *)((proc_t *)arg0)->unk_30)->unk_04++;
-    if (((State *)((proc_t *)arg0)->unk_30)->unk_04 >= ((Menu *)arg2)->unk_10) {
-        ((State *)((proc_t *)arg0)->unk_30)->unk_04 = 0;
+    func_800226BC(&images[item->unk_0C + ((mainMenu_t *)proc->unk_30)->sel * item->cols], item->cols, 0);
+    ((mainMenu_t *)proc->unk_30)->sel++;
+    if (((mainMenu_t *)proc->unk_30)->sel >= item->rows) {
+        ((mainMenu_t *)proc->unk_30)->sel = 0;
     }
     if (arg3 != 0) {
-        while ((D_800B96C4 >> ((State *)((proc_t *)arg0)->unk_30)->unk_04) % 2 == 0 && ((State *)((proc_t *)arg0)->unk_30)->unk_04 != 4) {
-            ((State *)((proc_t *)arg0)->unk_30)->unk_04++;
-            if (((State *)((proc_t *)arg0)->unk_30)->unk_04 >= ((Menu *)arg2)->unk_10) {
-                ((State *)((proc_t *)arg0)->unk_30)->unk_04 = 0;
+        while ((D_800B96C4 >> ((mainMenu_t *)proc->unk_30)->sel) % 2 == 0 && ((mainMenu_t *)proc->unk_30)->sel != 4) {
+            ((mainMenu_t *)proc->unk_30)->sel++;
+            if (((mainMenu_t *)proc->unk_30)->sel >= item->rows) {
+                ((mainMenu_t *)proc->unk_30)->sel = 0;
             }
         }
     }
-    ((Menu *)arg2)->unk_18 = ((State *)((proc_t *)arg0)->unk_30)->unk_04;
-    func_800226BC((((Menu *)arg2)->unk_0C + ((State *)((proc_t *)arg0)->unk_30)->unk_04 * ((Menu *)arg2)->unk_14) * 40 + arg1, ((Menu *)arg2)->unk_14, 1);
-    ((State *)((proc_t *)arg0)->unk_30)->unk_0C = 15;
+    item->sel = ((mainMenu_t *)proc->unk_30)->sel;
+    func_800226BC(&images[item->unk_0C + ((mainMenu_t *)proc->unk_30)->sel * item->cols], item->cols, 1);
+    ((mainMenu_t *)proc->unk_30)->delay = 15;
 }

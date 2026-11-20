@@ -10,7 +10,7 @@ void func_80023B44(void) {
         if (obj == 0) {
             func_80009F38("SwitchImage: could not find contestant");
         }
-        if (i == D_80058880) {
+        if (i == D_80058868[0].sel) {
             obj->x = D_8005A390.unk_00;
             obj->y = D_8005A390.unk_04;
             obj->z = D_8005A390.unk_08;

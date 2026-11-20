@@ -1,12 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x1C];
-} EntryA;
-
-extern EntryA D_800584E0[];
-
 void func_80026800(void) {
     s32 i;
     s32 j;
@@ -39,7 +32,7 @@ void func_80026800(void) {
     i = 0;
     while (i < 3) {
         func_800323C4(D_800B9990[i].unk_018, i, D_8005A474[i].unk_00, D_8005A474[i].unk_04, D_8005A474[i].unk_08);
-        switch (D_800584E0[i].unk_00) {
+        switch (D_800584C8[i].sel) {
         case 0:
             D_80058B28[i * 3 + 2].unk_20 = (s32)&D_01158068;
             D_80058B28[i * 3 + 2].unk_24 = (s32)&D_01158068;
