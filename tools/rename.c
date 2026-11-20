@@ -15,7 +15,9 @@
  *   (none)          every file the tool touches (below);
  *   FILE            one file, by its path from the repository root;
  *   FILE:A-B        lines A to B of that file (a function's locals and parameters, a struct's members);
- *   FILE:A          line A alone.
+ *   FILE:A          line A alone;
+ *   fn:NAME         the lines of function NAME's definition and of its prototypes (its parameters and
+ *                   locals), by the name it has before the renames.
  *
  * The files touched are the game's: the .c files of src/main, the .h files of include (not include/mpeg), and the first column of
  * config/functions.tsv and config/units.tsv (a unit's name and its source path are renamed as tokens, so a
@@ -35,8 +37,15 @@
 #include <string.h>
 
 typedef struct {
+    int file, a, b;
+} Range;
+
+typedef struct {
     char old[256], new[256], file[512];
     int a, b;           /* line range; 0 = whole file */
+    char fn[512];       /* fn:NAME scope: the ranges of NAME's definition and prototypes */
+    Range *ranges;
+    int nranges;
     int force;
     int hits;
     int specline;
@@ -197,10 +206,88 @@ static void walk(File *f, tok_fn fn, void *ctx) {
 }
 
 static int in_scope(const Ren *r, const File *f, int line) {
+    if (r->fn[0]) {
+        int k;
+        for (k = 0; k < r->nranges; k++)
+            if (&files[r->ranges[k].file] == f && line >= r->ranges[k].a && line <= r->ranges[k].b) return 1;
+        return 0;
+    }
     if (!r->file[0]) return 1;
     if (strcmp(r->file, f->path)) return 0;
     if (!r->a) return 1;
     return line >= r->a && line <= r->b;
+}
+
+/*
+ * The lines of each file-scope declaration or definition of function NAME: from the line of its name to
+ * the ';' that ends a prototype or the '}' that ends a body.
+ */
+static void find_ranges(Ren *r) {
+    int fi;
+    for (fi = 0; fi < nfiles; fi++) {
+        File *f = &files[fi];
+        const char *s = f->text;
+        size_t i = 0, n = strlen(r->fn);
+        int line = 1, depth = 0;
+        if (!f->is_c) continue;
+        while (i < f->len) {
+            char c = s[i];
+            if (c == '\n') {
+                line++;
+                i++;
+            } else if (c == '"' || c == '\'') {
+                i++;
+                while (i < f->len && s[i] != c && s[i] != '\n') {
+                    if (s[i] == '\\') i++;
+                    i++;
+                }
+                i++;
+            } else if (c == '/' && i + 1 < f->len && s[i + 1] == '/') {
+                while (i < f->len && s[i] != '\n') i++;
+            } else if (c == '/' && i + 1 < f->len && s[i + 1] == '*') {
+                i += 2;
+                while (i + 1 < f->len && !(s[i] == '*' && s[i + 1] == '/')) {
+                    if (s[i] == '\n') line++;
+                    i++;
+                }
+                i += 2;
+            } else if (c == '{') {
+                depth++;
+                i++;
+            } else if (c == '}') {
+                depth--;
+                i++;
+            } else if (is_id((unsigned char)c) && (i == 0 || !is_id((unsigned char)s[i - 1]))) {
+                size_t j = i;
+                while (j < f->len && is_id((unsigned char)s[j])) j++;
+                if (depth == 0 && j - i == n && !memcmp(s + i, r->fn, n)) {
+                    size_t k = j;
+                    int start = line, end = line, d = 0;
+                    while (k < f->len && isspace((unsigned char)s[k])) k++;
+                    if (k < f->len && s[k] == '(') {
+                        /* to the end of the prototype or the body */
+                        while (k < f->len) {
+                            if (s[k] == '\n') end++;
+                            else if (s[k] == '(' || s[k] == '{') d++;
+                            else if (s[k] == ')') d--;
+                            else if (s[k] == '}') {
+                                if (--d == 0) break;
+                            } else if (s[k] == ';' && d == 0) break;
+                            k++;
+                        }
+                        r->ranges = realloc(r->ranges, (r->nranges + 1) * sizeof(Range));
+                        r->ranges[r->nranges].file = fi;
+                        r->ranges[r->nranges].a = start;
+                        r->ranges[r->nranges].b = end;
+                        r->nranges++;
+                    }
+                }
+                i = j;
+            } else {
+                i++;
+            }
+        }
+    }
 }
 
 /* ---------------------------------------------------------------- checks */
@@ -302,7 +389,9 @@ static void parse_spec(const char *path) {
         } else if (strchr(p, '!') && p[strlen(p) - 1] == '!') {
             r->force = 1;
         }
-        if (scope[0]) {
+        if (!strncmp(scope, "fn:", 3)) {
+            snprintf(r->fn, sizeof r->fn, "%s", scope + 3);
+        } else if (scope[0]) {
             char *colon = strchr(scope, ':');
             if (colon) {
                 *colon = 0;
@@ -353,7 +442,15 @@ int main(int argc, char **argv) {
     for (k = 0; k < nrens; k++) {
         Ren *r = &rens[k];
         int j;
-        for (j = 0; j < noff; j++) {
+        if (r->fn[0]) {
+            find_ranges(r);
+            if (!r->nranges) {
+                fprintf(stderr, "%s:%d: no function %s\n", r->spec, r->specline, r->fn);
+                errors++;
+            }
+        }
+        /* a scoped rename is a local's or a member's: the other trees have their own */
+        for (j = 0; j < noff && !r->file[0] && !r->fn[0]; j++) {
             if (occurs(&off[j], r->old, NULL)) {
                 fprintf(stderr, "%s:%d: %s occurs in %s, which keeps its own names\n", r->spec, r->specline, r->old,
                         off[j].path);
@@ -370,9 +467,17 @@ int main(int argc, char **argv) {
                 errors++;
             }
         }
+        for (j = 0; j < noff && !r->file[0] && !r->fn[0] && !r->force; j++) {
+            int at = occurs(&off[j], r->new, NULL);
+            if (at) {
+                fprintf(stderr, "%s:%d: %s already occurs in %s:%d\n", r->spec, r->specline, r->new, off[j].path, at);
+                errors++;
+                break;
+            }
+        }
         if (!r->force) {
             for (j = 0; j < nfiles; j++) {
-                int at = occurs(&files[j], r->new, r->file[0] ? r : NULL);
+                int at = occurs(&files[j], r->new, (r->file[0] || r->fn[0]) ? r : NULL);
                 if (at) {
                     fprintf(stderr, "%s:%d: %s already occurs in %s:%d\n", r->spec, r->specline, r->new,
                             files[j].path, at);
@@ -382,7 +487,7 @@ int main(int argc, char **argv) {
             }
         }
         for (j = 0; j < k; j++) {
-            if (!strcmp(rens[j].old, r->old) && !rens[j].file[0] && !r->file[0]) {
+            if (!strcmp(rens[j].old, r->old) && !rens[j].file[0] && !r->file[0] && !rens[j].fn[0] && !r->fn[0]) {
                 fprintf(stderr, "%s:%d: %s is renamed twice\n", r->spec, r->specline, r->old);
                 errors++;
             }
