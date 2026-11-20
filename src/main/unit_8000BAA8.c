@@ -12,6 +12,9 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
+// the one message slot of D_800BA5B0
+static OSMesg D_800AFE58;
+
 void func_8000BAA8(void) {
     D_80057800 = 1;
     osCreateMesgQueue(&D_800BA5B0, &D_800AFE58, 1);

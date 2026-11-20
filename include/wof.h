@@ -900,7 +900,6 @@ extern OSMesg D_800AFB00[];          // [200], the messages of the PI manager
 extern OSMesgQueue D_800AFE20;      // the queue of the PI manager
 extern OSMesgQueue D_800AFE38;      // where func_80006828 waits for its read
 extern OSMesg D_800AFE50;
-extern OSMesg D_800AFE58;
 extern OSMesgQueue D_800B3970;      // the queue of the controller events
 extern OSScClient D_800B3988;
 extern ALBankFile *D_800B3990;
