@@ -1,15 +1,8 @@
-/* More subroutines needed by GCC output code on some machines.  */
-/* Compile this one with gcc.  */
-
 /*
- * The three libgcc2.c functions the game links, each built as libgcc builds it: once per function, with
- * -DL_<name>.
- *
- * This is a reconstruction, not GCC 2.7.2's own file, which is not on the build machine. The function
- * bodies are those of GCC 3.3.6's libgcc2.c (gcc-3.3.6/gcc/libgcc2.c), written with 2.7.2's type names
- * and K&R definitions; in 3.3.6 the table __clz_tab is a separate global object, here it belongs to
- * __udivmoddi4's object, where retail's read-only data has it. longlong.h beside this file is 3.3.6's,
- * unchanged.
+ * NOTE (this repository): an excerpt of GCC's libgcc2.c, holding the three functions the game links.
+ * lib/libgcc/PROVENANCE.tsv says where the text comes from and how it differs from that source. The
+ * target's configuration (BITS_PER_UNIT, LIBGCC2_WORDS_BIG_ENDIAN, LONG_DOUBLE_TYPE_SIZE), which the full
+ * file takes from tconfig.h, comes from the flag classes in config/flags.tsv.
  */
 
 /* In the first part of this file, we are interfacing to calls generated
@@ -27,12 +20,42 @@ typedef unsigned int USItype	__attribute__ ((mode (SI)));
 typedef		 int DItype	__attribute__ ((mode (DI)));
 typedef unsigned int UDItype	__attribute__ ((mode (DI)));
 
-#define SI_TYPE_SIZE 32
+typedef 	float SFtype	__attribute__ ((mode (SF)));
+typedef		float DFtype	__attribute__ ((mode (DF)));
+
+#if LONG_DOUBLE_TYPE_SIZE == 96
+typedef		float XFtype	__attribute__ ((mode (XF)));
+#endif
+#if LONG_DOUBLE_TYPE_SIZE == 128
+typedef		float TFtype	__attribute__ ((mode (TF)));
+#endif
+
+typedef int word_type __attribute__ ((mode (__word__)));
+
+/* Make sure that we don't accidentally use any normal C language built-in
+   type names in the first part of this file.  Instead we want to use *only*
+   the type names defined above.  The following macro definitions insure
+   that if we *do* accidentally use some normal C language built-in type name,
+   we will get a syntax error.  */
+
+#define char bogus_type
+#define short bogus_type
+#define int bogus_type
+#define long bogus_type
+#define unsigned bogus_type
+#define float bogus_type
+#define double bogus_type
+
+#define SI_TYPE_SIZE (sizeof (SItype) * BITS_PER_UNIT)
 
 /* DIstructs are pairs of SItype values in the order determined by
-   the target's endianness: the N64's CPU runs big-endian.  */
+   LIBGCC2_WORDS_BIG_ENDIAN.  */
 
-struct DIstruct {SItype high, low;};
+#if LIBGCC2_WORDS_BIG_ENDIAN
+  struct DIstruct {SItype high, low;};
+#else
+  struct DIstruct {SItype low, high;};
+#endif
 
 /* We need this union to unpack/pack DImode values, since we don't have
    any arithmetic yet.  Incoming DImode parameters are stored into the
@@ -44,11 +67,10 @@ typedef union
   DItype ll;
 } DIunion;
 
-#if (defined (L_udivmoddi4) || defined (L_udivdi3) || defined (L_umoddi3))
-
 #include "longlong.h"
 
-#endif /* udiv or mul */
+extern DItype __fixunssfdi (SFtype a);
+extern DItype __fixunsdfdi (DFtype a);
 
 #ifdef L_udivmoddi4
 static const UQItype __clz_tab[] =
@@ -176,7 +198,7 @@ __udivmoddi4 (n, d, rp)
 	      udiv_qrnnd (q1, n1, n2, n1, d0);
 	    }
 
-	  /* n1 != d0...  */
+	  /* n1 != d0... */
 
 	  udiv_qrnnd (q0, n0, n1, n0, d0);
 
@@ -282,7 +304,6 @@ __udivmoddi4 (n, d, rp)
   return ww.ll;
 }
 #endif
-
 #ifdef L_umoddi3
 UDItype __udivmoddi4 ();
 UDItype
