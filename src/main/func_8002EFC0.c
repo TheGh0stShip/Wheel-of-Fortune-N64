@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_8002EFC0(s32 arg1) {
+struct n64dk_r12 func_8002EFC0(proc_t *proc) {
     struct n64dk_r12 result;
     proc_t *obj;
     s32 node;
@@ -9,10 +9,10 @@ struct n64dk_r12 func_8002EFC0(s32 arg1) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 8:
-            func_8000AAB0(arg1, 41, 0);
+            func_8000AAB0(proc, 41, 0);
             result.w[1] = 1;
             result.w[0] = 180 / D_800B96B4;
             return result;
@@ -38,10 +38,10 @@ struct n64dk_r12 func_8002EFC0(s32 arg1) {
         }
     }
     func_80017C00(0, 1);
-    obj = (proc_t *)func_8000A56C((s32)func_8000FDFC, 0x4000000);
+    obj = func_8000A56C(func_8000FDFC, 0x4000000);
     node = func_8000B5DC(0x4010000, 0xFFFF0000);
-    ((data8002EFC0_t *)obj->unk_30)->unk_00 = node;
-    ((data8002EFC0_t *)obj->unk_30)->unk_0C = guRandom() % 25 + 75;
+    obj->unk_30->data8002EFC0.unk_00 = node;
+    obj->unk_30->data8002EFC0.unk_0C = guRandom() % 25 + 75;
     result.w[1] = 2;
     result.w[0] = 2;
     return result;

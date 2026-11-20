@@ -6,10 +6,10 @@ void func_80016008(void) {
 
     sp14 = func_8000B5DC(0x1010000, -1);
     if (sp14 != 0) {
-        obj = (proc_t *)func_8000A990(0x1010000, -1);
+        obj = func_8000A990(0x1010000, -1);
         if (obj == 0) {
             obj = func_8000A56C(func_8000FFE0, 0x1010000);
-            *(s32 *)obj->unk_30 = sp14;
+            obj->unk_30->obj = sp14;
         }
     }
 }

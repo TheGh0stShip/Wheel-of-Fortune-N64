@@ -1,6 +1,6 @@
 #include "wof.h"
 
-s32 func_8000A0E4(void) {
+proc_t *func_8000A0E4(void) {
     proc_t *next;
     proc_t *node;
 
@@ -10,5 +10,5 @@ s32 func_8000A0E4(void) {
         node = next;
         next = node->next;
     }
-    return (s32)node;
+    return node;
 }

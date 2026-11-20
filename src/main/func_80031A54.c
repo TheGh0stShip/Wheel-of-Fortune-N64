@@ -1,6 +1,6 @@
 #include "wof.h"
 
-struct n64dk_r12 func_80031A54(s32 arg1) {
+struct n64dk_r12 func_80031A54(proc_t *proc) {
     struct n64dk_r12 ret;
     s32 event;
     obj_t *obj;
@@ -12,26 +12,26 @@ struct n64dk_r12 func_80031A54(s32 arg1) {
     s32 base;
 
     base = 0x2000000;
-    obj = ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->obj;
-    sp2C = ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_04;
+    obj = proc->unk_30->vannaAnim.obj;
+    sp2C = proc->unk_30->vannaAnim.unk_04;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
         switch (event) {
         case 8:
-            ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_28 = 0;
-            ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 = 0;
-            ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_24 = 1;
-            switch (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_0C) {
+            proc->unk_30->vannaAnim.unk_28 = 0;
+            proc->unk_30->vannaAnim.unk_10 = 0;
+            proc->unk_30->vannaAnim.unk_24 = 1;
+            switch (proc->unk_30->vannaAnim.unk_0C) {
             case 0:
                 D_800B9988 = D_800B9988 + (D_800B61A8 * 40);
                 break;
             case 80:
-                ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 = ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_18 - 1;
-                ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_24 = -1;
-                ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_1C = 0;
+                proc->unk_30->vannaAnim.unk_10 = proc->unk_30->vannaAnim.unk_18 - 1;
+                proc->unk_30->vannaAnim.unk_24 = -1;
+                proc->unk_30->vannaAnim.unk_1C = 0;
                 break;
             }
             break;
@@ -40,14 +40,14 @@ struct n64dk_r12 func_80031A54(s32 arg1) {
     diff = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_16C00);
     diff = diff - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
     obj->unk_44 = base + diff;
-    ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_28 = ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_28 + D_800B96B4;
-    if (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_28 >= ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_14) {
-        ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_28 = ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_28 % ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_14;
-        ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 = ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 + ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_24;
-        if (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 < 0) {
-            if (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_1C != 0) {
-                ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 = 1;
-                ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_24 = 1;
+    proc->unk_30->vannaAnim.unk_28 = proc->unk_30->vannaAnim.unk_28 + D_800B96B4;
+    if (proc->unk_30->vannaAnim.unk_28 >= proc->unk_30->vannaAnim.unk_14) {
+        proc->unk_30->vannaAnim.unk_28 = proc->unk_30->vannaAnim.unk_28 % proc->unk_30->vannaAnim.unk_14;
+        proc->unk_30->vannaAnim.unk_10 = proc->unk_30->vannaAnim.unk_10 + proc->unk_30->vannaAnim.unk_24;
+        if (proc->unk_30->vannaAnim.unk_10 < 0) {
+            if (proc->unk_30->vannaAnim.unk_1C != 0) {
+                proc->unk_30->vannaAnim.unk_10 = 1;
+                proc->unk_30->vannaAnim.unk_24 = 1;
             } else {
                 func_8003288C(4, 0);
                 ret.w[1] = 0;
@@ -55,34 +55,34 @@ struct n64dk_r12 func_80031A54(s32 arg1) {
                 return ret;
             }
         } else {
-            if (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 >= ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_18) {
-                if (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_1C == 1) {
-                    ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 = ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_18 - 2;
-                    ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_24 = -1;
+            if (proc->unk_30->vannaAnim.unk_10 >= proc->unk_30->vannaAnim.unk_18) {
+                if (proc->unk_30->vannaAnim.unk_1C == 1) {
+                    proc->unk_30->vannaAnim.unk_10 = proc->unk_30->vannaAnim.unk_18 - 2;
+                    proc->unk_30->vannaAnim.unk_24 = -1;
                 } else {
-                    if (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_1C == 2) {
-                        if (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_0C == 1) {
+                    if (proc->unk_30->vannaAnim.unk_1C == 2) {
+                        if (proc->unk_30->vannaAnim.unk_0C == 1) {
                             func_8003288C(5, 0);
                             ret.w[1] = 0;
                             ret.w[0] = 1;
                             return ret;
                         } else {
-                            ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 = 0;
+                            proc->unk_30->vannaAnim.unk_10 = 0;
                         }
-                        ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_24 = 1;
+                        proc->unk_30->vannaAnim.unk_24 = 1;
                     } else {
-                        if (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_1C == 3) {
-                            ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 = ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_18 - 1;
-                            ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_24 = 0;
+                        if (proc->unk_30->vannaAnim.unk_1C == 3) {
+                            proc->unk_30->vannaAnim.unk_10 = proc->unk_30->vannaAnim.unk_18 - 1;
+                            proc->unk_30->vannaAnim.unk_24 = 0;
                         } else {
-                            if (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_1C < 0) {
+                            if (proc->unk_30->vannaAnim.unk_1C < 0) {
                                 D_800B9988 = D_800B9988 + (D_800B61A8 * 44);
                                 func_8003288C(0, 0);
                                 ret.w[1] = 0;
                                 ret.w[0] = 1;
                                 return ret;
                             } else {
-                                switch (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_0C) {
+                                switch (proc->unk_30->vannaAnim.unk_0C) {
                                 case 3:
                                     func_8000A850(49);
                                     D_800B9988 = D_800B9988 + (D_800B61A8 * 44);
@@ -99,7 +99,7 @@ struct n64dk_r12 func_80031A54(s32 arg1) {
                 }
             }
         }
-        if (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_0C != 0) {
+        if (proc->unk_30->vannaAnim.unk_0C != 0) {
             goto L384;
         }
         i = 1;
@@ -115,12 +115,12 @@ struct n64dk_r12 func_80031A54(s32 arg1) {
     } else {
 L384: ;
     }
-    frame = ((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_08 + (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 * ( 64 * 96 ));
-    func_8003143C(frame, (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_20 * D_800B61A8));
-    switch (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_0C) {
+    frame = proc->unk_30->vannaAnim.unk_08 + (proc->unk_30->vannaAnim.unk_10 * ( 64 * 96 ));
+    func_8003143C(frame, (proc->unk_30->vannaAnim.unk_20 * D_800B61A8));
+    switch (proc->unk_30->vannaAnim.unk_0C) {
     case 0:
-        obj->x = D_8005C8C8[((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10] * 4 * D_800B61A8 + D_800B9988;
-        if (((D_800B61A8 == 1) && ((D_800B9988 >= 921) && (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 == 1))) || ((D_800B61A8 == -1) && ((D_800B9988 < 100) && (((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10 == 1)))) {
+        obj->x = D_8005C8C8[proc->unk_30->vannaAnim.unk_10] * 4 * D_800B61A8 + D_800B9988;
+        if (((D_800B61A8 == 1) && ((D_800B9988 >= 921) && (proc->unk_30->vannaAnim.unk_10 == 1))) || ((D_800B61A8 == -1) && ((D_800B9988 < 100) && (proc->unk_30->vannaAnim.unk_10 == 1)))) {
             func_8003288C(3, 0);
             ret.w[1] = 0;
             ret.w[0] = 1;
@@ -128,7 +128,7 @@ L384: ;
         }
         break;
     case 3:
-        obj->x = D_8005C8FC[((vannaAnim_t *)((proc_t *)arg1)->unk_30)->unk_10] * 4 * D_800B61A8 + D_800B9988;
+        obj->x = D_8005C8FC[proc->unk_30->vannaAnim.unk_10] * 4 * D_800B61A8 + D_800B9988;
         break;
     }
     ret.w[1] = 1;

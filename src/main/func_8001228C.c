@@ -1,6 +1,6 @@
 #include "wof.h"
 
-struct n64dk_r12 func_8001228C(s32 arg1) {
+struct n64dk_r12 func_8001228C(proc_t *proc) {
     struct n64dk_r12 result;
     s32 unused[4];   /* NOTE: unused in the original; guess: its type, the frame shows at most 16 bytes */
     s32 i;
@@ -11,7 +11,7 @@ struct n64dk_r12 func_8001228C(s32 arg1) {
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }

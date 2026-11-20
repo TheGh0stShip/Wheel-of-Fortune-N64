@@ -2,18 +2,18 @@
 
 void func_80022BC8(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
     func_80002CE0(44);
-    func_80022784(proc, images, &items[((mainMenu_t *)proc->unk_30)->index], 0);
-    items[((mainMenu_t *)proc->unk_30)->index].sel = ((mainMenu_t *)proc->unk_30)->sel;
+    func_80022784(proc, images, &items[proc->unk_30->mainMenu.index], 0);
+    items[proc->unk_30->mainMenu.index].sel = proc->unk_30->mainMenu.sel;
     do {
-        ((mainMenu_t *)proc->unk_30)->index++;
-        if (((mainMenu_t *)proc->unk_30)->index >= count) {
-            ((mainMenu_t *)proc->unk_30)->index = 0;
+        proc->unk_30->mainMenu.index++;
+        if (proc->unk_30->mainMenu.index >= count) {
+            proc->unk_30->mainMenu.index = 0;
         }
-    } while (items[((mainMenu_t *)proc->unk_30)->index].unk_00 == 0);
-    ((mainMenu_t *)proc->unk_30)->sel = items[((mainMenu_t *)proc->unk_30)->index].sel;
-    if (items[((mainMenu_t *)proc->unk_30)->index].callback != 0) {
-        items[((mainMenu_t *)proc->unk_30)->index].callback(((mainMenu_t *)proc->unk_30)->index);
+    } while (items[proc->unk_30->mainMenu.index].unk_00 == 0);
+    proc->unk_30->mainMenu.sel = items[proc->unk_30->mainMenu.index].sel;
+    if (items[proc->unk_30->mainMenu.index].callback != 0) {
+        items[proc->unk_30->mainMenu.index].callback(proc->unk_30->mainMenu.index);
     }
-    func_80022784(proc, images, &items[((mainMenu_t *)proc->unk_30)->index], 1);
-    ((mainMenu_t *)proc->unk_30)->delay = 15;
+    func_80022784(proc, images, &items[proc->unk_30->mainMenu.index], 1);
+    proc->unk_30->mainMenu.delay = 15;
 }

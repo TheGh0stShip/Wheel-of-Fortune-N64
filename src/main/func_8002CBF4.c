@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_8002CBF4(s32 arg1) {
+struct n64dk_r12 func_8002CBF4(proc_t *proc) {
     s32 event;
     s32 i;
     struct n64dk_r12 result;
@@ -9,13 +9,13 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 27:
             D_800BED88++;
             func_8002AFDC();
-            ((cursor_t *)((proc_t *)arg1)->unk_30)->index = D_800B61B5 - 48;
-            D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_1C = D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_14;
+            proc->unk_30->cursor.index = D_800B61B5 - 48;
+            D_8005A828[proc->unk_30->cursor.index].unk_1C = D_8005A828[proc->unk_30->cursor.index].unk_14;
             break;
         case 8:
             func_8002AFDC();
@@ -41,29 +41,29 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
             D_800BED88++;
             func_8002AFDC();
             func_80029974(0);
-            func_80028C4C(arg1);
-            D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_10 = 1;
-            ((cursor_t *)((proc_t *)arg1)->unk_30)->unk_0C = 0;
+            func_80028C4C(proc);
+            D_8005A828[proc->unk_30->cursor.index].unk_10 = 1;
+            proc->unk_30->cursor.unk_0C = 0;
             return result;
         case 15:
             D_800BED88++;
             func_8002AFDC();
-            func_80028C4C(arg1);
+            func_80028C4C(proc);
             func_80029440();
             D_800B9CEC = 0;
             func_8002A014();
-            D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_10 = 1;
-            ((cursor_t *)((proc_t *)arg1)->unk_30)->unk_0C = 0;
+            D_8005A828[proc->unk_30->cursor.index].unk_10 = 1;
+            proc->unk_30->cursor.unk_0C = 0;
             func_80029974(0);
         case 1:
             D_800BED88++;
-            func_80028C4C(arg1);
+            func_80028C4C(proc);
             func_8002CAB4();
             return result;
         case 21:
             D_800BED88++;
             func_8002AFDC();
-            func_80028C4C(arg1);
+            func_80028C4C(proc);
             func_80028CC4();
             func_80029974(1);
             for (i = 0; i < 3; i++) {
@@ -110,17 +110,17 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
         func_80009F38("Status Proc: player proc does not exist\n");
     }
     if (D_800BCA00 == 1) {
-        D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_10 = 0;
+        D_8005A828[proc->unk_30->cursor.index].unk_10 = 0;
         return result;
     }
     if (D_800B9990[D_800FB808].unk_014 == 4) {
-        D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_10 = 1;
+        D_8005A828[proc->unk_30->cursor.index].unk_10 = 1;
         return result;
     }
     if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
         D_800BED88++;
-        ((cursor_t *)((proc_t *)arg1)->unk_30)->unk_0C = 0;
-        switch (((cursor_t *)((proc_t *)arg1)->unk_30)->index) {
+        proc->unk_30->cursor.unk_0C = 0;
+        switch (proc->unk_30->cursor.index) {
         case 0:
             if (D_800B9CF8 != 0) {
                 func_8000A850(12);
@@ -163,32 +163,32 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
         }
     }
     if ((D_800B96B0 & 2048 & 0xFFFF) != 0) {
-        func_8002A8C8(arg1, 0);
+        func_8002A8C8(proc, 0);
     } else if ((D_800B96B0 & 1024 & 0xFFFF) != 0) {
-        func_8002AAD0(arg1, 0, 1);
+        func_8002AAD0(proc, 0, 1);
     } else if ((D_800B96B0 & 512 & 0xFFFF) != 0) {
-        func_8002A8C8(arg1, 0);
+        func_8002A8C8(proc, 0);
     } else if ((D_800B96B0 & 256 & 0xFFFF) != 0) {
-        func_8002AAD0(arg1, 0, 1);
+        func_8002AAD0(proc, 0, 1);
     } else if ((D_800B96B0 & 0x8000 & 0xFFFF) != 0) {
         return result;
     } else if ((D_800B96B0 & 0x4000 & 0xFFFF) != 0) {
         return result;
     }
-    if (((cursor_t *)((proc_t *)arg1)->unk_30)->unk_0C <= 0) {
+    if (proc->unk_30->cursor.unk_0C <= 0) {
         if (D_800B9954.stick_y >= 41) {
-            func_8002A8C8(arg1, 0);
+            func_8002A8C8(proc, 0);
         } else if (D_800B9954.stick_y < -40) {
-            func_8002AAD0(arg1, 0, 1);
+            func_8002AAD0(proc, 0, 1);
         }
     } else {
-        ((cursor_t *)((proc_t *)arg1)->unk_30)->unk_0C -= D_800B96B4;
+        proc->unk_30->cursor.unk_0C -= D_800B96B4;
     }
-    if (((cursor_t *)((proc_t *)arg1)->unk_30)->index < 0) {
-        ((cursor_t *)((proc_t *)arg1)->unk_30)->index = 3;
-    } else if (((cursor_t *)((proc_t *)arg1)->unk_30)->index >= 4) {
-        ((cursor_t *)((proc_t *)arg1)->unk_30)->index = 0;
+    if (proc->unk_30->cursor.index < 0) {
+        proc->unk_30->cursor.index = 3;
+    } else if (proc->unk_30->cursor.index >= 4) {
+        proc->unk_30->cursor.index = 0;
     }
-    D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_10 = 1;
+    D_8005A828[proc->unk_30->cursor.index].unk_10 = 1;
     return result;
 }

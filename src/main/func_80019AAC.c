@@ -2,15 +2,15 @@
 #include "func_800051B4.h"
 
 
-struct n64dk_r12 func_80019AAC(s32 arg1) {
+struct n64dk_r12 func_80019AAC(proc_t *proc) {
     s32 event;
     struct n64dk_r12 ret;
     s32 task;
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (((playerProc_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
-        while ((event = func_8000ACE8(arg1)) != 0) {
+    if (proc->unk_30->playerProc.player != D_800FB808) {
+        while ((event = func_8000ACE8(proc)) != 0) {
             switch (event) {
             case 42:
                 ret.w[1] = 0;
@@ -20,7 +20,7 @@ struct n64dk_r12 func_80019AAC(s32 arg1) {
         }
         return ret;
     }
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 38:
             func_80002CE0(D_800B9990[D_800FB808].unk_10C);
@@ -40,8 +40,8 @@ struct n64dk_r12 func_80019AAC(s32 arg1) {
                 func_80016008();
                 D_800B96A8 += 3;
                 func_80002CE0(5);
-                task = func_8000A56C((s32)&func_80017DBC, ((playerProc_t *)((proc_t *)arg1)->unk_30)->player | 0x2000500);
-                ((playerProc_t *)((proc_t *)task)->unk_30)->player = ((playerProc_t *)((proc_t *)arg1)->unk_30)->player;
+                task = func_8000A56C(func_80017DBC, proc->unk_30->playerProc.player | 0x2000500);
+                ((proc_t *)task)->unk_30->playerProc.player = proc->unk_30->playerProc.player;
                 if (D_800B9CF0 != 0 || D_800B619C == D_800B96C0 - 1) {
                     ret.w[1] = 0;
                     ret.w[0] = 0;
@@ -69,8 +69,8 @@ struct n64dk_r12 func_80019AAC(s32 arg1) {
         case 15:
         case 32:
             if (D_800BCA00 == 1) {
-                task = func_8000A56C((s32)&func_80019630, ((playerProc_t *)((proc_t *)arg1)->unk_30)->player | 0x2000400);
-                ((playerProc_t *)((proc_t *)task)->unk_30)->player = ((playerProc_t *)((proc_t *)arg1)->unk_30)->player;
+                task = func_8000A56C(func_80019630, proc->unk_30->playerProc.player | 0x2000400);
+                ((proc_t *)task)->unk_30->playerProc.player = proc->unk_30->playerProc.player;
                 ret.w[1] = 2;
                 ret.w[0] = 31;
                 return ret;
@@ -84,23 +84,23 @@ struct n64dk_r12 func_80019AAC(s32 arg1) {
                 func_80002CE0(D_800B9990[D_800FB808].unk_100);
             }
             D_800B96A0 = 0;
-            task = func_8000A56C((s32)&func_800183A8, ((playerProc_t *)((proc_t *)arg1)->unk_30)->player | 0x2000100);
-            ((playerProc_t *)((proc_t *)task)->unk_30)->player = ((playerProc_t *)((proc_t *)arg1)->unk_30)->player;
+            task = func_8000A56C(func_800183A8, proc->unk_30->playerProc.player | 0x2000100);
+            ((proc_t *)task)->unk_30->playerProc.player = proc->unk_30->playerProc.player;
             ret.w[1] = 2;
             ret.w[0] = 3;
             return ret;
         case 13:
             func_80002CE0(D_800B9990[D_800FB808].unk_104);
             D_800B96A0 = 0;
-            task = func_8000A56C((s32)&func_80018D28, ((playerProc_t *)((proc_t *)arg1)->unk_30)->player | 0x2000200);
-            ((playerProc_t *)((proc_t *)task)->unk_30)->player = ((playerProc_t *)((proc_t *)arg1)->unk_30)->player;
+            task = func_8000A56C(func_80018D28, proc->unk_30->playerProc.player | 0x2000200);
+            ((proc_t *)task)->unk_30->playerProc.player = proc->unk_30->playerProc.player;
             ret.w[1] = 2;
             ret.w[0] = 9;
             return ret;
         case 14:
             func_80002CE0(D_800B9990[D_800FB808].unk_108);
-            task = func_8000A56C((s32)&func_8001933C, ((playerProc_t *)((proc_t *)arg1)->unk_30)->player | 0x2000300);
-            ((playerProc_t *)((proc_t *)task)->unk_30)->player = ((playerProc_t *)((proc_t *)arg1)->unk_30)->player;
+            task = func_8000A56C(func_8001933C, proc->unk_30->playerProc.player | 0x2000300);
+            ((proc_t *)task)->unk_30->playerProc.player = proc->unk_30->playerProc.player;
             ret.w[1] = 2;
             ret.w[0] = 10;
             return ret;
@@ -123,7 +123,7 @@ struct n64dk_r12 func_80019AAC(s32 arg1) {
             return ret;
         case 39:
             func_800177A4();
-            if (((playerProc_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
+            if (proc->unk_30->playerProc.player != D_800FB808) {
                 ret.w[1] = 2;
                 ret.w[0] = -1;
             } else {

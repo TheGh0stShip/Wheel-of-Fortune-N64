@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_80017DBC(s32 arg1) {
+struct n64dk_r12 func_80017DBC(proc_t *proc) {
     struct n64dk_r12 result;
     s32 unused;  /* NOTE: unused in the original */
     obj_t *obj;
@@ -10,7 +10,7 @@ struct n64dk_r12 func_80017DBC(s32 arg1) {
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
@@ -49,7 +49,7 @@ struct n64dk_r12 func_80017DBC(s32 arg1) {
             D_800B9540 = 5000;
             func_8002A014();
         }
-        obj = (obj_t *)func_8000B5DC(0x4010000, -1);
+        obj = func_8000B5DC(0x4010000, -1);
         obj->unk_2C = D_8004B848[D_800B619C] - D_800581F4;
         obj->unk_2C = obj->unk_2C - 360.0f;
         result.w[1] = 2;
@@ -59,7 +59,7 @@ struct n64dk_r12 func_80017DBC(s32 arg1) {
         func_8000AE70(0x7010000, -1, 0);
         D_800B9CF0 = 1;
         D_800B619C = 6;
-        func_8000A56C((s32)&func_800181A4, ((playerProc_t *)((proc_t *)arg1)->unk_30)->player | 0x2000600);
+        func_8000A56C(func_800181A4, proc->unk_30->playerProc.player | 0x2000600);
         func_80017848();
         result.w[1] = 0;
         result.w[0] = 0;

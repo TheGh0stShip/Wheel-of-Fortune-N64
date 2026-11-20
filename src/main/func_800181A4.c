@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_800181A4(s32 arg1) {
+struct n64dk_r12 func_800181A4(proc_t *proc) {
     struct n64dk_r12 ret;
     s32 unused;   /* NOTE: unused in the original */
     s32 unused2;  /* NOTE: unused in the original */
@@ -9,7 +9,7 @@ struct n64dk_r12 func_800181A4(s32 arg1) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 8:
             func_80017C00(17, 0);

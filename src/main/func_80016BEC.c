@@ -1,11 +1,11 @@
 #include "wof.h"
 
-struct n64dk_r12 func_80016BEC(s32 arg1) {
+struct n64dk_r12 func_80016BEC(proc_t *proc) {
     struct n64dk_r12 result;
     s32 sp20;
 
-    sp20 = *(s32 *)((proc_t *)arg1)->unk_30;
-    func_8000AD9C(arg1);
+    sp20 = proc->unk_30->obj;
+    func_8000AD9C(proc);
     result.w[1] = 1;
     result.w[0] = 0;
     return result;

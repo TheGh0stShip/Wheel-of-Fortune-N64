@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_80029C98(s32 arg1) {
+struct n64dk_r12 func_80029C98(proc_t *proc) {
     s32 event;
     s32 i;
     s32 count;
@@ -10,14 +10,14 @@ struct n64dk_r12 func_80029C98(s32 arg1) {
 
     sp20.w[1] = 1;
     sp20.w[0] = 3 / D_800B96B4 - 1;
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 8:
-            ((data80029C98_t *)((proc_t *)arg1)->unk_30)->unk_10 = 0;
+            proc->unk_30->data80029C98.unk_10 = 0;
         }
     }
-    ((data80029C98_t *)((proc_t *)arg1)->unk_30)->unk_10 = ((data80029C98_t *)((proc_t *)arg1)->unk_30)->unk_10 + 1;
-    count = ((data80029C98_t *)((proc_t *)arg1)->unk_30)->unk_10;
+    proc->unk_30->data80029C98.unk_10 = proc->unk_30->data80029C98.unk_10 + 1;
+    count = proc->unk_30->data80029C98.unk_10;
     if (count >= 17) {
         for (i = 0; i < 9; i++) {
             D_8005B360[i].unk_20 = 0;

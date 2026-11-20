@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_80010574(s32 arg1) {
+struct n64dk_r12 func_80010574(proc_t *proc) {
     struct n64dk_r12 ret;
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 row;
@@ -10,15 +10,15 @@ struct n64dk_r12 func_80010574(s32 arg1) {
     u8 letter;
     s32 event;
 
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 8:
-            ((data80010574_t *)((proc_t *)arg1)->unk_30)->unk_0C = 0;
-            ((data80010574_t *)((proc_t *)arg1)->unk_30)->row = 0;
+            proc->unk_30->data80010574.unk_0C = 0;
+            proc->unk_30->data80010574.row = 0;
             if (D_800B61A8 == 1) {
-                ((data80010574_t *)((proc_t *)arg1)->unk_30)->col = 0;
+                proc->unk_30->data80010574.col = 0;
             } else {
-                ((data80010574_t *)((proc_t *)arg1)->unk_30)->col = 13;
+                proc->unk_30->data80010574.col = 13;
             }
             D_800B96A8 = D_800B96A8 + 2;
             ret.w[1] = 1;
@@ -36,19 +36,19 @@ struct n64dk_r12 func_80010574(s32 arg1) {
             return ret;
         }
     }
-    letter = ((data80010574_t *)((proc_t *)arg1)->unk_30)->letter;
-    col = ((data80010574_t *)((proc_t *)arg1)->unk_30)->col;
-    startRow = ((data80010574_t *)((proc_t *)arg1)->unk_30)->row;
-    if (((data80010574_t *)((proc_t *)arg1)->unk_30)->unk_0C == 0) {
+    letter = proc->unk_30->data80010574.letter;
+    col = proc->unk_30->data80010574.col;
+    startRow = proc->unk_30->data80010574.row;
+    if (proc->unk_30->data80010574.unk_0C == 0) {
         if (D_800B61A8 == 1) {
             if (col >= 7) {
                 func_80032AD4(0);
-                ((data80010574_t *)((proc_t *)arg1)->unk_30)->unk_0C = 1;
+                proc->unk_30->data80010574.unk_0C = 1;
             }
         } else {
             if (col < 7) {
                 func_80032AD4(0);
-                ((data80010574_t *)((proc_t *)arg1)->unk_30)->unk_0C = 1;
+                proc->unk_30->data80010574.unk_0C = 1;
             }
         }
     }
@@ -57,11 +57,11 @@ struct n64dk_r12 func_80010574(s32 arg1) {
         while (row < 4) {
             startRow = 0;
             if (letter == D_800B9601[row][col]) {
-                ((data80010574_t *)((proc_t *)arg1)->unk_30)->row = row + 1;
-                ((data80010574_t *)((proc_t *)arg1)->unk_30)->col = col;
-                if (((data80010574_t *)((proc_t *)arg1)->unk_30)->row >= 4) {
-                    ((data80010574_t *)((proc_t *)arg1)->unk_30)->row = 0;
-                    ((data80010574_t *)((proc_t *)arg1)->unk_30)->col = col + D_800B61A8;
+                proc->unk_30->data80010574.row = row + 1;
+                proc->unk_30->data80010574.col = col;
+                if (proc->unk_30->data80010574.row >= 4) {
+                    proc->unk_30->data80010574.row = 0;
+                    proc->unk_30->data80010574.col = col + D_800B61A8;
                 }
                 switch (row) {
                 case 0:
@@ -86,9 +86,9 @@ struct n64dk_r12 func_80010574(s32 arg1) {
         }
         col = col + D_800B61A8;
     }
-    if (((data80010574_t *)((proc_t *)arg1)->unk_30)->unk_0C == 0) {
+    if (proc->unk_30->data80010574.unk_0C == 0) {
         func_80032AD4(0);
-        ((data80010574_t *)((proc_t *)arg1)->unk_30)->unk_0C = 1;
+        proc->unk_30->data80010574.unk_0C = 1;
     }
     ret.w[1] = 2;
     ret.w[0] = 49;

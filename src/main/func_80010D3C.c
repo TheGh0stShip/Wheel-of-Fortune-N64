@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_80010D3C(s32 arg1) {
+struct n64dk_r12 func_80010D3C(proc_t *proc) {
     struct n64dk_r12 result;
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 row;
@@ -14,7 +14,7 @@ struct n64dk_r12 func_80010D3C(s32 arg1) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 8:
             result.w[1] = 1;
@@ -32,24 +32,24 @@ struct n64dk_r12 func_80010D3C(s32 arg1) {
             return result;
         }
     }
-    c = *((data80010D3C_t *)((proc_t *)arg1)->unk_30)->text;
+    c = *proc->unk_30->data80010D3C.text;
     if (c == 0) {
         func_80032AD4(0);
         result.w[1] = 2;
         result.w[0] = 49;
         return result;
     }
-    row = ((data80010D3C_t *)((proc_t *)arg1)->unk_30)->row;
+    row = proc->unk_30->data80010D3C.row;
     while (row < 4) {
-        p = &D_800B9601[row][((data80010D3C_t *)((proc_t *)arg1)->unk_30)->col];
+        p = &D_800B9601[row][proc->unk_30->data80010D3C.col];
         while (p != 0) {
             p = (u8 *)func_800099B0((s32)p, c);
             if (p != 0) {
                 p++;
-                ((data80010D3C_t *)((proc_t *)arg1)->unk_30)->row = row;
-                ((data80010D3C_t *)((proc_t *)arg1)->unk_30)->col = (s32)p - (s32)D_800B9601 - row * 21;
-                foundRow = ((data80010D3C_t *)((proc_t *)arg1)->unk_30)->row;
-                foundCol = ((data80010D3C_t *)((proc_t *)arg1)->unk_30)->col - 1;
+                proc->unk_30->data80010D3C.row = row;
+                proc->unk_30->data80010D3C.col = (s32)p - (s32)D_800B9601 - row * 21;
+                foundRow = proc->unk_30->data80010D3C.row;
+                foundCol = proc->unk_30->data80010D3C.col - 1;
                 switch (foundRow) {
                 case 0:
                     D_800B9D08[foundCol].unk_18 = 0x1111AAFF;
@@ -70,11 +70,11 @@ struct n64dk_r12 func_80010D3C(s32 arg1) {
                 return result;
             }
         }
-        ((data80010D3C_t *)((proc_t *)arg1)->unk_30)->col = 0;
+        proc->unk_30->data80010D3C.col = 0;
         row++;
     }
-    ((data80010D3C_t *)((proc_t *)arg1)->unk_30)->text++;
-    ((data80010D3C_t *)((proc_t *)arg1)->unk_30)->col = 0;
-    ((data80010D3C_t *)((proc_t *)arg1)->unk_30)->row = 0;
+    proc->unk_30->data80010D3C.text++;
+    proc->unk_30->data80010D3C.col = 0;
+    proc->unk_30->data80010D3C.row = 0;
     return result;
 }

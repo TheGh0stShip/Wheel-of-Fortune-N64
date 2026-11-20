@@ -14,8 +14,8 @@ void func_800263DC(void) {
         }
     }
     D_800FB808 = i;
-    task = func_8000A56C((s32)func_80023CA4, 0x5000000);
-    func_80027218(task, 0, (s32)func_8002208C, 0x5000000);
+    task = func_8000A56C(func_80023CA4, 0x5000000);
+    func_80027218(task, 0, func_8002208C, 0x5000000);
     func_800258BC();
     D_800588F0[0].unk_20 = D_800588A8[i][0][0];
     D_800588F0[0].unk_24 = D_800588A8[i][0][1];

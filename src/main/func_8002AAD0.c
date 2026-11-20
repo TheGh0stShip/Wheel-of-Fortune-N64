@@ -7,23 +7,23 @@ void func_8002AAD0(s32 arg0, s32 arg1, s32 arg2) {
         func_80002CE0(43);
     }
     if (arg1 != 0) {
-        ((cursor_t *)((proc_t *)arg0)->unk_30)->index++;
-        if (((cursor_t *)((proc_t *)arg0)->unk_30)->index == 13) {
-            ((cursor_t *)((proc_t *)arg0)->unk_30)->index = 0;
+        ((proc_t *)arg0)->unk_30->cursor.index++;
+        if (((proc_t *)arg0)->unk_30->cursor.index == 13) {
+            ((proc_t *)arg0)->unk_30->cursor.index = 0;
         }
-        if (((cursor_t *)((proc_t *)arg0)->unk_30)->index >= 26) {
-            ((cursor_t *)((proc_t *)arg0)->unk_30)->index = 13;
+        if (((proc_t *)arg0)->unk_30->cursor.index >= 26) {
+            ((proc_t *)arg0)->unk_30->cursor.index = 13;
         }
-        D_8005A998[((cursor_t *)((proc_t *)arg0)->unk_30)->index].unk_1C = D_8005A998[((cursor_t *)((proc_t *)arg0)->unk_30)->index].unk_14;
+        D_8005A998[((proc_t *)arg0)->unk_30->cursor.index].unk_1C = D_8005A998[((proc_t *)arg0)->unk_30->cursor.index].unk_14;
     } else {
-        if (((cursor_t *)((proc_t *)arg0)->unk_30)->index != 3) {
-            ((cursor_t *)((proc_t *)arg0)->unk_30)->index++;
-            if (((cursor_t *)((proc_t *)arg0)->unk_30)->index >= 3) {
-                ((cursor_t *)((proc_t *)arg0)->unk_30)->index = 0;
+        if (((proc_t *)arg0)->unk_30->cursor.index != 3) {
+            ((proc_t *)arg0)->unk_30->cursor.index++;
+            if (((proc_t *)arg0)->unk_30->cursor.index >= 3) {
+                ((proc_t *)arg0)->unk_30->cursor.index = 0;
             }
         }
-        D_8005A828[((cursor_t *)((proc_t *)arg0)->unk_30)->index].unk_1C = D_8005A828[((cursor_t *)((proc_t *)arg0)->unk_30)->index].unk_14;
+        D_8005A828[((proc_t *)arg0)->unk_30->cursor.index].unk_1C = D_8005A828[((proc_t *)arg0)->unk_30->cursor.index].unk_14;
     }
-    D_800B61B5 = ((cursor_t *)((proc_t *)arg0)->unk_30)->index + 65;
-    ((cursor_t *)((proc_t *)arg0)->unk_30)->unk_0C = 15;
+    D_800B61B5 = ((proc_t *)arg0)->unk_30->cursor.index + 65;
+    ((proc_t *)arg0)->unk_30->cursor.unk_0C = 15;
 }

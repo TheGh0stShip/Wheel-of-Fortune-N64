@@ -1,6 +1,6 @@
 #include "wof.h"
 
-struct n64dk_r12 func_80033688(s32 arg1) {
+struct n64dk_r12 func_80033688(proc_t *proc) {
     struct n64dk_r12 sp10;
     s32 sp20;
     s32 unused;  /* NOTE: unused in the original */
@@ -9,7 +9,7 @@ struct n64dk_r12 func_80033688(s32 arg1) {
     sp10.w[1] = 1;
     sp10.w[0] = 0;
     for (;;) {
-        sp28 = func_8000ACE8(arg1);
+        sp28 = func_8000ACE8(proc);
         if (sp28 == 0) {
             break;
         }

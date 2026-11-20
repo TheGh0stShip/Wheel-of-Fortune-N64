@@ -1,6 +1,6 @@
 #include "wof.h"
 
-void func_80005FD0(s32 arg0) {
+void func_80005FD0(frame_t *frame) {
     s32 unused;  /* NOTE: unused in the original */
 
     gDPPipeSync(D_800B81E8++);

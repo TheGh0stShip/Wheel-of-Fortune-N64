@@ -1,27 +1,27 @@
 #include "wof.h"
 
-void func_80030B5C(s32 arg0, s32 arg1) {
+void func_80030B5C(obj_t *obj, frame_t *frame) {
     proc_t *actor;
     s16 *pixels;
     Gfx *gfx;
 
-    if (((obj_t *)arg0)->unk_44 == 0) {
+    if (obj->unk_44 == 0) {
         return;
     }
     if (D_800BCD54 == 6) {
-        actor = (proc_t *)func_8000A990(0xA000400, -1);
+        actor = func_8000A990(0xA000400, -1);
         if (actor != 0) {
-            pixels = ((vannaAnim_t *)actor->unk_30)->unk_08 + ((vannaAnim_t *)actor->unk_30)->unk_10 * ( 64 * 96 );
-            func_8003143C(pixels, ((vannaAnim_t *)actor->unk_30)->unk_20 * D_800B61A8);
+            pixels = actor->unk_30->vannaAnim.unk_08 + actor->unk_30->vannaAnim.unk_10 * ( 64 * 96 );
+            func_8003143C(pixels, actor->unk_30->vannaAnim.unk_20 * D_800B61A8);
         }
     }
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x1020040;
     gfx->words.w1 = (s32)&D_0113AE28;
-    guTranslate(&((frame_t *)arg1)->translate[((obj_t *)arg0)->index], ((obj_t *)arg0)->x, ((obj_t *)arg0)->y, ((obj_t *)arg0)->z);
+    guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x1000040;
-    gfx->words.w1 = (s32)&((frame_t *)arg1)->translate[((obj_t *)arg0)->index];
+    gfx->words.w1 = (s32)&frame->translate[obj->index];
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xBB000001;
     gfx->words.w1 = -1;
@@ -36,7 +36,7 @@ void func_80030B5C(s32 arg0, s32 arg1) {
     gfx->words.w1 = -3079;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xFD100000;
-    gfx->words.w1 = ((obj_t *)arg0)->unk_44;
+    gfx->words.w1 = obj->unk_44;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xF5100000;
     gfx->words.w1 = 0x7094260;
@@ -63,7 +63,7 @@ void func_80030B5C(s32 arg0, s32 arg1) {
     gfx->words.w1 = (s32)&D_0113AD08;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xFD100000;
-    gfx->words.w1 = ((obj_t *)arg0)->unk_44 + 0x1000;
+    gfx->words.w1 = obj->unk_44 + 0x1000;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xF5100000;
     gfx->words.w1 = 0x7094260;
@@ -87,7 +87,7 @@ void func_80030B5C(s32 arg0, s32 arg1) {
     gfx->words.w1 = (s32)&D_0113AD28;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xFD100000;
-    gfx->words.w1 = ((obj_t *)arg0)->unk_44 + 0x2000;
+    gfx->words.w1 = obj->unk_44 + 0x2000;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0xF5100000;
     gfx->words.w1 = 0x7094260;

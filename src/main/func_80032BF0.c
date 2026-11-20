@@ -41,7 +41,7 @@ void func_80032BF0(void) {
     D_800B61A8 = 1;
     D_800B9988 = 0;
     for (i = 0; i < 3; i++) {
-        obj = func_80015848(0, D_8005C3A0[i][0], (s32)&func_8002FEB0, i | 0xA020000);
+        obj = func_80015848(0, D_8005C3A0[i][0], func_8002FEB0, i | 0xA020000);
         obj->unk_4C = D_8005C3A0[i][1];
         obj->unk_44 = 0;
     }

@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_8000EF68(s32 arg1) {
+struct n64dk_r12 func_8000EF68(proc_t *proc) {
     // The locals are func_8000F274's, slot for slot; this handler leaves three of them unused.
     struct n64dk_r12 ret;
     obj_t *unused;  /* NOTE: unused in the original */
@@ -13,18 +13,18 @@ struct n64dk_r12 func_8000EF68(s32 arg1) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    obj = (obj_t *)func_8000B5DC(0x4010000, 0xFFFF0000);
+    obj = func_8000B5DC(0x4010000, 0xFFFF0000);
     if (obj == 0) {
         return ret;
     }
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
         switch (event) {
         case 8:
-            ((data8000EF68_t *)((proc_t *)arg1)->unk_30)->unk_0C = obj->unk_2C;
+            proc->unk_30->data8000EF68.unk_0C = obj->unk_2C;
             break;
         case 34:
             ret.w[1] = 0;
@@ -32,7 +32,7 @@ struct n64dk_r12 func_8000EF68(s32 arg1) {
             return ret;
         }
     }
-    delta = ((data8000EF68_t *)((proc_t *)arg1)->unk_30)->unk_0C - D_800B9954.stick_x / D_80057F44;
+    delta = proc->unk_30->data8000EF68.unk_0C - D_800B9954.stick_x / D_80057F44;
     if (delta > 0.0f) {
         delta = delta * -1.0f;
     }

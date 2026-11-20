@@ -61,6 +61,6 @@ void func_80029440(void) {
         D_8005B710[n].unk_20 = D_8005B710[n].unk_24;
         return;
     }
-    task = func_8000A56C((s32)&func_80029098, 0x6040000);
-    sp24 = func_80027218(task, 0, (s32)&func_80028D3C, 0x5000000);
+    task = func_8000A56C(func_80029098, 0x6040000);
+    sp24 = func_80027218(task, 0, func_80028D3C, 0x5000000);
 }

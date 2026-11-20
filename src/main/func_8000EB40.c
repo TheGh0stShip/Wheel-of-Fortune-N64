@@ -1,19 +1,19 @@
 #include "wof.h"
 
-struct n64dk_r12 func_8000EB40(s32 arg1) {
+struct n64dk_r12 func_8000EB40(proc_t *proc) {
     struct n64dk_r12 result;
     s32 event;
 
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
         switch (event) {
         case 8:
-            func_8000AAB0(arg1, 15, 0);
+            func_8000AAB0(proc, 15, 0);
             D_800B96A8 += 2;
             result.w[0] = 30 / D_800B96B4;
             return result;
@@ -29,13 +29,13 @@ struct n64dk_r12 func_8000EB40(s32 arg1) {
             func_8000B6FC(0xA000000, 0xFF000000);
             func_8000B6FC(0x4000000, 0xFF000000);
             if ((D_800B96B0 & 0x1000) != 0) {
-                func_8000AAB0(arg1, 36, 0);
+                func_8000AAB0(proc, 36, 0);
             } else {
-                func_8000AAB0(arg1, 35, 0);
+                func_8000AAB0(proc, 35, 0);
             }
             return result;
         case 35:
-            func_8000ADEC(arg1);
+            func_8000ADEC(proc);
             func_8000AF00();
             func_80021E28();
             func_8000B9FC(1);
@@ -44,7 +44,7 @@ struct n64dk_r12 func_8000EB40(s32 arg1) {
             result.w[0] = 0;
             return result;
         case 36:
-            func_8000ADEC(arg1);
+            func_8000ADEC(proc);
             func_8000AF00();
             func_80021E28();
             func_80026EB4();

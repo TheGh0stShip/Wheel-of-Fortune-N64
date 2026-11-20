@@ -6,8 +6,8 @@ void func_80026800(void) {
     s32 clashes;
     s32 obj;
 
-    obj = func_8000A56C((s32)func_80025150, 0x5000000);
-    func_80027218(obj, 0, (s32)func_80022218, 0x5000000);
+    obj = func_8000A56C(func_80025150, 0x5000000);
+    func_80027218(obj, 0, func_80022218, 0x5000000);
     func_800258BC();
     for (i = 0; i < 3; i++) {
         if (D_800B9990[i].unk_014 == 4) {

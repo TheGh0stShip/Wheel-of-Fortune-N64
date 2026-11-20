@@ -1,24 +1,24 @@
 #include "wof.h"
 
-void func_80014208(s32 arg0, s32 arg1) {
+void func_80014208(obj_t *obj, frame_t *frame) {
     s32 i;
     Gfx *gfx;
 
-    guTranslate(&((frame_t *)arg1)->translate[((obj_t *)arg0)->index], ((obj_t *)arg0)->x, ((obj_t *)arg0)->y, ((obj_t *)arg0)->z);
-    guScale(&((frame_t *)arg1)->scale[((obj_t *)arg0)->index], ((obj_t *)arg0)->scale, ((obj_t *)arg0)->scale, ((obj_t *)arg0)->scale);
-    guRotateRPY(&((frame_t *)arg1)->rotate[((obj_t *)arg0)->index], ((obj_t *)arg0)->unk_28, ((obj_t *)arg0)->unk_2C, ((obj_t *)arg0)->unk_30);
+    guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
+    guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
+    guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x1020040;
-    gfx->words.w1 = (s32)&((frame_t *)arg1)->translate[((obj_t *)arg0)->index];
+    gfx->words.w1 = (s32)&frame->translate[obj->index];
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x1000040;
-    gfx->words.w1 = (s32)&((frame_t *)arg1)->scale[((obj_t *)arg0)->index];
+    gfx->words.w1 = (s32)&frame->scale[obj->index];
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x1000040;
-    gfx->words.w1 = (s32)&((frame_t *)arg1)->rotate[((obj_t *)arg0)->index];
+    gfx->words.w1 = (s32)&frame->rotate[obj->index];
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x6000000;
-    gfx->words.w1 = ((obj_t *)arg0)->unk_48;
+    gfx->words.w1 = obj->unk_48;
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x6000000;
     gfx->words.w1 = (s32)&D_01021A70;

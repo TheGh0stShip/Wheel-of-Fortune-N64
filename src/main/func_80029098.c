@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_80029098(s32 arg1) {
+struct n64dk_r12 func_80029098(proc_t *proc) {
     s32 event;
     s32 index;
     struct n64dk_r12 result;
@@ -9,9 +9,9 @@ struct n64dk_r12 func_80029098(s32 arg1) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    obj = ((data80029098_t *)((proc_t *)arg1)->unk_30)->unk_00;
+    obj = proc->unk_30->data80029098.unk_00;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
@@ -21,7 +21,7 @@ struct n64dk_r12 func_80029098(s32 arg1) {
                 func_80032B80();
             }
             func_80032AD4(2);
-            ((data80029098_t *)((proc_t *)arg1)->unk_30)->unk_04 = 0;
+            proc->unk_30->data80029098.unk_04 = 0;
             break;
         case 6:
             if (D_800B619C == 6) {
@@ -35,12 +35,12 @@ struct n64dk_r12 func_80029098(s32 arg1) {
             return result;
         }
     }
-    index = ((data80029098_t *)((proc_t *)arg1)->unk_30)->unk_04;
+    index = proc->unk_30->data80029098.unk_04;
     if (D_8005B710[index].unk_24 == 0 || index >= 22) {
         if (D_800B619C != 6) {
             func_80002CE0(D_800FB808 + 139);
         }
-        func_8000AAB0(arg1, 6, 0);
+        func_8000AAB0(proc, 6, 0);
         result.w[1] = 1;
         result.w[0] = 20 / D_800B96B4;
         return result;
@@ -52,6 +52,6 @@ struct n64dk_r12 func_80029098(s32 arg1) {
         index = index % 16;
     }
     obj->unk_44 = D_8005BA80[index];
-    ((data80029098_t *)((proc_t *)arg1)->unk_30)->unk_04++;
+    proc->unk_30->data80029098.unk_04++;
     return result;
 }

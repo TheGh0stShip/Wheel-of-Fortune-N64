@@ -6,7 +6,7 @@ void func_800057A8(gfxInfo_t *info) {
     obj_t *cam;
     Gfx *gfx;
 
-    cam = (obj_t *)func_8000B5DC(0x3000000, 0xFF000000);
+    cam = func_8000B5DC(0x3000000, 0xFF000000);
     if (cam != 0) {
         D_800BEE2C = cam->x;
         D_800BEE30 = cam->y;

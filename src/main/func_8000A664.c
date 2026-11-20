@@ -26,7 +26,7 @@ void func_8000A664(void) {
                 }
                 switch (res.w[1]) {
                 case 0:
-                    func_8000A4A4((s32)task, res.w[0]);
+                    func_8000A4A4(task, res.w[0]);
                     break;
                 case 1:
                     task->unk_0C = res.w[0];

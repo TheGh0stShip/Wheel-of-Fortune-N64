@@ -14,8 +14,8 @@ struct n64dk_r12 func_80025150(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            ((mainMenu_t *)proc->unk_30)->index = 0;
-            ((mainMenu_t *)proc->unk_30)->sel = 0;
+            proc->unk_30->mainMenu.index = 0;
+            proc->unk_30->mainMenu.sel = 0;
             func_80022784(proc, D_80058B28, D_80058AA8, 1);
             func_80022784(proc, D_80058B28, &D_80058AA8[1], 0);
             func_80022784(proc, D_80058B28, &D_80058AA8[2], 0);
@@ -33,8 +33,8 @@ struct n64dk_r12 func_80025150(proc_t *proc) {
     }
     if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
         func_80002CE0(42);
-        ((mainMenu_t *)proc->unk_30)->delay = 0;
-        switch (((mainMenu_t *)proc->unk_30)->index) {
+        proc->unk_30->mainMenu.delay = 0;
+        switch (proc->unk_30->mainMenu.index) {
         case 0:
             func_8002500C();
             func_8000B9FC(1);
@@ -80,9 +80,9 @@ struct n64dk_r12 func_80025150(proc_t *proc) {
     } else if ((D_800B96B0 & 0x400 & 0xFFFF) != 0) {
         func_80022BC8(proc, D_80058B28, D_80058AA8, 4);
     } else if ((D_800B96B0 & 0x200 & 0xFFFF) != 0) {
-        func_80022DC0(proc, D_80058B28, &D_80058AA8[((mainMenu_t *)proc->unk_30)->index], 0);
+        func_80022DC0(proc, D_80058B28, &D_80058AA8[proc->unk_30->mainMenu.index], 0);
     } else if ((D_800B96B0 & 0x100 & 0xFFFF) != 0) {
-        func_80022FE0(proc, D_80058B28, &D_80058AA8[((mainMenu_t *)proc->unk_30)->index], 0);
+        func_80022FE0(proc, D_80058B28, &D_80058AA8[proc->unk_30->mainMenu.index], 0);
     } else if ((D_800B96B0 & 0x4 & 0xFFFF) != 0) {
         return ret;
     } else if ((D_800B96B0 & 0x8 & 0xFFFF) != 0) {
@@ -90,11 +90,11 @@ struct n64dk_r12 func_80025150(proc_t *proc) {
     } else if ((D_800B96B0 & 0x4000 & 0xFFFF) != 0) {
         return ret;
     }
-    if (((mainMenu_t *)proc->unk_30)->delay <= 0) {
+    if (proc->unk_30->mainMenu.delay <= 0) {
         if (D_800B9954.stick_x >= 41) {
-            func_80022FE0(proc, D_80058B28, &D_80058AA8[((mainMenu_t *)proc->unk_30)->index], 0);
+            func_80022FE0(proc, D_80058B28, &D_80058AA8[proc->unk_30->mainMenu.index], 0);
         } else if (D_800B9954.stick_x < -40) {
-            func_80022DC0(proc, D_80058B28, &D_80058AA8[((mainMenu_t *)proc->unk_30)->index], 0);
+            func_80022DC0(proc, D_80058B28, &D_80058AA8[proc->unk_30->mainMenu.index], 0);
         }
         if (D_800B9954.stick_y >= 41) {
             func_800229D0(proc, D_80058B28, D_80058AA8, 4);
@@ -102,7 +102,7 @@ struct n64dk_r12 func_80025150(proc_t *proc) {
             func_80022BC8(proc, D_80058B28, D_80058AA8, 4);
         }
     } else {
-        ((mainMenu_t *)proc->unk_30)->delay = ((mainMenu_t *)proc->unk_30)->delay - D_800B96B4;
+        proc->unk_30->mainMenu.delay = proc->unk_30->mainMenu.delay - D_800B96B4;
     }
     return ret;
 }

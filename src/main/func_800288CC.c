@@ -1,6 +1,6 @@
 #include "wof.h"
 
-void func_800288CC(s32 arg0, s32 arg1) {
+void func_800288CC(obj_t *obj, frame_t *frame) {
     s32 i;
     Gfx *gfx;
 

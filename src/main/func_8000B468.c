@@ -1,6 +1,6 @@
 #include "wof.h"
 
-void func_8000B468(s32 arg0) {
+void func_8000B468(frame_t *frame) {
     obj_t *node;
 
     node = &D_800B40C8[0];
@@ -11,7 +11,7 @@ void func_8000B468(s32 arg0) {
             return;
         }
         if ((node->unk_08 & 0xFF000000) != 0x5000000) {
-            node->unk_0C(node, arg0);
+            node->unk_0C(node, frame);
         }
     }
 }

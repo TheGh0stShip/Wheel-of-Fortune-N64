@@ -1,6 +1,6 @@
 #include "wof.h"
 
-void func_800289F4(s32 arg0, s32 arg1) {
+void func_800289F4(obj_t *obj, frame_t *frame) {
     s32 i;
     Gfx *gfx;
 

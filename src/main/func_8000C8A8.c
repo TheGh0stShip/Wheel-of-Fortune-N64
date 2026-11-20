@@ -1,16 +1,16 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_8000C8A8(s32 arg1) {
+struct n64dk_r12 func_8000C8A8(proc_t *proc) {
     struct n64dk_r12 ret;
     obj_t *cam;
     s32 event;
 
-    cam = ((data8000C8A8_t *)((proc_t *)arg1)->unk_30)->cam;
+    cam = proc->unk_30->data8000C8A8.cam;
     ret.w[1] = 1;
     ret.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }

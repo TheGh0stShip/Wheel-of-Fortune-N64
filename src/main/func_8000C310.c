@@ -1,13 +1,13 @@
 #include "wof.h"
 
-struct n64dk_r12 func_8000C310(s32 arg1) {
+struct n64dk_r12 func_8000C310(proc_t *proc) {
     struct n64dk_r12 result;
     obj_t *obj;
     s32 event;
 
-    obj = ((data8000C310_t *)((proc_t *)arg1)->unk_30)->unk_00;
+    obj = proc->unk_30->data8000C310.unk_00;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
@@ -21,7 +21,7 @@ struct n64dk_r12 func_8000C310(s32 arg1) {
     }
     result.w[1] = 1;
     result.w[0] = 0;
-    func_8000AD9C(arg1);
+    func_8000AD9C(proc);
     result.w[1] = 1;
     result.w[0] = 0;
     obj->unk_2C -= (f32)D_800B96B4;

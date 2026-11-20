@@ -1,20 +1,20 @@
 #include "wof.h"
 
-struct n64dk_r12 func_8000FFE0(s32 arg1) {
+struct n64dk_r12 func_8000FFE0(proc_t *proc) {
     struct n64dk_r12 result;
     obj_t *obj;
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    obj = ((data8000FFE0_t *)((proc_t *)arg1)->unk_30)->unk_00;
+    obj = proc->unk_30->data8000FFE0.unk_00;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
         switch (event) {
         case 8:
-            ((data8000FFE0_t *)((proc_t *)arg1)->unk_30)->unk_08 = 0;
+            proc->unk_30->data8000FFE0.unk_08 = 0;
             obj->unk_48 = &D_010920D8;
             break;
         case 15:
@@ -28,9 +28,9 @@ struct n64dk_r12 func_8000FFE0(s32 arg1) {
             return result;
         }
     }
-    ((data8000FFE0_t *)((proc_t *)arg1)->unk_30)->unk_08 = ((data8000FFE0_t *)((proc_t *)arg1)->unk_30)->unk_08 + D_800B96B4;
-    if (((data8000FFE0_t *)((proc_t *)arg1)->unk_30)->unk_08 >= 5) {
-        ((data8000FFE0_t *)((proc_t *)arg1)->unk_30)->unk_08 = 0;
+    proc->unk_30->data8000FFE0.unk_08 = proc->unk_30->data8000FFE0.unk_08 + D_800B96B4;
+    if (proc->unk_30->data8000FFE0.unk_08 >= 5) {
+        proc->unk_30->data8000FFE0.unk_08 = 0;
         if (obj->unk_48 == &D_01092168) {
             obj->unk_48 = &D_010920D8;
         } else if (obj->unk_48 == &D_01092120) {

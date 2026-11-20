@@ -1,6 +1,6 @@
 #include "wof.h"
 
-struct n64dk_r12 func_8001B6BC(s32 arg1) {
+struct n64dk_r12 func_8001B6BC(proc_t *proc) {
     struct n64dk_r12 ret;
     s32 task;
     s32 unused;  /* NOTE: unused in the original */
@@ -8,27 +8,27 @@ struct n64dk_r12 func_8001B6BC(s32 arg1) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (((playerProc_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
-        func_8000AD9C(arg1);
+    if (proc->unk_30->playerProc.player != D_800FB808) {
+        func_8000AD9C(proc);
         return ret;
     }
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
         switch (event) {
         case 8:
             if (D_800B9990[D_800FB808].unk_000 < 250) {
-                func_8000AAB0(arg1, 51, 0);
+                func_8000AAB0(proc, 51, 0);
                 func_80002CE0(1);
                 ret.w[1] = 1;
                 ret.w[0] = 30 / D_800B96B4;
                 return ret;
             } else {
                 func_80017C00(3, 1);
-                func_8002EB90(func_8001A97C(((playerProc_t *)((proc_t *)arg1)->unk_30)->unk_0C) & 255);
-                func_8000AAB0(arg1, 5, 0);
+                func_8002EB90(func_8001A97C(proc->unk_30->playerProc.unk_0C) & 255);
+                func_8000AAB0(proc, 5, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 60 / D_800B96B4;
                 return ret;
@@ -36,7 +36,7 @@ struct n64dk_r12 func_8001B6BC(s32 arg1) {
             break;
         case 5:
             func_80002CE0(D_800B9990[D_800FB808].unk_0FC + (D_800B61B5 - 'A'));
-            func_8000AAB0(arg1, 44, 0);
+            func_8000AAB0(proc, 44, 0);
             ret.w[1] = 1;
             ret.w[0] = 30 / D_800B96B4;
             return ret;
@@ -45,8 +45,8 @@ struct n64dk_r12 func_8001B6BC(s32 arg1) {
             func_8000AAB0(task, 23, 0);
             if (func_80007888(D_800B61B5, 1) > 0) {
                 func_80007DAC(D_800B61B5);
-                task = func_8000A56C((s32)func_80010574, 0x1000000);
-                ((playerProc_t *)((proc_t *)task)->unk_30)->unk_10 = D_800B61B5;
+                task = func_8000A56C(func_80010574, 0x1000000);
+                ((proc_t *)task)->unk_30->playerProc.unk_10 = D_800B61B5;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {

@@ -15,7 +15,7 @@ void func_8000EE78(void) {
     func_80032BF0();
     func_8001A484();
     func_8002EC60();
-    func_8000A56C((s32)&func_8000EB40, 0x9000000);
-    func_80015848(0, 0, (s32)&func_800287A4, 0x5000000);
+    func_8000A56C(func_8000EB40, 0x9000000);
+    func_80015848(0, 0, func_800287A4, 0x5000000);
     func_80033CBC();
 }

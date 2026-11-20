@@ -57,7 +57,7 @@ void func_8002A014(void) {
             if (task != 0) {
                 func_8000A4A4(task, 0);
             }
-            func_8000A56C((s32)func_80029C98, 0x6030000);
+            func_8000A56C(func_80029C98, 0x6030000);
         } else {
             for (i = 0; i < 9; i++) {
                 D_8005B360[i].unk_20 = 0;

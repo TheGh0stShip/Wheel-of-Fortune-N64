@@ -1,17 +1,17 @@
 #include "wof.h"
 
-struct n64dk_r12 func_8000BEA8(s32 arg1) {
+struct n64dk_r12 func_8000BEA8(proc_t *proc) {
     f32 mtx[4][4];
     f32 rot[4][4];
     struct n64dk_r12 result;
     obj_t *obj;
     s32 event;
 
-    obj = ((data8000BEA8_t *)((proc_t *)arg1)->unk_30)->unk_00;
+    obj = proc->unk_30->data8000BEA8.unk_00;
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
@@ -21,7 +21,7 @@ struct n64dk_r12 func_8000BEA8(s32 arg1) {
             result.w[0] = 2;
             return result;
         case 36:
-            func_8000ADEC(arg1);
+            func_8000ADEC(proc);
             func_8000AF00();
             func_8000B9FC(1);
             func_80026EB4();
@@ -29,7 +29,7 @@ struct n64dk_r12 func_8000BEA8(s32 arg1) {
             result.w[0] = 1;
             return result;
         case 34:
-            func_8000ADEC(arg1);
+            func_8000ADEC(proc);
             func_8000AF00();
             func_8000B9FC(1);
             func_8000EE78();
@@ -40,13 +40,13 @@ struct n64dk_r12 func_8000BEA8(s32 arg1) {
     }
     if ((D_800B96B0 & 0x1000) != 0) {
         func_8000315C();
-        func_8000AAB0(arg1, 36, 0);
+        func_8000AAB0(proc, 36, 0);
         result.w[1] = 1;
         result.w[0] = 2;
         return result;
     }
-    if (func_80002C34(((data8000BEA8_t *)((proc_t *)arg1)->unk_30)->unk_04) != 0 || D_800B3994 >= 720) {
-        func_8000ADEC(arg1);
+    if (func_80002C34(proc->unk_30->data8000BEA8.unk_04) != 0 || D_800B3994 >= 720) {
+        func_8000ADEC(proc);
         func_8000AF00();
         func_8000B9FC(1);
         func_8000EE78();
@@ -64,9 +64,9 @@ struct n64dk_r12 func_8000BEA8(s32 arg1) {
     guTranslateF(mtx, 0, D_800BEE24, 0);
     guRotateRPYF(rot, obj->unk_28, obj->unk_2C, obj->unk_30);
     guMtxCatF(mtx, rot, mtx);
-    obj->x = ((data8000BEA8_t *)((proc_t *)arg1)->unk_30)->unk_0C + mtx[3][0];
-    obj->y = ((data8000BEA8_t *)((proc_t *)arg1)->unk_30)->unk_10 + mtx[3][1];
-    obj->z = ((data8000BEA8_t *)((proc_t *)arg1)->unk_30)->unk_14 + mtx[3][2];
+    obj->x = proc->unk_30->data8000BEA8.unk_0C + mtx[3][0];
+    obj->y = proc->unk_30->data8000BEA8.unk_10 + mtx[3][1];
+    obj->z = proc->unk_30->data8000BEA8.unk_14 + mtx[3][2];
     if (D_800B3994 >= 721) {
         D_800B3994 = 720;
     }

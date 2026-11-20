@@ -1,15 +1,15 @@
 #include "wof.h"
 
-struct n64dk_r12 func_8000F84C(s32 arg1) {
+struct n64dk_r12 func_8000F84C(proc_t *proc) {
     struct n64dk_r12 ret;
     s32 sp20;
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    sp20 = ((data8000F84C_t *)((proc_t *)arg1)->unk_30)->unk_00;
+    sp20 = proc->unk_30->data8000F84C.unk_00;
     ret.w[1] = 1;
     ret.w[0] = 0;
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 8:
             func_80032858();
@@ -25,21 +25,21 @@ struct n64dk_r12 func_8000F84C(s32 arg1) {
                 D_800B96A8++;
                 break;
             case 3500:
-                ((data8000F84C_t *)((proc_t *)arg1)->unk_30)->unk_04 = 1;
+                proc->unk_30->data8000F84C.unk_04 = 1;
                 D_800B96A8++;
-                func_8000AAB0(arg1, 41, 0);
+                func_8000AAB0(proc, 41, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 10 / D_800B96B4;
                 return ret;
             case 5000:
                 D_800B96A8++;
-                func_8000AAB0(arg1, 41, 0);
+                func_8000AAB0(proc, 41, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 10 / D_800B96B4;
                 return ret;
             case 10000:
                 D_800B96A8 = D_800B96A8 + 3;
-                func_8000AAB0(arg1, 41, 0);
+                func_8000AAB0(proc, 41, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 10 / D_800B96B4;
                 return ret;

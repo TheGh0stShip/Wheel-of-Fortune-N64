@@ -1,6 +1,6 @@
 #include "wof.h"
 
-struct n64dk_r12 func_8001BC44(s32 arg1) {
+struct n64dk_r12 func_8001BC44(proc_t *proc) {
     struct n64dk_r12 sp10;
     s32 task;
     s32 unused;  /* NOTE: unused in the original */
@@ -8,12 +8,12 @@ struct n64dk_r12 func_8001BC44(s32 arg1) {
 
     sp10.w[1] = 1;
     sp10.w[0] = 0;
-    if (((playerProc_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
-        func_8000AD9C(arg1);
+    if (proc->unk_30->playerProc.player != D_800FB808) {
+        func_8000AD9C(proc);
         return sp10;
     }
     task = func_8000A990(0x1020000, -1);
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 8:
             func_8002EBF4();

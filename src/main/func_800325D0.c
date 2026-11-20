@@ -18,18 +18,18 @@ void func_800325D0(s32 arg0, s32 arg1) {
     if (D_8005C3B8[kind][arg0].unk_18 == 0) {
         return;
     }
-    obj = (obj_t *)func_8000B5DC(arg1 | 0xA020000, -1);
+    obj = func_8000B5DC(arg1 | 0xA020000, -1);
     if (obj == 0) {
         func_80009F38("InitAnim: cannot find contestant obj");
     }
-    task = (proc_t *)func_8000A990(arg1 | 0xA000300, -1);
+    task = func_8000A990(arg1 | 0xA000300, -1);
     if (task != 0) {
-        func_8000A4A4((s32)task, 0);
+        func_8000A4A4(task, 0);
     }
-    task = (proc_t *)func_8000A56C((s32)func_800315FC, arg1 | 0xA000300);
-    ((anim_t *)task->unk_30)->unk_04 = arg1;
-    ((anim_t *)task->unk_30)->unk_08 = D_8005C3B8[kind][arg0].unk_18;
-    ((anim_t *)task->unk_30)->unk_18 = D_8005C3B8[kind][arg0].count;
-    ((anim_t *)task->unk_30)->unk_1C = D_8005C3B8[kind][arg0].unk_10;
-    ((anim_t *)task->unk_30)->obj = obj;
+    task = func_8000A56C(func_800315FC, arg1 | 0xA000300);
+    task->unk_30->anim.unk_04 = arg1;
+    task->unk_30->anim.unk_08 = D_8005C3B8[kind][arg0].unk_18;
+    task->unk_30->anim.unk_18 = D_8005C3B8[kind][arg0].count;
+    task->unk_30->anim.unk_1C = D_8005C3B8[kind][arg0].unk_10;
+    task->unk_30->anim.obj = obj;
 }

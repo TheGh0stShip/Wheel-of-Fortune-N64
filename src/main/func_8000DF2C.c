@@ -1,6 +1,6 @@
 #include "wof.h"
 
-void func_8000DF2C(s32 arg0, s32 arg1) {
+void func_8000DF2C(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 row;
     s32 col;
@@ -17,8 +17,8 @@ void func_8000DF2C(s32 arg0, s32 arg1) {
                                    G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             gDPPipeSync(D_800B81E8++);
             gSPTextureRectangle(D_800B81E8++,
-                                (((obj_t *)arg0)->x + col * 64) << 2, (((obj_t *)arg0)->y + row * 64) << 2,
-                                (((obj_t *)arg0)->x + col * 64 + 63) << 2, (((obj_t *)arg0)->y + row * 64 + 63) << 2,
+                                (obj->x + col * 64) << 2, (obj->y + row * 64) << 2,
+                                (obj->x + col * 64 + 63) << 2, (obj->y + row * 64 + 63) << 2,
                                 G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
             gDPPipeSync(D_800B81E8++);
         }

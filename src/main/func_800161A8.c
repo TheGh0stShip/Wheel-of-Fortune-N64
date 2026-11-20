@@ -6,7 +6,7 @@ void func_800161A8(void) {
 
     obj = func_8000B5DC(0x1010000, -1);
     if (obj == 0) {
-        obj = func_80015848(0, 0, (s32)func_80012D40, 0x1010000);
+        obj = func_80015848(0, 0, func_80012D40, 0x1010000);
     } else {
         child = func_8000A990(0x1010100, -1);
         if (child != 0) {

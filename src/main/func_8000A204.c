@@ -1,6 +1,6 @@
 #include "wof.h"
 
-s32 func_8000A204(void) {
+proc_t *func_8000A204(void) {
     s32 i;
 
     if (D_800BEE50 == 69) {
@@ -11,7 +11,7 @@ s32 func_8000A204(void) {
     while (i < 70) {
         if (D_800B82A0[i].unk_00 == 0) {
             D_800BEE50++;
-            return (s32)&D_800B82A0[i];
+            return &D_800B82A0[i];
         }
         i++;
     }

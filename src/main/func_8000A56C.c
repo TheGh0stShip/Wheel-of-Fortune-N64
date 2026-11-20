@@ -1,19 +1,19 @@
 #include "wof.h"
 
 
-s32 func_8000A56C(s32 arg0, s32 arg1) {
+proc_t *func_8000A56C(procHandler_t handler, s32 arg1) {
     proc_t *last;
     proc_t *task;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    last = (proc_t *)func_8000A0E4();
-    task = (proc_t *)func_8000A204();
+    last = func_8000A0E4();
+    task = func_8000A204();
     if (task == 0) {
         func_80009F38("CreatProc: Failed to alloc proc\n");
         return 0;
     }
-    last->next = (s32)task;
-    task->unk_00 = arg0;
+    last->next = task;
+    task->unk_00 = handler;
     task->unk_08 = arg1;
     task->unk_0C = 0;
     task->unk_10 = 0;
@@ -23,5 +23,5 @@ s32 func_8000A56C(s32 arg0, s32 arg1) {
     task->unk_34 = 0;
     task->unk_38 = 0;
     task->unk_30 = func_8000A31C(task->unk_04);
-    return (s32)task;
+    return task;
 }

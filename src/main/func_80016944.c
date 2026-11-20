@@ -12,15 +12,15 @@ void func_80016944(obj_t *obj, s32 arg1) {
     obj->unk_2C = D_80057F50[arg1].unk_10;
     obj->unk_30 = D_80057F50[arg1].unk_14;
     obj->unk_48 = 0;
-    task = (proc_t *)func_8000A990(0x3010000, -1);
+    task = func_8000A990(0x3010000, -1);
     if (task != 0) {
-        func_8000A4A4((s32)task, 0);
+        func_8000A4A4(task, 0);
     }
     if (D_80057F50[arg1].path != 0) {
-        task = (proc_t *)func_8000A56C((s32)func_80016734, 0x3010000);
-        ((data80016734_t *)task->unk_30)->unk_08 = D_80057F50[arg1].path;
-        ((data80016734_t *)task->unk_30)->unk_0C = 0;
-        ((data80016734_t *)task->unk_30)->unk_10 = D_80057F50[arg1].count;
+        task = func_8000A56C(func_80016734, 0x3010000);
+        task->unk_30->data80016734.unk_08 = D_80057F50[arg1].path;
+        task->unk_30->data80016734.unk_0C = 0;
+        task->unk_30->data80016734.unk_10 = D_80057F50[arg1].count;
         D_800B6BE8 = D_80057F50[arg1].unk_0C;
         D_800B6BEC = D_80057F50[arg1].unk_10;
         D_800B6BF0 = D_80057F50[arg1].unk_14;

@@ -6,7 +6,7 @@ void func_80023B44(void) {
     obj_t *obj;
 
     for (i = 0; i < 6; i++) {
-        obj = (obj_t *)func_8000B5DC(i | 0xA020000, -1);
+        obj = func_8000B5DC(i | 0xA020000, -1);
         if (obj == 0) {
             func_80009F38("SwitchImage: could not find contestant");
         }

@@ -1,6 +1,6 @@
 #include "wof.h"
 
-s32 func_8000B10C(void) {
+obj_t *func_8000B10C(void) {
     s32 i;
 
     if (D_800BCA10 == 100) {
@@ -11,7 +11,7 @@ s32 func_8000B10C(void) {
     while (i < 100) {
         if (D_800B40C8[i].unk_0C == 0) {
             D_800BCA10++;
-            return (s32)&D_800B40C8[i];
+            return &D_800B40C8[i];
         }
         i++;
     }
