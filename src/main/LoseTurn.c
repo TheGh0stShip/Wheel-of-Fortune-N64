@@ -1,0 +1,18 @@
+#include "wof.h"
+
+
+s32 LoseTurn(void) {
+    proc_t *handle;
+
+    if (players[curPlayer].unk_008 != 0 && finalSpin == 0) {
+        ProcPostMessageClass(37, curPlayer | 0x2000000, 0xFF0000FF, 1);
+        return 0;
+    }
+    NextPlayer(0);
+    LightPlayer(curPlayer);
+    handle = FindProc(curPlayer | 0x2000000, 0xFF0000FF);
+    ProcPostMessage(handle, 1, 0);
+    handle = FindProc(0x5000000, -1);
+    ProcPostMessage(handle, 1, 0);
+    return 1;
+}

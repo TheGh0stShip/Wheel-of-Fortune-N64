@@ -7,11 +7,11 @@ void func_80030B5C(obj_t *obj, frame_t *frame) {
     if (obj->image == 0) {
         return;
     }
-    if (D_800BCD54 == 6) {
+    if (gameMode == 6) {
         actor = FindProc(0xA000400, -1);
         if (actor != 0) {
             pixels = actor->data->vannaAnim.unk_08 + actor->data->vannaAnim.unk_10 * ( 64 * 96 );
-            func_8003143C(pixels, actor->data->vannaAnim.unk_20 * D_800B61A8);
+            func_8003143C(pixels, actor->data->vannaAnim.unk_20 * lightDir);
         }
     }
     gSPMatrix(glistp++, &D_0113AE28, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);

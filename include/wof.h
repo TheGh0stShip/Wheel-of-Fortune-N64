@@ -261,7 +261,7 @@ typedef struct {
     /* 0x14 */ s32 unk_14;      // -1: the contestant has none
 } voice_t;    // size 0x18
 
-// One of the three contestants: D_800B9990[3].
+// One of the three contestants: players[3].
 typedef struct {
     /* 0x000 */ s32 unk_000;
     /* 0x004 */ s32 unk_004;
@@ -290,8 +290,8 @@ typedef struct {
     /* 0x1E478 */ void     *framebuffer;
 } gfxInfo_t;    // size 0x1E480
 
-// What guLookAt is given for one frame of a camera move. D_8005EB48[] is the move of the
-// opening, and D_800BA5D8 points at the one in use.
+// What guLookAt is given for one frame of a camera move. openingPath[] is the move of the
+// opening, and curCamera points at the one in use.
 typedef struct {
     /* 0x00 */ f32 eyeX;
     /* 0x04 */ f32 eyeY;
@@ -304,7 +304,7 @@ typedef struct {
     /* 0x20 */ f32 upZ;
 } camera_t;    // size 0x24
 
-// A place func_80016944 puts the camera obj, by number: D_80057F50[].
+// A place SetView puts the camera obj, by number: views[].
 typedef struct {
     /* 0x00 */ s32      x;
     /* 0x04 */ s32      y;
@@ -312,7 +312,7 @@ typedef struct {
     /* 0x0C */ f32      roll;       // roll, pitch, heading: what those of the obj become
     /* 0x10 */ f32      pitch;
     /* 0x14 */ f32      heading;
-    /* 0x18 */ camera_t *path;      // if not 0, a move that a proc (func_80016734) plays
+    /* 0x18 */ camera_t *path;      // if not 0, a move that a proc (CameraPathProc) plays
     /* 0x1C */ s32      count;      // the frames of the move
 } view_t;    // size 0x20
 
@@ -336,7 +336,7 @@ typedef struct {
     /* 0x00 */ s32 base;
     /* 0x04 */ s32 range;
 } puzzleRange_t;    // size 0x8
-// One wedge of the wheel: D_800B39B8[].
+// One wedge of the wheel: wedges[].
 typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s8 name[0x14];
@@ -351,14 +351,14 @@ typedef struct {
     /* 0x04 */ Gfx *unk_04;     // if not 0, drawn in its place once the wedge has unk_1C set
 } wedgeDl_t;    // size 0x8
 
-// One puzzle of the built-in list: D_8004BB98[].
+// One puzzle of the built-in list: puzzles[].
 typedef struct {
     /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8  *unk_04;     // its category, which func_80006E54 copies into D_800B9544
+    /* 0x04 */ u8  *unk_04;     // its category, which LoadPuzzle copies into category
     /* 0x08 */ s32 unk_08;
 } puzzle_t;    // size 0xC
 
-// The entries of D_80057808[]: the display list and the matrix of one of the objs func_8000E7D4
+// The entries of D_80057808[]: the display list and the matrix of one of the objs StartOpening
 // makes, drawn by func_8000D6D8.
 typedef struct {
     /* 0x00 */ Gfx *unk_00;
@@ -366,7 +366,7 @@ typedef struct {
     /* 0x08 */ f32 unk_08;
 } data80057808_t;    // size 0xC
 
-// The entries of D_80057BB0[]. func_80013440 gives the colour an entry is drawn in: unk_10, or
+// The entries of D_80057BB0[]. GetLayerColor gives the colour an entry is drawn in: unk_10, or
 // unk_14 for the first half of each blink while unk_04 is set.
 typedef struct {
     /* 0x00 */ Gfx *unk_00;     // its display list
@@ -423,27 +423,27 @@ typedef struct {
     /* 0x00 */ obj_t *cam;
 } data8000C8A8_t;    // size 0x4
 
-// the data of the proc whose handler is func_8000EF68
+// the data of the proc whose handler is WheelPullProc
 typedef struct {
     /* 0x00 */ u8 unk_00[0xC];
     /* 0x0C */ f32 unk_0C;
 } data8000EF68_t;    // size 0x10
 
-// the data of the proc whose handler is func_8000F274, created by func_80016310 
+// the data of the proc whose handler is PointerProc, created by InitStage 
 typedef struct {
     /* 0x00 */ obj_t *actor;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ s32 unk_08;
 } data8000F274_t;    // size 0xC
 
-// the data of the proc whose handler is func_8000F84C, created by func_8000FC3C
+// the data of the proc whose handler is WheelStopProc, created by TurnWheel
 typedef struct {
     /* 0x00 */ obj_t *unk_00;   // NOTE: no obj is made for this proc; the handler reads it all the same
     /* 0x04 */ s32 unk_04;
 } data8000F84C_t;    // size 0x8
 
-// The data of the proc whose handler is func_8000FDFC, which ends each frame in func_8000FC3C
-// on the same data. func_800183A8, func_8001AE18 and func_8002EFC0 create it and put the obj
+// The data of the proc whose handler is WheelSpinProc, which ends each frame in TurnWheel
+// on the same data. SpinProc, CpuSpinProc and FinalSpinProc create it and put the obj
 // of class 0x401 in unk_00.
 typedef struct {
     /* 0x00 */ obj_t *unk_00;
@@ -474,7 +474,7 @@ typedef struct {
     /* 0x08 */ s32 unk_08;
 } data800103B4_t;    // size 0xC
 
-// the data of the proc whose handler is func_80010574
+// the data of the proc whose handler is LightLetterProc
 typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 row;
@@ -483,7 +483,7 @@ typedef struct {
     /* 0x10 */ u8 letter;
 } data80010574_t;    // size 0x14
 
-// the data of the proc whose handler is func_80010D3C, created by func_8002C094
+// the data of the proc whose handler is LightTextProc, created by func_8002C094
 typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 row;
@@ -492,7 +492,7 @@ typedef struct {
     /* 0x14 */ u8 *text;
 } data80010D3C_t;    // size 0x18
 
-// the data of the proc whose handler is func_80016734, created by func_80016944
+// the data of the proc whose handler is CameraPathProc, created by SetView
 typedef struct {
     /* 0x00 */ obj_t *unk_00;   // NOTE: no obj is made for this proc; the handler reads it all the same
     /* 0x04 */ u8 unk_04[0x4];
@@ -501,18 +501,18 @@ typedef struct {
     /* 0x10 */ s32 unk_10;          // how many frames the move has
 } data80016734_t;    // size 0x14
 
-// the data of the proc whose handler is func_80017938, created by func_80017C00
+// the data of the proc whose handler is AdjustCameraProc, created by SetGameView
 typedef struct {
     /* 0x00 */ u8  unk_00[0x4];
     /* 0x04 */ s32 unk_04;      // the player whose turn it was made in
 } data80017938_t;    // size 0x8
 
-// The data of a player proc: the proc of a turn, whose handler is func_80019AAC for a person
-// and func_8001C584 for the machine, and the procs a turn makes for its steps, to which it
-// copies player, and from func_8001C584 unk_0C as well, through this struct: func_80017DBC,
-// func_800183A8, func_80018D28, func_8001933C, func_80019630, func_8001AE18, func_8001B6BC,
-// func_8001BC44 and func_8001BED8. func_80017DBC is made by both kinds of turn. The name is
-// from the ROM message "Status Proc: player proc does not exist", which func_8002CBF4 prints
+// The data of a player proc: the proc of a turn, whose handler is PlayerTurnProc for a person
+// and CpuTurnProc for the machine, and the procs a turn makes for its steps, to which it
+// copies player, and from CpuTurnProc unk_0C as well, through this struct: RoundOverProc,
+// SpinProc, BuyVowelProc, SolveProc, FinalSpinTurnProc, CpuSpinProc, CpuBuyVowelProc,
+// CpuSolveProc and CpuFinalSpinTurnProc. RoundOverProc is made by both kinds of turn. The name is
+// from the ROM message "Status Proc: player proc does not exist", which StatusProc prints
 // when no proc of this class answers.
 typedef struct {
     /* 0x00 */ u8  unk_00[0x4];
@@ -550,10 +550,10 @@ typedef struct {
 } data8002B318_t;    // size 0xC
 
 
-// The data of the procs that time something out: handlers func_8002F338, func_8002F7CC,
-// func_8002F94C and func_8002FB60. The four are procs of one class (0x07) that keep the same
+// The data of the procs that time something out: handlers RoundTimerProc, DemoTimerProc,
+// SolveTimerProc and func_8002FB60. The four are procs of one class (0x07) that keep the same
 // thing in the same place and share no helper; the ROM calls the third the "Solve Timer Proc"
-// (in func_8002FD8C), which is where the name is from.
+// (in ResetSolveTimer), which is where the name is from.
 typedef struct {
     /* 0x00 */ u8  unk_00[0x4];
     /* 0x04 */ s32 start;       // when it was started or reset, in seconds since the boot
@@ -572,8 +572,8 @@ typedef struct {
     /* 0x08 */ s32 unk_08;
 } data80033A28_t;    // size 0xC
 
-// The data of the procs that move a cursor over the letters: handlers func_8002CBF4,
-// func_8002D930 and func_8002E0C8, and the helpers they share.
+// The data of the procs that move a cursor over the letters: handlers StatusProc,
+// LetterPickProc and SolvePuzzleProc, and the helpers they share.
 typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 index;
@@ -620,7 +620,7 @@ typedef struct {
 
 // The data block of a proc (unk_30): one of the 0x50-byte blocks of blocks, holding the
 // struct of its kind of proc. A proc that has an obj keeps it in the first word: CreatProc's
-// callers that make the obj (func_80015848, func_80027218) store it there for every kind.
+// callers that make the obj (MakeObj, func_80027218) store it there for every kind.
 // guess: a union, which the bytes do not tell from a cast at each use.
 typedef union procData_u {
     obj_t           *obj;
@@ -769,11 +769,11 @@ extern s32 D_8004B860[];
 extern s32 D_8004B8C0[];
 extern s32 D_8004B920[];
 extern s32 D_8004B980[];
-extern u8 D_8004B9E0[];          // "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-extern s8 D_8004B9FC[];
-extern s8 D_8004BA04[];
-extern puzzle_t D_8004BB98[];
-extern s32 D_80057800;
+extern u8 alphabet[];          // "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+extern s8 vowelLetters[];
+extern s8 consonantLetters[];
+extern puzzle_t puzzles[];
+extern s32 siLockMade;
 extern data80057808_t D_80057808[];
 extern Gfx *D_800578B0[];
 extern Mtx *D_80057910[];
@@ -792,12 +792,12 @@ extern Gfx *D_80057F24[];
 extern Gfx *D_80057F34[];
 extern f32 D_80057F44;
 extern s32 D_80057F48;
-extern view_t D_80057F50[];
+extern view_t views[];
 extern s32 D_800581F0[];
 extern s32 D_800581F4;
 extern s32 D_800581FC[];
-extern u8 D_80058208[];          // "RSTLNCBDMHFYKJGPQVWXZ"
-extern u8 D_80058220[];          // "EAIOU"
+extern u8 consonantOrder[];          // "RSTLNCBDMHFYKJGPQVWXZ"
+extern u8 vowelOrder[];          // "EAIOU"
 extern movie_t D_80058228[];
 extern char D_80058488[];           // "You are the BIG winner!"
 extern s32 D_800584A0[][2];         // [5], x and y of pictures 2 to 6 of the first menu
@@ -862,7 +862,7 @@ extern s32 D_8005C90C[];
 extern s32 D_8005C948[];
 extern f32 D_8005C958;
 extern f32 D_8005C95C;
-extern camera_t D_8005EB48[];
+extern camera_t openingPath[];
 extern s32 memEnd;
 extern s32 memStart;
 extern s32 D_8006DCEC;
@@ -903,56 +903,56 @@ extern OSMesg dmaMessageBuf;
 extern OSMesgQueue contMsgQ;      // the queue of the controller events
 extern OSScClient D_800B3988;
 extern ALBankFile *sfxBankFile;
-extern s32 D_800B3994;
+extern s32 openingFrame;
 extern ALBankFile *seqBankFile;      // NOTE: nothing sets it
-extern f32 D_800B39A0[][2];         // [3], for each player what the buttons have added to roll and pitch of the camera
-extern wedge_t D_800B39B8[];
+extern f32 cameraTurn[][2];         // [3], for each player what the buttons have added to roll and pitch of the camera
+extern wedge_t wedges[];
 extern s32 minRetraces;
 extern u64 dram_stack[];            // the stack of the graphics microcode: SP_DRAM_STACK_SIZE8 bytes
-extern s32 D_800B40C0;
+extern s32 bonusTimeLeft;
 extern s32 D_800B40C4;
 extern obj_t objst[];
-extern s32 D_800B6198;
-extern s32 D_800B619C;
+extern s32 openingFrames;
+extern s32 round;
 extern s32 curGfxInfo;
 extern s32 D_800B61A4;
-extern s32 D_800B61A8;
+extern s32 lightDir;
 extern s8 D_800B61AA[];
 extern f32 D_800B61AC;
 extern s8 D_800B61B0[];
-extern u8 D_800B61B5;
-extern s32 D_800B61B8;
-extern u8 D_800B61C0[];          // func_8001A5D0 copies D_80058208 here
-extern s32 D_800B61D8;
+extern u8 curLetter;
+extern s32 solveRow;
+extern u8 cpuConsonants[];          // InitCpuLetters copies consonantOrder here
+extern s32 curPuzzle;
 extern u64 gfxYieldBuf[];            // the yield buffer of the graphics task: 0x900 bytes
-extern u8 D_800B6AE0[];          // func_8001A5D0 copies D_80058220 here
+extern u8 cpuVowels[];          // InitCpuLetters copies vowelOrder here
 extern s32 buttonUpFrames[][16];
-extern f32 D_800B6BE8;
-extern f32 D_800B6BEC;
-extern f32 D_800B6BF0;
+extern f32 cameraUpX;
+extern f32 cameraUpY;
+extern f32 cameraUpZ;
 extern OSMesg rumbleMsgBuf;
 extern u8 blocks[][0x50];       // [70], the data blocks of the procs: AllocBlock hands them out
 extern ALSeqFile *seqFile;
-extern s32 D_800B81DC;
+extern s32 roundTime;
 extern s32 D_800B81E0;
 extern s32 *D_800B81E4;
 extern Gfx *glistp;
 extern s32 soundStates[];
 extern s32 memStackTop;
 extern s32 D_800B8294;
-extern f32 D_800B8298;
+extern f32 cpuSkill;
 extern proc_t procst[];
 extern s32 D_800B9538;
-extern s32 D_800B953C;
-extern s32 D_800B9540;
-extern u8 D_800B9544[];
-extern u8 D_800B9559[][21];
-extern u8 D_800B95AD[][21];
-extern u8 D_800B9601[][21];
+extern s32 finalSpinValue;
+extern s32 jackpot;
+extern u8 category[];
+extern u8 board[][21];
+extern u8 solveBoard[][21];
+extern u8 puzzleText[][21];
 extern s8 D_800B9655[];
-extern u8 D_800B966A[];
+extern u8 uncalled[];
 extern OSMesgQueue gfxMsgQ;      // where the scheduler answers the graphics tasks and sends the retraces
-extern s32 D_800B96A0;
+extern s32 jackpotWon;
 extern s32 D_800B96A4;
 extern s32 D_800B96A8;
 extern u32 retraceCount;
@@ -960,7 +960,7 @@ extern u16 buttonsPressed;
 extern s32 frameRetraces;
 extern s32 maxDmaBuffsUsed;
 extern u32 minFrameSize;              // minFrameSize
-extern s32 D_800B96C0;
+extern s32 numRounds;
 extern u8 contPattern;
 extern OSSched sc;
 extern u32 maxFrameSize;              // maxFrameSize
@@ -971,33 +971,33 @@ extern s32 D_800B9980;
 extern s32 memStackFree;
 extern s32 D_800B9988;
 extern s16 *D_800B998C;
-extern player_t D_800B9990[];
+extern player_t players[];
 extern OSMesgQueue D_800B9CD0;
 extern s32 D_800B9CEC;
-extern s32 D_800B9CF0;
+extern s32 gameOver;
 extern void *D_800B9CF4;
-extern s32 D_800B9CF8;
-extern s32 D_800B9CFC;
-extern s32 D_800B9D00;
+extern s32 canSpin;
+extern s32 canBuyVowel;
+extern s32 canSolve;
 extern s32 newFrame;
 extern tile_t D_800B9D08[];
 extern tile_t D_800B9E58[];
 extern tile_t D_800B9FE0[];
 extern tile_t D_800BA168[];
-extern s32 D_800BA2BC;
+extern s32 curView;
 extern s32 D_800BA2C0;
 extern AMDMABuffer dmaBuffs[];     // dmaBuffs[NUM_DMA_BUFFERS]
 extern OSMesgQueue audDMAMessageQ;       // audDMAMessageQ
-extern OSMesgQueue D_800BA5B0;      // holds one message: func_8000BB10 takes it, func_8000BB68 puts it back
+extern OSMesgQueue siLockQ;      // holds one message: LockSi takes it, UnlockSi puts it back
 extern AMDMAState dmaState;        // dmaState
 extern s32 D_800BA5D4;
-extern camera_t *D_800BA5D8;
+extern camera_t *curCamera;
 extern s32 blockOwners[];
 extern u64 scheduleStack[];            // the stack of the scheduler: OS_SC_STACKSIZE bytes
 extern u16 numSoundsPlaying;
 extern s32 D_800BC6FC;
 extern OSIoMesg audDMAIOMesgBuf[];       // audDMAIOMesgBuf[NUM_DMA_MESSAGES]
-extern s32 D_800BCA00;
+extern s32 finalSpin;
 extern s32 memStackDepth;
 extern void *staticSegment;           // segment 1: the display lists and pictures InitGraphics loads
 extern s32 D_800BCA0C;
@@ -1012,10 +1012,10 @@ extern rumbleMsg_t rumbleMsg;
 extern OSMesg gfxMsgBuf[];          // [8], the messages of gfxMsgQ
 extern s32 D_800BCA60;
 extern AMAudioMgr __am;        // __am
-extern f32 D_800BCCF0;
-extern s32 D_800BCCF4;
+extern f32 wheelSpeed;
+extern s32 solveCol;
 extern s32 D_800BCD50;
-extern s32 D_800BCD54;
+extern s32 gameMode;
 extern OSScClient gfxClient;
 extern u32 frameSize;              // frameSize
 extern OSMesg contMsgBuf;
@@ -1025,12 +1025,12 @@ extern s32 D_800BED88;
 extern ALCSPlayer *seqPlayers[];
 extern s32 D_800BED98;
 extern u32 maxRSPCmds;              // maxRSPCmds
-extern s32 D_800BEDA8;
+extern s32 curWedge;
 extern s32 memStackMarks[];
 extern s32 D_800BEDD8[];
 extern u32 pendingGfx;
 extern s32 motorOn[];
-extern s32 D_800BEDF8;
+extern s32 wedgeThird;
 extern OSMesg D_800BEE00[];          // [8], the messages of D_800B9CD0
 extern s32 D_800BEE20;
 extern s32 D_800BEE24;
@@ -1050,14 +1050,14 @@ extern rumble_t rumbles[];
 extern OSMesgQueue *sched_cmdQ;      // the command queue of the scheduler
 extern u16 *D_800BEEA8[][8];
 extern gfxInfo_t gfxInfo[];
-extern s32 D_800FB808;
+extern s32 curPlayer;
 extern s32 contReading;
 extern u64 retraceTime;
 extern OSMesg audDMAMessageBuf[];          // audDMAMessageBuf[NUM_DMA_MESSAGES]
 extern u16 zbuffer[];            // the depth buffer
 extern u16 D_803B5000[];            // D_803B5000 and D_803DA800: the two framebuffers
 extern u16 D_803DA800[];
-extern puzzleRange_t D_B025D810[];  // on the cartridge, read in place
+extern puzzleRange_t puzzleRanges[];  // on the cartridge, read in place
 
 //
 // functions, in address order: the unit boundaries are not known yet
@@ -1104,27 +1104,27 @@ void mainproc( void *arg );
 void GameThread( void *arg );
 void ReadRom( s32 rom, void *ram, s32 size );
 void InitGame( void );
-void func_80006B28( void );
-void func_80006B58( void );
-void func_80006BFC( void );
-void func_80006E54( s32 arg0, u8 *arg1 );
-s32 func_800076E0( s32 arg0 );
-s32 func_80007818( s32 arg0 );
-s32 func_80007888( s32 arg0, s32 arg1 );
-void func_80007DAC( s32 arg0 );
-s32 func_80007EEC( s32 arg0 );
-s32 func_800082E4( void );
-s32 func_800084E8( void );
+void NewGame( void );
+void ResetGame( void );
+void StartRound( void );
+void LoadPuzzle( s32 puzzle, u8 *str );
+s32 CountLetter( s32 letter );
+s32 IsVowel( s32 letter );
+s32 CallLetter( s32 c, s32 kind );
+void ShowLetter( s32 letter );
+s32 CheckSolved( s32 bank );
+s32 GetHiddenKinds( void );
+s32 GetUncalledKinds( void );
 f32 CheckPercentDone( void );
-void func_800087F8( void );
-s32 func_800088E4( void );
-void func_80008AB8( void );
-void func_80008F64( void );
-void func_80009108( f32 arg0 );
-s32 func_8000928C( void );
-void func_80009364( s32 arg0 );
-void func_80009494( void );
-void func_8000963C( s32 arg0 );
+void StartSolve( void );
+s32 CheckSolve( void );
+void InitWheel( void );
+void ClaimWedge( void );
+void SetWedge( f32 degrees );
+s32 GetWedgeValue( void );
+void ApplyWedge( s32 final );
+void ClearScores( void );
+void NextPlayer( s32 newRound );
 u8 *StrNCopy( u8 *dst, u8 *src, s32 n );
 u8 *StrCat( u8 *dst, u8 *src );
 u8 *StrCopy( u8 *dst, u8 *src );
@@ -1173,9 +1173,9 @@ void AlignMemStack( s32 align );
 void *func_8000B924( s32 size );
 s32 PushMemStack( void );
 void PopMemStack( s32 count );
-void func_8000BAA8( void );
-void func_8000BB10( void );
-void func_8000BB68( void );
+void InitSiLock( void );
+void LockSi( void );
+void UnlockSi( void );
 void func_8000BBA8( void );
 struct procResult_s func_8000BC64( proc_t *proc );
 void func_8000BE6C( void );
@@ -1190,97 +1190,97 @@ void func_8000D6D8( obj_t *obj, frame_t *frame );
 void func_8000D8B8( obj_t *obj, frame_t *frame );
 void func_8000DCA0( obj_t *obj, frame_t *frame );
 void func_8000DF2C( obj_t *obj, frame_t *frame );
-struct procResult_s func_8000E4B0( proc_t *proc );
-void func_8000E6B4( void );
+struct procResult_s LogoProc( proc_t *proc );
+void StartLogos( void );
 void func_8000E738( void );
-void func_8000E794( void );
-void func_8000E7D4( void );
-struct procResult_s func_8000EB40( proc_t *proc );
+void RestartOpening( void );
+void StartOpening( void );
+struct procResult_s DemoProc( proc_t *proc );
 void func_8000EE50( s32 arg0, s32 arg1 );
-void func_8000EE78( void );
-struct procResult_s func_8000EF68( proc_t *proc );
-struct procResult_s func_8000F274( proc_t *proc );
+void StartDemo( void );
+struct procResult_s WheelPullProc( proc_t *proc );
+struct procResult_s PointerProc( proc_t *proc );
 struct procResult_s func_8000F740( proc_t *proc );
-struct procResult_s func_8000F84C( proc_t *proc );
-struct procResult_s func_8000FC3C( proc_t *proc );
-struct procResult_s func_8000FDFC( proc_t *proc );
+struct procResult_s WheelStopProc( proc_t *proc );
+struct procResult_s TurnWheel( proc_t *proc );
+struct procResult_s WheelSpinProc( proc_t *proc );
 struct procResult_s func_8000FFE0( proc_t *proc );
 struct procResult_s func_800101F4( proc_t *proc );
 struct procResult_s func_800103B4( proc_t *proc );
-struct procResult_s func_80010574( proc_t *proc );
-void func_80010AB8( s32 arg0 );
-struct procResult_s func_80010D3C( proc_t *proc );
-s32 func_800111F0( s32 arg0, s32 arg1, s32 arg2 );
-void func_80011304( s32 arg0, s32 arg1, s32 arg2 );
-void func_8001142C( s32 arg0, s32 arg1, u8 arg2 );
-void func_80011620( void );
-void func_80011780( void );
-void func_80011920( void );
-void func_80011B24( void );
-void func_80011F58( void );
-struct procResult_s func_8001228C( proc_t *proc );
-void func_80012500( obj_t *obj, frame_t *frame );
-s32 func_8001277C( tile_t *arg0 );
-void func_80012838( tile_t *tiles, s32 count, s32 arg2 );
-void func_80012D40( obj_t *obj, frame_t *frame );
-void func_800132EC( s32 arg0 );
-void func_800133C8( void );
-s32 func_80013440( layer_t *layer );
-void func_80013500( s32 arg0 );
-void func_80013748( obj_t *obj, frame_t *frame );
+struct procResult_s LightLetterProc( proc_t *proc );
+void TurnSquares( s32 col );
+struct procResult_s LightTextProc( proc_t *proc );
+s32 FindHiddenSquare( s32 row, s32 col, s32 dir );
+void SetSquareBlink( s32 row, s32 col, s32 blink );
+void SetSquareLetter( s32 row, s32 col, u8 letter );
+void NextSolveSquare( void );
+void PrevSolveSquare( void );
+void ResetSquares( void );
+void RevealPuzzle( void );
+void GreyHiddenSquares( void );
+struct procResult_s CursorProc( proc_t *proc );
+void DrawPointer( obj_t *obj, frame_t *frame );
+s32 GetSquareColor( tile_t *arg0 );
+void DrawSquares( tile_t *tiles, s32 count, s32 arg2 );
+void DrawBoard( obj_t *obj, frame_t *frame );
+void LightPlayer( s32 player );
+void UnlightPlayers( void );
+s32 GetLayerColor( layer_t *layer );
+void SetScoreDigits( s32 total );
+void DrawScores( obj_t *obj, frame_t *frame );
 void func_80014208( obj_t *obj, frame_t *frame );
 void func_800144F0( obj_t *obj, frame_t *frame );
 void func_80014768( obj_t *obj, frame_t *frame );
 void func_80014A5C( obj_t *obj, frame_t *frame );
-void func_80014F38( obj_t *obj, frame_t *frame );
+void DrawWheel( obj_t *obj, frame_t *frame );
 void func_800153C4( obj_t *obj, frame_t *frame );
-obj_t *func_80015848( proc_t *proc, Gfx *arg1, objDraw_t draw, s32 arg3 );
-void func_80015940( Gfx **arg0, tile_t *tiles, s32 row, s32 count );
-void func_80015D4C( void );
-void func_80015EDC( Gfx **arg0, tile_t *tiles, s32 row, s32 count );
-void func_80016008( void );
+obj_t *MakeObj( proc_t *proc, Gfx *dl, objDraw_t draw, s32 cls );
+void InitSquares( Gfx **dls, tile_t *tiles, s32 row, s32 count );
+void InitBoard( void );
+void ClearSquares( Gfx **dls, tile_t *tiles, s32 row, s32 count );
+void StartBoardLights( void );
 void func_80016098( void );
-void func_800161A8( void );
-void func_80016310( void );
+void ResetBoard( void );
+void InitStage( void );
 s32 func_80016638( void );
 s32 func_800166C0( void );
-struct procResult_s func_80016734( proc_t *proc );
-void func_80016944( obj_t *obj, s32 arg1 );
-void func_80016B9C( s32 arg0 );
-struct procResult_s func_80016BEC( proc_t *proc );
-void func_80016C78( obj_t *obj, frame_t *frame );
-void func_8001745C( proc_t *proc );
-void func_800174DC( void );
-s32 func_80017548( void );
-void func_80017678( void );
+struct procResult_s CameraPathProc( proc_t *proc );
+void SetView( obj_t *obj, s32 view );
+void SetCameraView( s32 view );
+struct procResult_s CameraProc( proc_t *proc );
+void DrawCamera( obj_t *obj, frame_t *frame );
+void InitCamera( proc_t *proc );
+void CreateCamera( void );
+s32 LoseTurn( void );
+void NextTurn( void );
 s32 func_80017728( void );
-void func_800177A4( void );
-void func_80017848( void );
-struct procResult_s func_80017938( proc_t *proc );
-void func_80017C00( s32 arg0, s32 arg1 );
-struct procResult_s func_80017DBC( proc_t *proc );
-struct procResult_s func_800181A4( proc_t *proc );
-struct procResult_s func_800183A8( proc_t *proc );
-struct procResult_s func_80018D28( proc_t *proc );
-struct procResult_s func_8001933C( proc_t *proc );
-struct procResult_s func_80019630( proc_t *proc );
-struct procResult_s func_80019AAC( proc_t *proc );
-void func_8001A424( s32 arg0 );
-void func_8001A484( void );
-void func_8001A5D0( void );
-void func_8001A628( u8 *arg0 );
-s32 func_8001A6DC( u8 *arg0 );
-s32 func_8001A7A8( u8 *arg0 );
-s32 func_8001A894( f32 arg0, proc_t *proc );
-s32 func_8001A97C( f32 arg0 );
-void func_8001AA60( proc_t *proc );
-struct procResult_s func_8001AE18( proc_t *proc );
-struct procResult_s func_8001B6BC( proc_t *proc );
-struct procResult_s func_8001BC44( proc_t *proc );
-struct procResult_s func_8001BED8( proc_t *proc );
-struct procResult_s func_8001C584( proc_t *proc );
-void func_8001D320( s32 arg0 );
-void func_8001D3CC( s32 arg0 );
+void NextRound( void );
+void FindWinner( void );
+struct procResult_s AdjustCameraProc( proc_t *proc );
+void SetGameView( s32 view, s32 arg1 );
+struct procResult_s RoundOverProc( proc_t *proc );
+struct procResult_s WinnerProc( proc_t *proc );
+struct procResult_s SpinProc( proc_t *proc );
+struct procResult_s BuyVowelProc( proc_t *proc );
+struct procResult_s SolveProc( proc_t *proc );
+struct procResult_s FinalSpinTurnProc( proc_t *proc );
+struct procResult_s PlayerTurnProc( proc_t *proc );
+void AddPlayer( s32 player );
+void InitPlayers( void );
+void InitCpuLetters( void );
+void RemoveCalledLetters( u8 *letters );
+s32 PickMissLetter( u8 *letters );
+s32 PickHitLetter( u8 *letters );
+s32 CpuPickConsonant( f32 skill, proc_t *proc );
+s32 CpuPickVowel( f32 skill );
+void CpuChooseAction( proc_t *proc );
+struct procResult_s CpuSpinProc( proc_t *proc );
+struct procResult_s CpuBuyVowelProc( proc_t *proc );
+struct procResult_s CpuSolveProc( proc_t *proc );
+struct procResult_s CpuFinalSpinTurnProc( proc_t *proc );
+struct procResult_s CpuTurnProc( proc_t *proc );
+void AddDemoCpu( s32 player );
+void AddCpu( s32 player );
 void func_8001D440( obj_t *obj, frame_t *frame );
 void func_8001DAF0( obj_t *obj, frame_t *frame );
 void func_8001ED48( u16 *arg0 );
@@ -1354,10 +1354,10 @@ void func_80029BFC( s32 arg0 );
 struct procResult_s func_80029C98( proc_t *proc );
 void func_8002A014( void );
 void func_8002A538( void );
-void func_8002A8C8( proc_t *proc, s32 arg1 );
-void func_8002AAD0( proc_t *proc, s32 arg1, s32 arg2 );
-void func_8002ACE8( proc_t *proc );
-void func_8002AE60( proc_t *proc );
+void MoveCursorLeft( proc_t *proc, s32 arg1 );
+void MoveCursorRight( proc_t *proc, s32 arg1, s32 arg2 );
+void MoveCursorUp( proc_t *proc );
+void MoveCursorDown( proc_t *proc );
 void func_8002AFDC( void );
 void func_8002B054( void );
 struct procResult_s func_8002B094( proc_t *proc );
@@ -1369,29 +1369,29 @@ struct procResult_s func_8002BCF4( proc_t *proc );
 struct procResult_s func_8002BE84( proc_t *proc );
 struct procResult_s func_8002C094( proc_t *proc );
 void func_8002CAB4( void );
-struct procResult_s func_8002CBF4( proc_t *proc );
-void func_8002D8B0( proc_t *proc );
-struct procResult_s func_8002D930( proc_t *proc );
-s32 func_8002DF80( void );
-proc_t *func_8002E064( void );
-struct procResult_s func_8002E0C8( proc_t *proc );
-void func_8002EB40( void );
-void func_8002EB90( s32 arg0 );
-void func_8002EBF4( void );
-void func_8002EC60( void );
+struct procResult_s StatusProc( proc_t *proc );
+void InitLetterCursor( proc_t *proc );
+struct procResult_s LetterPickProc( proc_t *proc );
+s32 CountSolveBlanks( void );
+proc_t *GetCursorProc( void );
+struct procResult_s SolvePuzzleProc( proc_t *proc );
+void StartLetterPick( void );
+void StartCpuLetterPick( s32 letter );
+void StartSolvePuzzle( void );
+void StartStatus( void );
 void func_8002EDC0( void );
-void func_8002EDE0( void );
-struct procResult_s func_8002EFC0( proc_t *proc );
-struct procResult_s func_8002F338( proc_t *proc );
-struct procResult_s func_8002F7CC( proc_t *proc );
-struct procResult_s func_8002F94C( proc_t *proc );
+void StartBonusRound( void );
+struct procResult_s FinalSpinProc( proc_t *proc );
+struct procResult_s RoundTimerProc( proc_t *proc );
+struct procResult_s DemoTimerProc( proc_t *proc );
+struct procResult_s SolveTimerProc( proc_t *proc );
 struct procResult_s func_8002FB60( proc_t *proc );
 void func_8002FCD8( void );
 void func_8002FD14( void );
-void func_8002FD50( void );
-void func_8002FD8C( void );
-void func_8002FE2C( void );
-void func_8002FE70( void );
+void StartSolveTimer( void );
+void ResetSolveTimer( void );
+void StartRoundTimer( void );
+void StartDemoTimer( void );
 void func_8002FEB0( obj_t *obj, frame_t *frame );
 void func_80030490( obj_t *obj, frame_t *frame );
 void func_80030B5C( obj_t *obj, frame_t *frame );

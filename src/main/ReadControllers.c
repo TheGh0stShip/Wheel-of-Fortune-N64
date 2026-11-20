@@ -50,7 +50,7 @@ void ReadControllers(void) {
         i++;
     }
     if (newFrame != 0) {
-        if (D_800BCD54 == 3 || D_800BCD54 == 1 || D_800BCD54 == 7 || D_800BCD54 == 8) {
+        if (gameMode == 3 || gameMode == 1 || gameMode == 7 || gameMode == 8) {
             playerPad.stick_x = 0;
             playerPad.stick_y = 0;
             buttonsPressed = 0;
@@ -67,7 +67,7 @@ void ReadControllers(void) {
                 }
                 i++;
             }
-        } else if (D_800BCD54 == 6 || D_800B9990[D_800FB808].unk_014 == 4) {
+        } else if (gameMode == 6 || players[curPlayer].unk_014 == 4) {
             buttonsPressed = 0;
             i = 0;
             while (i < 4) {
@@ -75,8 +75,8 @@ void ReadControllers(void) {
                 i++;
             }
         } else {
-            buttonsPressed = contPressed[D_800B9990[D_800FB808].unk_014];
-            playerPad = contPads[D_800B9990[D_800FB808].unk_014];
+            buttonsPressed = contPressed[players[curPlayer].unk_014];
+            playerPad = contPads[players[curPlayer].unk_014];
         }
         i = 0;
         while (i < 4) {

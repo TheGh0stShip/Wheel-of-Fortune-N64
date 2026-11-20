@@ -286,3 +286,233 @@ present	member	rumble_t	invented	1 once osMotorInit found a rumble pak
 level	member	rumble_t	invented	the sum of strength: ReadControllers runs the motor a frame each time it reaches 1
 strength	member	rumble_t	invented	added to level each frame
 frames	member	rumble_t	invented	frames of rumble left
+NewGame	function	0x80006B28	invented	starts a game: ResetGame
+ResetGame	function	0x80006B58	invented	sets the round and the player to the first, clears the scores and starts the first round
+StartRound	function	0x80006BFC	invented	sets the round's jackpot and wheel and loads a puzzle of the round's kind not used before
+LoadPuzzle	function	0x80006E54	invented	reads a puzzle (or takes the text given) and lays it out on the four rows of the board
+puzzle	param	LoadPuzzle	invented	its number in puzzles
+str	param	LoadPuzzle	invented	if not 0, the puzzle's text, which is not read from the cartridge
+CountLetter	function	0x800076E0	invented	how often a letter is in the puzzle; -1 if it was called already
+letter	param	CountLetter	invented	
+IsVowel	function	0x80007818	invented	1 if a letter is in vowels
+letter	param	IsVowel	invented	
+CallLetter	function	0x80007888	invented	calls a letter for the player: scores it by the wedge and returns how often it is in the puzzle
+c	param	CallLetter	invented	
+kind	param	CallLetter	invented	0: a consonant, 1: a vowel bought, else either
+ShowLetter	function	0x80007DAC	invented	puts a letter on the board wherever the puzzle has it
+letter	param	ShowLetter	invented	
+CheckSolved	function	0x80007EEC	invented	0: consonants are hidden, 2: only vowels are, 1: the puzzle is solved (and banks the round's score if asked)
+bank	param	CheckSolved	invented	not 0: a solved puzzle's score goes to the player's total
+GetHiddenKinds	function	0x800082E4	invented	which kinds of letters the board still hides: 4 both, 3 consonants, 2 vowels, 1 none
+GetUncalledKinds	function	0x800084E8	invented	which kinds of letters are still uncalled: 4 both, 3 consonants, 2 vowels, 0 none
+StartSolve	function	0x800087F8	invented	copies the board into solveBoard, which the player fills in
+CheckSolve	function	0x800088E4	invented	1 and the whole puzzle shown if solveBoard is the puzzle
+InitWheel	function	0x80008AB8	invented	sets the 24 wedges of the wheel for the round
+ClaimWedge	function	0x80008F64	invented	takes the prize off the wedge the wheel stopped on: the 10000 becomes BANKRUPT, a free spin its value
+SetWedge	function	0x80009108	invented	the wedge the wheel stopped on, from its angle (or a random one for -1)
+degrees	param	SetWedge	invented	
+GetWedgeValue	function	0x8000928C	invented	the value of curWedge; the 10000 wedge is 10000 only in its middle third, else BANKRUPT
+ApplyWedge	function	0x80009364	invented	acts on curWedge: a final spin keeps its value, BANKRUPT clears the round's score, the jackpot round adds to the jackpot
+final	param	ApplyWedge	invented	not 0: the spin is the final spin
+ClearScores	function	0x80009494	invented	sets every player's scores to 0
+NextPlayer	function	0x8000963C	invented	passes the turn to the next player, or for a new round to the round's first
+newRound	param	NextPlayer	invented	
+curPlayer	global	0x800FB808	invented	whose turn it is
+players	global	0x800B9990	invented	the three contestants
+round	global	0x800B619C	invented	the round: 0 to 5, 6 the bonus round
+numRounds	global	0x800B96C0	invented	the rounds before the bonus round
+jackpot	global	0x800B9540	invented	5000 at the start of the jackpot round (round 2), and every wedge spun in it is added
+jackpotWon	global	0x800B96A0	invented	set when the wheel stops on JACKPOT; CheckSolved then adds jackpot to the score
+finalSpin	global	0x800BCA00	invented	set for the final spin, after which each letter scores finalSpinValue
+finalSpinValue	global	0x800B953C	invented	the value of the final spin
+gameOver	global	0x800B9CF0	invented	set when the time runs out or the last round ends; no round follows
+puzzleText	global	0x800B9601	invented	the puzzle laid out on the four rows of the board
+board	global	0x800B9559	invented	what the board shows: the letters turned, '+' for a hidden one
+solveBoard	global	0x800B95AD	invented	the board as the player fills it in to solve
+category	global	0x800B9544	invented	the puzzle's category
+uncalled	global	0x800B966A	invented	the letters not yet called, a space for each called one
+curPuzzle	global	0x800B61D8	invented	the number of the puzzle in play
+puzzles	global	0x8004BB98	invented	the built-in list of puzzles
+puzzleRanges	global	0xB025D810	invented	the puzzles each kind of round draws from
+alphabet	global	0x8004B9E0	invented	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+vowelLetters	global	0x8004B9FC	invented	the vowels, which IsVowel looks up
+consonantLetters	global	0x8004BA04	invented	the consonants, which CallLetter looks a consonant up in
+wedges	global	0x800B39B8	invented	the 24 wedges of the wheel
+curWedge	global	0x800BEDA8	invented	the wedge the wheel stopped on
+wedgeThird	global	0x800BEDF8	invented	the angle in fifths of a wedge: which third of the 10000 wedge it stopped on
+wheelSpeed	global	0x800BCCF0	invented	how fast the wheel turns, in degrees a second
+InitSiLock	function	0x8000BAA8	invented	makes the one-message queue that LockSi and UnlockSi pass between the controller reads and the rumble pak
+LockSi	function	0x8000BB10	invented	takes the SI lock, making it first if need be
+UnlockSi	function	0x8000BB68	invented	gives the SI lock back
+siLockQ	global	0x800BA5B0	invented	the queue whose one message is the SI lock
+siLockMsg	global	0x800AFE58	invented	the one message slot of siLockQ
+siLockMade	global	0x80057800	invented	set once InitSiLock has run
+StartOpening	function	0x8000E7D4	invented	starts the opening: the camera move of the studio, the wheel, the letters flying in
+RestartOpening	function	0x8000E794	invented	starts the opening again after the demo
+LogoProc	function	0x8000E4B0	invented	shows the pictures before the opening for 3 seconds, then a movie, then StartOpening
+StartLogos	function	0x8000E6B4	invented	starts LogoProc; InitGame's choice when a controller is in
+StartDemo	function	0x8000EE78	invented	sets gameMode 3 and starts a game the machine plays
+DemoProc	function	0x8000EB40	invented	plays the demo's movie and, when the demo ends, goes back to the opening or to the title on START
+gameMode	global	0x800BCD54	invented	what the game is doing: 1 the opening, 2 a game, 3 the demo, 4 the bonus round, and more
+openingFrame	global	0x800B3994	invented	the frame of the opening, to openingFrames
+openingFrames	global	0x800B6198	invented	how many frames the opening's camera move has
+openingPath	global	0x8005EB48	invented	the camera move of the opening, a camera_t for each frame
+WheelPullProc	function	0x8000EF68	invented	the player pulls the wheel back with the stick; a button or a fast enough swing spins it (event 29)
+PointerProc	function	0x8000F274	invented	the pointer of a player that clicks over the pegs as the wheel turns, with sound and rumble; sets the wedge
+TurnWheel	function	0x8000FC3C	invented	turns the wheel a frame and slows it; when it stops, WheelStopProc
+WheelSpinProc	function	0x8000FDFC	invented	the wheel turning after a spin, through TurnWheel
+WheelStopProc	function	0x8000F84C	invented	the wheel has stopped: the sound of the wedge, and the crowd for the high values
+InitStage	function	0x80016310	invented	makes the objs of the studio: the wheel, the board, the scores and a pointer for each player
+LightLetterProc	function	0x80010574	invented	lights the squares of the called letter one after another, from the side of direction
+TurnSquares	function	0x80010AB8	invented	turns the lit squares of a column to show their letters
+col	param	TurnSquares	invented	
+LightTextProc	function	0x80010D3C	invented	lights the squares of each letter of a text in turn
+FindHiddenSquare	function	0x800111F0	invented	the next hidden square of a row from a column in a direction, or -1
+row	param	FindHiddenSquare	invented	
+col	param	FindHiddenSquare	invented	
+dir	param	FindHiddenSquare	invented	
+SetSquareBlink	function	0x80011304	invented	makes a square blink, or stop
+row	param	SetSquareBlink	invented	
+col	param	SetSquareBlink	invented	
+blink	param	SetSquareBlink	invented	
+SetSquareLetter	function	0x8001142C	invented	puts a letter into solveBoard and shows it on its square
+row	param	SetSquareLetter	invented	
+col	param	SetSquareLetter	invented	
+letter	param	SetSquareLetter	invented	
+NextSolveSquare	function	0x80011620	invented	moves the solving cursor to the next hidden square
+PrevSolveSquare	function	0x80011780	invented	moves the solving cursor to the hidden square before
+ResetSquares	function	0x80011920	invented	takes the colour and the blinking off every square
+RevealPuzzle	function	0x80011B24	invented	shows every letter of the puzzle on its square
+GreyHiddenSquares	function	0x80011F58	invented	shows each hidden square blank and grey
+CursorProc	function	0x8001228C	invented	the cursor over the hidden squares as a puzzle is solved; the ROM's message calls it the "cursor proc"
+solveRow	global	0x800B61B8	invented	the row of the solving cursor
+solveCol	global	0x800BCCF4	invented	the column of the solving cursor
+curLetter	global	0x800B61B5	invented	the letter chosen, or the machine's choice ('0' spin, '1' buy, '2' solve)
+lightDir	global	0x800B61A8	invented	1 or -1: the side from which LightLetterProc lights the squares
+GetSquareColor	function	0x8001277C	invented	a square's colour, or -1 in the first half of each blink
+DrawSquares	function	0x80012838	invented	draws a row of the board's squares, the blank ones or the others
+DrawBoard	function	0x80012D40	invented	the draw function of the board
+DrawPointer	function	0x80012500	invented	the draw function of a player's pointer
+GetLayerColor	function	0x80013440	invented	a layer's colour: unk_14 in the first half of each blink
+LightPlayer	function	0x800132EC	invented	makes the score of one player blink
+player	param	LightPlayer	invented	
+UnlightPlayers	function	0x800133C8	invented	stops every score blinking
+SetScoreDigits	function	0x80013500	invented	lays out the digit pictures of each player's round score or total
+total	param	SetScoreDigits	invented	
+DrawScores	function	0x80013748	invented	the draw function of the scores
+DrawWheel	function	0x80014F38	invented	the draw function of the wheel and its 24 wedges
+MakeObj	function	0x80015848	invented	CreatObj for a proc, with a display list and no transform; the proc's data gets it
+dl	param	MakeObj	invented	
+cls	param	MakeObj	invented	
+InitSquares	function	0x80015940	invented	gives a row of squares their display lists and the pictures of the puzzle's punctuation
+dls	param	InitSquares	invented	
+InitBoard	function	0x80015D4C	invented	prints the puzzle, makes the board obj and lays out its squares
+ClearSquares	function	0x80015EDC	invented	gives a row of squares their display lists, all blank
+dls	param	ClearSquares	invented	
+StartBoardLights	function	0x80016008	invented	the proc that runs the lights of the board when a puzzle is solved
+ResetBoard	function	0x800161A8	invented	makes the board obj if need be and blanks every square
+CameraPathProc	function	0x80016734	invented	plays a camera move a frame at a time; event 45 when it ends
+SetView	function	0x80016944	invented	puts the camera obj at a view, and plays its camera move if it has one
+view	param	SetView	invented	
+SetCameraView	function	0x80016B9C	invented	SetView on the camera obj
+view	param	SetCameraView	invented	
+CameraProc	function	0x80016BEC	invented	the proc of the camera obj, which does nothing
+DrawCamera	function	0x80016C78	invented	the draw function of the camera: the projection and guLookAt, from the opening, a move or the obj
+InitCamera	function	0x8001745C	invented	makes the camera obj of a proc
+CreateCamera	function	0x800174DC	invented	makes the camera proc and its obj
+curView	global	0x800BA2BC	invented	the view SetView last set
+views	global	0x80057F50	invented	the places of the camera, by number
+curCamera	global	0x800BA5D8	invented	the camera_t of a move in play, or 0
+cameraUpX	global	0x800B6BE8	invented	the up vector of guLookAt during a move
+cameraUpY	global	0x800B6BEC	invented	
+cameraUpZ	global	0x800B6BF0	invented	
+LoseTurn	function	0x80017548	invented	the turn passes, unless the player holds a free spin, who is asked (message 37) and keeps it
+NextTurn	function	0x80017678	invented	the turn passes to the next player
+NextRound	function	0x800177A4	invented	starts the next round
+FindWinner	function	0x80017848	invented	the player with the most money takes the turn and is shown
+AdjustCameraProc	function	0x80017938	invented	the C buttons turn the camera for the player whose turn it is
+SetGameView	function	0x80017C00	invented	SetView for a step of a turn
+view	param	SetGameView	invented	
+RoundOverProc	function	0x80017DBC	invented	the puzzle is solved: the camera, the movie, then the next round or the end of the game
+WinnerProc	function	0x800181A4	invented	shows the winner of the game
+SpinProc	function	0x800183A8	invented	a person spins: the wheel, the wedge, then a consonant
+BuyVowelProc	function	0x80018D28	invented	a person buys a vowel for 250
+SolveProc	function	0x8001933C	invented	a person solves the puzzle
+FinalSpinTurnProc	function	0x80019630	invented	a person's turn in the final spin: a letter, then the solve
+PlayerTurnProc	function	0x80019AAC	invented	the turn of a person: makes the procs of its steps; named after the ROM's "player proc"
+AddPlayer	function	0x8001A424	invented	the turn proc of a person
+player	param	AddPlayer	invented	
+InitPlayers	function	0x8001A484	invented	a turn proc for each contestant, a person's or the machine's
+InitCpuLetters	function	0x8001A5D0	invented	the orders in which the machine calls letters
+RemoveCalledLetters	function	0x8001A628	invented	drops from a string the letters already called
+letters	param	RemoveCalledLetters	invented	
+PickMissLetter	function	0x8001A6DC	invented	the last letter of a string that is not in the puzzle, or a space
+letters	param	PickMissLetter	invented	
+PickHitLetter	function	0x8001A7A8	invented	the last letter of a string that is in the puzzle, or else PickMissLetter's
+letters	param	PickHitLetter	invented	
+CpuPickConsonant	function	0x8001A894	invented	the machine's consonant: a right one with the chance of its skill
+skill	param	CpuPickConsonant	invented	
+CpuPickVowel	function	0x8001A97C	invented	the machine's vowel: a right one with the chance of its skill
+skill	param	CpuPickVowel	invented	
+CpuChooseAction	function	0x8001AA60	invented	the machine decides to solve, spin or buy a vowel
+CpuSpinProc	function	0x8001AE18	invented	the machine spins
+CpuBuyVowelProc	function	0x8001B6BC	invented	the machine buys a vowel
+CpuSolveProc	function	0x8001BC44	invented	the machine solves
+CpuFinalSpinTurnProc	function	0x8001BED8	invented	the machine's turn in the final spin
+CpuTurnProc	function	0x8001C584	invented	the turn of the machine: makes the procs of its steps
+AddDemoCpu	function	0x8001D320	invented	a machine turn proc for the demo, of skill 0.65
+player	param	AddDemoCpu	invented	
+AddCpu	function	0x8001D3CC	invented	a machine turn proc of the skill chosen
+player	param	AddCpu	invented	
+cpuSkill	global	0x800B8298	invented	the chance that the machine picks a right letter
+cpuConsonants	global	0x800B61C0	invented	the consonants the machine has left, in its order
+cpuVowels	global	0x800B6AE0	invented	the vowels the machine has left, in its order
+consonantOrder	global	0x80058208	invented	"RSTLNCBDMHFYKJGPQVWXZ": the order the machine calls consonants in
+vowelOrder	global	0x80058220	invented	"EAIOU": the order the machine buys vowels in
+canSpin	global	0x800B9CF8	invented	0 once only vowels are hidden
+canBuyVowel	global	0x800B9CFC	invented	0 until the round's first letter
+canSolve	global	0x800B9D00	invented	0 until the round's first letter
+cameraTurn	global	0x800B39A0	invented	what each player has turned the camera by with the C buttons
+SolvePuzzleProc	function	0x8002E0C8	rom-string	"SolvePuzzleProc Proc: cursor proc does not exist", printed through GetCursorProc
+GetCursorProc	function	0x8002E064	invented	finds the cursor proc for SolvePuzzleProc, whose message it prints
+StatusProc	function	0x8002CBF4	rom-string	"Status Proc: player proc does not exist" and "Status Proc: button press invalid"; the ROM's "Status Proc"
+LetterPickProc	function	0x8002D930	invented	the cursor over the letters as a letter is called
+InitLetterCursor	function	0x8002D8B0	invented	moves the letter cursor off a called letter
+CountSolveBlanks	function	0x8002DF80	invented	the squares of solveBoard still blank
+MoveCursorLeft	function	0x8002A8C8	invented	moves a cursor left over the letters or the choices
+MoveCursorRight	function	0x8002AAD0	invented	moves a cursor right over the letters or the choices
+MoveCursorUp	function	0x8002ACE8	invented	moves the letter cursor up a row, if that row has an uncalled letter
+MoveCursorDown	function	0x8002AE60	invented	moves the letter cursor down a row, if that row has an uncalled letter
+StartLetterPick	function	0x8002EB40	invented	LetterPickProc for a person
+StartCpuLetterPick	function	0x8002EB90	invented	LetterPickProc on the letter the machine chose
+letter	param	StartCpuLetterPick	invented	
+StartSolvePuzzle	function	0x8002EBF4	invented	StartSolve, the cursor proc and SolvePuzzleProc
+StartStatus	function	0x8002EC60	invented	StatusProc and its obj
+StartBonusRound	function	0x8002EDE0	invented	sets the bonus round (gameMode 4) for the player with the most money
+FinalSpinProc	function	0x8002EFC0	invented	the host's final spin when the time runs out: "Final spin is "
+RoundTimerProc	function	0x8002F338	invented	the time of a round, 300 seconds a person and 240 the machine; then the final spin or the end
+DemoTimerProc	function	0x8002F7CC	invented	ends the demo after 30 seconds or on START
+SolveTimerProc	function	0x8002F94C	rom-string	the ROM's "Solve Timer Proc" (in ResetSolveTimer's message): 8 seconds to solve, 20 in the bonus round
+StartSolveTimer	function	0x8002FD50	invented	creates SolveTimerProc
+ResetSolveTimer	function	0x8002FD8C	rom-string	"ResetSolveTimer: Solve Timer Proc does not exist."
+StartRoundTimer	function	0x8002FE2C	invented	creates RoundTimerProc
+StartDemoTimer	function	0x8002FE70	invented	creates DemoTimerProc
+roundTime	global	0x800B81DC	invented	the seconds a round may last
+bonusTimeLeft	global	0x800B40C0	invented	the seconds left to solve the bonus puzzle
+event	local	RoundTimerProc	invented	
+now	local	RoundTimerProc	invented	seconds since the boot
+i	local	RoundTimerProc	invented	
+result	local	RoundTimerProc	invented	
+event	local	DemoTimerProc	invented	
+now	local	DemoTimerProc	invented	
+result	local	DemoTimerProc	invented	
+event	local	SolveTimerProc	invented	
+now	local	SolveTimerProc	invented	
+result	local	SolveTimerProc	invented	
+event	local	func_8002FB60	invented	
+now	local	func_8002FB60	invented	
+result	local	func_8002FB60	invented	
+row	local	CheckPercentDone	invented	
+col	local	CheckPercentDone	invented	
+count	local	CheckPercentDone	invented	the hidden letters, then the turned ones
+letters	local	CheckPercentDone	invented	

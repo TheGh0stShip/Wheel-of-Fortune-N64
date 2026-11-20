@@ -9,7 +9,7 @@ void func_80029440(void) {
     proc_t *task;
     obj_t *sp24;
 
-    len = StrLen(D_800B9544);
+    len = StrLen(category);
     if (len >= 21) {
         func_80009F38("InitCategory: category strlen > 20");
     }
@@ -24,13 +24,13 @@ void func_80029440(void) {
     D_8005B710[n].unk_24 = D_01017550;
     D_8005B710[n].x = x;
     D_8005B710[n].width = 8;
-    if (D_800BCD54 == 8) {
+    if (gameMode == 8) {
         D_8005B710[n].unk_20 = D_8005B710[n].unk_24;
     }
     n++;
     x = x + 8;
     for (i = 0; i < len; i++) {
-        switch (D_800B9544[i]) {
+        switch (category[i]) {
         case '&':
             D_8005B710[n].unk_24 = D_01017750;
             break;
@@ -44,11 +44,11 @@ void func_80029440(void) {
             D_8005B710[n].unk_24 = D_01017A50;
             break;
         default:
-            D_8005B710[n].unk_24 = D_8005B5A4[D_800B9544[i]];
+            D_8005B710[n].unk_24 = D_8005B5A4[category[i]];
         }
         D_8005B710[n].x = x;
         D_8005B710[n].width = 12;
-        if (D_800BCD54 == 8) {
+        if (gameMode == 8) {
             D_8005B710[n].unk_20 = D_8005B710[n].unk_24;
         }
         n++;
@@ -57,7 +57,7 @@ void func_80029440(void) {
     D_8005B710[n].unk_24 = D_01017650;
     D_8005B710[n].x = x;
     D_8005B710[n].width = 8;
-    if (D_800BCD54 == 8) {
+    if (gameMode == 8) {
         D_8005B710[n].unk_20 = D_8005B710[n].unk_24;
         return;
     }

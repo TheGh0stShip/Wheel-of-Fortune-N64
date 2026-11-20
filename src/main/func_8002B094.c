@@ -10,7 +10,7 @@ struct procResult_s func_8002B094(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            D_800BCD54 = 8;
+            gameMode = 8;
             func_8002A538();
             func_80027218(proc, 0, func_80027F3C, 0x5050100);
             D_800B96A8 += 2;
@@ -29,7 +29,7 @@ struct procResult_s func_8002B094(proc_t *proc) {
             KillOtherProcs(proc);
             InitObjs();
             func_80021E28();
-            func_8000E794();
+            RestartOpening();
             result.w[1] = 0;
             result.w[0] = 0;
             return result;

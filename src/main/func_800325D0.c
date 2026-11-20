@@ -11,7 +11,7 @@ void func_800325D0(s32 arg0, s32 arg1) {
     if (arg0 >= 2) {
         func_80009F38("InitAnim: invalid animation number");
     }
-    kind = D_800B9990[arg1].unk_018;
+    kind = players[arg1].unk_018;
     if (kind >= 6) {
         func_80009F38("InitAnim: invalid contestant number");
     }

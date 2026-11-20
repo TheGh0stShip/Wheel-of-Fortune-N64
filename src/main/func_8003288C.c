@@ -22,7 +22,7 @@ proc_t *func_8003288C(s32 arg0, s32 arg1) {
         FreeObjClass(0xA030000, -1);
     }
     task = CreatProc(func_80031A54, 0xA000400);
-    child = func_80015848(task, 0, func_80030B5C, 0xA030000);
+    child = MakeObj(task, 0, func_80030B5C, 0xA030000);
     child->x = D_800B9988;
     task->data->vannaAnim.unk_0C = id;
     task->data->vannaAnim.unk_08 = D_8005C7F0[arg0].unk_18;

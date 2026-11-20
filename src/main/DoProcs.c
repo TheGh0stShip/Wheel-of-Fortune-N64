@@ -13,11 +13,11 @@ void DoProcs(void) {
         }
         if (task->waiting == 0) {
             if (task->sleep > 0) {
-                if (D_800BCD54 != 6) {
+                if (gameMode != 6) {
                     task->sleep--;
                 }
             } else {
-                if (D_800BCD54 == 6) {
+                if (gameMode == 6) {
                     if (task->cls == 0xB000000) {
                         res = task->handler(task);
                     }

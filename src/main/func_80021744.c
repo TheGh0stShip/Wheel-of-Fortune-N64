@@ -24,7 +24,7 @@ struct procResult_s func_80021744(proc_t *proc) {
     }
     func_800213CC(proc);
     if (D_800B40C4 != 0) {
-        func_80017C00(3, 0);
+        SetGameView(3, 0);
         D_800B96A4 = 0;
         PopMemStack(1);
         minRetraces = 0;

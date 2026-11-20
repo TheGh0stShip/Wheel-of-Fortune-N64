@@ -38,7 +38,7 @@ void createGfxTask(gfxInfo_t *info) {
     gDPFillRectangle(glistp++, 0, 0, 320 - 1, 240 - 1);
     gDPPipeSync(glistp++);
     gDPSetCycleType(glistp++, G_CYC_1CYCLE);
-    switch (D_800BCD54) {
+    switch (gameMode) {
     case 1:
     case 5:
     case 7:

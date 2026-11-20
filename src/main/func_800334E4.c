@@ -6,7 +6,7 @@ void func_800334E4(void) {
     proc_t *sp18;
 
     for (i = 0; i < 3; i++) {
-        if (i != D_800FB808) {
+        if (i != curPlayer) {
             sp18 = FindProc(i | 0xA000300, -1);
             if (sp18 != 0) {
                 KillProc(sp18, 1);

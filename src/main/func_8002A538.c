@@ -12,7 +12,7 @@ void func_8002A538(void) {
     for (i = 0; i < 9; i++) {
         D_8005B4C8[i].unk_20 = 0;
     }
-    x = D_800B9990[D_800FB808].unk_004;
+    x = players[curPlayer].unk_004;
     IntToStr(buf, x);
     len = StrLen(buf);
     if (len >= 7) {

@@ -28,7 +28,7 @@ struct procResult_s func_8002C094(proc_t *proc) {
             ProcPostMessage(proc, 11, 0);
             return ret;
         case 11:
-            if (D_800B61A8 < 0) {
+            if (lightDir < 0) {
                 func_80021B04(9, 44);
             } else {
                 func_800219B8(9, 44, 180, 20);
@@ -38,10 +38,10 @@ struct procResult_s func_8002C094(proc_t *proc) {
             return ret;
         case 44:
             for (i = 0; D_8005C394[i] != 0; i++) {
-                D_800B966A[D_8005C394[i] - 65] = 32;
-                func_80007DAC(D_8005C394[i]);
+                uncalled[D_8005C394[i] - 65] = 32;
+                ShowLetter(D_8005C394[i]);
             }
-            task = CreatProc(func_80010D3C, 0x1000000);
+            task = CreatProc(LightTextProc, 0x1000000);
             task->data->data80010D3C.row = 0;
             task->data->data80010D3C.col = 0;
             task->data->data80010D3C.text = D_8005C394;
@@ -50,7 +50,7 @@ struct procResult_s func_8002C094(proc_t *proc) {
             return ret;
         case 6:
             if (D_8005BE00[9].unk_20 != 0) {
-                if (func_80007EEC(0) == 1) {
+                if (CheckSolved(0) == 1) {
                     ProcPostEvent(10);
                     CreatProc(func_8002BE84, 0x6000000);
                     ret.w[1] = 0;
@@ -58,28 +58,28 @@ struct procResult_s func_8002C094(proc_t *proc) {
                     return ret;
                 }
                 D_800BEE20 = PlaySound(22);
-                func_8002FD50();
-                func_8002EBF4();
+                StartSolveTimer();
+                StartSolvePuzzle();
                 task = CreatProc(func_8002BA44, 0x5050200);
                 func_80027218(task, 0, func_80028554, 0x5050200);
                 ret.w[1] = 2;
                 ret.w[0] = 10;
                 return ret;
             }
-            if (D_800B61A8 < 0) {
+            if (lightDir < 0) {
                 func_80021B04(10, 0);
             } else {
                 func_800219B8(10, 0, 180, 20);
             }
-            func_8002EB40();
+            StartLetterPick();
             ret.w[1] = 2;
             ret.w[0] = 5;
             return ret;
         case 5:
-            if (func_80007818(D_800B61B5) != 0) {
+            if (IsVowel(curLetter) != 0) {
                 if (D_8005BE00[9].unk_20 != 0) {
                     PlaySound(1);
-                    func_8002EB40();
+                    StartLetterPick();
                     ret.w[1] = 2;
                     ret.w[0] = 5;
                     return ret;
@@ -90,7 +90,7 @@ struct procResult_s func_8002C094(proc_t *proc) {
             } else {
                 if (D_800BEE28 >= 3) {
                     PlaySound(1);
-                    func_8002EB40();
+                    StartLetterPick();
                     ret.w[1] = 2;
                     ret.w[0] = 5;
                     return ret;
@@ -101,27 +101,27 @@ struct procResult_s func_8002C094(proc_t *proc) {
             while (i < 10 && D_8005BE00[i].unk_20 != 0) {
                 i++;
             }
-            D_800B966A[D_800B61B5 - 65] = 32;
-            D_8005BE00[i].unk_20 = D_8005BCC8[D_800B61B5 - 65].unk_00;
-            D_8005BE00[i].width = D_8005BCC8[D_800B61B5 - 65].width;
-            D_8005BE00[i].height = D_8005BCC8[D_800B61B5 - 65].height;
-            func_80007DAC(D_800B61B5);
-            D_800B61AA[i] = D_800B61B5;
+            uncalled[curLetter - 65] = 32;
+            D_8005BE00[i].unk_20 = D_8005BCC8[curLetter - 65].unk_00;
+            D_8005BE00[i].width = D_8005BCC8[curLetter - 65].width;
+            D_8005BE00[i].height = D_8005BCC8[curLetter - 65].height;
+            ShowLetter(curLetter);
+            D_800B61AA[i] = curLetter;
             if (StrLen(D_800B61B0) == 4) {
-                task = CreatProc(func_80010D3C, 0x1000000);
+                task = CreatProc(LightTextProc, 0x1000000);
                 task->data->data80010D3C.row = 0;
                 task->data->data80010D3C.col = 0;
                 task->data->data80010D3C.text = D_800B61B0;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {
-                func_8002EB40();
+                StartLetterPick();
                 ret.w[1] = 2;
                 ret.w[0] = 5;
             }
             return ret;
         case 10:
-            if (func_800088E4() == 1) {
+            if (CheckSolve() == 1) {
                 if (D_800BEE20 != -1) {
                     StopSound(D_800BEE20);
                 }
@@ -133,10 +133,10 @@ struct procResult_s func_8002C094(proc_t *proc) {
                 ret.w[0] = 1;
                 return ret;
             }
-            func_80011F58();
+            GreyHiddenSquares();
             task = FindProc(0x1020000, -1);
             KillProc(task, 0);
-            func_8002EBF4();
+            StartSolvePuzzle();
             ret.w[1] = 2;
             ret.w[0] = 10;
             return ret;
@@ -146,7 +146,7 @@ struct procResult_s func_8002C094(proc_t *proc) {
             }
             PlaySound(1);
             task = FindProc(0x1020000, -1);
-            func_80011B24();
+            RevealPuzzle();
             ProcPostEvent(10);
             CreatProc(func_8002B904, 0x6000000);
             ret.w[1] = 0;

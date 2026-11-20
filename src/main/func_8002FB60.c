@@ -2,29 +2,29 @@
 
 
 struct procResult_s func_8002FB60(proc_t *proc) {
-    struct procResult_s sp10;
+    struct procResult_s result;
     OSTime time; /* NOTE: unused in the original. Eight bytes nothing touches; guess: an OSTime */
-    s32 sp28;
-    s32 sp2C;
+    s32 event;
+    s32 now;
 
-    sp10.w[1] = 1;
-    sp10.w[0] = 0;
+    result.w[1] = 1;
+    result.w[0] = 0;
     for (;;) {
-        sp28 = ProcGetMessage(proc);
-        if (sp28 == 0) {
+        event = ProcGetMessage(proc);
+        if (event == 0) {
             break;
         }
-        switch (sp28) {
+        switch (event) {
         case 8:
             proc->data->timer.start = (s32)(osGetTime() / osClockRate);
             break;
         }
     }
     proc->data->timer.start = proc->data->timer.start + D_800BCA1C;
-    sp2C = (s32)(osGetTime() / osClockRate);
-    if ((sp2C - proc->data->timer.start) >= 5) {
+    now = (s32)(osGetTime() / osClockRate);
+    if ((now - proc->data->timer.start) >= 5) {
         ProcPostEvent(48);
-        sp10.w[1] = 0;
+        result.w[1] = 0;
     }
-    return sp10;
+    return result;
 }

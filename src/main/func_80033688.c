@@ -19,7 +19,7 @@ struct procResult_s func_80033688(proc_t *proc) {
         }
     }
     D_800BCA1C = 0;
-    if (D_800BCD54 == 2) {
+    if (gameMode == 2) {
         if (D_800BED88 > 0) {
             D_800BEE48 = (s32)(osGetTime() / osClockRate);
             D_800BED88 = 0;
@@ -30,7 +30,7 @@ struct procResult_s func_80033688(proc_t *proc) {
             }
         }
     } else {
-        if (D_800BCD54 == 8) {
+        if (gameMode == 8) {
             if (((buttonsPressed & 0xB000) & 0xFFFF) != 0) {
                 sp20 = FindProc(0x6060000, -1);
                 if (sp20 != 0) {
@@ -41,11 +41,11 @@ struct procResult_s func_80033688(proc_t *proc) {
         }
     }
     if (((buttonsPressed & 0x1000) & 0xFFFF) != 0) {
-        if (D_800BCD54 != 6) {
+        if (gameMode != 6) {
             func_800335D0();
         } else {
             FreeObjClass(0x5020000, -1);
-            D_800BCD54 = D_800BED98;
+            gameMode = D_800BED98;
             ResumeSounds();
             D_800BCA1C = ((s32)(osGetTime() / osClockRate)) - D_800BA2C0;
             D_800BEE48 = (s32)(osGetTime() / osClockRate);

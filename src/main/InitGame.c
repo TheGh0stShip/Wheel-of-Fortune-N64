@@ -33,7 +33,7 @@ void InitGame(void) {
     InitProcs();
     InitObjs();
     if (contPattern != 0) {
-        func_8000E6B4();
+        StartLogos();
     } else {
         func_8000E738();
     }

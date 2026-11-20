@@ -10,7 +10,7 @@ struct procResult_s func_8002B730(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            D_800BCD54 = 8;
+            gameMode = 8;
             func_8002A538();
             func_80027218(proc, 0, func_80027F3C, 0x5050100);
             D_800B96A8++;

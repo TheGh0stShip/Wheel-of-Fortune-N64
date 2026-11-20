@@ -9,7 +9,7 @@ void ControllerThread(void *arg) {
         switch (msg->type) {
         case 5:
             if (contReading != 0) {
-                func_8000BB68();
+                UnlockSi();
                 ReadControllers();
                 contReading = 0;
             }

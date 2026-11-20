@@ -9,7 +9,7 @@ void RumbleThread(void *arg) {
     msg = 0;
     while (1) {
         osRecvMesg(&rumbleMsgQ, (OSMesg *)&msg, OS_MESG_BLOCK);
-        func_8000BB10();
+        LockSi();
         index = msg->index;
         type = msg->type;
         switch (type) {
@@ -33,6 +33,6 @@ void RumbleThread(void *arg) {
             }
             break;
         }
-        func_8000BB68();
+        UnlockSi();
     }
 }

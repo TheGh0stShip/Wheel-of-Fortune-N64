@@ -25,8 +25,8 @@ struct procResult_s func_8002BA44(proc_t *proc) {
             return sp20;
         }
     }
-    tens = D_800B40C0 / 10;
-    ones = D_800B40C0 % 10;
+    tens = bonusTimeLeft / 10;
+    ones = bonusTimeLeft % 10;
     D_8005B2C0[0].unk_20 = D_8005B118[tens];
     D_8005B2C0[0].width = D_8005B178[tens];
     D_8005B2C0[1].unk_20 = D_8005B118[ones];

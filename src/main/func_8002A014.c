@@ -9,9 +9,9 @@ void func_8002A014(void) {
     u8 buf[24];
     proc_t *task;
 
-    switch (D_800B619C) {
+    switch (round) {
     case 2:
-        if (D_800B9CEC == D_800B9540) {
+        if (D_800B9CEC == jackpot) {
             return;
         }
         i = 0;
@@ -24,7 +24,7 @@ void func_8002A014(void) {
         for (; i < 9; i++) {
             D_8005B4C8[i].unk_20 = 0;
         }
-        x = D_800B9540;
+        x = jackpot;
         IntToStr(buf, x);
         len = StrLen(buf);
         if (len >= 7) {
@@ -65,6 +65,6 @@ void func_8002A014(void) {
                 D_8005B4C8[i].height = 15;
             }
         }
-        D_800B9CEC = D_800B9540;
+        D_800B9CEC = jackpot;
     }
 }

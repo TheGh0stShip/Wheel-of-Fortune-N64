@@ -18,7 +18,7 @@ void func_800323C4(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         KillProc(task, 0);
     }
     task = CreatProc(func_800315FC, arg1 | 0xA000300);
-    obj = func_80015848(task, D_0113A9B0, func_80030490, arg1 | 0xA020000);
+    obj = MakeObj(task, D_0113A9B0, func_80030490, arg1 | 0xA020000);
     obj->secondDl = D_0113A9D0;
     obj->x = arg2;
     obj->y = arg3;

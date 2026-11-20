@@ -17,7 +17,7 @@ void mainproc(void *arg) {
             retraceTime++;
             if (contPattern != 0 && contReading == 0) {
                 contReading = 1;
-                func_8000BB10();
+                LockSi();
                 osContStartReadData(&contMsgQ);
             } else if (contPattern == 0) {
                 newFrame = 0;

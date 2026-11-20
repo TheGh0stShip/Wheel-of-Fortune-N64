@@ -2,37 +2,37 @@
 
 
 f32 CheckPercentDone(void) {
-    s32 sp10;
-    s32 sp14;
-    f32 sp18;
-    f32 sp1C;
+    s32 row;
+    s32 col;
+    f32 count;
+    f32 letters;
 
-    sp18 = sp1C = 0.0f;
-    sp10 = 0;
+    count = letters = 0.0f;
+    row = 0;
     for (;;) {
-        if (sp10 >= 4) {
+        if (row >= 4) {
             break;
         }
-        sp14 = 0;
+        col = 0;
         for (;;) {
-            if (sp14 >= 14) {
+            if (col >= 14) {
                 break;
             }
-            if (D_800B9559[sp10][sp14] == 43) {
-                sp18++;
+            if (board[row][col] == 43) {
+                count++;
             }
-            if ((u32)D_800B9601[sp10][sp14] >= 65) {
-                if ((u32)D_800B9601[sp10][sp14] < 91) {
-                    sp1C++;
+            if ((u32)puzzleText[row][col] >= 65) {
+                if ((u32)puzzleText[row][col] < 91) {
+                    letters++;
                 }
             }
-            sp14++;
+            col++;
         }
-        sp10++;
+        row++;
     }
-    sp18 = sp1C - sp18;
-    if (sp1C == 0.0f) {
+    count = letters - count;
+    if (letters == 0.0f) {
         func_80009F38("CheckPercentDone: No letters in puzzle\n");
     }
-    return sp18 / sp1C;
+    return count / letters;
 }

@@ -11,7 +11,7 @@ void func_80028194(obj_t *obj, frame_t *frame) {
     gDPSetCycleType(glistp++, G_CYC_COPY);
     i = 0;
     while (i < 26) {
-        if (D_800B966A[i] == ' ') {
+        if (uncalled[i] == ' ') {
             D_8005A998[i].unk_20 = D_8005A8C8[i];
         } else {
             D_8005A998[i].unk_20 = D_8005A930[i];

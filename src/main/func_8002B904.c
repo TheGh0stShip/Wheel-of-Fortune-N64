@@ -14,7 +14,7 @@ struct procResult_s func_8002B904(proc_t *proc) {
             return ret;
         }
     }
-    func_80016B9C(20);
+    SetCameraView(20);
     CreatProc(func_8002B094, 0x6000000);
     ret.w[1] = 0;
     ret.w[0] = 0;

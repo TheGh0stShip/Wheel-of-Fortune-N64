@@ -10,17 +10,17 @@ void func_80032BF0(void) {
     s32 sp28;
 
     sp28 = 0x2000000;
-    if (D_800BCD54 == 3) {
+    if (gameMode == 3) {
         for (i = 0; i < 3; i++) {
-            D_800B9990[i].unk_018 = i;
+            players[i].unk_018 = i;
         }
     }
     D_800BCA60 = PushMemStack();
     for (i = 0; i < 3; i++) {
-        if (D_800B9990[i].unk_018 >= 6) {
+        if (players[i].unk_018 >= 6) {
             func_80009F38("InitContestants: invalid image num");
         }
-        slots = D_8005C3B8[D_800B9990[i].unk_018];
+        slots = D_8005C3B8[players[i].unk_018];
         for (j = 0; j < 2; j++) {
             if (slots[j].count > 0) {
                 size = slots[j].width * slots[j].height * 2;
@@ -38,10 +38,10 @@ void func_80032BF0(void) {
         func_80021B4C(D_8005C7F0[i].movie, D_8005C7F0[i].count, D_8005C7F0[i].unk_18, D_8005C7F0[i].unk_20);
         i++;
     }
-    D_800B61A8 = 1;
+    lightDir = 1;
     D_800B9988 = 0;
     for (i = 0; i < 3; i++) {
-        obj = func_80015848(0, D_8005C3A0[i][0], func_8002FEB0, i | 0xA020000);
+        obj = MakeObj(0, D_8005C3A0[i][0], func_8002FEB0, i | 0xA020000);
         obj->secondDl = D_8005C3A0[i][1];
         obj->image = 0;
     }

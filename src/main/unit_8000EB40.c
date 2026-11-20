@@ -9,7 +9,7 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
-struct procResult_s func_8000EB40(proc_t *proc) {
+struct procResult_s DemoProc(proc_t *proc) {
     struct procResult_s result;
     s32 event;
 
@@ -28,7 +28,7 @@ struct procResult_s func_8000EB40(proc_t *proc) {
             return result;
         case 15:
             func_800219B8(7, 40, 180, 20);
-            func_80016B9C(3);
+            SetCameraView(3);
             return result;
         case 34:
             StopAllSounds();
@@ -48,7 +48,7 @@ struct procResult_s func_8000EB40(proc_t *proc) {
             InitObjs();
             func_80021E28();
             PopMemStack(1);
-            func_8000E794();
+            RestartOpening();
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -68,21 +68,21 @@ struct procResult_s func_8000EB40(proc_t *proc) {
 void func_8000EE50(s32 arg0, s32 arg1) {
 }
 
-void func_8000EE78(void) {
+void StartDemo(void) {
     s32 unused[4];  /* NOTE: unused in the original; guess: its type, the frame shows at most 16 bytes */
 
-    D_800BCD54 = 3;
-    D_800B8298 = 0.65f;
+    gameMode = 3;
+    cpuSkill = 0.65f;
     do {
     } while (pendingGfx != 0 && retraceCount < 100);
-    func_800174DC();
-    func_8002FE70();
-    func_80006B28();
-    func_80016310();
+    CreateCamera();
+    StartDemoTimer();
+    NewGame();
+    InitStage();
     func_80032BF0();
-    func_8001A484();
-    func_8002EC60();
-    CreatProc(func_8000EB40, 0x9000000);
-    func_80015848(0, 0, func_800287A4, 0x5000000);
+    InitPlayers();
+    StartStatus();
+    CreatProc(DemoProc, 0x9000000);
+    MakeObj(0, 0, func_800287A4, 0x5000000);
     func_80033CBC();
 }

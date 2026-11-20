@@ -17,17 +17,17 @@ struct procResult_s func_80029098(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            if (D_800B619C < D_800B96C0) {
+            if (round < numRounds) {
                 func_80032B80();
             }
             func_80032AD4(2);
             proc->data->data80029098.unk_04 = 0;
             break;
         case 6:
-            if (D_800B619C == 6) {
+            if (round == 6) {
                 func_80032AD4(80);
             } else {
-                func_80016B9C(17);
+                SetCameraView(17);
                 D_800B96A8++;
             }
             result.w[1] = 0;
@@ -37,8 +37,8 @@ struct procResult_s func_80029098(proc_t *proc) {
     }
     index = proc->data->data80029098.unk_04;
     if (D_8005B710[index].unk_24 == 0 || index >= 22) {
-        if (D_800B619C != 6) {
-            PlaySound(D_800FB808 + 139);
+        if (round != 6) {
+            PlaySound(curPlayer + 139);
         }
         ProcPostMessage(proc, 6, 0);
         result.w[1] = 1;

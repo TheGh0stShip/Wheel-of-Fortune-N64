@@ -21,7 +21,7 @@ struct procResult_s func_800315FC(proc_t *proc) {
             break;
         }
     }
-    if (func_80016638() != 0 && D_800BCD54 != 7) {
+    if (func_80016638() != 0 && gameMode != 7) {
         result.w[1] = 1;
         result.w[0] = 0;
         return result;

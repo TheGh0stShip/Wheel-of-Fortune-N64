@@ -13,9 +13,9 @@ void func_80029974(s32 arg0) {
             D_8005ADD0[i][j].unk_20 = 0;
         }
         if (arg0 != 0) {
-            value = D_800B9990[i].unk_004;
+            value = players[i].unk_004;
         } else {
-            value = D_800B9990[i].unk_000;
+            value = players[i].unk_000;
         }
         IntToStr(buf, value);
         len = StrLen(buf);
@@ -27,5 +27,5 @@ void func_80029974(s32 arg0) {
             D_8005ADD0[i][j + 7 - len].unk_20 = D_8005ACE8[buf[j]];
         }
     }
-    func_80013500(arg0);
+    SetScoreDigits(arg0);
 }

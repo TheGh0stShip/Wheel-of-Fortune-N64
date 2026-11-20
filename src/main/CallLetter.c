@@ -1,0 +1,83 @@
+#include "wof.h"
+
+
+s32 CallLetter(register s32 c, s32 kind) {
+    u8 letter;
+    s32 i;
+    s32 count;
+    u8 *p;
+
+    letter = c;
+    canSpin = 1;
+    canBuyVowel = 1;
+    canSolve = 1;
+    switch (kind) {
+    case 0:
+        p = StrChr(consonantLetters, letter);
+        if (p == 0) {
+            return -3;
+        }
+        break;
+    case 1:
+        p = StrChr(vowelLetters, letter);
+        if (p == 0) {
+            return -2;
+        }
+        break;
+    default:
+        p = StrChr(vowelLetters, letter);
+        if (p != 0) {
+            kind = 1;
+        } else {
+            kind = 0;
+        }
+        break;
+    }
+    p = StrChr(uncalled, letter);
+    if (p == 0) {
+        return -1;
+    }
+    uncalled[p - uncalled] = 32;
+    count = 0;
+    for (i = 0; i < 4; i++) {
+        p = puzzleText[i];
+        while (p != 0) {
+            p = StrChr(p, letter);
+            if (p != 0) {
+                count++;
+                p++;
+            }
+        }
+    }
+    if (finalSpin != 0) {
+        if (kind == 0) {
+            players[curPlayer].unk_000 += finalSpinValue * count;
+        }
+        return count;
+    }
+    if (count > 0 && kind == 0) {
+        if (GetWedgeValue() > 0) {
+            if (GetWedgeValue() == 10000) {
+                players[curPlayer].unk_0F8 += 10000;
+                D_800B9538 = 1;
+                players[curPlayer].unk_00C = 1;
+                ClaimWedge();
+            } else {
+                players[curPlayer].unk_000 += GetWedgeValue() * count;
+            }
+            goto end;
+        }
+    }
+    if (kind != 0) {
+        players[curPlayer].unk_000 -= 250;
+    } else if (count > 0) {
+        if (kind == 0) {
+            if (GetWedgeValue() < -4) {
+                players[curPlayer].unk_008 = 1;
+                ClaimWedge();
+            end:;
+            }
+        }
+    }
+    return count;
+}

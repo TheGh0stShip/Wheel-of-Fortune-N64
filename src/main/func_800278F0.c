@@ -27,8 +27,8 @@ void func_800278F0(obj_t *obj, frame_t *frame) {
         }
         i++;
     }
-    if (D_800B619C == 2 && (D_800B40C4 != 0 || D_800BCA28 == 22)) {
-        switch (D_800BA2BC) {
+    if (round == 2 && (D_800B40C4 != 0 || D_800BCA28 == 22)) {
+        switch (curView) {
         case 3:
         case 18:
             j = 0;
@@ -46,7 +46,7 @@ void func_800278F0(obj_t *obj, frame_t *frame) {
     }
     i = 0;
     while (i < 26) {
-        if (D_800B966A[i] == ' ') {
+        if (uncalled[i] == ' ') {
             D_8005A998[i].unk_20 = D_8005A8C8[i];
         } else {
             D_8005A998[i].unk_20 = D_8005A930[i];
@@ -61,10 +61,10 @@ void func_800278F0(obj_t *obj, frame_t *frame) {
     }
     i = 0;
     while (i < 3) {
-        if (D_800B9990[i].unk_008 != 0) {
+        if (players[i].unk_008 != 0) {
             func_800278A8(&D_8005A7B0[i], 1);
         }
-        if (D_800B9990[i].unk_00C != 0) {
+        if (players[i].unk_00C != 0) {
             func_800278A8(&D_8005A5A8[i], 1);
         }
         i++;

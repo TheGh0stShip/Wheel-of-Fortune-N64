@@ -2,7 +2,7 @@
 #include "mpeg/proto.h"
 
 void func_80020150(obj_t *obj, frame_t *frame) {
-    if (D_800BCD54 == 6) {
+    if (gameMode == 6) {
         return;
     }
     switch (D_800B96A4) {
