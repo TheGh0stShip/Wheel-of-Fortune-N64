@@ -5,11 +5,6 @@ typedef struct {
     /* 0x30 */ s32 *unk_30;
 } Obj;
 
-void func_8000FFE0(void);
-Obj *func_8000A56C(void (*arg0)(void), s32 arg1);
-s32 func_8000A990(s32 arg0, s32 arg1);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
-
 void func_80016008(void) {
     Obj *obj;
     s32 sp14;

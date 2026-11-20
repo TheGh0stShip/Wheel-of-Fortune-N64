@@ -17,11 +17,6 @@ extern Entry D_800B99A8[];
 extern s32 D_800019BC;
 extern s32 D_80001A0C;
 extern Slot D_8005C568[][2];
-void func_80009F38(void *arg0);
-s32 func_8000A4A4(s32 arg0, s32 arg1);
-s32 func_8000A990(s32 arg0, s32 arg1);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
-void func_80021C8C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 s32 func_80033150(s32 arg0, s32 arg1, s32 arg2) {
     s32 task;

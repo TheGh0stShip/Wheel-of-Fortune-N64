@@ -1,7 +1,5 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 unk_04;
@@ -22,31 +20,9 @@ typedef struct {
 
 extern Player D_800B9A8C[];
 extern f64 D_80001408;
-extern s32 func_80010574;
-extern s32 func_8001BC44;
 extern u8 D_800B61B5;
 extern s32 D_800B96B4;
 extern s32 D_800FB808;
-s32 func_80002CE0(s32 arg0);
-s32 func_80007888(s32 arg0, s32 arg1);
-void func_80007DAC(s32 arg0);
-s32 func_800082E4(void);
-f32 func_80008628(void);
-s32 func_800088E4(void);
-s32 func_80009C98(s32 arg0);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_8000A850(s32 arg0);
-s32 func_8000A990(s32 arg0, s32 arg1);
-void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000ACE8(s32 arg0);
-void func_8000AD9C(s32 arg0);
-s32 func_80017548(void);
-void func_80017C00(s32 arg0, s32 arg1);
-s32 func_8001A894(f32 arg0, s32 arg1);
-s32 func_8001A97C(f32 arg0);
-void func_80029974(s32 arg0);
-void func_8002EB90(s32 arg0);
-void func_8002FD50(void);
 
 struct n64dk_r12 func_8001BED8(s32 arg1) {
     struct n64dk_r12 sp10;

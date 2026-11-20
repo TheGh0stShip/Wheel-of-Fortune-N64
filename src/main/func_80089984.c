@@ -16,8 +16,6 @@ typedef struct {
     /* 0x240 */ s32 unk_240;
 } Source;
 
-s32 func_800A4C28(s32 arg0);
-
 s32 func_80089984(s32 arg0, s32 arg1) {
     Buffers *buf;
     s32 sp14;

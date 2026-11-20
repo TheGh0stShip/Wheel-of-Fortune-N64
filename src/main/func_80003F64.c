@@ -4,7 +4,6 @@ extern s32 D_800BA2C8;
 extern u8 D_800BA5C8;
 extern s32 D_800BA5CC;
 extern s32 *D_800BA5D0;
-s32 func_80003CC8(s32 arg0, s32 arg1, s32 arg2);
 
 s32 *func_80003F64(u8 **arg0) {
     s32 pad[2]; /* n64dk: frame padding, reconstruction scaffolding */

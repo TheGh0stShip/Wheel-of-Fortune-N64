@@ -1,7 +1,5 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 selection;
@@ -52,22 +50,7 @@ extern s32 D_800B9D00;
 extern s32 D_800BCA00;
 extern s32 D_800BED88;
 extern s32 D_800FB808;
-s32 func_80002CE0(s32 arg0);
-void func_80009F38(s32 *arg0);
-void func_8000A850(s32 arg0);
-s32 func_8000A990(s32 arg0, s32 arg1);
-s32 func_8000ACE8(s32 arg0);
 void func_80028C4C(s32 arg0);
-void func_80028CC4(void);
-void func_80029440(void);
-void func_80029974(s32 arg0);
-void func_8002A014(void);
-void func_8002A8C8(s32 arg0, s32 arg1);
-void func_8002AAD0(s32 arg0, s32 arg1, s32 arg2);
-void func_8002AFDC(void);
-void func_8002CAB4(void);
-void func_8002EDE0(void);
-void func_8002FD14(void);
 
 struct n64dk_r12 func_8002CBF4(s32 arg1) {
     s32 event;

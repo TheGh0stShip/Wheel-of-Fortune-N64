@@ -9,13 +9,6 @@ extern s32 D_80001534;
 extern s32 D_80001538;
 extern s32 D_8000153C;
 extern Pair *D_80107884;
-void func_80009D78(s32 arg0);
-void func_80009F38(s32 *arg0);
-void func_80009F98(s32 arg0);
-void func_8001ED48(s32 arg0);
-void func_800202A0(s32 arg0);
-void func_800206C8(s32 arg0);
-void func_80020C98(s32 arg0);
 
 void func_80021090(s32 arg0) {
     switch ((u32)D_80107884->unk_00) {

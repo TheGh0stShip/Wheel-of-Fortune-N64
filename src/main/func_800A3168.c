@@ -8,9 +8,6 @@ typedef struct {
     /* 0x210 */ s32 swap;
 } Reader;
 
-s32 func_800A4A18(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-s32 func_800A4B14(s32 arg0, s32 arg1, s32 arg2);
-
 s32 func_800A3168(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 kept;
     s32 count;

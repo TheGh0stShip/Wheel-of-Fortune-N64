@@ -1,6 +1,5 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
 extern u64 D_80084218;
 extern u16 D_800B96B0;
 extern s32 D_800BA2C0;
@@ -9,13 +8,6 @@ extern s32 D_800BCD54;
 extern s32 D_800BED88;
 extern s32 D_800BED98;
 extern s32 D_800BEE48;
-s32 func_80002B34();
-s32 func_8000A990();
-s32 func_8000AAB0();
-s32 func_8000ACE8();
-s32 func_8000B6FC();
-s32 func_800335D0();
-u64 func_80044988();
 
 struct n64dk_r12 func_80033688(s32 arg1) {
     struct n64dk_r12 sp10;

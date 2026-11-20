@@ -15,7 +15,6 @@ typedef struct {
 
 extern s8 D_800B61B5;
 extern u8 D_800B966A[];
-void func_8002AAD0(s32 arg0, s32 arg1, s32 arg2);
 
 void func_8002D8B0(s32 arg0) {
     if (D_800B966A[((Obj *)arg0)->unk_30->unk_04.index] == 32) {

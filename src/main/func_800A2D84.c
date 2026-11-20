@@ -18,14 +18,6 @@ typedef struct {
 } Stream;
 
 extern s32 D_8008855C;
-void func_80009F38(s32 *arg0);
-void func_800887D8(s32 arg0);
-s32 func_80088C58(s32 arg0);
-void func_800A2D38(s32 arg0);
-s32 func_800A3460(s32 arg0, s32 arg1);
-s32 func_800A4AD8(s32 arg0);
-s32 func_800A4BB4(s32 arg0, s32 arg1, s32 arg2);
-void func_800A4CBC(s32 arg0);
 
 void func_800A2D84(s32 arg0) {
     s32 err;

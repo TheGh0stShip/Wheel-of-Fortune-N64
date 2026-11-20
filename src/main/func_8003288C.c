@@ -30,14 +30,7 @@ typedef struct {
 
 extern Entry D_8005C7F8[];
 extern s32 D_800019E4;
-extern s32 func_80030B5C;
-extern s32 func_80031A54;
 extern u16 D_800B998A;
-void func_80009F38(s32 *arg0);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_8000AE70(s32 arg0, s32 arg1, s32 arg2);
-void func_8000B6FC(s32 arg0, s32 arg1);
-s32 func_80015848(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 s32 func_8003288C(s32 arg0, s32 arg1) {
     Task *task;

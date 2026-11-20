@@ -1,7 +1,5 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 typedef struct {
     /* 0x00 */ u8 unk_00[0x2C];
     /* 0x2C */ f32 unk_2C;
@@ -39,12 +37,6 @@ extern s32 D_800B96B4;
 extern u16 D_800BC6F8;
 extern f32 D_800BCCF0;
 extern s32 D_800FB808;
-s32 func_80002CE0(s32 arg0);
-s32 func_800051B4(); /* called without a prototype */
-void func_80009108(f32 arg0);
-s32 func_80009C98(s32 arg0);
-s32 func_8000ACE8(s32 arg0);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
 
 struct n64dk_r12 func_8000F274(s32 arg1) {
     struct n64dk_r12 result;
@@ -81,6 +73,7 @@ struct n64dk_r12 func_8000F274(s32 arg1) {
         sp2C = sp28 * D_80000BC4 + D_80000BC8;
         if ((((Obj *)arg1)->unk_08 & 255) == D_800FB808) {
             if (D_800B99A4[D_800FB808].unk_00 < 4) {
+                // RULE-EXCEPTION: R25, no prototype in scope: retail passes the 1.0 as a double
                 func_800051B4(D_800B99A4[D_800FB808].unk_00, 2, 1.0);
             }
             if ((u32)D_800BC6F8 < 16) {
@@ -99,6 +92,7 @@ struct n64dk_r12 func_8000F274(s32 arg1) {
                 if (((Obj *)arg1)->state->unk_08 > 0) {
                     func_80002CE0(func_80009C98(2) + 25);
                     if (D_800B99A4[D_800FB808].unk_00 < 4) {
+                        // RULE-EXCEPTION: R25, as above
                         func_800051B4(D_800B99A4[D_800FB808].unk_00, 5, 1.0);
                     }
                 }

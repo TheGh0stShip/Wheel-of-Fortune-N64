@@ -14,10 +14,6 @@ typedef struct {
 extern s32 D_80086D18;
 extern s32 D_80086D20;
 extern s32 D_800879DC;
-void func_80009F38(void *arg0);
-s32 func_800A2B40(s32 arg0);
-void func_800A2D38(s32 arg0);
-void func_800A4CBC(s32 arg0);
 
 void func_800887D8(s32 arg0) {
     s32 result;

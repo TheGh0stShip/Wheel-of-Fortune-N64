@@ -7,13 +7,7 @@ typedef struct {
     /* 0x0C */ s32 height;
 } Image;
 
-typedef struct {
-    /* 0x00 */ s32 w0;
-    /* 0x04 */ s32 w1;
-} Gfx;
-
 extern Gfx *D_800B81E8;
-s32 func_8002731C(s32 arg0, s32 arg1);
 
 void func_8002741C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     register s32 reg_s0;

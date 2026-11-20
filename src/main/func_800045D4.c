@@ -36,9 +36,6 @@ extern s32 D_800BCD54;
 extern s32 D_800BEDE8[];
 extern u16 D_800BEE58[];
 extern s32 D_800FB808;
-s32 func_80004E50(s32);
-s32 func_80004EB0(s32);
-s32 func_800482BC(Pad *);
 
 void func_800045D4(void) {
     Pad *pad;

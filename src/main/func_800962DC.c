@@ -14,7 +14,6 @@ typedef struct {
     /* 0x260 */ Item *unk_260;
 } Menu;
 
-void func_8009CAD8(s32 arg0, s32 arg1);
 void func_8009D300(s32 arg0);
 
 void func_800962DC(s32 arg0, s32 arg1) {

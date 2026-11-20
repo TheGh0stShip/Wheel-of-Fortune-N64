@@ -50,9 +50,6 @@ extern u16 D_800868C8[];
 extern u16 D_800868D0[];
 extern u16 D_80086AD0[];
 extern s32 D_80087C98[];
-void func_800887D8(s32 arg0);
-void func_8009D4B8(s32 arg0, s32 arg1);
-void func_8009D67C(s32 arg0);
 
 void func_800964D0(s32 arg0, s32 arg1) {
     Block *sp10;

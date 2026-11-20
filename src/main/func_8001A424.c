@@ -10,9 +10,6 @@ typedef struct {
     /* 0x30 */ Data *unk_30;
 } Task;
 
-void func_80019AAC(void);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-
 void func_8001A424(s32 arg0) {
     Task *task;
     s32 pad0;

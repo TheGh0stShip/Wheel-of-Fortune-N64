@@ -1,7 +1,7 @@
 // types.h -- the scalar types of the N64 SDK
 
-// These are the definitions of the SDK's <PR/ultratypes.h>. The SDK headers are not in the tree yet;
-// when they are, this file gives way to that one.
+// These are the definitions of the SDK's <PR/ultratypes.h>. The SDK headers are not in the tree
+// yet; when they are, this file gives way to that one.
 
 #ifndef TYPES_H
 #define TYPES_H

@@ -22,7 +22,6 @@ extern s32 D_800B96C0;
 extern u8 D_800B96C4;
 extern u8 D_800B99AC[][276]; /* D_800B99A4[i].unk_08 */
 extern s32 D_800BEDD8[];
-s32 func_80009900(s32 arg0, s32 arg1);
 
 void func_80026FD4(void) {
     s32 i;

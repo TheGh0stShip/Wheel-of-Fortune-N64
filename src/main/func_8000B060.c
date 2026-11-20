@@ -7,7 +7,6 @@ typedef struct {
 
 extern s32 D_800009F0;
 extern Node D_800B40C8;
-void func_80009F38(void *arg0);
 
 s32 func_8000B060(s32 arg0) {
     s32 next;

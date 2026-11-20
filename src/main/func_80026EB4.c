@@ -11,11 +11,6 @@ extern s32 D_800BCD54;
 extern s32 D_800BEDD8[];
 extern s32 D_800BEDE4;
 extern s32 D_800FB808;
-void func_80005700(void);
-void func_80016B9C(s32 arg0);
-void func_800174DC(void);
-void func_80026800(void);
-void func_80033334(void);
 
 void func_80026EB4(void) {
     s32 i;

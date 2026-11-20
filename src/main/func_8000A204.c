@@ -9,7 +9,6 @@ extern Obj D_800B82A0[];
 extern s32 D_80000814;
 extern s32 D_80000830;
 extern s32 D_800BEE50;
-void func_80009F38(s32 *arg0);
 
 s32 func_8000A204(void) {
     s32 i;

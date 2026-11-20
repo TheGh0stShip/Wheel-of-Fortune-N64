@@ -12,9 +12,6 @@ extern u32 D_8004B7AC;
 extern s32 D_800BA598;
 extern Node *D_800BA5CC;
 extern Node *D_800BA5D0;
-s32 func_8003A538(Node *arg0);
-s32 func_8003A568(Node *arg0, Node *arg1);
-s32 func_8003E318(void *arg0, void *arg1, s32 arg2);
 
 void func_80003FDC(void) {
     u32 i;

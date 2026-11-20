@@ -19,8 +19,6 @@ typedef struct {
     /* 0x260 */ Rect *unk_260;
 } Obj;
 
-void func_800A2594(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-
 void func_8009D300(Obj *arg0) {
     s32 sp18;
     s32 sp1C;

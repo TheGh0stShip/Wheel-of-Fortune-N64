@@ -1,7 +1,5 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ f32 unk_04;
@@ -38,23 +36,9 @@ extern f32 D_80000E14;
 extern f32 D_80000E18;
 extern f32 D_80000E1C;
 extern f32 D_80000E20;
-struct n64dk_r12 func_8000F274(s32 arg1);
-void func_80012500(s32 arg0, s32 arg1);
-void func_80013748(s32 arg0, s32 arg1);
-void func_80014208(s32 arg0, s32 arg1);
-void func_800144F0(s32 arg0, s32 arg1);
-void func_80014768(s32 arg0, s32 arg1);
-void func_80014A5C(s32 arg0, s32 arg1);
-void func_80014F38(s32 arg0, s32 arg1);
-void func_800153C4(s32 arg0, s32 arg1);
 extern s32 D_80057F24[];
 extern s32 D_800B81E0;
 extern s32 D_800BCCF0;
-s32 func_80009C98(s32 arg0);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_800132EC(s32 arg0);
-s32 func_80015848(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_800161A8(void);
 
 void func_80016310(void) {
     Task *task;

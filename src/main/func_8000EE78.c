@@ -1,22 +1,10 @@
 #include "wof.h"
 
 extern f32 D_80000B8C;
-extern s32 func_8000EB40;
-extern s32 func_800287A4;
 extern f32 D_800B8298;
 extern s32 D_800B96AC;
 extern s32 D_800BCD54;
 extern s32 D_800BEDE4;
-void func_80006B28(void);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-s32 func_80015848(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80016310(void);
-void func_800174DC(void);
-void func_8001A484(void);
-void func_8002EC60(void);
-void func_8002FE70(void);
-void func_80032BF0(void);
-void func_80033CBC(void);
 
 void func_8000EE78(void) {
     s32 pad0[2];

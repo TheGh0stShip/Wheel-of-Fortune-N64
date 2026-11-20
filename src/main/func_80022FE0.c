@@ -21,8 +21,6 @@ typedef struct {
 } Menu;
 
 extern u8 D_800B96C4;
-s32 func_80002CE0(s32 arg0);
-void func_800226BC(s32 arg0, s32 arg1, s32 arg2);
 
 void func_80022FE0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     func_80002CE0(43);

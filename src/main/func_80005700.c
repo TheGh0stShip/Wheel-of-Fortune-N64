@@ -5,9 +5,6 @@ extern s32 D_8006DCF8;
 extern s32 D_800B96AC;
 extern s32 D_800B9CF4;
 extern s32 D_800BEDE4;
-void func_80006828(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000B924(s32 arg0);
-s32 func_8000B978(void);
 
 void func_80005700(void) {
     s32 sp10;

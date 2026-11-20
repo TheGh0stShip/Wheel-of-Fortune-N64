@@ -18,11 +18,6 @@ typedef struct {
     /* 0x1EC */ u8 unk_1EC[0x48];
     /* 0x234 */ s32 bits;
 } Stream;
-void func_800887D8(s32 arg0);
-s32 func_800888C0(s32 arg0, s32 arg1, s32 arg2);
-s32 func_80088A2C(s32 arg0);
-s32 func_80088C58(s32 arg0);
-void func_800A4C04(s32 arg0);
 
 s32 func_8008B560(s32 arg0) {
     s32 value;

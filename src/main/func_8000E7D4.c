@@ -1,7 +1,5 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 unk_04;
@@ -44,16 +42,6 @@ extern f32 D_80000AEC;
 extern f32 D_80000AF0;
 extern f32 D_80000AF4;
 extern f32 D_80000AF8;
-struct n64dk_r12 func_8000BEA8(s32 arg1);
-struct n64dk_r12 func_8000C310(s32 arg1);
-struct n64dk_r12 func_8000C50C(s32 arg1);
-struct n64dk_r12 func_8000C6C4(s32 arg1);
-void func_8000CB58(s32 arg0, s32 arg1);
-void func_8000D400(s32 arg0, s32 arg1);
-void func_8000D6D8(s32 arg0, s32 arg1);
-void func_8000D8B8(s32 arg0, s32 arg1);
-void func_8000DCA0(s32 arg0, s32 arg1);
-void func_800287A4(s32 arg0, s32 arg1);
 extern s32 D_800578B0[];
 extern s32 D_80057910[];
 extern s32 D_800B3994;
@@ -62,11 +50,6 @@ extern s32 D_800B61AC;
 extern s32 D_800BCD54;
 extern s32 D_800BEE24;
 extern s32 D_800FB808;
-s32 func_80002CE0(s32 arg0);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-s32 func_80015848(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80016B9C(s32 arg0);
-void func_800174DC(void);
 
 void func_8000E7D4(void) {
     Task *task;

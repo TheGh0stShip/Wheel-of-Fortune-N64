@@ -9,8 +9,6 @@ typedef struct {
     /* 0x234 */ s32 cache;
 } Bits;
 
-void func_800887D8(s32 arg0);
-
 s32 func_80088C58(s32 arg0) {
     s32 zeros;
     s32 rem;

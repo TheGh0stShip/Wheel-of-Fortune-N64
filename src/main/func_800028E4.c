@@ -4,10 +4,6 @@ extern s32 D_8004B718;
 extern s16 *D_800A509C;
 extern s32 D_800B81F0[];
 extern u16 D_800BC6F8;
-s32 func_8003CDE8(s32 arg0);
-s32 func_8003CE38(s32 arg0);
-s32 func_80049F58(s32 arg0, s32 arg1);
-s32 func_80049FA8(s32 arg0, s32 arg1);
 
 void func_800028E4(void) {
     s32 i;

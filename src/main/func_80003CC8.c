@@ -18,10 +18,6 @@ extern s32 D_800BA598;
 extern Block *D_800BA5CC;
 extern Block *D_800BA5D0;
 extern Req D_800BC700[];
-s32 func_8003A538(Block *arg0);
-s32 func_8003A568(Block *arg0, Block *arg1);
-s32 func_8003FF78(s32 arg0);
-s32 func_80045628(Req *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 *arg6);
 
 s32 func_80003CC8(s32 arg0, s32 arg1, s32 arg2) {
     s32 buf;

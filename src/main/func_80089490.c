@@ -1,7 +1,6 @@
 #include "wof.h"
 
 extern f64 D_80087E98;
-s32 func_800A4F74(s32 arg0, ...);
 
 f64 func_80089490(void) {
     s32 sec;

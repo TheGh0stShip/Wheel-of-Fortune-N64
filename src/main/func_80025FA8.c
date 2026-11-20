@@ -34,12 +34,6 @@ extern s32 D_0115D068;
 extern s32 D_80058638;
 extern s32 D_8005863C;
 extern u8 D_800B96C4;
-struct n64dk_r12 { s32 w[3]; };
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_800258BC(void);
-s32 func_80027218(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80021E88(s32 arg0, s32 arg1);
-struct n64dk_r12 func_800232AC(s32 arg1);
 
 void func_80025FA8(void) {
     s32 i;

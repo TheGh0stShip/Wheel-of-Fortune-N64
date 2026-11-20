@@ -21,21 +21,6 @@ extern s32 D_800BCD58;
 extern s32 D_800BEE00;
 extern s32 D_800BEEA0;
 extern u64 D_800FB810;
-void func_80002348(void);
-void func_8000420C(void);
-void func_80005624(void);
-void func_80009FD8(void);
-void func_8000AF00(void);
-void func_8000B780(void);
-void func_8000E6B4(void);
-void func_8000E738(void);
-void func_80026FD4(void);
-s32 func_8003CE58(void);
-u64 func_80044988(void);
-s32 func_80045498(s32 *, s32 *, s32);
-s32 func_800491A8(s32 *);
-s32 func_80049238(s32 *, s32 *, s32 *);
-s32 func_80049288(s32 *, s32 *, s32, s32, s32);
 
 void func_800068F0(void) {
     s32 count;

@@ -5,12 +5,6 @@ typedef struct {
     /* 0x30 */ s32 *unk_30;
 } Task;
 
-extern s32 func_800101F4;
-extern s32 func_800103B4;
-s32 func_8000A56C(s32 arg0, s32 arg1);
-s32 func_8000A990(s32 arg0, s32 arg1);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
-
 void func_80016098(void) {
     Task *task;
     s32 sp14;

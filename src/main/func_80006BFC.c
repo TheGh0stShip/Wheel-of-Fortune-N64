@@ -26,9 +26,6 @@ extern s32 D_800B9CFC;
 extern s32 D_800B9D00;
 extern s32 D_800BCD54;
 extern s32 D_800BEE54;
-void func_80006E54(s32 arg0, s32 arg1);
-void func_80008AB8(void);
-s32 func_80009C98(s32 arg0);
 
 void func_80006BFC(void) {
     s32 i;

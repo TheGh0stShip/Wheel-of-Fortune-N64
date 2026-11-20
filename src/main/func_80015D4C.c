@@ -14,12 +14,6 @@ extern s32 D_800B9D08;
 extern s32 D_800B9E58;
 extern s32 D_800B9FE0;
 extern s32 D_800BA168;
-void func_80012D40();
-s32 func_80002CE0(s32 arg0);
-void func_80009F98(s32 arg0);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
-s32 func_80015848(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80015940(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 void func_80015D4C(void) {
     s32 obj;

@@ -64,17 +64,6 @@ extern Code D_801078A0[];
 extern Code D_80107EA0[];
 extern s32 D_80085108[];
 extern s32 D_80085310[];
-void func_800887D8(s32 arg0);
-void func_8008F3AC(s32 arg0, s32 arg1);
-void func_8008F828(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-void func_80091684(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-void func_800933BC(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
-void func_80094064(s32 arg0);
-void func_80094578(s32 arg0);
-void func_800964D0(s32 arg0, s32 arg1);
-void func_800998E0(s32 arg0, s32 arg1, s32 arg2);
-void func_80099C8C(s32 arg0, s32 arg1, s32 arg2);
-void func_800A4CBC(s32 arg0);
 
 s32 func_8008D220(s32 arg0) {
     s32 sp20;

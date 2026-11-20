@@ -42,20 +42,14 @@ typedef struct {
     /* 0x14 */ u8 unk_14[0xC];
 } Pose;
 
-struct n64dk_r12 { s32 w[3]; };
-
 extern Angles D_80057F52[];
 extern Pose D_80057F5C[];
 extern f32 D_80000E88;
-struct n64dk_r12 func_80016734(s32 arg1);
 extern f32 D_800B6BE8;
 extern f32 D_800B6BEC;
 extern f32 D_800B6BF0;
 extern s32 D_800BA2BC;
 extern s32 D_800BA5D8;
-s32 func_8000A4A4(s32 arg0, s32 arg1);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-s32 func_8000A990(s32 arg0, s32 arg1);
 
 void func_80016944(s32 arg0, s32 arg1) {
     s32 task;

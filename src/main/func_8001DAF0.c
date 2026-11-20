@@ -1,11 +1,6 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ s32 w0;
-    /* 0x04 */ s32 w1;
-} Gfx;
-
-typedef struct {
     /* 0x00 */ u8 unk_00[0x10];
     /* 0x10 */ s16 unk_10;
     /* 0x12 */ s16 unk_12;

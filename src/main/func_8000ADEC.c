@@ -6,7 +6,6 @@ typedef struct Node {
 } Node;
 
 extern Node D_800B82A0;
-s32 func_8000A4A4(s32 arg0, s32 arg1);
 
 void func_8000ADEC(s32 arg0) {
     s32 sp10;

@@ -11,7 +11,6 @@ extern s32 *D_800B81E4;
 extern s32 D_800B96A4;
 extern s16 *D_800B998C;
 extern u8 D_800BEF60[][0x1E480];
-s32 func_8003FF78(void *arg0);
 
 void func_80020C98(s32 arg0) {
     s32 diff;

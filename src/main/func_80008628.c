@@ -5,7 +5,6 @@ extern f32 D_80000790;
 extern f32 D_80000794;
 extern u8 D_800B9559[][21];
 extern u8 D_800B9601[][21];
-s32 func_80009F38();
 
 f32 func_80008628(void) {
     s32 sp10;

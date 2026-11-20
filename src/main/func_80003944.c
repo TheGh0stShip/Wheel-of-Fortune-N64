@@ -1,10 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 w0;
-    /* 0x04 */ s32 w1;
-} Gfx;
-
 typedef struct Node {
     /* 0x00 */ struct Node *next;
 } Node;
@@ -58,12 +53,6 @@ extern s32 D_800BCA68[];
 extern s32 D_800BCC68;
 extern u16 D_800BCD66;
 extern s32 D_800BEEA0;
-void func_80003FDC(void);
-s32 func_80038748(void);
-s32 func_800388B8(s32 arg0, s32 arg1);
-s32 func_80039980(s32 arg0, s32 *arg1, s32 arg2, s32 arg3);
-s32 func_8003E4B8(s32 arg0, Task *arg1, s32 arg2);
-s32 func_8003FF78(s32 arg0);
 
 s32 func_80003944(s32 arg0, s32 arg1) {
     s32 sp10;

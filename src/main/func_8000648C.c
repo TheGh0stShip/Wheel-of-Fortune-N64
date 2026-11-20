@@ -7,8 +7,6 @@ extern s32 D_800B96B4;
 extern s32 D_800B9D04;
 extern u32 D_800BEDE4;
 extern u8 D_800BEF08[][0x1E480];
-void func_800057A8(s32 arg0);
-void func_8000A664(void);
 
 void func_8000648C(void) {
     s8 pad0;

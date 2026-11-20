@@ -11,8 +11,6 @@ typedef struct {
 } Grid;
 
 extern s32 D_80001574;
-void func_80009F38(void *arg0);
-void func_800226BC(s32 arg0, s32 arg1, s32 arg2);
 
 void func_80022784(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 sel;

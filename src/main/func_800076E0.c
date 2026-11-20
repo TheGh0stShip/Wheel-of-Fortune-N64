@@ -6,7 +6,6 @@ typedef struct {
 
 extern Row D_800B9601[];
 extern s32 D_800B966A;
-s32 func_800099B0(s32 arg0, s32 arg1);
 
 s32 func_800076E0(register s32 arg0) {
     u8 ch;

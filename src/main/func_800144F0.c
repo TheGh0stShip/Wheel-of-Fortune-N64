@@ -1,15 +1,6 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ s32 w0;
-    /* 0x04 */ s32 w1;
-} Gfx;
-
-typedef struct {
-    u8 unk_00[0x40];
-} Mtx;
-
-typedef struct {
     /* 0x0000 */ u8 unk_0000[0x140];
     /* 0x0140 */ Mtx unk_0140[100];
     /* 0x1A40 */ Mtx unk_1A40[100];
@@ -22,21 +13,17 @@ typedef struct {
     /* 0x10 */ s16 unk_10;
     /* 0x12 */ s16 unk_12;
     /* 0x14 */ s16 unk_14;
-    /* 0x18 */ s32 unk_18;
+    /* 0x18 */ f32 unk_18;
     /* 0x1C */ u8 unk_1C[0xC];
-    /* 0x28 */ s32 unk_28;
-    /* 0x2C */ s32 unk_2C;
-    /* 0x30 */ s32 unk_30;
+    /* 0x28 */ f32 unk_28;
+    /* 0x2C */ f32 unk_2C;
+    /* 0x30 */ f32 unk_30;
     /* 0x34 */ u8 unk_34[0x14];
     /* 0x48 */ s32 unk_48;
 } Obj;
 
 extern s32 D_010219C8;
 extern Gfx *D_800B81E8;
-void func_80005300(s32 arg0);
-s32 func_8003BFF4(s32, s32, s32, s32);
-s32 func_8003C09C(s32, s32, s32, s32);
-s32 func_8003C2F0(s32, f32, f32, f32);
 
 void func_800144F0(s32 arg0, s32 arg1) {
     Gfx *gfx;

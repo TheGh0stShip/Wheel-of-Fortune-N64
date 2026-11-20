@@ -10,9 +10,6 @@ typedef struct {
 } Node;
 
 extern s32 D_80000A54;
-void func_80009F38(void *arg0);
-s32 func_8000AFEC(void);
-s32 func_8000B10C(void);
 
 s32 func_8000B3B0(s32 arg0, s32 arg1, s32 arg2) {
     Node *tail;

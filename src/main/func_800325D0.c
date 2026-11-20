@@ -1,7 +1,5 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;
@@ -35,12 +33,6 @@ extern Player D_800B99A8[];
 extern s32 D_80001974;
 extern s32 D_80001998;
 extern s32 D_800019BC;
-void func_80009F38(s32 *arg0);
-s32 func_8000A4A4(s32 arg0, s32 arg1);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-s32 func_8000A990(s32 arg0, s32 arg1);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
-struct n64dk_r12 func_800315FC(s32 arg1);
 
 void func_800325D0(s32 arg0, s32 arg1) {
     Task *task;

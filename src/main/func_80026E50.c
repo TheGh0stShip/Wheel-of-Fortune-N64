@@ -1,11 +1,5 @@
 #include "wof.h"
 
-s32 func_8000A56C(s32, s32);
-void func_800258BC(void);
-s32 func_80027218(s32, s32, s32, s32);
-void func_80022530(void);
-void func_80024868(void);
-
 void func_80026E50(void) {
     s32 pad;
     s32 sp14;

@@ -17,15 +17,9 @@ extern s32 D_010178D0;
 extern s32 D_01017A50;
 extern s32 D_01017BD0;
 extern s32 D_80001690;
-extern s32 func_80028D3C;
-extern s32 func_80029098;
 extern s32 *D_8005B5A4[];
 extern u8 D_800B9544[];
 extern s32 D_800BCD54;
-s32 func_80009A74(s32 arg0);
-void func_80009F38(s32 *arg0);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-s32 func_80027218(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 void func_80029440(void) {
     s32 len;

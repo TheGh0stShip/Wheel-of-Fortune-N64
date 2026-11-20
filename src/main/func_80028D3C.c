@@ -8,11 +8,6 @@ typedef struct {
     /* 0x44 */ s32 unk_44;
 } Sprite;
 
-typedef struct {
-    /* 0x00 */ s32 w0;
-    /* 0x04 */ s32 w1;
-} Gfx;
-
 extern s32 D_01021970;
 extern Gfx *D_800B81E8;
 

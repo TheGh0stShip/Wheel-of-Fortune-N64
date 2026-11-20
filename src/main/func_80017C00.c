@@ -10,15 +10,9 @@ typedef struct {
     /* 0x30 */ State *state;
 } Task;
 
-extern s32 func_80017938;
 extern s32 D_800581FC[];
 extern s32 D_800B619C;
 extern s32 D_800FB808;
-s32 func_8000A4A4(s32 arg0, s32 arg1);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-s32 func_8000A990(s32 arg0, s32 arg1);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
-void func_80016944(s32 arg0, s32 arg1);
 
 void func_80017C00(s32 arg0, s32 arg1) {
     s32 sp10;

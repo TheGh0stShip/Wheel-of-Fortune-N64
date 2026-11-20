@@ -3,7 +3,6 @@
 extern s32 D_80000AA0;
 extern s32 D_800B8290;
 extern s32 D_800B9984;
-void func_80009F38(s32 *arg0);
 
 s32 func_8000B7F4(s32 arg0) {
     s32 result;

@@ -1,7 +1,5 @@
 #include "wof.h"
 
-void func_80009F98(s32 arg0);
-
 void func_80009D78(s32 arg0) {
     s8 buf[20];
     s32 i;

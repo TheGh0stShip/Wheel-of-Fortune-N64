@@ -10,8 +10,6 @@ typedef struct {
 extern s32 D_801033F8;
 extern s32 D_8010346C;
 extern Obj *D_80107884;
-s32 func_80089B10(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_800A4E58(s32 arg0);
 
 s32 func_8009D244(void) {
     s32 start;

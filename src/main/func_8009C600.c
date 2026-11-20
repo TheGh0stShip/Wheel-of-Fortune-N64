@@ -5,8 +5,6 @@ extern f64 D_800880A8;
 extern f64 D_800880B0;
 extern f64 D_800880B8;
 extern f64 D_800FD098[][8];
-f64 func_800A4E84(f64 arg0);
-f64 func_800A4ED4(f64 arg0);
 
 void func_8009C600(void) {
     s32 i;

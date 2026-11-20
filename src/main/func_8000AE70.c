@@ -1,9 +1,5 @@
 #include "wof.h"
 
-s32 func_8000A4A4(s32 arg0, s32 arg1);
-s32 func_8000A990(s32 arg0, s32 arg1);
-s32 func_8000AA24(s32 arg0, s32 arg1, s32 arg2);
-
 void func_8000AE70(s32 arg0, s32 arg1, s32 arg2) {
     s32 sp10;
 

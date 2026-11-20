@@ -27,8 +27,6 @@ typedef struct {
     /* 0x264 */ Sub *unk_264[5];
 } Obj;
 
-f64 func_80089490(void);
-
 void func_80089898(s32 arg0) {
     s32 i;
 

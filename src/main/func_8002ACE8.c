@@ -26,7 +26,6 @@ extern Entry D_8005A9AC[];
 extern s8 D_800B61B5;
 extern u8 D_800B966A[];
 extern s32 D_800BED88;
-s32 func_80002CE0(s32 arg0);
 
 void func_8002ACE8(s32 arg0) {
     s32 i;

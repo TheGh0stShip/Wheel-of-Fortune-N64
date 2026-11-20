@@ -1,10 +1,6 @@
 #include "wof.h"
 
 extern s32 D_800FB808;
-s32 func_8000A4A4(s32 arg0, s32 arg1);
-s32 func_8000A990(s32 arg0, s32 arg1);
-s32 func_8000B234(s32 arg0);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
 
 void func_800334E4(void) {
     s32 i;

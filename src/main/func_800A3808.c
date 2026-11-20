@@ -6,9 +6,6 @@ typedef struct {
     /* 0x208 */ s32 unk_208;
 } State;
 
-s32 func_800A38F8(s32 arg0);
-s32 func_800A4A18(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-
 s32 func_800A3808(s32 arg0, s32 arg1) {
     s32 count;
 

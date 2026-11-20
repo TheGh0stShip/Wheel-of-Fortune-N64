@@ -1,18 +1,8 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 extern u8 D_800B61B5;
 extern s32 D_800B61B8;
 extern s32 D_800BCCF4;
-s32 func_8000ACE8(s32 arg0);
-s32 func_800111F0(s32 arg0, s32 arg1, s32 arg2);
-void func_80011304(s32 arg0, s32 arg1, s32 arg2);
-void func_8001142C(s32 arg0, s32 arg1, u8 arg2);
-void func_80011620(void);
-void func_80011780(void);
-void func_80011920(void);
-void func_80011F58(void);
 
 struct n64dk_r12 func_8001228C(s32 arg1) {
     struct n64dk_r12 result;

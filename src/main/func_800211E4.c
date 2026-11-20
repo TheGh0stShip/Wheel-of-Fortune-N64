@@ -20,10 +20,8 @@ typedef struct {
 } Task;
 
 extern f32 D_80001558;
-extern s32 func_80020150;
-s32 func_8000B3B0(s32 arg0, s32 arg1, s32 arg2);
 
-s32 func_800211E4(s32 arg0, s32 arg1, f32 arg2, f32 arg3) {
+s32 func_800211E4(s32 arg0, s32 arg1, f32 arg2, f32 arg3, s32 arg4) {
     s32 parent;
     Task *task;
 

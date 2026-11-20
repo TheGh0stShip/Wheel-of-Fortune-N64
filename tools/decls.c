@@ -7,6 +7,7 @@
  *
  *   decls list [FILE...]     one line per file-scope declaration: kind, name, file, line, normalized text
  *                            kinds: type, extern, proto, func (a definition, text is its signature), other
+ *   decls sigs [FILE...]     each prototype and definition with the parameter names removed, for comparison
  *   decls prune [FILE...]    delete each type, extern and prototype whose name a header under include/
  *                            declares, and add  #include "wof.h"  to the files that lack it
  *   decls layout [FILE...]   offset, size and declaration of every member of every struct and union
@@ -32,7 +33,7 @@ typedef struct {
 typedef struct {
     char kind[8];
     char name[96];
-    int first, last; /* token range */
+    int first, last, name_tok; /* token range, and the token that names it */
 } Item;
 
 typedef struct {
@@ -163,6 +164,7 @@ static void add_item(File *f, const char *kind, int name_tok, const char *prefix
     tok_text(f, name_tok, a, sizeof a);
     snprintf(it->name, sizeof it->name, "%s%s", prefix, a);
     it->first = first;
+    it->name_tok = name_tok;
     it->last = last;
 }
 
@@ -321,6 +323,71 @@ static void cmd_list(void) {
             Item *it = &f->item[i];
             printf("%s\t%s\t%s\t%d\t", it->kind, it->name, f->path, line_of(f, it->first));
             print_text(f, it->first, it->last, !strcmp(it->kind, "func"));
+            putchar('\n');
+        }
+    }
+}
+
+/* ---------------------------------------------------------------- sigs */
+
+static void put_tok(const File *f, int i, int *need_space) {
+    int sticky = is(f, i, "*") || is(f, i, ")") || is(f, i, "(") || is(f, i, "[") || is(f, i, "]") || is(f, i, ",");
+    if (*need_space && !sticky) putchar(' ');
+    printf("%.*s", f->tok[i].len, f->clean + f->tok[i].s);
+    *need_space = !is(f, i, "*") && !is(f, i, "(") && !is(f, i, "[");
+    if (is(f, i, "*") ) *need_space = 0;
+}
+
+/* A prototype or definition with `extern`, `register` and the parameter names removed. */
+static void print_signature(const File *f, const Item *it) {
+    int open = it->name_tok + 1, close = match_close(f, open, "(", ")"), i, a, sp = 0;
+    for (i = it->first; i < it->name_tok; i++) {
+        if (is(f, i, "extern")) continue;
+        put_tok(f, i, &sp);
+        if (is(f, i, "*")) sp = 0;
+        else sp = 1;
+    }
+    if (sp) putchar(' ');
+    printf("%s(", it->name);
+    for (a = open + 1; a < close;) {
+        int b = a, depth = 0, nident = 0, drop = -1, k, first_kw;
+        while (b < close && !(depth == 0 && is(f, b, ","))) {
+            if (is(f, b, "(") || is(f, b, "[")) depth++;
+            if (is(f, b, ")") || is(f, b, "]")) depth--;
+            b++;
+        }
+        for (k = a; k < b; k++)
+            if (f->tok[k].kind == 'i' && !is(f, k, "register")) nident++;
+        first_kw = is(f, a, "struct") || is(f, a, "union") || is(f, a, "enum") || is(f, a, "unsigned") || is(f, a, "signed") ||
+                   is(f, a, "const");
+        for (k = a; k < b; k++)
+            if (is(f, k, "(") && is(f, k + 1, "*") && f->tok[k + 2].kind == 'i') drop = k + 2;
+        if (drop < 0) {
+            int last = b - 1;
+            while (last > a && is(f, last, "]")) last = match_open(f, last, "[", "]") - 1;
+            if (f->tok[last].kind == 'i' && nident >= 2 && !(nident == 2 && first_kw)) drop = last;
+        }
+        sp = 0;
+        for (k = a; k < b; k++) {
+            if (k == drop || is(f, k, "register")) continue;
+            if (is(f, k, "*") && sp) putchar(' ');
+            put_tok(f, k, &sp);
+        }
+        if (b < close) printf(", ");
+        a = b + 1;
+    }
+    printf(")");
+}
+
+static void cmd_sigs(void) {
+    int p, i;
+    for (p = 0; p < npaths; p++) {
+        File *f = load(paths[p]);
+        for (i = 0; i < f->nitem; i++) {
+            Item *it = &f->item[i];
+            if (strcmp(it->kind, "proto") && strcmp(it->kind, "func")) continue;
+            printf("%s\t%s\t%s\t", it->name, it->kind, f->path);
+            print_signature(f, it);
             putchar('\n');
         }
     }
@@ -602,12 +669,13 @@ static void cmd_layout(void) {
 int main(int argc, char **argv) {
     int i;
     if (argc < 2) {
-        fprintf(stderr, "usage: decls list|prune|layout [FILE...]\n");
+        fprintf(stderr, "usage: decls list|sigs|prune|layout [FILE...]\n");
         return 2;
     }
     for (i = 2; i < argc; i++) add_path(argv[i]);
     if (npaths == 0) game_sources();
     if (!strcmp(argv[1], "list")) cmd_list();
+    else if (!strcmp(argv[1], "sigs")) cmd_sigs();
     else if (!strcmp(argv[1], "prune")) cmd_prune();
     else if (!strcmp(argv[1], "layout")) cmd_layout();
     else {

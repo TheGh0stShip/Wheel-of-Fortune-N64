@@ -15,9 +15,6 @@ extern Entry D_8005ADF0[][7];
 extern Player D_800B9990[];
 extern s32 D_01010FA0;
 extern s32 D_8005ACE8[];
-s32 func_80009A74(s32 arg0);
-void func_80009AE0(s32 arg0, s32 arg1);
-void func_80013500(s32 arg0);
 
 void func_80029974(s32 arg0) {
     s32 i;

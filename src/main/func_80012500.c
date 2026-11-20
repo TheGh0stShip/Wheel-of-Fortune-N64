@@ -1,15 +1,6 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ s32 w0;
-    /* 0x04 */ s32 w1;
-} Gfx;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x40];
-} Mtx;
-
-typedef struct {
     /* 0x0000 */ u8 unk_0000[0x140];
     /* 0x0140 */ Mtx unk_0140[200];
     /* 0x3340 */ Mtx unk_3340[1];
@@ -18,11 +9,11 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0x14];
-    /* 0x18 */ s32 unk_18;
+    /* 0x18 */ f32 unk_18;
     /* 0x1C */ u8 unk_1C[0xC];
-    /* 0x28 */ s32 unk_28;
-    /* 0x2C */ s32 unk_2C;
-    /* 0x30 */ s32 unk_30;
+    /* 0x28 */ f32 unk_28;
+    /* 0x2C */ f32 unk_2C;
+    /* 0x30 */ f32 unk_30;
     /* 0x34 */ u8 unk_34[0x8];
     /* 0x3C */ s32 unk_3C;
     /* 0x40 */ u8 unk_40[0x8];
@@ -31,10 +22,6 @@ typedef struct {
 
 extern s32 D_010219C8;
 extern Gfx *D_800B81E8;
-void func_80005300(s32 arg0);
-s32 func_80016638(void);
-s32 func_8003BFF4(Mtx *arg0, s32 arg1, s32 arg2, s32 arg3);
-s32 func_8003C09C(Mtx *arg0, s32 arg1, s32 arg2, s32 arg3);
 
 void func_80012500(s32 arg0, s32 arg1) {
     Gfx *gfx;

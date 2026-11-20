@@ -1,9 +1,6 @@
 #include "wof.h"
 
-extern s32 func_80016BEC;
 extern s32 D_800BA5D8;
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_8001745C(s32 arg0);
 
 void func_800174DC(void) {
     s32 task;

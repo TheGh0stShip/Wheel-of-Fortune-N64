@@ -44,16 +44,6 @@ extern s32 D_80107880;
 extern Ctx *D_80107884;
 extern s32 *D_801084A0;
 extern s32 *D_801084A8;
-void func_80009F38(s32 *arg0);
-f64 func_80089490();
-void func_800894F8(void);
-s32 func_800895C4(s32 arg0);
-s32 func_80089B10(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_8009C5AC(void);
-void func_8009CA80(s32 arg0, s32 arg1);
-s32 func_8009D244(void);
-void func_800A1BE4(s32 arg0);
-s32 *func_800A4DD0(s32 arg0);
 
 void func_8009CEC0(s32 arg0, s32 arg1) {
     s32 *sp10;

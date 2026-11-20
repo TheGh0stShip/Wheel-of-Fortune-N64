@@ -24,8 +24,6 @@ extern s32 D_8005B170;
 extern s32 D_8005B174;
 extern s32 D_8005B178[];
 extern s32 D_800FB808;
-s32 func_80009A74(s32 arg0);
-void func_80009AE0(s32 arg0, s32 arg1);
 
 void func_8002A538(void) {
     s32 glyph;

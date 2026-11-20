@@ -1,4 +1,5 @@
 #include "wof.h"
+#include "func_800051B4.h"
 
 struct n64dk_a800BEE60 { s32 m0; s32 m4; f32 m8; s32 mC; };
 extern struct n64dk_a800BEE60 D_800BEE60[];

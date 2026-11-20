@@ -1,7 +1,5 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 unk_04;
@@ -42,34 +40,6 @@ extern s32 D_800B96B4;
 extern s32 D_800BEE20;
 extern s32 D_800BEE28;
 extern s32 D_800BEE4C;
-s32 func_80002CE0(s32 arg0);
-void func_80002F58(s32 arg0);
-s32 func_80007818(register s32 arg0);
-void func_80007DAC(register s32 arg0);
-s32 func_80007EEC(s32 arg0);
-s32 func_800088E4(void);
-s32 func_80009A74(s32 arg0);
-s32 func_8000A4A4(s32 arg0, s32 arg1);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_8000A850(s32 arg0);
-s32 func_8000A990(s32 arg0, s32 arg1);
-void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000ACE8(s32 arg0);
-void func_80011B24(void);
-void func_80011F58(void);
-void func_800219B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80021B04(s32 arg0, s32 arg1);
-s32 func_80027218(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80029440(void);
-void func_8002B054(void);
-void func_8002EB40(void);
-void func_8002EBF4(void);
-void func_8002FD50(void);
-struct n64dk_r12 func_80010D3C(s32 arg1);
-void func_80028554(s32 arg0, s32 arg1);
-struct n64dk_r12 func_8002B904(s32 arg1);
-struct n64dk_r12 func_8002BA44(s32 arg1);
-struct n64dk_r12 func_8002BE84(s32 arg1);
 
 struct n64dk_r12 func_8002C094(s32 arg1) {
     s32 event;

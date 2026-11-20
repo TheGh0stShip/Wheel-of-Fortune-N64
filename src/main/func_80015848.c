@@ -17,7 +17,6 @@ typedef struct {
 } Obj;
 
 extern f32 D_80000D0C;
-s32 func_8000B3B0(s32 arg0, s32 arg1, s32 arg2);
 
 s32 func_80015848(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     Obj *obj;

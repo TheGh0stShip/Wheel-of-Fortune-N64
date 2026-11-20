@@ -12,7 +12,6 @@ typedef struct {
 
 extern EntryA D_800584E0[];
 extern EntryB D_800B99A4[];
-void func_80024D60(s32 arg0);
 
 void func_80023200(void) {
     s32 i;

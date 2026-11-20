@@ -1,15 +1,6 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ s32 w0;
-    /* 0x04 */ s32 w1;
-} Gfx;
-
-typedef struct {
-    u8 unk_00[0x40];
-} Mtx;
-
-typedef struct {
     /* 0x0000 */ u8 unk_0000[0x1A40];
     /* 0x1A40 */ Mtx mtx[1];
 } Scene;
@@ -45,9 +36,6 @@ extern s32 D_0113AE28;
 extern s32 D_800B61A8;
 extern Gfx *D_800B81E8;
 extern s32 D_800BCD54;
-s32 func_8000A990(s32 arg0, s32 arg1);
-void func_8003143C(s32 arg0, s32 arg1);
-s32 func_8003C2F0(Mtx *, f32, f32, f32);
 
 void func_80030B5C(s32 arg0, s32 arg1) {
     Actor *actor;

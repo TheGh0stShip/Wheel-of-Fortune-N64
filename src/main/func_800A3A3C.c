@@ -6,11 +6,6 @@ typedef struct {
     /* 0x208 */ s32 unk_208;
 } Stream;
 
-void func_800A46FC(void *arg0, s8 *arg1, s32 *arg2);
-void func_800A4888(void *arg0, s32 *arg1);
-s32 func_800A4920(u8 arg0, s32 arg1, s32 arg2);
-s32 func_800A4A18(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-
 s32 func_800A3A3C(s32 arg0, s32 arg1, s32 arg2) {
     s32 count;
     s32 buf[2];

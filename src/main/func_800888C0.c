@@ -9,8 +9,6 @@ typedef struct {
     /* 0x234 */ s32 unk_234;
 } BitReader;
 
-void func_800887D8(s32 arg0);
-
 s32 func_800888C0(s32 arg0, s32 arg1, s32 arg2) {
     s32 bits;
     s32 result;

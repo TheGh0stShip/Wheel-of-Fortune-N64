@@ -22,9 +22,6 @@ extern s32 D_800B9CFC;
 extern s32 D_800B9D00;
 extern s32 D_800BCA00;
 extern s32 D_800FB808;
-void func_80008F64(void);
-s32 func_8000928C(void);
-s32 func_800099B0(s32 arg0, s32 arg1);
 
 s32 func_80007888(register s32 arg0, s32 arg1) {
     u8 letter;

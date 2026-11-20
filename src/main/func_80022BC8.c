@@ -19,9 +19,6 @@ typedef struct {
     /* 0x1C */ void (*callback)(s32);
 } Entry;
 
-s32 func_80002CE0(s32 arg0);
-void func_80022784(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-
 void func_80022BC8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     func_80002CE0(44);
     func_80022784(arg0, arg1, (s32)&((Entry *)arg2)[((Task *)arg0)->state->index], 0);

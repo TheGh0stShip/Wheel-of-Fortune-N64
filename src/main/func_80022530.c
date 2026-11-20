@@ -1,10 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u32 w0;
-    /* 0x04 */ u32 w1;
-} Gfx;
-
 extern s32 D_01021970;
 typedef struct {
     u8 unk_00[0x28];
@@ -13,7 +8,6 @@ typedef struct {
 extern Model D_80059008[];
 extern Model D_80059120[];
 extern Gfx *D_800B81E8;
-void func_800278A8(s32 arg0, s32 arg1);
 
 void func_80022530(s32 arg0, s32 arg1) {
     s32 pad0[2];

@@ -31,20 +31,12 @@ extern Pair D_8005C3A0[];
 extern Slot D_8005C7F0[];
 extern Player D_800B99A8[];
 extern s32 D_80001A0C;
-extern s32 func_8002FEB0;
 extern Slot D_8005C3B8[][2];
 extern s32 D_800B61A8;
 extern s32 D_800B96AC;
 extern s32 D_800B9988;
 extern s32 D_800BCA60;
 extern s32 D_800BCD54;
-void func_80009F38(s32 *arg0);
-s32 func_8000B924(s32 arg0);
-s32 func_8000B978(void);
-s32 func_80015848(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80021B4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80032AD4(s32 arg0);
-void func_80032B10(void);
 
 void func_80032BF0(void) {
     Obj *obj;

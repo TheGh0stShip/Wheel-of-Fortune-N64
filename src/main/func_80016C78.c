@@ -1,24 +1,16 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u32 w0;
-    /* 0x04 */ u32 w1;
-} Gfx;
-
-typedef struct {
     /* 0x00 */ u8 unk_00[0x10];
     /* 0x10 */ s16 unk_10;
     /* 0x12 */ s16 unk_12;
     /* 0x14 */ s16 unk_14;
     /* 0x16 */ u8 unk_16[0x2];
-    union {
-        f32 f;
-        s32 bits; /* passed to func_8003C048 unconverted */
-    } /* 0x18 */ unk_18;
+    /* 0x18 */ f32 unk_18;
     /* 0x1C */ u8 unk_1C[0xC];
-    /* 0x28 */ s32 unk_28;
-    /* 0x2C */ s32 unk_2C;
-    /* 0x30 */ s32 unk_30;
+    /* 0x28 */ f32 unk_28;
+    /* 0x2C */ f32 unk_2C;
+    /* 0x30 */ f32 unk_30;
 } Obj;
 
 typedef struct {
@@ -52,12 +44,6 @@ extern f32 D_800B6BF0;
 extern Gfx *D_800B81E8;
 extern Camera *D_800BA5D8;
 extern s32 D_800BCD54;
-s32 func_8003BEA8(f32 (*)[4], s32, s32, s32);
-s32 func_8003C048(f32 (*)[4], s32, s32, s32);
-s32 func_8003C2A8(f32 (*)[4], s32, s32, s32); /* float args passed as raw bits */
-s32 func_8003E248(s32, u16 *, s32, s32, f32, f32, f32);
-s32 func_80041018(f32 (*)[4], f32 (*)[4], f32 (*)[4]);
-s32 func_8004A460(s32, f32, f32, f32, f32, f32, f32, f32, f32, f32);
 
 void func_80016C78(s32 arg0, s32 arg1) {
     s32 frame;
@@ -68,8 +54,7 @@ void func_80016C78(s32 arg0, s32 arg1) {
     f32 up[4][4];
     Gfx *gfx;
 
-    /* 0x42040000 = 33.0f, 0x3FAAAAAB = 4.0f / 3.0f */
-    func_8003E248(arg1, &perspNorm, 0x42040000, 0x3FAAAAAB, D_80000E8C, D_80000E90, ((Obj *)arg0)->unk_18.f);
+    func_8003E248(arg1, &perspNorm, 33.0f, 4.0f / 3.0f, D_80000E8C, D_80000E90, ((Obj *)arg0)->unk_18);
     gfx = D_800B81E8++;
     gfx->w0 = 0xBC00000E;
     gfx->w1 = perspNorm;
@@ -89,14 +74,13 @@ void func_80016C78(s32 arg0, s32 arg1) {
             func_8004A460(arg1 + 64, D_800BA5D8->eyeX, D_800BA5D8->eyeY, D_800BA5D8->eyeZ, D_800BA5D8->atX, D_800BA5D8->atY, D_800BA5D8->atZ, D_800B6BE8, D_800B6BEC, D_800B6BF0);
         }
     } else {
-        /* 0xC47A0000 = -1000.0f, 0x3F800000 = 1.0f */
-        func_8003C2A8(eye, 0, 0, 0xC47A0000);
-        func_8003C048(scale, ((Obj *)arg0)->unk_18.bits, ((Obj *)arg0)->unk_18.bits, ((Obj *)arg0)->unk_18.bits);
+        func_8003C2A8(eye, 0, 0, -1000.0f);
+        func_8003C048(scale, ((Obj *)arg0)->unk_18, ((Obj *)arg0)->unk_18, ((Obj *)arg0)->unk_18);
         func_8003BEA8(rot, ((Obj *)arg0)->unk_28, ((Obj *)arg0)->unk_2C, ((Obj *)arg0)->unk_30);
         func_80041018(eye, scale, eye);
         func_80041018(eye, rot, eye);
-        func_8003C2A8(up, 0, 0x3F800000, 0);
-        func_8003C048(scale, ((Obj *)arg0)->unk_18.bits, ((Obj *)arg0)->unk_18.bits, ((Obj *)arg0)->unk_18.bits);
+        func_8003C2A8(up, 0, 1.0f, 0);
+        func_8003C048(scale, ((Obj *)arg0)->unk_18, ((Obj *)arg0)->unk_18, ((Obj *)arg0)->unk_18);
         func_8003BEA8(rot, ((Obj *)arg0)->unk_28, ((Obj *)arg0)->unk_2C, ((Obj *)arg0)->unk_30);
         func_80041018(up, scale, up);
         func_80041018(up, rot, up);

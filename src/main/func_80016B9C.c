@@ -1,8 +1,5 @@
 #include "wof.h"
 
-s32 func_8000B5DC(s32 arg0, s32 arg1);
-void func_80016944(s32 arg0, s32 arg1);
-
 void func_80016B9C(s32 arg0) {
     s32 sp10;
 

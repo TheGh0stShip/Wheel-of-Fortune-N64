@@ -22,8 +22,6 @@ extern s32 D_80058880;
 extern u16 D_8005A392;
 extern u16 D_8005A396;
 extern u16 D_8005A39A;
-void func_80009F38(s32 *arg0);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
 
 void func_80023B44(void) {
     s32 i;

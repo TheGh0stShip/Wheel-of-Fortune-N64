@@ -10,9 +10,6 @@ typedef struct {
     /* 0x30 */ Inner *unk_30;
 } Obj;
 
-void func_8002D930();
-s32 func_8000A56C(s32 arg0, s32 arg1);
-
 void func_8002EB40(void) {
     Obj *obj;
 

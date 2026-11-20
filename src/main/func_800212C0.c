@@ -19,8 +19,6 @@ extern Frame D_800BEF5C[];
 extern s32 D_800B40C4;
 extern s32 D_800B61A0;
 extern u8 D_800BEF60[][0x1E480];
-s32 func_8003FF78(void *arg0);
-s32 func_8009D244(void);
 
 void func_800212C0(s32 arg0) {
     s32 diff;

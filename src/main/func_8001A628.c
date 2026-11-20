@@ -1,9 +1,6 @@
 #include "wof.h"
 
 extern s32 D_800B966A;
-s32 func_80009900(s32 arg0, s32 arg1);
-s32 func_800099B0(s32 arg0, s32 arg1);
-s32 func_80009A74(s32 arg0);
 
 void func_8001A628(s32 arg0) {
     s32 found;

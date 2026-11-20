@@ -1,23 +1,14 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
 struct gd_4_s32 { u8 pad[0x4]; s32 v; };
 struct gd_30_s32 { u8 pad[0x30]; s32 v; };
 struct n64dk_a800B99A4 { s32 m0; u8 pad4[0x110]; };
 extern struct n64dk_a800B99A4 D_800B99A4[];
 extern f64 D_80001920;
-extern s32 func_8002EFC0;
 extern u64 D_80084218;
 extern s32 D_800B81DC;
 extern s32 D_800B9CF0;
 extern s32 D_800BCA1C;
-s32 func_80002CE0();
-f32 func_80008628();
-s32 func_8000A56C();
-s32 func_8000A990();
-s32 func_8000ABB8();
-s32 func_8000ACE8();
-u64 func_80044988();
 
 struct n64dk_r12 func_8002F338(s32 arg1) {
     struct n64dk_r12 sp10;

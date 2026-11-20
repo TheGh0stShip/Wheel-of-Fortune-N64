@@ -13,12 +13,6 @@ extern Entry D_800AB448[];
 extern s32 D_800B3970;
 extern s32 D_800BCD70;
 extern s32 D_800BEDE8[];
-s32 func_8000BB10(void);
-s32 func_8000BB68(void);
-s32 func_80039F18(Entry *);
-s32 func_8003A080(Entry *);
-s32 func_8003A368(s32 *, Entry *, s32);
-s32 func_8003E318(s32 *, Msg **, s32);
 
 void func_80004F6C(s32 arg0) {
     Msg *msg;

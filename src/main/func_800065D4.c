@@ -12,13 +12,6 @@ extern s32 D_800BCA20;
 extern s32 D_800BEDE4;
 extern s32 D_800FB80C;
 extern u64 D_800FB810;
-s32 func_80002CE0(s32 arg0);
-void func_80005258(void);
-void func_800068F0(void);
-void func_8000BB10(void);
-s32 func_8003E318(s32 *, s16 **, s32);
-s32 func_800447D8(s32 *);
-s32 func_800481F8(s32 *);
 
 void func_800065D4(s32 arg0) {
     s16 *msg;

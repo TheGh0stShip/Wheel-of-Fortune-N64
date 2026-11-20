@@ -1,16 +1,14 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 typedef struct {
     /* 0x00 */ u8 unk_00[0x10];
     /* 0x10 */ s16 unk_10;
     /* 0x12 */ s16 unk_12;
     /* 0x14 */ s16 unk_14;
     /* 0x16 */ u8 unk_16[0x12];
-    /* 0x28 */ s32 unk_28;
-    /* 0x2C */ s32 unk_2C;
-    /* 0x30 */ s32 unk_30;
+    /* 0x28 */ f32 unk_28;
+    /* 0x2C */ f32 unk_2C;
+    /* 0x30 */ f32 unk_30;
 } Obj;
 
 typedef struct {
@@ -32,18 +30,6 @@ extern f32 D_800B61AC;
 extern u16 D_800B96B0;
 extern s32 D_800B96B4;
 extern s32 D_800BEE24;
-s32 func_80002C34(s32 arg0);
-void func_8000315C(void);
-void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000ACE8(s32 arg0);
-void func_8000ADEC(s32 arg0);
-void func_8000AF00(void);
-void func_8000B9FC(s32 arg0);
-void func_8000EE78(void);
-void func_80026EB4(void);
-s32 func_8003BEA8(f32 (*)[4], s32, s32, s32);
-s32 func_8003C2A8(f32 (*)[4], s32, f32, s32);
-s32 func_80041018(f32 (*)[4], f32 (*)[4], f32 (*)[4]);
 
 struct n64dk_r12 func_8000BEA8(s32 arg1) {
     f32 mtx[4][4];

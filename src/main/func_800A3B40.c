@@ -10,10 +10,6 @@ typedef struct {
     /* 0x220 */ s32 unk_220;
 } Reader;
 
-s32 func_800A4A18(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_800A4C04(s32 arg0);
-s32 func_800A4C28(s32 arg0);
-
 s32 func_800A3B40(s32 arg0) {
     s32 data;
     s32 count;

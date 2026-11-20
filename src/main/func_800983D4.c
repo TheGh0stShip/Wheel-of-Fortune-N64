@@ -29,7 +29,6 @@ extern u16 D_800868C0[];
 extern u16 D_800868C8[];
 extern u16 D_800868D0[];
 extern u16 D_80086AD0[];
-void func_800887D8(s32 arg0);
 
 void func_800983D4(s32 arg0, s32 arg1) {
     s32 sp10;

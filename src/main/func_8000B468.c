@@ -10,7 +10,6 @@ typedef struct Node {
 
 extern s32 D_80000A74;
 extern Node D_800B40C8;
-void func_80009F38(s32 *arg0);
 
 void func_8000B468(s32 arg0) {
     Node *node;

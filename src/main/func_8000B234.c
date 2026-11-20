@@ -10,7 +10,6 @@ typedef struct Node {
 } Node;
 
 extern s32 D_800BCA10;
-s32 func_8000B060(s32 arg0);
 
 s32 func_8000B234(s32 arg0) {
     Node *prev;

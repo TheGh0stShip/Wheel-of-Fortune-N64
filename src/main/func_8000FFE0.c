@@ -1,7 +1,5 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 typedef struct {
     /* 0x00 */ u8 unk_00[0x48];
     /* 0x48 */ s32 *unk_48;
@@ -23,7 +21,6 @@ extern s32 D_010920D8;
 extern s32 D_01092120;
 extern s32 D_01092168;
 extern s32 D_800B96B4;
-s32 func_8000ACE8(s32 arg0);
 
 struct n64dk_r12 func_8000FFE0(s32 arg1) {
     struct n64dk_r12 result;

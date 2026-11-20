@@ -18,8 +18,6 @@ extern s32 D_800B9AB0;
 extern s32 D_800B9BC4;
 extern s32 D_800B9CF8;
 extern s32 D_800FB808;
-s32 func_800099B0(s32 arg0, s32 arg1);
-void func_80034950(void);
 
 s32 func_80007EEC(s32 arg0) {
     s32 row;

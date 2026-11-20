@@ -12,7 +12,6 @@ typedef struct {
 extern s32 D_800008FC;
 extern s32 D_80000918;
 extern s32 D_80000938;
-void func_80009F38(s32 *arg0);
 
 void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2) {
     if (arg0 == 0) {

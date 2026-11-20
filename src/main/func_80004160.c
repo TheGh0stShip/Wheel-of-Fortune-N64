@@ -6,9 +6,6 @@ typedef struct {
 
 extern s32 D_800B3970;
 extern s32 D_800FB80C;
-void func_800045D4(void);
-void func_8000BB68(void);
-s32 func_8003E318(s32 *, Msg **, s32);
 
 void func_80004160(s32 arg0) {
     Msg *msg;

@@ -13,9 +13,6 @@ typedef struct {
 extern Entry D_8005C718[];
 extern s32 D_800B96AC;
 extern s32 D_800BCA60;
-s32 func_8000B924(s32 arg0);
-s32 func_8000B978(void);
-void func_80021B4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 void func_80033334(void) {
     s32 pad0[2];

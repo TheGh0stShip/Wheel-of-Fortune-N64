@@ -10,7 +10,6 @@ extern Node D_800B40C8[];
 extern s32 D_80000A14;
 extern s32 D_80000A30;
 extern s32 D_800BCA10;
-void func_80009F38(s32 *arg0);
 
 s32 func_8000B10C(void) {
     s32 i;

@@ -9,11 +9,6 @@ typedef struct {
     /* 0x234 */ s32 buf;
 } Stream;
 
-void func_800887D8(s32 arg0);
-s32 func_800888C0(s32 arg0, s32 arg1, s32 arg2);
-s32 func_800A4C28(s32 arg0);
-s32 func_800A4C70(s32 arg0, s32 arg1);
-
 s32 func_80088A2C(s32 arg0) {
     s32 size;
     s32 len;

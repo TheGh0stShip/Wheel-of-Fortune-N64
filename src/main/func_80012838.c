@@ -6,15 +6,9 @@ typedef struct {
     /* 0x08 */ u8 unk_08[0x14];
 } Tile;
 
-typedef struct {
-    /* 0x00 */ s32 w0;
-    /* 0x04 */ s32 w1;
-} Gfx;
-
 extern s32 D_010A2B88;
 extern Gfx *D_800B81E8;
 extern s32 D_800BCD54;
-void func_80005300(s32 arg0);
 s32 func_8001277C(s32 arg0);
 
 void func_80012838(s32 arg0, s32 arg1, s32 arg2) {

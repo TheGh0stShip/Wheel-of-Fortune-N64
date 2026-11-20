@@ -23,13 +23,6 @@ extern s16 *D_800A509C;
 extern s32 D_800B3990;
 extern s32 D_800B9960;
 extern s32 D_800BED90;
-void func_800032A8(s32 arg0, s32 arg1, s32 arg2);
-void func_80006828(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000B924(s32 arg0);
-s32 func_8003A5F8(s32 *, s32, s32);
-s32 func_8003EA1C(s32, s32);
-s32 func_800422B8(s32, s32 *);
-s32 func_8004AABC(s32, s32 *);
 
 void func_80002348(void) {
     s32 size;

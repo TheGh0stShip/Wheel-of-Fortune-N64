@@ -1,6 +1,5 @@
 #include "wof.h"
-
-struct n64dk_r12 { s32 w[3]; };
+#include "func_800051B4.h"
 
 typedef struct {
     /* 0x00 */ s32 unk_00;
@@ -31,32 +30,6 @@ extern s32 D_800B96A0;
 extern s32 D_800B96B4;
 extern f32 D_800BCCF0;
 extern s32 D_800FB808;
-struct n64dk_r12 func_8000EF68(s32 arg1);
-struct n64dk_r12 func_8000FDFC(s32 arg1);
-struct n64dk_r12 func_80010574(s32 arg1);
-s32 func_80002CE0(s32 arg0);
-void func_800051B4(s32 arg0, s32 arg1, f32 arg2);
-s32 func_80007888(s32 arg0, s32 arg1);
-void func_80007DAC(s32 arg0);
-s32 func_8000928C(void);
-void func_80009364(s32 arg0);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_8000A850(s32 arg0);
-s32 func_8000A990(s32 arg0, s32 arg1);
-void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000ACE8(s32 arg0);
-void func_8000AD9C(s32 arg0);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
-s32 func_80017548(void);
-s32 func_80017728(void);
-void func_80017C00(s32 arg0, s32 arg1);
-void func_80021B04(s32 arg0, s32 arg1);
-void func_8002A014(void);
-void func_8002EB40(void);
-void func_80032B10(void);
-void func_80032B80(void);
-s32 func_80033150(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8003CE58(void);
 
 struct n64dk_r12 func_800183A8(s32 arg1) {
     struct n64dk_r12 result;

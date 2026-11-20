@@ -13,7 +13,6 @@ typedef struct Node {
 extern s32 D_800008B8;
 extern s32 D_800008D4;
 extern Node D_800B82A0;
-void func_80009F38(s32 *arg0);
 
 void func_8000A850(s32 arg0) {
     s32 pad0[4];

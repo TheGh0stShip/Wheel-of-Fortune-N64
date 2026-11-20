@@ -21,13 +21,6 @@ extern s32 D_8005B178[];
 extern s32 D_800B619C;
 extern s32 D_800B9540;
 extern s32 D_800B9CEC;
-struct n64dk_r12 { s32 w[3]; };
-struct n64dk_r12 func_80029C98(s32 arg1);
-s32 func_80009A74(s32 arg0);
-void func_80009AE0(s32 arg0, s32 arg1);
-s32 func_8000A4A4(s32 arg0, s32 arg1);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-s32 func_8000A990(s32 arg0, s32 arg1);
 
 void func_8002A014(void) {
     s32 glyph;

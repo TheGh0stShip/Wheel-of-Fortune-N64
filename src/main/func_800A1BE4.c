@@ -24,9 +24,6 @@ extern s32 *D_800FF2F0;
 extern s32 D_80107480;
 extern s32 D_80107484;
 extern s32 D_80107488;
-s32 func_800A19D8(u32 arg0);
-s32 func_800A1B60(u32 arg0);
-s32 func_800A4C28(s32 arg0);
 
 void func_800A1BE4(s32 arg0) {
     s32 sp10;

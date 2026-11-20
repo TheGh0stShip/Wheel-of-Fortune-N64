@@ -8,7 +8,6 @@ typedef struct {
 extern Bank D_800BEF5C[];
 extern Bank D_800BEF60[];
 extern s32 D_800B61A0;
-s32 func_8003FF78(s32);
 
 void func_8001ED48(s32 arg0) {
     s32 sp10;

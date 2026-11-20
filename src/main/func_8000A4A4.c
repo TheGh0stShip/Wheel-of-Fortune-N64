@@ -8,9 +8,6 @@ typedef struct {
 } Obj;
 
 extern s32 D_800BEE50;
-s32 func_8000A158(s32 arg0);
-void func_8000A408(s32 arg0);
-void func_8000B2D4(s32 arg0);
 
 s32 func_8000A4A4(s32 arg0, s32 arg1) {
     Obj *prev;

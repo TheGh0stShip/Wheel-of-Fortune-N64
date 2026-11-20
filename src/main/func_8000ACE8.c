@@ -7,7 +7,6 @@ typedef struct {
 } Stack;
 
 extern s32 D_800009B4;
-void func_80009F38(void *arg0);
 
 s32 func_8000ACE8(s32 arg0) {
     if (arg0 == 0) {

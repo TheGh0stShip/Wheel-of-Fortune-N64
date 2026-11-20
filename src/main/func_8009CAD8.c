@@ -38,10 +38,6 @@ extern s32 D_800FD29C;
 extern s32 D_800FD2A0;
 extern s32 D_800FD2A4;
 extern s32 D_800FD2A8;
-void func_80021090(s32 arg0);
-s32 func_800A2B08(s32 arg0, s32 arg1);
-void func_800A2D38(s32 arg0);
-s32 func_800A4F74(s32 arg0, ...);
 
 void func_8009CAD8(s32 arg0, s32 arg1) {
     register s32 usec;

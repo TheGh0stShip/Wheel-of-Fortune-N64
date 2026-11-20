@@ -1,21 +1,9 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 typedef struct {
     /* 0x00 */ u8 pad0[0x30];
     /* 0x30 */ s32 *unk_30;
 } Obj;
-
-void func_8000315C(void);
-void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000ACE8(s32 arg0);
-void func_8000ADEC(s32 arg0);
-void func_8000AF00(void);
-void func_8000B9FC(s32 arg0);
-void func_8000BBA8(void);
-void func_80016B9C(s32 arg0);
-void func_800219B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 struct n64dk_r12 func_8000BC64(s32 arg1) {
     struct n64dk_r12 result;

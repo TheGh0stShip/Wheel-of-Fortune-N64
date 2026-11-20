@@ -26,10 +26,6 @@ typedef struct {
     /* 0x234 */ s32 bits;
 } Decoder;
 
-void func_800887D8(s32 arg0);
-s32 func_800890C8(s32 arg0);
-void func_800A4C04(s32 arg0);
-
 s32 func_8008CDB8(s32 arg0) {
     s32 sp10;
 

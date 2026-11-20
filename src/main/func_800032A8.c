@@ -10,8 +10,6 @@ struct gd_64_s32 { u8 pad[0x64]; s32 v; };
 struct n64dk_a800BA2D8 { s32 m0; u8 pad4[0x10]; };
 extern struct n64dk_a800BA2D8 D_800BA2D8[];
 extern f32 D_800004B4;
-extern s32 func_800037A0;
-extern s32 func_80003F64;
 extern s32 D_800A70A0;
 extern s32 D_800B96B8;
 extern s32 D_800B96BC;
@@ -32,13 +30,6 @@ extern s32 D_800BCCA0;
 extern s32 D_800BCD64;
 extern s32 D_800BEDA4;
 extern s32 D_800FB818;
-s32 func_80038758();
-s32 func_8003A568();
-s32 func_8003A5C4();
-s32 func_8003A638();
-s32 func_8003E6C8();
-s32 func_800447D8();
-s32 func_80045498();
 
 void func_800032A8(s32 arg0, s32 arg1, s32 arg2) {
     s32 sp18;

@@ -7,10 +7,6 @@ typedef struct {
     /* 0x30 */ s32 *unk_30;
 } Obj;
 
-void func_80016C78();
-s32 func_8000B3B0(s32 arg0, s32 arg1, s32 arg2);
-void func_80016944(s32 arg0, s32 arg1);
-
 void func_8001745C(s32 arg0) {
     s32 handle;
 

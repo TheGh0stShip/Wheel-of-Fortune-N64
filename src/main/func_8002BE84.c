@@ -1,27 +1,14 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0x110];
 } Player;
 
 extern Player D_800B9994[];
-extern s32 func_8002842C;
-extern s32 func_8002B730;
 extern s32 D_800B96A8;
 extern s32 D_800B96B4;
 extern s32 D_800FB808;
-s32 func_80002CE0(s32 arg0);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-s32 func_8000ACE8(s32 arg0);
-void func_8000AE70(s32 arg0, s32 arg1, s32 arg2);
-void func_80016008(void);
-void func_80016B9C(s32 arg0);
-s32 func_80027218(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80032AD4(s32 arg0);
-void func_80034950(void);
 
 struct n64dk_r12 func_8002BE84(s32 arg1) {
     s32 event;

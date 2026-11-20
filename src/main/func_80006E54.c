@@ -32,10 +32,6 @@ extern u8 D_800B9601[][21];
 extern s8 D_800B9655[];
 extern s8 D_800B966A;
 extern s32 D_800BCD54;
-void func_80006828(s32 arg0, s32 arg1, s32 arg2);
-s32 func_80009748(s32 arg0, s32 arg1, s32 arg2);
-s32 func_80009900(s32 arg0, s32 arg1);
-s32 func_800099B0(s32 arg0, s32 arg1);
 
 void func_80006E54(s32 arg0, s32 arg1) {
     s32 line;

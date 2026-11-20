@@ -1,10 +1,6 @@
 #include "wof.h"
 
 typedef struct {
-    u8 b[0x40];
-} Mtx;
-
-typedef struct {
     /* 0x0000 */ u8 pad0[0x140];
     /* 0x0140 */ Mtx unk_0140[100];
     /* 0x1A40 */ Mtx unk_1A40[100];
@@ -30,14 +26,8 @@ typedef struct {
     /* 0x48 */ s32 unk_48;
 } Model;
 
-typedef struct {
-    /* 0x00 */ s32 w0;
-    /* 0x04 */ s32 w1;
-} Gfx;
-
 extern s32 D_800B3994;
 extern Gfx *D_800B81E8;
-s32 func_8003C2F0(Mtx *, f32, f32, f32);
 
 void func_8000D6D8(s32 arg0, s32 arg1) {
     Gfx *gfx;

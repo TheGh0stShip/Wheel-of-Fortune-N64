@@ -1,8 +1,6 @@
 #include "wof.h"
 
 extern s16 D_800FD2C8[][64];
-void func_8009D67C(s32 arg0);
-s32 func_800A4CF8(s32 arg0, s32 arg1, s32 arg2);
 
 void func_8009D3D8(void) {
     s32 i;

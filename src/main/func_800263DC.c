@@ -48,16 +48,8 @@ extern s32 D_80058A50;
 extern s32 D_80058A54;
 extern s32 D_80058A78;
 extern s32 D_80058A7C;
-extern u64 D_8005A390;
-extern s32 D_8005A398;
+extern Color D_8005A390;
 extern s32 D_800FB808;
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_8002208C(s32 arg0, s32 arg1);
-void func_80023CA4(void);
-void func_800258BC(void);
-void func_80026800(void);
-s32 func_80027218(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-s32 func_800323C4(); /* called without a prototype */
 
 void func_800263DC(void) {
     s32 i;
@@ -107,7 +99,7 @@ void func_800263DC(void) {
     D_80058880 = D_800B99A4[D_800FB808].unk_04;
     for (i = 0; i < 6; i++) {
         if (i == D_80058880) {
-            func_800323C4(i, i, D_8005A390, D_8005A398);
+            func_800323C4(i, i, D_8005A390.unk_00, D_8005A390.unk_04, D_8005A390.unk_08);
         } else {
             func_800323C4(i, i, D_8005A39C[i].unk_00, D_8005A39C[i].unk_04, D_8005A39C[i].unk_08);
         }

@@ -37,7 +37,6 @@ typedef struct {
 } Decoder;
 
 extern u8 D_80087EA0[];
-s32 func_800A4C28(s32 arg0);
 
 s32 func_800895C4(s32 arg0) {
     s32 i;

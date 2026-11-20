@@ -18,10 +18,6 @@ typedef struct {
 } Task;
 
 extern s32 D_80000870;
-void func_80009F38(s32 *arg0);
-s32 func_8000A0E4(void);
-s32 func_8000A204(void);
-s32 func_8000A31C(s32 arg0);
 
 s32 func_8000A56C(s32 arg0, s32 arg1) {
     Task *last;

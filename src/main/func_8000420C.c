@@ -30,17 +30,6 @@ extern s32 D_800B9D04;
 extern s32 D_800BCD68;
 extern s32 D_800BCD70;
 extern s16 D_800BEE58[];
-void func_80004160(s32 arg0);
-void func_80004F6C(s32 arg0);
-void func_80004EB0(s32 arg0);
-void func_80009F98(s32 arg0);
-s32 func_8003A368(s32 *, Entry *, s32);
-s32 func_8003E608(s32, s32 *, s16 *);
-s32 func_8003E6C8(s32 *, s32, void (*)(s32), s32, s32 *, s32);
-s32 func_800447D8(s32 *);
-s32 func_80045498(s32 *, s32 *, s32);
-s32 func_80046808(s32 *, Entry *, s32);
-s32 func_80048458(s32 *, u8 *, Status *);
 
 void func_8000420C(void) {
     s32 i;

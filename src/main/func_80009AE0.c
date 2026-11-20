@@ -2,8 +2,6 @@
 
 extern char D_800007D8[];
 extern char D_800007DC[];
-s32 func_80009900(s32 arg0, s32 arg1);
-s32 func_80009D2C(s32 arg0);
 
 void func_80009AE0(s32 arg0, s32 arg1) {
     s32 i;

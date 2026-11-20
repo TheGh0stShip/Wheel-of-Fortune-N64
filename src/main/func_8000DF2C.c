@@ -6,11 +6,6 @@ typedef struct {
     /* 0x12 */ s16 y;
 } Pos;
 
-typedef struct {
-    /* 0x00 */ s32 w0;
-    /* 0x04 */ s32 w1;
-} Gfx;
-
 extern s32 D_01021970;
 extern s32 D_01146E68;
 extern s32 D_80057970[][3];

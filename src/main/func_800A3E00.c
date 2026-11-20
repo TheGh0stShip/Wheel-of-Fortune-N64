@@ -16,12 +16,6 @@ typedef struct {
     /* 0x21C */ s32 unk_21C;
 } Stream;
 
-s32 func_800A4A18(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-s32 func_800A4B14(s32 arg0, s32 arg1, s32 arg2);
-s32 func_800A4BB4(s32 arg0, s32 arg1, s32 arg2);
-void func_800A4C04(s32 arg0);
-s32 func_800A4C28(s32 arg0);
-
 s32 func_800A3E00(register s32 arg0, s32 arg1) {
     u8 id;
     s32 **spare;

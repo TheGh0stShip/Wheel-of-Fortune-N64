@@ -1,7 +1,5 @@
 #include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
 typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 player;
@@ -28,21 +26,6 @@ extern Player D_800B9990[];
 extern u8 D_800B61B5;
 extern s32 D_800B96B4;
 extern s32 D_800FB808;
-s32 func_80002CE0(s32 arg0);
-s32 func_800051B4(); /* called without a prototype */
-s32 func_80007888(s32 arg0, s32 arg1);
-void func_80007DAC(s32 arg0);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_8000A850(s32 arg0);
-s32 func_8000A990(s32 arg0, s32 arg1);
-void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000ACE8(s32 arg0);
-void func_8000AD9C(s32 arg0);
-struct n64dk_r12 func_80010574(s32 arg1);
-s32 func_80017548(void);
-void func_80017C00(s32 arg0, s32 arg1);
-s32 func_8001A97C(f32 arg0);
-void func_8002EB90(s32 arg0);
 
 struct n64dk_r12 func_8001B6BC(s32 arg1) {
     struct n64dk_r12 ret;
@@ -107,6 +90,7 @@ struct n64dk_r12 func_8001B6BC(s32 arg1) {
         case 51:
             func_8000A850(9);
             func_80002CE0(150);
+            // RULE-EXCEPTION: R25, no prototype in scope: retail passes the 0.8 as a double
             func_800051B4(D_800B9990[D_800FB808].unk_14, 30, 0.8);
             func_80017548();
             ret.w[1] = 0;

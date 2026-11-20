@@ -33,12 +33,6 @@ extern s32 D_01158068;
 extern s32 D_01158868;
 extern s32 D_01159068;
 extern s32 D_01159868;
-void func_80022218();
-void func_80025150();
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_800258BC(void);
-s32 func_80027218(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_800323C4(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 void func_80026800(void) {
     s32 i;
