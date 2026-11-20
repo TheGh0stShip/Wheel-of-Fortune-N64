@@ -32,8 +32,10 @@ void func_8000420C(void) {
                             D_800BEE60[i].unk_00 = 1;
                             func_80004EB0(i);
                         } else {
+                            // NOTE: empty in retail, a branch over nothing; guess: a debug message, compiled out
                         }
                     } else if (result == 0) {
+                        // NOTE: empty in retail, a branch over nothing; guess: a debug message, compiled out
                     }
                 }
             }
