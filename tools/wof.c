@@ -10,10 +10,12 @@
  *   wof match UNIT...   compile and verify the named units only (the inner loop)
  *   wof diff UNIT       side-by-side disassembly, compiled vs retail
  *   wof infer           like gate, but proposes addresses for undeclared symbols and entry points
- *   wof list            print the unit table with each unit's result from the last full run
+ *   wof list            print the unit table
+ *   wof locate OBJ...   find where each object's .text sits in retail, relocated fields ignored
  *
  * Environment: WOF_ROM (retail ROM, any byte order), WOF_TOOLCHAIN (directory holding gcc, cc1, as),
- * WOF_BUILD (output directory, default "build"), WOF_JOBS.
+ * WOF_IDO (directory holding the IDO 5.3 driver cc and its passes), WOF_BUILD (output directory, default
+ * "build"), WOF_JOBS.
  */
 #define _GNU_SOURCE
 #include <errno.h>
@@ -42,6 +44,7 @@ typedef int16_t s16;
 #define SHT_NOBITS 8
 #define SHT_REL 9
 #define SHN_UNDEF 0
+#define SHN_ABS 0xFFF1
 #define SHN_COMMON 0xFFF2
 #define R_MIPS_32 2
 #define R_MIPS_26 4
@@ -55,6 +58,8 @@ typedef struct {
     u32 type, off, size, link, info;
     int placed;
     int base_known;
+    int by_reference; /* placed where other units point, not by the unit's own code or a declaration */
+    int noted;        /* its references to undefined symbols are already counted */
     u32 base;
     u8 *buf; /* relocated copy of the contents */
 } Sec;
@@ -100,14 +105,24 @@ static Unit *units;
 static int nunits;
 static Func *funcs;
 static int nfuncs;
+/* Where retail's relocated fields point for a symbol some unit leaves undefined, and how many fields agree. */
+typedef struct {
+    char *name;
+    u32 addr;
+    int count;
+} Ref;
+
 static Global *globals;
 static int nglobals, capglobals;
+static Ref *refs;
+static int nrefs, caprefs;
 static char flagcls[64][32];
 static char flagstr[64][600];
 static char flagmode[64][16];
 static int nflagcls;
 static const char *build_dir = "build";
 static const char *toolchain;
+static const char *ido;
 static int infer_mode;
 static int verbose;
 
@@ -234,7 +249,8 @@ static void load_flags(void) {
         snprintf(flagcls[nflagcls], 32, "%s", next_field(&p));
         snprintf(flagmode[nflagcls], 16, "%s", next_field(&p));
         snprintf(flagstr[nflagcls], 600, "%s", next_field(&p));
-        if (strcmp(flagmode[nflagcls], "gas") && strcmp(flagmode[nflagcls], "asn64")) die("flag class %s: assembler must be gas or asn64", flagcls[nflagcls]);
+        if (strcmp(flagmode[nflagcls], "gas") && strcmp(flagmode[nflagcls], "asn64") && strcmp(flagmode[nflagcls], "ido"))
+            die("flag class %s: assembler must be gas, asn64 or ido", flagcls[nflagcls]);
         nflagcls++;
     }
     fclose(f);
@@ -364,14 +380,28 @@ static void mkdirs(void) {
 }
 
 /*
+ * Library sources are compiled from a copy of lib/ in the build directory: the 32-bit cpp of GCC 2.7.2 cannot
+ * stat an included file on a Windows mount, and the copy is what the flag classes name with -I $WOF_BUILD/lib.
+ */
+static void mirror_lib(void) {
+    char cmd[1000];
+    struct stat st;
+    if (stat("lib", &st)) return;
+    snprintf(cmd, sizeof cmd, "rm -rf '%s/lib' && cp -r lib '%s/lib'", build_dir, build_dir);
+    if (system(cmd)) die("cannot copy lib/ to %s", build_dir);
+}
+
+/*
  * gas:   gcc -c, assembled by GNU as as cc1 wrote it.
  * asn64: gcc -S, then tools/asn64.c, then GNU as: the game's own objects came from a different assembler.
+ * ido:   the IDO driver, which compiles C and assembles .s with its own passes (the SDK library).
  */
 static pid_t spawn_compile(const Unit *u) {
-    char obj[400], log[400], cmd[3000];
+    char obj[400], log[400], src[400], cmd[3000];
     int ci = class_index(u->cls);
     pid_t pid;
     obj_path(u, obj, sizeof obj);
+    snprintf(src, sizeof src, "%s%s%s", strncmp(u->src, "lib/", 4) ? "" : build_dir, strncmp(u->src, "lib/", 4) ? "" : "/", u->src);
     snprintf(log, sizeof log, "%s/log/%s.log", build_dir, u->name);
     unlink(obj);
     pid = fork();
@@ -380,10 +410,12 @@ static pid_t spawn_compile(const Unit *u) {
         snprintf(cmd, sizeof cmd,
                  "'%s/gcc' -S %s -o '%s/obj/%s.s' '%s' && '%s/asn64' < '%s/obj/%s.s' > '%s/obj/%s.as.s' && "
                  "'%s/as' -G0 -mips3 -o '%s' '%s/obj/%s.as.s'",
-                 toolchain, flagstr[ci], build_dir, u->name, u->src, build_dir, build_dir, u->name, build_dir, u->name, toolchain,
+                 toolchain, flagstr[ci], build_dir, u->name, src, build_dir, build_dir, u->name, build_dir, u->name, toolchain,
                  obj, build_dir, u->name);
+    else if (!strcmp(flagmode[ci], "ido"))
+        snprintf(cmd, sizeof cmd, "'%s/cc' -c %s -o '%s' '%s'", ido, flagstr[ci], obj, src);
     else
-        snprintf(cmd, sizeof cmd, "'%s/gcc' -c %s -o '%s' '%s'", toolchain, flagstr[ci], obj, u->src);
+        snprintf(cmd, sizeof cmd, "'%s/gcc' -c %s -o '%s' '%s'", toolchain, flagstr[ci], obj, src);
     setenv("COMPILER_PATH", toolchain, 1);
     if (!freopen(log, "w", stderr)) _exit(126);
     dup2(2, 1);
@@ -396,6 +428,7 @@ static void compile_selected(void) {
     int running = 0, i, st;
     if (jobs < 1) jobs = 1;
     mkdirs();
+    mirror_lib();
     for (i = 0; i < nunits; i++) {
         if (!units[i].selected) continue;
         while (running >= jobs) {
@@ -427,12 +460,10 @@ static void fail(Unit *u, int status, const char *fmt, ...) {
     u->status = status;
 }
 
-static void load_object(Unit *u) {
-    char path[400];
+static void load_object_file(Unit *u, const char *path) {
     const u8 *o, *sh, *shstr;
     u32 shoff;
     int i, shnum, shstrndx;
-    obj_path(u, path, sizeof path);
     u->o = read_file(path, &u->olen);
     if (!u->o) {
         fail(u, ST_ERR, "compile failed (see %s/log/%s.log)", build_dir, u->name);
@@ -483,6 +514,12 @@ static void load_object(Unit *u) {
         }
     }
     if (u->text < 0) fail(u, ST_ERR, "object has no .text");
+}
+
+static void load_object(Unit *u) {
+    char path[400];
+    obj_path(u, path, sizeof path);
+    load_object_file(u, path);
 }
 
 static u32 count_masked_diffs(const Unit *u, u32 eoff) {
@@ -563,7 +600,11 @@ static void place_text(Unit *u) {
     for (k = 0; k < u->nsym; k++) {
         const Sym *s = &u->sym[k];
         u32 addr, named;
-        if (s->shndx != u->text || s->bind != 1 || !s->name[0]) continue;
+        if (s->shndx == SHN_ABS && s->bind == 1 && s->name[0]) { /* a fixed address the unit names */
+            if (!add_global(s->name, s->value, u->name)) fail(u, ST_ERR, "conflicting definition of %s", s->name);
+            continue;
+        }
+        if (s->shndx != u->text || (s->bind != 1 && s->bind != 2) || !s->name[0]) continue;
         addr = t->base + s->value;
         if (addr < u->vram || addr >= u->vram + u->size) continue; /* not owned by this unit */
         if (addr_from_name(s->name, &named)) {
@@ -574,9 +615,40 @@ static void place_text(Unit *u) {
     }
 }
 
+static void note_reference(const char *name, u32 addr) {
+    int i;
+    for (i = 0; i < nrefs; i++)
+        if (refs[i].addr == addr && !strcmp(refs[i].name, name)) {
+            refs[i].count++;
+            return;
+        }
+    if (nrefs == caprefs) {
+        caprefs = caprefs ? caprefs * 2 : 1024;
+        refs = realloc(refs, caprefs * sizeof(Ref));
+    }
+    refs[nrefs].name = strdup(name);
+    refs[nrefs].addr = addr;
+    refs[nrefs++].count = 1;
+}
+
+/* The address most references give for a name. A broken unit can point anywhere, so the majority decides. */
+static int referenced_addr(const char *name, u32 *addr) {
+    int i, best = 0, tied = 0;
+    for (i = 0; i < nrefs; i++) {
+        if (strcmp(refs[i].name, name)) continue;
+        if (refs[i].count > best) best = refs[i].count, *addr = refs[i].addr, tied = 0;
+        else if (refs[i].count == best) tied = 1;
+    }
+    return best && !tied;
+}
+
 /* Address of a symbol, if it can be known now. */
 static int sym_addr(Unit *u, const Sym *s, u32 *addr) {
     Global *g;
+    if (s->shndx == SHN_ABS) {
+        *addr = s->value;
+        return 1;
+    }
     if (s->shndx != SHN_UNDEF && s->shndx != SHN_COMMON) {
         if (s->shndx >= u->nsec || !u->sec[s->shndx].base_known) return 0;
         *addr = u->sec[s->shndx].base + s->value;
@@ -661,8 +733,9 @@ static void relocate(Unit *u, int si, int apply) {
                         d->base = want - addend - s->value;
                         d->base_known = 1;
                     }
-                } else if (infer_mode) {
-                    add_global(s->name, want - addend, "inferred");
+                } else if (s->shndx == SHN_UNDEF || s->shndx == SHN_COMMON) {
+                    if (!sec->noted) note_reference(s->name, want - addend);
+                    if (infer_mode) add_global(s->name, want - addend, "inferred");
                 }
                 continue;
             }
@@ -686,6 +759,7 @@ static void relocate(Unit *u, int si, int apply) {
             }
         }
     }
+    if (!apply) sec->noted = 1;
 }
 
 /* A data section that defines an address-named or declared global is placed by that declaration. */
@@ -714,13 +788,47 @@ static void place_declared_data(Unit *u) {
     }
 }
 
+/*
+ * A data section its own unit never addresses (a variable only other objects use) is placed where retail's
+ * relocated fields point for a global it defines; storage the unit declares common is placed the same way.
+ * Returns the number of sections and commons placed. verify() resolves and compares every one of those
+ * references again, so a wrong address cannot pass.
+ */
+static int place_referenced_data(Unit *u) {
+    int k, n = 0;
+    if (u->status == ST_ERR) return 0;
+    for (k = 0; k < u->nsym; k++) {
+        const Sym *s = &u->sym[k];
+        Sec *d;
+        u32 addr;
+        if (s->bind != 1 && s->bind != 2) continue;
+        if (s->shndx == SHN_COMMON) {
+            if (!find_global(s->name) && referenced_addr(s->name, &addr) && add_global(s->name, addr, u->name)) n++;
+            continue;
+        }
+        if (s->shndx == SHN_UNDEF || s->shndx >= u->nsec || s->shndx == u->text) continue;
+        d = &u->sec[s->shndx];
+        if (!d->placed || (d->base_known && !d->by_reference) || !referenced_addr(s->name, &addr)) continue;
+        if (d->base_known) {
+            if (d->base != addr - s->value)
+                fail(u, ST_ERR, "%s: references to %s place the section at 0x%08X, to another symbol at 0x%08X", d->name, s->name,
+                     addr - s->value, d->base);
+            continue;
+        }
+        d->base = addr - s->value;
+        d->base_known = d->by_reference = 1;
+        n++;
+    }
+    return n;
+}
+
 static void export_data(Unit *u) {
     int k;
     u32 named;
     if (u->status == ST_ERR) return;
     for (k = 0; k < u->nsym; k++) {
         const Sym *s = &u->sym[k];
-        if (s->shndx == SHN_UNDEF || s->shndx >= u->nsec || s->shndx == u->text || s->bind != 1) continue;
+        if (s->shndx == SHN_UNDEF || s->shndx >= u->nsec || s->shndx == u->text || (s->bind != 1 && s->bind != 2)) continue;
         if (!u->sec[s->shndx].placed || !u->sec[s->shndx].base_known || addr_from_name(s->name, &named)) continue;
         if (!add_global(s->name, u->sec[s->shndx].base + s->value, u->name)) fail(u, ST_ERR, "conflicting definition of %s", s->name);
     }
@@ -784,23 +892,34 @@ static Unit *find_unit(const char *name) {
     return NULL;
 }
 
+/* Learn from retail where the unit's sections that already have an address point. */
+static void learn_from_placed(Unit *u) {
+    int k;
+    if (u->status == ST_ERR || u->text < 0) return;
+    for (k = 0; k < u->nsec; k++)
+        if (u->sec[k].placed && u->sec[k].base_known) relocate(u, k, 0);
+    /* data sections may reference each other (jump tables point back into .text) */
+    for (k = 0; k < u->nsec; k++)
+        if (u->sec[k].placed && u->sec[k].base_known && k != u->text) relocate(u, k, 0);
+}
+
 static void run_units(int compile) {
-    int i, k;
+    int i, changed;
     if (compile) compile_selected();
     for (i = 0; i < nunits; i++) load_object(&units[i]);
     for (i = 0; i < nunits; i++) find_entry(&units[i]);
     for (i = 0; i < nunits; i++) place_text(&units[i]);
     load_symbols();
     for (i = 0; i < nunits; i++) place_declared_data(&units[i]);
-    for (i = 0; i < nunits; i++) {
-        Unit *u = &units[i];
-        if (u->status == ST_ERR || u->text < 0) continue;
-        for (k = 0; k < u->nsec; k++)
-            if (u->sec[k].placed && u->sec[k].base_known) relocate(u, k, 0);
-        /* data sections may reference each other (jump tables point back into .text) */
-        for (k = 0; k < u->nsec; k++)
-            if (u->sec[k].placed && u->sec[k].base_known && k != u->text) relocate(u, k, 0);
-    }
+    for (i = 0; i < nunits; i++) learn_from_placed(&units[i]);
+    do { /* a section placed by reference can itself point at the next one */
+        changed = 0;
+        for (i = 0; i < nunits; i++)
+            if (place_referenced_data(&units[i])) {
+                learn_from_placed(&units[i]);
+                changed = 1;
+            }
+    } while (changed);
     for (i = 0; i < nunits; i++) export_data(&units[i]);
     for (i = 0; i < nunits; i++) verify(&units[i]);
 }
@@ -948,6 +1067,64 @@ static int cmd_diff(int argc, char **argv) {
     return system(cmd) != 0;
 }
 
+/*
+ * Find where an object's .text sits in the retail image. Fields a relocation fills are ignored, and so is the
+ * alignment padding at the end of the section. Prints every address at which the rest is identical, then the
+ * object's global functions at the first of them.
+ */
+static int cmd_locate(int argc, char **argv) {
+    int a, found = 0;
+    if (argc < 1) die("locate: name at least one object file");
+    for (a = 0; a < argc; a++) {
+        Unit obj, *u = &obj;
+        const char *base = strrchr(argv[a], '/');
+        const Sec *t;
+        u32 *word, *mask, n, i, addr, first = 0, hits = 0;
+        int k;
+        memset(u, 0, sizeof *u);
+        snprintf(u->name, sizeof u->name, "%s", base ? base + 1 : argv[a]);
+        load_object_file(u, argv[a]);
+        if (u->status == ST_ERR) {
+            printf("%-24s unreadable\n", u->name);
+            continue;
+        }
+        t = &u->sec[u->text];
+        n = t->size / 4;
+        word = calloc(n + 1, sizeof *word);
+        mask = calloc(n + 1, sizeof *mask);
+        for (i = 0; i < n; i++) word[i] = be32(t->buf + i * 4), mask[i] = 0xFFFFFFFF;
+        for (k = 0; k < u->nsec; k++) {
+            const Sec *r = &u->sec[k];
+            if (r->type != SHT_REL || (int)r->info != u->text) continue;
+            for (i = 0; i < r->size / 8; i++) {
+                u32 off = be32(u->o + r->off + i * 8), type = be32(u->o + r->off + i * 8 + 4) & 0xFF;
+                if (off / 4 < n) mask[off / 4] = type == R_MIPS_26 ? 0xFC000000 : type == R_MIPS_32 ? 0 : 0xFFFF0000;
+            }
+        }
+        while (n && !word[n - 1]) n--;
+        printf("%-24s 0x%05X", u->name, t->size);
+        for (addr = IMAGE_VRAM; n && addr + n * 4 <= IMAGE_VRAM + IMAGE_SIZE; addr += 4) {
+            const u8 *p = rom_at(addr);
+            for (i = 0; i < n; i++)
+                if ((be32(p + i * 4) ^ word[i]) & mask[i]) break;
+            if (i < n) continue;
+            if (!hits++) first = addr;
+            if (hits <= 4) printf(" 0x%08X", addr);
+        }
+        if (hits > 4) printf(" ... (%u places)", hits);
+        if (!hits) printf(" not found");
+        printf("\n");
+        if (hits == 1) found++;
+        for (k = 0; hits && verbose && k < u->nsym; k++)
+            if (u->sym[k].shndx == u->text && u->sym[k].bind == 1)
+                printf("    %-32s 0x%08X\n", u->sym[k].name, first + u->sym[k].value);
+        free(word);
+        free(mask);
+    }
+    printf("locate: %d of %d objects found at exactly one address\n", found, argc);
+    return found != argc;
+}
+
 static int cmd_list(void) {
     int i;
     for (i = 0; i < nunits; i++)
@@ -957,13 +1134,19 @@ static int cmd_list(void) {
 }
 
 int main(int argc, char **argv) {
-    static char tc[400];
+    static char tc[400], idodir[400];
     const char *cmd = argc > 1 ? argv[1] : "";
     if (getenv("WOF_BUILD")) build_dir = getenv("WOF_BUILD");
+    setenv("WOF_BUILD", build_dir, 1); /* the flag classes name it */
     toolchain = getenv("WOF_TOOLCHAIN");
     if (!toolchain) {
         snprintf(tc, sizeof tc, "%s/wof/gcc272", getenv("HOME") ? getenv("HOME") : ".");
         toolchain = tc;
+    }
+    ido = getenv("WOF_IDO");
+    if (!ido) {
+        snprintf(idodir, sizeof idodir, "%s/wof/ido53", getenv("HOME") ? getenv("HOME") : ".");
+        ido = idodir;
     }
     if (argc > 2 && !strcmp(argv[2], "-v")) verbose = 1, argv++, argc--;
     load_units();
@@ -978,6 +1161,7 @@ int main(int argc, char **argv) {
     }
     if (!strcmp(cmd, "match")) return cmd_match(argc - 2, argv + 2);
     if (!strcmp(cmd, "diff")) return cmd_diff(argc - 2, argv + 2);
-    fprintf(stderr, "usage: wof gate [-v] | match UNIT... | diff UNIT | infer [-v] | list\n");
+    if (!strcmp(cmd, "locate")) return cmd_locate(argc - 2, argv + 2);
+    fprintf(stderr, "usage: wof gate [-v] | match UNIT... | diff UNIT | infer [-v] | list | locate [-v] OBJECT...\n");
     return 2;
 }
