@@ -32,11 +32,7 @@ extern Slot D_8005C7F0[];
 extern Player D_800B99A8[];
 extern s32 D_80001A0C;
 extern Slot D_8005C3B8[][2];
-extern s32 D_800B61A8;
 extern s32 D_800B96AC;
-extern s32 D_800B9988;
-extern s32 D_800BCA60;
-extern s32 D_800BCD54;
 
 void func_80032BF0(void) {
     Obj *obj;

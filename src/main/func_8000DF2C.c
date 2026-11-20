@@ -6,9 +6,6 @@ typedef struct {
     /* 0x12 */ s16 y;
 } Pos;
 
-extern s32 D_01021970;
-extern s32 D_01146E68;
-extern s32 D_80057970[][3];
 extern Gfx *D_800B81E8;
 
 void func_8000DF2C(s32 arg0, s32 arg1) {

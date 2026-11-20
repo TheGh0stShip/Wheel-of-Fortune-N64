@@ -1,13 +1,6 @@
 #include "wof.h"
 
-extern s32 D_800B619C;
-extern s32 D_800B9538;
 extern s32 D_800B9998;
-extern s32 D_800B9AAC;
-extern s32 D_800B9BC0;
-extern s32 D_800BCA00;
-extern s32 D_800BCD54;
-extern s32 D_800FB808;
 
 void func_80006B58(void) {
     D_800B619C = 0;

@@ -26,8 +26,6 @@ typedef struct {
     /* 0x48 */ s32 unk_48;
 } Model;
 
-extern s32 D_010219C8;
-extern s32 D_010E3748;
 extern Gfx *D_800B81E8;
 
 void func_800153C4(s32 arg0, s32 arg1) {

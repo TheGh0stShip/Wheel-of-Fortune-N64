@@ -14,14 +14,6 @@ typedef struct {
 extern Slot D_800584E0[];
 extern Player D_800B99A4[];
 extern f32 D_80001674;
-extern s32 D_80058E88;
-extern s32 D_80058FE0;
-extern u8 D_8005A498[][10];
-extern f32 D_800B8298;
-extern s32 D_800B96C0;
-extern u8 D_800B96C4;
-extern u8 D_800B99AC[][276]; /* D_800B99A4[i].unk_08 */
-extern s32 D_800BEDD8[];
 
 void func_80026FD4(void) {
     s32 i;

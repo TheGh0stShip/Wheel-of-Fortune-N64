@@ -12,8 +12,6 @@ typedef struct {
     /* 0x30 */ Data *data;
 } Obj;
 
-extern f32 D_800B8298;
-
 void func_8001D3CC(s32 arg0) {
     Obj *obj;
     s32 pad0;

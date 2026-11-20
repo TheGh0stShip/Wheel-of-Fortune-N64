@@ -18,26 +18,10 @@ typedef struct {
     /* 0x3C */ s32 *unk_3C;
 } Obj;
 
-extern s32 D_01024340;
-extern s32 D_01024368;
-extern s32 D_01036FA8;
-extern s32 D_01037090;
-extern s32 D_01037178;
-extern s32 D_01037E70;
-extern s32 D_01037EB0;
-extern s32 D_01037EF0;
-extern s32 D_010A6098;
-extern s32 D_010B3728;
-extern s32 D_010E4260;
-extern s32 D_0112BBA8;
-extern s32 D_01135878;
-extern s32 D_01135FF8;
 extern f32 D_80000E14;
 extern f32 D_80000E18;
 extern f32 D_80000E1C;
 extern f32 D_80000E20;
-extern s32 D_80057F24[];
-extern s32 D_800B81E0;
 extern s32 D_800BCCF0;
 
 void func_80016310(void) {

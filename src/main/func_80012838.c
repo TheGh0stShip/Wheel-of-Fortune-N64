@@ -6,9 +6,7 @@ typedef struct {
     /* 0x08 */ u8 unk_08[0x14];
 } Tile;
 
-extern s32 D_010A2B88;
 extern Gfx *D_800B81E8;
-extern s32 D_800BCD54;
 s32 func_8001277C(s32 arg0);
 
 void func_80012838(s32 arg0, s32 arg1, s32 arg2) {

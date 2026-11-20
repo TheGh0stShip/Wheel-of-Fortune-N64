@@ -16,11 +16,6 @@ typedef struct {
     /* 0x30 */ State *unk_30;
 } Task;
 
-extern s32 D_01135FF8;
-extern s32 D_01136080;
-extern s32 D_01136108;
-extern s32 D_800B96B4;
-
 struct n64dk_r12 func_800103B4(s32 arg1) {
     struct n64dk_r12 sp10;
     Sprite *sprite;

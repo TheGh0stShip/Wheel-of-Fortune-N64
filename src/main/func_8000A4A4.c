@@ -7,8 +7,6 @@ typedef struct {
     /* 0x40 */ s32 unk_40;
 } Obj;
 
-extern s32 D_800BEE50;
-
 s32 func_8000A4A4(s32 arg0, s32 arg1) {
     Obj *prev;
     s32 next;

@@ -13,8 +13,6 @@ typedef struct {
 
 extern Entry D_8005ADF0[][7];
 extern Player D_800B9990[];
-extern s32 D_01010FA0;
-extern s32 D_8005ACE8[];
 
 void func_80029974(s32 arg0) {
     s32 i;

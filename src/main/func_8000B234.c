@@ -9,8 +9,6 @@ typedef struct Node {
     /* 0x50 */ struct Node *next;
 } Node;
 
-extern s32 D_800BCA10;
-
 s32 func_8000B234(s32 arg0) {
     Node *prev;
     Node *next;

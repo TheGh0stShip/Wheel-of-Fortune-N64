@@ -1,21 +1,5 @@
 #include "wof.h"
 
-extern s32 D_8006DCEC;
-extern s32 D_8006DCF0;
-extern s32 D_800BCA08;
-extern f32 D_800BEE2C;
-extern f32 D_800BEE30;
-extern f32 D_800BEE34;
-extern f32 D_800BEE3C;
-extern f32 D_800BEE40;
-extern f32 D_800BEE44;
-extern s16 D_800DD360;
-extern s32 *D_800DD380;
-extern s16 D_800FB7E0;
-extern s32 *D_800FB800;
-extern s32 D_803B5000;
-extern s32 D_803DA800;
-
 void func_80005624(void) {
     s32 size;
 

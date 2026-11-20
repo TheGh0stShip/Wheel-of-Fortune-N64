@@ -12,15 +12,6 @@ typedef struct {
 
 extern Digit D_8005B360[];
 extern Digit D_8005B4C8[];
-extern s32 D_8005B088[];
-extern s32 D_8005B118[];
-extern s32 D_8005B148[];
-extern s32 D_8005B170;
-extern s32 D_8005B174;
-extern s32 D_8005B178[];
-extern s32 D_800B619C;
-extern s32 D_800B9540;
-extern s32 D_800B9CEC;
 
 void func_8002A014(void) {
     s32 glyph;

@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern s32 D_8004B718;
-extern s16 *D_800A509C;
 extern s32 D_800BED90;
 
 void func_8000315C(void) {

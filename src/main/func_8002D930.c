@@ -27,16 +27,9 @@ typedef struct {
 
 extern Letter D_8005A9A8[];
 extern Player D_800B99A4[];
-extern s32 D_800B619C;
 extern s8 D_800B61B5;
 extern u8 D_800B966A[];
-extern u16 D_800B96B0;
-extern s32 D_800B96B4;
 extern u16 D_800B9954;
-extern s8 D_800B9956;
-extern s8 D_800B9957;
-extern s32 D_800BED88;
-extern s32 D_800FB808;
 
 struct n64dk_r12 func_8002D930(s32 arg1) {
     s32 event;

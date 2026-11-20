@@ -10,9 +10,6 @@ typedef struct {
     /* 0x30 */ Inner *unk_30;
 } Outer;
 
-extern s32 D_800B9CF8;
-extern s32 D_800B9CFC;
-
 void func_80028C4C(Outer *arg0) {
     arg0->unk_30->unk_04 = 2;
     if (D_800B9CF8 != 0) {

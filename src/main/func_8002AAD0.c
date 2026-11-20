@@ -27,7 +27,6 @@ typedef struct {
 extern Key D_8005A83C[];
 extern Key D_8005A9AC[];
 extern s8 D_800B61B5;
-extern s32 D_800BED88;
 
 void func_8002AAD0(s32 arg0, s32 arg1, s32 arg2) {
     D_800BED88++;

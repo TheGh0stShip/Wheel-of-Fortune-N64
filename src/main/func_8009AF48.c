@@ -11,11 +11,6 @@ typedef struct {
 
 extern Entry D_801078A0[];
 /* D_801078A4..D_801078B4 are the other fields of D_801078A0[0] */
-extern s32 D_801078A4;
-extern s32 D_801078A8;
-extern s32 D_801078AC;
-extern s32 D_801078B0;
-extern s32 D_801078B4;
 
 void func_8009AF48(void) {
     s32 i;

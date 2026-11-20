@@ -6,7 +6,6 @@ typedef struct {
 
 extern s32 D_80000854;
 extern Slot D_800B6BF8[];
-extern s32 D_800BA5E0[];
 
 s32 func_8000A31C(s32 arg0) {
     s32 i;

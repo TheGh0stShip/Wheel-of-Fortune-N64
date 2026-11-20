@@ -24,14 +24,7 @@ typedef struct {
 extern Player D_800B99A8[];
 extern s32 D_80001594;
 extern Item D_80058868[];
-extern s32 D_80058880;
-extern s32 D_80058888;
 extern s32 D_800588F0;
-extern u16 D_800B96B0;
-extern s32 D_800B96B4;
-extern s8 D_800B9956;
-extern s8 D_800B9957;
-extern s32 D_800FB808;
 
 struct n64dk_r12 func_80023CA4(s32 arg1) {
     s32 event;

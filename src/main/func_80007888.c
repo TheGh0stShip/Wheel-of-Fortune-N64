@@ -13,15 +13,7 @@ typedef struct {
 extern s8 D_800B966A[];
 extern Player D_800B9990[];
 extern s8 D_8004B9FC[];
-extern s8 D_8004BA04[];
-extern s32 D_800B9538;
-extern s32 D_800B953C;
 extern s8 D_800B9601[][21];
-extern s32 D_800B9CF8;
-extern s32 D_800B9CFC;
-extern s32 D_800B9D00;
-extern s32 D_800BCA00;
-extern s32 D_800FB808;
 
 s32 func_80007888(register s32 arg0, s32 arg1) {
     u8 letter;

@@ -12,7 +12,6 @@ typedef struct {
 
 extern Pair D_800B39A0[];
 extern Entry D_800B99A4[];
-extern s32 D_800BCD54;
 
 void func_8001A484(void) {
     s32 pad0[2];

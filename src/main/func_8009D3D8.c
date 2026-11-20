@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern s16 D_800FD2C8[][64];
-
 void func_8009D3D8(void) {
     s32 i;
 

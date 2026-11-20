@@ -10,16 +10,8 @@ typedef struct {
 } Glyph;
 
 extern Glyph D_8005B710[];
-extern s32 D_01017550;
-extern s32 D_01017650;
-extern s32 D_01017750;
-extern s32 D_010178D0;
-extern s32 D_01017A50;
-extern s32 D_01017BD0;
 extern s32 D_80001690;
-extern s32 *D_8005B5A4[];
 extern u8 D_800B9544[];
-extern s32 D_800BCD54;
 
 void func_80029440(void) {
     s32 len;

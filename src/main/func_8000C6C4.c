@@ -24,7 +24,6 @@ typedef struct {
 } Scale;
 
 extern Scale D_80057810[];
-extern s32 D_800BEE24;
 
 struct n64dk_r12 func_8000C6C4(s32 arg1) {
     f32 mtx[4][4];

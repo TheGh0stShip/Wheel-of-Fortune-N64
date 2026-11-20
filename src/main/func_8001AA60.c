@@ -22,13 +22,6 @@ extern f32 D_800011DC;
 extern f32 D_800011E0;
 extern f64 D_800011E4;
 extern s8 D_800B61B5;
-extern s32 D_800B61C0;
-extern s32 D_800B6AE0;
-extern s32 D_800B96A0;
-extern s32 D_800B9CF8;
-extern s32 D_800B9CFC;
-extern s32 D_800B9D00;
-extern s32 D_800FB808;
 
 void func_8001AA60(s32 arg0) {
     s32 task;

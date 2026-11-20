@@ -11,8 +11,6 @@ typedef struct {
     /* 0x12 */ s16 unk_12;
 } Sprite;
 
-extern s32 D_800B96B4;
-
 struct n64dk_r12 func_8000E4B0(s32 arg1) {
     struct n64dk_r12 result;
     s32 sp20;

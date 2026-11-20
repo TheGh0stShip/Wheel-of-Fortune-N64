@@ -29,21 +29,8 @@ extern Camera D_8005EB48[];
 extern f32 D_80000E8C;
 extern f32 D_80000E90;
 extern f32 D_80000E94;
-extern s32 D_8004B7B8;
-extern s32 D_8004B7C0;
-extern s32 D_8004B7D0;
-extern s32 D_8004B7E0;
-extern s32 D_8004B7F0;
-extern s32 D_8004B800;
-extern s32 D_8004B810;
-extern s32 D_800B3994;
-extern s32 D_800B6198;
-extern f32 D_800B6BE8;
-extern f32 D_800B6BEC;
-extern f32 D_800B6BF0;
 extern Gfx *D_800B81E8;
 extern Camera *D_800BA5D8;
-extern s32 D_800BCD54;
 
 void func_80016C78(s32 arg0, s32 arg1) {
     s32 frame;

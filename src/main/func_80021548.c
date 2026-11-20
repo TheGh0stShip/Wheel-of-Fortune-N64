@@ -19,9 +19,6 @@ typedef struct {
 } Task;
 
 extern s32 D_800B3CB8;
-extern s32 D_800B40C4;
-extern s32 D_800B8294;
-extern s32 D_800BCA28;
 
 struct n64dk_r12 func_80021548(s32 arg1) {
     s32 event;

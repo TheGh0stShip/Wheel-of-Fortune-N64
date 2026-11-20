@@ -25,11 +25,6 @@ typedef struct {
     /* 0x30 */ State *state;
 } Task;
 
-extern s32 D_8005C948[];
-extern f32 D_8005C958;
-extern f32 D_8005C95C;
-extern s32 D_800B96B4;
-
 struct n64dk_r12 func_80034028(s32 arg1) {
     struct n64dk_r12 ret;
     s32 event;

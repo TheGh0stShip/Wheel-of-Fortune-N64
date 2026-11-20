@@ -1,19 +1,11 @@
 #include "wof.h"
 
 extern s32 D_80000E10;
-extern s32 D_800579F0;
-extern s32 D_80057A20;
-extern s32 D_80057A58;
-extern s32 D_80057A90;
 extern s32 D_800B9544;
 extern s32 D_800B9601;
 extern s32 D_800B9616;
 extern s32 D_800B962B;
 extern s32 D_800B9640;
-extern s32 D_800B9D08;
-extern s32 D_800B9E58;
-extern s32 D_800B9FE0;
-extern s32 D_800BA168;
 
 void func_80015D4C(void) {
     s32 obj;

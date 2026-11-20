@@ -18,14 +18,6 @@ typedef struct {
 extern EntryA D_8004BBA0[];
 extern EntryB D_800B99A0[];
 extern Range D_B025D810[];
-extern s32 D_800B619C;
-extern s32 D_800B9540;
-extern s32 D_800B9980;
-extern s32 D_800B9CF8;
-extern s32 D_800B9CFC;
-extern s32 D_800B9D00;
-extern s32 D_800BCD54;
-extern s32 D_800BEE54;
 
 void func_80006BFC(void) {
     s32 i;

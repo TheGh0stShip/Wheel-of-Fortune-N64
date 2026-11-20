@@ -18,10 +18,6 @@ typedef struct {
 
 extern Entry D_8005A39E[];
 extern s32 D_800015D4;
-extern s32 D_80058880;
-extern u16 D_8005A392;
-extern u16 D_8005A396;
-extern u16 D_8005A39A;
 
 void func_80023B44(void) {
     s32 i;

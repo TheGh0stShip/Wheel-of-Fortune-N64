@@ -10,9 +10,6 @@ typedef struct {
 } Entry;
 
 extern Entry D_8005A9B8[];
-extern s32 D_01021970;
-extern s32 D_8005A8C8[];
-extern s32 D_8005A930[];
 extern Sprite D_8005A998[];
 extern Sprite D_8005B710[];
 extern Sprite D_8005BE00[];

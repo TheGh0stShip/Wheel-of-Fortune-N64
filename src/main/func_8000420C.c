@@ -18,17 +18,7 @@ typedef struct {
 extern Status D_800A70A0[];
 extern Slot D_800BEE60[];
 extern s32 D_800004C0;
-extern s16 D_800A70C8;
-extern s32 D_800A70E8;
-extern s32 D_800A9298;
 extern Entry D_800AB448[];
-extern s32 D_800B3970;
-extern s32 D_800B6AE8[][16];
-extern s32 D_800B6BF4;
-extern u8 D_800B96C4;
-extern s32 D_800B9D04;
-extern s32 D_800BCD68;
-extern s32 D_800BCD70;
 extern s16 D_800BEE58[];
 
 void func_8000420C(void) {

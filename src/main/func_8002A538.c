@@ -17,13 +17,6 @@ typedef struct {
 
 extern Digit D_8005B4C8[];
 extern Player D_800B9994[];
-extern s32 D_8005B088[];
-extern s32 D_8005B118[];
-extern s32 D_8005B148[];
-extern s32 D_8005B170;
-extern s32 D_8005B174;
-extern s32 D_8005B178[];
-extern s32 D_800FB808;
 
 void func_8002A538(void) {
     s32 glyph;

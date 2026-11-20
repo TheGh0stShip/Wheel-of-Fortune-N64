@@ -27,10 +27,8 @@ extern f32 D_80000488;
 extern f32 D_8000048C;
 extern f32 D_80000490;
 extern f32 D_80000494;
-extern s32 D_8004B718;
 extern SoundBank *D_800A5090;
 extern Sound *D_800A5098;
-extern s16 *D_800A509C;
 
 s32 func_80002CE0(s32 arg0) {
     f32 sp10;

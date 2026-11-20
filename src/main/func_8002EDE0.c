@@ -8,10 +8,6 @@ typedef struct {
 } Player;
 
 extern Player D_800B9994[];
-extern s32 D_800B619C;
-extern s32 D_800BCA00;
-extern s32 D_800BCD54;
-extern s32 D_800FB808;
 
 void func_8002EDE0(void) {
     s32 handle;

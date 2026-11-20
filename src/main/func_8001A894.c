@@ -1,7 +1,6 @@
 #include "wof.h"
 
 extern f32 D_800011C4;
-extern s32 D_800B61C0;
 
 s32 func_8001A894(f32 arg0, s32 arg1) {
     f32 roll;

@@ -33,10 +33,7 @@ typedef struct {
 } Entry;
 
 extern Entry D_800B39D4[];
-extern s32 D_010219C8;
-extern s32 D_010FA038;
 extern DlPair *D_80057F08[];
-extern s32 D_800B619C;
 extern Gfx *D_800B81E8;
 
 void func_80014F38(s32 arg0, s32 arg1) {

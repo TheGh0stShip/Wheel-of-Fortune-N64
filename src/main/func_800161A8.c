@@ -5,16 +5,6 @@ typedef struct {
     /* 0x48 */ s32 unk_48;
 } Object;
 
-extern s32 D_01092090;
-extern s32 D_800579F0;
-extern s32 D_80057A20;
-extern s32 D_80057A58;
-extern s32 D_80057A90;
-extern s32 D_800B9D08;
-extern s32 D_800B9E58;
-extern s32 D_800B9FE0;
-extern s32 D_800BA168;
-
 void func_800161A8(void) {
     s32 child;
     s32 obj;

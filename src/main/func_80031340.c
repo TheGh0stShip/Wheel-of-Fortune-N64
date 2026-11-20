@@ -1,8 +1,5 @@
 #include "wof.h"
 
-extern s16 D_800C9B60[][0x1000];
-extern s16 D_800E7FE0[][0x1000];
-
 void func_80031340(s32 arg0, s32 arg1) {
     s32 i;
     s32 pad0;

@@ -4,9 +4,6 @@ typedef struct {
     /* 0x00 */ s16 type;
 } Msg;
 
-extern s32 D_800B3970;
-extern s32 D_800FB80C;
-
 void func_80004160(s32 arg0) {
     Msg *msg;
 

@@ -1,29 +1,12 @@
 #include "wof.h"
 
-extern s32 D_80086D3C;
-extern s32 D_80086D40;
-extern f64 D_80086D48;
-extern s32 D_80086D60[];
-extern s32 D_80087160[];
-extern s32 D_80087560[];
 extern f64 D_800883E4;
 extern f64 D_800883EC;
 extern f64 D_800883F4;
 extern f64 D_800883FC;
-extern s32 *D_800FF2C8;
-extern s32 *D_800FF2CC;
-extern s32 *D_800FF2D0;
-extern s32 *D_800FF2D4;
-extern s32 *D_800FF2D8;
 extern s32 *D_800FF2DC;
 extern s32 *D_800FF2E0;
 extern s32 *D_800FF2E4;
-extern s32 *D_800FF2E8;
-extern s32 *D_800FF2EC;
-extern s32 *D_800FF2F0;
-extern s32 D_80107480;
-extern s32 D_80107484;
-extern s32 D_80107488;
 
 void func_800A1BE4(s32 arg0) {
     s32 sp10;

@@ -22,10 +22,7 @@ extern f64 D_80000EAC;
 extern f64 D_80000EB4;
 extern f64 D_80000EBC;
 extern f64 D_80000EC4;
-extern f32 D_80057F7C;
-extern f32 D_80057F80;
 extern u16 D_800B9954;
-extern s32 D_800FB808;
 
 struct n64dk_r12 func_80017938(s32 arg1) {
     struct n64dk_r12 sp10;

@@ -13,13 +13,7 @@ typedef struct {
     /* 0x30 */ f32 unk_30;
 } Actor;
 
-extern s32 D_01166598;
-extern s32 D_01166928;
-extern s32 D_01176C88;
-extern s32 D_01176CC8;
-extern s32 D_800B3994;
 extern Gfx *D_800B81E8;
-extern s32 D_800B96B4;
 
 void func_8000DCA0(s32 arg0, s32 arg1) {
     Gfx *gfx;

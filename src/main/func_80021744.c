@@ -14,9 +14,6 @@ typedef struct {
 } Obj;
 
 extern s32 D_800B3CB8;
-extern s32 D_800B40C4;
-extern s32 D_800B8294;
-extern s32 D_800B96A4;
 void func_800213CC(s32 arg0);
 
 struct n64dk_r12 func_80021744(s32 arg1) {

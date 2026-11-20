@@ -21,19 +21,6 @@ typedef struct {
 extern Pair D_800584A0[];
 extern Info D_800584E0[];
 extern Item D_80058548[];
-extern s32 D_01157868;
-extern s32 D_01158068;
-extern s32 D_01158868;
-extern s32 D_01159068;
-extern s32 D_01159868;
-extern s32 D_0115B068;
-extern s32 D_0115B868;
-extern s32 D_0115C068;
-extern s32 D_0115C868;
-extern s32 D_0115D068;
-extern s32 D_80058638;
-extern s32 D_8005863C;
-extern u8 D_800B96C4;
 
 void func_80025FA8(void) {
     s32 i;

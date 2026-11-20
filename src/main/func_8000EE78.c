@@ -1,9 +1,7 @@
 #include "wof.h"
 
 extern f32 D_80000B8C;
-extern f32 D_800B8298;
 extern s32 D_800B96AC;
-extern s32 D_800BCD54;
 extern s32 D_800BEDE4;
 
 void func_8000EE78(void) {

@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern s32 D_800B96B4;
-
 struct n64dk_r12 func_8002B904(s32 arg1) {
     s32 event;
     struct n64dk_r12 ret;

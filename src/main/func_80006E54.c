@@ -24,14 +24,10 @@ extern Puzzle D_8004BB98[];
 extern Row D_800B9567[];
 extern Row D_800B960F[];
 extern Player D_800B9990[];
-extern s32 D_8004B9E0;
-extern s32 D_800B61D8;
 extern s8 D_800B9544;
 extern s8 D_800B9559[][21];
 extern u8 D_800B9601[][21];
-extern s8 D_800B9655[];
 extern s8 D_800B966A;
-extern s32 D_800BCD54;
 
 void func_80006E54(s32 arg0, s32 arg1) {
     s32 line;

@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern s32 D_800AFE38;
-
 void func_80006828(s32 arg0, s32 arg1, s32 arg2) {
     s32 sp20[6];
     s32 sp38[2];

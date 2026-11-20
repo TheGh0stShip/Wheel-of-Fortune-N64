@@ -9,8 +9,6 @@ typedef struct {
     /* 0x14 */ s32 unk_14;
 } Blink;
 
-extern s32 D_800B96B4;
-
 s32 func_80013440(s32 arg0) {
     s32 result;
 

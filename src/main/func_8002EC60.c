@@ -14,8 +14,6 @@ typedef struct {
 
 extern Entry D_8005A4C8[];
 extern Slot D_8005ADE0[][7];
-extern s32 D_800B9974;
-extern s32 D_800BCA14;
 
 void func_8002EC60(void) {
     s32 sp10;

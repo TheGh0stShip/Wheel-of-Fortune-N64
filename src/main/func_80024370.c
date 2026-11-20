@@ -18,13 +18,7 @@ typedef struct {
 
 extern s32 D_80001594;
 extern Item D_80058E70[];
-extern s32 D_80058E88;
-extern s32 D_80058E90;
 extern s32 D_80058EB0;
-extern u16 D_800B96B0;
-extern s32 D_800B96B4;
-extern s8 D_800B9956;
-extern s8 D_800B9957;
 
 struct n64dk_r12 func_80024370(s32 arg1) {
     s32 event;

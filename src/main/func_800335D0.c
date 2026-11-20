@@ -1,11 +1,5 @@
 #include "wof.h"
 
-extern u64 D_80084218;
-extern s32 D_800B40C4;
-extern s32 D_800BA2C0;
-extern s32 D_800BCD54;
-extern s32 D_800BED98;
-
 void func_800335D0(void) {
     if (D_800B40C4 == 0) {
         return;

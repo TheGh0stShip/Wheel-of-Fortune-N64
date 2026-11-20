@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern s32 D_8004B7B4;
-
 void func_80003C68(s32 arg0) {
     u32 sp10;
 

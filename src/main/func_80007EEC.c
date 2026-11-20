@@ -9,15 +9,8 @@ typedef struct {
 } Player;
 
 extern Player D_800B9990[];
-extern s32 D_800B9540;
 extern u8 D_800B9559[][21];
 extern u8 D_800B9601[][21];
-extern s32 D_800B96A0;
-extern s32 D_800B999C;
-extern s32 D_800B9AB0;
-extern s32 D_800B9BC4;
-extern s32 D_800B9CF8;
-extern s32 D_800FB808;
 
 s32 func_80007EEC(s32 arg0) {
     s32 row;

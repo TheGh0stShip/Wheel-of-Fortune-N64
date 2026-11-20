@@ -1,8 +1,6 @@
 #include "wof.h"
 
 extern f32 D_800007CC;
-extern s32 D_800BEDA8;
-extern s32 D_800BEDF8;
 
 void func_80009108(f32 arg0) {
     s32 angle;

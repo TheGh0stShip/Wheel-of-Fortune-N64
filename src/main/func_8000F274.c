@@ -32,11 +32,8 @@ extern f32 D_80000BC8;
 extern f64 D_80000BCC;
 extern f32 D_80000BD4;
 extern f32 D_80000BD8;
-extern s32 D_800581F0[];
-extern s32 D_800B96B4;
 extern u16 D_800BC6F8;
 extern f32 D_800BCCF0;
-extern s32 D_800FB808;
 
 struct n64dk_r12 func_8000F274(s32 arg1) {
     struct n64dk_r12 result;

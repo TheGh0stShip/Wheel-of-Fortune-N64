@@ -4,7 +4,6 @@ typedef struct {
     u8 unk_00[0x28];
 } Sprite;
 
-extern s32 D_01021970;
 extern Sprite D_8005B2C0[];
 extern Gfx *D_800B81E8;
 

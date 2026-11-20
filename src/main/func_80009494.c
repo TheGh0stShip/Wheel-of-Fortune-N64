@@ -8,15 +8,8 @@ extern s32 D_800007D0;
 extern s32 D_800B9990;
 extern s32 D_800B9994;
 extern Entry D_800B99C0[];
-extern s32 D_800B9A88;
-extern s32 D_800B9AA4;
-extern s32 D_800B9AA8;
 extern Entry D_800B9AD4[];
-extern s32 D_800B9B9C;
-extern s32 D_800B9BB8;
-extern s32 D_800B9BBC;
 extern Entry D_800B9BE8[];
-extern s32 D_800B9CB0;
 
 void func_80009494(void) {
     s32 i;

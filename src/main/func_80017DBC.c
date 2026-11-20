@@ -16,15 +16,6 @@ typedef struct {
 } Task;
 
 extern f32 D_80000ECC;
-extern s32 D_8004B848[];
-extern s32 D_800581F4;
-extern s32 D_800B619C;
-extern s32 D_800B9540;
-extern s32 D_800B96B4;
-extern s32 D_800B96C0;
-extern s32 D_800B9CEC;
-extern s32 D_800B9CF0;
-extern s32 D_800FB808;
 
 struct n64dk_r12 func_80017DBC(s32 arg1) {
     struct n64dk_r12 result;

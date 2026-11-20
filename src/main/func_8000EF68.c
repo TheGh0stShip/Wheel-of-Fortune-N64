@@ -19,11 +19,6 @@ extern f32 D_80000BA4;
 extern f32 D_80000BA8;
 extern f32 D_80000BAC;
 extern f32 D_80000BB0;
-extern f32 D_80057F44;
-extern s32 D_80057F48;
-extern u16 D_800B96B0;
-extern s32 D_800B96B4;
-extern s8 D_800B9956;
 extern f32 D_800BCCF0;
 
 struct n64dk_r12 func_8000EF68(s32 arg1) {

@@ -9,11 +9,6 @@ extern Player D_800B99A8[];
 extern f32 D_800015FC;
 extern f32 D_80001600;
 extern f32 D_80001604;
-extern s32 D_80058E88;
-extern s32 D_80058FE0;
-extern f32 D_800B8298;
-extern s32 D_800B96C0;
-extern s32 D_800BEDD8[];
 
 void func_8002500C(void) {
     s32 i;

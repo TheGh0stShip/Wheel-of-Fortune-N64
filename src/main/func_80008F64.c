@@ -9,7 +9,6 @@ typedef struct {
 
 extern Entry D_800B39B8[];
 extern s32 D_80000798;
-extern s32 D_800BEDA8;
 
 void func_80008F64(void) {
     if (D_800B39B8[D_800BEDA8].unk_00 == -10000) {

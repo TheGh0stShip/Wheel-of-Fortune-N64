@@ -28,11 +28,6 @@ extern EntryA D_800584E0[];
 extern EntryB D_80058B48[];
 extern Vec D_8005A474[];
 extern Player D_800B9990[];
-extern s32 D_01157868;
-extern s32 D_01158068;
-extern s32 D_01158868;
-extern s32 D_01159068;
-extern s32 D_01159868;
 
 void func_80026800(void) {
     s32 i;

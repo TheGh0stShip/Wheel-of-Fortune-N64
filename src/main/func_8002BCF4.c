@@ -1,13 +1,5 @@
 #include "wof.h"
 
-extern s32 D_8005B118[];
-extern s32 D_8005B178[];
-extern s32 D_8005B318;
-extern s32 D_8005B330;
-extern s32 D_8005B340;
-extern s32 D_8005B358;
-extern s32 D_800B96B4;
-
 struct n64dk_r12 func_8002BCF4(s32 arg1) {
     s32 busy;
     s32 tens;

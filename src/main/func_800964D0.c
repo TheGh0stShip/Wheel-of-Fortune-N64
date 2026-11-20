@@ -40,16 +40,6 @@ extern VlcEntry D_80086320[];
 extern VlcEntry D_80086420[];
 extern VlcEntry D_800864A0[];
 extern VlcEntry D_800865A0[];
-extern s32 D_800851C8[];
-extern s32 D_80085208[];
-extern s32 D_80085288[];
-extern u16 D_800866A0[];
-extern u16 D_800868A0[];
-extern u16 D_800868C0[];
-extern u16 D_800868C8[];
-extern u16 D_800868D0[];
-extern u16 D_80086AD0[];
-extern s32 D_80087C98[];
 
 void func_800964D0(s32 arg0, s32 arg1) {
     Block *sp10;

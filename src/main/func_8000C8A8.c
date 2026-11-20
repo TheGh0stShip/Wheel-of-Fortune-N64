@@ -19,8 +19,6 @@ typedef struct {
 
 extern f64 D_80000AD4;
 extern f64 D_80000ADC;
-extern s32 D_800B619C;
-extern u16 D_800B96B0;
 extern u16 D_800B9954;
 
 struct n64dk_r12 func_8000C8A8(s32 arg1) {

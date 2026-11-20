@@ -11,25 +11,10 @@ struct n64dk_a800BA2D8 { s32 m0; u8 pad4[0x10]; };
 extern struct n64dk_a800BA2D8 D_800BA2D8[];
 extern f32 D_800004B4;
 extern s32 D_800A70A0;
-extern s32 D_800B96B8;
 extern s32 D_800B96BC;
-extern s32 D_800B9950;
-extern s32 D_800BA2C8;
-extern s32 D_800BA2CC;
-extern s32 D_800BA2DC;
-extern s32 D_800BA598;
 extern s8 D_800BA5C8;
 extern s32 D_800BCA68;
 extern s32 D_800BCA70;
-extern s32 D_800BCA80;
-extern s32 D_800BCC30;
-extern s32 D_800BCC48;
-extern s32 D_800BCC68;
-extern s32 D_800BCC80;
-extern s32 D_800BCCA0;
-extern s32 D_800BCD64;
-extern s32 D_800BEDA4;
-extern s32 D_800FB818;
 
 void func_800032A8(s32 arg0, s32 arg1, s32 arg2) {
     s32 sp18;

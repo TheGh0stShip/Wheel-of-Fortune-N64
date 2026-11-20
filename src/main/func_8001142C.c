@@ -9,7 +9,6 @@ extern Entry D_800B9D0C[];
 extern Entry D_800B9E5C[];
 extern Entry D_800B9FE4[];
 extern Entry D_800BA16C[];
-extern s32 D_800579BC[];
 extern u8 D_800B61B5;
 extern s8 D_800B95AD[][21];
 

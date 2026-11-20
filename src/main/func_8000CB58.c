@@ -25,12 +25,6 @@ typedef struct {
     /* 0x4C */ s32 unk_4C;
 } Object;
 
-extern s32 D_010219C8;
-extern s32 D_01166BF8;
-extern s32 D_011696A0;
-extern s32 D_0116C028;
-extern s32 D_01176D08;
-extern s32 D_800B3994;
 extern Gfx *D_800B81E8;
 
 void func_8000CB58(s32 arg0, s32 arg1) {

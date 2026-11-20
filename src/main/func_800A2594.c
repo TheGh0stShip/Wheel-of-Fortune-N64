@@ -5,11 +5,6 @@ typedef struct {
     /* 0x02 */ u16 unk_02;
 } Pair;
 
-extern s32 *D_800FF2C8;
-extern s32 *D_800FF2CC;
-extern s32 *D_800FF2D0;
-extern s32 *D_800FF2D4;
-extern s32 *D_800FF2D8;
 extern Pair *D_800FF2DC;
 extern Pair *D_800FF2E0;
 extern Pair *D_800FF2E4;

@@ -6,7 +6,6 @@ typedef struct {
 } Frame;
 
 extern Frame D_800BEF5C[];
-extern s32 D_800B61A0;
 
 void func_8003143C(s32 arg0, s32 arg1) {
     s32 i;

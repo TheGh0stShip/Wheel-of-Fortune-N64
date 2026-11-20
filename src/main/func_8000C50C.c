@@ -18,8 +18,6 @@ typedef struct {
     /* 0x30 */ Data *unk_30;
 } Obj;
 
-extern s32 D_800BEE24;
-
 struct n64dk_r12 func_8000C50C(s32 arg1) {
     s32 mtxA[12];
     f32 x;

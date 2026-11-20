@@ -20,8 +20,6 @@ typedef struct {
     /* 0x18 */ s32 unk_18;
 } Menu;
 
-extern u8 D_800B96C4;
-
 void func_80022FE0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     func_80002CE0(43);
     func_800226BC((((Menu *)arg2)->unk_0C + ((Task *)arg0)->unk_30->unk_04 * ((Menu *)arg2)->unk_14) * 40 + arg1, ((Menu *)arg2)->unk_14, 0);

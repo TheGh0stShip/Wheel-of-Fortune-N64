@@ -13,25 +13,18 @@ typedef struct {
 
 extern Sprite D_8005A9B8[];
 extern Player D_800B9998[];
-extern s32 D_01021970;
 extern Sprite D_8005A4B8[][2];
 extern Sprite D_8005A5A8[];
 extern Sprite D_8005A7B0[];
 extern Sprite D_8005A828[];
-extern s32 D_8005A8C8[];
-extern s32 D_8005A930[];
 extern Sprite D_8005A998[];
 extern Sprite D_8005ADD0[][7];
 extern Sprite D_8005B360[];
 extern Sprite D_8005B4C8[];
 extern Sprite D_8005B630[];
 extern Sprite D_8005B710[];
-extern s32 D_800B40C4;
-extern s32 D_800B619C;
 extern Gfx *D_800B81E8;
 extern u8 D_800B966A[];
-extern s32 D_800BA2BC;
-extern s32 D_800BCA28;
 
 void func_800278F0(s32 arg0, s32 arg1) {
     s32 pad0[2];

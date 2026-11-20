@@ -13,11 +13,7 @@ extern Entry D_800B9D0C[];
 extern Entry D_800B9E5C[];
 extern Entry D_800B9FE4[];
 extern Entry D_800BA16C[];
-extern s32 D_010A3388;
 extern u8 D_800B9559[];
-extern u8 D_800B956E[];
-extern u8 D_800B9583[];
-extern u8 D_800B9598[];
 
 void func_80011F58(void) {
     s32 i;

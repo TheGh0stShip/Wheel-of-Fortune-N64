@@ -20,8 +20,6 @@ typedef struct {
     /* 0x25C */ s32 unk_25C;
     /* 0x260 */ s32 unk_260;
 } Stream;
-extern s32 D_80086D18;
-extern s32 D_80086D20;
 
 s32 func_80089B10(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 code;

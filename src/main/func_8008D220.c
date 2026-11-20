@@ -62,8 +62,6 @@ extern Pair D_800FF2F8[];
 extern Pair D_80103480[];
 extern Code D_801078A0[];
 extern Code D_80107EA0[];
-extern s32 D_80085108[];
-extern s32 D_80085310[];
 
 s32 func_8008D220(s32 arg0) {
     s32 sp20;

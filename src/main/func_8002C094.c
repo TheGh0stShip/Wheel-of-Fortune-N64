@@ -29,17 +29,7 @@ typedef struct {
 
 extern LetterInfo D_8005BCC8[];
 extern Slot D_8005BE08[];
-extern s8 D_800B9629[];
-extern s32 D_8005BF88;
-extern u8 D_8005C394[];
-extern s32 D_800B61A8;
-extern s8 D_800B61AA[];
-extern s8 D_800B61B0[];
 extern u8 D_800B61B5;
-extern s32 D_800B96B4;
-extern s32 D_800BEE20;
-extern s32 D_800BEE28;
-extern s32 D_800BEE4C;
 
 struct n64dk_r12 func_8002C094(s32 arg1) {
     s32 event;

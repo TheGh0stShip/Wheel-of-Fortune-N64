@@ -4,7 +4,6 @@ typedef struct {
     u8 unk_00[0x28];
 } Model;
 
-extern s32 D_01021970;
 extern Model D_8005B310[];
 extern Gfx *D_800B81E8;
 

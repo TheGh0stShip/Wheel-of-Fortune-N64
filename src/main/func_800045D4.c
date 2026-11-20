@@ -25,17 +25,8 @@ extern Rumble D_800BEE60[];
 extern f64 D_800004E0;
 extern f64 D_800004E8;
 extern Pad D_800A70B0[];
-extern s32 D_800B6AE8[][16];
-extern u16 D_800B96B0;
-extern u8 D_800B96C4;
 extern Pad D_800B9954;
-extern s8 D_800B9956;
-extern s8 D_800B9957;
-extern s32 D_800B9D04;
-extern s32 D_800BCD54;
-extern s32 D_800BEDE8[];
 extern u16 D_800BEE58[];
-extern s32 D_800FB808;
 
 void func_800045D4(void) {
     Pad *pad;

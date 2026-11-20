@@ -13,7 +13,6 @@ typedef struct {
 
 extern s32 D_8000190C;
 extern s32 D_8000191C;
-extern s32 D_800B96B4;
 
 struct n64dk_r12 func_8002EFC0(s32 arg1) {
     struct n64dk_r12 result;

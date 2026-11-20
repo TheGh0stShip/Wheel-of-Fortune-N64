@@ -41,28 +41,7 @@ typedef struct {
     /* 0x1E478 */ s32 unk_1E478;
 } Frame;
 
-extern s32 D_010217E0;
-extern s32 D_010218C8;
-extern s32 D_01021948;
 extern s32 D_80000520;
-extern s32 D_800349B8;
-extern s32 D_80034A88;
-extern s32 D_8004B830;
-extern s32 D_80082BC8;
-extern s32 D_800AB5E8;
-extern s32 D_800B3CC0;
-extern s32 D_800B61E0;
-extern s32 D_800B9688;
-extern s32 D_800BCA08;
-extern s32 D_800BCD54;
-extern f32 D_800BEE2C;
-extern f32 D_800BEE30;
-extern f32 D_800BEE34;
-extern f32 D_800BEE3C;
-extern f32 D_800BEE40;
-extern f32 D_800BEE44;
-extern s32 D_800BEEA0;
-extern s32 D_8038F800;
 extern Gfx *D_800B81E8;
 
 void func_800057A8(s32 arg0) {

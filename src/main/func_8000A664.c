@@ -18,7 +18,6 @@ typedef struct Task {
 
 extern s32 D_80000894;
 extern Task D_800B82A0;
-extern s32 D_800BCD54;
 
 void func_8000A664(void) {
     Result res;

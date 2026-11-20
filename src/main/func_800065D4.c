@@ -1,17 +1,7 @@
 #include "wof.h"
 
-extern s32 D_800AD950;
-extern s32 D_800B3970;
-extern s32 D_800B61A0;
-extern s32 D_800B8294;
-extern s32 D_800B9688;
 extern s32 D_800B96AC;
-extern u8 D_800B96C4;
-extern s32 D_800B9D04;
-extern s32 D_800BCA20;
 extern s32 D_800BEDE4;
-extern s32 D_800FB80C;
-extern u64 D_800FB810;
 
 void func_800065D4(s32 arg0) {
     s16 *msg;

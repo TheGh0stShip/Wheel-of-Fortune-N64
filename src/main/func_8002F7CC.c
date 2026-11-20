@@ -2,8 +2,6 @@
 
 struct gd_4_s32 { u8 pad[0x4]; s32 v; };
 struct gd_30_s32 { u8 pad[0x30]; s32 v; };
-extern u64 D_80084218;
-extern u16 D_800B96B0;
 
 struct n64dk_r12 func_8002F7CC(s32 arg1) {
     struct n64dk_r12 sp10;

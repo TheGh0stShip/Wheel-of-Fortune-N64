@@ -10,7 +10,6 @@ typedef struct {
 } BankData;
 
 extern Bank D_800BEF5C[];
-extern s32 D_800B61A0;
 extern BankData D_800BEF60[];
 
 void func_800202A0(s32 arg0) {

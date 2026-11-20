@@ -36,8 +36,6 @@ typedef struct {
     /* 0x264 */ s32 unk_264[5];
 } Decoder;
 
-extern u8 D_80087EA0[];
-
 s32 func_800895C4(s32 arg0) {
     s32 i;
     s32 j;

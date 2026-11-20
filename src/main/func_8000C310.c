@@ -17,12 +17,6 @@ typedef struct {
     /* 0x30 */ State **state;
 } Obj;
 
-extern s32 D_011358C0;
-extern s32 D_01135908;
-extern s32 D_800B3994;
-extern s32 D_800B96B4;
-extern u16 D_800B96B6;
-
 struct n64dk_r12 func_8000C310(s32 arg1) {
     struct n64dk_r12 result;
     State *state;

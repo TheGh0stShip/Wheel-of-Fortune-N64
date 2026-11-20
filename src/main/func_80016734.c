@@ -13,7 +13,6 @@ typedef struct {
     /* 0x30 */ State *state;
 } Obj;
 
-extern s32 D_800B96B4;
 extern s32 D_800BA5D8;
 
 struct n64dk_r12 func_80016734(s32 arg1) {

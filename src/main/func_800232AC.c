@@ -23,27 +23,10 @@ typedef struct {
 } Slot;
 
 extern Slot D_80058568[];
-extern s32 D_01157868;
-extern s32 D_01158068;
-extern s32 D_01158868;
-extern s32 D_01159068;
-extern s32 D_01159868;
-extern s32 D_0115B068;
-extern s32 D_0115B868;
-extern s32 D_0115C068;
-extern s32 D_0115C868;
-extern s32 D_0115D068;
 extern s32 D_80001594;
 extern Item D_800584C8[];
 extern s32 D_800584E0;
-extern s32 D_800584E8;
-extern s32 D_80058508;
-extern s32 D_80058528;
 extern s32 D_80058548;
-extern u16 D_800B96B0;
-extern s32 D_800B96B4;
-extern s8 D_800B9956;
-extern s8 D_800B9957;
 
 struct n64dk_r12 func_800232AC(s32 arg1) {
     s32 event;

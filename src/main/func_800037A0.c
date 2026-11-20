@@ -6,11 +6,7 @@ typedef struct {
 } Msg;
 
 extern s32 D_8004B7A8;
-extern s32 D_800B96C8;
 extern s32 D_800BCA70[];
-extern s32 D_800BCC30;
-extern s32 D_800BCC68;
-extern s32 D_800BCCA0;
 
 void func_800037A0(s32 arg0) {
     s32 result;

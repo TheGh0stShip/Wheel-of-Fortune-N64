@@ -14,7 +14,6 @@ typedef struct {
     /* 0x04 */ s32 unk_04;
 } Obj;
 
-extern s32 D_800A507C[];
 extern Obj *D_800B3998;
 extern s32 D_800B81D8;
 extern s32 D_800BED90[];

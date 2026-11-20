@@ -10,18 +10,7 @@ typedef struct {
     /* 0x04 */ Inner *unk_04;
 } Header;
 
-extern s32 D_8004B718;
-extern s32 D_8004B71C;
-extern s32 D_8006DD04;
-extern s32 D_8006DD08;
-extern s32 D_8006DD0C;
-extern s32 D_800A5084;
-extern s32 D_800A5088;
-extern s32 *D_800A508C;
 extern s32 D_800A5090;
-extern s16 *D_800A509C;
-extern s32 D_800B3990;
-extern s32 D_800B9960;
 extern s32 D_800BED90;
 
 void func_80002348(void) {

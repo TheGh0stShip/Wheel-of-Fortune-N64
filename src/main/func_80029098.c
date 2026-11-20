@@ -33,12 +33,6 @@ typedef struct {
 
 extern Pos D_8005B712[];
 extern Entry D_8005B730[];
-extern s32 D_8005BA80[];
-extern s32 D_800B619C;
-extern s32 D_800B96A8;
-extern s32 D_800B96B4;
-extern s32 D_800B96C0;
-extern s32 D_800FB808;
 
 struct n64dk_r12 func_80029098(s32 arg1) {
     s32 event;

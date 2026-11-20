@@ -37,10 +37,6 @@ typedef struct {
     /* 0x264 */ Buf *bufs[5];
 } Ctx;
 
-extern s32 D_80085308;
-extern s32 D_8008530C;
-extern s32 D_80087EE0;
-
 s32 func_8008C0A8(s32 arg0, s32 arg1) {
     s32 value;
     s32 i;

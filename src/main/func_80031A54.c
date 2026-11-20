@@ -32,15 +32,6 @@ typedef struct {
 } Bank;
 
 extern Bank D_800BEF5C[];
-extern s32 D_8005C8C8[];
-extern s32 D_8005C8FC[];
-extern s32 D_8005C908[];
-extern s32 D_8005C90C[];
-extern s32 D_800B61A0;
-extern s32 D_800B61A8;
-extern s32 D_800B96B4;
-extern s32 D_800B9988;
-extern u16 D_800B998A;
 
 struct n64dk_r12 func_80031A54(s32 arg1) {
     struct n64dk_r12 ret;

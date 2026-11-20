@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern s32 D_80086D58;
-
 void func_80021E28(void) {
     if (D_80086D58 != 0) {
         func_8000B9FC(1);

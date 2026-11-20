@@ -22,13 +22,6 @@ extern Code D_80086320[];
 extern Code D_80086420[];
 extern Code D_800864A0[];
 extern Code D_800865A0[];
-extern s32 D_80085108[];
-extern u16 D_800866A0[];
-extern u16 D_800868A0[];
-extern u16 D_800868C0[];
-extern u16 D_800868C8[];
-extern u16 D_800868D0[];
-extern u16 D_80086AD0[];
 
 void func_800983D4(s32 arg0, s32 arg1) {
     s32 sp10;

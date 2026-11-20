@@ -1,9 +1,5 @@
 #include "wof.h"
 
-extern s32 D_800B96A8;
-extern u16 D_800B96B0;
-extern s32 D_800B96B4;
-
 struct n64dk_r12 func_8000EB40(s32 arg1) {
     struct n64dk_r12 result;
     s32 event;

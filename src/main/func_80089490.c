@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern f64 D_80087E98;
-
 f64 func_80089490(void) {
     s32 sec;
     s32 frac;

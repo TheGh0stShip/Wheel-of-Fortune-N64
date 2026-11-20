@@ -9,7 +9,6 @@ typedef struct Node {
 
 extern u32 D_8004B7A8;
 extern u32 D_8004B7AC;
-extern s32 D_800BA598;
 extern Node *D_800BA5CC;
 extern Node *D_800BA5D0;
 

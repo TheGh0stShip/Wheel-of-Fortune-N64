@@ -21,7 +21,6 @@ extern f32 D_80000BEC;
 extern f64 D_80000BF0;
 extern f32 D_80000BF8;
 extern f32 D_80000BFC;
-extern s32 D_800B96B4;
 extern f32 D_800BCCF0;
 
 struct n64dk_r12 func_8000FC3C(s32 arg1) {

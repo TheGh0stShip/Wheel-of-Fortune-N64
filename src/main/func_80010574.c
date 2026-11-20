@@ -22,9 +22,7 @@ extern Tile D_800B9D20[];
 extern Tile D_800B9E70[];
 extern Tile D_800B9FF8[];
 extern Tile D_800BA180[];
-extern s32 D_800B61A8;
 extern u8 D_800B9601[][21];
-extern s32 D_800B96A8;
 
 struct n64dk_r12 func_80010574(s32 arg1) {
     struct n64dk_r12 ret;

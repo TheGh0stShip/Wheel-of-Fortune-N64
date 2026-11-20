@@ -1,6 +1,5 @@
 #include "wof.h"
 
-extern s32 D_01021970;
 typedef struct {
     u8 unk_00[0x28];
 } Model;

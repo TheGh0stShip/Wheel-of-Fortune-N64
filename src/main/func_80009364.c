@@ -10,10 +10,6 @@ typedef struct {
 } Entry;
 
 extern Entry D_800B9990[];
-extern s32 D_800B619C;
-extern s32 D_800B953C;
-extern s32 D_800B9540;
-extern s32 D_800FB808;
 
 void func_80009364(s32 arg0) {
     if (arg0 != 0) {

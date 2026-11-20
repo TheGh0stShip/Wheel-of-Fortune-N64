@@ -1,14 +1,5 @@
 #include "wof.h"
 
-extern u64 D_80084218;
-extern u16 D_800B96B0;
-extern s32 D_800BA2C0;
-extern s32 D_800BCA1C;
-extern s32 D_800BCD54;
-extern s32 D_800BED88;
-extern s32 D_800BED98;
-extern s32 D_800BEE48;
-
 struct n64dk_r12 func_80033688(s32 arg1) {
     struct n64dk_r12 sp10;
     s32 sp20;

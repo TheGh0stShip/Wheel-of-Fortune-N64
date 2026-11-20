@@ -5,10 +5,7 @@ typedef struct {
     /* 0x0E */ s16 count;
 } Header;
 
-extern s32 D_8004B718;
 extern Header *D_800A5090;
-extern s16 *D_800A509C;
-extern s32 D_800B81F0[];
 extern u16 D_800BC6F8;
 
 s32 func_80002700(void) {

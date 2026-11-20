@@ -11,10 +11,6 @@ typedef struct {
     /* 0x234 */ s32 unk_234;
 } Obj;
 
-extern s32 D_80086D18;
-extern s32 D_80086D20;
-extern s32 D_800879DC;
-
 void func_800887D8(s32 arg0) {
     s32 result;
 

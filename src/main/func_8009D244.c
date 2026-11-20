@@ -7,7 +7,6 @@ typedef struct {
     /* 0x248 */ s32 unk_248;
 } Obj;
 
-extern s32 D_801033F8;
 extern s32 D_8010346C;
 extern Obj *D_80107884;
 

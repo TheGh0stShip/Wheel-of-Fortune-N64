@@ -8,7 +8,6 @@ typedef struct {
     /* 0x44 */ s32 unk_44;
 } Sprite;
 
-extern s32 D_01021970;
 extern Gfx *D_800B81E8;
 
 void func_80033CF8(s32 arg0, s32 arg1) {

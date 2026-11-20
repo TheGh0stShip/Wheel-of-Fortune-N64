@@ -30,26 +30,7 @@ extern Style D_800584E0[];
 extern Layout D_800588A8[];
 extern Color D_8005A39C[];
 extern Player D_800B99A4[];
-extern s32 D_01157868;
-extern s32 D_01158068;
-extern s32 D_01158868;
-extern s32 D_01159068;
-extern s32 D_01159868;
-extern s32 D_0115B068;
-extern s32 D_0115B868;
-extern s32 D_0115C068;
-extern s32 D_0115C868;
-extern s32 D_80058880;
-extern s32 D_80058910;
-extern s32 D_80058914;
-extern s32 D_80058A28;
-extern s32 D_80058A2C;
-extern s32 D_80058A50;
-extern s32 D_80058A54;
-extern s32 D_80058A78;
-extern s32 D_80058A7C;
 extern Color D_8005A390;
-extern s32 D_800FB808;
 
 void func_800263DC(void) {
     s32 i;

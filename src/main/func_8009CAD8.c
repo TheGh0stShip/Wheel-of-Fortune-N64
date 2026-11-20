@@ -25,20 +25,6 @@ typedef struct {
     /* 0x10 */ s32 unk_10;
 } Req;
 
-extern s32 D_80086CD0[];
-extern s32 D_80086D10;
-extern s32 D_80086D18;
-extern s32 D_80086D28;
-extern s32 D_80086D2C;
-extern s32 D_80086D30;
-extern s32 D_80086D34;
-extern s32 D_80086D38;
-extern s32 D_800FD298;
-extern s32 D_800FD29C;
-extern s32 D_800FD2A0;
-extern s32 D_800FD2A4;
-extern s32 D_800FD2A8;
-
 void func_8009CAD8(s32 arg0, s32 arg1) {
     register s32 usec;
     register s32 sec;

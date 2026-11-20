@@ -27,7 +27,6 @@ typedef struct {
 
 extern EntryA D_8005B368[];
 extern EntryB D_8005B4CC[];
-extern s32 D_800B96B4;
 
 struct n64dk_r12 func_80029C98(s32 arg1) {
     s32 event;

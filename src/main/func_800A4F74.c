@@ -1,7 +1,6 @@
 #include "wof.h"
 
 struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-extern u64 D_80084218;
 
 s32 func_800A4F74(s32 arg0, ...) {
     s32 sp10;

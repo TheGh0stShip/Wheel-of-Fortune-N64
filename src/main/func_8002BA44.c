@@ -1,14 +1,5 @@
 #include "wof.h"
 
-extern s32 D_8005B118[];
-extern s32 D_8005B178[];
-extern s32 D_8005B2C8;
-extern s32 D_8005B2E0;
-extern s32 D_8005B2F0;
-extern s32 D_8005B308;
-extern s32 D_800B40C0;
-extern s32 D_800B96B4;
-
 struct n64dk_r12 func_8002BA44(s32 arg1) {
     s32 event;
     s32 tens;

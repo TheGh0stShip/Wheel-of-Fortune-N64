@@ -6,8 +6,6 @@ typedef struct {
 } Entry;
 
 extern Entry D_800B39B8[];
-extern s32 D_800BEDA8;
-extern s32 D_800BEDF8;
 
 s32 func_8000928C(void) {
     s32 result;

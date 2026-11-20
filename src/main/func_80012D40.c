@@ -23,16 +23,7 @@ typedef struct {
     /* 0x48 */ s32 unk_48;
 } Actor;
 
-extern s32 D_010219C8;
-extern s32 D_01021A20;
-extern s32 D_01093D50;
-extern s32 D_010A2B88;
 extern Gfx *D_800B81E8;
-extern s32 D_800B9D08;
-extern s32 D_800B9E58;
-extern s32 D_800B9FE0;
-extern s32 D_800BA168;
-extern s32 D_800BCD54;
 
 void func_80012D40(s32 arg0, s32 arg1) {
     Gfx *gfx;

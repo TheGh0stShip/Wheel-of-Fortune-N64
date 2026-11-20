@@ -8,8 +8,6 @@ typedef struct {
     /* 0x18 */ s32 unk_18;
 } Timer;
 
-extern s32 D_800B96B4;
-
 s32 func_8001277C(Timer *arg0) {
     s32 result;
 

@@ -4,11 +4,9 @@ typedef struct {
     u8 unk_00[0x28];
 } Entry;
 
-extern s32 D_01021970;
 extern Entry D_80058548[];
 extern Entry D_80059120[];
 extern Gfx *D_800B81E8;
-extern u8 D_800B96C4;
 
 void func_80021E88(s32 arg0, s32 arg1) {
     s32 pad0[2];

@@ -34,22 +34,13 @@ typedef struct {
 } Entry;
 
 extern Entry D_80057808[];
-extern s32 D_011356C0;
-extern s32 D_01197D78;
 extern f32 D_80000AE4;
 extern f32 D_80000AE8;
 extern f32 D_80000AEC;
 extern f32 D_80000AF0;
 extern f32 D_80000AF4;
 extern f32 D_80000AF8;
-extern s32 D_800578B0[];
-extern s32 D_80057910[];
-extern s32 D_800B3994;
-extern s32 D_800B6198;
 extern s32 D_800B61AC;
-extern s32 D_800BCD54;
-extern s32 D_800BEE24;
-extern s32 D_800FB808;
 
 void func_8000E7D4(void) {
     Task *task;

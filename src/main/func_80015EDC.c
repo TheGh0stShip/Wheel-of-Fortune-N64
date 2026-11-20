@@ -10,8 +10,6 @@ typedef struct {
     /* 0x18 */ u8 unk_18[0x4];
 } Entry;
 
-extern s32 D_010A2B88;
-
 void func_80015EDC(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 i;
 
