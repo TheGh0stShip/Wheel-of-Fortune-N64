@@ -628,8 +628,8 @@ typedef struct {
 //
 // Addresses in segment 1, the display list and picture data the game loads. A Gfx one is a
 // display list, from what draws it; a u8 one a picture of four bits a pixel, a u16 one a picture
-// of sixteen, from the texture image command they are given to. Of an s32 one only the address
-// is used in a way that does not tell: the s32 is a placeholder.
+// of sixteen, from the texture image command they are given to. An s32 one is still a
+// placeholder: its uses have not been read for its kind.
 //
 extern s32 D_01010FA0;
 extern s32 D_01017550;
@@ -897,16 +897,18 @@ extern OSThread D_800A9298;         // the controller thread, func_80004160
 extern u64 D_800A9448[];            // its stack: 0x2000 bytes
 extern OSPfs D_800AB448[];          // [MAXCONTROLLERS]
 extern s32 D_800AB5E8;
-extern s32 D_800AD5F0;
-extern s32 D_800AD7A0;
-extern s32 D_800AD950;
-extern s32 D_800AFB00;
-extern s32 D_800AFE20;
-extern s32 D_800AFE38;
-extern s32 D_800AFE50;
+extern u64 D_800AB5F0[];            // the stack of the thread D_800AD950: 0x2000 bytes
+extern OSThread D_800AD5F0;         // the main thread, func_800065D4
+extern OSThread D_800AD7A0;         // the idle thread, func_800063A0
+extern OSThread D_800AD950;         // the game thread, func_800067D8
+extern u64 D_800ADB00[];            // the stack of the idle thread: 0x2000 bytes
+extern OSMesg D_800AFB00[];          // [200], the messages of the PI manager
+extern OSMesgQueue D_800AFE20;      // the queue of the PI manager
+extern OSMesgQueue D_800AFE38;      // where func_80006828 waits for its read
+extern OSMesg D_800AFE50;
 extern s32 D_800AFE58;
 extern OSMesgQueue D_800B3970;      // the queue of the controller events
-extern s32 D_800B3988;
+extern OSScClient D_800B3988;
 extern ALBankFile *D_800B3990;
 extern s32 D_800B3994;
 extern ALBankFile *D_800B3998;      // NOTE: nothing sets it
@@ -980,7 +982,7 @@ extern s32 D_800B9984;
 extern s32 D_800B9988;
 extern s16 *D_800B998C;
 extern player_t D_800B9990[];
-extern s32 D_800B9CD0;
+extern OSMesgQueue D_800B9CD0;
 extern s32 D_800B9CEC;
 extern s32 D_800B9CF0;
 extern s32 D_800B9CF4;
@@ -1001,6 +1003,7 @@ extern AMDMAState D_800BA5C8;        // dmaState
 extern s32 D_800BA5D4;
 extern camera_t *D_800BA5D8;
 extern s32 D_800BA5E0[];
+extern u64 D_800BA6F8[];            // the stack of the scheduler: OS_SC_STACKSIZE bytes
 extern u16 D_800BC6F8;
 extern s32 D_800BC6FC;
 extern OSIoMesg D_800BC700[];       // audDMAIOMesgBuf[NUM_DMA_MESSAGES]
@@ -1016,17 +1019,18 @@ extern s32 D_800BCA20;
 extern s32 D_800BCA24;
 extern s32 D_800BCA28;
 extern rumbleMsg_t D_800BCA30;
-extern s32 D_800BCA40;
+extern OSMesg D_800BCA40[];          // [8], the messages of D_800B9688
 extern s32 D_800BCA60;
 extern AMAudioMgr D_800BCA68;        // __am
 extern f32 D_800BCCF0;
 extern s32 D_800BCCF4;
 extern s32 D_800BCD50;
 extern s32 D_800BCD54;
-extern s32 D_800BCD58;
+extern OSScClient D_800BCD58;
 extern u32 D_800BCD64;              // frameSize
 extern OSMesg D_800BCD68;
 extern OSMesgQueue D_800BCD70;      // the queue of the rumble thread
+extern u64 D_800BCD88[];            // the stack of the main thread: 0x2000 bytes
 extern s32 D_800BED88;
 extern ALCSPlayer *D_800BED90[];
 extern s32 D_800BED98;
@@ -1037,7 +1041,7 @@ extern s32 D_800BEDD8[];
 extern u32 D_800BEDE4;
 extern s32 D_800BEDE8[];
 extern s32 D_800BEDF8;
-extern s32 D_800BEE00;
+extern OSMesg D_800BEE00[];          // [8], the messages of D_800B9CD0
 extern s32 D_800BEE20;
 extern s32 D_800BEE24;
 extern s32 D_800BEE28;
@@ -1156,10 +1160,10 @@ void func_800057A8( gfxInfo_t *info );
 void func_80005FD0( s32 arg0 );
 void func_800060B0( s32 arg0 );
 void func_80006328( void );
-void func_800063A0( s32 arg0 );
+void func_800063A0( void *arg );
 void func_8000648C( void );
-void func_800065D4( s32 arg0 );
-void func_800067D8( s32 arg0 );
+void func_800065D4( void *arg );
+void func_800067D8( void *arg );
 void func_80006828( s32 arg0, s32 arg1, s32 arg2 );
 void func_800068F0( void );
 void func_80006B28( void );

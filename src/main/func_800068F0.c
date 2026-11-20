@@ -4,12 +4,12 @@ void func_800068F0(void) {
     s32 count;
 
     osCreateMesgQueue(&D_800AFE38, &D_800AFE50, 1);
-    osCreateMesgQueue(&D_800B9688, &D_800BCA40, 8);
-    osCreateMesgQueue(&D_800B9CD0, &D_800BEE00, 8);
+    osCreateMesgQueue(&D_800B9688, D_800BCA40, 8);
+    osCreateMesgQueue(&D_800B9CD0, D_800BEE00, 8);
     if (osTvType == 2) {
-        osCreateScheduler(&D_800B96C8, &D_800BC6F8, 13, 30, 1);
+        osCreateScheduler(&D_800B96C8, D_800BA6F8 + OS_SC_STACKSIZE / sizeof(u64), 13, 30, 1);
     } else {
-        osCreateScheduler(&D_800B96C8, &D_800BC6F8, 13, 2, 1);
+        osCreateScheduler(&D_800B96C8, D_800BA6F8 + OS_SC_STACKSIZE / sizeof(u64), 13, 2, 1);
     }
     osScAddClient(&D_800B96C8, &D_800BCD58, &D_800B9688);
     osScAddClient(&D_800B96C8, &D_800B3988, &D_800B9CD0);
