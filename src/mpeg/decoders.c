@@ -8,15 +8,15 @@
 #include "mpeg/proto.h"
 #include "mpeg/decoders.h"
 
-mb_addr_inc_entry D_80103480[2048];
+mb_addr_inc_entry mb_addr_inc[2048];
 
-mb_type_entry D_80107EA0[64];
+mb_type_entry mb_type_P[64];
 
-mb_type_entry D_801078A0[64];
+mb_type_entry mb_type_B[64];
 
-motion_vectors_entry D_800FF2F8[2048];
+motion_vectors_entry motion_vectors[2048];
 
-coded_block_pattern_entry D_80085320[512] = {
+coded_block_pattern_entry coded_block_pattern[512] = {
     { (unsigned int)ERROR, 0 }, { (unsigned int)ERROR, 0 }, { 39, 9 }, { 27, 9 }, { 59, 9 }, { 55, 9 }, { 47, 9 }, { 31, 9 },
     { 58, 8 }, { 58, 8 }, { 54, 8 }, { 54, 8 }, { 46, 8 }, { 46, 8 }, { 30, 8 }, { 30, 8 },
     { 57, 8 }, { 57, 8 }, { 53, 8 }, { 53, 8 }, { 45, 8 }, { 45, 8 }, { 29, 8 }, { 29, 8 },
@@ -83,33 +83,33 @@ coded_block_pattern_entry D_80085320[512] = {
     { 60, 3 }, { 60, 3 }, { 60, 3 }, { 60, 3 }, { 60, 3 }, { 60, 3 }, { 60, 3 }, { 60, 3 }
 };
 
-dct_dc_size_entry D_80086320[32] = {
+dct_dc_size_entry dct_dc_size_luminance[32] = {
     { 1, 2 }, { 1, 2 }, { 1, 2 }, { 1, 2 }, { 1, 2 }, { 1, 2 }, { 1, 2 }, { 1, 2 },
     { 2, 2 }, { 2, 2 }, { 2, 2 }, { 2, 2 }, { 2, 2 }, { 2, 2 }, { 2, 2 }, { 2, 2 },
     { 0, 3 }, { 0, 3 }, { 0, 3 }, { 0, 3 }, { 3, 3 }, { 3, 3 }, { 3, 3 }, { 3, 3 },
     { 4, 3 }, { 4, 3 }, { 4, 3 }, { 4, 3 }, { 5, 4 }, { 5, 4 }, { 6, 5 }, { (unsigned int)ERROR, 0 }
 };
 
-dct_dc_size_entry D_80086420[16] = {
+dct_dc_size_entry dct_dc_size_luminance1[16] = {
     { 7, 6 }, { 7, 6 }, { 7, 6 }, { 7, 6 }, { 7, 6 }, { 7, 6 }, { 7, 6 }, { 7, 6 },
     { 8, 7 }, { 8, 7 }, { 8, 7 }, { 8, 7 }, { 9, 8 }, { 9, 8 }, { 10, 9 }, { 11, 9 }
 };
 
-dct_dc_size_entry D_800864A0[32] = {
+dct_dc_size_entry dct_dc_size_chrominance[32] = {
     { 0, 2 }, { 0, 2 }, { 0, 2 }, { 0, 2 }, { 0, 2 }, { 0, 2 }, { 0, 2 }, { 0, 2 },
     { 1, 2 }, { 1, 2 }, { 1, 2 }, { 1, 2 }, { 1, 2 }, { 1, 2 }, { 1, 2 }, { 1, 2 },
     { 2, 2 }, { 2, 2 }, { 2, 2 }, { 2, 2 }, { 2, 2 }, { 2, 2 }, { 2, 2 }, { 2, 2 },
     { 3, 3 }, { 3, 3 }, { 3, 3 }, { 3, 3 }, { 4, 4 }, { 4, 4 }, { 5, 5 }, { (unsigned int)ERROR, 0 }
 };
 
-dct_dc_size_entry D_800865A0[32] = {
+dct_dc_size_entry dct_dc_size_chrominance1[32] = {
     { 6, 6 }, { 6, 6 }, { 6, 6 }, { 6, 6 }, { 6, 6 }, { 6, 6 }, { 6, 6 }, { 6, 6 },
     { 6, 6 }, { 6, 6 }, { 6, 6 }, { 6, 6 }, { 6, 6 }, { 6, 6 }, { 6, 6 }, { 6, 6 },
     { 7, 7 }, { 7, 7 }, { 7, 7 }, { 7, 7 }, { 7, 7 }, { 7, 7 }, { 7, 7 }, { 7, 7 },
     { 8, 8 }, { 8, 8 }, { 8, 8 }, { 8, 8 }, { 9, 9 }, { 9, 9 }, { 10, 10 }, { 11, 10 }
 };
 
-unsigned short int D_800866A0[256] = {
+unsigned short int dct_coeff_tbl_0[256] = {
     0xffff, 0xffff, 0xffff, 0xffff,
     0xffff, 0xffff, 0xffff, 0xffff,
     0xffff, 0xffff, 0xffff, 0xffff,
@@ -176,22 +176,22 @@ unsigned short int D_800866A0[256] = {
     0x581c, 0x581c, 0x581c, 0x581c,
 };
 
-unsigned short int D_800868A0[16] = {
+unsigned short int dct_coeff_tbl_1[16] = {
     0x00bb, 0x202b, 0x103b, 0x00ab,
     0x084b, 0x1c2b, 0x541b, 0x501b,
     0x009b, 0x4c1b, 0x481b, 0x045b,
     0x0c3b, 0x008b, 0x182b, 0x441b,
 };
 
-unsigned short int D_800868C0[4] = {
+unsigned short int dct_coeff_tbl_2[4] = {
     0x4019, 0x1429, 0x0079, 0x0839,
 };
 
-unsigned short int D_800868C8[4] = {
+unsigned short int dct_coeff_tbl_3[4] = {
     0x0449, 0x3c19, 0x3819, 0x1029,
 };
 
-unsigned short int D_800868D0[256] = {
+unsigned short int dct_coeff_next[256] = {
     0xffff, 0xffff, 0xffff, 0xffff,
     0xf7d5, 0xf7d5, 0xf7d5, 0xf7d5,
     0x0826, 0x0826, 0x2416, 0x2416,
@@ -258,7 +258,7 @@ unsigned short int D_800868D0[256] = {
     0x0011, 0x0011, 0x0011, 0x0011,
 };
 
-unsigned short int D_80086AD0[256] = {
+unsigned short int dct_coeff_first[256] = {
     0xffff, 0xffff, 0xffff, 0xffff,
     0xf7d5, 0xf7d5, 0xf7d5, 0xf7d5,
     0x0826, 0x0826, 0x2416, 0x2416,
@@ -340,8 +340,8 @@ decoder (decoders.c), whose bodies these functions reproduce statement for state
 #define ASSIGN1( start, end, step, val, num ) \
     for ( i = start; i < end; i += step ) { \
         for ( j = 0; j < step; j++ ) { \
-            D_80103480[i + j].value = val; \
-            D_80103480[i + j].num_bits = num; \
+            mb_addr_inc[i + j].value = val; \
+            mb_addr_inc[i + j].num_bits = num; \
         } \
         val--; \
     }
@@ -358,24 +358,24 @@ void init_mb_addr_inc( void ) {
     int i, j, val;
 
     for ( i = 0; i < 8; i++ ) {
-        D_80103480[i].value = ERROR;
-        D_80103480[i].num_bits = 0;
+        mb_addr_inc[i].value = ERROR;
+        mb_addr_inc[i].num_bits = 0;
     }
 
-    D_80103480[8].value = MACRO_BLOCK_ESCAPE;
-    D_80103480[8].num_bits = 11;
+    mb_addr_inc[8].value = MACRO_BLOCK_ESCAPE;
+    mb_addr_inc[8].num_bits = 11;
 
     for ( i = 9; i < 15; i++ ) {
-        D_80103480[i].value = ERROR;
-        D_80103480[i].num_bits = 0;
+        mb_addr_inc[i].value = ERROR;
+        mb_addr_inc[i].num_bits = 0;
     }
 
-    D_80103480[15].value = MACRO_BLOCK_STUFFING;
-    D_80103480[15].num_bits = 11;
+    mb_addr_inc[15].value = MACRO_BLOCK_STUFFING;
+    mb_addr_inc[15].num_bits = 11;
 
     for ( i = 16; i < 24; i++ ) {
-        D_80103480[i].value = ERROR;
-        D_80103480[i].num_bits = 0;
+        mb_addr_inc[i].value = ERROR;
+        mb_addr_inc[i].num_bits = 0;
     }
 
     val = 33;
@@ -410,18 +410,18 @@ Builds the table for macroblock_type in P pictures, indexed by the next 6 bits.
 void init_mb_type_P( void ) {
     int i;
 
-    D_80107EA0[0].mb_quant = D_80107EA0[0].mb_motion_forward
-        = D_80107EA0[0].mb_motion_backward = D_80107EA0[0].mb_pattern
-        = D_80107EA0[0].mb_intra = ERROR;
-    D_80107EA0[0].num_bits = 0;
+    mb_type_P[0].mb_quant = mb_type_P[0].mb_motion_forward
+        = mb_type_P[0].mb_motion_backward = mb_type_P[0].mb_pattern
+        = mb_type_P[0].mb_intra = ERROR;
+    mb_type_P[0].num_bits = 0;
 
-    ASSIGN2( 1, 2, 1, 0, 0, 0, 1, 6, D_80107EA0 )
-    ASSIGN2( 2, 4, 1, 0, 0, 1, 0, 5, D_80107EA0 )
-    ASSIGN2( 4, 6, 1, 1, 0, 1, 0, 5, D_80107EA0 );
-    ASSIGN2( 6, 8, 0, 0, 0, 0, 1, 5, D_80107EA0 );
-    ASSIGN2( 8, 16, 0, 1, 0, 0, 0, 3, D_80107EA0 );
-    ASSIGN2( 16, 32, 0, 0, 0, 1, 0, 2, D_80107EA0 );
-    ASSIGN2( 32, 64, 0, 1, 0, 1, 0, 1, D_80107EA0 );
+    ASSIGN2( 1, 2, 1, 0, 0, 0, 1, 6, mb_type_P )
+    ASSIGN2( 2, 4, 1, 0, 0, 1, 0, 5, mb_type_P )
+    ASSIGN2( 4, 6, 1, 1, 0, 1, 0, 5, mb_type_P );
+    ASSIGN2( 6, 8, 0, 0, 0, 0, 1, 5, mb_type_P );
+    ASSIGN2( 8, 16, 0, 1, 0, 0, 0, 3, mb_type_P );
+    ASSIGN2( 16, 32, 0, 0, 0, 1, 0, 2, mb_type_P );
+    ASSIGN2( 32, 64, 0, 1, 0, 1, 0, 1, mb_type_P );
 }
 
 /*
@@ -434,33 +434,33 @@ Builds the table for macroblock_type in B pictures, indexed by the next 6 bits.
 void init_mb_type_B( void ) {
     int i;
 
-    D_801078A0[0].mb_quant = D_801078A0[0].mb_motion_forward
-        = D_801078A0[0].mb_motion_backward = D_801078A0[0].mb_pattern
-        = D_801078A0[0].mb_intra = ERROR;
-    D_801078A0[0].num_bits = 0;
+    mb_type_B[0].mb_quant = mb_type_B[0].mb_motion_forward
+        = mb_type_B[0].mb_motion_backward = mb_type_B[0].mb_pattern
+        = mb_type_B[0].mb_intra = ERROR;
+    mb_type_B[0].num_bits = 0;
 
-    ASSIGN2( 1, 2, 1, 0, 0, 0, 1, 6, D_801078A0 );
-    ASSIGN2( 2, 3, 1, 0, 1, 1, 0, 6, D_801078A0 );
-    ASSIGN2( 3, 4, 1, 1, 0, 1, 0, 6, D_801078A0 );
-    ASSIGN2( 4, 6, 1, 1, 1, 1, 0, 5, D_801078A0 );
-    ASSIGN2( 6, 8, 0, 0, 0, 0, 1, 5, D_801078A0 );
-    ASSIGN2( 8, 12, 0, 1, 0, 0, 0, 4, D_801078A0 );
-    ASSIGN2( 12, 16, 0, 1, 0, 1, 0, 4, D_801078A0 );
-    ASSIGN2( 16, 24, 0, 0, 1, 0, 0, 3, D_801078A0 );
-    ASSIGN2( 24, 32, 0, 0, 1, 1, 0, 3, D_801078A0 );
-    ASSIGN2( 32, 48, 0, 1, 1, 0, 0, 2, D_801078A0 );
-    ASSIGN2( 48, 64, 0, 1, 1, 1, 0, 2, D_801078A0 );
+    ASSIGN2( 1, 2, 1, 0, 0, 0, 1, 6, mb_type_B );
+    ASSIGN2( 2, 3, 1, 0, 1, 1, 0, 6, mb_type_B );
+    ASSIGN2( 3, 4, 1, 1, 0, 1, 0, 6, mb_type_B );
+    ASSIGN2( 4, 6, 1, 1, 1, 1, 0, 5, mb_type_B );
+    ASSIGN2( 6, 8, 0, 0, 0, 0, 1, 5, mb_type_B );
+    ASSIGN2( 8, 12, 0, 1, 0, 0, 0, 4, mb_type_B );
+    ASSIGN2( 12, 16, 0, 1, 0, 1, 0, 4, mb_type_B );
+    ASSIGN2( 16, 24, 0, 0, 1, 0, 0, 3, mb_type_B );
+    ASSIGN2( 24, 32, 0, 0, 1, 1, 0, 3, mb_type_B );
+    ASSIGN2( 32, 48, 0, 1, 1, 0, 0, 2, mb_type_B );
+    ASSIGN2( 48, 64, 0, 1, 1, 1, 0, 2, mb_type_B );
 }
 
 #define ASSIGN3( start, end, step, val, num ) \
     for ( i = start; i < end; i += step ) { \
         for ( j = 0; j < step / 2; j++ ) { \
-            D_800FF2F8[i + j].code = val; \
-            D_800FF2F8[i + j].num_bits = num; \
+            motion_vectors[i + j].code = val; \
+            motion_vectors[i + j].num_bits = num; \
         } \
         for ( j = step / 2; j < step; j++ ) { \
-            D_800FF2F8[i + j].code = -val; \
-            D_800FF2F8[i + j].num_bits = num; \
+            motion_vectors[i + j].code = -val; \
+            motion_vectors[i + j].num_bits = num; \
         } \
         val--; \
     }
@@ -477,8 +477,8 @@ void init_motion_vectors( void ) {
     int i, j, val = 16;
 
     for ( i = 0; i < 24; i++ ) {
-        D_800FF2F8[i].code = ERROR;
-        D_800FF2F8[i].num_bits = 0;
+        motion_vectors[i].code = ERROR;
+        motion_vectors[i].num_bits = 0;
     }
 
     ASSIGN3( 24, 36, 2, val, 11 );

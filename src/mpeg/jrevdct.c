@@ -32,7 +32,7 @@
 
 // The inverse DCT of each of the 64 blocks that hold one coefficient. init_pre_idct builds it and nothing
 // reads it: the code that scaled its rows for a block with one AC coefficient is not compiled.
-static DCTELEM D_800FD2C8[64][64];
+static DCTELEM PreIDCT[64][64];
 
 /*
 =====================
@@ -45,9 +45,9 @@ void init_pre_idct( void ) {
     int i;
 
     for ( i = 0; i < 64; i++ ) {
-        memset( (char *)D_800FD2C8[i], 0, 64 * sizeof( DCTELEM ) );
-        D_800FD2C8[i][i] = 1 << SPARSE_SCALE_FACTOR;
-        j_rev_dct( D_800FD2C8[i] );
+        memset( (char *)PreIDCT[i], 0, 64 * sizeof( DCTELEM ) );
+        PreIDCT[i][i] = 1 << SPARSE_SCALE_FACTOR;
+        j_rev_dct( PreIDCT[i] );
     }
 }
 

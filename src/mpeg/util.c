@@ -9,7 +9,7 @@
 
 // masks for the bit stream macros and the block parser: the top n bits, all but the top n bits, all but
 // the low n bits, and bit n counted from the top
-unsigned int D_80085108[] = {
+unsigned int nBitMask[] = {
     0x00000000, 0x80000000, 0xc0000000, 0xe0000000,
     0xf0000000, 0xf8000000, 0xfc000000, 0xfe000000,
     0xff000000, 0xff800000, 0xffc00000, 0xffe00000,
@@ -20,7 +20,7 @@ unsigned int D_80085108[] = {
     0xfffffff0, 0xfffffff8, 0xfffffffc, 0xfffffffe
 };
 
-unsigned int D_80085188[] = {
+unsigned int bitMask[] = {
     0xffffffff, 0x7fffffff, 0x3fffffff, 0x1fffffff,
     0x0fffffff, 0x07ffffff, 0x03ffffff, 0x01ffffff,
     0x00ffffff, 0x007fffff, 0x003fffff, 0x001fffff,
@@ -31,7 +31,7 @@ unsigned int D_80085188[] = {
     0x0000000f, 0x00000007, 0x00000003, 0x00000001
 };
 
-unsigned int D_80085208[] = {
+unsigned int rBitMask[] = {
     0xffffffff, 0xfffffffe, 0xfffffffc, 0xfffffff8,
     0xfffffff0, 0xffffffe0, 0xffffffc0, 0xffffff80,
     0xffffff00, 0xfffffe00, 0xfffffc00, 0xfffff800,
@@ -42,7 +42,7 @@ unsigned int D_80085208[] = {
     0xf0000000, 0xe0000000, 0xc0000000, 0x80000000
 };
 
-unsigned int D_80085288[] = {
+unsigned int bitTest[] = {
     0x80000000, 0x40000000, 0x20000000, 0x10000000,
     0x08000000, 0x04000000, 0x02000000, 0x01000000,
     0x00800000, 0x00400000, 0x00200000, 0x00100000,
@@ -67,13 +67,13 @@ void correct_underflow( VidStream *vid_stream ) {
     status = get_more_data( vid_stream );
 
     if ( status < 0 ) {
-        if ( !D_80086D20 ) {
+        if ( !quietFlag ) {
             func_80009F38( D_800879DC );     // "Unexpected read error."
         }
         exit( 1 );
     } else if ( ( status == 0 ) && ( vid_stream->buf_length < 1 ) ) {
         vid_stream->film_has_ended = TRUE;
-        if ( D_80086D18 ) {
+        if ( loopFlag ) {
             clear_data_stream( vid_stream );
         }
         return;

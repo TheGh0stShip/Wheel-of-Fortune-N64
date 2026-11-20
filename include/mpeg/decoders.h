@@ -28,7 +28,7 @@ typedef struct {
     /* 0x04 */ int num_bits;
 } mb_addr_inc_entry;
 
-extern mb_addr_inc_entry D_80103480[2048];
+extern mb_addr_inc_entry mb_addr_inc[2048];
 
 // macroblock_type
 typedef struct {
@@ -40,8 +40,8 @@ typedef struct {
     /* 0x14 */ int          num_bits;
 } mb_type_entry;
 
-extern mb_type_entry D_80107EA0[64];    // in P pictures
-extern mb_type_entry D_801078A0[64];    // in B pictures
+extern mb_type_entry mb_type_P[64];    // in P pictures
+extern mb_type_entry mb_type_B[64];    // in B pictures
 
 // coded_block_pattern
 typedef struct {
@@ -49,7 +49,7 @@ typedef struct {
     /* 0x04 */ int          num_bits;
 } coded_block_pattern_entry;
 
-extern coded_block_pattern_entry D_80085320[512];
+extern coded_block_pattern_entry coded_block_pattern[512];
 
 // the four motion vector codes
 typedef struct {
@@ -57,7 +57,7 @@ typedef struct {
     /* 0x04 */ int num_bits;
 } motion_vectors_entry;
 
-extern motion_vectors_entry D_800FF2F8[2048];
+extern motion_vectors_entry motion_vectors[2048];
 
 // dct_dc_size
 typedef struct {
@@ -65,10 +65,10 @@ typedef struct {
     /* 0x04 */ int          num_bits;
 } dct_dc_size_entry;
 
-extern dct_dc_size_entry D_80086320[32];    // luminance, by 5 bits
-extern dct_dc_size_entry D_80086420[16];    // luminance, the codes of more than 5 bits
-extern dct_dc_size_entry D_800864A0[32];    // chrominance, by 5 bits
-extern dct_dc_size_entry D_800865A0[32];    // chrominance, the codes of more than 5 bits
+extern dct_dc_size_entry dct_dc_size_luminance[32];    // luminance, by 5 bits
+extern dct_dc_size_entry dct_dc_size_luminance1[16];    // luminance, the codes of more than 5 bits
+extern dct_dc_size_entry dct_dc_size_chrominance[32];    // chrominance, by 5 bits
+extern dct_dc_size_entry dct_dc_size_chrominance1[32];    // chrominance, the codes of more than 5 bits
 
 // A DCT coefficient entry packs the run, the level and the code length less one.
 #define RUN_MASK    0xfc00
@@ -77,12 +77,12 @@ extern dct_dc_size_entry D_800865A0[32];    // chrominance, the codes of more th
 #define RUN_SHIFT   10
 #define LEVEL_SHIFT 4
 
-extern unsigned short int D_800866A0[256];
-extern unsigned short int D_800868A0[16];
-extern unsigned short int D_800868C0[4];
-extern unsigned short int D_800868C8[4];
-extern unsigned short int D_800868D0[256];
-extern unsigned short int D_80086AD0[256];
+extern unsigned short int dct_coeff_tbl_0[256];
+extern unsigned short int dct_coeff_tbl_1[16];
+extern unsigned short int dct_coeff_tbl_2[4];
+extern unsigned short int dct_coeff_tbl_3[4];
+extern unsigned short int dct_coeff_next[256];
+extern unsigned short int dct_coeff_first[256];
 
 #define DecodeDCTDCSizeLum( macro_val ) \
 { \
@@ -91,13 +91,13 @@ extern unsigned short int D_80086AD0[256];
     show_bits5( index ); \
     \
     if ( index < 31 ) { \
-        macro_val = D_80086320[index].value; \
-        flush_bits( D_80086320[index].num_bits ); \
+        macro_val = dct_dc_size_luminance[index].value; \
+        flush_bits( dct_dc_size_luminance[index].num_bits ); \
     } else { \
         show_bits9( index ); \
         index -= 0x1f0; \
-        macro_val = D_80086420[index].value; \
-        flush_bits( D_80086420[index].num_bits ); \
+        macro_val = dct_dc_size_luminance1[index].value; \
+        flush_bits( dct_dc_size_luminance1[index].num_bits ); \
     } \
 }
 
@@ -108,13 +108,13 @@ extern unsigned short int D_80086AD0[256];
     show_bits5( index ); \
     \
     if ( index < 31 ) { \
-        macro_val = D_800864A0[index].value; \
-        flush_bits( D_800864A0[index].num_bits ); \
+        macro_val = dct_dc_size_chrominance[index].value; \
+        flush_bits( dct_dc_size_chrominance[index].num_bits ); \
     } else { \
         show_bits10( index ); \
         index -= 0x3e0; \
-        macro_val = D_800865A0[index].value; \
-        flush_bits( D_800865A0[index].num_bits ); \
+        macro_val = dct_dc_size_chrominance1[index].value; \
+        flush_bits( dct_dc_size_chrominance1[index].num_bits ); \
     } \
 }
 
@@ -173,22 +173,22 @@ extern unsigned short int D_80086AD0[256];
         switch ( index ) { \
         case 2: { \
             index = next32bits >> 22; \
-            value = D_800868C0[index & 3]; \
+            value = dct_coeff_tbl_2[index & 3]; \
             break; \
         } \
         case 3: { \
             index = next32bits >> 22; \
-            value = D_800868C8[index & 3]; \
+            value = dct_coeff_tbl_3[index & 3]; \
             break; \
         } \
         case 1: { \
             index = next32bits >> 20; \
-            value = D_800868A0[index & 15]; \
+            value = dct_coeff_tbl_1[index & 15]; \
             break; \
         } \
         default: { \
             index = next32bits >> 16; \
-            value = D_800866A0[index & 255]; \
+            value = dct_coeff_tbl_0[index & 255]; \
         } } \
         run = value >> RUN_SHIFT; \
         level = ( value & LEVEL_MASK ) >> LEVEL_SHIFT; \
@@ -207,28 +207,28 @@ extern unsigned short int D_80086AD0[256];
 
 #define DecodeDCTCoeffFirst( runval, levelval ) \
 { \
-    DecodeDCTCoeff( D_80086AD0, runval, levelval ); \
+    DecodeDCTCoeff( dct_coeff_first, runval, levelval ); \
 }
 
 #define DecodeDCTCoeffNext( runval, levelval ) \
 { \
-    DecodeDCTCoeff( D_800868D0, runval, levelval ); \
+    DecodeDCTCoeff( dct_coeff_next, runval, levelval ); \
 }
 
 #define DecodeMBAddrInc( val ) \
 { \
     unsigned int index; \
     show_bits11( index ); \
-    val = D_80103480[index].value; \
-    flush_bits( D_80103480[index].num_bits ); \
+    val = mb_addr_inc[index].value; \
+    flush_bits( mb_addr_inc[index].num_bits ); \
 }
 
 #define DecodeMotionVectors( value ) \
 { \
     unsigned int index; \
     show_bits11( index ); \
-    value = D_800FF2F8[index].code; \
-    flush_bits( D_800FF2F8[index].num_bits ); \
+    value = motion_vectors[index].code; \
+    flush_bits( motion_vectors[index].num_bits ); \
 }
 
 #define DecodeMBTypeB( quant, motion_fwd, motion_bwd, pat, intra ) \
@@ -237,12 +237,12 @@ extern unsigned short int D_80086AD0[256];
     \
     show_bits6( index ); \
     \
-    quant = D_801078A0[index].mb_quant; \
-    motion_fwd = D_801078A0[index].mb_motion_forward; \
-    motion_bwd = D_801078A0[index].mb_motion_backward; \
-    pat = D_801078A0[index].mb_pattern; \
-    intra = D_801078A0[index].mb_intra; \
-    flush_bits( D_801078A0[index].num_bits ); \
+    quant = mb_type_B[index].mb_quant; \
+    motion_fwd = mb_type_B[index].mb_motion_forward; \
+    motion_bwd = mb_type_B[index].mb_motion_backward; \
+    pat = mb_type_B[index].mb_pattern; \
+    intra = mb_type_B[index].mb_intra; \
+    flush_bits( mb_type_B[index].num_bits ); \
 }
 
 // In an I picture the type is one bit, 1, or two, 01: the second has a quantizer scale.
@@ -269,13 +269,13 @@ extern unsigned short int D_80086AD0[256];
     \
     show_bits6( index ); \
     \
-    quant = D_80107EA0[index].mb_quant; \
-    motion_fwd = D_80107EA0[index].mb_motion_forward; \
-    motion_bwd = D_80107EA0[index].mb_motion_backward; \
-    pat = D_80107EA0[index].mb_pattern; \
-    intra = D_80107EA0[index].mb_intra; \
+    quant = mb_type_P[index].mb_quant; \
+    motion_fwd = mb_type_P[index].mb_motion_forward; \
+    motion_bwd = mb_type_P[index].mb_motion_backward; \
+    pat = mb_type_P[index].mb_pattern; \
+    intra = mb_type_P[index].mb_intra; \
     \
-    flush_bits( D_80107EA0[index].num_bits ); \
+    flush_bits( mb_type_P[index].num_bits ); \
 }
 
 #define DecodeCBP( coded_bp ) \
@@ -283,8 +283,8 @@ extern unsigned short int D_80086AD0[256];
     unsigned int index; \
     \
     show_bits9( index ); \
-    coded_bp = D_80085320[index].cbp; \
-    flush_bits( D_80085320[index].num_bits ); \
+    coded_bp = coded_block_pattern[index].cbp; \
+    flush_bits( coded_block_pattern[index].num_bits ); \
 }
 
 #endif // MPEG_DECODERS_H

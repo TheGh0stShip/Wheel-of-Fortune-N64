@@ -47,9 +47,9 @@ void DoPictureDisplay( VidStream *vid_stream, XInfo *xinfo );
 void SetBFlag( BOOLEAN val );
 void SetPFlag( BOOLEAN val );
 
-extern const int D_80087A98[64][2];
-extern const int D_80087C98[64];
-extern const int D_80087D98[8][8];
+extern const int zigzag[64][2];
+extern const int zigzag_direct[64];
+extern const int scan[8][8];
 
 // The message of ParsePicture, "Fatal error. Ring buffer full.": the last thing in the read-only data
 // of its object, and declared here for the reason D_800879DC is.
@@ -81,24 +81,24 @@ void ExecuteDisplay( VidStream *vid_stream, XInfo *xinfo );
 // main.c
 void DoDitherImage( VidStream *vid_stream );
 
-extern int    D_80086D18;
-extern int    D_80086D1C;
-extern int    D_80086D20;
-extern int    D_80086D24;
-extern int    D_80086D28;
-extern int    D_80086D2C;
-extern int    D_80086D30;
-extern int    D_80086D34;
-extern int    D_80086D38;
-extern int    D_80086D3C;
-extern int    D_80086D40;
-extern double D_80086D48;
-extern int    D_80086D50;
+extern int    loopFlag;
+extern int    shmemFlag;
+extern int    quietFlag;
+extern int    requireKeypressFlag;
+extern int    noDisplayFlag;
+extern int    framerate;
+extern int    partialFlag;
+extern int    startFrame;
+extern int    endFrame;
+extern int    gammaCorrectFlag;
+extern int    chromaCorrectFlag;
+extern double chromaCorrect;
+extern int    qualityFlag;
 
-extern FILE      *D_8010346C;
-extern char      *D_801084A0;
+extern FILE      *input;
+extern char      *inputName;
 extern VidStream *D_80107884;
-extern XInfo     D_801033F8;
+extern XInfo     xinfo;
 
 // jrevdct.c
 void init_pre_idct( void );

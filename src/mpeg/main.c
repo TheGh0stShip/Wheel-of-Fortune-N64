@@ -13,32 +13,32 @@
 #define BUF_LENGTH 5000
 
 // the movie being played
-FILE *D_8010346C;
-char *D_801084A0;
+FILE *input;
+char *inputName;
 
-int D_80086D18 = 0;     // loop: play the film again when it ends
-int D_80086D1C = 0;
-int D_80086D20 = 0;     // quiet
-int D_80086D24 = 0;
-int D_80086D28 = 0;     // decode without showing anything
+int loopFlag = 0;     // loop: play the film again when it ends
+int shmemFlag = 0;
+int quietFlag = 0;     // quiet
+int requireKeypressFlag = 0;
+int noDisplayFlag = 0;     // decode without showing anything
 
 // frames a second: -1 for what the stream says, 0 for as fast as possible
-int D_80086D2C = -1;
+int framerate = -1;
 
 // with the first set, only the frames from the second to the third are shown
-int D_80086D30 = 0, D_80086D34 = -1, D_80086D38 = -1;
+int partialFlag = 0, startFrame = -1, endFrame = -1;
 
 // which table the luminance goes through: 1, 2, 3, or anything else for none
-int D_80086D3C = 1;
+int gammaCorrectFlag = 1;
 
 // the chrominance is scaled by the second if the first is set
-int    D_80086D40 = 1;
-double D_80086D48 = 0.8;
+int    chromaCorrectFlag = 1;
+double chromaCorrect = 0.8;
 
 // average over four pixels where a vector has two half-pel components, not over two
-int D_80086D50 = 1;
+int qualityFlag = 1;
 
-static BOOLEAN D_80086D54 = FALSE;  /* NOTE: unused in the original */
+static BOOLEAN exiting = FALSE;  /* NOTE: unused in the original */
 
 // set while a movie is open
 s32 D_80086D58 = 0;
@@ -46,7 +46,7 @@ s32 D_80086D58 = 0;
 VidStream *D_80107884;
 
 // where the movie is shown
-XInfo D_801033F8;
+XInfo xinfo;
 
 /*
 =====================
@@ -71,73 +71,73 @@ void func_8009CEC0( char *movie, s32 gamma ) {
     BOOLEAN          firstRead = FALSE;     /* NOTE: unused in the original */
 
     mark = 1;
-    D_80086D3C = gamma;
+    gammaCorrectFlag = gamma;
 
-    D_8010346C = NULL;
-    D_801084A0 = "stdin";
+    input = NULL;
+    inputName = "stdin";
     theStream = NULL;
     D_80107884 = NULL;
-    D_801033F8.hints.x = -1;
-    D_801033F8.hints.y = -1;
-    D_801033F8.ExistingWindow = 0;
+    xinfo.hints.x = -1;
+    xinfo.hints.y = -1;
+    xinfo.ExistingWindow = 0;
     name = (char *)"";
 
-    D_80107880 = 8;
-    D_80103478 = D_80103474 = 4;
+    LUM_RANGE = 8;
+    CR_RANGE = CB_RANGE = 4;
 
-    D_80086D28 = 0;
+    noDisplayFlag = 0;
 
-    D_8010346C = fopen( movie );
-    if ( D_8010346C == NULL ) {
+    input = fopen( movie );
+    if ( input == NULL ) {
         func_80009F38( "MPEG: input == NULL" );
     }
-    D_801084A0 = NULL;
+    inputName = NULL;
 
-    D_80103470 = lum;
-    D_801084A8 = cr;
+    lum_values = lum;
+    cr_values = cr;
 
-    if ( ( D_80086D34 != -1 ) && ( D_80086D38 != -1 ) && ( D_80086D38 < D_80086D34 ) ) {
+    if ( ( startFrame != -1 ) && ( endFrame != -1 ) && ( endFrame < startFrame ) ) {
         func_80009F38( "MPEG: endFrame < startFrame" );
     }
 
     init_tables();
 
-    D_801033F8.owncmFlag = owncmFlag;
-    D_801033F8.display = NULL;
-    if ( D_801033F8.hints.x == -1 ) {
-        D_801033F8.hints.x = 200;
-        D_801033F8.hints.y = 300;
+    xinfo.owncmFlag = owncmFlag;
+    xinfo.display = NULL;
+    if ( xinfo.hints.x == -1 ) {
+        xinfo.hints.x = 200;
+        xinfo.hints.y = 300;
     }
-    D_801033F8.hints.width = 150;
-    D_801033F8.hints.height = 150;
-    D_801033F8.visual = NULL;
-    D_801033F8.name = D_801084A0;
-    D_801033F8.cmap = 0;
-    D_801033F8.gc = 0;
+    xinfo.hints.width = 150;
+    xinfo.hints.height = 150;
+    xinfo.visual = NULL;
+    xinfo.name = inputName;
+    xinfo.cmap = 0;
+    xinfo.gc = 0;
 
-    InitColorDisplay( name, &D_801033F8 );
-    InitColorDither( D_801033F8.depth >= 16 );
+    InitColorDisplay( name, &xinfo );
+    InitColorDither( xinfo.depth >= 16 );
 
     InitCrop();
 
     y = 300;
     largy = 0;
-    doDisplay = !D_80086D28;
+    doDisplay = !noDisplayFlag;
 
     D_80107884 = theStream = NewVidStream( (unsigned int)BUF_LENGTH );
-    theStream->input = D_8010346C;
+    theStream->input = input;
     theStream->seekValue = seekValue;
-    theStream->filename = D_801084A0;
-    theStream->ditherType = D_801033F8.ditherType;
-    theStream->matched_depth = D_801033F8.depth;
+    theStream->filename = inputName;
+    theStream->ditherType = xinfo.ditherType;
+    theStream->matched_depth = xinfo.depth;
 
     // the first call parses the sequence header; it is not to report anything
-    mark = D_80086D20;
-    D_80086D20 = 1;
-    if ( mpegVidRsrc( 0, theStream, 1, &D_801033F8 ) == NULL ) {
+    mark = quietFlag;
+    quietFlag = 1;
+    if ( mpegVidRsrc( 0, theStream, 1, &xinfo ) == NULL ) {
         func_80009F38( "MPEG: mpegVidRsrc returned NULL" );
     }
-    D_80086D20 = mark;
+    quietFlag = mark;
 
     mult = 1;
 
@@ -160,11 +160,11 @@ s32 func_8009D244( void ) {
 
     mark = D_80107884->totNumFrames;
     while ( mark == D_80107884->totNumFrames ) {
-        mpegVidRsrc( 0, D_80107884, 0, &D_801033F8 );
+        mpegVidRsrc( 0, D_80107884, 0, &xinfo );
     }
 
     if ( D_80107884->film_has_ended ) {
-        func_800A4E58( D_8010346C );
+        func_800A4E58( input );
         return 1;
     }
 

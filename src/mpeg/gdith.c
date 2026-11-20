@@ -9,18 +9,18 @@
 
 // The masks of red, green and blue in a pixel, which the colour conversion reads. The decoder keeps
 // them in its table of colour map entries, which the 16-bit conversion does not use otherwise.
-unsigned long D_80107480[256];
+unsigned long wpixel[256];
 
 // what the dithers quantize to; see dither.h
-int D_80107880;
-int D_80103474;
-int D_80103478;
+int LUM_RANGE;
+int CB_RANGE;
+int CR_RANGE;
 
-int *D_80103470;
-int *D_801084A8;
+int *lum_values;
+int *cr_values;
 
 // frames a second for each picture rate code. The values are rounded, and the reserved codes get 30.
-static int D_80086CD0[16] = { 30, 24, 24, 25, 30, 30, 50, 60, 60, 15, 30, 30, 30, 30, 30, 30 };
+static int VidRateNum[16] = { 30, 24, 24, 25, 30, 30, 50, 60, 60, 15, 30, 30, 30, 30, 30, 30 };
 
 /*
 =====================
@@ -32,9 +32,9 @@ Sets up the display: 16 bits a pixel, 5 each of red, green and blue from the top
 void InitColorDisplay( char *name, XInfo *xinfo ) {
     xinfo->depth = 16;
 
-    D_80107480[0] = 0xF800;
-    D_80107480[1] = 0x07C0;
-    D_80107480[2] = 0x003E;
+    wpixel[0] = 0xF800;
+    wpixel[1] = 0x07C0;
+    wpixel[2] = 0x003E;
 }
 
 /*
@@ -62,15 +62,15 @@ void ExecuteDisplay( VidStream *vid_stream, XInfo *xinfo ) {
 
     vid_stream->totNumFrames++;
 
-    if ( D_80086D30 ) {
-        if ( ( D_80086D38 != -1 ) && ( vid_stream->totNumFrames > D_80086D38 ) ) {
+    if ( partialFlag ) {
+        if ( ( endFrame != -1 ) && ( vid_stream->totNumFrames > endFrame ) ) {
             vid_stream->film_has_ended = TRUE;
-            if ( D_80086D18 ) {
+            if ( loopFlag ) {
                 clear_data_stream( vid_stream );
             }
             return;
         }
-        if ( vid_stream->totNumFrames < D_80086D34 ) {
+        if ( vid_stream->totNumFrames < startFrame ) {
             return;
         }
     }
@@ -98,9 +98,9 @@ void ExecuteDisplay( VidStream *vid_stream, XInfo *xinfo ) {
         }
         break;
     case -1:
-        switch ( D_80086D2C ) {
+        switch ( framerate ) {
         case -1:    // the rate the stream asks for
-            rate_deal = D_80086CD0[vid_stream->picture_rate];
+            rate_deal = VidRateNum[vid_stream->picture_rate];
             gettimeofday( &tftarget, (struct timezone *)NULL );
             one_frame_time = 1000000 / rate_deal;
             break;
@@ -108,7 +108,7 @@ void ExecuteDisplay( VidStream *vid_stream, XInfo *xinfo ) {
             rate_deal = 0;
             break;
         default:
-            rate_deal = D_80086D2C;
+            rate_deal = framerate;
             gettimeofday( &tftarget, (struct timezone *)NULL );
             one_frame_time = 1000000 / rate_deal;
             break;
@@ -120,7 +120,7 @@ void ExecuteDisplay( VidStream *vid_stream, XInfo *xinfo ) {
         return;
     }
 
-    if ( !D_80086D28 ) {
+    if ( !noDisplayFlag ) {
         if ( xinfo->ximage == NULL ) {
             int pixels_per_mb = 16;
             int w, h;

@@ -13,7 +13,7 @@
 #include "mpeg/decoders.h"
 
 // zigzag order to column and row
-const int D_80087A98[64][2] = {
+const int zigzag[64][2] = {
     0, 0, 1, 0, 0, 1, 0, 2, 1, 1, 2, 0, 3, 0, 2, 1, 1, 2, 0, 3, 0, 4, 1, 3,
     2, 2, 3, 1, 4, 0, 5, 0, 4, 1, 3, 2, 2, 3, 1, 4, 0, 5, 0, 6, 1, 5, 2, 4,
     3, 3, 4, 2, 5, 1, 6, 0, 7, 0, 6, 1, 5, 2, 4, 3, 3, 4, 2, 5, 1, 6, 0, 7,
@@ -23,7 +23,7 @@ const int D_80087A98[64][2] = {
 };
 
 // zigzag order to index in a block
-const int D_80087C98[64] = {
+const int zigzag_direct[64] = {
     0, 1, 8, 16, 9, 2, 3, 10, 17, 24, 32, 25, 18, 11, 4, 5, 12,
     19, 26, 33, 40, 48, 41, 34, 27, 20, 13, 6, 7, 14, 21, 28, 35,
     42, 49, 56, 57, 50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51,
@@ -31,7 +31,7 @@ const int D_80087C98[64] = {
 };
 
 // row and column to zigzag order. Nothing in the player reads it.
-const int D_80087D98[8][8] = {
+const int scan[8][8] = {
     { 0, 1, 5, 6, 14, 15, 27, 28 },
     { 2, 4, 7, 13, 16, 26, 29, 42 },
     { 3, 8, 12, 17, 25, 30, 41, 43 },
@@ -43,13 +43,13 @@ const int D_80087D98[8][8] = {
 };
 
 // set to skip the pictures of a type
-static int D_80085308 = FALSE;  // P pictures
-static int D_8008530C = FALSE;  // B pictures
+static int No_P_Flag = FALSE;  // P pictures
+static int No_B_Flag = FALSE;  // B pictures
 
 // The crop table clamps a reconstructed sample to 0..255; it is indexed from -MAX_NEG_CROP.
 #define MAX_NEG_CROP        2048
 #define NUM_CROP_ENTRIES    ( 2048 + 2 * MAX_NEG_CROP )
-static unsigned char D_800FB898[NUM_CROP_ENTRIES];
+static unsigned char cropTbl[NUM_CROP_ENTRIES];
 
 /*
 =====================
@@ -77,11 +77,11 @@ void InitCrop( void ) {
 
     for ( i = ( -MAX_NEG_CROP ); i < NUM_CROP_ENTRIES - MAX_NEG_CROP; i++ ) {
         if ( i <= 0 ) {
-            D_800FB898[i + MAX_NEG_CROP] = 0;
+            cropTbl[i + MAX_NEG_CROP] = 0;
         } else if ( i >= 255 ) {
-            D_800FB898[i + MAX_NEG_CROP] = 255;
+            cropTbl[i + MAX_NEG_CROP] = 255;
         } else {
-            D_800FB898[i + MAX_NEG_CROP] = i;
+            cropTbl[i + MAX_NEG_CROP] = i;
         }
     }
 }
@@ -267,11 +267,11 @@ VidStream *mpegVidRsrc( TimeStamp time_stamp, VidStream *vid_stream, int first, 
             ExecuteDisplay( vid_stream, xinfo );
         }
 
-        if ( !D_80086D20 ) {
+        if ( !quietFlag ) {
             fprintf( stderr, "\nDone!\n" );
         }
         vid_stream->film_has_ended = TRUE;
-        if ( D_80086D18 ) {
+        if ( loopFlag ) {
             clear_data_stream( vid_stream );
         }
         goto done;
@@ -428,7 +428,7 @@ int ParseSeqHead( VidStream *vid_stream, XInfo *xinfo ) {
         for ( i = 0; i < 64; i++ ) {
             get_bits8( data );
 
-            vid_stream->intra_quant_matrix[D_80087A98[i][1]][D_80087A98[i][0]] = (unsigned char)data;
+            vid_stream->intra_quant_matrix[zigzag[i][1]][zigzag[i][0]] = (unsigned char)data;
         }
     }
 
@@ -437,7 +437,7 @@ int ParseSeqHead( VidStream *vid_stream, XInfo *xinfo ) {
         for ( i = 0; i < 64; i++ ) {
             get_bits8( data );
 
-            vid_stream->non_intra_quant_matrix[D_80087A98[i][1]][D_80087A98[i][0]] = (unsigned char)data;
+            vid_stream->non_intra_quant_matrix[zigzag[i][1]][zigzag[i][0]] = (unsigned char)data;
         }
     }
 
@@ -560,14 +560,14 @@ int ParsePicture( VidStream *vid_stream, TimeStamp time_stamp ) {
     vid_stream->picture.code_type = data;
 
     if ( ( vid_stream->picture.code_type == B_TYPE ) &&
-         ( D_8008530C ||
+         ( No_B_Flag ||
            ( vid_stream->future == NULL ) ||
            ( ( vid_stream->past == NULL ) && !( vid_stream->group.closed_gop ) ) ) ) {
         return SKIP_PICTURE;
     }
 
     if ( ( vid_stream->picture.code_type == P_TYPE ) &&
-         ( D_80085308 || ( vid_stream->future == NULL ) ) ) {
+         ( No_P_Flag || ( vid_stream->future == NULL ) ) ) {
         return SKIP_PICTURE;
     }
 
@@ -715,7 +715,7 @@ int ParseMacroBlock( VidStream *vid_stream ) {
 
         show_bits11( ind );
         DecodeMBAddrInc( addr_incr );
-        if ( D_80103480[ind].num_bits == 0 ) {
+        if ( mb_addr_inc[ind].num_bits == 0 ) {
             addr_incr = 1;
         }
         if ( addr_incr == MB_ESCAPE ) {
@@ -913,7 +913,7 @@ void ReconIMBlock( VidStream *vid_stream, int bnum ) {
 
     {
         short         *sp = &vid_stream->block.dct_recon[0][0];
-        unsigned char *cm = D_800FB898 + MAX_NEG_CROP;
+        unsigned char *cm = cropTbl + MAX_NEG_CROP;
 
         dest += row * row_size + col;
         for ( rr = 0; rr < 4; rr++, sp += 16, dest += row_size ) {
@@ -1032,7 +1032,7 @@ void ReconPMBlock( VidStream *vid_stream, int bnum, int recon_right_for, int rec
     blockvals = &( vid_stream->block.dct_recon[0][0] );
 
     if ( ( !vid_stream->down_half_for ) && ( !vid_stream->right_half_for ) ) {
-        unsigned char *cm = D_800FB898 + MAX_NEG_CROP;
+        unsigned char *cm = cropTbl + MAX_NEG_CROP;
 
         if ( !zflag ) {
             for ( rr = 0; rr < 4; rr++ ) {
@@ -1124,12 +1124,12 @@ void ReconPMBlock( VidStream *vid_stream, int bnum, int recon_right_for, int rec
             }
         }
     } else {
-        unsigned char *cm = D_800FB898 + MAX_NEG_CROP;
+        unsigned char *cm = cropTbl + MAX_NEG_CROP;
 
         rindex2 = rindex1 + vid_stream->right_half_for + ( vid_stream->down_half_for * row_size );
 
         // unless quality matters, a vector with two half components is averaged over two pixels, not four
-        if ( ( !vid_stream->right_half_for ) || ( !vid_stream->down_half_for ) || ( !D_80086D50 ) ) {
+        if ( ( !vid_stream->right_half_for ) || ( !vid_stream->down_half_for ) || ( !qualityFlag ) ) {
             if ( !zflag ) {
                 for ( rr = 0; rr < 4; rr++ ) {
                     index[0] = cm[( (int)( rindex1[0] + rindex2[0] + 1 ) >> 1 ) + blockvals[0]];
@@ -1302,7 +1302,7 @@ void ReconBMBlock( VidStream *vid_stream, int bnum, int recon_right_back, int re
     blockvals = &( vid_stream->block.dct_recon[0][0] );
 
     if ( ( !right_half_back ) && ( !down_half_back ) ) {
-        unsigned char *cm = D_800FB898 + MAX_NEG_CROP;
+        unsigned char *cm = cropTbl + MAX_NEG_CROP;
         if ( !zflag ) {
             for ( rr = 0; rr < 4; rr++ ) {
                 index[0] = cm[(int)rindex1[0] + (int)blockvals[0]];
@@ -1390,9 +1390,9 @@ void ReconBMBlock( VidStream *vid_stream, int bnum, int recon_right_back, int re
             }
         }
     } else {
-        unsigned char *cm = D_800FB898 + MAX_NEG_CROP;
+        unsigned char *cm = cropTbl + MAX_NEG_CROP;
         rindex2 = rindex1 + right_half_back + ( down_half_back * row_size );
-        if ( !D_80086D50 ) {
+        if ( !qualityFlag ) {
             if ( !zflag ) {
                 for ( rr = 0; rr < 4; rr++ ) {
                     index[0] = cm[( (int)( rindex1[0] + rindex2[0] + 1 ) >> 1 ) + blockvals[0]];
@@ -1607,7 +1607,7 @@ void ReconBiMBlock( VidStream *vid_stream, int bnum, int recon_right_for, int re
     blockvals = (short int *)&( vid_stream->block.dct_recon[0][0] );
 
     {
-        unsigned char *cm = D_800FB898 + MAX_NEG_CROP;
+        unsigned char *cm = cropTbl + MAX_NEG_CROP;
         if ( !zflag ) {
             for ( rr = 0; rr < 4; rr++ ) {
                 index[0] = cm[( (int)( rindex1[0] + bindex1[0] ) >> 1 ) + blockvals[0]];
@@ -2178,7 +2178,7 @@ Switches the decoding of B pictures off or on.
 =====================
 */
 void SetBFlag( BOOLEAN val ) {
-    D_8008530C = val;
+    No_B_Flag = val;
 }
 
 /*
@@ -2189,5 +2189,5 @@ Switches the decoding of P pictures off or on.
 =====================
 */
 void SetPFlag( BOOLEAN val ) {
-    D_80085308 = val;
+    No_P_Flag = val;
 }

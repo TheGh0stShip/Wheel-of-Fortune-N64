@@ -16,10 +16,10 @@
 // the step in which the buffers for extension data grow
 #define EXT_BUF_SIZE 1024
 
-extern unsigned int D_80085108[];
-extern unsigned int D_80085188[];
-extern unsigned int D_80085208[];
-extern unsigned int D_80085288[];
+extern unsigned int nBitMask[];
+extern unsigned int bitMask[];
+extern unsigned int rBitMask[];
+extern unsigned int bitTest[];
 
 // A unit that defines NO_SANITY_CHECKS before it includes this file gets the macros without their
 // tests for an empty buffer: the block parser does, and makes sure of 100 words once a block instead.
@@ -159,7 +159,7 @@ extern unsigned int D_80085288[];
 #define get_bits18( result )    get_bitsX( 18, 0xffffc000, 14, result )
 #define get_bits32( result )    get_bitsX( 32, 0xffffffff, 0, result )
 
-#define get_bitsn( num, result ) get_bitsX( ( num ), D_80085108[num], ( 32 - ( num ) ), result )
+#define get_bitsn( num, result ) get_bitsX( ( num ), nBitMask[num], ( 32 - ( num ) ), result )
 
 #ifdef NO_SANITY_CHECKS
 

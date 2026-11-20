@@ -59,21 +59,21 @@ void ParseReconBlock( int n, VidStream *vid_stream ) {
                 show_bits16( next16bits );
                 index = next16bits >> ( 16 - 5 );
                 if ( index < 31 ) {
-                    size = D_80086320[index].value;
-                    flushed = D_80086320[index].num_bits;
+                    size = dct_dc_size_luminance[index].value;
+                    flushed = dct_dc_size_luminance[index].num_bits;
                 } else {
                     index = next16bits >> ( 16 - 9 );
                     index -= 0x1f0;
-                    size = D_80086420[index].value;
-                    flushed = D_80086420[index].num_bits;
+                    size = dct_dc_size_luminance1[index].value;
+                    flushed = dct_dc_size_luminance1[index].num_bits;
                 }
-                next16bits &= D_80085188[16 + flushed];
+                next16bits &= bitMask[16 + flushed];
 
                 if ( size != 0 ) {
                     flushed += size;
                     diff = next16bits >> ( 16 - flushed );
-                    if ( !( diff & D_80085288[32 - size] ) ) {
-                        diff = D_80085208[size] | ( diff + 1 );
+                    if ( !( diff & bitTest[32 - size] ) ) {
+                        diff = rBitMask[size] | ( diff + 1 );
                     }
                 } else {
                     diff = 0;
@@ -99,21 +99,21 @@ void ParseReconBlock( int n, VidStream *vid_stream ) {
                 show_bits16( next16bits );
                 index = next16bits >> ( 16 - 5 );
                 if ( index < 31 ) {
-                    size = D_800864A0[index].value;
-                    flushed = D_800864A0[index].num_bits;
+                    size = dct_dc_size_chrominance[index].value;
+                    flushed = dct_dc_size_chrominance[index].num_bits;
                 } else {
                     index = next16bits >> ( 16 - 10 );
                     index -= 0x3e0;
-                    size = D_800865A0[index].value;
-                    flushed = D_800865A0[index].num_bits;
+                    size = dct_dc_size_chrominance1[index].value;
+                    flushed = dct_dc_size_chrominance1[index].num_bits;
                 }
-                next16bits &= D_80085188[16 + flushed];
+                next16bits &= bitMask[16 + flushed];
 
                 if ( size != 0 ) {
                     flushed += size;
                     diff = next16bits >> ( 16 - flushed );
-                    if ( !( diff & D_80085288[32 - size] ) ) {
-                        diff = D_80085208[size] | ( diff + 1 );
+                    if ( !( diff & bitTest[32 - size] ) ) {
+                        diff = rBitMask[size] | ( diff + 1 );
                     }
                 } else {
                     diff = 0;
@@ -159,7 +159,7 @@ void ParseReconBlock( int n, VidStream *vid_stream ) {
                     }
 
                     i = i + run + 1;
-                    pos = D_80087C98[i];
+                    pos = zigzag_direct[i];
 
                     if ( level < 0 ) {
                         coeff = ( ( level << 1 ) * qscale *
@@ -185,7 +185,7 @@ void ParseReconBlock( int n, VidStream *vid_stream ) {
             DECODE_DCT_COEFF_FIRST( run, level );
             i = run;
 
-            pos = D_80087C98[i];
+            pos = zigzag_direct[i];
 
             if ( level < 0 ) {
                 coeff = ( ( ( level << 1 ) - 1 ) * qscale *
@@ -213,7 +213,7 @@ void ParseReconBlock( int n, VidStream *vid_stream ) {
                     }
 
                     i = i + run + 1;
-                    pos = D_80087C98[i];
+                    pos = zigzag_direct[i];
                     if ( level < 0 ) {
                         coeff = ( ( ( level << 1 ) - 1 ) * qscale *
                             ( (int)( niqmatrixptr[pos] ) ) ) / 16;

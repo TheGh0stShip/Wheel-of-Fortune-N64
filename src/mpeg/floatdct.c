@@ -14,7 +14,7 @@
 // computes &c[freq][time] first and keeps it in a saved register over the call.
 
 // the cosine transform matrix of an 8-point inverse DCT
-static double D_800FD098[8][8];
+static double c[8][8];
 
 /*
 =====================
@@ -30,7 +30,7 @@ void init_float_idct( void ) {
     for ( freq = 0; freq < 8; freq++ ) {
         scale = ( freq == 0 ) ? sqrt( 0.125 ) : 0.5;
         for ( time = 0; time < 8; time++ ) {
-            D_800FD098[freq][time] = scale * cos( ( PI / 8.0 ) * freq * ( time + 0.5 ) );
+            c[freq][time] = scale * cos( ( PI / 8.0 ) * freq * ( time + 0.5 ) );
         }
     }
 }
@@ -52,7 +52,7 @@ void float_idct( short *block ) {
             partial_product = 0.0;
 
             for ( k = 0; k < 8; k++ ) {
-                partial_product += D_800FD098[k][j] * block[8 * i + k];
+                partial_product += c[k][j] * block[8 * i + k];
             }
 
             tmp[8 * i + j] = partial_product;
@@ -65,7 +65,7 @@ void float_idct( short *block ) {
             partial_product = 0.0;
 
             for ( k = 0; k < 8; k++ ) {
-                partial_product += D_800FD098[k][i] * tmp[8 * k + j];
+                partial_product += c[k][i] * tmp[8 * k + j];
             }
 
             v = floor( partial_product + 0.5 );

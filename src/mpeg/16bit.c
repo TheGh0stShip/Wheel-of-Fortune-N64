@@ -8,7 +8,7 @@
 #include "mpeg/proto.h"
 #include "mpeg/dither.h"
 
-// The luminance tables D_80086D3C chooses between, in the order of their addresses: its values 1, 3
+// The luminance tables gammaCorrectFlag chooses between, in the order of their addresses: its values 1, 3
 // and 2. Each maps 0..255 to 0..255, darkening the middle of the range less from one to the next.
 static int D_80086D60[256] = {
     0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7,
@@ -137,61 +137,61 @@ static int free_bits_at_bottom( unsigned long a ) {
 
 // what each component of a sample adds to the colours: luminance, Cr to red, Cr to green, Cb to green,
 // Cb to blue
-static int *D_800FF2C8, *D_800FF2CC, *D_800FF2D0, *D_800FF2D4, *D_800FF2D8;
+static int *L_tab, *Cr_r_tab, *Cr_g_tab, *Cb_g_tab, *Cb_b_tab;
 
 // A colour's level to its bits in a pixel. The tables are indexed from -256 to 511, since the sum of a
 // luminance and a chrominance term can leave 0..255 either way: the _alloc pointers are where they start.
-static long *D_800FF2DC;
-static long *D_800FF2E0;
-static long *D_800FF2E4;
-static long *D_800FF2E8;
-static long *D_800FF2EC;
-static long *D_800FF2F0;
+static long *r_2_pix;
+static long *g_2_pix;
+static long *b_2_pix;
+static long *r_2_pix_alloc;
+static long *g_2_pix_alloc;
+static long *b_2_pix_alloc;
 
 /*
 =====================
 InitColorDither
 
-Builds the tables of the colour conversion, for the pixel layout that the masks in D_80107480
+Builds the tables of the colour conversion, for the pixel layout that the masks in wpixel
 describe. Unless thirty2 is set a pixel takes 16 bits, and the tables hold it twice.
 =====================
 */
 void InitColorDither( int thirty2 ) {
-    unsigned long red_mask = D_80107480[0];
-    unsigned long green_mask = D_80107480[1];
-    unsigned long blue_mask = D_80107480[2];
+    unsigned long red_mask = wpixel[0];
+    unsigned long green_mask = wpixel[1];
+    unsigned long blue_mask = wpixel[2];
 
     int L;  /* NOTE: unused in the original */
     int CR, CB, i;
 
-    D_800FF2C8 = (int *)malloc( 256 * sizeof( int ) );
-    D_800FF2CC = (int *)malloc( 256 * sizeof( int ) );
-    D_800FF2D0 = (int *)malloc( 256 * sizeof( int ) );
-    D_800FF2D4 = (int *)malloc( 256 * sizeof( int ) );
-    D_800FF2D8 = (int *)malloc( 256 * sizeof( int ) );
+    L_tab = (int *)malloc( 256 * sizeof( int ) );
+    Cr_r_tab = (int *)malloc( 256 * sizeof( int ) );
+    Cr_g_tab = (int *)malloc( 256 * sizeof( int ) );
+    Cb_g_tab = (int *)malloc( 256 * sizeof( int ) );
+    Cb_b_tab = (int *)malloc( 256 * sizeof( int ) );
 
-    D_800FF2E8 = (long *)malloc( 768 * sizeof( long ) );
-    D_800FF2EC = (long *)malloc( 768 * sizeof( long ) );
-    D_800FF2F0 = (long *)malloc( 768 * sizeof( long ) );
+    r_2_pix_alloc = (long *)malloc( 768 * sizeof( long ) );
+    g_2_pix_alloc = (long *)malloc( 768 * sizeof( long ) );
+    b_2_pix_alloc = (long *)malloc( 768 * sizeof( long ) );
 
     for ( i = 0; i < 256; i++ ) {
-        switch ( D_80086D3C ) {
+        switch ( gammaCorrectFlag ) {
         case 1:
-            D_800FF2C8[i] = D_80086D60[i];
+            L_tab[i] = D_80086D60[i];
             break;
         case 2:
-            D_800FF2C8[i] = D_80087560[i];
+            L_tab[i] = D_80087560[i];
             break;
         case 3:
-            D_800FF2C8[i] = D_80087160[i];
+            L_tab[i] = D_80087160[i];
             break;
         default:
-            D_800FF2C8[i] = i;
+            L_tab[i] = i;
         }
 
         CB = CR = i;
 
-        if ( D_80086D40 ) {
+        if ( chromaCorrectFlag ) {
             CB -= 128;
             CB = CHROMA_CORRECTION128( CB );
             CR -= 128;
@@ -201,41 +201,41 @@ void InitColorDither( int thirty2 ) {
             CR -= 128;
         }
 
-        D_800FF2CC[i] = ( 0.419 / 0.299 ) * CR;
-        D_800FF2D0[i] = -( 0.299 / 0.419 ) * CR;
-        D_800FF2D4[i] = -( 0.114 / 0.331 ) * CB;
-        D_800FF2D8[i] = ( 0.587 / 0.331 ) * CB;
+        Cr_r_tab[i] = ( 0.419 / 0.299 ) * CR;
+        Cr_g_tab[i] = -( 0.299 / 0.419 ) * CR;
+        Cb_g_tab[i] = -( 0.114 / 0.331 ) * CB;
+        Cb_b_tab[i] = ( 0.587 / 0.331 ) * CB;
     }
 
     // a level's top bits, moved to where the colour sits in the pixel
     for ( i = 0; i < 256; i++ ) {
-        D_800FF2E8[i + 256] = i >> ( 8 - number_of_bits_set( red_mask ) );
-        D_800FF2E8[i + 256] <<= free_bits_at_bottom( red_mask );
-        D_800FF2EC[i + 256] = i >> ( 8 - number_of_bits_set( green_mask ) );
-        D_800FF2EC[i + 256] <<= free_bits_at_bottom( green_mask );
-        D_800FF2F0[i + 256] = i >> ( 8 - number_of_bits_set( blue_mask ) );
-        D_800FF2F0[i + 256] <<= free_bits_at_bottom( blue_mask );
+        r_2_pix_alloc[i + 256] = i >> ( 8 - number_of_bits_set( red_mask ) );
+        r_2_pix_alloc[i + 256] <<= free_bits_at_bottom( red_mask );
+        g_2_pix_alloc[i + 256] = i >> ( 8 - number_of_bits_set( green_mask ) );
+        g_2_pix_alloc[i + 256] <<= free_bits_at_bottom( green_mask );
+        b_2_pix_alloc[i + 256] = i >> ( 8 - number_of_bits_set( blue_mask ) );
+        b_2_pix_alloc[i + 256] <<= free_bits_at_bottom( blue_mask );
 
         if ( !thirty2 ) {
-            D_800FF2E8[i + 256] |= ( D_800FF2E8[i + 256] ) << 16;
-            D_800FF2EC[i + 256] |= ( D_800FF2EC[i + 256] ) << 16;
-            D_800FF2F0[i + 256] |= ( D_800FF2F0[i + 256] ) << 16;
+            r_2_pix_alloc[i + 256] |= ( r_2_pix_alloc[i + 256] ) << 16;
+            g_2_pix_alloc[i + 256] |= ( g_2_pix_alloc[i + 256] ) << 16;
+            b_2_pix_alloc[i + 256] |= ( b_2_pix_alloc[i + 256] ) << 16;
         }
     }
 
     // below 0 and above 255 the tables repeat their ends
     for ( i = 0; i < 256; i++ ) {
-        D_800FF2E8[i] = D_800FF2E8[256];
-        D_800FF2E8[i + 512] = D_800FF2E8[511];
-        D_800FF2EC[i] = D_800FF2EC[256];
-        D_800FF2EC[i + 512] = D_800FF2EC[511];
-        D_800FF2F0[i] = D_800FF2F0[256];
-        D_800FF2F0[i + 512] = D_800FF2F0[511];
+        r_2_pix_alloc[i] = r_2_pix_alloc[256];
+        r_2_pix_alloc[i + 512] = r_2_pix_alloc[511];
+        g_2_pix_alloc[i] = g_2_pix_alloc[256];
+        g_2_pix_alloc[i + 512] = g_2_pix_alloc[511];
+        b_2_pix_alloc[i] = b_2_pix_alloc[256];
+        b_2_pix_alloc[i + 512] = b_2_pix_alloc[511];
     }
 
-    D_800FF2DC = D_800FF2E8 + 256;
-    D_800FF2E0 = D_800FF2EC + 256;
-    D_800FF2E4 = D_800FF2F0 + 256;
+    r_2_pix = r_2_pix_alloc + 256;
+    g_2_pix = g_2_pix_alloc + 256;
+    b_2_pix = b_2_pix_alloc + 256;
 }
 
 /*
@@ -269,41 +269,41 @@ void Color16DitherImage( unsigned char *lum, unsigned char *cr, unsigned char *c
 
             CR = *cr++;
             CB = *cb++;
-            cr_r = D_800FF2CC[CR];
-            cr_g = D_800FF2D0[CR];
-            cb_g = D_800FF2D4[CB];
-            cb_b = D_800FF2D8[CB];
+            cr_r = Cr_r_tab[CR];
+            cr_g = Cr_g_tab[CR];
+            cb_g = Cb_g_tab[CB];
+            cb_b = Cb_b_tab[CB];
 
-            L = D_800FF2C8[(int)*lum++];
-
-            R = L + cr_r;
-            G = L + cr_g + cb_g;
-            B = L + cb_b;
-
-            *row1++ = ( D_800FF2DC[R] | D_800FF2E0[G] | D_800FF2E4[B] | 1 );
-
-            L = D_800FF2C8[(int)*lum++];
+            L = L_tab[(int)*lum++];
 
             R = L + cr_r;
             G = L + cr_g + cb_g;
             B = L + cb_b;
 
-            *row1++ = ( D_800FF2DC[R] | D_800FF2E0[G] | D_800FF2E4[B] | 1 );
+            *row1++ = ( r_2_pix[R] | g_2_pix[G] | b_2_pix[B] | 1 );
+
+            L = L_tab[(int)*lum++];
+
+            R = L + cr_r;
+            G = L + cr_g + cb_g;
+            B = L + cb_b;
+
+            *row1++ = ( r_2_pix[R] | g_2_pix[G] | b_2_pix[B] | 1 );
 
             // the row below
-            L = D_800FF2C8[(int)*lum2++];
+            L = L_tab[(int)*lum2++];
             R = L + cr_r;
             G = L + cr_g + cb_g;
             B = L + cb_b;
 
-            *row2++ = ( D_800FF2DC[R] | D_800FF2E0[G] | D_800FF2E4[B] | 1 );
+            *row2++ = ( r_2_pix[R] | g_2_pix[G] | b_2_pix[B] | 1 );
 
-            L = D_800FF2C8[(int)*lum2++];
+            L = L_tab[(int)*lum2++];
             R = L + cr_r;
             G = L + cr_g + cb_g;
             B = L + cb_b;
 
-            *row2++ = ( D_800FF2DC[R] | D_800FF2E0[G] | D_800FF2E4[B] | 1 );
+            *row2++ = ( r_2_pix[R] | g_2_pix[G] | b_2_pix[B] | 1 );
         }
 
         lum += cols_2 + cols_2;
