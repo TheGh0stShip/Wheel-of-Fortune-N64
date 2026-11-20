@@ -1,13 +1,20 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-s32 func_800A4CF8(s32 arg0, s32 arg1, s32 arg2) {
-    u32 i;
-    s8 *dst;
+/*
+=====================
+func_800A4CF8
 
-    dst = (s8 *)arg0;
-    for (i = 0; i < (u32)arg2; i++) {
-        dst[i] = arg1;
+memset
+=====================
+*/
+void *func_800A4CF8( void *s, int c, unsigned int n ) {
+    unsigned int i;
+    char         *dst;
+
+    dst = s;
+    for ( i = 0; i < n; i++ ) {
+        dst[i] = c;
     }
-    return arg0;
+    return s;
 }

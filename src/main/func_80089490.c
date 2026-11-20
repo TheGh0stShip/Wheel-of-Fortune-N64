@@ -1,10 +1,16 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-f64 func_80089490(void) {
-    s32 sec;
-    s32 frac;
+/*
+=====================
+func_80089490
 
-    func_800A4F74((s32)&sec, 0);
-    return (f64)sec + (f64)frac / D_80087E98;
+The time in seconds.
+=====================
+*/
+double func_80089490( void ) {
+    struct timeval tv;
+
+    (void)func_800A4F74( &tv, NULL );
+    return ( tv.tv_sec + tv.tv_usec / 1000000.0 );
 }

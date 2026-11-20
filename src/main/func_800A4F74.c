@@ -1,14 +1,19 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-struct gd_4_s32 { u8 pad[0x4]; s32 v; };
+/*
+=====================
+func_800A4F74
 
-s32 func_800A4F74(s32 arg0, ...) {
-    s32 sp10;
+gettimeofday: the time since the console was switched on.
+=====================
+*/
+int func_800A4F74( struct timeval *tp, ... ) {
+    long ticks;
 
-    sp10 = (s32)osGetTime();
-    (*(s32 *)arg0) = (s32)(sp10 / D_80084218);
-    sp10 = (s32)(sp10 % D_80084218);
-    ((struct gd_4_s32 *)arg0)->v = (s32)(((s64)sp10 * 0xF4240) / D_80084218);
+    ticks = osGetTime();
+    tp->tv_sec = ticks / D_80084218;
+    ticks = ticks % D_80084218;
+    tp->tv_usec = ( (s64)ticks * 1000000 ) / D_80084218;
     return 0;
 }

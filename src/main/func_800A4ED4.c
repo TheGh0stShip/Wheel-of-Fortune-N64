@@ -1,8 +1,14 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
+/*
+=====================
+func_800A4ED4
 
-f64 func_800A4ED4(f64 arg0) {
-    func_80009F38("cos: function not yet implemented");
+cos: not there.
+=====================
+*/
+double func_800A4ED4( double x ) {
+    func_80009F38( "cos: function not yet implemented" );
     return 0.0;
 }

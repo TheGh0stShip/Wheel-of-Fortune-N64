@@ -20,6 +20,35 @@ char *func_800890C8( VidStream *vid_stream );
 // the gate cannot place a literal there: it compares the literal's own padding with that fill.
 extern char D_800879DC[];
 
+// video.c
+double func_80089490( void );
+void func_800894F8( void );
+VidStream *func_800895C4( unsigned int buffer_len );
+void func_80089898( VidStream *vid );
+PictImage *func_80089984( VidStream *vid_stream, XInfo *xinfo );
+
+extern unsigned char D_800FB898[];
+
+// libc.c
+void func_800A4C04( void *ptr );
+void *func_800A4C28( unsigned int size );
+void *func_800A4C70( void *ptr, unsigned int size );
+void func_800A4CBC( int status );
+int func_800A4F74( struct timeval *tp, ... );
+
+unsigned int func_800A4A18( void *ptr, unsigned int size, unsigned int nitems, FILE *stream );
+int func_800A4AD8( FILE *stream );
+void *func_800A4B14( void *s1, void *s2, unsigned int n );
+int func_800A4BB4( FILE *stream, long offset, int whence );
+void *func_800A4CF8( void *s, int c, unsigned int n );
+char *func_800A4D84( char *s1, char *s2 );
+FILE *func_800A4DD0( char *filename );
+double func_800A4E84( double x );
+double func_800A4ED4( double x );
+double func_800A4F24( double x );
+
+extern FILE D_80107888;
+
 // PENDING: declarations as the imported sources had them, replaced unit by unit
 extern s32 D_800851C8[];
 extern s32 D_80085308;
@@ -48,8 +77,6 @@ extern s32 D_80086D60[];
 extern s32 D_80087160[];
 extern s32 D_80087560[];
 extern s32 D_80087C98[];
-extern f64 D_80087E98;
-extern u8 D_80087EA0[];
 extern s32 D_80087EE0;
 extern u8 D_800FC098[];
 extern f64 D_800FD098[][8];
@@ -93,9 +120,6 @@ extern s32 D_80107480;
 extern s32 D_80107484;
 extern s32 D_80107488;
 extern s32 D_80107880;
-extern s32 D_80107888;
-extern s32 D_8010788C;
-extern s32 D_80107890;
 extern s32 D_801078A4;
 extern s32 D_801078A8;
 extern s32 D_801078AC;
@@ -103,11 +127,6 @@ extern s32 D_801078B0;
 extern s32 D_801078B4;
 extern s32 *D_801084A0;
 extern s32 *D_801084A8;
-f64 func_80089490( void );
-void func_800894F8( void );
-s32 func_800895C4( s32 arg0 );
-void func_80089898( s32 arg0 );
-s32 func_80089984( s32 arg0, s32 arg1 );
 s32 func_80089B10( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
 s32 func_8008A34C( s32 arg0, s32 arg1 );
 s32 func_8008B560( s32 arg0 );
@@ -162,20 +181,5 @@ void func_800A46FC( void *arg0, s8 *arg1, s32 *arg2 );
 void func_800A4804( void *arg0, s8 *arg1, s32 *arg2 );
 void func_800A4888( u8 *arg0, s32 *arg1 );
 s32 func_800A4920( u8 arg0, s32 arg1, s32 arg2 );
-s32 func_800A4A18( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
-s32 func_800A4AD8( s32 arg0 );
-s32 func_800A4B14( s32 arg0, s32 arg1, s32 arg2 );
-s32 func_800A4BB4( s32 arg0, s32 arg1, s32 arg2 );
-void func_800A4C04( s32 arg0 );
-s32 func_800A4C28( s32 arg0 );
-s32 func_800A4C70( s32 arg0, s32 arg1 );
-void func_800A4CBC( s32 arg0 );
-s32 func_800A4CF8( s32 arg0, s32 arg1, s32 arg2 );
-s32 func_800A4D84( s32 arg0, s32 arg1 );
-s32 *func_800A4DD0( s32 arg0 );
-f64 func_800A4E84( f64 arg0 );
-f64 func_800A4ED4( f64 arg0 );
-f64 func_800A4F24( f64 arg0 );
-s32 func_800A4F74( s32 arg0, ... );
 
 #endif // MPEG_PROTO_H

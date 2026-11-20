@@ -1,78 +1,73 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-typedef struct {
-    /* 0x000 */ u8 unk_000[0x20];
-    /* 0x020 */ s8 unk_020[8][8];
-    /* 0x060 */ s8 unk_060[8][8];
-    /* 0x0A0 */ s32 unk_0A0;
-    /* 0x0A4 */ s32 unk_0A4;
-    /* 0x0A8 */ u8 unk_0A8[0x1C];
-    /* 0x0C4 */ s32 unk_0C4;
-    /* 0x0C8 */ s32 unk_0C8;
-    /* 0x0CC */ u8 unk_0CC[0x24];
-    /* 0x0F0 */ s32 unk_0F0;
-    /* 0x0F4 */ s32 unk_0F4;
-    /* 0x0F8 */ s32 unk_0F8;
-    /* 0x0FC */ u8 unk_0FC[0x8];
-    /* 0x104 */ s32 unk_104;
-    /* 0x108 */ u8 unk_108[0xD8];
-    /* 0x1E0 */ s32 unk_1E0;
-    /* 0x1E4 */ s32 unk_1E4;
-    /* 0x1E8 */ s32 unk_1E8;
-    /* 0x1EC */ s32 unk_1EC;
-    /* 0x1F0 */ s32 unk_1F0;
-    /* 0x1F4 */ s32 unk_1F4;
-    /* 0x1F8 */ u8 unk_1F8[0xC];
-    /* 0x204 */ s32 unk_204;
-    /* 0x208 */ u8 unk_208[0x34];
-    /* 0x23C */ s32 unk_23C;
-    /* 0x240 */ u8 unk_240[0x4];
-    /* 0x244 */ s32 unk_244;
-    /* 0x248 */ s32 unk_248;
-    /* 0x24C */ u8 unk_24C[0xC];
-    /* 0x258 */ s32 unk_258;
-    /* 0x25C */ s32 unk_25C;
-    /* 0x260 */ s32 unk_260;
-    /* 0x264 */ s32 unk_264[5];
-} Decoder;
+/*
+=====================
+func_800895C4
 
-s32 func_800895C4(s32 arg0) {
-    s32 i;
-    s32 j;
-    Decoder *dec;
+Allocates a video stream with a buffer of buffer_len bytes, and gives it the default quantization
+matrices.
+=====================
+*/
+VidStream *func_800895C4( unsigned int buffer_len ) {
+    int       i, j;
+    VidStream *new;
+    static const unsigned char default_intra_matrix[64] = {
+        8, 16, 19, 22, 26, 27, 29, 34,
+        16, 16, 22, 24, 27, 29, 34, 37,
+        19, 22, 26, 27, 29, 34, 34, 38,
+        22, 22, 26, 27, 29, 34, 37, 40,
+        22, 26, 27, 29, 32, 35, 40, 48,
+        26, 27, 29, 32, 35, 40, 48, 58,
+        26, 27, 29, 34, 38, 46, 56, 69,
+        27, 29, 35, 38, 46, 56, 69, 83
+    };
 
-    if ((u32)arg0 < 4) {
-        return 0;
+    if ( buffer_len < 4 ) {
+        return NULL;
     }
-    arg0 = (u32)(arg0 + 3) >> 2;
-    dec = (Decoder *)func_800A4C28(632);
-    dec->unk_0C4 = dec->unk_0C8 = dec->unk_0F0 = dec->unk_0F8 = dec->unk_0F4 = dec->unk_104 = dec->unk_0A0 = dec->unk_0A4 = 0;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 8; j++) {
-            dec->unk_020[i][j] = D_80087EA0[i * 8 + j];
+
+    // the buffer is counted in words
+    buffer_len = ( buffer_len + 3 ) >> 2;
+
+    new = (VidStream *)func_800A4C28( sizeof( VidStream ) );
+
+    new->group.ext_data = new->group.user_data =
+        new->picture.extra_info = new->picture.user_data =
+        new->picture.ext_data = new->slice.extra_info =
+        new->ext_data = new->user_data = NULL;
+
+    for ( i = 0; i < 8; i++ ) {
+        for ( j = 0; j < 8; j++ ) {
+            new->intra_quant_matrix[i][j] = default_intra_matrix[i * 8 + j];
         }
     }
-    i = 0;
-    while (i < 8) {
-        for (j = 0; j < 8; j++) {
-            dec->unk_060[i][j] = 16;
+
+    for ( i = 0; i < 8; i++ ) {
+        for ( j = 0; j < 8; j++ ) {
+            new->non_intra_quant_matrix[i][j] = 16;
         }
-        i++;
     }
-    dec->unk_260 = dec->unk_258 = dec->unk_25C = 0;
-    for (i = 0; i < 5; i++) {
-        dec->unk_264[i] = 0;
+
+    new->current = new->past = new->future = NULL;
+    for ( i = 0; i < RING_BUF_SIZE; i++ ) {
+        new->ring[i] = NULL;
     }
-    dec->unk_1EC = func_800A4C28(arg0 * 4);
-    dec->unk_1F0 = arg0 - 1;
-    dec->unk_1E0 = 0;
-    dec->unk_1E8 = 0;
-    dec->unk_1E4 = dec->unk_1EC;
-    dec->unk_1F4 = 0;
-    dec->unk_23C = 0;
-    dec->unk_248 = 0;
-    dec->unk_244 = 0;
-    dec->unk_204 = 0;
-    return (s32)dec;
+
+    new->buf_start = (unsigned int *)func_800A4C28( buffer_len * 4 );
+
+    // one word less than there is, for streams that end without a sequence end code
+    new->max_buf_length = buffer_len - 1;
+
+    new->bit_offset = 0;
+    new->buf_length = 0;
+    new->buffer = new->buf_start;
+
+    new->film_has_ended = FALSE;
+    new->filename = NULL;
+    new->totNumFrames = 0;
+    new->ditherFlags = NULL;
+    new->EOF_flag = FALSE;
+
+    return new;
 }

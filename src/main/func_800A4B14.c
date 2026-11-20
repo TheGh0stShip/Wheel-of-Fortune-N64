@@ -1,15 +1,22 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-s32 func_800A4B14(s32 arg0, s32 arg1, s32 arg2) {
-    u32 i;
-    s8 *dst;
-    u8 *src;
+/*
+=====================
+func_800A4B14
 
-    dst = (s8 *)arg0;
-    src = (u8 *)arg1;
-    for (i = 0; i < (u32)arg2; i++) {
+memcpy
+=====================
+*/
+void *func_800A4B14( void *s1, void *s2, unsigned int n ) {
+    unsigned int  i;
+    char          *dst;
+    unsigned char *src;
+
+    dst = s1;
+    src = s2;
+    for ( i = 0; i < n; i++ ) {
         dst[i] = src[i];
     }
-    return arg0;
+    return s1;
 }

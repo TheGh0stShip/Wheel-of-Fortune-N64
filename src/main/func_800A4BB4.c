@@ -1,8 +1,14 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
+/*
+=====================
+func_800A4BB4
 
-s32 func_800A4BB4(s32 arg0, s32 arg1, s32 arg2) {
-    func_80009F38("fseek: function not yet implemented");
+fseek: not there.
+=====================
+*/
+int func_800A4BB4( FILE *stream, long offset, int whence ) {
+    func_80009F38( "fseek: function not yet implemented" );
     return 0;
 }

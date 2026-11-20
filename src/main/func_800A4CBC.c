@@ -1,7 +1,13 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
+/*
+=====================
+func_800A4CBC
 
-void func_800A4CBC(s32 arg0) {
-    func_80009F38("MPEG: exited before done");
+exit: reports it and returns to the caller.
+=====================
+*/
+void func_800A4CBC( int status ) {
+    func_80009F38( "MPEG: exited before done" );
 }

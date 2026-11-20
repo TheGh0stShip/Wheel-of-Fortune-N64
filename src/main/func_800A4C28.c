@@ -1,6 +1,13 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-s32 func_800A4C28(s32 arg0) {
-    return func_8000B924(arg0);
+/*
+=====================
+func_800A4C28
+
+malloc: the game's allocator.
+=====================
+*/
+void *func_800A4C28( unsigned int size ) {
+    return func_8000B924( size );
 }
