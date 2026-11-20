@@ -1,7 +1,7 @@
 #!/bin/sh
 # wof -- run the project tool (tools/wof.c). From a Windows shell this re-enters WSL, where the compiler lives.
-# Six verbs have their own tool: rules (tools/rules.c), unitmap (tools/unitmap.c), frame (tools/frame.c),
-# datamap (tools/datamap.c), datagen (tools/datagen.c), report (gate, then rules).
+# Seven verbs have their own tool: rules (tools/rules.c), unitmap (tools/unitmap.c), frame (tools/frame.c),
+# datamap (tools/datamap.c), datagen (tools/datagen.c), rename (tools/rename.c), report (gate, then rules).
 here=$(cd "$(dirname "$0")" && pwd)
 if [ "$(uname -s)" != Linux ]; then
     wslhere=$(printf '%s' "$here" | sed 's|^/\([a-zA-Z]\)/|/mnt/\L\1/|')
@@ -51,6 +51,9 @@ fi
 if [ ! -x "$WOF_BUILD/datagen" ] || [ tools/datagen.c -nt "$WOF_BUILD/datagen" ]; then
     cc -O2 -Wall -o "$WOF_BUILD/datagen" tools/datagen.c -lm || exit 2
 fi
+if [ ! -x "$WOF_BUILD/rename" ] || [ tools/rename.c -nt "$WOF_BUILD/rename" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/rename" tools/rename.c || exit 2
+fi
 case "$1" in
 rules)
     shift
@@ -75,6 +78,11 @@ datagen)
     # the C definition of a datum from the ROM, given its type (the types of the last gate's game units)
     shift
     exec "$WOF_BUILD/datagen" "$@"
+    ;;
+rename)
+    # rename identifiers across the game sources from spec files (not a gate: run the gate after it)
+    shift
+    exec "$WOF_BUILD/rename" "$@"
     ;;
 report)
     # both score numbers, each from its own tool
