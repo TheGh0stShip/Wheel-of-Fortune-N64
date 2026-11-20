@@ -1,7 +1,9 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
-void func_80021090(s32 arg0) {
+// arg0: the picture the MPEG player has decoded (its unsigned char display buffer), which
+// holds 16-bit pixels; the function for the movie's size reads it as u16.
+void func_80021090(void *arg0) {
     switch (D_80107884->h_size) {
     case 112:
         func_800202A0(arg0);

@@ -1,6 +1,6 @@
 #include "wof.h"
 
-void func_8001ED48(s32 arg0) {
+void func_8001ED48(u16 *arg0) {
     s32 sp10;
     s32 y;
     s32 x;
@@ -16,7 +16,7 @@ void func_8001ED48(s32 arg0) {
     sp38 = 0x2000000;
     sp10 = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_19C00);
     sp10 = sp10 - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
-    src = (u16 *)arg0;
+    src = arg0;
     dst = D_800BEF08[D_800B61A0].frame.unk_19C00;
     n = 0;
     for (k = 0; k < 3; k++) {

@@ -1,6 +1,6 @@
 #include "wof.h"
 
-void func_800206C8(s32 arg0) {
+void func_800206C8(u16 *arg0) {
     s32 diff;
     s32 i;
     s32 j;
@@ -16,7 +16,7 @@ void func_800206C8(s32 arg0) {
     base = 0x2000000;
     diff = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_0AC00[0]);
     diff = diff - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
-    src = (u16 *)arg0;
+    src = arg0;
     dst = D_800BEF08[D_800B61A0].frame.unk_0AC00[0];
     if (D_800B96A4 != 0) {
         dst = D_800B998C;

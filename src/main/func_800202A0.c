@@ -1,6 +1,6 @@
 #include "wof.h"
 
-void func_800202A0(s32 arg0) {
+void func_800202A0(u16 *arg0) {
     s32 size;
     s32 row;
     s32 col;
@@ -13,7 +13,7 @@ void func_800202A0(s32 arg0) {
     sp2C = 0x2000000;
     size = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_19C00);
     size = size - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
-    src = (u16 *)arg0;
+    src = arg0;
     dst = D_800BEF08[D_800B61A0].frame.unk_19C00;
     n = 0;
     page = 0;
