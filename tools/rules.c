@@ -263,6 +263,51 @@ static int is_type_word(const char *s) {
     return 0;
 }
 
+/* The text of every preprocessor line in every file: a macro body may use a local by name. */
+static char *macro_text;
+
+static void collect_macro_text(void) {
+    size_t cap = 1 << 16, len = 0;
+    int i;
+    macro_text = malloc(cap);
+    for (i = 0; i < nfiles; i++) {
+        const char *p = files[i].raw;
+        while (*p) {
+            const char *q = p;
+            while (*q == ' ' || *q == '\t') q++;
+            if (*q == '#') {
+                for (;;) { /* the directive and its continuation lines */
+                    size_t n = strcspn(p, "\n");
+                    if (len + n + 2 > cap) macro_text = realloc(macro_text, cap = (cap + n) * 2);
+                    memcpy(macro_text + len, p, n);
+                    len += n;
+                    macro_text[len++] = '\n';
+                    p += n;
+                    if (!*p) break;
+                    p++;
+                    if (n == 0 || p[-2] != '\\') break;
+                }
+                continue;
+            }
+            p += strcspn(p, "\n");
+            if (*p) p++;
+        }
+    }
+    macro_text[len] = 0;
+}
+
+static int used_in_macro(const char *name) {
+    size_t n = strlen(name);
+    const char *p = macro_text;
+    while ((p = strstr(p, name))) {
+        int before = p > macro_text && (isalnum((unsigned char)p[-1]) || p[-1] == '_');
+        int after = isalnum((unsigned char)p[n]) || p[n] == '_';
+        if (!before && !after) return 1;
+        p += n;
+    }
+    return 0;
+}
+
 static int line_has_note(const File *f, int line) {
     const char *p = f->raw;
     char buf[600];
@@ -360,7 +405,7 @@ static void check_body(File *f, Func *fn) {
                             if (m != k && f->tok[m].kind == 'i' && f->tok[m].len == (int)strlen(a) && !memcmp(f->tok[m].s, a, f->tok[m].len) &&
                                 !is(f, m - 1, ".") && !is(f, m - 1, "->"))
                                 uses++;
-                        if (!uses && !line_has_note(f, f->tok[k].line))
+                        if (!uses && !used_in_macro(a) && !line_has_note(f, f->tok[k].line))
                             finding(f, fn, R17, f->tok[k].line, "local '%s' is never used", a);
                     }
                     if (depth == 0 && is(f, k, "=")) { /* skip the initializer */
@@ -568,6 +613,7 @@ int main(int argc, char **argv) {
     fclose(fp);
     add_headers("include");
     add_headers("src");
+    collect_macro_text();
 
     /* which claimed units did the last gate run actually verify? */
     snprintf(path, sizeof path, "%s/units.txt", build);
