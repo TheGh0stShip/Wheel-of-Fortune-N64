@@ -85,6 +85,17 @@ extern const int D_80087D98[8][8];
 void func_800964D0( int n, VidStream *vid_stream );
 void func_800983D4( int n, VidStream *vid_stream );
 
+// motionvector.c
+void func_800998E0( int *recon_right_for_ptr, int *recon_down_for_ptr, VidStream *the_stream );
+void func_80099C8C( int *recon_right_back_ptr, int *recon_down_back_ptr, VidStream *the_stream );
+
+// decoders.c
+void func_8009A038( void );
+void func_8009A7D0( void );
+void func_8009AF48( void );
+void func_8009BAE0( void );
+void func_8009C5AC( void );
+
 // PENDING: declarations as the imported sources had them, replaced unit by unit
 extern s32 D_80086CD0[];
 extern s32 D_80086D10;
@@ -135,28 +146,12 @@ extern s32 *D_8010346C;
 extern s32 *D_80103470;
 extern s32 D_80103474;
 extern s32 D_80103478;
-extern s32 D_801034C0;
-extern s32 D_801034C4;
-extern s32 D_801034F8;
-extern s32 D_801034FC;
 extern s32 D_80107480;
 extern s32 D_80107484;
 extern s32 D_80107488;
 extern s32 D_80107880;
-extern s32 D_801078A4;
-extern s32 D_801078A8;
-extern s32 D_801078AC;
-extern s32 D_801078B0;
-extern s32 D_801078B4;
 extern s32 *D_801084A0;
 extern s32 *D_801084A8;
-void func_800998E0( s32 arg0, s32 arg1, s32 arg2 );
-void func_80099C8C( s32 arg0, s32 arg1, s32 arg2 );
-void func_8009A038( void );
-void func_8009A7D0( void );
-void func_8009AF48( void );
-void func_8009BAE0( void );
-void func_8009C5AC( void );
 void func_8009C600( void );
 void func_8009C754( s32 arg0 );
 void func_8009CA80( s32 arg0, s32 arg1 );

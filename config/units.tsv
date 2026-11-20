@@ -523,13 +523,8 @@ kdebugserver	0x800B2420	0x1B0	match	ultra_O1	lib/ultralib/src/debug/kdebugserver
 mpeg_util	0x800887D8	0xCB4	match	game	src/mpeg/util.c
 mpeg_video	0x80089490	0xD03C	match	game	src/mpeg/video.c
 mpeg_parseblock	0x800964D0	0x3410	match	game	src/mpeg/parseblock.c
-func_800998E0	0x800998E0	0x3AC	match	game	src/main/func_800998E0.c
-func_80099C8C	0x80099C8C	0x3AC	match	game	src/main/func_80099C8C.c
-func_8009A038	0x8009A038	0x798	match	game	src/main/func_8009A038.c
-func_8009A7D0	0x8009A7D0	0x778	match	game	src/main/func_8009A7D0.c
-func_8009AF48	0x8009AF48	0xB98	match	game	src/main/func_8009AF48.c
-func_8009BAE0	0x8009BAE0	0xACC	match	game	src/main/func_8009BAE0.c
-func_8009C5AC	0x8009C5AC	0x50	match	game	src/main/func_8009C5AC.c
+mpeg_motionvector	0x800998E0	0x758	match	game	src/mpeg/motionvector.c
+mpeg_decoders	0x8009A038	0x25C4	match	game	src/mpeg/decoders.c
 func_8009C600	0x8009C600	0x154	match	game	src/main/func_8009C600.c
 func_8009C754	0x8009C754	0x32C	match	game	src/main/func_8009C754.c
 func_8009CA80	0x8009CA80	0x58	match	game	src/main/func_8009CA80.c
