@@ -421,6 +421,14 @@ static pid_t spawn_compile(const Unit *u) {
         snprintf(cmd, sizeof cmd, "'%s/cc' -c %s -o '%s' '%s'", ido, flagstr[ci], obj, src);
     else
         snprintf(cmd, sizeof cmd, "'%s/gcc' -c %s -o '%s' '%s'", toolchain, flagstr[ci], obj, src);
+    if (strlen(src) > 2 && !strcmp(src + strlen(src) - 2, ".c")) {
+        /* The same compiler's preprocessor output, for the rule checker: it tells which #if branches this unit
+           compiles. Its failure is not the unit's failure. */
+        size_t n = strlen(cmd);
+        int is_ido = !strcmp(flagmode[ci], "ido");
+        snprintf(cmd + n, sizeof cmd - n, " && { '%s/%s' -E %s '%s' > '%s/obj/%s.i' 2>/dev/null || true; }",
+                 is_ido ? ido : toolchain, is_ido ? "cc" : "gcc", flagstr[ci], src, build_dir, u->name);
+    }
     setenv("COMPILER_PATH", toolchain, 1);
     if (!freopen(log, "w", stderr)) _exit(126);
     dup2(2, 1);

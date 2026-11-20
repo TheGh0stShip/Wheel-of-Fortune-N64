@@ -351,8 +351,15 @@ static void check_body(File *f, Func *fn) {
                 finding(f, fn, R17, t->line, "do { } while (0) outside a macro");
         }
         if (is(f, i, ";") && paren == 0 && i > fn->first &&
-            (is(f, i - 1, ";") || is(f, i - 1, "{") || (is(f, i - 1, "}") && kind[i - 1])))
-            finding(f, fn, R17, t->line, "bare ';' statement");
+            (is(f, i - 1, ";") || is(f, i - 1, "{") || (is(f, i - 1, "}") && kind[i - 1]))) {
+            /* "while (x) { ; }" is an empty loop body, which is allowed */
+            int loop_body = 0;
+            if (is(f, i - 1, "{") && is(f, i + 1, "}") && is(f, i - 2, ")")) {
+                int open = match_open(f, i - 2, "(", ")");
+                loop_body = is(f, open - 1, "while") || is(f, open - 1, "for");
+            }
+            if (!loop_body) finding(f, fn, R17, t->line, "bare ';' statement");
+        }
         if (is(f, i, "volatile")) finding(f, fn, R17, t->line, "volatile in a function body");
         if (is(f, i, "__asm__") || is(f, i, "asm") || is(f, i, "__asm")) finding(f, fn, R18, t->line, "inline assembly");
         if (t->kind == 'i' && is(f, i + 1, "=") && is(f, i + 3, ";") && f->tok[i + 2].kind == 'i' &&
@@ -598,6 +605,77 @@ static File *add_file(const char *path) {
     return f;
 }
 
+/*
+ * Blank the #if branches this build never compiles, so that code retail does not contain is neither judged nor
+ * counted.  The gate leaves each unit's preprocessor output in obj/UNIT.i; a branch is compiled when any of its
+ * lines reaches that output.  A source built as several units keeps a branch that any of them compiles.
+ */
+static void mask_uncompiled(File *f, const char *build) {
+    int nlines = 1, k, sp = 0, line, start[64];
+    char *active, path[500], buf[8192], word[16];
+    const char *p;
+    size_t plen = strlen(f->path);
+    for (p = f->raw; *p; p++) nlines += *p == '\n';
+    active = calloc(nlines + 2, 1);
+    for (k = 0; k < f->nunits; k++) {
+        FILE *fp;
+        int cur = 0, in_file = 0, any = 0;
+        snprintf(path, sizeof path, "%s/obj/%s.i", build, f->units[k]);
+        fp = fopen(path, "r");
+        if (!fp) goto unknown;
+        while (fgets(buf, sizeof buf, fp)) {
+            int n;
+            char name[4096];
+            any = 1;
+            if (sscanf(buf, "# %d \"%4095[^\"]\"", &n, name) == 2 || sscanf(buf, "#line %d \"%4095[^\"]\"", &n, name) == 2) {
+                size_t nl = strlen(name);
+                in_file = nl >= plen && !strcmp(name + nl - plen, f->path);
+                cur = n;
+                continue;
+            }
+            if (in_file && cur >= 1 && cur <= nlines && buf[strspn(buf, " \t\r\n")]) active[cur] = 1;
+            if (strchr(buf, '\n')) cur++;
+        }
+        fclose(fp);
+        if (!any) goto unknown;
+    }
+    line = 1;
+    for (p = f->raw; *p; line++) {
+        const char *q = p + strspn(p, " \t");
+        const char *eol = p + strcspn(p, "\n");
+        word[0] = 0;
+        if (*q == '#') sscanf(q + 1, " %15[a-z]", word);
+        if (!strcmp(word, "if") || !strcmp(word, "ifdef") || !strcmp(word, "ifndef")) {
+            if (sp < 64) start[sp++] = line + 1;
+        } else if (sp > 0 && (!strcmp(word, "else") || !strcmp(word, "elif") || !strcmp(word, "endif"))) {
+            int a = start[sp - 1], b = line - 1, l, live = 0;
+            for (l = a; l <= b; l++) live |= active[l];
+            if (!live) {
+                /* blank lines a..b of the cleaned text, leaving one '@' token in their place: a block that only
+                   held compiled-out code is not an empty block */
+                char *c = f->clean;
+                int marked = 0;
+                for (l = 1; *c; c++) {
+                    if (*c == '\n') l++;
+                    else if (l >= a && l <= b) {
+                        *c = marked ? ' ' : '@';
+                        marked = 1;
+                    }
+                }
+            }
+            if (!strcmp(word, "endif")) sp--;
+            else start[sp - 1] = line + 1;
+        }
+        p = *eol ? eol + 1 : eol;
+    }
+    free(f->tok);
+    f->tok = NULL;
+    f->ntok = 0;
+    tokenize(f);
+unknown:
+    free(active);
+}
+
 static void add_headers(const char *dir) {
     DIR *d = opendir(dir);
     struct dirent *e;
@@ -648,6 +726,8 @@ int main(int argc, char **argv) {
     fclose(fp);
     add_headers("include");
     add_headers("src");
+    for (i = 0; i < nfiles; i++)
+        if (files[i].nunits) mask_uncompiled(&files[i], build);
     add_headers("lib");
     collect_macro_text();
 

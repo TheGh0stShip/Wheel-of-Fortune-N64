@@ -54,13 +54,14 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
   derived from retail and is validated by every unit in the gate. A new rule needs the same evidence: a retail
   shape that no source change explains, seen in more than one function. Run the full gate after any change to it.
 - **Units** (`config/units.tsv`: unit, address, size, state, flag class, source, optional entry symbol). A unit is
-  one compiled source file placed at one address. `match` units are in the gate; `open` units are compiled and
+  one compiled source file placed at one address: by its `.text`, or, for an object without code (a table, a
+  block of uninitialised data), by its first data section. `match` units are in the gate; `open` units are compiled and
   compared but keep retail's bytes in the linked image. **`open` is the parking mechanism**: an unfinished
   function stays in its own `open` unit. Today nearly every unit holds one function, which is not the original
   layout (see "Unit boundaries").
 - **Functions** (`config/functions.tsv`): the inventory of 773 function ranges, 745 C and 28 assembly. The
   assembly ranges are the entry stub and libultra's own `.s` sources: `ORIGINAL-ASM`.
-- **Symbols** (`config/symbols.txt`): addresses of names no unit defines yet. `func_XXXXXXXX` and `D_XXXXXXXX`
+- **Symbols** (`config/symbols.txt`): addresses of names no unit defines yet; empty today. `func_XXXXXXXX` and `D_XXXXXXXX`
   carry their address in the name and need no entry. A unit that defines a global exports it to every other
   unit. The gate rejects an undeclared name, a name bound to two addresses, and an address-named function placed
   anywhere else.
@@ -138,6 +139,10 @@ The full catalogue is the user-level `decomp-code-rules` skill (`references/rule
 | R4 | a constant added to a `(char *)`/`(u8 *)` cast |
 | R17 | a local nothing uses (unless its line carries `NOTE:`, `BUG:`, `guess:` or `RULE-EXCEPTION`); `volatile` in a function body; an empty `if`/`else` block; a bare `;`; `do { } while (0)` in a body; self-assignment; `+ 0`; `* 1`; a `pad` member |
 | R18 | `__asm__`, `asm` |
+
+The checker judges only what a unit compiles: the gate leaves each unit's preprocessor output beside its
+object, and an `#if` branch none of whose lines reaches that output is neither judged nor counted. Run
+`./wof gate` (or `./wof report`) before `./wof rules`.
 
 Advisory, not blocking: placeholder names (R7), prototypes in source files (R25), missing header comments (R33),
 dereferenced casts of `expression + constant`.
