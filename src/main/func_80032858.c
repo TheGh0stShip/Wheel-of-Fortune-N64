@@ -1,10 +1,7 @@
-typedef signed char s8;
-typedef signed int s32;
-
-void func_80032AD4(s32 arg0);
+#include "wof.h"
 
 void func_80032858(void) {
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     func_80032AD4(4);
 }

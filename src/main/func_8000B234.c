@@ -1,30 +1,17 @@
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
 
-typedef struct Node {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ u8 unk_10[0x40];
-    /* 0x50 */ struct Node *next;
-} Node;
+s32 func_8000B234(obj_t *obj) {
+    obj_t *prev;
+    obj_t *next;
 
-extern s32 D_800BCA10;
-s32 func_8000B060(s32 arg0);
-
-s32 func_8000B234(s32 arg0) {
-    Node *prev;
-    Node *next;
-
-    prev = (Node *)func_8000B060(arg0);
+    prev = func_8000B060(obj);
     if (prev == 0) {
         return 0;
     }
-    next = ((Node *)arg0)->next;
+    next = obj->next;
     prev->next = next;
-    ((Node *)arg0)->unk_0C = 0;
-    ((Node *)arg0)->unk_04 = 0;
+    obj->unk_0C = 0;
+    obj->unk_04 = 0;
     D_800BCA10--;
     return 1;
 }

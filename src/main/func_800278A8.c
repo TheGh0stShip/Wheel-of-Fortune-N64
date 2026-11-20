@@ -1,6 +1,5 @@
-typedef signed int s32;
-void func_8002741C(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+#include "wof.h"
 
-void func_800278A8(s32 arg0, s32 arg1) {
-    func_8002741C(arg0, arg1, 0, 0);
+void func_800278A8(image_t *image, s32 arg1) {
+    func_8002741C(image, arg1, 0, 0);
 }

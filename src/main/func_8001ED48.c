@@ -1,17 +1,4 @@
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned short u16;
-typedef signed int s32;
-
-typedef struct {
-    /* 0x00000 */ u8 unk_00[0x4];
-    /* 0x00004 */ u8 unk_04[0x1E47C];
-} Bank;
-
-extern Bank D_800BEF5C[];
-extern Bank D_800BEF60[];
-extern s32 D_800B61A0;
-s32 func_8003FF78(s32);
+#include "wof.h"
 
 void func_8001ED48(s32 arg0) {
     s32 sp10;
@@ -20,16 +7,17 @@ void func_8001ED48(s32 arg0) {
     s32 k;
     s32 n;
     u16 *src;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     s16 *dst;
-    s32 pad1[2];
+    s32 unused2;  /* NOTE: unused in the original */
+    s32 unused3;  /* NOTE: unused in the original */
     s32 sp38;
 
     sp38 = 0x2000000;
-    sp10 = func_8003FF78((s32)&D_800BEF5C[D_800B61A0].unk_04[0x19C00]);
-    sp10 = sp10 - func_8003FF78((s32)&D_800BEF60[D_800B61A0]);
+    sp10 = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_19C00);
+    sp10 = sp10 - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
     src = (u16 *)arg0;
-    dst = (s16 *)&D_800BEF5C[D_800B61A0].unk_04[0x19C00];
+    dst = D_800BEF08[D_800B61A0].frame.unk_19C00;
     n = 0;
     for (k = 0; k < 3; k++) {
         for (y = 0; y < 32; y++) {

@@ -1,12 +1,5 @@
-typedef unsigned char u8;
-typedef signed int s32;
-typedef float f32;
-extern f32 D_800011C8;
-extern s32 D_800B6AE0;
-s32 func_80009C98(s32 arg0);
-void func_8001A628(s32 arg0);
-s32 func_8001A6DC(s32 arg0);
-s32 func_8001A7A8(s32 arg0);
+#include "wof.h"
+
 
 s32 func_8001A97C(f32 arg0) {
     f32 roll;
@@ -14,7 +7,7 @@ s32 func_8001A97C(f32 arg0) {
 
     func_8001A628((s32)&D_800B6AE0);
     roll = (f32)func_80009C98(100);
-    roll = roll / D_800011C8;
+    roll = roll / 100.0f;
     if (roll < arg0) {
         result = func_8001A7A8((s32)&D_800B6AE0);
     } else {

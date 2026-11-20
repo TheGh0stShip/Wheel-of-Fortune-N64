@@ -1,48 +1,30 @@
-typedef unsigned short u16;
-typedef signed int s32;
-typedef unsigned long long u64;
-struct n64dk_r12 { s32 w[3]; };
-extern u64 D_80084218;
-extern u16 D_800B96B0;
-extern s32 D_800BA2C0;
-extern s32 D_800BCA1C;
-extern s32 D_800BCD54;
-extern s32 D_800BED88;
-extern s32 D_800BED98;
-extern s32 D_800BEE48;
-s32 func_80002B34();
-s32 func_8000A990();
-s32 func_8000AAB0();
-s32 func_8000ACE8();
-s32 func_8000B6FC();
-s32 func_800335D0();
-u64 func_80044988();
+#include "wof.h"
 
-struct n64dk_r12 func_80033688(s32 arg1) {
+struct n64dk_r12 func_80033688(proc_t *proc) {
     struct n64dk_r12 sp10;
-    s32 sp20;
-    s32 pad0;
+    proc_t *sp20;
+    s32 unused;  /* NOTE: unused in the original */
     s32 sp28;
 
     sp10.w[1] = 1;
     sp10.w[0] = 0;
     for (;;) {
-        sp28 = func_8000ACE8(arg1);
+        sp28 = func_8000ACE8(proc);
         if (sp28 == 0) {
             break;
         }
         switch (sp28) {
         case 8:
-            D_800BEE48 = (s32)(func_80044988() / D_80084218);
+            D_800BEE48 = (s32)(osGetTime() / osClockRate);
         }
     }
     D_800BCA1C = 0;
     if (D_800BCD54 == 2) {
         if (D_800BED88 > 0) {
-            D_800BEE48 = (s32)(func_80044988() / D_80084218);
+            D_800BEE48 = (s32)(osGetTime() / osClockRate);
             D_800BED88 = 0;
         } else {
-            if (((func_80044988() / D_80084218) - D_800BEE48) > 30) {
+            if (((osGetTime() / osClockRate) - D_800BEE48) > 30) {
                 func_800335D0();
                 return sp10;
             }
@@ -65,8 +47,8 @@ struct n64dk_r12 func_80033688(s32 arg1) {
             func_8000B6FC(0x5020000, -1);
             D_800BCD54 = D_800BED98;
             func_80002B34();
-            D_800BCA1C = ((s32)(func_80044988() / D_80084218)) - D_800BA2C0;
-            D_800BEE48 = (s32)(func_80044988() / D_80084218);
+            D_800BCA1C = ((s32)(osGetTime() / osClockRate)) - D_800BA2C0;
+            D_800BEE48 = (s32)(osGetTime() / osClockRate);
         }
     }
     return sp10;

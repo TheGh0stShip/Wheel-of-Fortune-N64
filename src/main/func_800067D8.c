@@ -1,7 +1,6 @@
-typedef signed int s32;
-void func_8000648C(void);
+#include "wof.h"
 
-void func_800067D8(s32 arg0) {
+void func_800067D8(void *arg) {
     s32 sp10;
 
     sp10 = 0;

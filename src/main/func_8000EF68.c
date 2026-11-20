@@ -1,63 +1,30 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed int s32;
-typedef float f32;
-struct n64dk_r12 { s32 w[3]; };
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x2C];
-    /* 0x2C */ f32 unk_2C;
-} Obj;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0xC];
-    /* 0x0C */ f32 unk_0C;
-} State;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *unk_30;
-} Task;
-
-extern f32 D_80000BA4;
-extern f32 D_80000BA8;
-extern f32 D_80000BAC;
-extern f32 D_80000BB0;
-extern f32 D_80057F44;
-extern s32 D_80057F48;
-extern u16 D_800B96B0;
-extern s32 D_800B96B4;
-extern s8 D_800B9956;
-extern f32 D_800BCCF0;
-void func_8000A850(s32 arg0);
-s32 func_8000ACE8(s32 arg0);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
-s32 func_8003CE58(void);
-
-struct n64dk_r12 func_8000EF68(s32 arg1) {
+struct n64dk_r12 func_8000EF68(proc_t *proc) {
+    // The locals are func_8000F274's, slot for slot; this handler leaves three of them unused.
     struct n64dk_r12 ret;
-    s32 pad0;
-    Obj *obj;
+    obj_t *unused;  /* NOTE: unused in the original */
+    obj_t *obj;
     f32 delta;
-    s32 pad1;
-    s32 pad2;
+    f32 unused2;  /* NOTE: unused in the original */
+    s32 unused3;  /* NOTE: unused in the original */
     s32 event;
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    obj = (Obj *)func_8000B5DC(0x4010000, 0xFFFF0000);
+    obj = func_8000B5DC(0x4010000, 0xFFFF0000);
     if (obj == 0) {
         return ret;
     }
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
         switch (event) {
         case 8:
-            ((Task *)arg1)->unk_30->unk_0C = obj->unk_2C;
+            proc->unk_30->data8000EF68.unk_0C = obj->unk_2C;
             break;
         case 34:
             ret.w[1] = 0;
@@ -65,16 +32,16 @@ struct n64dk_r12 func_8000EF68(s32 arg1) {
             return ret;
         }
     }
-    delta = ((Task *)arg1)->unk_30->unk_0C - D_800B9956 / D_80057F44;
+    delta = proc->unk_30->data8000EF68.unk_0C - D_800B9954.stick_x / D_80057F44;
     if (delta > 0.0f) {
-        delta = delta * D_80000BA4;
+        delta = delta * -1.0f;
     }
     delta = delta - obj->unk_2C;
     delta = delta / (f32)(12 / D_800B96B4);
-    D_800BCCF0 = delta * D_80000BA8 * D_80000BAC;
+    D_800BCCF0 = delta * -1.0f * 60.0f;
     obj->unk_2C = obj->unk_2C + delta;
     if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
-        D_800BCCF0 = (f32)(func_8003CE58() % 40) + D_80000BB0;
+        D_800BCCF0 = (f32)(guRandom() % 40) + 100.0f;
         func_8000A850(29);
         ret.w[1] = 0;
         ret.w[0] = 0;

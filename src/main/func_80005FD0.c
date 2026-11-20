@@ -1,27 +1,10 @@
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 w0;
-    /* 0x04 */ s32 w1;
-} Gfx;
+void func_80005FD0(frame_t *frame) {
+    s32 unused;  /* NOTE: unused in the original */
 
-extern Gfx *D_800B81E8;
-
-void func_80005FD0(s32 arg0) {
-    s32 pad0;
-    Gfx *gfx;
-
-    gfx = D_800B81E8++;
-    gfx->w0 = 0xE7000000;
-    gfx->w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->w0 = 0xED000000;
-    gfx->w1 = 0x5003C0;
-    gfx = D_800B81E8++;
-    gfx->w0 = 0xE7000000;
-    gfx->w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->w0 = 0xE7000000;
-    gfx->w1 = 0;
+    gDPPipeSync(D_800B81E8++);
+    gDPSetScissor(D_800B81E8++, G_SC_NON_INTERLACE, 0, 0, 320, 240);
+    gDPPipeSync(D_800B81E8++);
+    gDPPipeSync(D_800B81E8++);
 }

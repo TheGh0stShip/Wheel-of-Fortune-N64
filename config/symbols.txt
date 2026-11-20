@@ -1,0 +1,2 @@
+// Addresses of symbols that no unit defines yet. One declaration per line, linker-script syntax.
+// Each entry was read from retail call sites and address pairs; the gate rejects any use that disagrees.

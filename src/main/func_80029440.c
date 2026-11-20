@@ -1,44 +1,17 @@
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ u8 unk_0C[0x14];
-    /* 0x20 */ s32 *unk_20;
-    /* 0x24 */ s32 *unk_24;
-} Glyph;
-
-extern Glyph D_8005B710[];
-extern s32 D_01017550;
-extern s32 D_01017650;
-extern s32 D_01017750;
-extern s32 D_010178D0;
-extern s32 D_01017A50;
-extern s32 D_01017BD0;
-extern s32 D_80001690;
-extern s32 func_80028D3C;
-extern s32 func_80029098;
-extern s32 *D_8005B5A4[];
-extern u8 D_800B9544[];
-extern s32 D_800BCD54;
-s32 func_80009A74(s32 arg0);
-void func_80009F38(s32 *arg0);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-s32 func_80027218(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 void func_80029440(void) {
     s32 len;
     s32 x;
     s32 n;
     s32 i;
-    s32 task;
-    s32 sp24;
+    proc_t *task;
+    obj_t *sp24;
 
     len = func_80009A74((s32)D_800B9544);
     if (len >= 21) {
-        func_80009F38(&D_80001690);
+        func_80009F38("InitCategory: category strlen > 20");
     }
     i = 0;
     while (i < 22) {
@@ -49,8 +22,8 @@ void func_80029440(void) {
     x = 152 - len * 6;
     n = 0;
     D_8005B710[n].unk_24 = &D_01017550;
-    D_8005B710[n].unk_00 = x;
-    D_8005B710[n].unk_08 = 8;
+    D_8005B710[n].x = x;
+    D_8005B710[n].width = 8;
     if (D_800BCD54 == 8) {
         D_8005B710[n].unk_20 = D_8005B710[n].unk_24;
     }
@@ -73,8 +46,8 @@ void func_80029440(void) {
         default:
             D_8005B710[n].unk_24 = D_8005B5A4[D_800B9544[i]];
         }
-        D_8005B710[n].unk_00 = x;
-        D_8005B710[n].unk_08 = 12;
+        D_8005B710[n].x = x;
+        D_8005B710[n].width = 12;
         if (D_800BCD54 == 8) {
             D_8005B710[n].unk_20 = D_8005B710[n].unk_24;
         }
@@ -82,12 +55,12 @@ void func_80029440(void) {
         x = x + 12;
     }
     D_8005B710[n].unk_24 = &D_01017650;
-    D_8005B710[n].unk_00 = x;
-    D_8005B710[n].unk_08 = 8;
+    D_8005B710[n].x = x;
+    D_8005B710[n].width = 8;
     if (D_800BCD54 == 8) {
         D_8005B710[n].unk_20 = D_8005B710[n].unk_24;
         return;
     }
-    task = func_8000A56C((s32)&func_80029098, 0x6040000);
-    sp24 = func_80027218(task, 0, (s32)&func_80028D3C, 0x5000000);
+    task = func_8000A56C(func_80029098, 0x6040000);
+    sp24 = func_80027218(task, 0, func_80028D3C, 0x5000000);
 }

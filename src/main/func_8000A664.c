@@ -1,38 +1,14 @@
-typedef unsigned char u8;
-typedef signed int s32;
-
-typedef struct {
-    /* 0x00 */ s32 value;
-    /* 0x04 */ s32 kind;
-} Result;
-
-typedef struct Task {
-    /* 0x00 */ void (*func)(Result *, struct Task *);
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ u8 unk_18[0x28];
-    /* 0x40 */ struct Task *next;
-} Task;
-
-extern s32 D_80000894;
-extern Task D_800B82A0;
-extern s32 D_800BCD54;
-void func_80009F38(void *arg0);
-s32 func_8000A4A4(s32 arg0, s32 arg1);
+#include "wof.h"
 
 void func_8000A664(void) {
-    Result res;
-    s32 pad0[2];
-    Task *task;
+    struct n64dk_r12 res;
+    proc_t *task;
 
-    task = &D_800B82A0;
+    task = &D_800B82A0[0];
     while (task->next != 0) {
         task = task->next;
-        if (task->func == 0) {
-            func_80009F38(&D_80000894);
+        if (task->unk_00 == 0) {
+            func_80009F38("DoProcs: Tried to execute a NULL\n");
             return;
         }
         if (task->unk_14 == 0) {
@@ -43,24 +19,24 @@ void func_8000A664(void) {
             } else {
                 if (D_800BCD54 == 6) {
                     if (task->unk_08 == 0xB000000) {
-                        task->func(&res, task);
+                        res = task->unk_00(task);
                     }
                 } else {
-                    task->func(&res, task);
+                    res = task->unk_00(task);
                 }
-                switch (res.kind) {
+                switch (res.w[1]) {
                 case 0:
-                    func_8000A4A4((s32)task, res.value);
+                    func_8000A4A4(task, res.w[0]);
                     break;
                 case 1:
-                    task->unk_0C = res.value;
+                    task->unk_0C = res.w[0];
                     break;
                 case 2:
-                    task->unk_10 = res.value;
+                    task->unk_10 = res.w[0];
                     task->unk_14 = 1;
                     break;
                 case 3:
-                    task->unk_10 = res.value;
+                    task->unk_10 = res.w[0];
                     break;
                 }
             }

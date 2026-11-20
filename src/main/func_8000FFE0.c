@@ -1,46 +1,20 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed int s32;
-struct n64dk_r12 { s32 w[3]; };
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x48];
-    /* 0x48 */ s32 *unk_48;
-} Obj;
-
-typedef struct {
-    /* 0x00 */ Obj *unk_00;
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-} State;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *unk_30;
-} Task;
-
-extern s32 D_01092090;
-extern s32 D_010920D8;
-extern s32 D_01092120;
-extern s32 D_01092168;
-extern s32 D_800B96B4;
-s32 func_8000ACE8(s32 arg0);
-
-struct n64dk_r12 func_8000FFE0(s32 arg1) {
+struct n64dk_r12 func_8000FFE0(proc_t *proc) {
     struct n64dk_r12 result;
-    Obj *obj;
+    obj_t *obj;
     s32 event;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    obj = ((Task *)arg1)->unk_30->unk_00;
+    obj = proc->unk_30->data8000FFE0.unk_00;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
         switch (event) {
         case 8:
-            ((Task *)arg1)->unk_30->unk_08 = 0;
+            proc->unk_30->data8000FFE0.unk_08 = 0;
             obj->unk_48 = &D_010920D8;
             break;
         case 15:
@@ -54,9 +28,9 @@ struct n64dk_r12 func_8000FFE0(s32 arg1) {
             return result;
         }
     }
-    ((Task *)arg1)->unk_30->unk_08 = ((Task *)arg1)->unk_30->unk_08 + D_800B96B4;
-    if (((Task *)arg1)->unk_30->unk_08 >= 5) {
-        ((Task *)arg1)->unk_30->unk_08 = 0;
+    proc->unk_30->data8000FFE0.unk_08 = proc->unk_30->data8000FFE0.unk_08 + D_800B96B4;
+    if (proc->unk_30->data8000FFE0.unk_08 >= 5) {
+        proc->unk_30->data8000FFE0.unk_08 = 0;
         if (obj->unk_48 == &D_01092168) {
             obj->unk_48 = &D_010920D8;
         } else if (obj->unk_48 == &D_01092120) {

@@ -1,52 +1,23 @@
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned short u16;
-typedef signed int s32;
-typedef float f32;
-typedef double f64;
-struct n64dk_r12 { s32 w[3]; };
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x12];
-    /* 0x12 */ s16 unk_12;
-    /* 0x14 */ s16 unk_14;
-    /* 0x16 */ u8 unk_16[0x1A];
-    /* 0x30 */ f32 unk_30;
-} Camera;
 
-typedef struct {
-    /* 0x00 */ Camera *cam;
-} Data;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Object;
-
-extern f64 D_80000AD4;
-extern f64 D_80000ADC;
-extern s32 D_800B619C;
-extern u16 D_800B96B0;
-extern u16 D_800B9954;
-s32 func_8000ACE8(s32 arg0);
-
-struct n64dk_r12 func_8000C8A8(s32 arg1) {
+struct n64dk_r12 func_8000C8A8(proc_t *proc) {
     struct n64dk_r12 ret;
-    Camera *cam;
+    obj_t *cam;
     s32 event;
 
-    cam = ((Object *)arg1)->data->cam;
+    cam = proc->unk_30->data8000C8A8.cam;
     ret.w[1] = 1;
     ret.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
         switch (event) {
         case 8:
-            cam->unk_12 = -140;
-            cam->unk_14 = -380;
+            cam->y = -140;
+            cam->z = -380;
         }
     }
     ret.w[1] = 1;
@@ -63,23 +34,23 @@ struct n64dk_r12 func_8000C8A8(s32 arg1) {
             D_800B619C = 3;
         }
     }
-    if (D_800B9954 & 0x10) {
-        cam->unk_30 = cam->unk_30 - D_80000AD4;
+    if (D_800B9954.button & 0x10) {
+        cam->unk_30 = cam->unk_30 - 0.5;
     }
-    if (D_800B9954 & 0x20) {
-        cam->unk_30 = cam->unk_30 + D_80000ADC;
+    if (D_800B9954.button & 0x20) {
+        cam->unk_30 = cam->unk_30 + 0.5;
     }
-    if (D_800B9954 & 0x200) {
-        cam->unk_14 = (u16)cam->unk_14 + 10;
+    if (D_800B9954.button & 0x200) {
+        cam->z = (u16)cam->z + 10;
     }
-    if (D_800B9954 & 0x100) {
-        cam->unk_14 = (u16)cam->unk_14 - 10;
+    if (D_800B9954.button & 0x100) {
+        cam->z = (u16)cam->z - 10;
     }
-    if (D_800B9954 & 0x800) {
-        cam->unk_12 = (u16)cam->unk_12 + 10;
+    if (D_800B9954.button & 0x800) {
+        cam->y = (u16)cam->y + 10;
     }
-    if (D_800B9954 & 0x400) {
-        cam->unk_12 = (u16)cam->unk_12 - 10;
+    if (D_800B9954.button & 0x400) {
+        cam->y = (u16)cam->y - 10;
     }
     return ret;
 }

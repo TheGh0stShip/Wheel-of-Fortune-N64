@@ -1,18 +1,12 @@
-typedef signed char s8;
-typedef signed int s32;
-
-extern s32 func_80016BEC;
-extern s32 D_800BA5D8;
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_8001745C(s32 arg0);
+#include "wof.h"
 
 void func_800174DC(void) {
-    s32 task;
-    s32 pad0;
-    s8 pad1;
+    proc_t *task;
+    s32 unused;  /* NOTE: unused in the original */
+    s32 unused2;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     D_800BA5D8 = 0;
-    task = func_8000A56C((s32)&func_80016BEC, 0x3000000);
+    task = func_8000A56C(func_80016BEC, 0x3000000);
     if (task == 0) {
         return;
     }

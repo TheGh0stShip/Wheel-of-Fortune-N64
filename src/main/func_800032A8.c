@@ -1,104 +1,55 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed short s16;
-typedef signed int s32;
-typedef unsigned int u32;
-typedef float f32;
-typedef double f64;
-struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-struct gd_8_s32 { u8 pad[0x8]; s32 v; };
-struct gd_10_s32 { u8 pad[0x10]; s32 v; };
-struct gd_14_s32 { u8 pad[0x14]; s32 v; };
-struct gd_18_s32 { u8 pad[0x18]; s32 v; };
-struct gd_60_s16 { u8 pad[0x60]; s16 v; };
-struct gd_64_s32 { u8 pad[0x64]; s32 v; };
-struct n64dk_a800BA2D8 { s32 m0; u8 pad4[0x10]; };
-extern struct n64dk_a800BA2D8 D_800BA2D8[];
-extern f32 D_800004B4;
-extern s32 func_800037A0;
-extern s32 func_80003F64;
-extern s32 D_800A70A0;
-extern s32 D_800B96B8;
-extern s32 D_800B96BC;
-extern s32 D_800B9950;
-extern s32 D_800BA2C8;
-extern s32 D_800BA2CC;
-extern s32 D_800BA2DC;
-extern s32 D_800BA598;
-extern s8 D_800BA5C8;
-extern s32 D_800BCA68;
-extern s32 D_800BCA70;
-extern s32 D_800BCA80;
-extern s32 D_800BCC30;
-extern s32 D_800BCC48;
-extern s32 D_800BCC68;
-extern s32 D_800BCC80;
-extern s32 D_800BCCA0;
-extern s32 D_800BCD64;
-extern s32 D_800BEDA4;
-extern s32 D_800FB818;
-s32 func_80038758();
-s32 func_8003A568();
-s32 func_8003A5C4();
-s32 func_8003A638();
-s32 func_8003E6C8();
-s32 func_800447D8();
-s32 func_80045498();
+#include "wof.h"
 
-void func_800032A8(s32 arg0, s32 arg1, s32 arg2) {
-    s32 sp18;
-    f32 sp1C;
+/*
+=====================
+func_800032A8
 
-    D_800BA5C8 = 0;
+guess: amCreateAudioMgr of the audiomgr.c of the SDK demos. Starts the synthesizer, allocates
+the DMA buffers, the command lists and the output buffers, and starts the audio thread.
+=====================
+*/
+void func_800032A8( ALSynConfig *c, OSPri pri, amConfig *amc ) {
+    u32 i;
+    f32 fsize;
+
+    D_800BA5C8.initialized = FALSE;
     D_800B96B8 = 0;
-    ((struct gd_10_s32 *)arg0)->v = (s32)&func_80003F64;
-    ((struct gd_18_s32 *)arg0)->v = func_80038758((*(s32 *)arg2));
-    sp1C = (((f32)((f64)((u32)((struct gd_4_s32 *)arg2)->v))) * ((f32)((struct gd_18_s32 *)arg0)->v)) / 6e+01f;
-    D_800BCD64 = (s32)sp1C;
-    if (((f32)((f64)((u32)D_800BCD64))) < sp1C) {
+    c->dmaproc = func_80003F64;
+    c->outputRate = osAiSetFrequency( amc->outputRate );
+    // the samples of a frame, from the video field rate and the output rate
+    fsize = (f32)amc->framesPerField * c->outputRate / (f32)60;
+    D_800BCD64 = (s32)fsize;
+    if ( D_800BCD64 < fsize ) {
         D_800BCD64++;
     }
-    if ((D_800BCD64 & 15) != 0) {
-        D_800BCD64 = (D_800BCD64 & -16) + 16;
+    if ( D_800BCD64 & 0xf ) {
+        D_800BCD64 = ( D_800BCD64 & ~0xf ) + 0x10;
     }
     D_800B96BC = D_800BCD64 - 16;
-    D_800B9950 = D_800BCD64 + 96;
-    func_8003A5C4(((s32)&D_800BCCA0), arg0);
-    D_800BA2CC = 0;
-    D_800BA2C8 = 0;
-    sp18 = 0;
-    for (;;) {
-        if ((u32)sp18 >= 35) {
-            break;
-        }
-        func_8003A568(((sp18 * 20) + ((s32)&D_800BA2DC)), ((sp18 * 20) + ((s32)&D_800BA2C8)));
-        D_800BA2D8[sp18].m0 = func_8003A638(0, 0, ((struct gd_14_s32 *)arg0)->v, 1, 2048);
-        sp18++;
+    D_800B9950 = D_800BCD64 + EXTRA_SAMPLES + 16;
+    alInit( &D_800BCA68.g, c );
+    D_800BA2C8[0].node.prev = 0;
+    D_800BA2C8[0].node.next = 0;
+    for ( i = 0; i < NUM_DMA_BUFFERS - 1; i++ ) {
+        alLink( (ALLink *)&D_800BA2C8[i + 1], (ALLink *)&D_800BA2C8[i] );
+        D_800BA2C8[i].ptr = alHeapAlloc( c->heap, 1, DMA_BUFFER_LENGTH );
     }
-    D_800BA2D8[sp18].m0 = func_8003A638(0, 0, ((struct gd_14_s32 *)arg0)->v, 1, 2048);
-    sp18 = 0;
-    for (;;) {
-        if ((u32)sp18 >= 2) {
-            break;
-        }
-        (*(s32 *)((sp18 * 4) + ((s32)&D_800BCA68))) = func_8003A638(0, 0, ((struct gd_14_s32 *)arg0)->v, 1, (((struct gd_8_s32 *)arg2)->v * 8));
-        sp18++;
+    // the last buffer is linked already, but still needs its memory
+    D_800BA2C8[i].ptr = alHeapAlloc( c->heap, 1, DMA_BUFFER_LENGTH );
+    for ( i = 0; i < NUM_ACMD_LISTS; i++ ) {
+        D_800BCA68.ACMDList[i] = (Acmd *)alHeapAlloc( c->heap, 1, amc->maxACMDSize * sizeof( Acmd ) );
     }
-    D_800BEDA4 = ((struct gd_8_s32 *)arg2)->v;
-    sp18 = 0;
-    for (;;) {
-        if ((u32)sp18 >= 3) {
-            break;
-        }
-        (*(s32 *)((sp18 * 4) + ((s32)&D_800BCA70))) = func_8003A638(0, 0, ((struct gd_14_s32 *)arg0)->v, 1, 128);
-        ((struct gd_60_s16 *)(*(s32 *)((sp18 * 4) + ((s32)&D_800BCA70))))->v = 2;
-        ((struct gd_64_s32 *)(*(s32 *)((sp18 * 4) + ((s32)&D_800BCA70))))->v = *(s32 *)((sp18 * 4) + ((s32)&D_800BCA70));
-        (*(s32 *)(*(s32 *)((sp18 * 4) + ((s32)&D_800BCA70)))) = func_8003A638(0, 0, ((struct gd_14_s32 *)arg0)->v, 1, (D_800B9950 * 4));
-        sp18++;
+    D_800BEDA4 = amc->maxACMDSize;
+    for ( i = 0; i < NUM_OUTPUT_BUFFERS; i++ ) {
+        D_800BCA68.audioInfo[i] = (AudioInfo *)alHeapAlloc( c->heap, 1, sizeof( AudioInfo ) );
+        D_800BCA68.audioInfo[i]->msg.done.type = OS_SC_DONE_MSG;
+        D_800BCA68.audioInfo[i]->msg.done.info = D_800BCA68.audioInfo[i];
+        D_800BCA68.audioInfo[i]->data = alHeapAlloc( c->heap, 1, 4 * D_800B9950 );
     }
-    func_80045498(((s32)&D_800BCC68), ((s32)&D_800BCC80), 8);
-    func_80045498(((s32)&D_800BCC30), ((s32)&D_800BCC48), 8);
-    func_80045498(((s32)&D_800BA598), ((s32)&D_800FB818), 32);
-    func_8003E6C8(((s32)&D_800BCA80), 3, ((s32)&func_800037A0), 0, ((s32)&D_800A70A0), arg1);
-    func_800447D8(((s32)&D_800BCA80));
+    osCreateMesgQueue( &D_800BCA68.audioReplyMsgQ, D_800BCA68.audioReplyMsgBuf, MAX_MESGS );
+    osCreateMesgQueue( &D_800BCA68.audioFrameMsgQ, D_800BCA68.audioFrameMsgBuf, MAX_MESGS );
+    osCreateMesgQueue( &D_800BA598, D_800FB818, NUM_DMA_MESSAGES );
+    osCreateThread( &D_800BCA68.thread, 3, func_800037A0, 0,
+                    (void *)( D_800A50A0 + AUDIO_STACKSIZE / sizeof( u64 ) ), pri );
+    osStartThread( &D_800BCA68.thread );
 }

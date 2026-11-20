@@ -1,30 +1,11 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed int s32;
-typedef float f32;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
-} Data;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Obj;
-
-void func_8001C584(s32);
-extern f32 D_800B8298;
-s32 func_8000A56C(s32 arg0, s32 arg1);
+#include "wof.h"
 
 void func_8001D3CC(s32 arg0) {
-    Obj *obj;
-    s32 pad0;
-    s8 pad1;
+    proc_t *task;
+    s32 unused;   /* NOTE: unused in the original */
+    s32 unused2;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    obj = (Obj *)func_8000A56C((s32)func_8001C584, arg0 | 0x2030000);
-    obj->data->unk_04 = arg0;
-    obj->data->unk_0C = D_800B8298;
+    task = func_8000A56C(func_8001C584, arg0 | 0x2030000);
+    task->unk_30->playerProc.player = arg0;
+    task->unk_30->playerProc.unk_0C = D_800B8298;
 }

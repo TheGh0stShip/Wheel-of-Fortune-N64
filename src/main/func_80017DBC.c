@@ -1,61 +1,16 @@
-typedef unsigned char u8;
-typedef signed int s32;
-typedef float f32;
+#include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x2C];
-    /* 0x2C */ f32 unk_2C;
-} Obj;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-} State;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *unk_30;
-} Task;
-
-extern f32 D_80000ECC;
-extern s32 func_800181A4;
-extern s32 D_8004B848[];
-extern s32 D_800581F4;
-extern s32 D_800B619C;
-extern s32 D_800B9540;
-extern s32 D_800B96B4;
-extern s32 D_800B96C0;
-extern s32 D_800B9CEC;
-extern s32 D_800B9CF0;
-extern s32 D_800FB808;
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_8000A850(s32 arg0);
-s32 func_8000ACE8(s32 arg0);
-void func_8000AE70(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
-void func_800161A8(void);
-void func_80016B9C(s32 arg0);
-void func_80017848(void);
-void func_80017C00(s32 arg0, s32 arg1);
-void func_800219B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_8002A014(void);
-void func_80032858(void);
-void func_80032AD4(s32 arg0);
-void func_80032B10(void);
-s32 func_80033150(s32 arg0, s32 arg1, s32 arg2);
-
-struct n64dk_r12 func_80017DBC(s32 arg1) {
+struct n64dk_r12 func_80017DBC(proc_t *proc) {
     struct n64dk_r12 result;
-    s32 pad0;
-    Obj *obj;
+    s32 unused;  /* NOTE: unused in the original */
+    obj_t *obj;
     s32 event;
 
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
@@ -94,9 +49,9 @@ struct n64dk_r12 func_80017DBC(s32 arg1) {
             D_800B9540 = 5000;
             func_8002A014();
         }
-        obj = (Obj *)func_8000B5DC(0x4010000, -1);
+        obj = func_8000B5DC(0x4010000, -1);
         obj->unk_2C = D_8004B848[D_800B619C] - D_800581F4;
-        obj->unk_2C = obj->unk_2C - D_80000ECC;
+        obj->unk_2C = obj->unk_2C - 360.0f;
         result.w[1] = 2;
         result.w[0] = 45;
         return result;
@@ -104,7 +59,7 @@ struct n64dk_r12 func_80017DBC(s32 arg1) {
         func_8000AE70(0x7010000, -1, 0);
         D_800B9CF0 = 1;
         D_800B619C = 6;
-        func_8000A56C((s32)&func_800181A4, ((Task *)arg1)->unk_30->unk_04 | 0x2000600);
+        func_8000A56C(func_800181A4, proc->unk_30->playerProc.player | 0x2000600);
         func_80017848();
         result.w[1] = 0;
         result.w[0] = 0;

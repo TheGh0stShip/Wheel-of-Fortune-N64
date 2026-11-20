@@ -1,36 +1,14 @@
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 w0;
-    /* 0x04 */ s32 w1;
-} Gfx;
-
-typedef struct {
-    u8 unk_00[0x28];
-} Entry;
-
-extern s32 D_01021970;
-extern Entry D_8005BAC0[];
-extern Gfx *D_800B81E8;
-void func_8002741C(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-
-void func_80028B1C(s32 arg0, s32 arg1) {
-    s32 pad0[2];
+void func_80028B1C(obj_t *obj, frame_t *frame) {
+    s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
-    s32 pad1;
-    Gfx *gfx;
+    s32 unused2;  /* NOTE: unused in the original */
 
-    gfx = D_800B81E8++;
-    gfx->w0 = 0xE7000000;
-    gfx->w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->w0 = 0x6000000;
-    gfx->w1 = (s32)&D_01021970;
-    gfx = D_800B81E8++;
-    gfx->w0 = 0xBA001402;
-    gfx->w1 = 0x200000;
+    gDPPipeSync(D_800B81E8++);
+    gSPDisplayList(D_800B81E8++, &D_01021970);
+    gDPSetCycleType(D_800B81E8++, G_CYC_COPY);
     for (i = 0; i < 13; i++) {
-        func_8002741C((s32)&D_8005BAC0[i], 1, 0, -114);
+        func_8002741C(&D_8005BAC0[i], 1, 0, -114);
     }
 }

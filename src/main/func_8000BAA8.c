@@ -1,10 +1,4 @@
-typedef signed int s32;
-typedef s32 M2C_UNK;
-M2C_UNK osCreateMesgQueue(); /* extern */
-M2C_UNK osSendMesg();    /* extern */
-extern s32 D_80057800;
-extern M2C_UNK D_800AFE58;
-extern M2C_UNK D_800BA5B0;
+#include "wof.h"
 
 void func_8000BAA8(void) {
     D_80057800 = 1;

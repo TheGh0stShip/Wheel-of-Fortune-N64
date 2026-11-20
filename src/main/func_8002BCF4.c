@@ -1,32 +1,22 @@
-typedef signed char s8;
-typedef signed int s32;
-struct n64dk_r12 { s32 w[3]; };
-extern s32 D_8005B118[];
-extern s32 D_8005B178[];
-extern s32 D_8005B318;
-extern s32 D_8005B330;
-extern s32 D_8005B340;
-extern s32 D_8005B358;
-extern s32 D_800B96B4;
-s32 func_8000ACE8(s32 arg0);
+#include "wof.h"
 
-struct n64dk_r12 func_8002BCF4(s32 arg1) {
+struct n64dk_r12 func_8002BCF4(proc_t *proc) {
     s32 busy;
     s32 tens;
     s32 ones;
     struct n64dk_r12 result;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     result.w[1] = 1;
     result.w[0] = 0;
     do {
-        busy = func_8000ACE8(arg1);
+        busy = func_8000ACE8(proc);
     } while (busy != 0);
     tens = D_800B96B4 / 10;
     ones = D_800B96B4 % 10;
-    D_8005B330 = D_8005B118[tens];
-    D_8005B318 = D_8005B178[tens];
-    D_8005B358 = D_8005B118[ones];
-    D_8005B340 = D_8005B178[ones];
+    D_8005B310[0].unk_20 = D_8005B118[tens];
+    D_8005B310[0].width = D_8005B178[tens];
+    D_8005B310[1].unk_20 = D_8005B118[ones];
+    D_8005B310[1].width = D_8005B178[ones];
     return result;
 }

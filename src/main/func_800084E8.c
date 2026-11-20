@@ -1,6 +1,5 @@
-typedef unsigned char u8;
-typedef signed int s32;
-extern u8 D_800B966A[];
+#include "wof.h"
+
 
 s32 func_800084E8(void) {
     s32 consonants;

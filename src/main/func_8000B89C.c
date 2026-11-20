@@ -1,6 +1,4 @@
-typedef signed int s32;
-extern s32 D_800B8290;
-extern s32 D_800B9984;
+#include "wof.h"
 
 void func_8000B89C(s32 arg0) {
     s32 rem;

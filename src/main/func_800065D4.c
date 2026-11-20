@@ -1,59 +1,36 @@
-typedef unsigned char u8;
-typedef signed short s16;
-typedef signed int s32;
-typedef unsigned long long u64;
+#include "wof.h"
 
-extern s32 D_800AD950;
-extern s32 D_800B3970;
-extern s32 D_800B61A0;
-extern s32 D_800B8294;
-extern s32 D_800B9688;
-extern s32 D_800B96AC;
-extern u8 D_800B96C4;
-extern s32 D_800B9D04;
-extern s32 D_800BCA20;
-extern s32 D_800BEDE4;
-extern s32 D_800FB80C;
-extern u64 D_800FB810;
-s32 func_80002CE0(s32 arg0);
-void func_80005258(void);
-void func_800068F0(void);
-void func_8000BB10(void);
-s32 func_8003E318(s32 *, s16 **, s32);
-s32 func_800447D8(s32 *);
-s32 func_800481F8(s32 *);
-
-void func_800065D4(s32 arg0) {
-    s16 *msg;
+void func_800065D4(void *arg) {
+    OSScMsg *msg;
 
     msg = 0;
     D_800B61A0 = 0;
     D_800BEDE4 = 0;
     D_800FB80C = 0;
     func_800068F0();
-    func_800447D8(&D_800AD950);
+    osStartThread(&D_800AD950);
     while (1) {
-        func_8003E318(&D_800B9688, &msg, 1);
-        switch (*msg) {
-        case 1:
+        osRecvMesg(&D_800B9688, (OSMesg *)&msg, OS_MESG_BLOCK);
+        switch (msg->type) {
+        case OS_SC_RETRACE_MSG:
             D_800B96AC++;
             D_800FB810++;
             if (D_800B96C4 != 0 && D_800FB80C == 0) {
                 D_800FB80C = 1;
                 func_8000BB10();
-                func_800481F8(&D_800B3970);
+                osContStartReadData(&D_800B3970);
             } else if (D_800B96C4 == 0) {
                 D_800B9D04 = 0;
             }
             break;
-        case 2:
+        case OS_SC_DONE_MSG:
             D_800BEDE4--;
             if (D_800B8294 != 0) {
                 D_800BCA20 = func_80002CE0(D_800B8294);
                 D_800B8294 = 0;
             }
             break;
-        case 4:
+        case OS_SC_PRE_NMI_MSG:
             D_800BEDE4 += 2;
             func_80005258();
             break;

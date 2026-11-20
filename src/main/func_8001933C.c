@@ -1,53 +1,21 @@
-typedef unsigned char u8;
-typedef signed int s32;
-typedef float f32;
-struct n64dk_r12 { s32 w[3]; };
+#include "wof.h"
+#include "func_800051B4.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 player;
-} Data;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Obj;
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} Player;
-
-extern Player D_800B99A4[];
-extern s32 D_800B96A8;
-extern s32 D_800BCA00;
-extern s32 D_800FB808;
-s32 func_80002CE0(s32 arg0);
-void func_800051B4(s32 arg0, s32 arg1, f32 arg2);
-s32 func_800088E4(void);
-void func_8000A850(s32 arg0);
-s32 func_8000A990(s32 arg0, s32 arg1);
-void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000ACE8(s32 arg0);
-void func_8000AD9C(s32 arg0);
-s32 func_80017548(void);
-void func_80017C00(s32 arg0, s32 arg1);
-void func_8002EBF4(void);
-
-struct n64dk_r12 func_8001933C(s32 arg1) {
+struct n64dk_r12 func_8001933C(proc_t *proc) {
     struct n64dk_r12 ret;
-    s32 task;
-    s32 pad0;
+    proc_t *task;
+    s32 unused;  /* NOTE: unused in the original */
     s32 event;
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (((Obj *)arg1)->data->player != D_800FB808) {
-        func_8000AD9C(arg1);
+    if (proc->unk_30->playerProc.player != D_800FB808) {
+        func_8000AD9C(proc);
         return ret;
     }
     task = func_8000A990(0x1020000, -1);
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 8:
             func_8002EBF4();
@@ -65,7 +33,7 @@ struct n64dk_r12 func_8001933C(s32 arg1) {
             } else {
                 func_8000AAB0(task, 20, 0);
                 func_80002CE0(1);
-                func_800051B4(D_800B99A4[D_800FB808].unk_00, 30, 0.8f);
+                func_800051B4(D_800B9990[D_800FB808].unk_014, 30, 0.8f);
                 if (D_800BCA00 == 0) {
                     if (func_80017548() != 0) {
                         func_8000A850(10);

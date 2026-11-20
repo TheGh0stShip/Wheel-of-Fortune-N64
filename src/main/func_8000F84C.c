@@ -1,38 +1,15 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed int s32;
-struct n64dk_r12 { s32 w[3]; };
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-} Data;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Obj;
-
-extern s32 D_800B96A8;
-extern s32 D_800B96B4;
-s32 func_80002CE0(s32 arg0);
-s32 func_8000928C(void);
-void func_8000A850(s32 arg0);
-void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000ACE8(s32 arg0);
-void func_80032858(void);
-void func_80032B80(void);
-
-struct n64dk_r12 func_8000F84C(s32 arg1) {
+struct n64dk_r12 func_8000F84C(proc_t *proc) {
     struct n64dk_r12 ret;
-    s32 sp20;
+    obj_t *sp20;
     s32 event;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    sp20 = ((Obj *)arg1)->data->unk_00;
+    sp20 = proc->unk_30->data8000F84C.unk_00;
     ret.w[1] = 1;
     ret.w[0] = 0;
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 8:
             func_80032858();
@@ -48,21 +25,21 @@ struct n64dk_r12 func_8000F84C(s32 arg1) {
                 D_800B96A8++;
                 break;
             case 3500:
-                ((Obj *)arg1)->data->unk_04 = 1;
+                proc->unk_30->data8000F84C.unk_04 = 1;
                 D_800B96A8++;
-                func_8000AAB0(arg1, 41, 0);
+                func_8000AAB0(proc, 41, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 10 / D_800B96B4;
                 return ret;
             case 5000:
                 D_800B96A8++;
-                func_8000AAB0(arg1, 41, 0);
+                func_8000AAB0(proc, 41, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 10 / D_800B96B4;
                 return ret;
             case 10000:
                 D_800B96A8 = D_800B96A8 + 3;
-                func_8000AAB0(arg1, 41, 0);
+                func_8000AAB0(proc, 41, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 10 / D_800B96B4;
                 return ret;

@@ -1,43 +1,4 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed int s32;
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-} Puzzle;
-
-typedef struct {
-    /* 0x00 */ s8 unk_00;
-    /* 0x01 */ u8 unk_01[0x14];
-} Row;
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x8];
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ u8 unk_10[0xE8];
-    /* 0xF8 */ s32 unk_F8;
-    /* 0xFC */ u8 unk_FC[0x18];
-} Player;
-
-extern Puzzle D_8004BB98[];
-extern Row D_800B9567[];
-extern Row D_800B960F[];
-extern Player D_800B9990[];
-extern s32 D_8004B9E0;
-extern s32 D_800B61D8;
-extern s8 D_800B9544;
-extern s8 D_800B9559[][21];
-extern u8 D_800B9601[][21];
-extern s8 D_800B9655[];
-extern s8 D_800B966A;
-extern s32 D_800BCD54;
-void func_80006828(s32 arg0, s32 arg1, s32 arg2);
-s32 func_80009748(s32 arg0, s32 arg1, s32 arg2);
-s32 func_80009900(s32 arg0, s32 arg1);
-s32 func_800099B0(s32 arg0, s32 arg1);
+#include "wof.h"
 
 void func_80006E54(s32 arg0, s32 arg1) {
     s32 line;
@@ -51,24 +12,24 @@ void func_80006E54(s32 arg0, s32 arg1) {
     s32 buf[26];
 
     for (len = 0; len < 3; len++) {
-        D_800B9990[len].unk_00 = 0;
-        D_800B9990[len].unk_F8 = 0;
-        D_800B9990[len].unk_0C = 0;
+        D_800B9990[len].unk_000 = 0;
+        D_800B9990[len].unk_0F8 = 0;
+        D_800B9990[len].unk_00C = 0;
     }
-    D_800B9544 = 0;
+    D_800B9544[0] = 0;
     D_800B9655[0] = 0;
-    D_800B966A = 0;
+    D_800B966A[0] = 0;
     for (line = 0; line < 4; line++) {
         for (len = 0; len < 14; len++) {
             D_800B9601[line][len] = 32;
             D_800B9559[line][len] = 32;
         }
-        D_800B960F[line].unk_00 = 0;
-        D_800B9567[line].unk_00 = 0;
+        D_800B9601[line][14] = 0;
+        D_800B9559[line][14] = 0;
     }
     if (arg1 == 0) {
         func_80009900((s32)&D_800B9544, D_8004BB98[arg0].unk_04);
-        func_80006828(D_8004BB98[arg0].unk_00, (s32)buf, 101);
+        func_80006828(D_8004BB98[arg0].unk_00, buf, 101);
         text = (s32)buf;
         if (D_800BCD54 != 3) {
             D_8004BB98[arg0].unk_08++;

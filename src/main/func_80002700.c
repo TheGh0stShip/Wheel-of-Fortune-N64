@@ -1,21 +1,4 @@
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned short u16;
-typedef signed int s32;
-
-typedef struct {
-    /* 0x00 */ u8 pad0[0xE];
-    /* 0x0E */ s16 count;
-} Header;
-
-extern s32 D_8004B718;
-extern Header *D_800A5090;
-extern s16 *D_800A509C;
-extern s32 D_800B81F0[];
-extern u16 D_800BC6F8;
-s32 func_8003CE38(s32 arg0);
-s32 func_80049F58(s32 arg0, s32 arg1);
-s32 func_80049FA8(s32 arg0, s32 arg1);
+#include "wof.h"
 
 s32 func_80002700(void) {
     s32 i;
@@ -23,9 +6,9 @@ s32 func_80002700(void) {
     D_800BC6F8 = 0;
     for (i = 31; i > 0; i--) {
         if (D_800A509C[i] != -1) {
-            func_80049FA8(D_8004B718, D_800A509C[i]);
-            if ((D_800B81F0[i] = func_8003CE38(D_8004B718)) == 0) {
-                func_80049F58(D_8004B718, D_800A509C[i]);
+            alSndpSetSound(D_8004B718, D_800A509C[i]);
+            if ((D_800B81F0[i] = alSndpGetState(D_8004B718)) == 0) {
+                alSndpDeallocate(D_8004B718, D_800A509C[i]);
                 D_800A509C[i] = -1;
             } else {
                 D_800BC6F8++;
@@ -33,7 +16,7 @@ s32 func_80002700(void) {
         }
     }
     i = 0;
-    while (i < D_800A5090->count) {
+    while (i < D_800A5090->soundCount) {
         if (D_800A509C[i] == -1) {
             return i;
         }

@@ -1,12 +1,8 @@
-typedef signed int s32;
-extern s32 D_8005BF10;
-extern s32 D_8005BF38;
-extern s32 D_8005BF60;
-extern s32 D_8005BF88;
+#include "wof.h"
 
 void func_8002B054(void) {
-    D_8005BF10 = 0;
-    D_8005BF38 = 0;
-    D_8005BF60 = 0;
-    D_8005BF88 = 0;
+    D_8005BE00[6].unk_20 = 0;
+    D_8005BE00[7].unk_20 = 0;
+    D_8005BE00[8].unk_20 = 0;
+    D_8005BE00[9].unk_20 = 0;
 }

@@ -1,43 +1,13 @@
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned short u16;
-typedef signed int s32;
-typedef float f32;
-struct n64dk_r12 { s32 w[3]; };
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x12];
-    /* 0x12 */ union {
-        s16 s;
-        u16 u;
-    } unk_12;
-    /* 0x14 */ u8 unk_14[0x18];
-    /* 0x2C */ f32 unk_2C;
-    /* 0x30 */ u8 unk_30[0x18];
-    /* 0x48 */ s32 *unk_48;
-} State;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State **state;
-} Obj;
-
-extern s32 D_011358C0;
-extern s32 D_01135908;
-extern s32 D_800B3994;
-extern s32 D_800B96B4;
-extern u16 D_800B96B6;
-s32 func_8000ACE8(s32 arg0);
-void func_8000AD9C(s32 arg0);
-
-struct n64dk_r12 func_8000C310(s32 arg1) {
+struct n64dk_r12 func_8000C310(proc_t *proc) {
     struct n64dk_r12 result;
-    State *state;
+    obj_t *obj;
     s32 event;
 
-    state = *((Obj *)arg1)->state;
+    obj = proc->unk_30->data8000C310.unk_00;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
@@ -51,21 +21,21 @@ struct n64dk_r12 func_8000C310(s32 arg1) {
     }
     result.w[1] = 1;
     result.w[0] = 0;
-    func_8000AD9C(arg1);
+    func_8000AD9C(proc);
     result.w[1] = 1;
     result.w[0] = 0;
-    state->unk_2C -= (f32)D_800B96B4;
+    obj->unk_2C -= (f32)D_800B96B4;
     if (D_800B3994 >= 601) {
-        state->unk_12.s = state->unk_12.u + D_800B96B6;
+        obj->y = obj->y + D_800B96B4;
     }
-    if (state->unk_12.s >= 41) {
-        state->unk_12.s = 40;
+    if (obj->y >= 41) {
+        obj->y = 40;
     }
     if (D_800B3994 % 2 == 1) {
-        if (state->unk_48 == &D_011358C0) {
-            state->unk_48 = &D_01135908;
+        if (obj->unk_48 == (s32)D_011358C0) {
+            obj->unk_48 = (s32)D_01135908;
         } else {
-            state->unk_48 = &D_011358C0;
+            obj->unk_48 = (s32)D_011358C0;
         }
     }
     return result;

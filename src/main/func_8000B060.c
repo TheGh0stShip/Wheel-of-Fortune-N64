@@ -1,28 +1,18 @@
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 pad0[0x50];
-    /* 0x50 */ s32 next;
-} Node;
+obj_t *func_8000B060(obj_t *obj) {
+    obj_t *next;
+    obj_t *node;
 
-extern s32 D_800009F0;
-extern Node D_800B40C8;
-void func_80009F38(void *arg0);
-
-s32 func_8000B060(s32 arg0) {
-    s32 next;
-    Node *node;
-
-    node = &D_800B40C8;
+    node = &D_800B40C8[0];
     next = node->next;
     while (next != 0) {
-        if (next == arg0) {
-            return (s32)node;
+        if (next == obj) {
+            return node;
         }
-        node = (Node *)next;
+        node = next;
         next = node->next;
     }
-    func_80009F38(&D_800009F0);
+    func_80009F38("GetObjBefore: Could not find obj\n");
     return 0;
 }

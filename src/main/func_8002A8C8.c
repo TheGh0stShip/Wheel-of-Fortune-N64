@@ -1,56 +1,27 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ union {
-        s32 value;
-        u8 bytes[4];
-    } unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ s32 unk_0C;
-} Cursor;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Cursor *unk_30;
-} Obj;
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ u8 unk_0C[0x1C];
-} Entry;
-
-extern Entry D_8005A83C[];
-extern Entry D_8005A9AC[];
-extern s8 D_800B61B5;
-extern s32 D_800BED88;
-s32 func_80002CE0(s32 arg0);
-
-void func_8002A8C8(s32 arg0, s32 arg1) {
+void func_8002A8C8(proc_t *proc, s32 arg1) {
     D_800BED88++;
     func_80002CE0(43);
     if (arg1 != 0) {
-        ((Obj *)arg0)->unk_30->unk_04.value--;
-        if (((Obj *)arg0)->unk_30->unk_04.value == 12) {
-            ((Obj *)arg0)->unk_30->unk_04.value = 25;
+        proc->unk_30->cursor.index--;
+        if (proc->unk_30->cursor.index == 12) {
+            proc->unk_30->cursor.index = 25;
         }
-        if (((Obj *)arg0)->unk_30->unk_04.value < 0) {
-            ((Obj *)arg0)->unk_30->unk_04.value = 12;
+        if (proc->unk_30->cursor.index < 0) {
+            proc->unk_30->cursor.index = 12;
         }
-        D_8005A9AC[((Obj *)arg0)->unk_30->unk_04.value].unk_08 = D_8005A9AC[((Obj *)arg0)->unk_30->unk_04.value].unk_00;
+        D_8005A998[proc->unk_30->cursor.index].unk_1C = D_8005A998[proc->unk_30->cursor.index].unk_14;
     } else {
-        if (((Obj *)arg0)->unk_30->unk_04.value != 3) {
-            ((Obj *)arg0)->unk_30->unk_04.value--;
+        if (proc->unk_30->cursor.index != 3) {
+            proc->unk_30->cursor.index--;
         }
-        if (((Obj *)arg0)->unk_30->unk_04.value < 0) {
-            ((Obj *)arg0)->unk_30->unk_04.value = 2;
+        if (proc->unk_30->cursor.index < 0) {
+            proc->unk_30->cursor.index = 2;
         }
-        D_8005A83C[((Obj *)arg0)->unk_30->unk_04.value].unk_08 = D_8005A83C[((Obj *)arg0)->unk_30->unk_04.value].unk_00;
+        D_8005A828[proc->unk_30->cursor.index].unk_1C = D_8005A828[proc->unk_30->cursor.index].unk_14;
     }
-    D_800B61B5 = ((Obj *)arg0)->unk_30->unk_04.bytes[3] + 65;
-    ((Obj *)arg0)->unk_30->unk_0C = 15;
+    D_800B61B5 = proc->unk_30->cursor.index + 65;
+    proc->unk_30->cursor.unk_0C = 15;
 }

@@ -1,32 +1,17 @@
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
-
-extern u8 D_800B61B5;
-extern s32 D_800B61B8;
-extern s32 D_800BCCF4;
-s32 func_8000ACE8(s32 arg0);
-s32 func_800111F0(s32 arg0, s32 arg1, s32 arg2);
-void func_80011304(s32 arg0, s32 arg1, s32 arg2);
-void func_8001142C(s32 arg0, s32 arg1, u8 arg2);
-void func_80011620(void);
-void func_80011780(void);
-void func_80011920(void);
-void func_80011F58(void);
-
-struct n64dk_r12 func_8001228C(s32 arg1) {
+struct n64dk_r12 func_8001228C(proc_t *proc) {
     struct n64dk_r12 result;
-    s32 pad0[4];
+    s32 unused[4];   /* NOTE: unused in the original; guess: its type, the frame shows at most 16 bytes */
     s32 i;
     s32 slot;
-    s32 pad1[2];
+    s32 unused2[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 event;
 
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }

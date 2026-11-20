@@ -1,22 +1,11 @@
-typedef signed short s16;
-typedef signed int s32;
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s16 type;
-} Msg;
-
-extern s32 D_800B3970;
-extern s32 D_800FB80C;
-void func_800045D4(void);
-void func_8000BB68(void);
-s32 func_8003E318(s32 *, Msg **, s32);
-
-void func_80004160(s32 arg0) {
-    Msg *msg;
+void func_80004160(void *arg) {
+    OSScMsg *msg;
 
     msg = 0;
     while (1) {
-        func_8003E318(&D_800B3970, &msg, 1);
+        osRecvMesg(&D_800B3970, (OSMesg *)&msg, OS_MESG_BLOCK);
         switch (msg->type) {
         case 5:
             if (D_800FB80C != 0) {

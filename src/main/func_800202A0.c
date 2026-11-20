@@ -1,21 +1,4 @@
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned short u16;
-typedef signed int s32;
-
-typedef struct {
-    /* 0x00000 */ u8 unk_00000[0x4];
-    /* 0x00004 */ u8 data[0x1E47C]; /* pixels start at data + 0x19C00 */
-} Bank;
-
-typedef struct {
-    /* 0x00000 */ u8 unk_00000[0x1E480];
-} BankData;
-
-extern Bank D_800BEF5C[];
-extern s32 D_800B61A0;
-extern BankData D_800BEF60[];
-s32 func_8003FF78(s32);
+#include "wof.h"
 
 void func_800202A0(s32 arg0) {
     s32 size;
@@ -28,10 +11,10 @@ void func_800202A0(s32 arg0) {
     s32 sp2C;
 
     sp2C = 0x2000000;
-    size = func_8003FF78((s32)(D_800BEF5C[D_800B61A0].data + 0x19C00));
-    size = size - func_8003FF78((s32)&D_800BEF60[D_800B61A0]);
+    size = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_19C00);
+    size = size - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
     src = (u16 *)arg0;
-    dst = (s16 *)(D_800BEF5C[D_800B61A0].data + 0x19C00);
+    dst = D_800BEF08[D_800B61A0].frame.unk_19C00;
     n = 0;
     page = 0;
     while (page < 2) {

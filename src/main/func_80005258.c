@@ -1,14 +1,4 @@
-typedef unsigned char u8;
-typedef signed int s32;
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0xC];
-} Entry;
-
-extern Entry D_800BEE60[];
-extern u8 D_800B96C4;
-void func_80004F0C(s32 arg0);
+#include "wof.h"
 
 void func_80005258(void) {
     s32 i;

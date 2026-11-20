@@ -1,73 +1,29 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed int s32;
-typedef float f32;
-struct n64dk_r12 { s32 w[3]; };
+#include "wof.h"
+#include "func_800051B4.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 player;
-    /* 0x08 */ u8 unk_08[0x8];
-    /* 0x10 */ s8 unk_10;
-} Data;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *data;
-} Object;
-
-typedef struct {
-    /* 0x000 */ s32 unk_00;
-    /* 0x004 */ u8 unk_04[0x10];
-    /* 0x014 */ s32 unk_14;
-    /* 0x018 */ u8 unk_18[0xE4];
-    /* 0x0FC */ s32 unk_FC;
-    /* 0x100 */ u8 unk_100[0x14];
-} Player;
-
-extern Player D_800B9990[];
-extern u8 D_800B61B5;
-extern s32 D_800B96B4;
-extern s32 D_800FB808;
-s32 func_80002CE0(s32 arg0);
-void func_800051B4(s32 arg0, s32 arg1, f32 arg2);
-s32 func_80007888(s32 arg0, s32 arg1);
-void func_80007DAC(s32 arg0);
-s32 func_800084E8(void);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_8000A850(s32 arg0);
-void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000ACE8(s32 arg0);
-void func_8000AD9C(s32 arg0);
-struct n64dk_r12 func_80010574(s32 arg1);
-s32 func_80017548(void);
-void func_80017C00(s32 arg0, s32 arg1);
-void func_80021B04(s32 arg0, s32 arg1);
-void func_8002EB40(void);
-
-struct n64dk_r12 func_80018D28(s32 arg1) {
+struct n64dk_r12 func_80018D28(proc_t *proc) {
     struct n64dk_r12 ret;
-    s32 task;
-    s32 pad0;
+    proc_t *task;
+    s32 unused;  /* NOTE: unused in the original */
     s32 event;
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (((Object *)arg1)->data->player != D_800FB808) {
-        func_8000AD9C(arg1);
+    if (proc->unk_30->playerProc.player != D_800FB808) {
+        func_8000AD9C(proc);
         return ret;
     }
     for (;;) {
-        event = func_8000ACE8(arg1);
+        event = func_8000ACE8(proc);
         if (event == 0) {
             break;
         }
         switch (event) {
         case 8:
-            if (D_800B9990[D_800FB808].unk_00 < 250) {
-                func_8000AAB0(arg1, 51, 0);
+            if (D_800B9990[D_800FB808].unk_000 < 250) {
+                func_8000AAB0(proc, 51, 0);
                 func_80002CE0(1);
-                func_800051B4(D_800B9990[D_800FB808].unk_14, 30, 0.8f);
+                func_800051B4(D_800B9990[D_800FB808].unk_014, 30, 0.8f);
                 ret.w[1] = 1;
                 ret.w[0] = 30 / D_800B96B4;
                 return ret;
@@ -91,21 +47,21 @@ struct n64dk_r12 func_80018D28(s32 arg1) {
             ret.w[1] = 0;
             return ret;
         case 5:
-            func_80002CE0(D_800B9990[D_800FB808].unk_FC + (D_800B61B5 - 'A'));
-            func_8000AAB0(arg1, 44, 0);
+            func_80002CE0(D_800B9990[D_800FB808].unk_0FC + (D_800B61B5 - 'A'));
+            func_8000AAB0(proc, 44, 0);
             ret.w[1] = 1;
             ret.w[0] = 30 / D_800B96B4;
             return ret;
         case 44:
             if (func_80007888(D_800B61B5, 1) > 0) {
                 func_80007DAC(D_800B61B5);
-                task = func_8000A56C((s32)func_80010574, 0x1000000);
-                ((Object *)task)->data->unk_10 = D_800B61B5;
+                task = func_8000A56C(func_80010574, 0x1000000);
+                task->unk_30->data80010574.letter = D_800B61B5;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {
                 func_80002CE0(1);
-                func_800051B4(D_800B9990[D_800FB808].unk_14, 30, 0.8f);
+                func_800051B4(D_800B9990[D_800FB808].unk_014, 30, 0.8f);
                 if (func_80017548() != 0) {
                     func_8000A850(9);
                 }
@@ -115,7 +71,7 @@ struct n64dk_r12 func_80018D28(s32 arg1) {
             }
             break;
         case 51:
-            func_8000AAB0(arg1, 52, 0);
+            func_8000AAB0(proc, 52, 0);
             func_80002CE0(150);
             ret.w[1] = 1;
             ret.w[0] = 60 / D_800B96B4;

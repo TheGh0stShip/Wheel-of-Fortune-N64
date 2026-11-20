@@ -1,20 +1,13 @@
-typedef signed short s16;
-typedef signed int s32;
-extern s32 D_8004B718;
-extern s16 *D_800A509C;
-extern s32 D_800BED90;
-void func_8003CDE8(s32);
-void func_800411C8(s32);
-void func_80049FA8(s32, s16);
+#include "wof.h"
 
 void func_8000315C(void) {
     s32 i;
 
     for (i = 31; i >= 0; i--) {
         if (D_800A509C[i] != -1) {
-            func_80049FA8(D_8004B718, D_800A509C[i]);
-            func_8003CDE8(D_8004B718);
+            alSndpSetSound(D_8004B718, D_800A509C[i]);
+            alSndpStop(D_8004B718);
         }
     }
-    func_800411C8(D_800BED90);
+    alCSPStop(D_800BED90[0]);
 }

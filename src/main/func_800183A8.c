@@ -1,98 +1,39 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed int s32;
-typedef float f32;
-typedef double f64;
-struct n64dk_r12 { s32 w[3]; };
+#include "wof.h"
+#include "func_800051B4.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 player;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ s8 unk_10;
-} State;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ State *unk_30;
-} Obj;
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0xE4];
-    /* 0xE8 */ s32 unk_E8;
-    /* 0xEC */ u8 unk_EC[0x28];
-} Player;
-
-extern Player D_800B99A4[];
-extern f32 D_80000F7C;
-extern f64 D_80000F80;
-extern f64 D_80000F88;
-extern u8 D_800B61B5;
-extern s32 D_800B96A0;
-extern s32 D_800B96B4;
-extern f32 D_800BCCF0;
-extern s32 D_800FB808;
-struct n64dk_r12 func_8000EF68(s32 arg1);
-struct n64dk_r12 func_8000FDFC(s32 arg1);
-struct n64dk_r12 func_80010574(s32 arg1);
-s32 func_80002CE0(s32 arg0);
-void func_800051B4(s32 arg0, s32 arg1, f32 arg2);
-s32 func_80007888(s32 arg0, s32 arg1);
-void func_80007DAC(s32 arg0);
-s32 func_8000928C(void);
-void func_80009364(s32 arg0);
-s32 func_8000A56C(s32 arg0, s32 arg1);
-void func_8000A850(s32 arg0);
-s32 func_8000A990(s32 arg0, s32 arg1);
-void func_8000AAB0(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8000ACE8(s32 arg0);
-void func_8000AD9C(s32 arg0);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
-s32 func_80017548(void);
-s32 func_80017728(void);
-void func_80017C00(s32 arg0, s32 arg1);
-void func_80021B04(s32 arg0, s32 arg1);
-void func_8002A014(void);
-void func_8002EB40(void);
-void func_80032B10(void);
-void func_80032B80(void);
-s32 func_80033150(s32 arg0, s32 arg1, s32 arg2);
-s32 func_8003CE58(void);
-
-struct n64dk_r12 func_800183A8(s32 arg1) {
+struct n64dk_r12 func_800183A8(proc_t *proc) {
     struct n64dk_r12 result;
-    Obj *obj;
-    s32 node;
+    proc_t *task;
+    obj_t *node;
     s32 event;
 
     result.w[1] = 1;
     result.w[0] = 0;
-    if (((Obj *)arg1)->unk_30->player != D_800FB808) {
-        func_8000AD9C(arg1);
+    if (proc->unk_30->playerProc.player != D_800FB808) {
+        func_8000AD9C(proc);
         return result;
     }
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 8:
             func_80017C00(0, 0);
-            obj = (Obj *)func_8000A56C((s32)func_8000EF68, 0x4000000);
+            task = func_8000A56C(func_8000EF68, 0x4000000);
             result.w[1] = 2;
             result.w[0] = 29;
             return result;
         case 29:
             func_80017C00(0, 0);
-            obj = (Obj *)func_8000A56C((s32)func_8000FDFC, 0x4030000);
+            task = func_8000A56C(func_8000FDFC, 0x4030000);
             node = func_8000B5DC(0x4010000, 0xFFFF0000);
-            obj->unk_30->unk_00 = node;
-            if (D_800BCCF0 > D_80000F7C) {
-                obj->unk_30->unk_0C = D_800BCCF0 + func_8003CE58() % 10;
+            task->unk_30->data8000FDFC.unk_00 = node;
+            if (D_800BCCF0 > 50.0f) {
+                task->unk_30->data8000FDFC.unk_0C = D_800BCCF0 + guRandom() % 10;
             } else {
-                obj->unk_30->unk_0C = (f32)(func_8003CE58() % 10 + 50) + D_800BCCF0;
+                task->unk_30->data8000FDFC.unk_0C = (f32)(guRandom() % 10 + 50) + D_800BCCF0;
             }
-            if (obj->unk_30->unk_0C > D_80000F80) {
-                func_8000AAB0(arg1, 7, 0);
+            if (task->unk_30->data8000FDFC.unk_0C > 80.0) {
+                func_8000AAB0(proc, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 40 / D_800B96B4;
                 return result;
@@ -103,9 +44,9 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
             }
             break;
         case 7:
-            obj = (Obj *)func_8000A990(0x4030000, -1);
-            if (obj->unk_30->unk_0C >= D_80000F88) {
-                if (func_8003CE58() % 100 >= 51) {
+            task = func_8000A990(0x4030000, -1);
+            if (task->unk_30->data8000FDFC.unk_0C >= 110.0) {
+                if (guRandom() % 100 >= 51) {
                     func_80017C00(11, 0);
                 } else {
                     func_80017C00(15, 1);
@@ -127,7 +68,7 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
             if (func_8000928C() == -2 || func_8000928C() == -1) {
                 func_80017C00(0, 0);
                 func_80032B80();
-                func_800051B4(D_800B99A4[D_800FB808].unk_00, 30, 0.8f);
+                func_800051B4(D_800B9990[D_800FB808].unk_014, 30, 0.8f);
                 if (func_80017728() != 0) {
                     if (func_8000928C() == -2) {
                         func_80021B04(12, 16);
@@ -164,8 +105,8 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
             result.w[0] = 0;
             return result;
         case 5:
-            func_80002CE0(D_800B99A4[D_800FB808].unk_E8 + (D_800B61B5 - 65));
-            func_8000AAB0(arg1, 44, 0);
+            func_80002CE0(D_800B9990[D_800FB808].unk_0FC + (D_800B61B5 - 65));
+            func_8000AAB0(proc, 44, 0);
             result.w[1] = 1;
             result.w[0] = 30 / D_800B96B4;
             return result;
@@ -173,13 +114,13 @@ struct n64dk_r12 func_800183A8(s32 arg1) {
             func_8002A014();
             if (func_80007888(D_800B61B5, 0) > 0) {
                 func_80007DAC(D_800B61B5);
-                obj = (Obj *)func_8000A56C((s32)func_80010574, 0x1000000);
-                obj->unk_30->unk_10 = D_800B61B5;
+                task = func_8000A56C(func_80010574, 0x1000000);
+                task->unk_30->data80010574.letter = D_800B61B5;
                 result.w[1] = 2;
                 result.w[0] = 6;
             } else {
                 func_80002CE0(1);
-                func_800051B4(D_800B99A4[D_800FB808].unk_00, 30, 0.8f);
+                func_800051B4(D_800B9990[D_800FB808].unk_014, 30, 0.8f);
                 if (func_80017548() != 0) {
                     func_8000A850(3);
                 }

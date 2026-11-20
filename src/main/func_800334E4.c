@@ -1,14 +1,9 @@
-typedef signed int s32;
-extern s32 D_800FB808;
-s32 func_8000A4A4(s32 arg0, s32 arg1);
-s32 func_8000A990(s32 arg0, s32 arg1);
-s32 func_8000B234(s32 arg0);
-s32 func_8000B5DC(s32 arg0, s32 arg1);
+#include "wof.h"
 
 void func_800334E4(void) {
     s32 i;
-    s32 sp14;
-    s32 sp18;
+    obj_t *sp14;
+    proc_t *sp18;
 
     for (i = 0; i < 3; i++) {
         if (i != D_800FB808) {

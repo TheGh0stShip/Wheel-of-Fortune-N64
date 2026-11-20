@@ -1,44 +1,37 @@
-typedef unsigned char u8;
-typedef signed int s32;
-struct n64dk_r12 { s32 w[3]; };
-struct gd_4_s32 { u8 pad[0x4]; s32 v; };
-struct gd_30_s32 { u8 pad[0x30]; s32 v; };
-extern s32 D_800B96B4;
-s32 func_8000ACE8();
-s32 func_800343F8();
-s32 func_8003CE58();
+#include "wof.h"
 
-struct n64dk_r12 func_800345E8(s32 arg1) {
+
+struct n64dk_r12 func_800345E8(proc_t *proc) {
     struct n64dk_r12 sp20;
     s32 sp30;
     s32 sp34;
-    s32 sp38;
+    obj_t *sp38;
 
-    sp38 = *(s32 *)((struct gd_30_s32 *)arg1)->v;
+    sp38 = proc->unk_30->obj;
     for (;;) {
-        sp30 = func_8000ACE8(arg1);
+        sp30 = func_8000ACE8(proc);
         if (sp30 == 0) {
             break;
         }
         switch (sp30) {
         case 8:
-            ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v = 10;
+            proc->unk_30->data800345E8.unk_04 = 10;
             break;
         }
     }
-    ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v--;
-    if (((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v < 0) {
-        if (((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v < -40) {
+    proc->unk_30->data800345E8.unk_04--;
+    if (proc->unk_30->data800345E8.unk_04 < 0) {
+        if (proc->unk_30->data800345E8.unk_04 < -40) {
             sp20.w[1] = 0;
             sp20.w[0] = 1;
             return sp20;
         }
-        if (((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v >= -9) {
+        if (proc->unk_30->data800345E8.unk_04 >= -9) {
             func_800343F8(80, 150, 60, 80, 30, 10, 2, 1);
         } else {
             func_800343F8(80, 150, 60, 80, 30, 10, 2, 1);
             sp20.w[1] = 1;
-            sp20.w[0] = ((func_8003CE58() % -1) * ((struct gd_4_s32 *)((struct gd_30_s32 *)arg1)->v)->v) / D_800B96B4;
+            sp20.w[0] = ((guRandom() % -1) * proc->unk_30->data800345E8.unk_04) / D_800B96B4;
             return sp20;
         }
     } else {
@@ -52,6 +45,6 @@ struct n64dk_r12 func_800345E8(s32 arg1) {
         }
     }
     sp20.w[1] = 1;
-    sp20.w[0] = (func_8003CE58() % 10) / D_800B96B4;
+    sp20.w[0] = (guRandom() % 10) / D_800B96B4;
     return sp20;
 }

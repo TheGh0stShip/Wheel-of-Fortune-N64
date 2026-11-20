@@ -1,35 +1,5 @@
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x8];
-} EntryA;
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x110];
-} EntryB;
-
-typedef struct {
-    /* 0x00 */ s32 base;
-    /* 0x04 */ s32 range;
-} Range;
-
-extern EntryA D_8004BBA0[];
-extern EntryB D_800B99A0[];
-extern Range D_B025D810[];
-extern s32 D_800B619C;
-extern s32 D_800B9540;
-extern s32 D_800B9980;
-extern s32 D_800B9CF8;
-extern s32 D_800B9CFC;
-extern s32 D_800B9D00;
-extern s32 D_800BCD54;
-extern s32 D_800BEE54;
-void func_80006E54(s32 arg0, s32 arg1);
-void func_80008AB8(void);
-s32 func_80009C98(s32 arg0);
 
 void func_80006BFC(void) {
     s32 i;
@@ -61,7 +31,7 @@ void func_80006BFC(void) {
     }
     i = D_B025D810[kind].base + func_80009C98(D_B025D810[kind].range);
     if (D_800BCD54 != 3) {
-        while (D_8004BBA0[i].unk_00 != 0) {
+        while (D_8004BB98[i].unk_08 != 0) {
             i = D_B025D810[kind].base + func_80009C98(D_B025D810[kind].range);
         }
     }
@@ -70,6 +40,6 @@ void func_80006BFC(void) {
     D_800B9CFC = 0;
     D_800B9D00 = 0;
     for (i = 0; i < 3; i++) {
-        D_800B99A0[i].unk_00 = 0;
+        D_800B9990[i].unk_010 = 0;
     }
 }

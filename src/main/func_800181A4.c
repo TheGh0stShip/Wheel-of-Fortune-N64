@@ -1,41 +1,23 @@
-typedef unsigned char u8;
-typedef signed int s32;
+#include "wof.h"
 
-struct n64dk_r12 { s32 w[3]; };
 
-typedef struct {
-    /* 0x000 */ s32 unk_00;
-    /* 0x004 */ u8 unk_04[0x110];
-} Player;
-
-extern Player D_800B9AA0[];
-extern s32 D_800B96A8;
-extern s32 D_800B96B4;
-extern s32 D_800FB808;
-s32 func_80002CE0(s32 arg0);
-s32 func_8000ACE8(s32 arg0);
-void func_80017C00(s32 arg0, s32 arg1);
-void func_800219B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80021B04(s32 arg0, s32 arg1);
-void func_80032B10(void);
-void func_800334E4(void);
-
-struct n64dk_r12 func_800181A4(s32 arg1) {
+struct n64dk_r12 func_800181A4(proc_t *proc) {
     struct n64dk_r12 ret;
-    s32 pad0[2];
+    s32 unused;   /* NOTE: unused in the original */
+    s32 unused2;  /* NOTE: unused in the original */
     s32 event;
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 8:
             func_80017C00(17, 0);
             func_80032B10();
             func_800334E4();
             D_800B96A8 += 3;
-            if (D_800B9AA0[D_800FB808].unk_00 > 0) {
-                func_80002CE0(D_800B9AA0[D_800FB808].unk_00);
+            if (D_800B9990[D_800FB808].unk_110 > 0) {
+                func_80002CE0(D_800B9990[D_800FB808].unk_110);
             }
             ret.w[1] = 1;
             ret.w[0] = 45 / D_800B96B4;

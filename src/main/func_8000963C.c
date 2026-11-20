@@ -1,12 +1,4 @@
-typedef signed int s32;
-s32 func_80007EEC(s32 arg0);
-extern s32 D_800B619C;
-extern s32 D_800B96A0;
-extern s32 D_800B9980;
-extern s32 D_800B9CF8;
-extern s32 D_800B9CFC;
-extern s32 D_800B9D00;
-extern s32 D_800FB808;
+#include "wof.h"
 
 void func_8000963C(s32 arg0) {
     D_800B9980 = 0;

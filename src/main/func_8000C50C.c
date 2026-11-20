@@ -1,47 +1,15 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed short s16;
-typedef signed int s32;
-typedef float f32;
-struct n64dk_r12 { s32 w[3]; };
+#include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x10];
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ s16 unk_12;
-    /* 0x14 */ s16 unk_14;
-} Pos;
-
-typedef struct {
-    /* 0x00 */ Pos *unk_00;
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-} Data;
-
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x30];
-    /* 0x30 */ Data *unk_30;
-} Obj;
-
-extern s32 D_800BEE24;
-s32 func_8000ACE8(s32 arg0);
-s32 func_8003BEA8(void *, s32, f32, s32);
-s32 func_8003C2A8(void *, s32, s32, f32);
-s32 func_80041018(void *arg0, void *arg1, void *arg2);
-
-struct n64dk_r12 func_8000C50C(s32 arg1) {
-    s32 mtxA[12];
-    f32 x;
-    f32 y;
-    f32 z;
-    s32 mtxB[16];
+struct n64dk_r12 func_8000C50C(proc_t *proc) {
+    f32 mtxA[4][4];
+    f32 mtxB[4][4];
     struct n64dk_r12 result;
-    Pos *pos;
+    obj_t *pos;
     s32 event;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; func_8000C6C4 keeps an index here */
 
-    pos = ((Obj *)arg1)->unk_30->unk_00;
-    while ((event = func_8000ACE8(arg1)) != 0) {
+    pos = proc->unk_30->data8000C50C.unk_00;
+    while ((event = func_8000ACE8(proc)) != 0) {
         switch (event) {
         case 34:
         case 36:
@@ -50,12 +18,12 @@ struct n64dk_r12 func_8000C50C(s32 arg1) {
             return result;
         }
     }
-    func_8003C2A8(mtxA, 0, 0, D_800BEE24);
-    func_8003BEA8(mtxB, 0, ((Obj *)arg1)->unk_30->unk_08 * 15, 0);
-    func_80041018(mtxA, mtxB, mtxA);
-    pos->unk_10 = x;
-    pos->unk_12 = y;
-    pos->unk_14 = z;
+    guTranslateF(mtxA, 0, 0, D_800BEE24);
+    guRotateRPYF(mtxB, 0, proc->unk_30->data8000C50C.unk_08 * 15, 0);
+    guMtxCatF(mtxA, mtxB, mtxA);
+    pos->x = mtxA[3][0];
+    pos->y = mtxA[3][1];
+    pos->z = mtxA[3][2];
     result.w[1] = 1;
     result.w[0] = 0;
     return result;

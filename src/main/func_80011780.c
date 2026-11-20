@@ -1,12 +1,5 @@
-typedef unsigned char u8;
-typedef signed int s32;
-extern u8 D_800B61B5;
-extern s32 D_800B61B8;
-extern u8 D_800B95AD[][21];
-extern s32 D_800BCCF4;
-s32 func_800111F0(s32 arg0, s32 arg1, s32 arg2);
-void func_80011304(s32 arg0, s32 arg1, s32 arg2);
-void func_8001142C(s32 arg0, s32 arg1, u8 arg2);
+#include "wof.h"
+
 
 void func_80011780(void) {
     func_80011304(D_800B61B8, D_800BCCF4, 0);
