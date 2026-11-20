@@ -28,6 +28,7 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
 | `disasm` | `./wof diff UNIT`; for ranges outside a unit, `mips-linux-gnu-objdump -D -b binary -m mips:4300 -EB` on the ROM |
 | symbol proposals | `./wof infer` (not a gate: it reads addresses from retail and writes proposals to the build directory) |
 | unit boundaries | `./wof unitmap [-v]` (not a gate: prints the evidence for original object boundaries among the game functions, from the ROM and the last gate's unit list; `-v` adds the strings each function uses) |
+| stack frames | `./wof frame [-v] [-s] UNIT...` (not a gate: prints a game function's stack frame as retail uses it, slot by slot, next to the locals the source declares, with the evidence about each local the function never names or names after its offset; a function name or address works too; `-v` adds the instructions, `-s` gives one line per function, `-a` takes every game unit, `-c` compares the tool's layout rule with cc1's debug info from the last gate) |
 | `permute` | none |
 
 - **Toolchain.** Two compilers, both inside WSL and outside the repository: GCC 2.7.2 for MIPS (`gcc`, `cc1`,

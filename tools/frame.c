@@ -11,6 +11,8 @@
  *       -s   one summary line per function and the stand-in totals, instead of the tables
  *       -a   every unit of the flag class "game"
  *       -c   check mode: compare the tool's own reading with cc1's (.frame line, debug info) and count
+ *   frame -p SOURCE.c CC1-OUTPUT.s
+ *       the layout rule alone against cc1, for any C file compiled with -O0 -g -S: how the rule was probed
  *
  * From retail (the ROM; address and size from config/units.tsv, function ranges from config/functions.tsv):
  *   the frame size, the saved registers, the outgoing-argument area, the incoming-argument home slots, and
@@ -51,22 +53,50 @@
  *              slots merge.  A nested local that finds no free slot goes after everything allocated so
  *              far, which is above every function-level local.
  *
- * Limits of what was verified.  The rule was probed for the types above, for parameters of every scalar
- * width, for struct parameters and returns, and for sibling and nested blocks; "-c -a" prints the count of
- * locals on which it agrees with cc1 today.  Not modelled: the compiler's own temporaries (the value of a
- * call that returns a struct lives in a block slot allocated when the call is expanded, so it sits among
- * the nested locals and can be reused by them; an initialiser that needs one puts it between two
- * declarations), bit-fields, variable-length arrays, alloca, K&R parameter lists, and types the tool
- * cannot size (then every later slot is unknown without the debug info).  The source is read without a
- * preprocessor: a struct body that contains a conditional, and a type defined twice with two sizes, are
- * unknown; a declaration hidden in a macro is not seen.
+ * How it was verified, and the limits.  Probes (functions written to isolate one question each, compiled
+ * with the project's cc1 at the game's flags, then "frame -p SOURCE.c OUTPUT.s") covered: every scalar
+ * width; arrays, structs and unions around the 1/2/4/8 boundary; typedef'd arrays; pointers to functions and
+ * to arrays; initialised and unsized arrays; static and register locals; parameters of every scalar width,
+ * by value structs, a struct return, narrow parameters on the stack; sibling, nested, loop and switch
+ * blocks with slot reuse, splitting and merging.  The rule gave cc1's slot for every local in them except
+ * those allocated after a compiler temporary (below).  "frame -c -a" then compares the rule with the debug
+ * info of every game unit and prints the counts; it counts nested-block locals apart, and while the game
+ * sources declare none, that part of the rule rests on the probes alone.
+ * Not modelled: the compiler's own slots.  The value of a call that returns a struct lives in a block slot
+ * made when the call is expanded, so it sits among the nested locals, can be reused by them, and an
+ * initialiser that needs one puts it between two declarations.  A spilled value gets a slot after
+ * everything else: every one in the game today is a word at 8k+4 above four untouched bytes, which the
+ * table shows as one doubleword whose low word is used (a 64-bit product; the shape is observed, the cause
+ * was not reproduced in a probe).  Also not modelled: bit-fields, variable-length arrays, alloca, K&R
+ * parameter lists.  The source is read without a preprocessor: a struct body with a conditional inside, a
+ * type defined twice with two sizes, and a type from a header the reader cannot find are unknown, and
+ * without the debug info every local after one of unknown size has no slot; a declaration hidden in a
+ * macro is not seen.
  *
- * What retail cannot tell.  Where an object ends: a run is "the slots after a taken address up to the next
- * taken address or the next slot that is both read and written", which is a guess at an extent, and an
- * address like &arr[2] looks like the start of an object.  The number of arguments of a call: an argument
- * register that still holds a value from earlier in the same statement is printed as an argument.  Register
- * contents are dropped at every branch target, so an address computed before a ?: or && is not followed to
- * its call.  A pointer kept in a local is followed only as "the slot that held the address".
+ * The evidence column.  A local the function never names (what the rule checker flags) gets one of:
+ *   reach          a callee, or an index, is seen to reach it through a taken address
+ *   in-run         it lies between the slots of the run that follows a taken address
+ *   run-rounding   it is the 8-byte rounding such a run would get as one block
+ *   front-hole     it is the hole that 8-byte alignment leaves in front of a taken address
+ *   after-run      it follows such a run, beyond the rounding
+ *   whole-area     nothing in the locals area is touched
+ *   below-temporary, top, bottom, isolated
+ *                  untouched, with no taken address near: under a slot the compiler made for itself, above
+ *                  every touched local, below every touched local, or between two
+ *   touched        retail touches the slot although the source never names the local
+ * A run is "the slots after a taken address, up to the next taken address or the next slot that is both read
+ * and written through $fp, or as far as something is seen to reach through the address": a guess at where an
+ * object ends, printed with what it rests on.  The other locals get what applies: where the address goes,
+ * membership of a run, "read, never written", and the loop or conditional stretch that holds every access.
+ *
+ * What retail cannot tell.  Where an object ends (above), and an address like &arr[2] looks like the start
+ * of an object.  The number of arguments of a call: an argument register that still holds a value from
+ * earlier in the same statement is printed as an argument.  Register contents are dropped at every branch
+ * target, so an address computed before a ?: or && is not followed to its call.  A pointer kept in a local
+ * is followed only loosely: accesses through a slot that was stored an address count as indexed accesses
+ * of that address.  A callee is read one level deep, and only if it is game code; what it does with a copy
+ * of the pointer, or with a variable index, is flagged but not measured.  A "conditional stretch" is the
+ * code a forward branch skips, which is an if body, an else body, or part of a condition.
  *
  * Environment: WOF_ROM (retail ROM, any byte order), WOF_BUILD (the build directory of the last gate).
  */
@@ -395,7 +425,7 @@ typedef struct {
 
 typedef struct {
     u32 pc;
-    char text[160];
+    char text[280];
 } VLine;
 
 #define MAXPARAM 16
@@ -466,7 +496,7 @@ static void disasm(u32 pc, u32 w, char *out, size_t n) {
 
 static void vnote(FA *fa, u32 pc, const char *fmt, ...) {
     va_list ap;
-    char d[64], note[80];
+    char d[64], note[200];
     if (!verbose) return;
     va_start(ap, fmt);
     vsnprintf(note, sizeof note, fmt, ap);
@@ -810,6 +840,8 @@ static int branch_target(u32 pc, u32 w, u32 *target, int *uncond) {
     return 0;
 }
 
+static void fmt_call(const Call *c, char *out, size_t n);
+
 static FA *cache[4096];
 static int ncache;
 
@@ -854,48 +886,63 @@ static FA *analyze(u32 start, u32 size) {
         return fa;
     }
     i++;
-    /* the entry sequence: register arguments go to their home slots; a narrow one goes through an $s register
-       into a local slot of its own width */
-    for (k = 0; k < 32; k++) sfrom[k] = -1;
-    for (; i < n; i++) {
-        u32 pc = start + 4 * i, op, rs, rt, rd;
-        s32 imm;
-        int write, fpreg, cls;
-        w = insn_at(pc);
-        op = w >> 26, rs = (w >> 21) & 31, rt = (w >> 16) & 31, rd = (w >> 11) & 31, imm = (s16)w;
-        cls = mem_class(op, &write, &fpreg);
-        if (cls >= 0 && rs == FP) {
-            int word = (imm - fa->frame) / 4;
-            if (write && imm >= fa->frame && word < MAXPARAM &&
-                ((!fpreg && rt >= 4 && rt <= 7 && rt - 4 == (u32)word) || (fpreg && rt >= 12 && rt <= 15))) {
-                add_acc(fa, pc, imm, cls, 1, 0, 1);
-                fa->homed[word] = 1 + (fpreg ? 32 + rt : rt);
-                vnote(fa, pc, "home of argument word %d", word);
-                continue;
+    /* The entry sequence: a register argument is stored to its home slot; a narrow one is first moved to another
+       register (one on the stack is loaded into one) and then stored into a local slot of its own width.  A
+       move or load only belongs to the sequence if such a store follows, so the sequence is walked twice: once
+       to find its last store, once to record it. */
+    {
+        int pass, first = i, last = i - 1;
+        for (pass = 0; pass < 2; pass++) {
+            int stop = pass ? last + 1 : n;
+            for (k = 0; k < 32; k++) sfrom[k] = -1;
+            for (i = first; i < stop; i++) {
+                u32 pc = start + 4 * i, op, rs, rt, rd;
+                s32 imm;
+                int write, fpreg, cls;
+                w = insn_at(pc);
+                op = w >> 26, rs = (w >> 21) & 31, rt = (w >> 16) & 31, rd = (w >> 11) & 31, imm = (s16)w;
+                cls = mem_class(op, &write, &fpreg);
+                if (cls >= 0 && rs == FP) {
+                    int word = (imm - fa->frame) / 4;
+                    if (write && imm >= fa->frame && word < MAXPARAM &&
+                        ((!fpreg && rt >= 4 && rt <= 7 && rt - 4 == (u32)word) || (fpreg && rt >= 12 && rt <= 15))) {
+                        if (pass) {
+                            add_acc(fa, pc, imm, cls, 1, 0, 1);
+                            fa->homed[word] = 1 + (fpreg ? 32 + rt : rt);
+                            vnote(fa, pc, "home of argument word %d", word);
+                        }
+                        last = i;
+                        continue;
+                    }
+                    if (!write && !fpreg && cls == C_WORD && (rt < 4 || rt > 7) && rt != FP && rt != SP && imm >= fa->frame + 16 && word < MAXPARAM) {
+                        sfrom[rt] = word;
+                        if (pass) add_acc(fa, pc, imm, cls, 0, 0, 1);
+                        continue;
+                    }
+                    if (write && !fpreg && (cls == C_BYTE || cls == C_HALF) && sfrom[rt] >= 0 && imm < fa->frame && fa->ncopy < MAXPARAM) {
+                        if (pass) {
+                            add_acc(fa, pc, imm, cls, 1, 0, 1);
+                            fa->copy[fa->ncopy].off = imm;
+                            fa->copy[fa->ncopy].size = clssize[cls];
+                            fa->copy[fa->ncopy].argword = sfrom[rt];
+                            fa->ncopy++;
+                            vnote(fa, pc, "copy of narrow argument word %d", sfrom[rt]);
+                        }
+                        sfrom[rt] = -1;
+                        last = i;
+                        continue;
+                    }
+                    break;
+                }
+                if (op == 0 && ((w & 63) == 0x21 || (w & 63) == 0x25 || (w & 63) == 0x2D) && rt == 0 && rd && (rd < 4 || rd > 7) && rd != FP && rd != SP &&
+                    rs >= 4 && rs <= 7) {
+                    sfrom[rd] = rs - 4;
+                    continue;
+                }
+                break;
             }
-            if (!write && !fpreg && cls == C_WORD && rt >= 16 && rt <= 23 && imm >= fa->frame && word < MAXPARAM) {
-                sfrom[rt] = word;
-                add_acc(fa, pc, imm, cls, 0, 0, 1);
-                continue;
-            }
-            if (write && !fpreg && (cls == C_BYTE || cls == C_HALF) && rt >= 16 && rt <= 23 && sfrom[rt] >= 0 && imm < fa->frame &&
-                fa->ncopy < MAXPARAM) {
-                add_acc(fa, pc, imm, cls, 1, 0, 1);
-                fa->copy[fa->ncopy].off = imm;
-                fa->copy[fa->ncopy].size = clssize[cls];
-                fa->copy[fa->ncopy].argword = sfrom[rt];
-                fa->ncopy++;
-                vnote(fa, pc, "copy of narrow argument word %d", sfrom[rt]);
-                sfrom[rt] = -1;
-                continue;
-            }
-            break;
         }
-        if (op == 0 && ((w & 63) == 0x21 || (w & 63) == 0x25 || (w & 63) == 0x2D) && rt == 0 && rd >= 16 && rd <= 23 && rs >= 4 && rs <= 7) {
-            sfrom[rd] = rs - 4;
-            continue;
-        }
-        break;
+        i = last + 1;
     }
     fa->body = start + 4 * i;
 
@@ -956,7 +1003,11 @@ static FA *analyze(u32 start, u32 size) {
             if (any) {
                 GROW(fa->call, fa->ncall, fa->capcall);
                 fa->call[fa->ncall++] = c;
-                vnote(fa, pc, "call takes a frame address");
+                {
+                    char text[200];
+                    fmt_call(&c, text, sizeof text);
+                    vnote(fa, pc, "%s", text);
+                }
             }
             fa->has_call = 1;
             clear_temps(r);
@@ -1001,6 +1052,7 @@ typedef struct {
     int size, align;
     int mode;
     int noforce; /* a block only because of its alignment: it does not force its container to be one */
+    int array;   /* an array type: as a parameter it is a pointer */
 } TypeInfo;
 
 enum { T_ID, T_NUM, T_STR, T_CHR, T_P };
@@ -1060,6 +1112,7 @@ static void tok_copy(const Tok *t, char *out, size_t n) { snprintf(out, n, "%.*s
 
 static TypeInfo scalar_type(int mode) {
     TypeInfo ti;
+    memset(&ti, 0, sizeof ti);
     ti.known = 1;
     ti.size = ti.align = modesize[mode];
     ti.mode = mode;
@@ -1397,6 +1450,7 @@ static TypeInfo array_of(const TypeInfo *elem, long n) {
     TypeInfo ti = unknown_type();
     if (!elem->known || n < 0) return ti;
     ti.known = 1;
+    ti.array = 1;
     ti.size = elem->size * n;
     ti.align = elem->align;
     aggregate_mode(&ti, elem->mode == M_BLK && !elem->noforce);
@@ -1909,7 +1963,7 @@ static void parse_params(SrcFile *f, SFunc *sf, int p0, int p1) {
         j = parse_spec(f, i, e, &base, spec, sizeof spec, &flags, 1);
         j = parse_declarator(f, j, e, &base, &d);
         if (d.name[0] || j > i + 1 || !(base.known && base.size == 0 && !d.nptr)) { /* not "(void)" */
-            if (d.suffix[0] || d.is_func) { /* an array or function parameter is a pointer */
+            if (d.suffix[0] || d.is_func || d.ti.array) { /* an array or function parameter is a pointer */
                 d.ti = scalar_type(M_SI);
             }
             if (!(base.known && base.size == 0 && !d.nptr && !d.name[0])) {
@@ -2341,7 +2395,8 @@ static int read_dtype(int i, int end, DType *t) {
     return i;
 }
 
-static void load_cc1(const char *unit) {
+/* unit: the last build of that unit in $WOF_BUILD; or any cc1 output by its path */
+static void load_cc1(const char *unit, const char *path) {
     const char *build = getenv("WOF_BUILD");
     struct stat st;
     char *p, *line;
@@ -2351,8 +2406,9 @@ static void load_cc1(const char *unit) {
     cc1_text = NULL;
     nditems = ndies = ndsets = ncframes = 0;
     cc1_fresh = 0;
-    if (!build) return;
-    snprintf(cc1_path, sizeof cc1_path, "%s/obj/%s.s", build, unit);
+    if (!build && !path) return;
+    if (path) snprintf(cc1_path, sizeof cc1_path, "%s", path);
+    else snprintf(cc1_path, sizeof cc1_path, "%s/obj/%s.s", build, unit);
     if (stat(cc1_path, &st)) return;
     cc1_fresh = st.st_mtime >= newest_source ? 1 : -1;
     cc1_text = (char *)read_file(cc1_path, NULL);
@@ -2636,6 +2692,7 @@ static int callee_reach(u32 target, int arg, s32 *lo, s32 *hi, char *note, size_
     if (c->why) return 0;
     p = &c->pd[arg];
     if (p->npass) snprintf(note, n, "passes it on to %s", p->passto ? code_name(p->passto) : "an indirect call");
+    *lo = *hi = 0;
     if (!(p->r + p->w)) return 0;
     *lo = p->lo;
     *hi = p->hi;
@@ -3047,23 +3104,23 @@ static void report_function(const Unit *u, u32 start, u32 size, SFunc *sf) {
             cls_text(cls, buf, sizeof buf);
             if (first) printf("  incoming arguments\n");
             first = 0;
-            printf("    0x%02X  word %d  %-7s", a->off, word, buf);
+            printf("    0x%02X  %-7s", a->off, buf);
             if (word < MAXPARAM && fa->homed[word]) {
                 int reg = fa->homed[word] - 1;
-                if (reg >= 32) printf(" home of $f%d", reg - 32);
-                else printf(" home of %s", regname[reg]);
-            } else printf(" on the caller's stack");
+                if (reg >= 32) printf(" argument word %d, stored from $f%d on entry;", word, reg - 32);
+                else printf(" argument word %d, stored from %s on entry;", word, regname[reg]);
+            } else printf(" argument word %d, on the caller's stack;", word);
             if (r) printf(" r%d", r);
             if (w) printf(" w%d", w);
             if (!r && !w) printf(" never used");
             for (j = 0; sf && j < sf->nd; j++)
                 if (sf->d[j].param && sf->d[j].off >= 0 && sf->d[j].off <= a->off && a->off < sf->d[j].off + (sf->d[j].size > 0 ? sf->d[j].size : 1))
                     printf("   %s  %s", sf->d[j].name, sf->d[j].type);
-            if (word < MAXPARAM && (fa->pd[word].r + fa->pd[word].w)) printf("   dereferenced +0x%X..0x%X", fa->pd[word].lo, fa->pd[word].hi - 1);
+            if (word < MAXPARAM && (fa->pd[word].r + fa->pd[word].w)) printf("   dereferenced at +0x%X..0x%X", fa->pd[word].lo, fa->pd[word].hi - 1);
             printf("\n");
         }
         for (k = 0; k < fa->ncopy; k++)
-            printf("    0x%02X  word %d  arrives in a register and is copied to the %s at 0x%02X\n", fa->frame + 4 * fa->copy[k].argword, fa->copy[k].argword,
+            printf("    0x%02X  argument word %d is narrow: copied on entry to the %s at 0x%02X\n", fa->frame + 4 * fa->copy[k].argword, fa->copy[k].argword,
                    fa->copy[k].size == 1 ? "byte" : "half", fa->copy[k].off);
     }
 
@@ -3100,7 +3157,9 @@ static void report_function(const Unit *u, u32 start, u32 size, SFunc *sf) {
             if (tk->idx_r + tk->idx_w) printf("; indexed r%d w%d at +0x%X..", tk->idx_r, tk->idx_w, tk->idx_lo < 0 ? 0 : tk->idx_lo);
             if (tk->der_r + tk->der_w) printf("; in place r%d w%d", tk->der_r, tk->der_w);
             printf("\n");
-            if (run->run_end > tk->base || run->tail_end > run->run_end) {
+            if (run->run_end <= tk->base && run->tail_end > tk->base) {
+                printf("           0x%02X..0x%02X is touched only through this address\n", tk->base, run->tail_end - 1);
+            } else if (run->nslots > 1 || run->tail_end - run->run_end >= 4) {
                 printf("           run 0x%02X..0x%02X", tk->base, (run->run_end > tk->base ? run->run_end : tk->base + 1) - 1);
                 if (run->known_end > tk->base) printf(" (reached through it up to 0x%02X)", run->known_end - 1);
                 printf(": %d slots, %d written, %d read, %d untouched", run->nslots, run->nwritten, run->nread, run->nuntouched);
@@ -3137,8 +3196,9 @@ static void report_function(const Unit *u, u32 start, u32 size, SFunc *sf) {
                 int got;
                 if (a->kind != RK_ADDR) continue;
                 got = callee_reach(c->target, j, &lo, &hi, note, sizeof note);
-                if (got) rl += snprintf(reach + rl, rl < sizeof reach ? sizeof reach - rl : 0, "%sarg%d+0x%X..0x%X", rl ? ", " : "", j, lo, hi - 1);
-                if (note[0]) rl += snprintf(reach + rl, rl < sizeof reach ? sizeof reach - rl : 0, "%sarg%d: %s", rl ? ", " : "", j, note);
+                if (got) rl += snprintf(reach + rl, rl < sizeof reach ? sizeof reach - rl : 0, "%sarg%d at +0x%X..0x%X", rl ? "; " : "", j, lo, hi - 1);
+                else if (note[0]) rl += snprintf(reach + rl, rl < sizeof reach ? sizeof reach - rl : 0, "%sarg%d not itself", rl ? "; " : "", j);
+                if (note[0]) rl += snprintf(reach + rl, rl < sizeof reach ? sizeof reach - rl : 0, " (%s)", note);
             }
             printf("    0x%08X  %s", c->pc, text);
             if (n > 1) printf("  x%d", n);
@@ -3236,12 +3296,12 @@ static void report_function(const Unit *u, u32 start, u32 size, SFunc *sf) {
                 el += snprintf(ev + el, el < sizeof ev ? sizeof ev - el : 0, "%saddress -> %s", el ? "; " : "", run->dest[0] ? run->dest : "used in place");
             if (run && run->tk == q->tk && run->nslots > 1)
                 el += snprintf(ev + el, el < sizeof ev ? sizeof ev - el : 0, "; heads the run 0x%02X..0x%02X", q->tk->base, run->run_end - 1);
-        } else if (q->run >= 0 && !standin && q->touched && (offname || !anydecl) && !(anydecl && sf->d[q->decl[0]].off < q->lo)) {
+        } else if (q->run >= 0 && !standin && q->touched && !(anydecl && sf->d[q->decl[0]].off < q->lo)) {
             Run *run = &runs[q->run];
             el += snprintf(ev + el, el < sizeof ev ? sizeof ev - el : 0, "%sin the run after &0x%02X%s", el ? "; " : "", run->tk->base,
                            q->lo < run->known_end ? " (reached through it)" : !q->r && !q->vr ? ", written only" : !q->w && !q->vw ? ", read only" : "");
-        } else if (q->touched && !standin && q->run < 0 && offname) {
-            if (!q->r && !q->vr) el += snprintf(ev + el, el < sizeof ev ? sizeof ev - el : 0, "%swritten, never read", el ? "; " : "");
+        } else if (q->touched && !standin && q->run < 0 && sf && anydecl) {
+            if (!q->r && !q->vr && offname) el += snprintf(ev + el, el < sizeof ev ? sizeof ev - el : 0, "%swritten, never read", el ? "; " : "");
             else if (!q->w && !q->vw && !q->entrycopy) el += snprintf(ev + el, el < sizeof ev ? sizeof ev - el : 0, "%sread, never written through $fp", el ? "; " : "");
         }
         if (q->entrycopy && q->lo < fa->frame) el += snprintf(ev + el, el < sizeof ev ? sizeof ev - el : 0, "%scopy of a narrow argument, made on entry", el ? "; " : "");
@@ -3284,7 +3344,7 @@ static void report_unit(const Unit *u, u32 only) {
     int is_c = strlen(u->src) > 2 && !strcmp(u->src + strlen(u->src) - 2, ".c");
     if (is_c) {
         load_source(u->src);
-        load_cc1(u->name);
+        load_cc1(u->name, NULL);
     } else {
         nsfuncs = 0;
         cc1_fresh = 0;
@@ -3316,8 +3376,45 @@ static void report_unit(const Unit *u, u32 only) {
     }
 }
 
+/*
+ * -p: the layout rule against cc1 on any source.  Compile a C file with the project's cc1 (-O0 -g -S), then give
+ * the source and the .s: every parameter and local whose slot the rule gets wrong is printed.
+ */
+static int probe(const char *src, const char *asm_path) {
+    int i, k, ok = 0, bad = 0, unsized = 0, nofunc = 0;
+    load_source(src);
+    if (!cur_src || !cur_src->text) die("cannot read %s", src);
+    load_cc1(NULL, asm_path);
+    if (!cc1_text) die("cannot read %s", asm_path);
+    for (i = 0; i < nsfuncs; i++) {
+        SFunc *sf = &sfuncs[i];
+        CFrame *cf = cc1_frame(sf->name);
+        if (!cf || !cf->has_frame) {
+            nofunc++;
+            continue;
+        }
+        apply_rule(sf, cf->args, cf->frame);
+        bind_cc1(sf);
+        for (k = 0; k < sf->nd; k++) {
+            Decl *d = &sf->d[k];
+            if (d->cc1_has != 1) continue;
+            if (!d->ti.known) unsized++;
+            if (d->rule_off == d->cc1_off && (d->cc1_size <= 0 || d->cc1_size == d->ti.size)) ok++;
+            else {
+                bad++;
+                printf("%s: %s %s (%s%s): rule 0x%X size %d, cc1 0x%X size %d\n", sf->name, d->param ? "parameter" : "local", d->name, d->type,
+                       d->depth > 1 ? ", nested" : "", d->rule_off, d->ti.known ? d->ti.size : -1, d->cc1_off, d->cc1_size);
+            }
+        }
+    }
+    printf("probe %s: %d functions, %d without a frame line; %d slots agree with cc1, %d differ (%d of a type the tool cannot size)\n", src, nsfuncs, nofunc, ok, bad,
+           unsized);
+    return bad != 0;
+}
+
 int main(int argc, char **argv) {
     int i, k, all = 0, nargs = 0;
+    if (argc == 4 && !strcmp(argv[1], "-p")) return probe(argv[2], argv[3]);
     for (i = 1; i < argc; i++) {
         if (!strcmp(argv[i], "-v")) verbose = 1;
         else if (!strcmp(argv[i], "-s")) summary = 1;
@@ -3327,7 +3424,7 @@ int main(int argc, char **argv) {
         else nargs++;
     }
     if (!nargs && !all) {
-        fprintf(stderr, "usage: frame [-v] [-s] [-c] UNIT|FUNCTION|ADDRESS...   (-a: every game unit)\n");
+        fprintf(stderr, "usage: frame [-v] [-s] [-c] UNIT|FUNCTION|ADDRESS...   (-a: every game unit)\n       frame -p SOURCE.c CC1-OUTPUT.s\n");
         return 2;
     }
     load_rom();
