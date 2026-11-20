@@ -34,7 +34,8 @@
  *              any $s register) at the top.  args is 0 in a function that calls nothing, otherwise the
  *              largest outgoing argument list rounded up to 8 and at least 16.  vars is rounded up to 8.
  *              Incoming arguments are at frame+0, +4, ...: a register argument is stored to its home slot
- *              on entry.
+ *              on entry (a function with a variable argument list stores all four before it makes its
+ *              frame).
  *   order      offsets grow upward in the order of allocation: first the copies of narrow parameters
  *              (a char or short parameter arrives as a word and is copied into a local slot of its own
  *              size), in parameter order; then the locals in declaration order.
@@ -850,7 +851,7 @@ static FA *analyze(u32 start, u32 size) {
     Reg r[40]; /* 32 registers, then the outgoing stack arguments 4..11 */
     u8 *label;
     int sfrom[32];
-    int i, n = size / 4, k;
+    int i, n = size / 4, k, va;
     u32 w;
 
     for (i = 0; i < ncache; i++)
@@ -864,13 +865,19 @@ static FA *analyze(u32 start, u32 size) {
         fa->why = "outside the image";
         return fa;
     }
-    w = insn_at(start);
+    /* a function with a variable argument list first stores its four argument registers above its frame */
+    for (va = 0; va < 4 && va < n && insn_at(start + 4 * va) == (0xAFA40000u | (u32)va << 16 | (u32)va * 4); va++) {}
+    w = va < n ? insn_at(start + 4 * va) : 0;
     if ((w & 0xFFFF8000) != 0x27BD8000) {
         fa->why = "does not open with addiu $sp,$sp,-N: not -O0 game code";
         return fa;
     }
     fa->frame = -(s32)(s16)w;
-    for (i = 1; i < n; i++) {
+    for (k = 0; k < va; k++) {
+        add_acc(fa, start + 4 * k, fa->frame + 4 * k, C_WORD, 1, 0, 1);
+        fa->homed[k] = 1 + 4 + k;
+    }
+    for (i = va + 1; i < n; i++) {
         int write, fpreg, cls;
         w = insn_at(start + 4 * i);
         cls = mem_class(w >> 26, &write, &fpreg);
