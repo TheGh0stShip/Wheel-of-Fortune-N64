@@ -136,11 +136,12 @@ void func_800A1BE4( int thirty2 );
 void func_800A2594( unsigned char *lum, unsigned char *cr, unsigned char *cb, unsigned char *out, int rows,
                     int cols );
 
-// PENDING: declarations as the imported sources had them, replaced unit by unit
-extern s16 D_800FD2C8[][64];
+// jrevdct.c
 void func_8009D3D8( void );
-void func_8009D4B8( s32 arg0, s32 arg1 );
-void func_8009D67C( s32 arg0 );
+void func_8009D4B8( DCTBLOCK data, int pos );
+void func_8009D67C( DCTBLOCK data );
+
+// PENDING: declarations as the imported sources had them, replaced unit by unit
 s32 func_800A2B40( s32 arg0 );
 void func_800A2D38( s32 arg0 );
 void func_800A2D84( s32 arg0 );
