@@ -1,15 +1,9 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0xC];
-} Slot;
-
-typedef struct {
     u8 unk_00[0x68];
 } Entry;
 
-extern Slot D_800BEE60[];
 extern Entry D_800AB448[];
 
 void func_8000420C(void) {

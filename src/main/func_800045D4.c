@@ -1,14 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ f32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-} Rumble;
-
-extern Rumble D_800BEE60[];
-
 void func_800045D4(void) {
     OSContPad *pad;
     u16 i;

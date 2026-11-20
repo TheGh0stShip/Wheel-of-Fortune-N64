@@ -6,7 +6,8 @@
 #include <ultra64.h>
 #include <PR/sched.h>
 
-// what an object's state handler returns
+// What a proc's handler returns to DoProcs: w[1] says what becomes of the proc (0: it ends,
+// 1: it sleeps w[0] frames, 2 and 3: it waits for event w[0]). The third word is not read.
 struct n64dk_r12 {
     s32 w[3];
 };
@@ -122,6 +123,14 @@ typedef struct {
     /* 0x04CC0 */ u8  unk_04CC0[0x197B8];
     /* 0x1E478 */ s32 unk_1E478;
 } frame_t;  // size 0x1E480
+
+// The rumble of one controller's pak: D_800BEE60[4]. func_800051B4 starts it.
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ f32 unk_04;
+    /* 0x08 */ f32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+} rumble_t;    // size 0x10
 
 //
 // addresses in segment 1, the display list and texture data the game loads: only their
@@ -548,6 +557,7 @@ extern s32 D_800BEE4C;
 extern s32 D_800BEE50;
 extern s32 D_800BEE54;
 extern u16 D_800BEE58[];
+extern rumble_t D_800BEE60[];
 extern s32 D_800BEEA0;
 extern s32 D_800BEEA8[][8];
 extern u8 D_800BEF08[][0x1E480];
