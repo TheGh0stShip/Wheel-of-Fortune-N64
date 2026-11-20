@@ -699,7 +699,7 @@ func_80099C8C	0x80099C8C	0x3AC	match	game	src/main/func_80099C8C.c
 func_8009A038	0x8009A038	0x798	match	game	src/main/func_8009A038.c
 func_8009A7D0	0x8009A7D0	0x778	match	game	src/main/func_8009A7D0.c
 func_8009AF48	0x8009AF48	0xB98	match	game	src/main/func_8009AF48.c
-func_8009BAE0	0x8009BAE0	0xACC	open	game	src/main/func_8009BAE0.c
+func_8009BAE0	0x8009BAE0	0xACC	match	game	src/main/func_8009BAE0.c
 func_8009C5AC	0x8009C5AC	0x50	match	game	src/main/func_8009C5AC.c
 func_8009C600	0x8009C600	0x154	match	game	src/main/func_8009C600.c
 func_8009C754	0x8009C754	0x32C	match	game	src/main/func_8009C754.c

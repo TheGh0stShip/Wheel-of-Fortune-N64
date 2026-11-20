@@ -6,118 +6,58 @@ typedef struct {
 
 extern Pair D_800FF2F8[];
 
-void func_8009BAE0(void) {
-    s32 i;
-    s32 j;
-    s32 value;
+/*
+Fills D_800FF2F8[start..end) in groups of `step` entries: the first half of each group gets val,
+the second half -val, and val drops by one per group.
 
-    value = 16;
-    for (i = 0; i < 24; i++) {
+The macro is load-bearing, not a convenience. The build used -g, and cc1 2.7.2 puts a nop in front
+of a loop that directly follows a label when no line-number note separates the two. Retail has that
+nop before the second inner loop of every group and nowhere else, so that loop began on the source
+line the first one ended on: both come from one macro invocation.
+
+guess: the name and the parameter names are those of the ASSIGN3 macro in the Berkeley mpeg_play
+decoder (decoders.c, init_motion_vectors), whose body this function reproduces statement for
+statement. The binary itself holds no name.
+*/
+#define ASSIGN3( start, end, step, val, num ) \
+    for ( i = start; i < end; i += step ) { \
+        for ( j = 0; j < step / 2; j++ ) { \
+            D_800FF2F8[i + j].unk_00 = val; \
+            D_800FF2F8[i + j].unk_04 = num; \
+        } \
+        for ( j = step / 2; j < step; j++ ) { \
+            D_800FF2F8[i + j].unk_00 = -val; \
+            D_800FF2F8[i + j].unk_04 = num; \
+        } \
+        val--; \
+    }
+
+/*
+=====================
+func_8009BAE0
+
+Builds the 2048-entry lookup table for a signed variable-length code, indexed by the next 11 bits
+of the stream: unk_00 is the decoded value (16 down to 0, negative when the sign bit is set) and
+unk_04 the code's length in bits. The 24 lowest indices are not codes and get value -1, length 0.
+The value/length pairs are those of the MPEG-1 motion vector code table.
+=====================
+*/
+void func_8009BAE0( void ) {
+    s32 i;
+    s32 j; /* NOTE: the inner loop counter of ASSIGN3, which names it directly */
+    s32 value = 16;
+
+    for ( i = 0; i < 24; i++ ) {
         D_800FF2F8[i].unk_00 = -1;
         D_800FF2F8[i].unk_04 = 0;
     }
-    i = 24;
-    while (i < 36) {
-        for (j = 0; j <= 0; j++) {
-            D_800FF2F8[i + j].unk_00 = value;
-            D_800FF2F8[i + j].unk_04 = 11;
-        }
-        for (j = 1; j < 2; j++) {
-            D_800FF2F8[i + j].unk_00 = -value;
-            D_800FF2F8[i + j].unk_04 = 11;
-        }
-        value--;
-        i += 2;
-    }
-    i = 36;
-    while (i < 48) {
-        for (j = 0; j < 2; j++) {
-            D_800FF2F8[i + j].unk_00 = value;
-            D_800FF2F8[i + j].unk_04 = 10;
-        }
-        for (j = 2; j < 4; j++) {
-            D_800FF2F8[i + j].unk_00 = -value;
-            D_800FF2F8[i + j].unk_04 = 10;
-        }
-        value--;
-        i += 4;
-    }
-    i = 48;
-    while (i < 96) {
-        for (j = 0; j < 8; j++) {
-            D_800FF2F8[i + j].unk_00 = value;
-            D_800FF2F8[i + j].unk_04 = 8;
-        }
-        for (j = 8; j < 16; j++) {
-            D_800FF2F8[i + j].unk_00 = -value;
-            D_800FF2F8[i + j].unk_04 = 8;
-        }
-        value--;
-        i += 16;
-    }
-    i = 96;
-    while (i < 128) {
-        for (j = 0; j < 16; j++) {
-            D_800FF2F8[i + j].unk_00 = value;
-            D_800FF2F8[i + j].unk_04 = 7;
-        }
-        for (j = 16; j < 32; j++) {
-            D_800FF2F8[i + j].unk_00 = -value;
-            D_800FF2F8[i + j].unk_04 = 7;
-        }
-        value--;
-        i += 32;
-    }
-    i = 128;
-    while (i < 256) {
-        for (j = 0; j < 64; j++) {
-            D_800FF2F8[i + j].unk_00 = value;
-            D_800FF2F8[i + j].unk_04 = 5;
-        }
-        for (j = 64; j < 128; j++) {
-            D_800FF2F8[i + j].unk_00 = -value;
-            D_800FF2F8[i + j].unk_04 = 5;
-        }
-        value--;
-        i += 128;
-    }
-    i = 256;
-    while (i < 512) {
-        for (j = 0; j < 128; j++) {
-            D_800FF2F8[i + j].unk_00 = value;
-            D_800FF2F8[i + j].unk_04 = 4;
-        }
-        for (j = 128; j < 256; j++) {
-            D_800FF2F8[i + j].unk_00 = -value;
-            D_800FF2F8[i + j].unk_04 = 4;
-        }
-        value--;
-        i += 256;
-    }
-    i = 512;
-    while (i < 1024) {
-        for (j = 0; j < 256; j++) {
-            D_800FF2F8[i + j].unk_00 = value;
-            D_800FF2F8[i + j].unk_04 = 3;
-        }
-        for (j = 256; j < 512; j++) {
-            D_800FF2F8[i + j].unk_00 = -value;
-            D_800FF2F8[i + j].unk_04 = 3;
-        }
-        value--;
-        i += 512;
-    }
-    i = 1024;
-    while (i < 2048) {
-        for (j = 0; j < 512; j++) {
-            D_800FF2F8[i + j].unk_00 = value;
-            D_800FF2F8[i + j].unk_04 = 1;
-        }
-        for (j = 512; j < 1024; j++) {
-            D_800FF2F8[i + j].unk_00 = -value;
-            D_800FF2F8[i + j].unk_04 = 1;
-        }
-        value--;
-        i += 1024;
-    }
+
+    ASSIGN3( 24, 36, 2, value, 11 );
+    ASSIGN3( 36, 48, 4, value, 10 );
+    ASSIGN3( 48, 96, 16, value, 8 );
+    ASSIGN3( 96, 128, 32, value, 7 );
+    ASSIGN3( 128, 256, 128, value, 5 );
+    ASSIGN3( 256, 512, 256, value, 4 );
+    ASSIGN3( 512, 1024, 512, value, 3 );
+    ASSIGN3( 1024, 2048, 1024, value, 1 );
 }
