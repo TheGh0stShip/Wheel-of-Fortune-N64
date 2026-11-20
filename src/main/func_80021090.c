@@ -1,14 +1,8 @@
 #include "wof.h"
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-} Pair;
-
-extern Pair *D_80107884;
+#include "mpeg/proto.h"
 
 void func_80021090(s32 arg0) {
-    switch ((u32)D_80107884->unk_00) {
+    switch (D_80107884->h_size) {
     case 112:
         func_800202A0(arg0);
         return;
@@ -16,7 +10,7 @@ void func_80021090(s32 arg0) {
         func_8001ED48(arg0);
         return;
     case 64:
-        switch (D_80107884->unk_04) {
+        switch (D_80107884->v_size) {
         case 64:
             func_800206C8(arg0);
             break;
@@ -26,9 +20,9 @@ void func_80021090(s32 arg0) {
         }
         return;
     }
-    func_80009D78(D_80107884->unk_00);
+    func_80009D78(D_80107884->h_size);
     func_80009F98((s32)"x");
-    func_80009D78(D_80107884->unk_04);
+    func_80009D78(D_80107884->v_size);
     func_80009F98((s32)" ");
     func_80009F38("Size Video Not Supported");
 }

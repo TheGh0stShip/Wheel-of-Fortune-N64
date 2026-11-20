@@ -1296,7 +1296,7 @@ void func_8001D440( obj_t *obj, frame_t *frame );
 void func_8001DAF0( obj_t *obj, frame_t *frame );
 void func_8001ED48( s32 arg0 );
 void func_8001EFF0( obj_t *obj, frame_t *frame );
-void func_80020150( s32 arg0, s32 arg1 );
+void func_80020150( obj_t *obj, frame_t *frame );
 void func_800202A0( s32 arg0 );
 void func_800206C8( s32 arg0 );
 void func_80020C98( s32 arg0 );
