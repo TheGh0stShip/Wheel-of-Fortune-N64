@@ -19,6 +19,11 @@ typedef struct {
     /* 0x08 */ unsigned char *data;
 } FILE;
 
+// The decoder's messages on stderr are compiled out. Where one was the only statement of a block
+// ("if ( !quietFlag ) { fprintf( stderr, ... ); }"), retail still makes the test and then does nothing.
+// guess: that they went through a macro; a call that was commented out leaves the same code.
+#define fprintf( stream, args... )
+
 struct timeval {
     /* 0x00 */ long tv_sec;
     /* 0x04 */ long tv_usec;

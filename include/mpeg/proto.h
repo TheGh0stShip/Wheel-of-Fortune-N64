@@ -49,6 +49,18 @@ double func_800A4F24( double x );
 
 extern FILE D_80107888;
 
+VidStream *func_80089B10( TimeStamp time_stamp, VidStream *vid_stream, int first, XInfo *xinfo );
+int func_8008A34C( VidStream *vid_stream, XInfo *xinfo );
+int func_8008B560( VidStream *vid_stream );
+int func_8008C0A8( VidStream *vid_stream, TimeStamp time_stamp );
+int func_8008CDB8( VidStream *vid_stream );
+
+extern const int D_80087A98[64][2];
+
+// The message of func_8008C0A8, "Fatal error. Ring buffer full.": the last thing in the read-only data
+// of its object, and declared here for the reason D_800879DC is.
+extern char D_80087EE0[];
+
 // PENDING: declarations as the imported sources had them, replaced unit by unit
 extern s32 D_800851C8[];
 extern s32 D_80085308;
@@ -77,7 +89,6 @@ extern s32 D_80086D60[];
 extern s32 D_80087160[];
 extern s32 D_80087560[];
 extern s32 D_80087C98[];
-extern s32 D_80087EE0;
 extern u8 D_800FC098[];
 extern f64 D_800FD098[][8];
 extern s32 D_800FD298;
@@ -127,11 +138,6 @@ extern s32 D_801078B0;
 extern s32 D_801078B4;
 extern s32 *D_801084A0;
 extern s32 *D_801084A8;
-s32 func_80089B10( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
-s32 func_8008A34C( s32 arg0, s32 arg1 );
-s32 func_8008B560( s32 arg0 );
-s32 func_8008C0A8( s32 arg0, s32 arg1 );
-s32 func_8008CDB8( s32 arg0 );
 s32 func_8008D220( s32 arg0 );
 void func_8008F3AC( s32 arg0, s32 arg1 );
 void func_8008F828( s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4 );

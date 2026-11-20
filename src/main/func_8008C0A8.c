@@ -1,236 +1,114 @@
 #include "wof.h"
 #include "mpeg/proto.h"
+#include "mpeg/util.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x10];
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-} Buf;
+/*
+=====================
+func_8008C0A8
 
-typedef struct {
-    /* 0x000 */ u8 unk_000[0xBC];
-    /* 0x0BC */ s32 unk_0BC;
-    /* 0x0C0 */ u8 unk_0C0[0xC];
-    /* 0x0CC */ s32 unk_0CC;
-    /* 0x0D0 */ s32 unk_0D0;
-    /* 0x0D4 */ s32 unk_0D4;
-    /* 0x0D8 */ s32 unk_0D8;
-    /* 0x0DC */ s32 unk_0DC;
-    /* 0x0E0 */ s32 unk_0E0;
-    /* 0x0E4 */ s32 unk_0E4;
-    /* 0x0E8 */ s32 unk_0E8;
-    /* 0x0EC */ s32 unk_0EC;
-    /* 0x0F0 */ s32 unk_0F0;
-    /* 0x0F4 */ s32 unk_0F4;
-    /* 0x0F8 */ s32 unk_0F8;
-    /* 0x0FC */ u8 unk_0FC[0x10];
-    /* 0x10C */ s32 unk_10C;
-    /* 0x110 */ u8 unk_110[0xD0];
-    /* 0x1E0 */ s32 pos;
-    /* 0x1E4 */ u32 *ptr;
-    /* 0x1E8 */ s32 words;
-    /* 0x1EC */ u8 unk_1EC[0x48];
-    /* 0x234 */ u32 bits;
-    /* 0x238 */ u8 unk_238[0x20];
-    /* 0x258 */ s32 unk_258;
-    /* 0x25C */ s32 unk_25C;
-    /* 0x260 */ Buf *cur;
-    /* 0x264 */ Buf *bufs[5];
-} Ctx;
+Parses a picture header and picks the frame the picture is decoded into. Returns SKIP_PICTURE for a
+picture that cannot be decoded: its reference frames are missing, or its type is switched off.
+=====================
+*/
+int func_8008C0A8( VidStream *vid_stream, TimeStamp time_stamp ) {
+    unsigned int data;
+    int          i;
 
-s32 func_8008C0A8(s32 arg0, s32 arg1) {
-    s32 value;
-    s32 i;
+    flush_bits32;
 
-    if (arg0 == 0) {
+    get_bits10( data );
+    vid_stream->picture.temp_ref = data;
+
+    get_bits3( data );
+    vid_stream->picture.code_type = data;
+
+    if ( ( vid_stream->picture.code_type == B_TYPE ) &&
+         ( D_8008530C ||
+           ( vid_stream->future == NULL ) ||
+           ( ( vid_stream->past == NULL ) && !( vid_stream->group.closed_gop ) ) ) ) {
+        return SKIP_PICTURE;
     }
-    if (((Ctx *)arg0)->words < 2) {
-        func_800887D8(arg0);
+
+    if ( ( vid_stream->picture.code_type == P_TYPE ) &&
+         ( D_80085308 || ( vid_stream->future == NULL ) ) ) {
+        return SKIP_PICTURE;
     }
-    ((Ctx *)arg0)->ptr++;
-    ((Ctx *)arg0)->words--;
-    ((Ctx *)arg0)->bits = *((Ctx *)arg0)->ptr << ((Ctx *)arg0)->pos;
-    if (((Ctx *)arg0)->words < 2) {
-        func_800887D8(arg0);
-    }
-    ((Ctx *)arg0)->pos += 10;
-    if ((((Ctx *)arg0)->pos & 32) != 0) {
-        ((Ctx *)arg0)->pos -= 32;
-        ((Ctx *)arg0)->ptr++;
-        ((Ctx *)arg0)->words--;
-        if (((Ctx *)arg0)->pos != 0) {
-            ((Ctx *)arg0)->bits |= *((Ctx *)arg0)->ptr >> (10 - ((Ctx *)arg0)->pos);
-        }
-        value = (((Ctx *)arg0)->bits & 0xFFC00000) >> 22;
-        ((Ctx *)arg0)->bits = *((Ctx *)arg0)->ptr << ((Ctx *)arg0)->pos;
-    } else {
-        value = (((Ctx *)arg0)->bits & 0xFFC00000) >> 22;
-        ((Ctx *)arg0)->bits <<= 10;
-    }
-    ((Ctx *)arg0)->unk_0CC = value;
-    if (((Ctx *)arg0)->words < 2) {
-        func_800887D8(arg0);
-    }
-    ((Ctx *)arg0)->pos += 3;
-    if ((((Ctx *)arg0)->pos & 32) != 0) {
-        ((Ctx *)arg0)->pos -= 32;
-        ((Ctx *)arg0)->ptr++;
-        ((Ctx *)arg0)->words--;
-        if (((Ctx *)arg0)->pos != 0) {
-            ((Ctx *)arg0)->bits |= *((Ctx *)arg0)->ptr >> (3 - ((Ctx *)arg0)->pos);
-        }
-        value = (((Ctx *)arg0)->bits & 0xE0000000) >> 29;
-        ((Ctx *)arg0)->bits = *((Ctx *)arg0)->ptr << ((Ctx *)arg0)->pos;
-    } else {
-        value = (((Ctx *)arg0)->bits & 0xE0000000) >> 29;
-        ((Ctx *)arg0)->bits <<= 3;
-    }
-    ((Ctx *)arg0)->unk_0D0 = value;
-    if ((((Ctx *)arg0)->unk_0D0 == 3) && ((D_8008530C != 0) || ((((Ctx *)arg0)->unk_25C == 0) || ((((Ctx *)arg0)->unk_258 == 0) && (((Ctx *)arg0)->unk_0BC == 0))))) {
-        return -10;
-    }
-    if ((((Ctx *)arg0)->unk_0D0 == 2) && ((D_80085308 != 0) || (((Ctx *)arg0)->unk_25C == 0))) {
-        return -10;
-    }
-    if (((Ctx *)arg0)->words < 2) {
-        func_800887D8(arg0);
-    }
-    ((Ctx *)arg0)->pos += 16;
-    if ((((Ctx *)arg0)->pos & 32) != 0) {
-        ((Ctx *)arg0)->pos -= 32;
-        ((Ctx *)arg0)->ptr++;
-        ((Ctx *)arg0)->words--;
-        if (((Ctx *)arg0)->pos != 0) {
-            ((Ctx *)arg0)->bits |= *((Ctx *)arg0)->ptr >> (16 - ((Ctx *)arg0)->pos);
-        }
-        value = (((Ctx *)arg0)->bits & 0xFFFF0000) >> 16;
-        ((Ctx *)arg0)->bits = *((Ctx *)arg0)->ptr << ((Ctx *)arg0)->pos;
-    } else {
-        value = (((Ctx *)arg0)->bits & 0xFFFF0000) >> 16;
-        ((Ctx *)arg0)->bits <<= 16;
-    }
-    ((Ctx *)arg0)->unk_0D4 = value;
-    if ((((Ctx *)arg0)->unk_0D0 == 2) || (((Ctx *)arg0)->unk_0D0 == 3)) {
-        if (((Ctx *)arg0)->words < 2) {
-            func_800887D8(arg0);
-        }
-        value = ((Ctx *)arg0)->bits >> 31;
-        ((Ctx *)arg0)->bits <<= 1;
-        ((Ctx *)arg0)->pos++;
-        if ((((Ctx *)arg0)->pos & 32) != 0) {
-            ((Ctx *)arg0)->pos = 0;
-            ((Ctx *)arg0)->ptr++;
-            ((Ctx *)arg0)->bits = *((Ctx *)arg0)->ptr;
-            ((Ctx *)arg0)->words--;
-        }
-        if (value != 0) {
-            ((Ctx *)arg0)->unk_0D8 = 1;
+
+    get_bits16( data );
+    vid_stream->picture.vbv_delay = data;
+
+    // forward vector parameters
+    if ( ( vid_stream->picture.code_type == P_TYPE ) ||
+         ( vid_stream->picture.code_type == B_TYPE ) ) {
+        get_bits1( data );
+        if ( data ) {
+            vid_stream->picture.full_pel_forw_vector = TRUE;
         } else {
-            ((Ctx *)arg0)->unk_0D8 = 0;
+            vid_stream->picture.full_pel_forw_vector = FALSE;
         }
-        if (((Ctx *)arg0)->words < 2) {
-            func_800887D8(arg0);
-        }
-        ((Ctx *)arg0)->pos += 3;
-        if ((((Ctx *)arg0)->pos & 32) != 0) {
-            ((Ctx *)arg0)->pos -= 32;
-            ((Ctx *)arg0)->ptr++;
-            ((Ctx *)arg0)->words--;
-            if (((Ctx *)arg0)->pos != 0) {
-                ((Ctx *)arg0)->bits |= *((Ctx *)arg0)->ptr >> (3 - ((Ctx *)arg0)->pos);
-            }
-            value = (((Ctx *)arg0)->bits & 0xE0000000) >> 29;
-            ((Ctx *)arg0)->bits = *((Ctx *)arg0)->ptr << ((Ctx *)arg0)->pos;
+
+        get_bits3( data );
+        vid_stream->picture.forw_r_size = data - 1;
+        vid_stream->picture.forw_f = ( 1 << vid_stream->picture.forw_r_size );
+    }
+
+    // backward vector parameters
+    if ( vid_stream->picture.code_type == B_TYPE ) {
+        get_bits1( data );
+        if ( data ) {
+            vid_stream->picture.full_pel_back_vector = TRUE;
         } else {
-            value = (((Ctx *)arg0)->bits & 0xE0000000) >> 29;
-            ((Ctx *)arg0)->bits <<= 3;
+            vid_stream->picture.full_pel_back_vector = FALSE;
         }
-        ((Ctx *)arg0)->unk_0DC = value - 1;
-        ((Ctx *)arg0)->unk_0E0 = 1 << ((Ctx *)arg0)->unk_0DC;
+
+        get_bits3( data );
+        vid_stream->picture.back_r_size = data - 1;
+        vid_stream->picture.back_f = ( 1 << vid_stream->picture.back_r_size );
     }
-    if (((Ctx *)arg0)->unk_0D0 == 3) {
-        if (((Ctx *)arg0)->words < 2) {
-            func_800887D8(arg0);
-        }
-        value = ((Ctx *)arg0)->bits >> 31;
-        ((Ctx *)arg0)->bits <<= 1;
-        ((Ctx *)arg0)->pos++;
-        if ((((Ctx *)arg0)->pos & 32) != 0) {
-            ((Ctx *)arg0)->pos = 0;
-            ((Ctx *)arg0)->ptr++;
-            ((Ctx *)arg0)->bits = *((Ctx *)arg0)->ptr;
-            ((Ctx *)arg0)->words--;
-        }
-        if (value != 0) {
-            ((Ctx *)arg0)->unk_0E4 = 1;
-        } else {
-            ((Ctx *)arg0)->unk_0E4 = 0;
-        }
-        if (((Ctx *)arg0)->words < 2) {
-            func_800887D8(arg0);
-        }
-        ((Ctx *)arg0)->pos += 3;
-        if ((((Ctx *)arg0)->pos & 32) != 0) {
-            ((Ctx *)arg0)->pos -= 32;
-            ((Ctx *)arg0)->ptr++;
-            ((Ctx *)arg0)->words--;
-            if (((Ctx *)arg0)->pos != 0) {
-                ((Ctx *)arg0)->bits |= *((Ctx *)arg0)->ptr >> (3 - ((Ctx *)arg0)->pos);
-            }
-            value = (((Ctx *)arg0)->bits & 0xE0000000) >> 29;
-            ((Ctx *)arg0)->bits = *((Ctx *)arg0)->ptr << ((Ctx *)arg0)->pos;
-        } else {
-            value = (((Ctx *)arg0)->bits & 0xE0000000) >> 29;
-            ((Ctx *)arg0)->bits <<= 3;
-        }
-        ((Ctx *)arg0)->unk_0E8 = value - 1;
-        ((Ctx *)arg0)->unk_0EC = 1 << ((Ctx *)arg0)->unk_0E8;
+
+    if ( vid_stream->picture.extra_info != NULL ) {
+        func_800A4C04( vid_stream->picture.extra_info );
+        vid_stream->picture.extra_info = NULL;
     }
-    if (((Ctx *)arg0)->unk_0F0 != 0) {
-        func_800A4C04(((Ctx *)arg0)->unk_0F0);
-        ((Ctx *)arg0)->unk_0F0 = 0;
+    vid_stream->picture.extra_info = func_800890C8( vid_stream );
+
+    func_80088C58( vid_stream );
+
+    if ( func_800888C0( 32, EXT_START_CODE, vid_stream ) ) {
+        flush_bits32;
+
+        if ( vid_stream->picture.ext_data != NULL ) {
+            func_800A4C04( vid_stream->picture.ext_data );
+            vid_stream->picture.ext_data = NULL;
+        }
+        vid_stream->picture.ext_data = func_80088A2C( vid_stream );
     }
-    ((Ctx *)arg0)->unk_0F0 = func_800890C8(arg0);
-    func_80088C58(arg0);
-    if (func_800888C0(32, 437, arg0) != 0) {
-        if (arg0 == 0) {
+
+    if ( func_800888C0( 32, USER_START_CODE, vid_stream ) ) {
+        flush_bits32;
+
+        if ( vid_stream->picture.user_data != NULL ) {
+            func_800A4C04( vid_stream->picture.user_data );
+            vid_stream->picture.user_data = NULL;
         }
-        if (((Ctx *)arg0)->words < 2) {
-            func_800887D8(arg0);
-        }
-        ((Ctx *)arg0)->ptr++;
-        ((Ctx *)arg0)->words--;
-        ((Ctx *)arg0)->bits = *((Ctx *)arg0)->ptr << ((Ctx *)arg0)->pos;
-        if (((Ctx *)arg0)->unk_0F4 != 0) {
-            func_800A4C04(((Ctx *)arg0)->unk_0F4);
-            ((Ctx *)arg0)->unk_0F4 = 0;
-        }
-        ((Ctx *)arg0)->unk_0F4 = func_80088A2C(arg0);
+        vid_stream->picture.user_data = func_80088A2C( vid_stream );
     }
-    if (func_800888C0(32, 434, arg0) != 0) {
-        if (arg0 == 0) {
-        }
-        if (((Ctx *)arg0)->words < 2) {
-            func_800887D8(arg0);
-        }
-        ((Ctx *)arg0)->ptr++;
-        ((Ctx *)arg0)->words--;
-        ((Ctx *)arg0)->bits = *((Ctx *)arg0)->ptr << ((Ctx *)arg0)->pos;
-        if (((Ctx *)arg0)->unk_0F8 != 0) {
-            func_800A4C04(((Ctx *)arg0)->unk_0F8);
-            ((Ctx *)arg0)->unk_0F8 = 0;
-        }
-        ((Ctx *)arg0)->unk_0F8 = func_80088A2C(arg0);
-    }
+
+    // the first frame of the ring that nothing holds
     i = 0;
-    while (((Ctx *)arg0)->bufs[i]->unk_10 != 0) {
-        if ((++i) >= 5) {
-            func_80009F38(&D_80087EE0);
-            func_800A4CBC(1);
+
+    while ( vid_stream->ring[i]->locked != 0 ) {
+        if ( ++i >= RING_BUF_SIZE ) {
+            func_80009F38( D_80087EE0 );     // "Fatal error. Ring buffer full."
+            func_800A4CBC( 1 );
         }
     }
-    ((Ctx *)arg0)->cur = ((Ctx *)arg0)->bufs[i];
-    ((Ctx *)arg0)->cur->unk_14 = arg1;
-    ((Ctx *)arg0)->unk_10C = -1;
-    return 1;
+
+    vid_stream->current = vid_stream->ring[i];
+
+    vid_stream->current->show_time = time_stamp;
+
+    vid_stream->mblock.past_mb_addr = -1;
+
+    return PARSE_OK;
 }
