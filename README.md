@@ -10,7 +10,7 @@ requires its SHA-1 to equal the retail ROM's.
 
 | measure | functions | of |
 |---|---:|---:|
-| **Matched under the rules** (byte-identical and passing every [match] code rule) | **3** | 775 |
+| **Matched under the rules** (byte-identical and passing every [match] code rule) | **4** | 775 |
 | Bytes matched (byte-identical at the gate) | 442 | 775 |
 
 - 442 units (320,564 of 402,772 code bytes) rebuild byte-identical: 440 game functions and two libgcc wrappers.

@@ -402,8 +402,14 @@ static void scan_file(int fi) {
     while (i < f->ntok) {
         if (is(f, i, "{")) {
             int close = match_close(f, i, "{", "}");
-            if (is(f, i - 1, ")")) { /* function definition */
-                int open = match_open(f, i - 1, "(", ")");
+            int rp = i - 1;
+            if (is(f, rp, ";")) { /* K&R definition: name(a, b) type a, b; { */
+                int k = rp - 1;
+                while (k > 0 && !is(f, k, ")") && !is(f, k, "}") && !is(f, k, "{")) k--;
+                if (is(f, k, ")") && f->tok[k + 1].kind == 'i') rp = k;
+            }
+            if (is(f, rp, ")")) { /* function definition */
+                int open = match_open(f, rp, "(", ")");
                 Func *fn = calloc(1, sizeof(Func)), **tail = &f->funcs;
                 tok_text(f, open - 1, fn->name, sizeof fn->name);
                 fn->line = f->tok[start].line;
