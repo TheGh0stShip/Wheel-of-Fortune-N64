@@ -744,7 +744,6 @@ extern Gfx D_01197D78[];
 // read-only data starts in an earlier function, which fixes where this one's strings and jump
 // tables fall
 //
-extern char D_80001594[];   // "MainMenu1 Proc: button press invalid\n", in func_800232AC
 extern char D_800019BC[];   // "InitAnim: cannot find contestant obj", in func_80033150
 
 //
