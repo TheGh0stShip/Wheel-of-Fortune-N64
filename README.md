@@ -11,12 +11,12 @@ requires its SHA-1 to equal the retail ROM's.
 | measure | functions | of |
 |---|---:|---:|
 | **Matched under the rules** (byte-identical and passing every [match] code rule) | **4** | 775 |
-| Bytes matched (byte-identical at the gate) | 442 | 775 |
+| Bytes matched (byte-identical at the gate) | 443 | 775 |
 
-- 442 units (320,564 of 402,772 code bytes) rebuild byte-identical: 440 game functions and two libgcc wrappers.
-- 438 of those are `MATCH-PENDING`: the bytes are right but the source is machine-lifted C with no shared
+- 443 units (323,328 of 402,772 code bytes) rebuild byte-identical: all 441 game functions and two libgcc wrappers.
+- 439 of those are `MATCH-PENDING`: the bytes are right but the source is machine-lifted C with no shared
   headers, per-file copies of types and globals, and stand-in locals. That is open work, not progress.
-- 308 units are open: one game function, and the 307 library (libultra) units, whose build recipe is not yet
+- 307 units are open: the library (libultra) units, whose build recipe is not yet
   established.
 - 25 function ranges are assembly and are not yet built from source here.
 
