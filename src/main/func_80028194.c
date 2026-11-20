@@ -1,14 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x24];
-} Entry;
-
-extern Entry D_8005A9B8[];
-extern image_t D_8005A998[];
-extern image_t D_8005B710[];
-extern image_t D_8005BE00[];
 extern Gfx *D_800B81E8;
 extern u8 D_800B966A[];
 
@@ -30,9 +21,9 @@ void func_80028194(s32 arg0, s32 arg1) {
     i = 0;
     while (i < 26) {
         if (D_800B966A[i] == ' ') {
-            D_8005A9B8[i].unk_00 = D_8005A8C8[i];
+            D_8005A998[i].unk_20 = D_8005A8C8[i];
         } else {
-            D_8005A9B8[i].unk_00 = D_8005A930[i];
+            D_8005A998[i].unk_20 = D_8005A930[i];
         }
         func_8002741C((s32)&D_8005A998[i], 1, -13, 0);
         i++;

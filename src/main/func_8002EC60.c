@@ -1,19 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x24];
-    /* 0x28 */ s32 unk_28;
-    /* 0x2C */ u8 unk_2C[0x24];
-} Entry;
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x24];
-} Slot;
-
-extern Entry D_8005A4C8[];
-extern Slot D_8005ADE0[][7];
 
 void func_8002EC60(void) {
     s32 sp10;
@@ -21,10 +7,10 @@ void func_8002EC60(void) {
     s32 j;
 
     for (i = 0; i < 3; i++) {
-        D_8005A4C8[i].unk_00 = 0;
-        D_8005A4C8[i].unk_28 = 0;
+        D_8005A4B8[i][0].unk_10 = 0;
+        D_8005A4B8[i][1].unk_10 = 0;
         for (j = 0; j < 7; j++) {
-            D_8005ADE0[i][j].unk_00 = 0;
+            D_8005ADD0[i][j].unk_10 = 0;
         }
     }
     func_8002EDC0();

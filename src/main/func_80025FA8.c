@@ -10,17 +10,8 @@ typedef struct {
     /* 0x04 */ u8 unk_04[0x1C];
 } Info;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x18];
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ s32 unk_24;
-} Item;
-
 extern Pair D_800584A0[];
 extern Info D_800584E0[];
-extern Item D_80058548[];
 
 void func_80025FA8(void) {
     s32 i;
@@ -34,13 +25,13 @@ void func_80025FA8(void) {
     j = 0;
     for (i = 2; i < 6; i++) {
         if ((D_800B96C4 >> (i - 2)) % 2 != 0) {
-            D_80058548[i].unk_00 = D_800584A0[j].unk_00;
-            D_80058548[i].unk_04 = D_800584A0[j].unk_04;
+            D_80058548[i].x = D_800584A0[j].unk_00;
+            D_80058548[i].y = D_800584A0[j].unk_04;
             j++;
         }
     }
-    D_80058638 = D_800584A0[j].unk_00;
-    D_8005863C = D_800584A0[j].unk_04;
+    D_80058548[6].x = D_800584A0[j].unk_00;
+    D_80058548[6].y = D_800584A0[j].unk_04;
     for (i = 0; i < 3; i++) {
         switch (D_800584E0[i].unk_00) {
         case 0:

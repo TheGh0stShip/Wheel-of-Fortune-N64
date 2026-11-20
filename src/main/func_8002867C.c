@@ -1,10 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    u8 unk_00[0x28];
-} Model;
-
-extern Model D_8005B310[];
 extern Gfx *D_800B81E8;
 
 void func_8002867C(s32 arg0, s32 arg1) {

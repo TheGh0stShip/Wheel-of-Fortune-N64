@@ -8,26 +8,10 @@ typedef struct {
 } Menu;
 
 typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ u8 unk_10[0x18];
-} Item;
-
-typedef struct {
-    /* 0x00 */ Item unk_00;
-    /* 0x28 */ Item unk_28;
-} ItemPair;
-
-typedef struct {
     /* 0x000 */ s32 unk_000;
     /* 0x004 */ u8 unk_004[0x110];
 } Player;
 
-extern ItemPair D_8005A4C8[];
-extern Item D_8005A838[];
-extern Item D_8005A9A8[];
 extern Player D_800B99A4[];
 void func_80028C4C(s32 arg0);
 
@@ -45,7 +29,7 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
             D_800BED88++;
             func_8002AFDC();
             ((Menu *)((proc_t *)arg1)->unk_30)->selection = D_800B61B5 - 48;
-            D_8005A838[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_0C = D_8005A838[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_04;
+            D_8005A828[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_1C = D_8005A828[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_14;
             break;
         case 8:
             func_8002AFDC();
@@ -54,7 +38,7 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
             func_8002A014();
             func_80029974(0);
             for (i = 0; i < 26; i++) {
-                D_8005A9A8[i].unk_00 = 0;
+                D_8005A998[i].unk_10 = 0;
             }
             result.w[1] = 2;
             result.w[0] = 40;
@@ -72,7 +56,7 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
             func_8002AFDC();
             func_80029974(0);
             func_80028C4C(arg1);
-            D_8005A838[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_00 = 1;
+            D_8005A828[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_10 = 1;
             ((Menu *)((proc_t *)arg1)->unk_30)->delay = 0;
             return result;
         case 15:
@@ -82,7 +66,7 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
             func_80029440();
             D_800B9CEC = 0;
             func_8002A014();
-            D_8005A838[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_00 = 1;
+            D_8005A828[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_10 = 1;
             ((Menu *)((proc_t *)arg1)->unk_30)->delay = 0;
             func_80029974(0);
         case 1:
@@ -97,10 +81,10 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
             func_80028CC4();
             func_80029974(1);
             for (i = 0; i < 3; i++) {
-                D_8005A4C8[i].unk_00.unk_00 = 0;
-                D_8005A4C8[i].unk_00.unk_0C = D_8005A4C8[i].unk_00.unk_04;
-                D_8005A4C8[i].unk_28.unk_00 = 0;
-                D_8005A4C8[i].unk_28.unk_0C = D_8005A4C8[i].unk_28.unk_04;
+                D_8005A4B8[i][0].unk_10 = 0;
+                D_8005A4B8[i][0].unk_1C = D_8005A4B8[i][0].unk_14;
+                D_8005A4B8[i][1].unk_10 = 0;
+                D_8005A4B8[i][1].unk_1C = D_8005A4B8[i][1].unk_14;
             }
             result.w[1] = 2;
             if (D_800B9CF0 != 0 || D_800B619C == D_800B96C0 - 1) {
@@ -140,11 +124,11 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
         func_80009F38("Status Proc: player proc does not exist\n");
     }
     if (D_800BCA00 == 1) {
-        D_8005A838[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_00 = 0;
+        D_8005A828[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_10 = 0;
         return result;
     }
     if (D_800B99A4[D_800FB808].unk_000 == 4) {
-        D_8005A838[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_00 = 1;
+        D_8005A828[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_10 = 1;
         return result;
     }
     if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
@@ -219,6 +203,6 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
     } else if (((Menu *)((proc_t *)arg1)->unk_30)->selection >= 4) {
         ((Menu *)((proc_t *)arg1)->unk_30)->selection = 0;
     }
-    D_8005A838[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_00 = 1;
+    D_8005A828[((Menu *)((proc_t *)arg1)->unk_30)->selection].unk_10 = 1;
     return result;
 }

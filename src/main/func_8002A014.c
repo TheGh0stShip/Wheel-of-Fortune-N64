@@ -1,18 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ u8 unk_10[0x10];
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ u8 unk_24[0x4];
-} Digit;
-
-extern Digit D_8005B360[];
-extern Digit D_8005B4C8[];
-
 void func_8002A014(void) {
     s32 glyph;
     s32 i;
@@ -29,8 +16,8 @@ void func_8002A014(void) {
         }
         i = 0;
         for (; i < 9; i++) {
-            D_8005B360[i].unk_00 = D_8005B4C8[i].unk_00;
-            D_8005B360[i].unk_08 = D_8005B4C8[i].unk_08;
+            D_8005B360[i].x = D_8005B4C8[i].x;
+            D_8005B360[i].width = D_8005B4C8[i].width;
             D_8005B360[i].unk_20 = D_8005B4C8[i].unk_20;
         }
         i = 0;
@@ -60,8 +47,8 @@ void func_8002A014(void) {
             } else {
                 glyph = buf[pos++] - '0';
             }
-            D_8005B4C8[i].unk_00 = x;
-            D_8005B4C8[i].unk_08 = D_8005B178[glyph];
+            D_8005B4C8[i].x = x;
+            D_8005B4C8[i].width = D_8005B178[glyph];
             D_8005B4C8[i].unk_20 = D_8005B118[glyph];
             x = x + D_8005B148[glyph];
         }
@@ -74,8 +61,8 @@ void func_8002A014(void) {
         } else {
             for (i = 0; i < 9; i++) {
                 D_8005B360[i].unk_20 = 0;
-                D_8005B4C8[i].unk_04 = 45;
-                D_8005B4C8[i].unk_0C = 15;
+                D_8005B4C8[i].y = 45;
+                D_8005B4C8[i].height = 15;
             }
         }
         D_800B9CEC = D_800B9540;

@@ -1,11 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    u8 unk_00[0x28];
-} Entry;
-
-extern Entry D_800588F0[];
-extern Entry D_80059120[];
 extern Gfx *D_800B81E8;
 
 void func_8002208C(s32 arg0, s32 arg1) {

@@ -12,15 +12,9 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x24];
-} Letter;
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0x110];
 } Player;
 
-extern Letter D_8005A9A8[];
 extern Player D_800B99A4[];
 extern u8 D_800B966A[];
 extern u16 D_800B9954;
@@ -40,11 +34,11 @@ struct n64dk_r12 func_8002D930(s32 arg1) {
         switch (event) {
         case 8:
             func_8002D8B0(arg1);
-            D_8005A9A8[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_00 = 1;
+            D_8005A998[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_10 = 1;
             ((State *)((proc_t *)arg1)->unk_30)->unk_0C = 0;
             return result;
         case 23:
-            D_8005A9A8[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_00 = 0;
+            D_8005A998[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_10 = 0;
             func_8000A850(5);
             result.w[1] = 0;
             result.w[0] = 0;
@@ -61,9 +55,9 @@ struct n64dk_r12 func_8002D930(s32 arg1) {
         }
     }
     D_800B61B5 = ((State *)((proc_t *)arg1)->unk_30)->unk_04.bytes[3] + 65;
-    D_8005A9A8[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_00 = 0;
+    D_8005A998[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_10 = 0;
     if (D_800B99A4[D_800FB808].unk_00 == 4) {
-        D_8005A9A8[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_00 = 1;
+        D_8005A998[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_10 = 1;
         return result;
     }
     if ((D_800B96B0 & 0xA000) != 0) {
@@ -118,6 +112,6 @@ struct n64dk_r12 func_8002D930(s32 arg1) {
     } else if (((State *)((proc_t *)arg1)->unk_30)->unk_04.index >= 26) {
         ((State *)((proc_t *)arg1)->unk_30)->unk_04.index = 0;
     }
-    D_8005A9A8[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_00 = 1;
+    D_8005A998[((State *)((proc_t *)arg1)->unk_30)->unk_04.index].unk_10 = 1;
     return result;
 }

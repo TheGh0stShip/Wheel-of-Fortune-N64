@@ -1,15 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ u8 unk_0C[0x14];
-    /* 0x20 */ s32 *unk_20;
-    /* 0x24 */ s32 *unk_24;
-} Glyph;
-
-extern Glyph D_8005B710[];
 extern u8 D_800B9544[];
 
 void func_80029440(void) {
@@ -33,8 +23,8 @@ void func_80029440(void) {
     x = 152 - len * 6;
     n = 0;
     D_8005B710[n].unk_24 = &D_01017550;
-    D_8005B710[n].unk_00 = x;
-    D_8005B710[n].unk_08 = 8;
+    D_8005B710[n].x = x;
+    D_8005B710[n].width = 8;
     if (D_800BCD54 == 8) {
         D_8005B710[n].unk_20 = D_8005B710[n].unk_24;
     }
@@ -57,8 +47,8 @@ void func_80029440(void) {
         default:
             D_8005B710[n].unk_24 = D_8005B5A4[D_800B9544[i]];
         }
-        D_8005B710[n].unk_00 = x;
-        D_8005B710[n].unk_08 = 12;
+        D_8005B710[n].x = x;
+        D_8005B710[n].width = 12;
         if (D_800BCD54 == 8) {
             D_8005B710[n].unk_20 = D_8005B710[n].unk_24;
         }
@@ -66,8 +56,8 @@ void func_80029440(void) {
         x = x + 12;
     }
     D_8005B710[n].unk_24 = &D_01017650;
-    D_8005B710[n].unk_00 = x;
-    D_8005B710[n].unk_08 = 8;
+    D_8005B710[n].x = x;
+    D_8005B710[n].width = 8;
     if (D_800BCD54 == 8) {
         D_8005B710[n].unk_20 = D_8005B710[n].unk_24;
         return;

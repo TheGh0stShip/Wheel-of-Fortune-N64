@@ -1,6 +1,5 @@
 #include "wof.h"
 
-extern image_t D_8005A760[];
 extern Gfx *D_800B81E8;
 
 void func_800289F4(s32 arg0, s32 arg1) {

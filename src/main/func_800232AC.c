@@ -11,16 +11,8 @@ typedef struct {
     u8 b[32];
 } Item;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 pad8[0x20];
-} Slot;
-
-extern Slot D_80058568[];
 extern Item D_800584C8[];
 extern s32 D_800584E0;
-extern s32 D_80058548;
 
 struct n64dk_r12 func_800232AC(s32 arg1) {
     s32 event;
@@ -101,24 +93,24 @@ struct n64dk_r12 func_800232AC(s32 arg1) {
     if (cursor < 3) {
         switch (((MenuData *)((proc_t *)arg1)->unk_30)->unk_04) {
         case 0:
-            D_80058568[(cursor * 4) + 10].unk_00 = (s32)&D_01158068;
-            D_80058568[(cursor * 4) + 10].unk_04 = (s32)&D_0115B868;
+            D_80058548[(cursor * 4) + 10].unk_20 = (s32)&D_01158068;
+            D_80058548[(cursor * 4) + 10].unk_24 = (s32)&D_0115B868;
             break;
         case 1:
-            D_80058568[(cursor * 4) + 10].unk_00 = (s32)&D_01158868;
-            D_80058568[(cursor * 4) + 10].unk_04 = (s32)&D_0115C068;
+            D_80058548[(cursor * 4) + 10].unk_20 = (s32)&D_01158868;
+            D_80058548[(cursor * 4) + 10].unk_24 = (s32)&D_0115C068;
             break;
         case 2:
-            D_80058568[(cursor * 4) + 10].unk_00 = (s32)&D_01159068;
-            D_80058568[(cursor * 4) + 10].unk_04 = (s32)&D_0115C868;
+            D_80058548[(cursor * 4) + 10].unk_20 = (s32)&D_01159068;
+            D_80058548[(cursor * 4) + 10].unk_24 = (s32)&D_0115C868;
             break;
         case 3:
-            D_80058568[(cursor * 4) + 10].unk_00 = (s32)&D_01159868;
-            D_80058568[(cursor * 4) + 10].unk_04 = (s32)&D_0115D068;
+            D_80058548[(cursor * 4) + 10].unk_20 = (s32)&D_01159868;
+            D_80058548[(cursor * 4) + 10].unk_24 = (s32)&D_0115D068;
             break;
         case 4:
-            D_80058568[(cursor * 4) + 10].unk_00 = (s32)&D_01157868;
-            D_80058568[(cursor * 4) + 10].unk_04 = (s32)&D_0115B068;
+            D_80058548[(cursor * 4) + 10].unk_20 = (s32)&D_01157868;
+            D_80058548[(cursor * 4) + 10].unk_24 = (s32)&D_0115B068;
             break;
         }
     }

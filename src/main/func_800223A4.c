@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern image_t D_80058EB0[];
-extern image_t D_80059120[];
 extern Gfx *D_800B81E8;
 
 void func_800223A4(s32 arg0, s32 arg1) {

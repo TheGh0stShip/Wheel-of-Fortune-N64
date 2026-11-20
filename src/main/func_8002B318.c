@@ -5,13 +5,6 @@ typedef struct {
     /* 0x08 */ s32 step;
 } Data;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x20];
-} Entry;
-
-extern Entry D_8005B730[];
 extern s32 D_800B9544;
 
 struct n64dk_r12 func_8002B318(s32 arg1) {
@@ -30,8 +23,8 @@ struct n64dk_r12 func_8002B318(s32 arg1) {
                 if (i >= 22) {
                     break;
                 }
-                D_8005B730[i].unk_00 = 0;
-                D_8005B730[i].unk_04 = 0;
+                D_8005B710[i].unk_20 = 0;
+                D_8005B710[i].unk_24 = 0;
                 i++;
             }
             func_80005258();

@@ -667,6 +667,8 @@ static void layout_file(const File *f, int print, const char *record) {
  *   size N                             the size of the struct, when no view reaches its end
  *   view FILE LOCALNAME                a view to merge
  *   member OFFSET SIZE NAME DECL...    a member decided by hand; DECL uses @ for the name:  s32 @[5]
+ *   alias A B                          symbol A is an address inside the elements of array B: a view declared
+ *                                      for A starts that far into the struct, and `A[i].m` becomes `B[i].member`
  *
  * A member is taken from the views when they agree on its type; where they disagree the tool lists the
  * candidates and a `member` line settles it.  `u8 unk_XX[n]` and `u8 padXX[n]` members are fillers and are
@@ -675,8 +677,28 @@ static void layout_file(const File *f, int print, const char *record) {
 
 typedef struct {
     int off, size, filler, view;
+    int shift; /* the member was seen through an alias symbol this far into the struct; -1: only so */
     char name[64], decl[400];
 } Mem;
+
+/* `alias A B`: the files declare A, an address inside the elements of array B, as an array of its own */
+typedef struct {
+    char a[32], b[32];
+    int shift;
+} Alias;
+
+static Alias aliases[256];
+static int naliases;
+/* `scalar A B`: the files declare A, one member of one element of array B, as a global of its own */
+static Alias scalars_a[256];
+static int nscalars;
+
+static const Alias *find_alias(const char *name) {
+    int i;
+    for (i = 0; i < naliases; i++)
+        if (!strcmp(aliases[i].a, name)) return &aliases[i];
+    return NULL;
+}
 
 static Mem *rec;
 static int nrec;
@@ -792,6 +814,20 @@ static void cmd_unify(const char *spec_path, int do_apply) {
             nviews++;
             continue;
         }
+        if (sscanf(line, "scalar %31s %31s", a, b) == 2 && nscalars < 256) {
+            strcpy(scalars_a[nscalars].a, a);
+            strcpy(scalars_a[nscalars].b, b);
+            scalars_a[nscalars].shift = (int)(strtoul(a + 2, NULL, 16) - strtoul(b + 2, NULL, 16));
+            nscalars++;
+            continue;
+        }
+        if (sscanf(line, "alias %31s %31s", a, b) == 2 && naliases < 256) {
+            strcpy(aliases[naliases].a, a);
+            strcpy(aliases[naliases].b, b);
+            aliases[naliases].shift = (int)(strtoul(a + 2, NULL, 16) - strtoul(b + 2, NULL, 16));
+            naliases++;
+            continue;
+        }
         if (sscanf(line, "member %i %i %63s %n", &off, &sz, a, &n) == 3 && n) {
             fixed = realloc(fixed, (nfixed + 1) * sizeof(Mem));
             memset(&fixed[nfixed], 0, sizeof(Mem));
@@ -826,6 +862,37 @@ static void cmd_unify(const char *spec_path, int do_apply) {
         }
         views[v].size = sz;
         if (sz > size) size = sz;
+        /* a view declared for an alias symbol describes the struct from the alias's offset on */
+        {
+            int shifts[16], nshift = 0, zero = 0, first = views[v].first_mem, count = views[v].nmem, t, j, q;
+            for (j = 0; j < f->nitem; j++) {
+                int typed = 0;
+                for (t = f->item[j].first; t <= f->item[j].last; t++)
+                    if (is(f, t, views[v].local)) typed = 1;
+                if (!typed || (!strcmp(f->item[j].kind, "type") && !strcmp(f->item[j].name, views[v].local))) continue;
+                if (!strcmp(f->item[j].kind, "extern")) {
+                    const Alias *al2 = find_alias(f->item[j].name);
+                    if (al2) {
+                        for (q = 0; q < nshift; q++)
+                            if (shifts[q] == al2->shift) break;
+                        if (q == nshift && nshift < 16) shifts[nshift++] = al2->shift;
+                        continue;
+                    }
+                }
+                zero = 1;
+            }
+            for (q = 0; q < nshift; q++)
+                for (j = first; j < first + count; j++) {
+                    Mem m = rec[j];
+                    m.off += shifts[q];
+                    m.shift = shifts[q];
+                    rec = realloc(rec, (nrec + 1) * sizeof(Mem));
+                    rec[nrec++] = m;
+                }
+            if (!zero && nshift)
+                for (j = first; j < first + count; j++) rec[j].off = -0x100000 - j * 0x100, rec[j].filler = 1, rec[j].shift = -1;
+            views[v].nmem = nrec - first;
+        }
         for (i = views[v].first_mem; i < nrec; i++) { /* the view names itself: that becomes the merged name */
             char st[120], to[120];
             snprintf(st, sizeof st, "struct %s", views[v].local);
@@ -924,7 +991,8 @@ static void cmd_unify(const char *spec_path, int do_apply) {
         File *f = load(views[v].path);
         size_t n = strlen(f->raw), a, b, o = 0;
         char *res = malloc(n * 4 + 4096);
-        char (*before)[160] = calloc(f->ntok + 2, 160), (*after)[8] = calloc(f->ntok + 2, 8);
+        char (*before)[160] = calloc(f->ntok + 2, 160), (*after)[8] = calloc(f->ntok + 2, 8), (*over)[64] = calloc(f->ntok + 3, 64);
+        char *cutm = calloc(n + 2, 1);
         int t, it_first = -1, it_last = -1, pos = 0, nren = 0;
         struct {
             char from[64], to[64], cast[140];
@@ -943,7 +1011,7 @@ static void cmd_unify(const char *spec_path, int do_apply) {
             const Mem *m = &rec[i], *c = NULL;
             int other = 0, j;
             char cast[140] = "";
-            if (m->filler == 1) continue;
+            if (m->filler == 1 || m->shift) continue; /* members seen through an alias are renamed at the alias */
             for (k = 0; k < nout; k++)
                 if (out[k].off == m->off) c = &out[k];
             if (!c) {
@@ -1037,26 +1105,74 @@ static void cmd_unify(const char *spec_path, int do_apply) {
         while (b < n && f->raw[b] != '\n') b++;
         if (b < n) b++;
         if (b < n && f->raw[b] == '\n') b++; /* and the blank line after it */
+        memset(cutm + a, 1, b - a);
+        /* an alias symbol declared with this view: its extern goes, and each use becomes the base array's member */
+        for (i = 0; i < f->nitem; i++) {
+            const Alias *al2 = find_alias(f->item[i].name);
+            int typed = 0;
+            if (strcmp(f->item[i].kind, "extern") || !al2) continue;
+            for (t = f->item[i].first; t <= f->item[i].last; t++)
+                if (is(f, t, views[v].local)) typed = 1;
+            if (!typed) continue;
+            a = f->tok[f->item[i].first].s;
+            b = f->tok[f->item[i].last].s + f->tok[f->item[i].last].len;
+            while (a > 0 && f->raw[a - 1] != '\n') a--;
+            while (b < n && f->raw[b] != '\n') b++;
+            if (b < n) b++;
+            memset(cutm + a, 1, b - a);
+            for (t = 0; t < f->ntok; t++) {
+                int j = t + 1, q, found = 0;
+                char w[120];
+                if (cutm[f->tok[t].s] || !is(f, t, al2->a)) continue;
+                snprintf(over[t], 64, "%s", al2->b);
+                while (is(f, j, "[")) j = match_close(f, j, "[", "]") + 1;
+                if (!is(f, j, ".") || f->tok[j + 1].kind != 'i') {
+                    printf("MANUAL %s: %s is used without a member: rewrite it from %s by hand\n", views[v].path, al2->a, al2->b);
+                    manual++;
+                    continue;
+                }
+                tok_text(f, j + 1, w, sizeof w);
+                for (q = views[v].first_mem; q < views[v].first_mem + views[v].nmem; q++)
+                    if (rec[q].shift == al2->shift && !strcmp(rec[q].name, w))
+                        for (k = 0; k < nout; k++)
+                            if (out[k].off == rec[q].off) {
+                                snprintf(over[j + 1], 64, "%s", out[k].name);
+                                if (out[k].size != rec[q].size || strcmp(out[k].decl, rec[q].decl))
+                                    printf("NOTE   %s: %s.%s is `%s` in the view, `%s` merged\n", views[v].path, al2->a, w, rec[q].decl,
+                                           out[k].decl);
+                                found = 1;
+                            }
+                if (!found) {
+                    printf("MANUAL %s: %s[].%s has no merged counterpart in %s\n", views[v].path, al2->a, w, al2->b);
+                    manual++;
+                }
+            }
+        }
         for (t = 0; t <= f->ntok; t++) {
             int ts = t < f->ntok ? f->tok[t].s : (int)n;
             if (t > 0) { /* finish the previous token, then what follows it */
                 int pe = f->tok[t - 1].s + f->tok[t - 1].len;
                 while (pos < pe) {
-                    if ((size_t)pos < a || (size_t)pos >= b) res[o++] = f->raw[pos];
+                    if (!cutm[pos]) res[o++] = f->raw[pos];
                     pos++;
                 }
                 o += sprintf(res + o, "%s", after[t - 1]);
             }
             while (pos < ts) { /* the text between tokens */
-                if ((size_t)pos < a || (size_t)pos >= b) res[o++] = f->raw[pos];
+                if (!cutm[pos]) res[o++] = f->raw[pos];
                 pos++;
             }
             if (t == f->ntok) break;
-            if ((size_t)ts >= a && (size_t)ts < b) {
+            if (cutm[ts]) {
                 pos = ts + f->tok[t].len;
                 continue;
             }
             o += sprintf(res + o, "%s", before[t]);
+            if (over[t][0]) {
+                o += sprintf(res + o, "%s", over[t]);
+                pos = ts + f->tok[t].len;
+                continue;
+            }
             if (f->tok[t].kind == 'i') {
                 char w[120];
                 int member_use = is(f, t - 1, ".") || (is(f, t - 1, ">") && is(f, t - 2, "-"));
@@ -1086,7 +1202,55 @@ static void cmd_unify(const char *spec_path, int do_apply) {
         }
         free(res);
         free(before);
+        free(over);
+        free(cutm);
         free(after);
+    }
+    /* `scalar A B`: a global that is one member of one element of B, wherever a game source names it */
+    if (nscalars) {
+        int p0 = npaths, p, nfiles = 0;
+        game_sources();
+        for (p = p0; p < npaths; p++) {
+            char *src = read_file(paths[p]), *res;
+            size_t n, o = 0, pos = 0;
+            int changed = 0;
+            if (!src) continue;
+            n = strlen(src);
+            res = malloc(n * 3 + 4096);
+            while (pos < n) {
+                int hit = -1;
+                if (src[pos] == 'D' && src[pos + 1] == '_' && (pos == 0 || !(isalnum((unsigned char)src[pos - 1]) || src[pos - 1] == '_'))) {
+                    size_t e = pos + 2;
+                    while (isalnum((unsigned char)src[e]) || src[e] == '_') e++;
+                    for (i = 0; i < nscalars; i++)
+                        if (strlen(scalars_a[i].a) == e - pos && !memcmp(scalars_a[i].a, src + pos, e - pos)) hit = i;
+                    if (hit >= 0) {
+                        const Mem *c = NULL;
+                        int sh = scalars_a[hit].shift;
+                        for (k = 0; k < nout; k++)
+                            if (out[k].off == sh % size) c = &out[k];
+                        if (c && sh >= 0) {
+                            o += sprintf(res + o, "%s[%d].%s", scalars_a[hit].b, sh / size, c->name);
+                            pos = e;
+                            changed = 1;
+                            continue;
+                        }
+                        printf("MANUAL %s: %s is %s + 0x%X, where the struct has no member\n", paths[p], scalars_a[hit].a, scalars_a[hit].b, sh);
+                        manual++;
+                    }
+                }
+                res[o++] = src[pos++];
+            }
+            if (changed) {
+                FILE *fp = fopen(paths[p], "wb");
+                fwrite(res, 1, o, fp);
+                fclose(fp);
+                nfiles++;
+            }
+            free(src);
+            free(res);
+        }
+        printf("decls: %d scalar aliases rewritten in %d files; delete their externs from the header\n", nscalars, nfiles);
     }
     printf("decls: %d views replaced by %s; %d places need a hand\n", nviews, canon, manual);
 }

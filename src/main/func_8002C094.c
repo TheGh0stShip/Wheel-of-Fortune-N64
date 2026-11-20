@@ -14,16 +14,7 @@ typedef struct {
     /* 0x08 */ s32 unk_08;
 } LetterInfo;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x10];
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ u8 unk_1C[0xC];
-} Slot;
-
 extern LetterInfo D_8005BCC8[];
-extern Slot D_8005BE08[];
 
 struct n64dk_r12 func_8002C094(s32 arg1) {
     s32 event;
@@ -74,7 +65,7 @@ struct n64dk_r12 func_8002C094(s32 arg1) {
             ret.w[0] = 6;
             return ret;
         case 6:
-            if (D_8005BF88 != 0) {
+            if (D_8005BE00[9].unk_20 != 0) {
                 if (func_80007EEC(0) == 1) {
                     func_8000A850(10);
                     func_8000A56C((s32)func_8002BE84, 0x6000000);
@@ -102,7 +93,7 @@ struct n64dk_r12 func_8002C094(s32 arg1) {
             return ret;
         case 5:
             if (func_80007818(D_800B61B5) != 0) {
-                if (D_8005BF88 != 0) {
+                if (D_8005BE00[9].unk_20 != 0) {
                     func_80002CE0(1);
                     func_8002EB40();
                     ret.w[1] = 2;
@@ -123,13 +114,13 @@ struct n64dk_r12 func_8002C094(s32 arg1) {
                 D_800BEE28++;
                 i = 6;
             }
-            while (i < 10 && D_8005BE08[i].unk_18 != 0) {
+            while (i < 10 && D_8005BE00[i].unk_20 != 0) {
                 i++;
             }
             D_800B9629[D_800B61B5] = 32;
-            D_8005BE08[i].unk_18 = D_8005BCC8[D_800B61B5 - 65].unk_00;
-            D_8005BE08[i].unk_00 = D_8005BCC8[D_800B61B5 - 65].unk_04;
-            D_8005BE08[i].unk_04 = D_8005BCC8[D_800B61B5 - 65].unk_08;
+            D_8005BE00[i].unk_20 = D_8005BCC8[D_800B61B5 - 65].unk_00;
+            D_8005BE00[i].width = D_8005BCC8[D_800B61B5 - 65].unk_04;
+            D_8005BE00[i].height = D_8005BCC8[D_800B61B5 - 65].unk_08;
             func_80007DAC(D_800B61B5);
             D_800B61AA[i] = D_800B61B5;
             if (func_80009A74((s32)D_800B61B0) == 4) {

@@ -10,14 +10,6 @@ typedef struct {
     /* 0x0C */ s32 unk_0C;
 } State;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ u8 unk_0C[0x1C];
-} Entry;
-
-extern Entry D_8005A9AC[];
 extern u8 D_800B966A[];
 
 void func_8002AE60(s32 arg0) {
@@ -39,7 +31,7 @@ void func_8002AE60(s32 arg0) {
     }
     func_80002CE0(43);
     ((State *)((proc_t *)arg0)->unk_30)->unk_04.index += 13;
-    D_8005A9AC[((State *)((proc_t *)arg0)->unk_30)->unk_04.index].unk_08 = D_8005A9AC[((State *)((proc_t *)arg0)->unk_30)->unk_04.index].unk_00;
+    D_8005A998[((State *)((proc_t *)arg0)->unk_30)->unk_04.index].unk_1C = D_8005A998[((State *)((proc_t *)arg0)->unk_30)->unk_04.index].unk_14;
     D_800B61B5 = ((State *)((proc_t *)arg0)->unk_30)->unk_04.bytes[3] + 65;
     ((State *)((proc_t *)arg0)->unk_30)->unk_0C = 15;
 }

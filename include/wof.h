@@ -22,7 +22,7 @@ typedef struct proc_s {
     /* 0x14 */ s32              unk_14;
     /* 0x18 */ s32              count;          // messages waiting in items
     /* 0x1C */ s32              items[5];
-    /* 0x30 */ void             *unk_30;        // its data: a struct of its own for each kind of proc
+    /* 0x30 */ void             *unk_30;        // its data: each kind of proc has its own struct
     /* 0x34 */ s32              unk_34;
     /* 0x38 */ s32              unk_38;
     /* 0x3C */ u8               unk_3C[0x4];
@@ -75,8 +75,20 @@ typedef struct {
     /* 0x04 */ s32 y;
     /* 0x08 */ s32 width;
     /* 0x0C */ s32 height;
-    /* 0x10 */ u8 unk_10[0x18];
+    /* 0x10 */ s32 unk_10;
+    /* 0x14 */ s32 unk_14;
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ s32 unk_1C;
+    /* 0x20 */ s32 unk_20;
+    /* 0x24 */ s32 unk_24;
 } image_t;    // size 0x28
+
+// three coordinates: where func_800323C4 puts a contestant's obj
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+} vec_t;    // size 0xC
 
 //
 // addresses in segment 1, the display list and texture data the game loads: only their
@@ -227,52 +239,53 @@ extern s32 D_80058488;
 extern s32 D_800584E8;
 extern s32 D_80058508;
 extern s32 D_80058528;
-extern s32 D_80058638;
-extern s32 D_8005863C;
+extern image_t D_80058548[];
 extern s32 D_80058880;
 extern s32 D_80058888;
-extern s32 D_80058910;
-extern s32 D_80058914;
-extern s32 D_80058A28;
-extern s32 D_80058A2C;
-extern s32 D_80058A50;
-extern s32 D_80058A54;
-extern s32 D_80058A78;
-extern s32 D_80058A7C;
+extern image_t D_800588F0[];
 extern s32 D_80058AC8;
 extern s32 D_80058AE8;
 extern s32 D_80058B08;
+extern image_t D_80058B28[];
 extern s32 D_80058E88;
 extern s32 D_80058E90;
+extern image_t D_80058EB0[];
 extern s32 D_80058FE0;
 extern s32 D_80058FE8;
-extern u16 D_8005A392;
-extern u16 D_8005A396;
-extern u16 D_8005A39A;
+extern image_t D_80059008[];
+extern image_t D_80059120[];
+extern vec_t D_8005A390;
+extern vec_t D_8005A39C[];
+extern vec_t D_8005A474[];
 extern u8 D_8005A498[][10];
+extern image_t D_8005A4B8[][2];
+extern image_t D_8005A5A8[];
+extern image_t D_8005A620[];
+extern image_t D_8005A760[];
+extern image_t D_8005A7B0[];
+extern image_t D_8005A828[];
 extern s32 D_8005A8C8[];
 extern s32 D_8005A930[];
+extern image_t D_8005A998[];
 extern s32 D_8005ACE8[];
+extern image_t D_8005ADD0[][7];
 extern s32 D_8005B088[];
 extern s32 D_8005B118[];
 extern s32 D_8005B148[];
 extern s32 D_8005B170;
 extern s32 D_8005B174;
 extern s32 D_8005B178[];
-extern s32 D_8005B2C8;
-extern s32 D_8005B2E0;
-extern s32 D_8005B2F0;
-extern s32 D_8005B308;
-extern s32 D_8005B318;
-extern s32 D_8005B330;
-extern s32 D_8005B340;
-extern s32 D_8005B358;
+extern image_t D_8005B1A8[];
+extern image_t D_8005B2C0[];
+extern image_t D_8005B310[];
+extern image_t D_8005B360[];
+extern image_t D_8005B4C8[];
 extern s32 *D_8005B5A4[];
+extern image_t D_8005B630[];
+extern image_t D_8005B710[];
 extern s32 D_8005BA80[];
-extern s32 D_8005BF10;
-extern s32 D_8005BF38;
-extern s32 D_8005BF60;
-extern s32 D_8005BF88;
+extern image_t D_8005BAC0[];
+extern image_t D_8005BE00[];
 extern s32 D_8005C1E8[];
 extern s32 D_8005C33C[];
 extern u8 D_8005C394[];

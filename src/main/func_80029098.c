@@ -5,21 +5,6 @@ typedef struct {
     /* 0x04 */ s32 unk_04;
 } State;
 
-typedef struct {
-    /* 0x00 */ u16 unk_00;
-    /* 0x02 */ u8 unk_02[0x2];
-    /* 0x04 */ u16 unk_04;
-    /* 0x06 */ u8 unk_06[0x22];
-} Pos;
-
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x20];
-} Entry;
-
-extern Pos D_8005B712[];
-extern Entry D_8005B730[];
 
 struct n64dk_r12 func_80029098(s32 arg1) {
     s32 event;
@@ -56,7 +41,7 @@ struct n64dk_r12 func_80029098(s32 arg1) {
         }
     }
     index = ((State *)((proc_t *)arg1)->unk_30)->unk_04;
-    if (D_8005B730[index].unk_04 == 0 || index >= 22) {
+    if (D_8005B710[index].unk_24 == 0 || index >= 22) {
         if (D_800B619C != 6) {
             func_80002CE0(D_800FB808 + 139);
         }
@@ -65,9 +50,9 @@ struct n64dk_r12 func_80029098(s32 arg1) {
         result.w[0] = 20 / D_800B96B4;
         return result;
     }
-    obj->x = D_8005B712[index].unk_00;
-    obj->y = D_8005B712[index].unk_04 - 4;
-    D_8005B730[index].unk_00 = D_8005B730[index].unk_04;
+    obj->x = D_8005B710[index].x;
+    obj->y = D_8005B710[index].y - 4;
+    D_8005B710[index].unk_20 = D_8005B710[index].unk_24;
     if (index >= 16) {
         index = index % 16;
     }
