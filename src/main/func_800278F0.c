@@ -1,6 +1,5 @@
 #include "wof.h"
 
-extern Gfx *D_800B81E8;
 extern u8 D_800B966A[];
 
 void func_800278F0(s32 arg0, s32 arg1) {

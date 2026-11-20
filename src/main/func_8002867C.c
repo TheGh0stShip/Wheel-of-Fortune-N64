@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern Gfx *D_800B81E8;
-
 void func_8002867C(s32 arg0, s32 arg1) {
     s32 pad0[2];
     s32 i;

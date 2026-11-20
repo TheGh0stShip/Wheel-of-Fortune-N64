@@ -13,7 +13,6 @@ typedef struct {
 } Camera;
 
 extern Camera D_8005EB48[];
-extern Gfx *D_800B81E8;
 extern Camera *D_800BA5D8;
 
 void func_80016C78(s32 arg0, s32 arg1) {

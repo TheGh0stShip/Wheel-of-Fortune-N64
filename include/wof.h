@@ -438,6 +438,7 @@ extern s32 D_800B6BF4;
 extern s32 D_800B81DC;
 extern s32 D_800B81E0;
 extern s32 *D_800B81E4;
+extern Gfx *D_800B81E8;
 extern s32 D_800B81F0[];
 extern s32 D_800B8290;
 extern s32 D_800B8294;

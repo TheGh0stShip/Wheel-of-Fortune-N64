@@ -12,7 +12,6 @@ typedef struct {
 
 extern Entry D_800B39D4[];
 extern DlPair *D_80057F08[];
-extern Gfx *D_800B81E8;
 
 void func_80014F38(s32 arg0, s32 arg1) {
     s32 i;

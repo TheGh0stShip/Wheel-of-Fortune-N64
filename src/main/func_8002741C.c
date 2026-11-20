@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern Gfx *D_800B81E8;
-
 void func_8002741C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     register s32 reg_s0;
     register s32 reg_s1;

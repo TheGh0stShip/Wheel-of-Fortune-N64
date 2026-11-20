@@ -6,7 +6,6 @@ typedef struct {
 } Layer;
 
 extern Layer D_80057BB0[];
-extern Gfx *D_800B81E8;
 
 void func_80013748(s32 arg0, s32 arg1) {
     s32 i;

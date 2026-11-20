@@ -25,8 +25,6 @@ typedef struct {
     /* 0x54 */ s32 unk_54;
 } Task;
 
-extern Gfx *D_800B81E8;
-
 void func_800057A8(s32 arg0) {
     s32 sp10;
     Task *task;
