@@ -1,5 +1,6 @@
 #include "wof.h"
 #include "mpeg/proto.h"
+#include "mpeg/util.h"
 
 typedef struct {
     /* 0x000 */ u8 unk_000[0xD0];

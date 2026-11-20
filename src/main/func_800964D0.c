@@ -1,5 +1,6 @@
 #include "wof.h"
 #include "mpeg/proto.h"
+#include "mpeg/util.h"
 
 typedef struct {
     /* 0x00 */ s16 coef[64];

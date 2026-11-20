@@ -8,11 +8,20 @@
 
 #include "mpeg/video.h"
 
+// util.c
+void func_800887D8( VidStream *vid_stream );
+int func_800888C0( int num, unsigned int mask, VidStream *vid_stream );
+char *func_80088A2C( VidStream *vid_stream );
+int func_80088C58( VidStream *vid_stream );
+char *func_800890C8( VidStream *vid_stream );
+
+// The message of func_800887D8, "Unexpected read error.". It is the last thing in its object's
+// read-only data, and retail's fill behind it is not zero (stale bytes of the assembler's buffer), so
+// the gate cannot place a literal there: it compares the literal's own padding with that fill.
+extern char D_800879DC[];
+
 // PENDING: declarations as the imported sources had them, replaced unit by unit
-extern s32 D_80085108[];
 extern s32 D_800851C8[];
-extern s32 D_80085208[];
-extern s32 D_80085288[];
 extern s32 D_80085308;
 extern s32 D_8008530C;
 extern s32 D_80085310[];
@@ -38,7 +47,6 @@ extern s32 D_80086D50;
 extern s32 D_80086D60[];
 extern s32 D_80087160[];
 extern s32 D_80087560[];
-extern s32 D_800879DC;
 extern s32 D_80087C98[];
 extern f64 D_80087E98;
 extern u8 D_80087EA0[];
@@ -95,11 +103,6 @@ extern s32 D_801078B0;
 extern s32 D_801078B4;
 extern s32 *D_801084A0;
 extern s32 *D_801084A8;
-void func_800887D8( s32 arg0 );
-s32 func_800888C0( s32 arg0, s32 arg1, s32 arg2 );
-s32 func_80088A2C( s32 arg0 );
-s32 func_80088C58( s32 arg0 );
-s32 func_800890C8( s32 arg0 );
 f64 func_80089490( void );
 void func_800894F8( void );
 s32 func_800895C4( s32 arg0 );

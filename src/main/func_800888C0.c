@@ -1,38 +1,29 @@
 #include "wof.h"
 #include "mpeg/proto.h"
+#include "mpeg/util.h"
 
-typedef struct {
-    /* 0x000 */ u8 unk_000[0x1E0];
-    /* 0x1E0 */ s32 unk_1E0;
-    /* 0x1E4 */ s32 *unk_1E4;
-    /* 0x1E8 */ s32 unk_1E8;
-    /* 0x1EC */ u8 unk_1EC[0x48];
-    /* 0x234 */ s32 unk_234;
-} BitReader;
+/*
+=====================
+func_800888C0
 
-s32 func_800888C0(s32 arg0, s32 arg1, s32 arg2) {
-    s32 bits;
-    s32 result;
-    s32 end;
+Is the next `num` bits of the stream `mask`? Reads nothing.
+=====================
+*/
+int func_800888C0( int num, unsigned int mask, VidStream *vid_stream ) {
+    unsigned int stream;
+    int          ret_value;
 
-    if (arg2 == 0) {
-        return -1;
+    if ( vid_stream == NULL ) {
+        return NO_VID_STREAM;
     }
-    if (((BitReader *)arg2)->unk_1E8 < 2) {
-        func_800887D8(arg2);
-    }
-    end = ((BitReader *)arg2)->unk_1E0 + arg0;
-    if (end >= 33) {
-        end -= 32;
-        bits = ((u32)(((BitReader *)arg2)->unk_234 & (-1 << (32 - arg0))) >> (32 - arg0))
-             | ((u32)((BitReader *)arg2)->unk_1E4[1] >> (arg0 - end - (arg0 - 32)));
+
+    show_bitsn( num, stream );
+
+    if ( mask == stream ) {
+        ret_value = TRUE;
     } else {
-        bits = (u32)(((BitReader *)arg2)->unk_234 & (-1 << (32 - arg0))) >> (32 - arg0);
+        ret_value = FALSE;
     }
-    if (arg1 == bits) {
-        result = 1;
-    } else {
-        result = 0;
-    }
-    return result;
+
+    return ret_value;
 }
