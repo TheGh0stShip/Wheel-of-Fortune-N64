@@ -1,12 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-} DlPair;
-
-extern DlPair *D_80057F08[];
-
 void func_80014F38(s32 arg0, s32 arg1) {
     s32 i;
     Gfx *gfx;

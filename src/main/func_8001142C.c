@@ -7,16 +7,16 @@ void func_8001142C(s32 arg0, s32 arg1, u8 arg2) {
     D_800B95AD[arg0][arg1] = D_800B61B5;
     switch (arg0) {
     case 0:
-        D_800B9D0C[arg1].unk_00 = D_800579BC[arg2];
+        D_800B9D08[arg1].unk_04 = D_800579BC[arg2];
         return;
     case 1:
-        D_800B9E5C[arg1].unk_00 = D_800579BC[arg2];
+        D_800B9E58[arg1].unk_04 = D_800579BC[arg2];
         return;
     case 2:
-        D_800B9FE4[arg1].unk_00 = D_800579BC[arg2];
+        D_800B9FE0[arg1].unk_04 = D_800579BC[arg2];
         return;
     case 3:
-        D_800BA16C[arg1].unk_00 = D_800579BC[arg2];
+        D_800BA168[arg1].unk_04 = D_800579BC[arg2];
         return;
     }
 }

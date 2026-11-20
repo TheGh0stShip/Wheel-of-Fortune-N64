@@ -41,7 +41,7 @@ s32 func_8003288C(s32 arg0, s32 arg1) {
     }
     task = (Task *)func_8000A56C((s32)&func_80031A54, 0xA000400);
     child = (Task *)func_80015848((s32)task, 0, (s32)&func_80030B5C, 0xA030000);
-    child->unk_10 = D_800B998A;
+    child->unk_10 = D_800B9988;
     task->state->unk_0C = id;
     task->state->unk_08 = D_8005C7F8[arg0].unk_10;
     task->state->unk_18 = D_8005C7F8[arg0].unk_00;

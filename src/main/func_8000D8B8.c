@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern Gfx *D_80057F08;
-
 void func_8000D8B8(s32 arg0, s32 arg1) {
     s32 i;
     Gfx *gfx;
@@ -36,7 +34,7 @@ void func_8000D8B8(s32 arg0, s32 arg1) {
     for (i = 0; i < 24; i++) {
         gfx = D_800B81E8++;
         gfx->words.w0 = 0x6000000;
-        gfx->words.w1 = D_80057F08[i].words.w0;
+        gfx->words.w1 = D_80057F08[0][i].unk_00;
     }
     gfx = D_800B81E8++;
     gfx->words.w0 = 0x1020040;

@@ -65,16 +65,16 @@ struct n64dk_r12 func_80010574(s32 arg1) {
                 }
                 switch (row) {
                 case 0:
-                    D_800B9D0C[col].unk_14 = 0x1111AAFF;
+                    D_800B9D08[col].unk_18 = 0x1111AAFF;
                     break;
                 case 1:
-                    D_800B9E5C[col].unk_14 = 0x1111AAFF;
+                    D_800B9E58[col].unk_18 = 0x1111AAFF;
                     break;
                 case 2:
-                    D_800B9FE4[col].unk_14 = 0x1111AAFF;
+                    D_800B9FE0[col].unk_18 = 0x1111AAFF;
                     break;
                 case 3:
-                    D_800BA16C[col].unk_14 = 0x1111AAFF;
+                    D_800BA168[col].unk_18 = 0x1111AAFF;
                     break;
                 }
                 func_80002CE0(2);

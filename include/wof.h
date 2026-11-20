@@ -160,6 +160,14 @@ typedef struct {
 } image_t;    // size 0x28
 
 
+// One of the MPEG movies on the cartridge: D_80058228[38]. func_80021908 loads one.
+typedef struct {
+    /* 0x00 */ s32 rom;         // where it is on the cartridge
+    /* 0x04 */ s32 unk_04;      // if above 0, the proc that plays the movie puts it in D_800B8294
+    /* 0x08 */ s32 *size;       // points at its size in bytes, less one
+    /* 0x0C */ s32 unk_0C;      // 1, 2 or 3: what func_8009CEC0 is told about it
+} movie_t;    // size 0x10
+
 // One line of a menu: a label, and options of which one is chosen. A line holds numbers of
 // pictures in the image_t table of its menu. The menus are D_800584C8[4], D_80058868[2],
 // D_80058AA8[4], D_80058E70[2] and D_80058FC8[2].
@@ -264,6 +272,13 @@ typedef struct {
     /* 0x1C */ s32 unk_1C;
 } wedge_t;    // size 0x20
 
+// The display lists of one wedge of the wheel. D_80057F08[7] points at the 24 of each kind of
+// round.
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;      // if not 0, drawn in its place once the wedge has unk_1C set
+} wedgeDl_t;    // size 0x8
+
 // One puzzle of the built-in list: D_8004BB98[].
 typedef struct {
     /* 0x00 */ s32 unk_00;
@@ -287,15 +302,16 @@ typedef struct {
     /* 0x10 */ u8 unk_10[0x8];
 } layer_t;    // size 0x18
 
-// One square of the puzzle board. The four rows are D_800B9D0C[12], D_800B9E5C[14],
-// D_800B9FE4[14] and D_800BA16C[12].
+// One square of the puzzle board. The four rows are D_800B9D08[12], D_800B9E58[14],
+// D_800B9FE0[14] and D_800BA168[12].
 typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ u8 unk_0C[0x8];
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ u8 unk_18[0x4];
+    /* 0x00 */ s32 unk_00;      // its display list
+    /* 0x04 */ s32 *unk_04;     // the picture it shows
+    /* 0x08 */ s32 *unk_08;     // the picture of its letter, shown once the square is turned
+    /* 0x0C */ s32 unk_0C;      // not 0: it blinks
+    /* 0x10 */ s32 unk_10;      // the frames one blink takes
+    /* 0x14 */ s32 unk_14;      // the frames left of this blink
+    /* 0x18 */ s32 unk_18;      // its colour
 } tile_t;    // size 0x1C
 
 // the data of the proc whose handler is func_8000BEA8
@@ -307,6 +323,11 @@ typedef struct {
     /* 0x10 */ f32 unk_10;
     /* 0x14 */ f32 unk_14;
 } data8000BEA8_t;    // size 0x18
+
+// the data of the proc whose handler is func_8000C310
+typedef struct {
+    /* 0x00 */ obj_t *unk_00;
+} data8000C310_t;    // size 0x4
 
 // the data of the proc whose handler is func_8000C50C
 typedef struct {
@@ -494,7 +515,7 @@ typedef struct {
 
 // the data of the proc whose handler is func_80021744, created by func_80021C8C 
 typedef struct {
-    /* 0x00 */ s32 unk_00;
+    /* 0x00 */ obj_t *unk_00;
     /* 0x04 */ u8 unk_04[0xC];
     /* 0x10 */ s32 unk_10;
     /* 0x14 */ u8 unk_14[0xC];
@@ -718,14 +739,15 @@ extern s32 D_800578B0[];
 extern s32 D_80057910[];
 extern s32 D_80057970[][3];
 extern s32 D_80057988[];
-extern s32 D_800579BC[];
-extern s32 D_800579F0;
-extern s32 D_80057A20;
-extern s32 D_80057A58;
+extern s32 *D_800579BC[];           // the pictures of the letters, by character
+extern s32 D_800579F0[];            // D_800579F0 to D_80057A90: the display lists of the squares of each row
+extern s32 D_80057A20[];
+extern s32 D_80057A58[];
 extern s32 D_80057A68[];
-extern s32 D_80057A90;
+extern s32 D_80057A90[];
 extern s32 D_80057B50[][8];
 extern layer_t D_80057BB0[];
+extern wedgeDl_t *D_80057F08[];
 extern s32 D_80057F24[];
 extern s32 D_80057F34[];
 extern f32 D_80057F44;
@@ -737,7 +759,8 @@ extern s32 D_800581F4;
 extern s32 D_800581FC[];
 extern s32 D_80058208;
 extern s32 D_80058220;
-extern s32 D_80058488;
+extern movie_t D_80058228[];
+extern char D_80058488[];           // "You are the BIG winner!"
 extern s32 D_800584A0[][2];         // [5], x and y of pictures 2 to 6 of the first menu
 extern menuItem_t D_800584C8[];
 extern image_t D_80058548[];
@@ -924,7 +947,6 @@ extern s32 D_800B96A8;
 extern u32 D_800B96AC;
 extern u16 D_800B96B0;
 extern s32 D_800B96B4;
-extern u16 D_800B96B6;
 extern s32 D_800B96B8;
 extern u32 D_800B96BC;              // minFrameSize
 extern s32 D_800B96C0;
@@ -937,7 +959,6 @@ extern s32 D_800B9974;
 extern s32 D_800B9980;
 extern s32 D_800B9984;
 extern s32 D_800B9988;
-extern u16 D_800B998A;
 extern s16 *D_800B998C;
 extern player_t D_800B9990[];
 extern s32 D_800B9CD0;
@@ -948,14 +969,10 @@ extern s32 D_800B9CF8;
 extern s32 D_800B9CFC;
 extern s32 D_800B9D00;
 extern s32 D_800B9D04;
-extern s32 D_800B9D08;
-extern tile_t D_800B9D0C[];
-extern s32 D_800B9E58;
-extern tile_t D_800B9E5C[];
-extern s32 D_800B9FE0;
-extern tile_t D_800B9FE4[];
-extern s32 D_800BA168;
-extern tile_t D_800BA16C[];
+extern tile_t D_800B9D08[];
+extern tile_t D_800B9E58[];
+extern tile_t D_800B9FE0[];
+extern tile_t D_800BA168[];
 extern s32 D_800BA2BC;
 extern s32 D_800BA2C0;
 extern AMDMABuffer D_800BA2C8[];     // dmaBuffs[NUM_DMA_BUFFERS]
@@ -1241,7 +1258,8 @@ void func_80011B24( void );
 void func_80011F58( void );
 struct n64dk_r12 func_8001228C( s32 arg1 );
 void func_80012500( s32 arg0, s32 arg1 );
-void func_80012838( s32 arg0, s32 arg1, s32 arg2 );
+s32 func_8001277C( tile_t *arg0 );
+void func_80012838( tile_t *tiles, s32 count, s32 arg2 );
 void func_80012D40( s32 arg0, s32 arg1 );
 void func_800132EC( s32 arg0 );
 void func_800133C8( void );
@@ -1254,10 +1272,10 @@ void func_80014768( s32 arg0, s32 arg1 );
 void func_80014A5C( s32 arg0, s32 arg1 );
 void func_80014F38( s32 arg0, s32 arg1 );
 void func_800153C4( s32 arg0, s32 arg1 );
-s32 func_80015848( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
-void func_80015940( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
+obj_t *func_80015848( proc_t *proc, s32 arg1, s32 arg2, s32 arg3 );
+void func_80015940( s32 *arg0, tile_t *tiles, s32 row, s32 count );
 void func_80015D4C( void );
-void func_80015EDC( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
+void func_80015EDC( s32 *arg0, tile_t *tiles, s32 row, s32 count );
 void func_80016008( void );
 void func_80016098( void );
 void func_800161A8( void );
@@ -1310,15 +1328,16 @@ void func_800202A0( s32 arg0 );
 void func_800206C8( s32 arg0 );
 void func_80020C98( s32 arg0 );
 void func_80021090( s32 arg0 );
-s32 func_800211E4( s32 arg0, s32 arg1, f32 arg2, f32 arg3, s32 arg4 );
-void func_800212C0( s32 arg0 );
+obj_t *func_800211E4( proc_t *proc, char *arg1, f32 x, f32 y, s32 arg4 );
+void func_800212C0( proc_t *proc );
+void func_800213CC( proc_t *proc );
 struct n64dk_r12 func_80021548( s32 arg1 );
 struct n64dk_r12 func_80021744( s32 arg1 );
 s32 func_80021908( s32 arg0 );
 void func_800219B8( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
 void func_80021B04( s32 arg0, s32 arg1 );
-void func_80021B4C( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
-void func_80021C8C( s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4 );
+void func_80021B4C( s32 arg0, s32 arg1, s16 *arg2, s32 *arg3 );
+void func_80021C8C( s32 arg0, s32 *arg1, obj_t *arg2, s32 arg3, s32 arg4 );
 void func_80021E28( void );
 void func_80021E88( s32 arg0, s32 arg1 );
 void func_8002208C( s32 arg0, s32 arg1 );
