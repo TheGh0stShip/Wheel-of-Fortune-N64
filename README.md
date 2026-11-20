@@ -13,15 +13,16 @@ requires its SHA-1 to equal the retail ROM's.
 | **Matched under the rules** (byte-identical and passing every [match] code rule) | **746** | 746 |
 | Bytes matched (byte-identical at the gate) | 746 | 746 |
 
-- Every code range of the image now builds from source: 535 units, 402,756 of 402,756 code bytes, covering all
+- Every code range of the image now builds from source: 421 units, 402,756 of 402,756 code bytes, covering all
   773 inventoried function ranges (745 C, 28 original assembly).
 - The game is 441 functions built with GCC 2.7.2. All 441 pass the rules. Passing the rules
   is not the end: outside the MPEG player (the Berkeley `mpeg_play` decoder, rebuilt as its 13 original
-  objects with that source's names as `guess:`), nearly every game function still has placeholder names and sits
-  one function per file.
+  objects with that source's names as `guess:`), nearly every game function still has placeholder names. Six of
+  the game's original objects are rebuilt as units (120 functions); `./wof unitmap` prints the evidence for
+  the rest, whose boundaries are not settled, and those functions still sit one per file.
 - The library is libultra (IDO 5.3, built from the `ultralib` reconstruction under `lib/ultralib`) and three
   libgcc functions: 305 C functions, all of which pass the rules.
-- Data is mostly not reconstructed: 24,176 bytes of it are linked from source, and about 260,000 bytes of the
+- Data is mostly not reconstructed: 24,237 bytes of it are linked from source, and about 260,000 bytes of the
   image outside the code still come from the ROM.
 
 Earlier versions of this file described the project as complete. That claim rested on ledgers produced by a
