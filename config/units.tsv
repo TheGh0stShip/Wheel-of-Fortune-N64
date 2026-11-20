@@ -157,15 +157,7 @@ func_80016008	0x80016008	0x90	match	game	src/main/func_80016008.c
 func_80016098	0x80016098	0x110	match	game	src/main/func_80016098.c
 func_800161A8	0x800161A8	0x168	match	game	src/main/func_800161A8.c
 func_80016310	0x80016310	0x324	match	game	src/main/func_80016310.c
-func_80016638	0x80016638	0x88	match	game	src/main/func_80016638.c
-func_800166C0	0x800166C0	0x74	match	game	src/main/func_800166C0.c
-func_80016734	0x80016734	0x210	match	game	src/main/func_80016734.c
-func_80016944	0x80016944	0x258	match	game	src/main/func_80016944.c
-func_80016B9C	0x80016B9C	0x50	match	game	src/main/func_80016B9C.c
-func_80016BEC	0x80016BEC	0x8C	match	game	src/main/func_80016BEC.c
-func_80016C78	0x80016C78	0x7E4	match	game	src/main/func_80016C78.c
-func_8001745C	0x8001745C	0x80	match	game	src/main/func_8001745C.c
-func_800174DC	0x800174DC	0x68	match	game	src/main/func_800174DC.c
+unit_80016638	0x80016638	0xF0C	match	game	src/main/unit_80016638.c
 func_80017548	0x80017548	0x130	match	game	src/main/func_80017548.c
 func_80017678	0x80017678	0xB0	match	game	src/main/func_80017678.c
 func_80017728	0x80017728	0x7C	match	game	src/main/func_80017728.c
