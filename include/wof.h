@@ -223,7 +223,9 @@ typedef struct {
 // draw functions get the one in use. guess: the Dynamic of the SDK demos, from the lineage of
 // func_800057A8.
 typedef struct {
-    /* 0x00000 */ u8  unk_00000[0x140];
+    /* 0x00000 */ Mtx projection;         // guess: projection and viewing are the names of the Dynamic
+    /* 0x00040 */ Mtx viewing;
+    /* 0x00080 */ u8  unk_00080[0xC0];
     /* 0x00140 */ Mtx scale[100];
     /* 0x01A40 */ Mtx translate[100];
     /* 0x03340 */ Mtx rotate[100];
@@ -243,6 +245,32 @@ typedef struct {
     /* 0x1E458 */ OSScMsg  msg;             // what the scheduler answers when the task is done
     /* 0x1E478 */ void     *framebuffer;
 } gfxInfo_t;    // size 0x1E480
+
+// What guLookAt is given for one frame of a camera move. D_8005EB48[] is the move of the
+// opening, and D_800BA5D8 points at the one in use.
+typedef struct {
+    /* 0x00 */ f32 eyeX;
+    /* 0x04 */ f32 eyeY;
+    /* 0x08 */ f32 eyeZ;
+    /* 0x0C */ f32 atX;
+    /* 0x10 */ f32 atY;
+    /* 0x14 */ f32 atZ;
+    /* 0x18 */ f32 upX;
+    /* 0x1C */ f32 upY;
+    /* 0x20 */ f32 upZ;
+} camera_t;    // size 0x24
+
+// A place func_80016944 puts the camera obj, by number: D_80057F50[].
+typedef struct {
+    /* 0x00 */ s32      x;
+    /* 0x04 */ s32      y;
+    /* 0x08 */ s32      z;
+    /* 0x0C */ f32      unk_0C;     // unk_0C..unk_14: what the unk_28..unk_30 of the obj become
+    /* 0x10 */ f32      unk_10;
+    /* 0x14 */ f32      unk_14;
+    /* 0x18 */ camera_t *path;      // if not 0, a move that a proc (func_80016734) plays
+    /* 0x1C */ s32      count;      // the frames of the move
+} view_t;    // size 0x20
 
 // The rumble of one controller's pak: D_800BEE60[4]. func_800051B4 starts it.
 typedef struct {
@@ -424,9 +452,9 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ s32 unk_10;
+    /* 0x08 */ camera_t *unk_08;    // the move it plays
+    /* 0x0C */ s32 unk_0C;          // the frame it is at
+    /* 0x10 */ s32 unk_10;          // how many frames the move has
 } data80016734_t;    // size 0x14
 
 // the data of the proc whose handler is func_80017DBC
@@ -712,13 +740,7 @@ extern u32 D_8004B7A8;              // audFrameCt
 extern u32 D_8004B7AC;              // nextDMA
 extern u32 D_8004B7B0;              // curAcmdList
 extern s32 D_8004B7B4;
-extern s32 D_8004B7B8;
-extern s32 D_8004B7C0;
-extern s32 D_8004B7D0;
-extern s32 D_8004B7E0;
-extern s32 D_8004B7F0;
-extern s32 D_8004B800;
-extern s32 D_8004B810;
+extern Lights6 D_8004B7B8;          // the lights of every scene
 extern s32 D_8004B830;
 extern s32 D_8004B838;
 extern s32 D_8004B83C;
@@ -752,6 +774,7 @@ extern s32 D_80057F24[];
 extern s32 D_80057F34[];
 extern f32 D_80057F44;
 extern s32 D_80057F48;
+extern view_t D_80057F50[];
 extern f32 D_80057F7C;
 extern f32 D_80057F80;
 extern s32 D_800581F0[];
@@ -816,6 +839,7 @@ extern s32 D_8005C90C[];
 extern s32 D_8005C948[];
 extern f32 D_8005C958;
 extern f32 D_8005C95C;
+extern camera_t D_8005EB48[];
 extern s32 D_8006DCD8;
 extern s32 D_8006DCE8;
 extern s32 D_8006DCEC;
@@ -980,6 +1004,7 @@ extern OSMesgQueue D_800BA598;       // audDMAMessageQ
 extern s32 D_800BA5B0;
 extern AMDMAState D_800BA5C8;        // dmaState
 extern s32 D_800BA5D4;
+extern camera_t *D_800BA5D8;
 extern s32 D_800BA5E0[];
 extern u16 D_800BC6F8;
 extern s32 D_800BC6FC;
@@ -1283,7 +1308,7 @@ void func_80016310( void );
 s32 func_80016638( void );
 s32 func_800166C0( void );
 struct n64dk_r12 func_80016734( s32 arg1 );
-void func_80016944( s32 arg0, s32 arg1 );
+void func_80016944( obj_t *obj, s32 arg1 );
 void func_80016B9C( s32 arg0 );
 struct n64dk_r12 func_80016BEC( s32 arg1 );
 void func_80016C78( s32 arg0, s32 arg1 );

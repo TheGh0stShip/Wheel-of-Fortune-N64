@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern s32 D_800BA5D8;
-
 void func_800174DC(void) {
     s32 task;
     s32 pad0;
