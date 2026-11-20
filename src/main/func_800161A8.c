@@ -17,7 +17,7 @@ void func_800161A8(void) {
             func_8000A4A4(child, 0);
         }
     }
-    obj->unk_48 = (s32)&D_01092090;
+    obj->unk_48 = D_01092090;
     func_80015EDC(D_800579F0, D_800B9D08, 0, 12);
     func_80015EDC(D_80057A20, D_800B9E58, 1, 14);
     func_80015EDC(D_80057A58, D_800B9FE0, 2, 14);

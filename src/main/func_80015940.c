@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-void func_80015940(s32 *arg0, tile_t *tiles, s32 row, s32 count) {
+void func_80015940(Gfx **arg0, tile_t *tiles, s32 row, s32 count) {
     s32 i;
 
     for (i = 0; i < count; i++) {

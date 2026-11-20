@@ -11,10 +11,10 @@ struct n64dk_r12 func_800103B4(proc_t *proc) {
         switch (event) {
         case 8:
             proc->unk_30->data800103B4.unk_08 = 0;
-            sprite->unk_48 = &D_01136108;
+            sprite->unk_48 = D_01136108;
             break;
         case 2:
-            sprite->unk_48 = &D_01135FF8;
+            sprite->unk_48 = D_01135FF8;
             sp10.w[1] = 0;
             sp10.w[0] = 0;
             return sp10;
@@ -23,10 +23,10 @@ struct n64dk_r12 func_800103B4(proc_t *proc) {
     proc->unk_30->data800103B4.unk_08 = proc->unk_30->data800103B4.unk_08 + D_800B96B4;
     if (proc->unk_30->data800103B4.unk_08 >= 6) {
         proc->unk_30->data800103B4.unk_08 = 0;
-        if (sprite->unk_48 == &D_01136080) {
-            sprite->unk_48 = &D_01136108;
+        if (sprite->unk_48 == D_01136080) {
+            sprite->unk_48 = D_01136108;
         } else {
-            sprite->unk_48 = &D_01136080;
+            sprite->unk_48 = D_01136080;
         }
     }
     sp10.w[1] = 3;

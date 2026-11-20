@@ -1,6 +1,6 @@
 #include "wof.h"
 
-void func_80015EDC(s32 *arg0, tile_t *tiles, s32 row, s32 count) {
+void func_80015EDC(Gfx **arg0, tile_t *tiles, s32 row, s32 count) {
     s32 i;
 
     for (i = 0; i < count; i++) {

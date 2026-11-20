@@ -15,14 +15,14 @@ struct n64dk_r12 func_8000FFE0(proc_t *proc) {
         switch (event) {
         case 8:
             proc->unk_30->data8000FFE0.unk_08 = 0;
-            obj->unk_48 = &D_010920D8;
+            obj->unk_48 = D_010920D8;
             break;
         case 15:
         case 34:
         case 39:
         case 42:
         case 47:
-            obj->unk_48 = &D_01092090;
+            obj->unk_48 = D_01092090;
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -31,12 +31,12 @@ struct n64dk_r12 func_8000FFE0(proc_t *proc) {
     proc->unk_30->data8000FFE0.unk_08 = proc->unk_30->data8000FFE0.unk_08 + D_800B96B4;
     if (proc->unk_30->data8000FFE0.unk_08 >= 5) {
         proc->unk_30->data8000FFE0.unk_08 = 0;
-        if (obj->unk_48 == &D_01092168) {
-            obj->unk_48 = &D_010920D8;
-        } else if (obj->unk_48 == &D_01092120) {
-            obj->unk_48 = &D_01092168;
-        } else if (obj->unk_48 == &D_010920D8) {
-            obj->unk_48 = &D_01092120;
+        if (obj->unk_48 == D_01092168) {
+            obj->unk_48 = D_010920D8;
+        } else if (obj->unk_48 == D_01092120) {
+            obj->unk_48 = D_01092168;
+        } else if (obj->unk_48 == D_010920D8) {
+            obj->unk_48 = D_01092120;
         }
     }
     result.w[1] = 3;

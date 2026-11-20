@@ -149,11 +149,11 @@ typedef struct obj_s {
     /* 0x2C */ f32              unk_2C;
     /* 0x30 */ f32              unk_30;
     /* 0x34 */ u8               unk_34[0x8];
-    /* 0x3C */ s32              unk_3C;
+    /* 0x3C */ Mtx              *unk_3C;        // a matrix its draw function applies first, if not 0
     /* 0x40 */ u8               unk_40[0x4];
-    /* 0x44 */ s32              unk_44;
-    /* 0x48 */ s32              unk_48;
-    /* 0x4C */ s32              unk_4C;
+    /* 0x44 */ s32              unk_44;         // the segment address of the picture it shows
+    /* 0x48 */ Gfx              *unk_48;        // its display list
+    /* 0x4C */ Gfx              *unk_4C;        // a second one, drawn with the second half of the picture
     /* 0x50 */ struct obj_s     *next;
 } obj_t;    // size 0x54
 
@@ -347,8 +347,8 @@ typedef struct {
 // The display lists of one wedge of the wheel. D_80057F08[7] points at the 24 of each kind of
 // round.
 typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;      // if not 0, drawn in its place once the wedge has unk_1C set
+    /* 0x00 */ Gfx *unk_00;
+    /* 0x04 */ Gfx *unk_04;     // if not 0, drawn in its place once the wedge has unk_1C set
 } wedgeDl_t;    // size 0x8
 
 // One puzzle of the built-in list: D_8004BB98[].
@@ -358,17 +358,18 @@ typedef struct {
     /* 0x08 */ s32 unk_08;
 } puzzle_t;    // size 0xC
 
-// The entries of D_80057808[]; what they describe is not known yet.
+// The entries of D_80057808[]: the display list and the matrix of one of the objs func_8000E7D4
+// makes, drawn by func_8000D6D8.
 typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
+    /* 0x00 */ Gfx *unk_00;
+    /* 0x04 */ Mtx *unk_04;
     /* 0x08 */ f32 unk_08;
 } data80057808_t;    // size 0xC
 
 // The entries of D_80057BB0[]. func_80013440 gives the colour an entry is drawn in: unk_10, or
 // unk_14 for the first half of each blink while unk_04 is set.
 typedef struct {
-    /* 0x00 */ s32 unk_00;
+    /* 0x00 */ Gfx *unk_00;     // its display list
     /* 0x04 */ s32 unk_04;      // not 0: it blinks
     /* 0x08 */ s32 unk_08;      // the frames one blink takes
     /* 0x0C */ s32 unk_0C;      // the frames left of this blink
@@ -379,7 +380,7 @@ typedef struct {
 // One square of the puzzle board. The four rows are D_800B9D08[12], D_800B9E58[14],
 // D_800B9FE0[14] and D_800BA168[12].
 typedef struct {
-    /* 0x00 */ s32 unk_00;      // its display list
+    /* 0x00 */ Gfx *unk_00;     // its display list
     /* 0x04 */ u8  *unk_04;     // the picture it shows
     /* 0x08 */ u8  *unk_08;     // the picture of its letter, shown once the square is turned
     /* 0x0C */ s32 unk_0C;      // not 0: it blinks
@@ -785,21 +786,21 @@ extern s8 D_8004BA04[];
 extern puzzle_t D_8004BB98[];
 extern s32 D_80057800;
 extern data80057808_t D_80057808[];
-extern s32 D_800578B0[];
-extern s32 D_80057910[];
+extern Gfx *D_800578B0[];
+extern Mtx *D_80057910[];
 extern s32 D_80057970[][3];
-extern s32 D_80057988[];
+extern Gfx *D_80057988[];
 extern u8 *D_800579BC[];           // the pictures of the letters, by character
-extern s32 D_800579F0[];            // D_800579F0 to D_80057A90: the display lists of the squares of each row
-extern s32 D_80057A20[];
-extern s32 D_80057A58[];
+extern Gfx *D_800579F0[];           // D_800579F0 to D_80057A90: the display lists of the squares of each row
+extern Gfx *D_80057A20[];
+extern Gfx *D_80057A58[];
 extern s32 D_80057A68[];
-extern s32 D_80057A90[];
-extern s32 D_80057B50[][8];
+extern Gfx *D_80057A90[];
+extern Gfx *D_80057B50[][8];
 extern layer_t D_80057BB0[];
 extern wedgeDl_t *D_80057F08[];
-extern s32 D_80057F24[];
-extern s32 D_80057F34[];
+extern Gfx *D_80057F24[];
+extern Gfx *D_80057F34[];
 extern f32 D_80057F44;
 extern s32 D_80057F48;
 extern view_t D_80057F50[];
@@ -860,7 +861,7 @@ extern image_t D_8005BE00[];
 extern s32 D_8005C1E8[];
 extern s32 D_8005C33C[];
 extern u8 D_8005C394[];
-extern s32 D_8005C3A0[][2];         // [3], unk_48 and unk_4C of the obj of each contestant
+extern Gfx *D_8005C3A0[][2];        // [3], unk_48 and unk_4C of the obj of each contestant
 extern clip_t D_8005C3B8[][2];
 extern clip_t D_8005C568[][2];
 extern clip_t D_8005C718[];
@@ -1245,10 +1246,10 @@ void func_80014768( obj_t *obj, frame_t *frame );
 void func_80014A5C( obj_t *obj, frame_t *frame );
 void func_80014F38( obj_t *obj, frame_t *frame );
 void func_800153C4( obj_t *obj, frame_t *frame );
-obj_t *func_80015848( proc_t *proc, s32 arg1, objDraw_t draw, s32 arg3 );
-void func_80015940( s32 *arg0, tile_t *tiles, s32 row, s32 count );
+obj_t *func_80015848( proc_t *proc, Gfx *arg1, objDraw_t draw, s32 arg3 );
+void func_80015940( Gfx **arg0, tile_t *tiles, s32 row, s32 count );
 void func_80015D4C( void );
-void func_80015EDC( s32 *arg0, tile_t *tiles, s32 row, s32 count );
+void func_80015EDC( Gfx **arg0, tile_t *tiles, s32 row, s32 count );
 void func_80016008( void );
 void func_80016098( void );
 void func_800161A8( void );
@@ -1340,7 +1341,7 @@ void func_80026DEC( void );
 void func_80026E50( void );
 void func_80026EB4( void );
 void func_80026FD4( void );
-obj_t *func_80027218( proc_t *proc, s32 arg1, objDraw_t draw, s32 arg3 );
+obj_t *func_80027218( proc_t *proc, Gfx *arg1, objDraw_t draw, s32 arg3 );
 s32 func_8002731C( image_t *image, s32 arg1 );
 void func_8002741C( image_t *image, s32 arg1, s32 arg2, s32 arg3 );
 void func_800278A8( image_t *image, s32 arg1 );

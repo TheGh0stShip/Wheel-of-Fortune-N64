@@ -18,8 +18,8 @@ void func_800323C4(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         func_8000A4A4(task, 0);
     }
     task = func_8000A56C(func_800315FC, arg1 | 0xA000300);
-    obj = func_80015848(task, (s32)D_0113A9B0, func_80030490, arg1 | 0xA020000);
-    obj->unk_4C = (s32)D_0113A9D0;
+    obj = func_80015848(task, D_0113A9B0, func_80030490, arg1 | 0xA020000);
+    obj->unk_4C = D_0113A9D0;
     obj->x = arg2;
     obj->y = arg3;
     obj->z = arg4;

@@ -32,10 +32,10 @@ struct n64dk_r12 func_8000C310(proc_t *proc) {
         obj->y = 40;
     }
     if (D_800B3994 % 2 == 1) {
-        if (obj->unk_48 == (s32)D_011358C0) {
-            obj->unk_48 = (s32)D_01135908;
+        if (obj->unk_48 == D_011358C0) {
+            obj->unk_48 = D_01135908;
         } else {
-            obj->unk_48 = (s32)D_011358C0;
+            obj->unk_48 = D_011358C0;
         }
     }
     return result;

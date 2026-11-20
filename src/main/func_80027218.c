@@ -1,7 +1,7 @@
 #include "wof.h"
 
 
-obj_t *func_80027218(proc_t *proc, s32 arg1, objDraw_t draw, s32 arg3) {
+obj_t *func_80027218(proc_t *proc, Gfx *arg1, objDraw_t draw, s32 arg3) {
     obj_t *obj;
     s32 sp14;
 
