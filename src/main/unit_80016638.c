@@ -46,16 +46,16 @@ s32 func_800166C0(void) {
     return result;
 }
 
-struct n64dk_r12 func_80016734(proc_t *proc) {
+struct procResult_s func_80016734(proc_t *proc) {
     s32 event;
-    struct n64dk_r12 result;
+    struct procResult_s result;
     obj_t *sp28;
 
     sp28 = proc->unk_30->data80016734.unk_00;
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(proc);
+        event = ProcGetMessage(proc);
         if (event == 0) {
             break;
         }
@@ -65,10 +65,10 @@ struct n64dk_r12 func_80016734(proc_t *proc) {
             return result;
         }
     }
-    proc->unk_30->data80016734.unk_0C += D_800B96B4;
+    proc->unk_30->data80016734.unk_0C += frameRetraces;
     if (proc->unk_30->data80016734.unk_0C >= proc->unk_30->data80016734.unk_10) {
         D_800BA5D8 = proc->unk_30->data80016734.unk_08 - 1 + proc->unk_30->data80016734.unk_10;
-        func_8000A850(45);
+        ProcPostEvent(45);
         result.w[1] = 0;
         result.w[0] = 0;
         return result;
@@ -89,12 +89,12 @@ void func_80016944(obj_t *obj, s32 arg1) {
     obj->unk_2C = D_80057F50[arg1].unk_10;
     obj->unk_30 = D_80057F50[arg1].unk_14;
     obj->unk_48 = 0;
-    task = func_8000A990(0x3010000, -1);
+    task = FindProc(0x3010000, -1);
     if (task != 0) {
-        func_8000A4A4(task, 0);
+        KillProc(task, 0);
     }
     if (D_80057F50[arg1].path != 0) {
-        task = func_8000A56C(func_80016734, 0x3010000);
+        task = CreatProc(func_80016734, 0x3010000);
         task->unk_30->data80016734.unk_08 = D_80057F50[arg1].path;
         task->unk_30->data80016734.unk_0C = 0;
         task->unk_30->data80016734.unk_10 = D_80057F50[arg1].count;
@@ -112,16 +112,16 @@ void func_80016944(obj_t *obj, s32 arg1) {
 void func_80016B9C(s32 arg0) {
     obj_t *sp10;
 
-    sp10 = func_8000B5DC(0x03000000, 0xFF000000);
+    sp10 = FindObj(0x03000000, 0xFF000000);
     func_80016944(sp10, arg0);
 }
 
-struct n64dk_r12 func_80016BEC(proc_t *proc) {
-    struct n64dk_r12 result;
+struct procResult_s func_80016BEC(proc_t *proc) {
+    struct procResult_s result;
     obj_t *sp20;
 
     sp20 = proc->unk_30->obj;
-    func_8000AD9C(proc);
+    ProcClearMessages(proc);
     result.w[1] = 1;
     result.w[0] = 0;
     return result;
@@ -136,7 +136,7 @@ void func_80016C78(obj_t *obj, frame_t *frame) {
     f32 up[4][4];
 
     guPerspective(&frame->projection, &perspNorm, 33.0f, 4.0f / 3.0f, 200.0f, 5000.0f, obj->scale);
-    gSPPerspNormalize(D_800B81E8++, perspNorm);
+    gSPPerspNormalize(glistp++, perspNorm);
     if (D_800BCD54 == 1) {
         step = D_800B3994;
         if (step < 0) {
@@ -165,15 +165,15 @@ void func_80016C78(obj_t *obj, frame_t *frame) {
         guMtxCatF(up, rot, up);
         guLookAt(&frame->viewing, obj->x, obj->y, obj->z, eye[3][0] + obj->x, eye[3][1] + obj->y, eye[3][2] + obj->z, up[3][0], up[3][1], up[3][2]);
     }
-    gSPMatrix(D_800B81E8++, &frame->projection, G_MTX_PROJECTION | G_MTX_LOAD | G_MTX_NOPUSH);
-    gSPMatrix(D_800B81E8++, &frame->viewing, G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPSetLights6(D_800B81E8++, D_8004B7B8);
+    gSPMatrix(glistp++, &frame->projection, G_MTX_PROJECTION | G_MTX_LOAD | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &frame->viewing, G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPSetLights6(glistp++, D_8004B7B8);
 }
 
 void func_8001745C(proc_t *proc) {
     obj_t *handle;
 
-    handle = func_8000B3B0(proc->unk_04, func_80016C78, 0x3000000);
+    handle = CreatObj(proc->unk_04, func_80016C78, 0x3000000);
     if (handle == 0) {
         return;
     }
@@ -187,7 +187,7 @@ void func_800174DC(void) {
     s32 unused2;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     D_800BA5D8 = 0;
-    task = func_8000A56C(func_80016BEC, 0x3000000);
+    task = CreatProc(func_80016BEC, 0x3000000);
     if (task == 0) {
         return;
     }

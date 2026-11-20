@@ -9,7 +9,7 @@ void func_8003143C(s16 *arg0, s32 arg1) {
     s16 *dst;
 
     src = (u16 *)arg0;
-    dst = D_800BEF08[D_800B61A0].frame.unk_16C00;
+    dst = gfxInfo[curGfxInfo].frame.unk_16C00;
     if (arg1 == -1) {
         for (i = 0; i < 96; i++) {
             k = 63;

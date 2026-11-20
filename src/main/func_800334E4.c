@@ -7,12 +7,12 @@ void func_800334E4(void) {
 
     for (i = 0; i < 3; i++) {
         if (i != D_800FB808) {
-            sp18 = func_8000A990(i | 0xA000300, -1);
+            sp18 = FindProc(i | 0xA000300, -1);
             if (sp18 != 0) {
-                func_8000A4A4(sp18, 1);
-                sp14 = func_8000B5DC(i | 0xA020000, -1);
+                KillProc(sp18, 1);
+                sp14 = FindObj(i | 0xA020000, -1);
                 if (sp14 != 0) {
-                    func_8000B234(sp14);
+                    FreeObj(sp14);
                 }
             }
         }

@@ -15,7 +15,7 @@ void func_80032BF0(void) {
             D_800B9990[i].unk_018 = i;
         }
     }
-    D_800BCA60 = func_8000B978();
+    D_800BCA60 = PushMemStack();
     for (i = 0; i < 3; i++) {
         if (D_800B9990[i].unk_018 >= 6) {
             func_80009F38("InitContestants: invalid image num");
@@ -47,5 +47,5 @@ void func_80032BF0(void) {
     }
     func_80032B10();
     func_80032AD4(4);
-    D_800B96AC = 0;
+    retraceCount = 0;
 }

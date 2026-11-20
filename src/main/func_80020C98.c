@@ -14,10 +14,10 @@ void func_80020C98(u16 *arg0) {
     s32 base;
 
     base = 0x2000000;
-    diff = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_0AC00[0]);
-    diff = diff - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
+    diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_0AC00[0]);
+    diff = diff - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     src = arg0;
-    dst = D_800BEF08[D_800B61A0].frame.unk_0AC00[0];
+    dst = gfxInfo[curGfxInfo].frame.unk_0AC00[0];
     if (D_800B96A4 != 0) {
         dst = D_800B998C;
         mask = D_800B81E4;

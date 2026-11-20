@@ -4,7 +4,7 @@
 void func_8002AAD0(proc_t *proc, s32 arg1, s32 arg2) {
     D_800BED88++;
     if (arg2 != 0) {
-        func_80002CE0(43);
+        PlaySound(43);
     }
     if (arg1 != 0) {
         proc->unk_30->cursor.index++;

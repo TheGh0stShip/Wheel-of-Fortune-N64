@@ -1,15 +1,15 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_8002CBF4(proc_t *proc) {
+struct procResult_s func_8002CBF4(proc_t *proc) {
     s32 event;
     s32 i;
-    struct n64dk_r12 result;
+    struct procResult_s result;
     proc_t *handle;
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 27:
             D_800BED88++;
@@ -105,7 +105,7 @@ struct n64dk_r12 func_8002CBF4(proc_t *proc) {
         }
     }
     func_8002AFDC();
-    handle = func_8000A990(D_800FB808 | 0x2000000, 0xFF0000FF);
+    handle = FindProc(D_800FB808 | 0x2000000, 0xFF0000FF);
     if (handle == 0) {
         func_80009F38("Status Proc: player proc does not exist\n");
     }
@@ -117,72 +117,72 @@ struct n64dk_r12 func_8002CBF4(proc_t *proc) {
         D_8005A828[proc->unk_30->cursor.index].unk_10 = 1;
         return result;
     }
-    if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
+    if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
         D_800BED88++;
         proc->unk_30->cursor.unk_0C = 0;
         switch (proc->unk_30->cursor.index) {
         case 0:
             if (D_800B9CF8 != 0) {
-                func_8000A850(12);
+                ProcPostEvent(12);
                 result.w[1] = 2;
                 result.w[0] = 3;
                 return result;
             } else {
-                func_80002CE0(1);
+                PlaySound(1);
                 return result;
             }
             break;
         case 1:
             if (D_800B9CFC != 0) {
-                func_8000A850(13);
+                ProcPostEvent(13);
                 result.w[1] = 2;
                 result.w[0] = 9;
                 return result;
             } else {
-                func_80002CE0(1);
+                PlaySound(1);
                 return result;
             }
             break;
         case 2:
             if (D_800B9D00 != 0) {
-                func_8000A850(14);
+                ProcPostEvent(14);
                 result.w[1] = 2;
                 result.w[0] = 10;
                 return result;
             } else {
-                func_80002CE0(1);
+                PlaySound(1);
                 return result;
             }
             break;
         case 3:
-            func_8000A850(38);
+            ProcPostEvent(38);
             func_8002FD14();
             return result;
         default:
             func_80009F38("Status Proc: button press invalid\n");
         }
     }
-    if ((D_800B96B0 & 2048 & 0xFFFF) != 0) {
+    if ((buttonsPressed & 2048 & 0xFFFF) != 0) {
         func_8002A8C8(proc, 0);
-    } else if ((D_800B96B0 & 1024 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 1024 & 0xFFFF) != 0) {
         func_8002AAD0(proc, 0, 1);
-    } else if ((D_800B96B0 & 512 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 512 & 0xFFFF) != 0) {
         func_8002A8C8(proc, 0);
-    } else if ((D_800B96B0 & 256 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 256 & 0xFFFF) != 0) {
         func_8002AAD0(proc, 0, 1);
-    } else if ((D_800B96B0 & 0x8000 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 0x8000 & 0xFFFF) != 0) {
         return result;
-    } else if ((D_800B96B0 & 0x4000 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 0x4000 & 0xFFFF) != 0) {
         return result;
     }
     if (proc->unk_30->cursor.unk_0C <= 0) {
-        if (D_800B9954.stick_y >= 41) {
+        if (playerPad.stick_y >= 41) {
             func_8002A8C8(proc, 0);
-        } else if (D_800B9954.stick_y < -40) {
+        } else if (playerPad.stick_y < -40) {
             func_8002AAD0(proc, 0, 1);
         }
     } else {
-        proc->unk_30->cursor.unk_0C -= D_800B96B4;
+        proc->unk_30->cursor.unk_0C -= frameRetraces;
     }
     if (proc->unk_30->cursor.index < 0) {
         proc->unk_30->cursor.index = 3;

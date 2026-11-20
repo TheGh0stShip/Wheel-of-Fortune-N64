@@ -1,15 +1,15 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_800345E8(proc_t *proc) {
-    struct n64dk_r12 sp20;
+struct procResult_s func_800345E8(proc_t *proc) {
+    struct procResult_s sp20;
     s32 sp30;
     s32 sp34;
     obj_t *sp38;
 
     sp38 = proc->unk_30->obj;
     for (;;) {
-        sp30 = func_8000ACE8(proc);
+        sp30 = ProcGetMessage(proc);
         if (sp30 == 0) {
             break;
         }
@@ -31,7 +31,7 @@ struct n64dk_r12 func_800345E8(proc_t *proc) {
         } else {
             func_800343F8(80, 150, 60, 80, 30, 10, 2, 1);
             sp20.w[1] = 1;
-            sp20.w[0] = ((guRandom() % -1) * proc->unk_30->data800345E8.unk_04) / D_800B96B4;
+            sp20.w[0] = ((guRandom() % -1) * proc->unk_30->data800345E8.unk_04) / frameRetraces;
             return sp20;
         }
     } else {
@@ -45,6 +45,6 @@ struct n64dk_r12 func_800345E8(proc_t *proc) {
         }
     }
     sp20.w[1] = 1;
-    sp20.w[0] = (guRandom() % 10) / D_800B96B4;
+    sp20.w[0] = (guRandom() % 10) / frameRetraces;
     return sp20;
 }

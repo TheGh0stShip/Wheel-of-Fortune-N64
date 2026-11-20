@@ -13,7 +13,7 @@ s32 func_800082E4(void) {
     for (row = 0; row < 4; row++) {
         p = D_800B9559[row];
         while (p != 0) {
-            p = func_800099B0(p, 43);
+            p = StrChr(p, 43);
             if (p != 0) {
                 c = D_800B9601[row][p - D_800B9559[0] - row * 21];
                 switch (c) {

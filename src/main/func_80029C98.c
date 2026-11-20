@@ -1,16 +1,16 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_80029C98(proc_t *proc) {
+struct procResult_s func_80029C98(proc_t *proc) {
     s32 event;
     s32 i;
     s32 count;
-    struct n64dk_r12 sp20;
+    struct procResult_s sp20;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     sp20.w[1] = 1;
-    sp20.w[0] = 3 / D_800B96B4 - 1;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    sp20.w[0] = 3 / frameRetraces - 1;
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             proc->unk_30->data80029C98.unk_10 = 0;

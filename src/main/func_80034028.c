@@ -1,13 +1,13 @@
 #include "wof.h"
 
-struct n64dk_r12 func_80034028(proc_t *proc) {
-    struct n64dk_r12 ret;
+struct procResult_s func_80034028(proc_t *proc) {
+    struct procResult_s ret;
     s32 event;
     s32 i;
     obj_t *sprite;
 
     sprite = proc->unk_30->data80034028.sprite;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             proc->unk_30->data80034028.timer = 0;
@@ -15,7 +15,7 @@ struct n64dk_r12 func_80034028(proc_t *proc) {
             break;
         }
     }
-    proc->unk_30->data80034028.timer += D_800B96B4;
+    proc->unk_30->data80034028.timer += frameRetraces;
     if (proc->unk_30->data80034028.timer >= 4) {
         proc->unk_30->data80034028.timer %= 4;
         proc->unk_30->data80034028.frame++;
@@ -30,7 +30,7 @@ struct n64dk_r12 func_80034028(proc_t *proc) {
         }
     }
     i = 0;
-    while (i < D_800B96B4) {
+    while (i < frameRetraces) {
         proc->unk_30->data80034028.vy += D_8005C958;
         proc->unk_30->data80034028.vx -= D_8005C95C;
         proc->unk_30->data80034028.x += proc->unk_30->data80034028.vx;

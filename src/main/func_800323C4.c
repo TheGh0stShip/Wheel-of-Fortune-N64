@@ -13,11 +13,11 @@ void func_800323C4(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     if (D_8005C718[arg0].unk_18 == 0) {
         return;
     }
-    task = func_8000A990(arg1 | 0xA000300, -1);
+    task = FindProc(arg1 | 0xA000300, -1);
     if (task != 0) {
-        func_8000A4A4(task, 0);
+        KillProc(task, 0);
     }
-    task = func_8000A56C(func_800315FC, arg1 | 0xA000300);
+    task = CreatProc(func_800315FC, arg1 | 0xA000300);
     obj = func_80015848(task, D_0113A9B0, func_80030490, arg1 | 0xA020000);
     obj->unk_4C = D_0113A9D0;
     obj->x = arg2;

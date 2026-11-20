@@ -1,8 +1,8 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_8001BED8(proc_t *proc) {
-    struct n64dk_r12 sp10;
+struct procResult_s func_8001BED8(proc_t *proc) {
+    struct procResult_s sp10;
     proc_t *task;
     s32 unused;  /* NOTE: unused in the original */
     s32 event;
@@ -11,17 +11,17 @@ struct n64dk_r12 func_8001BED8(proc_t *proc) {
     sp10.w[1] = 1;
     sp10.w[0] = 0;
     if (proc->unk_30->playerProc.player != D_800FB808) {
-        func_8000AD9C(proc);
+        ProcClearMessages(proc);
         return sp10;
     }
-    task = func_8000A990(0x5000000, -1);
-    while ((event = func_8000ACE8(proc)) != 0) {
+    task = FindProc(0x5000000, -1);
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             func_80017C00(3, 1);
             switch (func_800082E4()) {
             case 4:
-                if (func_80009C98(100) >= 11) {
+                if (Random(100) >= 11) {
                     func_8002EB90(func_8001A894(proc->unk_30->playerProc.unk_0C, proc) & 255);
                 } else {
                     func_8002EB90(func_8001A97C(proc->unk_30->playerProc.unk_0C) & 255);
@@ -34,33 +34,33 @@ struct n64dk_r12 func_8001BED8(proc_t *proc) {
                 func_8002EB90(func_8001A894(proc->unk_30->playerProc.unk_0C, proc) & 255);
                 break;
             }
-            func_8000AAB0(proc, 5, 0);
+            ProcPostMessage(proc, 5, 0);
             sp10.w[1] = 1;
-            sp10.w[0] = 60 / D_800B96B4;
+            sp10.w[0] = 60 / frameRetraces;
             return sp10;
             break;
         case 5:
-            func_80002CE0(D_800B9990[D_800FB808].unk_0FC + (D_800B61B5 - 65));
-            func_8000AAB0(proc, 44, 0);
+            PlaySound(D_800B9990[D_800FB808].unk_0FC + (D_800B61B5 - 65));
+            ProcPostMessage(proc, 44, 0);
             sp10.w[1] = 1;
-            sp10.w[0] = 30 / D_800B96B4;
+            sp10.w[0] = 30 / frameRetraces;
             return sp10;
         case 44:
-            task = func_8000A990(0x5010000, -1);
-            func_8000AAB0(task, 23, 0);
+            task = FindProc(0x5010000, -1);
+            ProcPostMessage(task, 23, 0);
             if (func_80007888(D_800B61B5, 2) > 0) {
                 func_80007DAC(D_800B61B5);
-                task = func_8000A56C(func_80010574, 0x1000000);
+                task = CreatProc(func_80010574, 0x1000000);
                 task->unk_30->data80010574.letter = D_800B61B5;
                 sp10.w[1] = 2;
                 sp10.w[0] = 6;
                 return sp10;
             } else {
-                func_80002CE0(1);
+                PlaySound(1);
                 func_80017548();
-                func_8000A850(24);
-                func_8000A850(31);
-                func_8000AAB0(task, 31, 0);
+                ProcPostEvent(24);
+                ProcPostEvent(31);
+                ProcPostMessage(task, 31, 0);
                 sp10.w[1] = 0;
                 sp10.w[0] = 0;
                 return sp10;
@@ -68,9 +68,9 @@ struct n64dk_r12 func_8001BED8(proc_t *proc) {
         case 6:
             func_80029974(0);
             func_8002FD50();
-            ratio = func_80008628();
+            ratio = CheckPercentDone();
             if (ratio > 0.7) {
-                task = func_8000A56C(func_8001BC44, proc->unk_30->playerProc.player | 0x2000300);
+                task = CreatProc(func_8001BC44, proc->unk_30->playerProc.player | 0x2000300);
                 task->unk_30->playerProc.player = proc->unk_30->playerProc.player;
                 task->unk_30->playerProc.unk_0C = proc->unk_30->playerProc.unk_0C;
                 sp10.w[1] = 2;
@@ -82,14 +82,14 @@ struct n64dk_r12 func_8001BED8(proc_t *proc) {
                 return sp10;
             }
         case 33:
-            func_80002CE0(1);
+            PlaySound(1);
         case 10:
             if (func_800088E4() != 1) {
                 func_80017548();
             }
-            func_8000A850(24);
-            func_8000A850(31);
-            func_8000AAB0(task, 31, 0);
+            ProcPostEvent(24);
+            ProcPostEvent(31);
+            ProcPostMessage(task, 31, 0);
             sp10.w[1] = 0;
             sp10.w[0] = 0;
             return sp10;

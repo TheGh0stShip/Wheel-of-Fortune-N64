@@ -5,7 +5,7 @@ void func_80009108(f32 arg0) {
     s32 angle;
 
     if (arg0 == -1.0f) {
-        D_800BEDA8 += func_80009C98(24);
+        D_800BEDA8 += Random(24);
     } else {
         angle = (s32)arg0;
         if (angle < 0) {

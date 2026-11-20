@@ -10,7 +10,7 @@ void func_80007DAC(register s32 arg0) {
     for (i = 0; i < 4; i++) {
         p = D_800B9601[i];
         while (p != 0) {
-            p = func_800099B0(p, ch);
+            p = StrChr(p, ch);
             if (p != 0) {
                 D_800B9559[i][(p - D_800B9601[0]) - i * 21] = ch;
                 p++;

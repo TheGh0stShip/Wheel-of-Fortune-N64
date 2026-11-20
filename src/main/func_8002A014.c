@@ -25,8 +25,8 @@ void func_8002A014(void) {
             D_8005B4C8[i].unk_20 = 0;
         }
         x = D_800B9540;
-        func_80009AE0(buf, x);
-        len = func_80009A74(buf);
+        IntToStr(buf, x);
+        len = StrLen(buf);
         if (len >= 7) {
             len = 6;
         }
@@ -53,11 +53,11 @@ void func_8002A014(void) {
             x = x + D_8005B148[glyph];
         }
         if (D_800B9CEC != 0) {
-            task = func_8000A990(0x6030000, -1);
+            task = FindProc(0x6030000, -1);
             if (task != 0) {
-                func_8000A4A4(task, 0);
+                KillProc(task, 0);
             }
-            func_8000A56C(func_80029C98, 0x6030000);
+            CreatProc(func_80029C98, 0x6030000);
         } else {
             for (i = 0; i < 9; i++) {
                 D_8005B360[i].unk_20 = 0;

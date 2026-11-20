@@ -28,8 +28,8 @@ void func_80006E54(s32 arg0, u8 *arg1) {
         D_800B9559[line][14] = 0;
     }
     if (arg1 == 0) {
-        func_80009900(D_800B9544, D_8004BB98[arg0].unk_04);
-        func_80006828(D_8004BB98[arg0].unk_00, buf, 101);
+        StrCopy(D_800B9544, D_8004BB98[arg0].unk_04);
+        ReadRom(D_8004BB98[arg0].unk_00, buf, 101);
         text = buf;
         if (D_800BCD54 != 3) {
             D_8004BB98[arg0].unk_08++;
@@ -42,7 +42,7 @@ void func_80006E54(s32 arg0, u8 *arg1) {
     lines = 0;
     p = text;
     for (line = 0; line < 4; line++) {
-        len = func_800099B0(p, 9) - p;
+        len = StrChr(p, 9) - p;
         if (len != 0) {
             lines++;
             if (len > maxLen) {
@@ -62,10 +62,10 @@ void func_80006E54(s32 arg0, u8 *arg1) {
         indent = 7 - maxLen / 2;
     }
     while (lines-- > 0) {
-        while ((len = func_800099B0(text, 9) - text) == 0) {
+        while ((len = StrChr(text, 9) - text) == 0) {
             text++;
         }
-        len = func_800099B0(text, 9) - text;
+        len = StrChr(text, 9) - text;
         if (line == 0) {
             if (len >= 13) {
                 if (lines < 3) {
@@ -81,14 +81,14 @@ void func_80006E54(s32 arg0, u8 *arg1) {
         if (col < 0) {
             col = 0;
         }
-        func_80009748(&D_800B9601[line][col], text, len);
+        StrNCopy(&D_800B9601[line][col], text, len);
         text = text + 1 + len;
         line++;
     }
-    len = func_800099B0(text, 10) - text;
-    func_80009748(D_800B9655, text, len);
+    len = StrChr(text, 10) - text;
+    StrNCopy(D_800B9655, text, len);
     D_800B9655[len] = 0;
-    func_80009900(D_800B966A, D_8004B9E0);
+    StrCopy(D_800B966A, D_8004B9E0);
     for (line = 0; line < 4; line++) {
         for (len = 0; len < 14; len++) {
             switch (D_800B9601[line][len]) {

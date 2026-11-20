@@ -1,0 +1,7 @@
+#include "wof.h"
+
+void StartMotor(s32 cont) {
+    rumbleMsg.type = 1;
+    rumbleMsg.index = cont;
+    osSendMesg(&rumbleMsgQ, (OSMesg)&rumbleMsg, OS_MESG_BLOCK);
+}

@@ -18,10 +18,10 @@ proc_t *func_8003288C(s32 arg0, s32 arg1) {
         return 0;
     }
     if (arg1 != 0) {
-        func_8000AE70(0xA000400, -1, 1);
-        func_8000B6FC(0xA030000, -1);
+        KillProcClass(0xA000400, -1, 1);
+        FreeObjClass(0xA030000, -1);
     }
-    task = func_8000A56C(func_80031A54, 0xA000400);
+    task = CreatProc(func_80031A54, 0xA000400);
     child = func_80015848(task, 0, func_80030B5C, 0xA030000);
     child->x = D_800B9988;
     task->unk_30->vannaAnim.unk_0C = id;

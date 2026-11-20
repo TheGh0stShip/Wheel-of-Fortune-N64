@@ -5,6 +5,6 @@ void func_8002EB90(register s32 arg0) {
     proc_t *task;
 
     sp10 = arg0;
-    task = func_8000A56C(func_8002D930, 0x5010000);
+    task = CreatProc(func_8002D930, 0x5010000);
     task->unk_30->cursor.index = sp10 - 65;
 }

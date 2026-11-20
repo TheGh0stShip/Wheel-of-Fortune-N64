@@ -21,7 +21,7 @@ void func_8002ACE8(proc_t *proc) {
     if (i == 13) {
         return;
     }
-    func_80002CE0(43);
+    PlaySound(43);
     proc->unk_30->cursor.index = proc->unk_30->cursor.index - 13;
     D_8005A998[proc->unk_30->cursor.index].unk_1C = D_8005A998[proc->unk_30->cursor.index].unk_14;
     D_800B61B5 = proc->unk_30->cursor.index + 65;

@@ -1,15 +1,15 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_800181A4(proc_t *proc) {
-    struct n64dk_r12 ret;
+struct procResult_s func_800181A4(proc_t *proc) {
+    struct procResult_s ret;
     s32 unused;   /* NOTE: unused in the original */
     s32 unused2;  /* NOTE: unused in the original */
     s32 event;
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             func_80017C00(17, 0);
@@ -17,10 +17,10 @@ struct n64dk_r12 func_800181A4(proc_t *proc) {
             func_800334E4();
             D_800B96A8 += 3;
             if (D_800B9990[D_800FB808].unk_110 > 0) {
-                func_80002CE0(D_800B9990[D_800FB808].unk_110);
+                PlaySound(D_800B9990[D_800FB808].unk_110);
             }
             ret.w[1] = 1;
-            ret.w[0] = 45 / D_800B96B4;
+            ret.w[0] = 45 / frameRetraces;
             return ret;
         }
     }

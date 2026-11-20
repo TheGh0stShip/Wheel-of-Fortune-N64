@@ -7,7 +7,7 @@
 #include <PR/sched.h>
 
 //
-// The audio manager (func_800032A8 to func_80003FDC) is the audiomgr.c of the SDK's demos. The
+// The audio manager (amCreateAudioMgr to __clearAudioDMA) is the audiomgr.c of the SDK's demos. The
 // binary holds none of its names; the types, their members and the constants below carry the
 // names of that source (guess: from the lineage), in the SDK's style.
 //
@@ -84,7 +84,7 @@ typedef struct {
 // What one frame is drawn from: the matrices of each obj, by obj index, the display list, and
 // room for pictures that are made at run time. It is segment 2 of the display list, and the
 // draw functions get the one in use. guess: the Dynamic of the SDK demos, from the lineage of
-// func_800057A8.
+// createGfxTask.
 typedef struct {
     /* 0x00000 */ Mtx projection;         // guess: projection and viewing are the names of the Dynamic
     /* 0x00040 */ Mtx viewing;
@@ -102,7 +102,7 @@ typedef struct {
 
 // What a proc's handler returns to DoProcs: w[1] says what becomes of the proc (0: it ends,
 // 1: it sleeps w[0] frames, 2 and 3: it waits for event w[0]). The third word is not read.
-struct n64dk_r12 {
+struct procResult_s {
     s32 w[3];
 };
 
@@ -110,13 +110,13 @@ struct proc_s;
 struct obj_s;
 
 // A proc's handler: DoProcs calls it once a frame with its proc.
-typedef struct n64dk_r12 ( *procHandler_t )( struct proc_s *proc );
+typedef struct procResult_s ( *procHandler_t )( struct proc_s *proc );
 
 // An obj's draw function: DrawObjs calls it once a frame with its obj and the frame being drawn.
 typedef void ( *objDraw_t )( struct obj_s *obj, frame_t *frame );
 
 // A proc: a task with a message queue. DoProcs runs each proc's handler once a frame.
-// The procs are D_800B82A0[70]; entry 0 only heads the list of live procs.
+// The procs are procst[70]; entry 0 only heads the list of live procs.
 typedef struct proc_s {
     /* 0x00 */ procHandler_t    unk_00;         // handler; 0 if free
     /* 0x04 */ s32              unk_04;         // its number: what its data block and its objs are tagged with
@@ -134,9 +134,9 @@ typedef struct proc_s {
 } proc_t;   // size 0x44
 
 // An obj: something DrawObjs draws each frame.
-// The objs are D_800B40C8[100]; entry 0 only heads the list of live objs.
+// The objs are objst[100]; entry 0 only heads the list of live objs.
 typedef struct obj_s {
-    /* 0x00 */ s32              index;          // its entry in D_800B40C8 and in the matrix arrays
+    /* 0x00 */ s32              index;          // its entry in objst and in the matrix arrays
     /* 0x04 */ s32              unk_04;         // the number of the proc it belongs to; 0: none
     /* 0x08 */ s32              unk_08;
     /* 0x0C */ objDraw_t        unk_0C;         // draw function; 0 if free
@@ -281,8 +281,8 @@ typedef struct {
     /* 0x110 */ s32 unk_110;
 } player_t;    // size 0x114
 
-// A frame and the task that draws it: D_800BEF08[2], and D_800B61A0 says which is in use.
-// guess: the GFXInfo of the SDK demos, whose createGfxTask func_800057A8 descends from.
+// A frame and the task that draws it: gfxInfo[2], and curGfxInfo says which is in use.
+// guess: the GFXInfo of the SDK demos, whose createGfxTask createGfxTask descends from.
 typedef struct {
     /* 0x00000 */ OSScTask task;
     /* 0x00058 */ frame_t  frame;
@@ -316,7 +316,7 @@ typedef struct {
     /* 0x1C */ s32      count;      // the frames of the move
 } view_t;    // size 0x20
 
-// The rumble of one controller's pak: D_800BEE60[4]. func_800051B4 starts it.
+// The rumble of one controller's pak: rumbles[4]. StartRumble starts it.
 typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ f32 unk_04;
@@ -325,7 +325,7 @@ typedef struct {
 } rumble_t;    // size 0x10
 
 
-// What func_80004E50, func_80004EB0 and func_80004F0C send the rumble thread: D_800BCA30.
+// What StartMotor, StopMotor and ResetMotor send the rumble thread: rumbleMsg.
 typedef struct {
     /* 0x00 */ u16 type;        // 0: stop the motor, 1: start it, 2: start the pak over
     /* 0x04 */ s32 index;       // the controller
@@ -618,7 +618,7 @@ typedef struct {
     /* 0x20 */ f32 vy;
 } data80034028_t;    // size 0x24
 
-// The data block of a proc (unk_30): one of the 0x50-byte blocks of D_800B6BF8, holding the
+// The data block of a proc (unk_30): one of the 0x50-byte blocks of blocks, holding the
 // struct of its kind of proc. A proc that has an obj keeps it in the first word: CreatProc's
 // callers that make the obj (func_80015848, func_80027218) store it there for every kind.
 // guess: a union, which the bytes do not tell from a cast at each use.
@@ -752,16 +752,16 @@ extern char D_800019BC[];   // "InitAnim: cannot find contestant obj", in func_8
 extern long long int D_800349B8[];  // rspbootTextStart
 extern long long int D_80034A88[];  // rspbootTextEnd, and the start of the graphics microcode
 extern long long int D_80037298[];  // aspMainTextStart
-extern ALSndPlayer *D_8004B718;
+extern ALSndPlayer *sndPlayer;
 extern s32 D_8004B71C[];            // the parameters of the custom reverb
-extern u32 D_8004B7A8;              // audFrameCt
-extern u32 D_8004B7AC;              // nextDMA
-extern u32 D_8004B7B0;              // curAcmdList
-extern s32 D_8004B7B4;
+extern u32 audFrameCt;              // audFrameCt
+extern u32 nextDMA;              // nextDMA
+extern u32 curAcmdList;              // curAcmdList
+extern s32 firstTime;
 extern Lights6 D_8004B7B8;          // the lights of every scene
 extern s32 D_8004B830;
 extern s32 D_8004B838;
-extern s32 D_8004B83C;
+extern s32 debugflag;
 extern s32 D_8004B840;
 extern s32 D_8004B844;
 extern s32 D_8004B848[];
@@ -863,58 +863,58 @@ extern s32 D_8005C948[];
 extern f32 D_8005C958;
 extern f32 D_8005C95C;
 extern camera_t D_8005EB48[];
-extern s32 D_8006DCD8;
-extern s32 D_8006DCE8;
+extern s32 memEnd;
+extern s32 memStart;
 extern s32 D_8006DCEC;
 extern s32 D_8006DCF0;
 extern s32 D_8006DCF4;
 extern s32 D_8006DCF8;
-extern s32 D_8006DD04;
-extern s32 D_8006DD08;
-extern s32 D_8006DD0C;
+extern s32 sfxCtlRom;
+extern s32 sfxCtlRomEnd;
+extern s32 sfxTblRom;
 extern s32 D_8006DDC4;
 extern long long int D_80082BC8[];  // the data of the graphics microcode at D_80034A88
 extern long long int D_80083BC8[];  // aspMainDataStart
 extern s32 D_80086D58;
-extern ALCSeq *D_800A507C[];
-extern ALSndpConfig D_800A5084;
-extern ALInstrument *D_800A5090;    // the first instrument of the bank: its sounds are the sound effects
-extern ALSound *D_800A5098;
-extern ALSndId *D_800A509C;         // [MAX_SOUNDS], -1 where no sound is allocated
-extern u64 D_800A50A0[];            // audioStack: AUDIO_STACKSIZE bytes
-extern OSContStatus D_800A70A0[];
-extern OSContPad D_800A70B0[];
-extern OSScMsg D_800A70C8;          // the message of the controller event
-extern OSThread D_800A70E8;         // the rumble thread, func_80004F6C
-extern u64 D_800A7298[];            // its stack: 0x2000 bytes
-extern OSThread D_800A9298;         // the controller thread, func_80004160
-extern u64 D_800A9448[];            // its stack: 0x2000 bytes
-extern OSPfs D_800AB448[];          // [MAXCONTROLLERS]
-extern s32 D_800AB5E8;
-extern u64 D_800AB5F0[];            // the stack of the thread D_800AD950: 0x2000 bytes
-extern OSThread D_800AD5F0;         // the main thread, func_800065D4
-extern OSThread D_800AD7A0;         // the idle thread, func_800063A0
-extern OSThread D_800AD950;         // the game thread, func_800067D8
-extern u64 D_800ADB00[];            // the stack of the idle thread: 0x2000 bytes
-extern OSMesg D_800AFB00[];          // [200], the messages of the PI manager
-extern OSMesgQueue D_800AFE20;      // the queue of the PI manager
-extern OSMesgQueue D_800AFE38;      // where func_80006828 waits for its read
-extern OSMesg D_800AFE50;
-extern OSMesgQueue D_800B3970;      // the queue of the controller events
+extern ALCSeq *seqs[];
+extern ALSndpConfig sndpConfig;
+extern ALInstrument *sfxInst;    // the first instrument of the bank: its sounds are the sound effects
+extern ALSound *curSound;
+extern ALSndId *soundIds;         // [MAX_SOUNDS], -1 where no sound is allocated
+extern u64 audioStack[];            // audioStack: AUDIO_STACKSIZE bytes
+extern OSContStatus contStatus[];
+extern OSContPad contPads[];
+extern OSScMsg contEventMsg;          // the message of the controller event
+extern OSThread rumbleThread;         // the rumble thread, RumbleThread
+extern u64 rumbleThreadStack[];            // its stack: 0x2000 bytes
+extern OSThread contThread;         // the controller thread, ControllerThread
+extern u64 contThreadStack[];            // its stack: 0x2000 bytes
+extern OSPfs contPfs[];          // [MAXCONTROLLERS]
+extern s32 numGfxTasks;
+extern u64 gameThreadStack[];            // the stack of the thread gameThread: 0x2000 bytes
+extern OSThread mainThread;         // the main thread, mainproc
+extern OSThread idleThread;         // the idle thread, idle
+extern OSThread gameThread;         // the game thread, GameThread
+extern u64 idleThreadStack[];            // the stack of the idle thread: 0x2000 bytes
+extern OSMesg PiMessages[];          // [200], the messages of the PI manager
+extern OSMesgQueue PiMessageQ;      // the queue of the PI manager
+extern OSMesgQueue dmaMessageQ;      // where ReadRom waits for its read
+extern OSMesg dmaMessageBuf;
+extern OSMesgQueue contMsgQ;      // the queue of the controller events
 extern OSScClient D_800B3988;
-extern ALBankFile *D_800B3990;
+extern ALBankFile *sfxBankFile;
 extern s32 D_800B3994;
-extern ALBankFile *D_800B3998;      // NOTE: nothing sets it
+extern ALBankFile *seqBankFile;      // NOTE: nothing sets it
 extern f32 D_800B39A0[][2];         // [3], for each player what the buttons have added to unk_28 and unk_2C of the camera
 extern wedge_t D_800B39B8[];
-extern s32 D_800B3CB8;
-extern u64 D_800B3CC0[];            // the stack of the graphics microcode: SP_DRAM_STACK_SIZE8 bytes
+extern s32 minRetraces;
+extern u64 dram_stack[];            // the stack of the graphics microcode: SP_DRAM_STACK_SIZE8 bytes
 extern s32 D_800B40C0;
 extern s32 D_800B40C4;
-extern obj_t D_800B40C8[];
+extern obj_t objst[];
 extern s32 D_800B6198;
 extern s32 D_800B619C;
-extern s32 D_800B61A0;
+extern s32 curGfxInfo;
 extern s32 D_800B61A4;
 extern s32 D_800B61A8;
 extern s8 D_800B61AA[];
@@ -924,24 +924,24 @@ extern u8 D_800B61B5;
 extern s32 D_800B61B8;
 extern u8 D_800B61C0[];          // func_8001A5D0 copies D_80058208 here
 extern s32 D_800B61D8;
-extern u64 D_800B61E0[];            // the yield buffer of the graphics task: 0x900 bytes
+extern u64 gfxYieldBuf[];            // the yield buffer of the graphics task: 0x900 bytes
 extern u8 D_800B6AE0[];          // func_8001A5D0 copies D_80058220 here
-extern s32 D_800B6AE8[][16];
+extern s32 buttonUpFrames[][16];
 extern f32 D_800B6BE8;
 extern f32 D_800B6BEC;
 extern f32 D_800B6BF0;
-extern OSMesg D_800B6BF4;
-extern u8 D_800B6BF8[][0x50];       // [70], the data blocks of the procs: AllocBlock hands them out
-extern ALSeqFile *D_800B81D8;
+extern OSMesg rumbleMsgBuf;
+extern u8 blocks[][0x50];       // [70], the data blocks of the procs: AllocBlock hands them out
+extern ALSeqFile *seqFile;
 extern s32 D_800B81DC;
 extern s32 D_800B81E0;
 extern s32 *D_800B81E4;
-extern Gfx *D_800B81E8;
-extern s32 D_800B81F0[];
-extern s32 D_800B8290;
+extern Gfx *glistp;
+extern s32 soundStates[];
+extern s32 memStackTop;
 extern s32 D_800B8294;
 extern f32 D_800B8298;
-extern proc_t D_800B82A0[];
+extern proc_t procst[];
 extern s32 D_800B9538;
 extern s32 D_800B953C;
 extern s32 D_800B9540;
@@ -951,24 +951,24 @@ extern u8 D_800B95AD[][21];
 extern u8 D_800B9601[][21];
 extern s8 D_800B9655[];
 extern u8 D_800B966A[];
-extern OSMesgQueue D_800B9688;      // where the scheduler answers the graphics tasks and sends the retraces
+extern OSMesgQueue gfxMsgQ;      // where the scheduler answers the graphics tasks and sends the retraces
 extern s32 D_800B96A0;
 extern s32 D_800B96A4;
 extern s32 D_800B96A8;
-extern u32 D_800B96AC;
-extern u16 D_800B96B0;
-extern s32 D_800B96B4;
-extern s32 D_800B96B8;
-extern u32 D_800B96BC;              // minFrameSize
+extern u32 retraceCount;
+extern u16 buttonsPressed;
+extern s32 frameRetraces;
+extern s32 maxDmaBuffsUsed;
+extern u32 minFrameSize;              // minFrameSize
 extern s32 D_800B96C0;
-extern u8 D_800B96C4;
-extern OSSched D_800B96C8;
-extern u32 D_800B9950;              // maxFrameSize
-extern OSContPad D_800B9954;
-extern ALHeap D_800B9960;
+extern u8 contPattern;
+extern OSSched sc;
+extern u32 maxFrameSize;              // maxFrameSize
+extern OSContPad playerPad;
+extern ALHeap audioHeap;
 extern s32 D_800B9974;
 extern s32 D_800B9980;
-extern s32 D_800B9984;
+extern s32 memStackFree;
 extern s32 D_800B9988;
 extern s16 *D_800B998C;
 extern player_t D_800B9990[];
@@ -979,57 +979,57 @@ extern void *D_800B9CF4;
 extern s32 D_800B9CF8;
 extern s32 D_800B9CFC;
 extern s32 D_800B9D00;
-extern s32 D_800B9D04;
+extern s32 newFrame;
 extern tile_t D_800B9D08[];
 extern tile_t D_800B9E58[];
 extern tile_t D_800B9FE0[];
 extern tile_t D_800BA168[];
 extern s32 D_800BA2BC;
 extern s32 D_800BA2C0;
-extern AMDMABuffer D_800BA2C8[];     // dmaBuffs[NUM_DMA_BUFFERS]
-extern OSMesgQueue D_800BA598;       // audDMAMessageQ
+extern AMDMABuffer dmaBuffs[];     // dmaBuffs[NUM_DMA_BUFFERS]
+extern OSMesgQueue audDMAMessageQ;       // audDMAMessageQ
 extern OSMesgQueue D_800BA5B0;      // holds one message: func_8000BB10 takes it, func_8000BB68 puts it back
-extern AMDMAState D_800BA5C8;        // dmaState
+extern AMDMAState dmaState;        // dmaState
 extern s32 D_800BA5D4;
 extern camera_t *D_800BA5D8;
-extern s32 D_800BA5E0[];
-extern u64 D_800BA6F8[];            // the stack of the scheduler: OS_SC_STACKSIZE bytes
-extern u16 D_800BC6F8;
+extern s32 blockOwners[];
+extern u64 scheduleStack[];            // the stack of the scheduler: OS_SC_STACKSIZE bytes
+extern u16 numSoundsPlaying;
 extern s32 D_800BC6FC;
-extern OSIoMesg D_800BC700[];       // audDMAIOMesgBuf[NUM_DMA_MESSAGES]
+extern OSIoMesg audDMAIOMesgBuf[];       // audDMAIOMesgBuf[NUM_DMA_MESSAGES]
 extern s32 D_800BCA00;
-extern s32 D_800BCA04;
-extern void *D_800BCA08;           // segment 1: the display lists and pictures func_80005624 loads
+extern s32 memStackDepth;
+extern void *staticSegment;           // segment 1: the display lists and pictures InitGraphics loads
 extern s32 D_800BCA0C;
-extern s32 D_800BCA10;
+extern s32 numObjs;
 extern s32 D_800BCA14;
-extern s32 D_800BCA18;
+extern s32 memStackEnd;
 extern s32 D_800BCA1C;
 extern s32 D_800BCA20;
-extern s32 D_800BCA24;
+extern s32 memStackBase;
 extern s32 D_800BCA28;
-extern rumbleMsg_t D_800BCA30;
-extern OSMesg D_800BCA40[];          // [8], the messages of D_800B9688
+extern rumbleMsg_t rumbleMsg;
+extern OSMesg gfxMsgBuf[];          // [8], the messages of gfxMsgQ
 extern s32 D_800BCA60;
-extern AMAudioMgr D_800BCA68;        // __am
+extern AMAudioMgr __am;        // __am
 extern f32 D_800BCCF0;
 extern s32 D_800BCCF4;
 extern s32 D_800BCD50;
 extern s32 D_800BCD54;
-extern OSScClient D_800BCD58;
-extern u32 D_800BCD64;              // frameSize
-extern OSMesg D_800BCD68;
-extern OSMesgQueue D_800BCD70;      // the queue of the rumble thread
-extern u64 D_800BCD88[];            // the stack of the main thread: 0x2000 bytes
+extern OSScClient gfxClient;
+extern u32 frameSize;              // frameSize
+extern OSMesg contMsgBuf;
+extern OSMesgQueue rumbleMsgQ;      // the queue of the rumble thread
+extern u64 mainThreadStack[];            // the stack of the main thread: 0x2000 bytes
 extern s32 D_800BED88;
-extern ALCSPlayer *D_800BED90[];
+extern ALCSPlayer *seqPlayers[];
 extern s32 D_800BED98;
-extern u32 D_800BEDA4;              // maxRSPCmds
+extern u32 maxRSPCmds;              // maxRSPCmds
 extern s32 D_800BEDA8;
-extern s32 D_800BEDB0[];
+extern s32 memStackMarks[];
 extern s32 D_800BEDD8[];
-extern u32 D_800BEDE4;
-extern s32 D_800BEDE8[];
+extern u32 pendingGfx;
+extern s32 motorOn[];
 extern s32 D_800BEDF8;
 extern OSMesg D_800BEE00[];          // [8], the messages of D_800B9CD0
 extern s32 D_800BEE20;
@@ -1043,18 +1043,18 @@ extern f32 D_800BEE40;
 extern f32 D_800BEE44;
 extern s32 D_800BEE48;
 extern s32 D_800BEE4C;
-extern s32 D_800BEE50;
+extern s32 numProcs;
 extern s32 D_800BEE54;
-extern u16 D_800BEE58[];
-extern rumble_t D_800BEE60[];
-extern OSMesgQueue *D_800BEEA0;      // the command queue of the scheduler
+extern u16 contPressed[];
+extern rumble_t rumbles[];
+extern OSMesgQueue *sched_cmdQ;      // the command queue of the scheduler
 extern u16 *D_800BEEA8[][8];
-extern gfxInfo_t D_800BEF08[];
+extern gfxInfo_t gfxInfo[];
 extern s32 D_800FB808;
-extern s32 D_800FB80C;
-extern u64 D_800FB810;
-extern OSMesg D_800FB818[];          // audDMAMessageBuf[NUM_DMA_MESSAGES]
-extern u16 D_8038F800[];            // the depth buffer
+extern s32 contReading;
+extern u64 retraceTime;
+extern OSMesg audDMAMessageBuf[];          // audDMAMessageBuf[NUM_DMA_MESSAGES]
+extern u16 zbuffer[];            // the depth buffer
 extern u16 D_803B5000[];            // D_803B5000 and D_803DA800: the two framebuffers
 extern u16 D_803DA800[];
 extern puzzleRange_t D_B025D810[];  // on the cartridge, read in place
@@ -1062,48 +1062,48 @@ extern puzzleRange_t D_B025D810[];  // on the cartridge, read in place
 //
 // functions, in address order: the unit boundaries are not known yet
 //
-void func_80002348( void );
-void func_80002598( s32 seqNo, s32 player );
-void func_800026B0( s32 arg0 );
-s32 func_80002700( void );
-void func_800028E4( void );
-void func_80002B34( void );
-s32 func_80002C34( s32 arg0 );
-s32 func_80002CE0( s32 arg0 );
-void func_80002F58( s32 arg0 );
-void func_80003014( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
-void func_800030E8( s32 arg0, f32 arg1 );
-void func_8000315C( void );
-s32 func_80003234( void );
-s32 func_8000326C( void );
-void func_800032A8( ALSynConfig *c, OSPri pri, amConfig *amc );
-void func_800037A0( void *arg );
-u32 func_80003944( AudioInfo *info, AudioInfo *lastInfo );
-void func_80003C68( AudioInfo *info );
-s32 func_80003CC8( s32 addr, s32 len, void *state );
-ALDMAproc func_80003F64( AMDMAState **state );
-void func_80003FDC( void );
-void func_80004160( void *arg );
-void func_8000420C( void );
-void func_800045D4( void );
-void func_80004E50( s32 arg0 );
-void func_80004EB0( s32 arg0 );
-void func_80004F0C( s32 arg0 );
-void func_80004F6C( void *arg );
-void func_80005258( void );
-void func_80005300( s32 arg0 );
-void func_80005624( void );
+void InitAudio( void );
+void PlaySequence( s32 seqNo, s32 player );
+void StopSequence( s32 player );
+s32 FindFreeSound( void );
+void PauseSounds( void );
+void ResumeSounds( void );
+s32 IsSoundStopped( s32 slot );
+s32 PlaySound( s32 sound );
+void StopSound( s32 slot );
+void SetSoundMix( s32 slot, s32 fxMix, s32 pan, s32 vol );
+void SetSoundPitch( s32 slot, f32 pitch );
+void StopAllSounds( void );
+s32 GetSoundCount( void );
+s32 GetSeqCount( void );
+void amCreateAudioMgr( ALSynConfig *c, OSPri pri, amConfig *amc );
+void __amMain( void *arg );
+u32 __amHandleFrameMsg( AudioInfo *info, AudioInfo *lastInfo );
+void __amHandleDoneMsg( AudioInfo *info );
+s32 __amDMA( s32 addr, s32 len, void *state );
+ALDMAproc __amDmaNew( AMDMAState **state );
+void __clearAudioDMA( void );
+void ControllerThread( void *arg );
+void InitControllers( void );
+void ReadControllers( void );
+void StartMotor( s32 cont );
+void StopMotor( s32 cont );
+void ResetMotor( s32 cont );
+void RumbleThread( void *arg );
+void ResetMotors( void );
+void SetLightColor( s32 light );
+void InitGraphics( void );
 void func_80005700( void );
-void func_800057A8( gfxInfo_t *info );
-void func_80005FD0( frame_t *frame );
-void func_800060B0( s32 arg0 );
-void func_80006328( void );
-void func_800063A0( void *arg );
-void func_8000648C( void );
-void func_800065D4( void *arg );
-void func_800067D8( void *arg );
-void func_80006828( s32 arg0, void *arg1, s32 arg2 );
-void func_800068F0( void );
+void createGfxTask( gfxInfo_t *info );
+void ResetScissor( frame_t *frame );
+void parse_args( s32 argstring );
+void boot( void );
+void idle( void *arg );
+void RunFrame( void );
+void mainproc( void *arg );
+void GameThread( void *arg );
+void ReadRom( s32 rom, void *ram, s32 size );
+void InitGame( void );
 void func_80006B28( void );
 void func_80006B58( void );
 void func_80006BFC( void );
@@ -1115,7 +1115,7 @@ void func_80007DAC( s32 arg0 );
 s32 func_80007EEC( s32 arg0 );
 s32 func_800082E4( void );
 s32 func_800084E8( void );
-f32 func_80008628( void );
+f32 CheckPercentDone( void );
 void func_800087F8( void );
 s32 func_800088E4( void );
 void func_80008AB8( void );
@@ -1125,91 +1125,91 @@ s32 func_8000928C( void );
 void func_80009364( s32 arg0 );
 void func_80009494( void );
 void func_8000963C( s32 arg0 );
-u8 *func_80009748( u8 *arg0, u8 *arg1, s32 arg2 );
-u8 *func_80009804( u8 *arg0, u8 *arg1 );
-u8 *func_80009900( u8 *arg0, u8 *arg1 );
-u8 *func_800099B0( u8 *arg0, s32 arg1 );
-s32 func_80009A74( u8 *arg0 );
-void func_80009AE0( u8 *arg0, s32 arg1 );
-s32 func_80009C98( s32 arg0 );
+u8 *StrNCopy( u8 *dst, u8 *src, s32 n );
+u8 *StrCat( u8 *dst, u8 *src );
+u8 *StrCopy( u8 *dst, u8 *src );
+u8 *StrChr( u8 *str, s32 c );
+s32 StrLen( u8 *str );
+void IntToStr( u8 *dst, s32 value );
+s32 Random( s32 range );
 void func_80009D08( s32 arg0 );
-s32 func_80009D2C( s32 arg0 );
-void func_80009D78( s32 arg0 );
-void func_80009F38( char *arg0 );
-void func_80009F98( u8 *arg0 );
-void func_80009FD8( void );
-proc_t *func_8000A0E4( void );
-proc_t *func_8000A158( proc_t *proc );
-proc_t *func_8000A204( void );
-void *func_8000A31C( s32 arg0 );
-void func_8000A408( s32 arg0 );
-s32 func_8000A4A4( proc_t *proc, s32 arg1 );
-proc_t *func_8000A56C( procHandler_t handler, s32 arg1 );
-void func_8000A664( void );
-void func_8000A850( s32 arg0 );
-proc_t *func_8000A990( s32 arg0, s32 arg1 );
-proc_t *func_8000AA24( proc_t *proc, s32 arg1, s32 arg2 );
-void func_8000AAB0( proc_t *proc, s32 arg1, s32 arg2 );
-void func_8000ABB8( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
-s32 func_8000ACE8( proc_t *proc );
-void func_8000AD9C( proc_t *proc );
-void func_8000ADEC( proc_t *proc );
-void func_8000AE70( s32 arg0, s32 arg1, s32 arg2 );
-void func_8000AF00( void );
-obj_t *func_8000AFEC( void );
-obj_t *func_8000B060( obj_t *obj );
-obj_t *func_8000B10C( void );
-s32 func_8000B234( obj_t *obj );
-void func_8000B2D4( s32 arg0 );
-obj_t *func_8000B3B0( s32 arg0, objDraw_t draw, s32 arg2 );
-void func_8000B468( frame_t *frame );
-void func_8000B528( frame_t *frame );
-obj_t *func_8000B5DC( s32 arg0, s32 arg1 );
-obj_t *func_8000B670( obj_t *obj, s32 arg1, s32 arg2 );
-void func_8000B6FC( s32 arg0, s32 arg1 );
-void func_8000B780( void );
-void *func_8000B7F4( s32 arg0 );
-void func_8000B89C( s32 arg0 );
-void *func_8000B924( s32 arg0 );
-s32 func_8000B978( void );
-void func_8000B9FC( s32 arg0 );
+s32 Abs( s32 value );
+void PrintNum( s32 num );
+void func_80009F38( char *msg );
+void PrintStr( u8 *str );
+void InitProcs( void );
+proc_t *GetLastProc( void );
+proc_t *GetProcBefore( proc_t *proc );
+proc_t *AllocProc( void );
+void *AllocBlock( s32 owner );
+void FreeBlocks( s32 owner );
+s32 KillProc( proc_t *proc, s32 killObjs );
+proc_t *CreatProc( procHandler_t handler, s32 cls );
+void DoProcs( void );
+void ProcPostEvent( s32 event );
+proc_t *FindProc( s32 cls, s32 mask );
+proc_t *FindNextProc( proc_t *proc, s32 cls, s32 mask );
+void ProcPostMessage( proc_t *proc, s32 msg, s32 wake );
+void ProcPostMessageClass( s32 msg, s32 cls, s32 mask, s32 wake );
+s32 ProcGetMessage( proc_t *proc );
+void ProcClearMessages( proc_t *proc );
+void KillOtherProcs( proc_t *proc );
+void KillProcClass( s32 cls, s32 mask, s32 killObjs );
+void InitObjs( void );
+obj_t *GetLastObj( void );
+obj_t *GetObjBefore( obj_t *obj );
+obj_t *AllocObj( void );
+s32 FreeObj( obj_t *obj );
+void FreeProcObjs( s32 owner );
+obj_t *CreatObj( s32 owner, objDraw_t draw, s32 cls );
+void DrawObjs( frame_t *frame );
+void DrawTopObjs( frame_t *frame );
+obj_t *FindObj( s32 cls, s32 mask );
+obj_t *FindNextObj( obj_t *obj, s32 cls, s32 mask );
+void FreeObjClass( s32 cls, s32 mask );
+void InitMemStack( void );
+void *mem_stack( s32 size );
+void AlignMemStack( s32 align );
+void *func_8000B924( s32 size );
+s32 PushMemStack( void );
+void PopMemStack( s32 count );
 void func_8000BAA8( void );
 void func_8000BB10( void );
 void func_8000BB68( void );
 void func_8000BBA8( void );
-struct n64dk_r12 func_8000BC64( proc_t *proc );
+struct procResult_s func_8000BC64( proc_t *proc );
 void func_8000BE6C( void );
-struct n64dk_r12 func_8000BEA8( proc_t *proc );
-struct n64dk_r12 func_8000C310( proc_t *proc );
-struct n64dk_r12 func_8000C50C( proc_t *proc );
-struct n64dk_r12 func_8000C6C4( proc_t *proc );
-struct n64dk_r12 func_8000C8A8( proc_t *proc );
+struct procResult_s func_8000BEA8( proc_t *proc );
+struct procResult_s func_8000C310( proc_t *proc );
+struct procResult_s func_8000C50C( proc_t *proc );
+struct procResult_s func_8000C6C4( proc_t *proc );
+struct procResult_s func_8000C8A8( proc_t *proc );
 void func_8000CB58( obj_t *obj, frame_t *frame );
 void func_8000D400( obj_t *obj, frame_t *frame );
 void func_8000D6D8( obj_t *obj, frame_t *frame );
 void func_8000D8B8( obj_t *obj, frame_t *frame );
 void func_8000DCA0( obj_t *obj, frame_t *frame );
 void func_8000DF2C( obj_t *obj, frame_t *frame );
-struct n64dk_r12 func_8000E4B0( proc_t *proc );
+struct procResult_s func_8000E4B0( proc_t *proc );
 void func_8000E6B4( void );
 void func_8000E738( void );
 void func_8000E794( void );
 void func_8000E7D4( void );
-struct n64dk_r12 func_8000EB40( proc_t *proc );
+struct procResult_s func_8000EB40( proc_t *proc );
 void func_8000EE50( s32 arg0, s32 arg1 );
 void func_8000EE78( void );
-struct n64dk_r12 func_8000EF68( proc_t *proc );
-struct n64dk_r12 func_8000F274( proc_t *proc );
-struct n64dk_r12 func_8000F740( proc_t *proc );
-struct n64dk_r12 func_8000F84C( proc_t *proc );
-struct n64dk_r12 func_8000FC3C( proc_t *proc );
-struct n64dk_r12 func_8000FDFC( proc_t *proc );
-struct n64dk_r12 func_8000FFE0( proc_t *proc );
-struct n64dk_r12 func_800101F4( proc_t *proc );
-struct n64dk_r12 func_800103B4( proc_t *proc );
-struct n64dk_r12 func_80010574( proc_t *proc );
+struct procResult_s func_8000EF68( proc_t *proc );
+struct procResult_s func_8000F274( proc_t *proc );
+struct procResult_s func_8000F740( proc_t *proc );
+struct procResult_s func_8000F84C( proc_t *proc );
+struct procResult_s func_8000FC3C( proc_t *proc );
+struct procResult_s func_8000FDFC( proc_t *proc );
+struct procResult_s func_8000FFE0( proc_t *proc );
+struct procResult_s func_800101F4( proc_t *proc );
+struct procResult_s func_800103B4( proc_t *proc );
+struct procResult_s func_80010574( proc_t *proc );
 void func_80010AB8( s32 arg0 );
-struct n64dk_r12 func_80010D3C( proc_t *proc );
+struct procResult_s func_80010D3C( proc_t *proc );
 s32 func_800111F0( s32 arg0, s32 arg1, s32 arg2 );
 void func_80011304( s32 arg0, s32 arg1, s32 arg2 );
 void func_8001142C( s32 arg0, s32 arg1, u8 arg2 );
@@ -1218,7 +1218,7 @@ void func_80011780( void );
 void func_80011920( void );
 void func_80011B24( void );
 void func_80011F58( void );
-struct n64dk_r12 func_8001228C( proc_t *proc );
+struct procResult_s func_8001228C( proc_t *proc );
 void func_80012500( obj_t *obj, frame_t *frame );
 s32 func_8001277C( tile_t *arg0 );
 void func_80012838( tile_t *tiles, s32 count, s32 arg2 );
@@ -1244,10 +1244,10 @@ void func_800161A8( void );
 void func_80016310( void );
 s32 func_80016638( void );
 s32 func_800166C0( void );
-struct n64dk_r12 func_80016734( proc_t *proc );
+struct procResult_s func_80016734( proc_t *proc );
 void func_80016944( obj_t *obj, s32 arg1 );
 void func_80016B9C( s32 arg0 );
-struct n64dk_r12 func_80016BEC( proc_t *proc );
+struct procResult_s func_80016BEC( proc_t *proc );
 void func_80016C78( obj_t *obj, frame_t *frame );
 void func_8001745C( proc_t *proc );
 void func_800174DC( void );
@@ -1256,15 +1256,15 @@ void func_80017678( void );
 s32 func_80017728( void );
 void func_800177A4( void );
 void func_80017848( void );
-struct n64dk_r12 func_80017938( proc_t *proc );
+struct procResult_s func_80017938( proc_t *proc );
 void func_80017C00( s32 arg0, s32 arg1 );
-struct n64dk_r12 func_80017DBC( proc_t *proc );
-struct n64dk_r12 func_800181A4( proc_t *proc );
-struct n64dk_r12 func_800183A8( proc_t *proc );
-struct n64dk_r12 func_80018D28( proc_t *proc );
-struct n64dk_r12 func_8001933C( proc_t *proc );
-struct n64dk_r12 func_80019630( proc_t *proc );
-struct n64dk_r12 func_80019AAC( proc_t *proc );
+struct procResult_s func_80017DBC( proc_t *proc );
+struct procResult_s func_800181A4( proc_t *proc );
+struct procResult_s func_800183A8( proc_t *proc );
+struct procResult_s func_80018D28( proc_t *proc );
+struct procResult_s func_8001933C( proc_t *proc );
+struct procResult_s func_80019630( proc_t *proc );
+struct procResult_s func_80019AAC( proc_t *proc );
 void func_8001A424( s32 arg0 );
 void func_8001A484( void );
 void func_8001A5D0( void );
@@ -1274,11 +1274,11 @@ s32 func_8001A7A8( u8 *arg0 );
 s32 func_8001A894( f32 arg0, proc_t *proc );
 s32 func_8001A97C( f32 arg0 );
 void func_8001AA60( proc_t *proc );
-struct n64dk_r12 func_8001AE18( proc_t *proc );
-struct n64dk_r12 func_8001B6BC( proc_t *proc );
-struct n64dk_r12 func_8001BC44( proc_t *proc );
-struct n64dk_r12 func_8001BED8( proc_t *proc );
-struct n64dk_r12 func_8001C584( proc_t *proc );
+struct procResult_s func_8001AE18( proc_t *proc );
+struct procResult_s func_8001B6BC( proc_t *proc );
+struct procResult_s func_8001BC44( proc_t *proc );
+struct procResult_s func_8001BED8( proc_t *proc );
+struct procResult_s func_8001C584( proc_t *proc );
 void func_8001D320( s32 arg0 );
 void func_8001D3CC( s32 arg0 );
 void func_8001D440( obj_t *obj, frame_t *frame );
@@ -1293,8 +1293,8 @@ void func_80021090( void *arg0 );
 obj_t *func_800211E4( proc_t *proc, char *arg1, f32 x, f32 y, s32 arg4 );
 void func_800212C0( proc_t *proc );
 void func_800213CC( proc_t *proc );
-struct n64dk_r12 func_80021548( proc_t *proc );
-struct n64dk_r12 func_80021744( proc_t *proc );
+struct procResult_s func_80021548( proc_t *proc );
+struct procResult_s func_80021744( proc_t *proc );
 char *func_80021908( s32 arg0 );
 void func_800219B8( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
 void func_80021B04( s32 arg0, s32 arg1 );
@@ -1313,14 +1313,14 @@ void func_80022BC8( proc_t *proc, image_t *images, menuItem_t *items, s32 count 
 void func_80022DC0( proc_t *proc, image_t *images, menuItem_t *item, s32 arg3 );
 void func_80022FE0( proc_t *proc, image_t *images, menuItem_t *item, s32 arg3 );
 void func_80023200( void );
-struct n64dk_r12 func_800232AC( proc_t *proc );
+struct procResult_s func_800232AC( proc_t *proc );
 void func_80023B44( void );
-struct n64dk_r12 func_80023CA4( proc_t *proc );
-struct n64dk_r12 func_80024370( proc_t *proc );
-struct n64dk_r12 func_80024868( proc_t *proc );
+struct procResult_s func_80023CA4( proc_t *proc );
+struct procResult_s func_80024370( proc_t *proc );
+struct procResult_s func_80024868( proc_t *proc );
 void func_80024D60( s32 arg0 );
 void func_8002500C( void );
-struct n64dk_r12 func_80025150( proc_t *proc );
+struct procResult_s func_80025150( proc_t *proc );
 void func_800258BC( void );
 void func_80025FA8( void );
 void func_800263DC( void );
@@ -1347,11 +1347,11 @@ void func_80028B1C( obj_t *obj, frame_t *frame );
 void func_80028C4C( proc_t *proc );
 void func_80028CC4( void );
 void func_80028D3C( obj_t *obj, frame_t *frame );
-struct n64dk_r12 func_80029098( proc_t *proc );
+struct procResult_s func_80029098( proc_t *proc );
 void func_80029440( void );
 void func_80029974( s32 arg0 );
 void func_80029BFC( s32 arg0 );
-struct n64dk_r12 func_80029C98( proc_t *proc );
+struct procResult_s func_80029C98( proc_t *proc );
 void func_8002A014( void );
 void func_8002A538( void );
 void func_8002A8C8( proc_t *proc, s32 arg1 );
@@ -1360,32 +1360,32 @@ void func_8002ACE8( proc_t *proc );
 void func_8002AE60( proc_t *proc );
 void func_8002AFDC( void );
 void func_8002B054( void );
-struct n64dk_r12 func_8002B094( proc_t *proc );
-struct n64dk_r12 func_8002B318( proc_t *proc );
-struct n64dk_r12 func_8002B730( proc_t *proc );
-struct n64dk_r12 func_8002B904( proc_t *proc );
-struct n64dk_r12 func_8002BA44( proc_t *proc );
-struct n64dk_r12 func_8002BCF4( proc_t *proc );
-struct n64dk_r12 func_8002BE84( proc_t *proc );
-struct n64dk_r12 func_8002C094( proc_t *proc );
+struct procResult_s func_8002B094( proc_t *proc );
+struct procResult_s func_8002B318( proc_t *proc );
+struct procResult_s func_8002B730( proc_t *proc );
+struct procResult_s func_8002B904( proc_t *proc );
+struct procResult_s func_8002BA44( proc_t *proc );
+struct procResult_s func_8002BCF4( proc_t *proc );
+struct procResult_s func_8002BE84( proc_t *proc );
+struct procResult_s func_8002C094( proc_t *proc );
 void func_8002CAB4( void );
-struct n64dk_r12 func_8002CBF4( proc_t *proc );
+struct procResult_s func_8002CBF4( proc_t *proc );
 void func_8002D8B0( proc_t *proc );
-struct n64dk_r12 func_8002D930( proc_t *proc );
+struct procResult_s func_8002D930( proc_t *proc );
 s32 func_8002DF80( void );
 proc_t *func_8002E064( void );
-struct n64dk_r12 func_8002E0C8( proc_t *proc );
+struct procResult_s func_8002E0C8( proc_t *proc );
 void func_8002EB40( void );
 void func_8002EB90( s32 arg0 );
 void func_8002EBF4( void );
 void func_8002EC60( void );
 void func_8002EDC0( void );
 void func_8002EDE0( void );
-struct n64dk_r12 func_8002EFC0( proc_t *proc );
-struct n64dk_r12 func_8002F338( proc_t *proc );
-struct n64dk_r12 func_8002F7CC( proc_t *proc );
-struct n64dk_r12 func_8002F94C( proc_t *proc );
-struct n64dk_r12 func_8002FB60( proc_t *proc );
+struct procResult_s func_8002EFC0( proc_t *proc );
+struct procResult_s func_8002F338( proc_t *proc );
+struct procResult_s func_8002F7CC( proc_t *proc );
+struct procResult_s func_8002F94C( proc_t *proc );
+struct procResult_s func_8002FB60( proc_t *proc );
 void func_8002FCD8( void );
 void func_8002FD14( void );
 void func_8002FD50( void );
@@ -1397,8 +1397,8 @@ void func_80030490( obj_t *obj, frame_t *frame );
 void func_80030B5C( obj_t *obj, frame_t *frame );
 void func_80031340( s16 *arg0, s32 arg1 );
 void func_8003143C( s16 *arg0, s32 arg1 );
-struct n64dk_r12 func_800315FC( proc_t *proc );
-struct n64dk_r12 func_80031A54( proc_t *proc );
+struct procResult_s func_800315FC( proc_t *proc );
+struct procResult_s func_80031A54( proc_t *proc );
 void func_800323C4( s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4 );
 void func_800325D0( s32 arg0, s32 arg1 );
 void func_80032858( void );
@@ -1411,15 +1411,15 @@ s32 func_80033150( s32 arg0, s32 arg1, s32 arg2 );
 void func_80033334( void );
 void func_800334E4( void );
 void func_800335D0( void );
-struct n64dk_r12 func_80033688( proc_t *proc );
+struct procResult_s func_80033688( proc_t *proc );
 void func_800339E8( void );
-struct n64dk_r12 func_80033A28( proc_t *proc );
+struct procResult_s func_80033A28( proc_t *proc );
 void func_80033CBC( void );
 void func_80033CF8( obj_t *obj, frame_t *frame );
-struct n64dk_r12 func_80034028( proc_t *proc );
+struct procResult_s func_80034028( proc_t *proc );
 void func_800343F8( s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
                     s32 arg7 );
-struct n64dk_r12 func_800345E8( proc_t *proc );
+struct procResult_s func_800345E8( proc_t *proc );
 
 void func_80034950( void );
 void func_8009CEC0( char *movie, s32 gamma );

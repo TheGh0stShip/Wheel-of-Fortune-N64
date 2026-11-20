@@ -1,17 +1,17 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_80029098(proc_t *proc) {
+struct procResult_s func_80029098(proc_t *proc) {
     s32 event;
     s32 index;
-    struct n64dk_r12 result;
+    struct procResult_s result;
     obj_t *obj;
 
     result.w[1] = 1;
     result.w[0] = 0;
     obj = proc->unk_30->data80029098.unk_00;
     for (;;) {
-        event = func_8000ACE8(proc);
+        event = ProcGetMessage(proc);
         if (event == 0) {
             break;
         }
@@ -38,11 +38,11 @@ struct n64dk_r12 func_80029098(proc_t *proc) {
     index = proc->unk_30->data80029098.unk_04;
     if (D_8005B710[index].unk_24 == 0 || index >= 22) {
         if (D_800B619C != 6) {
-            func_80002CE0(D_800FB808 + 139);
+            PlaySound(D_800FB808 + 139);
         }
-        func_8000AAB0(proc, 6, 0);
+        ProcPostMessage(proc, 6, 0);
         result.w[1] = 1;
-        result.w[0] = 20 / D_800B96B4;
+        result.w[0] = 20 / frameRetraces;
         return result;
     }
     obj->x = D_8005B710[index].x;

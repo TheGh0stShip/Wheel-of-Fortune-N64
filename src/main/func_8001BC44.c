@@ -1,7 +1,7 @@
 #include "wof.h"
 
-struct n64dk_r12 func_8001BC44(proc_t *proc) {
-    struct n64dk_r12 sp10;
+struct procResult_s func_8001BC44(proc_t *proc) {
+    struct procResult_s sp10;
     proc_t *task;
     s32 unused;  /* NOTE: unused in the original */
     s32 event;
@@ -9,11 +9,11 @@ struct n64dk_r12 func_8001BC44(proc_t *proc) {
     sp10.w[1] = 1;
     sp10.w[0] = 0;
     if (proc->unk_30->playerProc.player != D_800FB808) {
-        func_8000AD9C(proc);
+        ProcClearMessages(proc);
         return sp10;
     }
-    task = func_8000A990(0x1020000, -1);
-    while ((event = func_8000ACE8(proc)) != 0) {
+    task = FindProc(0x1020000, -1);
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             func_8002EBF4();
@@ -23,17 +23,17 @@ struct n64dk_r12 func_8001BC44(proc_t *proc) {
             return sp10;
         case 5:
             if (func_800088E4() == 1) {
-                func_8000AAB0(task, 19, 0);
-                func_8000A850(24);
-                func_8000A850(10);
+                ProcPostMessage(task, 19, 0);
+                ProcPostEvent(24);
+                ProcPostEvent(10);
                 sp10.w[1] = 0;
                 sp10.w[0] = 0;
             } else {
-                func_8000AAB0(task, 20, 0);
-                func_80002CE0(1);
+                ProcPostMessage(task, 20, 0);
+                PlaySound(1);
                 if (func_80017548() != 0) {
-                    func_8000A850(10);
-                    func_8000A850(24);
+                    ProcPostEvent(10);
+                    ProcPostEvent(24);
                 }
                 sp10.w[1] = 0;
                 sp10.w[0] = 0;

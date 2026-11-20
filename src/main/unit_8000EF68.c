@@ -11,9 +11,9 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
-struct n64dk_r12 func_8000EF68(proc_t *proc) {
+struct procResult_s func_8000EF68(proc_t *proc) {
     // The locals are func_8000F274's, slot for slot; this handler leaves three of them unused.
-    struct n64dk_r12 ret;
+    struct procResult_s ret;
     obj_t *unused;  /* NOTE: unused in the original */
     obj_t *obj;
     f32 delta;
@@ -23,12 +23,12 @@ struct n64dk_r12 func_8000EF68(proc_t *proc) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    obj = func_8000B5DC(0x4010000, 0xFFFF0000);
+    obj = FindObj(0x4010000, 0xFFFF0000);
     if (obj == 0) {
         return ret;
     }
     for (;;) {
-        event = func_8000ACE8(proc);
+        event = ProcGetMessage(proc);
         if (event == 0) {
             break;
         }
@@ -42,30 +42,30 @@ struct n64dk_r12 func_8000EF68(proc_t *proc) {
             return ret;
         }
     }
-    delta = proc->unk_30->data8000EF68.unk_0C - D_800B9954.stick_x / D_80057F44;
+    delta = proc->unk_30->data8000EF68.unk_0C - playerPad.stick_x / D_80057F44;
     if (delta > 0.0f) {
         delta = delta * -1.0f;
     }
     delta = delta - obj->unk_2C;
-    delta = delta / (f32)(12 / D_800B96B4);
+    delta = delta / (f32)(12 / frameRetraces);
     D_800BCCF0 = delta * -1.0f * 60.0f;
     obj->unk_2C = obj->unk_2C + delta;
-    if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
+    if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
         D_800BCCF0 = (f32)(guRandom() % 40) + 100.0f;
-        func_8000A850(29);
+        ProcPostEvent(29);
         ret.w[1] = 0;
         ret.w[0] = 0;
     }
     if (D_80057F48 < D_800BCCF0) {
-        func_8000A850(29);
+        ProcPostEvent(29);
         ret.w[1] = 0;
         ret.w[0] = 0;
     }
     return ret;
 }
 
-struct n64dk_r12 func_8000F274(proc_t *proc) {
-    struct n64dk_r12 result;
+struct procResult_s func_8000F274(proc_t *proc) {
+    struct procResult_s result;
     obj_t *actor;
     obj_t *target;
     f32 sp28;
@@ -74,7 +74,7 @@ struct n64dk_r12 func_8000F274(proc_t *proc) {
     s32 event;
 
     for (;;) {
-        event = func_8000ACE8(proc);
+        event = ProcGetMessage(proc);
         if (event == 0) {
             break;
         }
@@ -88,22 +88,22 @@ struct n64dk_r12 func_8000F274(proc_t *proc) {
     actor = proc->unk_30->data8000F274.actor;
     result.w[1] = 1;
     result.w[0] = 0;
-    target = func_8000B5DC(0x4010000, 0xFFFF0000);
+    target = FindObj(0x4010000, 0xFFFF0000);
     if (target == 0) {
         return result;
     }
     sp28 = target->unk_2C + (f32)D_800581F0[proc->unk_08 & 255];
     sp30 = (s32)(sp28 / 5.0f);
     sp28 = sp28 - (f32)(sp30 * 5);
-    if ((f64)((D_800BCCF0 / 60.0f) * (f32)D_800B96B4) > 2.5) {
+    if ((f64)((D_800BCCF0 / 60.0f) * (f32)frameRetraces) > 2.5) {
         sp2C = sp28 * -4.0f + 30.0f;
         if ((proc->unk_08 & 255) == D_800FB808) {
             if (D_800B9990[D_800FB808].unk_014 < 4) {
                 // RULE-EXCEPTION: R25, no prototype in scope: retail passes the 1.0 as a double
-                func_800051B4(D_800B9990[D_800FB808].unk_014, 2, 1.0);
+                StartRumble(D_800B9990[D_800FB808].unk_014, 2, 1.0);
             }
-            if ((u32)D_800BC6F8 < 16) {
-                func_80002CE0(func_80009C98(11) + 27);
+            if ((u32)numSoundsPlaying < 16) {
+                PlaySound(Random(11) + 27);
             }
         }
     } else {
@@ -116,10 +116,10 @@ struct n64dk_r12 func_8000F274(proc_t *proc) {
         if ((proc->unk_08 & 255) == D_800FB808) {
             if (sp2C - actor->unk_2C < 0.0f) {
                 if (proc->unk_30->data8000F274.unk_08 > 0) {
-                    func_80002CE0(func_80009C98(2) + 25);
+                    PlaySound(Random(2) + 25);
                     if (D_800B9990[D_800FB808].unk_014 < 4) {
                         // RULE-EXCEPTION: R25, as above
-                        func_800051B4(D_800B9990[D_800FB808].unk_014, 5, 1.0);
+                        StartRumble(D_800B9990[D_800FB808].unk_014, 5, 1.0);
                     }
                 }
             }
@@ -133,25 +133,25 @@ struct n64dk_r12 func_8000F274(proc_t *proc) {
     return result;
 }
 
-struct n64dk_r12 func_8000F740(proc_t *proc) {
-    struct n64dk_r12 result;
+struct procResult_s func_8000F740(proc_t *proc) {
+    struct procResult_s result;
     obj_t *actor;
 
     actor = proc->unk_30->obj;
-    func_8000AD9C(proc);
+    ProcClearMessages(proc);
     result.w[1] = 1;
     result.w[0] = 0;
-    if ((D_800B9954.button & 16 & 0xFFFF) != 0) {
+    if ((playerPad.button & 16 & 0xFFFF) != 0) {
         actor->unk_2C = actor->unk_2C - 0.25;
     }
-    if ((D_800B9954.button & 32 & 0xFFFF) != 0) {
+    if ((playerPad.button & 32 & 0xFFFF) != 0) {
         actor->unk_2C = actor->unk_2C + 0.25;
     }
     return result;
 }
 
-struct n64dk_r12 func_8000F84C(proc_t *proc) {
-    struct n64dk_r12 ret;
+struct procResult_s func_8000F84C(proc_t *proc) {
+    struct procResult_s ret;
     obj_t *sp20;
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
@@ -159,17 +159,17 @@ struct n64dk_r12 func_8000F84C(proc_t *proc) {
     sp20 = proc->unk_30->data8000F84C.unk_00;
     ret.w[1] = 1;
     ret.w[0] = 0;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             func_80032858();
             func_80032B80();
             switch (func_8000928C()) {
             case -1:
-                func_80002CE0(0);
+                PlaySound(0);
                 break;
             case -2:
-                func_80002CE0(1);
+                PlaySound(1);
                 break;
             case 2500:
                 D_800B96A8++;
@@ -177,52 +177,52 @@ struct n64dk_r12 func_8000F84C(proc_t *proc) {
             case 3500:
                 proc->unk_30->data8000F84C.unk_04 = 1;
                 D_800B96A8++;
-                func_8000AAB0(proc, 41, 0);
+                ProcPostMessage(proc, 41, 0);
                 ret.w[1] = 1;
-                ret.w[0] = 10 / D_800B96B4;
+                ret.w[0] = 10 / frameRetraces;
                 return ret;
             case 5000:
                 D_800B96A8++;
-                func_8000AAB0(proc, 41, 0);
+                ProcPostMessage(proc, 41, 0);
                 ret.w[1] = 1;
-                ret.w[0] = 10 / D_800B96B4;
+                ret.w[0] = 10 / frameRetraces;
                 return ret;
             case 10000:
                 D_800B96A8 = D_800B96A8 + 3;
-                func_8000AAB0(proc, 41, 0);
+                ProcPostMessage(proc, 41, 0);
                 ret.w[1] = 1;
-                ret.w[0] = 10 / D_800B96B4;
+                ret.w[0] = 10 / frameRetraces;
                 return ret;
             }
             ret.w[1] = 1;
-            ret.w[0] = 60 / D_800B96B4;
+            ret.w[0] = 60 / frameRetraces;
             return ret;
         }
     }
     ret.w[1] = 0;
     ret.w[0] = 0;
-    func_8000A850(2);
+    ProcPostEvent(2);
     return ret;
 }
 
-struct n64dk_r12 func_8000FC3C(proc_t *proc) {
-    struct n64dk_r12 ret;
+struct procResult_s func_8000FC3C(proc_t *proc) {
+    struct procResult_s ret;
     obj_t *obj;
 
     obj = proc->unk_30->data8000FDFC.unk_00;
     ret.w[1] = 1;
     ret.w[0] = 0;
     if (proc->unk_30->data8000FDFC.unk_0C <= 0.0f) {
-        func_8000A56C(func_8000F84C, 0x4000000);
+        CreatProc(func_8000F84C, 0x4000000);
         ret.w[1] = 0;
         ret.w[0] = 0;
     } else {
-        obj->unk_2C = obj->unk_2C - proc->unk_30->data8000FDFC.unk_0C / 60.0f * D_800B96B4;
-        proc->unk_30->data8000FDFC.unk_0C = proc->unk_30->data8000FDFC.unk_0C - D_800B96B4 * 0.5;
+        obj->unk_2C = obj->unk_2C - proc->unk_30->data8000FDFC.unk_0C / 60.0f * frameRetraces;
+        proc->unk_30->data8000FDFC.unk_0C = proc->unk_30->data8000FDFC.unk_0C - frameRetraces * 0.5;
     }
     if (proc->unk_30->data8000FDFC.unk_0C <= 50.0f) {
         if (proc->unk_30->data8000FDFC.unk_10 > 50.0f) {
-            func_8000A850(4);
+            ProcPostEvent(4);
         }
     }
     D_800BCCF0 = proc->unk_30->data8000FDFC.unk_0C;
@@ -230,14 +230,14 @@ struct n64dk_r12 func_8000FC3C(proc_t *proc) {
     return ret;
 }
 
-struct n64dk_r12 func_8000FDFC(proc_t *proc) {
-    struct n64dk_r12 ret;
+struct procResult_s func_8000FDFC(proc_t *proc) {
+    struct procResult_s ret;
     obj_t *sp20;
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     sp20 = proc->unk_30->data8000FDFC.unk_00;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             func_80016098();
@@ -245,7 +245,7 @@ struct n64dk_r12 func_8000FDFC(proc_t *proc) {
             func_80032AD4(1);
             proc->unk_30->data8000FDFC.unk_04 = 0;
             D_800B96A8++;
-            func_8000AAB0(proc, 41, 0);
+            ProcPostMessage(proc, 41, 0);
             return func_8000FC3C(proc);
         case 41:
             D_800B96A8 += D_800B9990[D_800FB808].unk_000 / 5000;
@@ -259,15 +259,15 @@ struct n64dk_r12 func_8000FDFC(proc_t *proc) {
     return func_8000FC3C(proc);
 }
 
-struct n64dk_r12 func_8000FFE0(proc_t *proc) {
-    struct n64dk_r12 result;
+struct procResult_s func_8000FFE0(proc_t *proc) {
+    struct procResult_s result;
     obj_t *obj;
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     obj = proc->unk_30->data8000FFE0.unk_00;
     for (;;) {
-        event = func_8000ACE8(proc);
+        event = ProcGetMessage(proc);
         if (event == 0) {
             break;
         }
@@ -287,7 +287,7 @@ struct n64dk_r12 func_8000FFE0(proc_t *proc) {
             return result;
         }
     }
-    proc->unk_30->data8000FFE0.unk_08 = proc->unk_30->data8000FFE0.unk_08 + D_800B96B4;
+    proc->unk_30->data8000FFE0.unk_08 = proc->unk_30->data8000FFE0.unk_08 + frameRetraces;
     if (proc->unk_30->data8000FFE0.unk_08 >= 5) {
         proc->unk_30->data8000FFE0.unk_08 = 0;
         if (obj->unk_48 == D_01092168) {
@@ -303,15 +303,15 @@ struct n64dk_r12 func_8000FFE0(proc_t *proc) {
     return result;
 }
 
-struct n64dk_r12 func_800101F4(proc_t *proc) {
-    struct n64dk_r12 result;
+struct procResult_s func_800101F4(proc_t *proc) {
+    struct procResult_s result;
     obj_t *obj;
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     obj = proc->unk_30->data800101F4.unk_00;
     for (;;) {
-        event = func_8000ACE8(proc);
+        event = ProcGetMessage(proc);
         if (event == 0) {
             break;
         }
@@ -327,7 +327,7 @@ struct n64dk_r12 func_800101F4(proc_t *proc) {
             return result;
         }
     }
-    proc->unk_30->data800101F4.unk_08 = proc->unk_30->data800101F4.unk_08 + D_800B96B4;
+    proc->unk_30->data800101F4.unk_08 = proc->unk_30->data800101F4.unk_08 + frameRetraces;
     if (proc->unk_30->data800101F4.unk_08 >= 6) {
         proc->unk_30->data800101F4.unk_08 = 0;
         if (obj->unk_48 == D_011358C0) {
@@ -341,14 +341,14 @@ struct n64dk_r12 func_800101F4(proc_t *proc) {
     return result;
 }
 
-struct n64dk_r12 func_800103B4(proc_t *proc) {
-    struct n64dk_r12 sp10;
+struct procResult_s func_800103B4(proc_t *proc) {
+    struct procResult_s sp10;
     obj_t *sprite;
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     sprite = proc->unk_30->data800103B4.unk_00;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             proc->unk_30->data800103B4.unk_08 = 0;
@@ -361,7 +361,7 @@ struct n64dk_r12 func_800103B4(proc_t *proc) {
             return sp10;
         }
     }
-    proc->unk_30->data800103B4.unk_08 = proc->unk_30->data800103B4.unk_08 + D_800B96B4;
+    proc->unk_30->data800103B4.unk_08 = proc->unk_30->data800103B4.unk_08 + frameRetraces;
     if (proc->unk_30->data800103B4.unk_08 >= 6) {
         proc->unk_30->data800103B4.unk_08 = 0;
         if (sprite->unk_48 == D_01136080) {
@@ -375,8 +375,8 @@ struct n64dk_r12 func_800103B4(proc_t *proc) {
     return sp10;
 }
 
-struct n64dk_r12 func_80010574(proc_t *proc) {
-    struct n64dk_r12 ret;
+struct procResult_s func_80010574(proc_t *proc) {
+    struct procResult_s ret;
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 row;
     s32 col;
@@ -384,7 +384,7 @@ struct n64dk_r12 func_80010574(proc_t *proc) {
     u8 letter;
     s32 event;
 
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             proc->unk_30->data80010574.unk_0C = 0;
@@ -404,7 +404,7 @@ struct n64dk_r12 func_80010574(proc_t *proc) {
             ret.w[0] = 0;
             return ret;
         case 49:
-            func_8000A850(6);
+            ProcPostEvent(6);
             ret.w[1] = 0;
             ret.w[0] = 0;
             return ret;
@@ -451,7 +451,7 @@ struct n64dk_r12 func_80010574(proc_t *proc) {
                     D_800BA168[col].unk_18 = 0x1111AAFF;
                     break;
                 }
-                func_80002CE0(2);
+                PlaySound(2);
                 ret.w[1] = 1;
                 ret.w[0] = 15;
                 return ret;
@@ -490,8 +490,8 @@ void func_80010AB8(s32 arg0) {
     }
 }
 
-struct n64dk_r12 func_80010D3C(proc_t *proc) {
-    struct n64dk_r12 result;
+struct procResult_s func_80010D3C(proc_t *proc) {
+    struct procResult_s result;
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 row;
     s32 foundRow;
@@ -503,7 +503,7 @@ struct n64dk_r12 func_80010D3C(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             result.w[1] = 1;
@@ -515,7 +515,7 @@ struct n64dk_r12 func_80010D3C(proc_t *proc) {
             result.w[0] = 0;
             return result;
         case 49:
-            func_8000A850(6);
+            ProcPostEvent(6);
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -532,7 +532,7 @@ struct n64dk_r12 func_80010D3C(proc_t *proc) {
     while (row < 4) {
         p = &D_800B9601[row][proc->unk_30->data80010D3C.col];
         while (p != 0) {
-            p = func_800099B0(p, c);
+            p = StrChr(p, c);
             if (p != 0) {
                 p++;
                 proc->unk_30->data80010D3C.row = row;
@@ -553,7 +553,7 @@ struct n64dk_r12 func_80010D3C(proc_t *proc) {
                     D_800BA168[foundCol].unk_18 = 0x1111AAFF;
                     break;
                 }
-                func_80002CE0(2);
+                PlaySound(2);
                 result.w[1] = 1;
                 result.w[0] = 15;
                 return result;
@@ -780,8 +780,8 @@ void func_80011F58(void) {
     }
 }
 
-struct n64dk_r12 func_8001228C(proc_t *proc) {
-    struct n64dk_r12 result;
+struct procResult_s func_8001228C(proc_t *proc) {
+    struct procResult_s result;
     s32 unused[4];   /* NOTE: unused in the original; guess: its type, the frame shows at most 16 bytes */
     s32 i;
     s32 slot;
@@ -791,7 +791,7 @@ struct n64dk_r12 func_8001228C(proc_t *proc) {
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(proc);
+        event = ProcGetMessage(proc);
         if (event == 0) {
             break;
         }
@@ -843,13 +843,13 @@ void func_80012500(obj_t *obj, frame_t *frame) {
     case 0:
         guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
         guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
-        gSPMatrix(D_800B81E8++, obj->unk_3C, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-        gSPMatrix(D_800B81E8++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPMatrix(D_800B81E8++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPLightColor(D_800B81E8++, LIGHT_1, 0xFFFEFFFF);
-        gSPDisplayList(D_800B81E8++, D_010219C8);
-        gSPDisplayList(D_800B81E8++, obj->unk_48);
-        func_80005300(1);
+        gSPMatrix(glistp++, obj->unk_3C, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+        gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+        gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+        gSPLightColor(glistp++, LIGHT_1, 0xFFFEFFFF);
+        gSPDisplayList(glistp++, D_010219C8);
+        gSPDisplayList(glistp++, obj->unk_48);
+        SetLightColor(1);
     }
 }
 
@@ -861,7 +861,7 @@ s32 func_8001277C(tile_t *arg0) {
         if (arg0->unk_14 > arg0->unk_10 / 2) {
             result = -1;
         }
-        arg0->unk_14 = arg0->unk_14 - D_800B96B4;
+        arg0->unk_14 = arg0->unk_14 - frameRetraces;
         if (arg0->unk_14 < 0) {
             arg0->unk_14 = arg0->unk_10;
         }
@@ -876,27 +876,27 @@ void func_80012838(tile_t *tiles, s32 count, s32 arg2) {
         for (i = 0; i < count; i++) {
             if (arg2 != 0) {
                 if (tiles[i].unk_04 == D_010A2B88) {
-                    func_80005300(2);
-                    gDPPipeSync(D_800B81E8++);
-                    gSPDisplayList(D_800B81E8++, tiles[i].unk_00);
+                    SetLightColor(2);
+                    gDPPipeSync(glistp++);
+                    gSPDisplayList(glistp++, tiles[i].unk_00);
                 }
             } else if (tiles[i].unk_04 != D_010A2B88) {
-                gSPLightColor(D_800B81E8++, LIGHT_2, func_8001277C(&tiles[i]));
-                gDPPipeSync(D_800B81E8++);
-                gDPLoadTextureBlock(D_800B81E8++, tiles[i].unk_04, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
+                gSPLightColor(glistp++, LIGHT_2, func_8001277C(&tiles[i]));
+                gDPPipeSync(glistp++);
+                gDPLoadTextureBlock(glistp++, tiles[i].unk_04, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
                                     G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                                     5, 5, G_TX_NOLOD, G_TX_NOLOD);
-                gDPPipeSync(D_800B81E8++);
-                gSPDisplayList(D_800B81E8++, tiles[i].unk_00);
+                gDPPipeSync(glistp++);
+                gSPDisplayList(glistp++, tiles[i].unk_00);
             }
         }
         return;
     }
     i = 0;
     while (i < count) {
-        func_80005300(2);
-        gDPPipeSync(D_800B81E8++);
-        gSPDisplayList(D_800B81E8++, tiles[i].unk_00);
+        SetLightColor(2);
+        gDPPipeSync(glistp++);
+        gSPDisplayList(glistp++, tiles[i].unk_00);
         i++;
     }
 }
@@ -907,30 +907,30 @@ void func_80012D40(obj_t *obj, frame_t *frame) {
         guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
         guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
         guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
-        gSPMatrix(D_800B81E8++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-        gSPMatrix(D_800B81E8++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPMatrix(D_800B81E8++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPDisplayList(D_800B81E8++, D_010219C8);
-        gSPDisplayList(D_800B81E8++, obj->unk_48);
-        gSPDisplayList(D_800B81E8++, D_01093D50);
-        gDPLoadTextureBlock(D_800B81E8++, D_010A2B88, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
+        gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+        gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+        gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+        gSPDisplayList(glistp++, D_010219C8);
+        gSPDisplayList(glistp++, obj->unk_48);
+        gSPDisplayList(glistp++, D_01093D50);
+        gDPLoadTextureBlock(glistp++, D_010A2B88, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                             5, 5, G_TX_NOLOD, G_TX_NOLOD);
-        gSPSetGeometryMode(D_800B81E8++, G_LIGHTING | G_CULL_BACK | G_SHADING_SMOOTH);
-        gDPPipeSync(D_800B81E8++);
+        gSPSetGeometryMode(glistp++, G_LIGHTING | G_CULL_BACK | G_SHADING_SMOOTH);
+        gDPPipeSync(glistp++);
         func_80012838(D_800B9D08, 12, 1);
         func_80012838(D_800B9E58, 14, 1);
         func_80012838(D_800B9FE0, 14, 1);
         func_80012838(D_800BA168, 12, 1);
         if (D_800BCD54 != 6) {
-            gSPDisplayList(D_800B81E8++, D_01021A20);
+            gSPDisplayList(glistp++, D_01021A20);
             func_80012838(D_800B9D08, 12, 0);
             func_80012838(D_800B9E58, 14, 0);
             func_80012838(D_800B9FE0, 14, 0);
             func_80012838(D_800BA168, 12, 0);
         }
-        func_80005300(2);
-        gDPPipeSync(D_800B81E8++);
+        SetLightColor(2);
+        gDPPipeSync(glistp++);
     }
 }
 
@@ -960,7 +960,7 @@ s32 func_80013440(layer_t *layer) {
         if (layer->unk_0C > layer->unk_08 / 2) {
             result = layer->unk_14;
         }
-        layer->unk_0C = layer->unk_0C - D_800B96B4;
+        layer->unk_0C = layer->unk_0C - frameRetraces;
         if (layer->unk_0C < 0) {
             layer->unk_0C = layer->unk_08;
         }
@@ -985,8 +985,8 @@ void func_80013500(s32 arg0) {
         } else {
             value = D_800B9990[i].unk_000;
         }
-        func_80009AE0(digits, value);
-        len = func_80009A74(digits);
+        IntToStr(digits, value);
+        len = StrLen(digits);
         if (len >= 8) {
             len = 7;
         }
@@ -1007,33 +1007,33 @@ void func_80013748(obj_t *obj, frame_t *frame) {
         guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
         guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
         guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
-        gSPMatrix(D_800B81E8++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-        gSPMatrix(D_800B81E8++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPMatrix(D_800B81E8++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPDisplayList(D_800B81E8++, D_01021AC8);
+        gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+        gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+        gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+        gSPDisplayList(glistp++, D_01021AC8);
         for (i = 0; i < 3; i++) {
             color = func_80013440(&D_80057BB0[i]);
-            gSPLightColor(D_800B81E8++, LIGHT_1, color);
-            gSPLightColor(D_800B81E8++, LIGHT_3, color);
-            gSPLightColor(D_800B81E8++, LIGHT_4, color);
-            gSPLightColor(D_800B81E8++, LIGHT_5, color);
-            gSPDisplayList(D_800B81E8++, D_80057BB0[i].unk_00);
+            gSPLightColor(glistp++, LIGHT_1, color);
+            gSPLightColor(glistp++, LIGHT_3, color);
+            gSPLightColor(glistp++, LIGHT_4, color);
+            gSPLightColor(glistp++, LIGHT_5, color);
+            gSPDisplayList(glistp++, D_80057BB0[i].unk_00);
         }
-        func_80005300(1);
-        func_80005300(3);
-        func_80005300(4);
-        func_80005300(5);
-        gDPPipeSync(D_800B81E8++);
-        gSPDisplayList(D_800B81E8++, D_010219C8);
-        gSPSetGeometryMode(D_800B81E8++, G_LIGHTING | G_CULL_BACK | G_SHADING_SMOOTH);
-        gDPLoadTextureBlock(D_800B81E8++, D_010367A8, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
+        SetLightColor(1);
+        SetLightColor(3);
+        SetLightColor(4);
+        SetLightColor(5);
+        gDPPipeSync(glistp++);
+        gSPDisplayList(glistp++, D_010219C8);
+        gSPSetGeometryMode(glistp++, G_LIGHTING | G_CULL_BACK | G_SHADING_SMOOTH);
+        gDPLoadTextureBlock(glistp++, D_010367A8, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                             5, 5, G_TX_NOLOD, G_TX_NOLOD);
-        gDPPipeSync(D_800B81E8++);
+        gDPPipeSync(glistp++);
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 8; j++) {
                 if (D_800BEEA8[i][j] == D_010367A8) {
-                    gSPDisplayList(D_800B81E8++, D_80057B50[i][j]);
+                    gSPDisplayList(glistp++, D_80057B50[i][j]);
                 }
             }
         }
@@ -1041,16 +1041,16 @@ void func_80013748(obj_t *obj, frame_t *frame) {
         while (i < 3) {
             for (j = 0; j < 8; j++) {
                 if (D_800BEEA8[i][j] != D_010367A8) {
-                    gDPLoadTextureBlock(D_800B81E8++, D_800BEEA8[i][j], G_IM_FMT_RGBA, G_IM_SIZ_16b,
+                    gDPLoadTextureBlock(glistp++, D_800BEEA8[i][j], G_IM_FMT_RGBA, G_IM_SIZ_16b,
                                         32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                                         G_TX_NOMIRROR | G_TX_CLAMP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
-                    gDPPipeSync(D_800B81E8++);
-                    gSPDisplayList(D_800B81E8++, D_80057B50[i][j]);
+                    gDPPipeSync(glistp++);
+                    gSPDisplayList(glistp++, D_80057B50[i][j]);
                 }
             }
             i++;
         }
-        gSPDisplayList(D_800B81E8++, D_010308D0);
+        gSPDisplayList(glistp++, D_010308D0);
     }
 }
 
@@ -1060,28 +1060,28 @@ void func_80014208(obj_t *obj, frame_t *frame) {
     guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
     guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
     guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
-    gSPMatrix(D_800B81E8++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-    gSPMatrix(D_800B81E8++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPMatrix(D_800B81E8++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPDisplayList(D_800B81E8++, obj->unk_48);
-    gSPDisplayList(D_800B81E8++, D_01021A70);
+    gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPDisplayList(glistp++, obj->unk_48);
+    gSPDisplayList(glistp++, D_01021A70);
     for (i = 0; i < 26; i++) {
-        gSPDisplayList(D_800B81E8++, D_80057988[i]);
+        gSPDisplayList(glistp++, D_80057988[i]);
     }
-    func_80005300(1);
+    SetLightColor(1);
 }
 
 void func_800144F0(obj_t *obj, frame_t *frame) {
     guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
     guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
     guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
-    gSPMatrix(D_800B81E8++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-    gSPMatrix(D_800B81E8++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPMatrix(D_800B81E8++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPDisplayList(D_800B81E8++, D_010219C8);
-    func_80005300(1);
-    gSPDisplayList(D_800B81E8++, obj->unk_48);
-    func_80005300(1);
+    gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPDisplayList(glistp++, D_010219C8);
+    SetLightColor(1);
+    gSPDisplayList(glistp++, obj->unk_48);
+    SetLightColor(1);
 }
 
 void func_80014768(obj_t *obj, frame_t *frame) {
@@ -1093,13 +1093,13 @@ void func_80014768(obj_t *obj, frame_t *frame) {
                       obj->scale, obj->scale);
         guRotateRPY(&frame->rotate[obj->index], obj->unk_28,
                       obj->unk_2C, obj->unk_30);
-        gSPMatrix(D_800B81E8++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-        gSPMatrix(D_800B81E8++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPMatrix(D_800B81E8++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPDisplayList(D_800B81E8++, D_010219C8);
-        gSPLightColor(D_800B81E8++, LIGHT_1, 0xC8C8C8FF);
-        gSPDisplayList(D_800B81E8++, obj->unk_48);
-        func_80005300(1);
+        gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+        gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+        gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+        gSPDisplayList(glistp++, D_010219C8);
+        gSPLightColor(glistp++, LIGHT_1, 0xC8C8C8FF);
+        gSPDisplayList(glistp++, obj->unk_48);
+        SetLightColor(1);
     }
 }
 
@@ -1107,24 +1107,24 @@ void func_80014A5C(obj_t *obj, frame_t *frame) {
     guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
     guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
     guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
-    gSPMatrix(D_800B81E8++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-    gSPMatrix(D_800B81E8++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPMatrix(D_800B81E8++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPDisplayList(D_800B81E8++, D_010219C8);
-    func_80005300(1);
-    gSPLightColor(D_800B81E8++, LIGHT_2, 0x55555555);
-    gSPLightColor(D_800B81E8++, LIGHT_3, 0x55555555);
-    gSPLightColor(D_800B81E8++, LIGHT_4, 0x55555555);
-    gSPLightColor(D_800B81E8++, LIGHT_5, 0x55555555);
-    gSPDisplayList(D_800B81E8++, obj->unk_48);
-    func_80005300(2);
-    func_80005300(3);
-    func_80005300(4);
-    func_80005300(5);
+    gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPDisplayList(glistp++, D_010219C8);
+    SetLightColor(1);
+    gSPLightColor(glistp++, LIGHT_2, 0x55555555);
+    gSPLightColor(glistp++, LIGHT_3, 0x55555555);
+    gSPLightColor(glistp++, LIGHT_4, 0x55555555);
+    gSPLightColor(glistp++, LIGHT_5, 0x55555555);
+    gSPDisplayList(glistp++, obj->unk_48);
+    SetLightColor(2);
+    SetLightColor(3);
+    SetLightColor(4);
+    SetLightColor(5);
     if (D_80057F34[D_800B81E0] != 0) {
-        gSPDisplayList(D_800B81E8++, D_80057F34[D_800B81E0]);
+        gSPDisplayList(glistp++, D_80057F34[D_800B81E0]);
     }
-    func_80005300(1);
+    SetLightColor(1);
 }
 
 void func_80014F38(obj_t *obj, frame_t *frame) {
@@ -1135,24 +1135,24 @@ void func_80014F38(obj_t *obj, frame_t *frame) {
         guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
         guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
         guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
-        gSPMatrix(D_800B81E8++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-        gSPMatrix(D_800B81E8++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPMatrix(D_800B81E8++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPDisplayList(D_800B81E8++, D_010219C8);
-        gSPDisplayList(D_800B81E8++, D_010FA038);
-        gSPLightColor(D_800B81E8++, LIGHT_1, 0xC8C8C8FF);
+        gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+        gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+        gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+        gSPDisplayList(glistp++, D_010219C8);
+        gSPDisplayList(glistp++, D_010FA038);
+        gSPLightColor(glistp++, LIGHT_1, 0xC8C8C8FF);
         i = 0;
         while (i < 24) {
             if (D_800B39B8[i].unk_1C != 0 && D_80057F08[D_800B619C][i].unk_04 != 0) {
-                gSPDisplayList(D_800B81E8++, D_80057F08[D_800B619C][i].unk_04);
+                gSPDisplayList(glistp++, D_80057F08[D_800B619C][i].unk_04);
             } else {
-                gSPDisplayList(D_800B81E8++, D_80057F08[D_800B619C][i].unk_00);
+                gSPDisplayList(glistp++, D_80057F08[D_800B619C][i].unk_00);
             }
             i++;
         }
-        func_80005300(1);
-        gSPDisplayList(D_800B81E8++, obj->unk_48);
-        func_80005300(1);
+        SetLightColor(1);
+        gSPDisplayList(glistp++, obj->unk_48);
+        SetLightColor(1);
     }
 }
 
@@ -1162,20 +1162,20 @@ void func_800153C4(obj_t *obj, frame_t *frame) {
     guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
     guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
     guRotateRPY(&frame->rotate[obj->index], obj->unk_28, obj->unk_2C, obj->unk_30);
-    gSPMatrix(D_800B81E8++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-    gSPMatrix(D_800B81E8++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPMatrix(D_800B81E8++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPDisplayList(D_800B81E8++, &D_010219C8);
-    gSPLightColor(D_800B81E8++, LIGHT_1, 0x141414FF);
-    gSPLightColor(D_800B81E8++, LIGHT_2, 0xA0A0AFF);
-    gSPLightColor(D_800B81E8++, LIGHT_3, 0xA0A0AFF);
-    gSPLightColor(D_800B81E8++, LIGHT_5, 0xA0A0AFF);
-    gSPDisplayList(D_800B81E8++, obj->unk_48);
-    func_80005300(1);
-    func_80005300(2);
-    func_80005300(3);
-    func_80005300(5);
-    gSPDisplayList(D_800B81E8++, &D_010E3748);
+    gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPDisplayList(glistp++, &D_010219C8);
+    gSPLightColor(glistp++, LIGHT_1, 0x141414FF);
+    gSPLightColor(glistp++, LIGHT_2, 0xA0A0AFF);
+    gSPLightColor(glistp++, LIGHT_3, 0xA0A0AFF);
+    gSPLightColor(glistp++, LIGHT_5, 0xA0A0AFF);
+    gSPDisplayList(glistp++, obj->unk_48);
+    SetLightColor(1);
+    SetLightColor(2);
+    SetLightColor(3);
+    SetLightColor(5);
+    gSPDisplayList(glistp++, &D_010E3748);
 }
 
 obj_t *func_80015848(proc_t *proc, Gfx *arg1, objDraw_t draw, s32 arg3) {
@@ -1186,7 +1186,7 @@ obj_t *func_80015848(proc_t *proc, Gfx *arg1, objDraw_t draw, s32 arg3) {
     if (proc != 0) {
         parent = proc->unk_04;
     }
-    obj = func_8000B3B0(parent, draw, arg3);
+    obj = CreatObj(parent, draw, arg3);
     if (obj == 0) {
         return obj;
     }
@@ -1250,17 +1250,17 @@ void func_80015940(Gfx **arg0, tile_t *tiles, s32 row, s32 count) {
 void func_80015D4C(void) {
     obj_t *obj;
 
-    func_80009F98(D_800B9544);
-    func_80009F98("\n");
-    func_80009F98(D_800B9601[0]);
-    func_80009F98("\n");
-    func_80009F98(D_800B9601[1]);
-    func_80009F98("\n");
-    func_80009F98(D_800B9601[2]);
-    func_80009F98("\n");
-    func_80009F98(D_800B9601[3]);
-    func_80009F98("\n");
-    obj = func_8000B5DC(0x1010000, -1);
+    PrintStr(D_800B9544);
+    PrintStr("\n");
+    PrintStr(D_800B9601[0]);
+    PrintStr("\n");
+    PrintStr(D_800B9601[1]);
+    PrintStr("\n");
+    PrintStr(D_800B9601[2]);
+    PrintStr("\n");
+    PrintStr(D_800B9601[3]);
+    PrintStr("\n");
+    obj = FindObj(0x1010000, -1);
     if (obj == 0) {
         func_80015848(0, 0, func_80012D40, 0x1010000);
     }
@@ -1268,7 +1268,7 @@ void func_80015D4C(void) {
     func_80015940(D_80057A20, D_800B9E58, 1, 14);
     func_80015940(D_80057A58, D_800B9FE0, 2, 14);
     func_80015940(D_80057A90, D_800BA168, 3, 12);
-    func_80002CE0(20);
+    PlaySound(20);
 }
 
 void func_80015EDC(Gfx **arg0, tile_t *tiles, s32 row, s32 count) {
@@ -1287,11 +1287,11 @@ void func_80016008(void) {
     proc_t *task;
     obj_t *sp14;
 
-    sp14 = func_8000B5DC(0x1010000, -1);
+    sp14 = FindObj(0x1010000, -1);
     if (sp14 != 0) {
-        task = func_8000A990(0x1010000, -1);
+        task = FindProc(0x1010000, -1);
         if (task == 0) {
-            task = func_8000A56C(func_8000FFE0, 0x1010000);
+            task = CreatProc(func_8000FFE0, 0x1010000);
             task->unk_30->obj = sp14;
         }
     }
@@ -1301,19 +1301,19 @@ void func_80016098(void) {
     proc_t *task;
     obj_t *sp14;
 
-    sp14 = func_8000B5DC(0xA010100, -1);
+    sp14 = FindObj(0xA010100, -1);
     if (sp14 != 0) {
-        task = func_8000A990(0xA010100, -1);
+        task = FindProc(0xA010100, -1);
         if (task == 0) {
-            task = func_8000A56C(func_800101F4, 0xA010100);
+            task = CreatProc(func_800101F4, 0xA010100);
             task->unk_30->obj = sp14;
         }
     }
-    sp14 = func_8000B5DC(0xA010200, -1);
+    sp14 = FindObj(0xA010200, -1);
     if (sp14 != 0) {
-        task = func_8000A990(0xA010200, -1);
+        task = FindProc(0xA010200, -1);
         if (task == 0) {
-            task = func_8000A56C(func_800103B4, 0xA010200);
+            task = CreatProc(func_800103B4, 0xA010200);
             task->unk_30->obj = sp14;
         }
     }
@@ -1323,17 +1323,17 @@ void func_800161A8(void) {
     proc_t *child;
     obj_t *obj;
 
-    obj = func_8000B5DC(0x1010000, -1);
+    obj = FindObj(0x1010000, -1);
     if (obj == 0) {
         obj = func_80015848(0, 0, func_80012D40, 0x1010000);
     } else {
-        child = func_8000A990(0x1010100, -1);
+        child = FindProc(0x1010100, -1);
         if (child != 0) {
-            func_8000A4A4(child, 0);
+            KillProc(child, 0);
         }
-        child = func_8000A990(0x1010200, -1);
+        child = FindProc(0x1010200, -1);
         if (child != 0) {
-            func_8000A4A4(child, 0);
+            KillProc(child, 0);
         }
     }
     obj->unk_48 = D_01092090;
@@ -1356,25 +1356,25 @@ void func_80016310(void) {
     func_80015848(0, D_01024368, func_800144F0, 0xA000000);
     func_80015848(0, D_01135878, func_80014768, 0xA010100);
     func_80015848(0, D_01135FF8, func_80014768, 0xA010200);
-    D_800B81E0 = func_80009C98(4);
+    D_800B81E0 = Random(4);
     func_80015848(0, D_80057F24[D_800B81E0], func_80014A5C, 0xA000000);
     func_80015848(0, D_0112BBA8, func_800144F0, 0xA000000);
     func_80015848(0, D_010B3728, func_800144F0, 0xA000000);
     func_80015848(0, D_010A6098, func_80014208, 0xA000000);
     func_80015848(0, D_010E4260, func_800153C4, 0xA000000);
-    task = func_8000A56C(func_8000F274, 0x4020000);
+    task = CreatProc(func_8000F274, 0x4020000);
     task->unk_30->data8000F274.unk_04 = -2.0f;
     task->unk_30->data8000F274.unk_08 = 0;
     obj = func_80015848(task, D_01037090, func_80012500, 0x4020000);
     obj->unk_3C = &D_01037EF0;
     func_800132EC(0);
     obj = func_80015848(0, 0, func_80013748, 0xA000000);
-    task = func_8000A56C(func_8000F274, 0x4020001);
+    task = CreatProc(func_8000F274, 0x4020001);
     task->unk_30->data8000F274.unk_04 = -2.0f;
     task->unk_30->data8000F274.unk_08 = 0;
     obj = func_80015848(task, D_01036FA8, func_80012500, 0x4020001);
     obj->unk_3C = &D_01037EB0;
-    task = func_8000A56C(func_8000F274, 0x4020002);
+    task = CreatProc(func_8000F274, 0x4020002);
     task->unk_30->data8000F274.unk_04 = -2.0f;
     task->unk_30->data8000F274.unk_08 = 0;
     obj = func_80015848(task, D_01037178, func_80012500, 0x4020002);

@@ -14,10 +14,10 @@ void func_8001ED48(u16 *arg0) {
     s32 sp38;
 
     sp38 = 0x2000000;
-    sp10 = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_19C00);
-    sp10 = sp10 - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
+    sp10 = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_19C00);
+    sp10 = sp10 - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     src = arg0;
-    dst = D_800BEF08[D_800B61A0].frame.unk_19C00;
+    dst = gfxInfo[curGfxInfo].frame.unk_19C00;
     n = 0;
     for (k = 0; k < 3; k++) {
         for (y = 0; y < 32; y++) {

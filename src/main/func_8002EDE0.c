@@ -15,15 +15,15 @@ void func_8002EDE0(void) {
         }
     }
     if (D_800B9990[D_800FB808].unk_014 == 4) {
-        func_8000ABB8(42, 0, 0, 1);
-        func_8000A56C(func_8002B094, 0x6000000);
+        ProcPostMessageClass(42, 0, 0, 1);
+        CreatProc(func_8002B094, 0x6000000);
         return;
     }
-    func_80005258();
+    ResetMotors();
     func_80017C00(3, 0);
     func_80006BFC();
-    func_8000ABB8(42, 0, 0, 1);
-    handle = func_8000A56C(func_8002C094, 0x5050000);
+    ProcPostMessageClass(42, 0, 0, 1);
+    handle = CreatProc(func_8002C094, 0x5050000);
     func_80027218(handle, 0, func_80028194, 0x5050000);
     func_80015D4C();
     func_8001A5D0();

@@ -1,0 +1,264 @@
+# name	kind	where	evidence	reason
+CheckPercentDone	function	0x80008628	rom-string	"CheckPercentDone: No letters in puzzle"
+GetProcBefore	function	0x8000A158	rom-string	"GetProcBefore: Could not find proc"
+AllocProc	function	0x8000A204	rom-string	"AllocProc: Out of Procs"
+AllocBlock	function	0x8000A31C	rom-string	"AllocBlock: Out of Blocks."
+CreatProc	function	0x8000A56C	rom-string	"CreatProc: Failed to alloc proc"
+DoProcs	function	0x8000A664	rom-string	"DoProcs: Tried to execute a NULL"
+ProcPostEvent	function	0x8000A850	rom-string	"ProcPostEvent: bogus event"
+ProcPostMessage	function	0x8000AAB0	rom-string	"ProcPostMessage: NULL proc"
+ProcPostMessageClass	function	0x8000ABB8	rom-string	"ProcPostMessageClass: bogus message"
+ProcGetMessage	function	0x8000ACE8	rom-string	"ProcGetMessage: NULL proc"
+ProcClearMessages	function	0x8000AD9C	rom-string	"ProcClearMessages: NULL proc"
+GetObjBefore	function	0x8000B060	rom-string	"GetObjBefore: Could not find obj"
+AllocObj	function	0x8000B10C	rom-string	"AllocObj: Out of Objects"
+CreatObj	function	0x8000B3B0	rom-string	"CreatObj: Failed to alloc obj"
+DrawObjs	function	0x8000B468	rom-string	"DrawObjs: Tried to execute a NULL ID"; the first of the two functions that print it, the pass over every obj
+mem_stack	function	0x8000B7F4	rom-string	"mem_stack: OUT OF MEMMORY!!!"; kept verbatim, though every other recorded name is VerbNoun
+procst	global	0x800B82A0	rom-string	"AllocProc: Reached end of procst." names the table AllocProc searches
+objst	global	0x800B40C8	rom-string	"AllocObj: Reached end of objst." names the table AllocObj searches
+amCreateAudioMgr	function	0x800032A8	lineage	guess: audiomgr.c of the SDK demos, whose body it is
+__amMain	function	0x800037A0	lineage	guess: audiomgr.c of the SDK demos
+__amHandleFrameMsg	function	0x80003944	lineage	guess: audiomgr.c of the SDK demos
+__amHandleDoneMsg	function	0x80003C68	lineage	guess: audiomgr.c of the SDK demos
+__amDMA	function	0x80003CC8	lineage	guess: audiomgr.c of the SDK demos
+__amDmaNew	function	0x80003F64	lineage	guess: audiomgr.c of the SDK demos
+__clearAudioDMA	function	0x80003FDC	lineage	guess: audiomgr.c of the SDK demos
+samplesLeft	local	__amHandleDoneMsg	lineage	guess: audiomgr.c of the SDK demos
+audFrameCt	global	0x8004B7A8	lineage	guess: audiomgr.c of the SDK demos
+nextDMA	global	0x8004B7AC	lineage	guess: audiomgr.c of the SDK demos
+curAcmdList	global	0x8004B7B0	lineage	guess: audiomgr.c of the SDK demos
+firstTime	global	0x8004B7B4	lineage	guess: the static of __amHandleDoneMsg in audiomgr.c of the SDK demos
+minFrameSize	global	0x800B96BC	lineage	guess: audiomgr.c of the SDK demos
+maxFrameSize	global	0x800B9950	lineage	guess: audiomgr.c of the SDK demos
+frameSize	global	0x800BCD64	lineage	guess: audiomgr.c of the SDK demos
+maxRSPCmds	global	0x800BEDA4	lineage	guess: audiomgr.c of the SDK demos
+dmaBuffs	global	0x800BA2C8	lineage	guess: audiomgr.c of the SDK demos
+audDMAMessageQ	global	0x800BA598	lineage	guess: audiomgr.c of the SDK demos
+audDMAMessageBuf	global	0x800FB818	lineage	guess: audiomgr.c of the SDK demos
+audDMAIOMesgBuf	global	0x800BC700	lineage	guess: audiomgr.c of the SDK demos
+dmaState	global	0x800BA5C8	lineage	guess: audiomgr.c of the SDK demos
+__am	global	0x800BCA68	lineage	guess: audiomgr.c of the SDK demos
+audioStack	global	0x800A50A0	lineage	guess: audiomgr.c of the SDK demos
+maxDmaBuffsUsed	global	0x800B96B8	invented	the peak count of DMA buffers in use that __amHandleFrameMsg keeps; not in the SDK source
+InitAudio	function	0x80002348	invented	starts the heap, the audio manager, the sequence player, the sound player and the bank
+PlaySequence	function	0x80002598	invented	starts a sequence of the sequence file on a sequence player
+StopSequence	function	0x800026B0	invented	alCSPStop on a sequence player
+player	param	StopSequence	invented	the sequence player, as in PlaySequence
+FindFreeSound	function	0x80002700	invented	frees the sounds that have stopped and returns the first free slot of soundIds, or -1
+PauseSounds	function	0x800028E4	invented	frees the stopped sounds and stops the playing ones without freeing them; ResumeSounds plays them again
+ResumeSounds	function	0x80002B34	invented	plays again every allocated sound that is stopped
+IsSoundStopped	function	0x80002C34	invented	1 when the sound in a slot is AL_STOPPED
+slot	param	IsSoundStopped	invented	a slot of soundIds
+PlaySound	function	0x80002CE0	invented	allocates a slot for a sound of the bank, sets its pitch from its detune and plays it; returns the slot
+sound	param	PlaySound	invented	the sound's number in the instrument of the sound effects
+pitch	local	PlaySound	invented	what alSndpSetPitch is given
+StopSound	function	0x80002F58	invented	stops and frees the sound in a slot
+slot	param	StopSound	invented	a slot of soundIds
+SetSoundMix	function	0x80003014	invented	sets the effect mix, pan and volume of the sound in a slot
+slot	param	SetSoundMix	invented	a slot of soundIds
+fxMix	param	SetSoundMix	invented	given to alSndpSetFXMix
+pan	param	SetSoundMix	invented	given to alSndpSetPan
+vol	param	SetSoundMix	invented	given to alSndpSetVol
+mix	local	SetSoundMix	invented	fxMix as the u8 alSndpSetFXMix takes
+panPos	local	SetSoundMix	invented	pan as the u8 alSndpSetPan takes
+volume	local	SetSoundMix	invented	vol as the s16 alSndpSetVol takes
+SetSoundPitch	function	0x800030E8	invented	alSndpSetPitch on the sound in a slot
+slot	param	SetSoundPitch	invented	a slot of soundIds
+pitch	param	SetSoundPitch	invented	given to alSndpSetPitch
+StopAllSounds	function	0x8000315C	invented	stops every sound and the first sequence player
+GetSoundCount	function	0x80003234	invented	the sounds in the instrument of the sound effects
+GetSeqCount	function	0x8000326C	invented	the sequences in the sequence file
+audioHeap	global	0x800B9960	invented	the ALHeap InitAudio makes and every audio allocation uses
+seqPlayers	global	0x800BED90	invented	the ALCSPlayer pointers PlaySequence takes by number
+seqs	global	0x800A507C	invented	the ALCSeq of each sequence player
+sndPlayer	global	0x8004B718	invented	the ALSndPlayer every sound function uses
+sndpConfig	global	0x800A5084	invented	the ALSndpConfig given to alSndpNew
+sfxBankFile	global	0x800B3990	invented	the bank file InitAudio copies from the cartridge
+sfxInst	global	0x800A5090	invented	the first instrument of sfxBankFile, whose sounds are the sound effects
+curSound	global	0x800A5098	invented	the ALSound PlaySound is starting
+soundIds	global	0x800A509C	invented	the ALSndId of each sound slot, -1 where none
+soundStates	global	0x800B81F0	invented	the last state alSndpGetState gave for each sound slot
+numSoundsPlaying	global	0x800BC6F8	invented	counts the slots whose sound has not stopped
+seqFile	global	0x800B81D8	invented	the ALSeqFile PlaySequence reads
+seqBankFile	global	0x800B3998	invented	the bank file PlaySequence gives the sequence player (nothing sets it)
+sfxCtlRom	global	0x8006DD04	invented	where sfxBankFile starts on the cartridge
+sfxCtlRomEnd	global	0x8006DD08	invented	where sfxBankFile ends on the cartridge
+sfxTblRom	global	0x8006DD0C	invented	the wave table alBnkfNew is given for sfxBankFile
+boot	function	0x80006328	lineage	guess: the boot entry of the SDK demos: osInitialize, then the idle thread
+idle	function	0x800063A0	lineage	guess: idle of the SDK demos: the PI manager, the main thread unless debugflag, then lowest priority
+parse_args	function	0x800060B0	lineage	guess: parse_args of the SDK demos: splits the argument string and reads -d and the other flags
+argstring	param	parse_args	lineage	guess: parse_args of the SDK demos
+debugflag	global	0x8004B83C	lineage	guess: the SDK demos' flag that keeps idle from starting the main thread (-d)
+mainproc	function	0x800065D4	lineage	guess: mainproc of the SDK demos: the main thread, which handles the scheduler's messages
+GameThread	function	0x800067D8	invented	the game thread: runs RunFrame forever
+InitGame	function	0x800068F0	invented	creates the queues and the scheduler and starts memory, controllers, audio, graphics, procs and objs
+RunFrame	function	0x8000648C	invented	waits for the retraces of a frame, runs DoProcs and sends the frame's graphics task
+idleThread	global	0x800AD7A0	lineage	guess: the SDK demos' name
+idleThreadStack	global	0x800ADB00	lineage	guess: the SDK demos' name
+mainThread	global	0x800AD5F0	lineage	guess: the SDK demos' name
+mainThreadStack	global	0x800BCD88	lineage	guess: the SDK demos' name
+gameThread	global	0x800AD950	invented	the thread of GameThread
+gameThreadStack	global	0x800AB5F0	invented	the stack of gameThread
+PiMessageQ	global	0x800AFE20	lineage	guess: the SDK demos' name for the PI manager's queue
+PiMessages	global	0x800AFB00	lineage	guess: the SDK demos' name for the PI manager's messages
+dmaMessageQ	global	0x800AFE38	lineage	guess: the SDK demos' name for the queue a ROM read waits on
+dmaMessageBuf	global	0x800AFE50	lineage	guess: the SDK demos' name
+sc	global	0x800B96C8	lineage	guess: the SDK demos' name for the scheduler
+scheduleStack	global	0x800BA6F8	lineage	guess: the SDK demos' name
+sched_cmdQ	global	0x800BEEA0	lineage	guess: the SDK demos' name for osScGetCmdQ's queue
+pendingGfx	global	0x800BEDE4	lineage	guess: the SDK demos' count of graphics tasks not yet done (+2 on the pre-NMI message)
+glistp	global	0x800B81E8	lineage	guess: the SDK demos' display list pointer
+dram_stack	global	0x800B3CC0	lineage	guess: the SDK demos' name for the graphics microcode's stack
+zbuffer	global	0x8038F800	lineage	guess: the SDK demos' name for the depth buffer
+staticSegment	global	0x800BCA08	lineage	guess: the SDK demos' STATIC_SEGMENT (1), which this is the memory of
+createGfxTask	function	0x800057A8	lineage	guess: createGfxTask of the SDK demos, as its banner says
+gfxMsgQ	global	0x800B9688	invented	the scheduler's client queue for the graphics tasks and the retraces
+gfxMsgBuf	global	0x800BCA40	invented	the messages of gfxMsgQ
+gfxClient	global	0x800BCD58	invented	the scheduler client of gfxMsgQ
+gfxInfo	global	0x800BEF08	invented	the two gfxInfo_t, one drawn while the other is built
+curGfxInfo	global	0x800B61A0	invented	which of gfxInfo RunFrame builds next
+gfxYieldBuf	global	0x800B61E0	invented	the yield buffer of the graphics task
+numGfxTasks	global	0x800AB5E8	invented	counts the graphics tasks createGfxTask sends
+retraceCount	global	0x800B96AC	invented	retraces since the last frame; mainproc counts them, RunFrame takes them
+frameRetraces	global	0x800B96B4	invented	the retraces the last frame took, at least 1
+minRetraces	global	0x800B3CB8	invented	RunFrame waits for this many retraces a frame
+retraceTime	global	0x800FB810	invented	retraces since InitGame
+newFrame	global	0x800B9D04	invented	set by RunFrame after each frame; ReadControllers reads input for the game only then, and clears it
+InitGraphics	function	0x80005624	invented	loads segment 1 from the cartridge and gives each gfxInfo its framebuffer
+ResetScissor	function	0x80005FD0	invented	sets the scissor back to the whole screen between the two DrawObjs passes
+SetLightColor	function	0x80005300	invented	gSPLightColor on one of the six lights
+light	param	SetLightColor	invented	1 to 6: LIGHT_1 to LIGHT_6
+ReadRom	function	0x80006828	invented	reads bytes from the cartridge by PI DMA and waits for them
+rom	param	ReadRom	invented	the cartridge address
+ram	param	ReadRom	invented	where the bytes go
+size	param	ReadRom	invented	the bytes to read
+ControllerThread	function	0x80004160	invented	the controller thread: on each SI event of a read it started, ReadControllers
+InitControllers	function	0x8000420C	invented	"Failure initing controllers"; starts the rumble and controller threads, osContInit, the rumble paks
+ReadControllers	function	0x800045D4	invented	reads the pads, runs the rumble, counts presses and gives the game its buttons
+StartMotor	function	0x80004E50	invented	asks the rumble thread to start a pak's motor
+StopMotor	function	0x80004EB0	invented	asks the rumble thread to stop a pak's motor
+ResetMotor	function	0x80004F0C	invented	asks the rumble thread to start a pak over (osMotorInit, then stop)
+cont	param	StartMotor	invented	the controller
+cont	param	StopMotor	invented	the controller
+cont	param	ResetMotor	invented	the controller
+RumbleThread	function	0x80004F6C	invented	the rumble thread: carries out the motor messages
+StartRumble	function	0x800051B4	invented	rumbles a controller's pak for some frames at some strength
+cont	param	StartRumble	invented	the controller
+frames	param	StartRumble	invented	how many frames
+strength	param	StartRumble	invented	the share of the frames the motor runs, 0 to 1
+ResetMotors	function	0x80005258	invented	ResetMotor on each controller that has a rumble pak
+contMsgQ	global	0x800B3970	invented	the queue of the controller events
+contMsgBuf	global	0x800BCD68	invented	its one message
+contEventMsg	global	0x800A70C8	invented	the message of the SI event
+contPattern	global	0x800B96C4	invented	the bit pattern osContInit gives
+contStatus	global	0x800A70A0	invented	the OSContStatus osContInit gives
+contPads	global	0x800A70B0	invented	the OSContPad osContGetReadData gives
+contThread	global	0x800A9298	invented	the thread of ControllerThread
+contThreadStack	global	0x800A9448	invented	its stack
+contReading	global	0x800FB80C	invented	set while a controller read mainproc started is not yet taken
+rumbleThread	global	0x800A70E8	invented	the thread of RumbleThread
+rumbleThreadStack	global	0x800A7298	invented	its stack
+rumbleMsgQ	global	0x800BCD70	invented	the queue of rumbleThread
+rumbleMsgBuf	global	0x800B6BF4	invented	its one message
+rumbleMsg	global	0x800BCA30	invented	the message StartMotor, StopMotor and ResetMotor send
+contPfs	global	0x800AB448	invented	the OSPfs of each controller's pak, for osMotorInit
+rumbles	global	0x800BEE60	invented	the rumble_t of each controller
+motorOn	global	0x800BEDE8	invented	1 while a controller's motor runs
+contPressed	global	0x800BEE58	invented	the buttons pressed on each controller since the last read for the game
+buttonUpFrames	global	0x800B6AE8	invented	for each controller and button the frames it has been up (to 6); a press counts after 5
+buttonsPressed	global	0x800B96B0	invented	the buttons ReadControllers gives the game: of the player's controller, or of all
+playerPad	global	0x800B9954	invented	the pad ReadControllers gives the game: the player's, or the stick of any
+StrNCopy	function	0x80009748	invented	copies n characters, repeating the source's end once it is reached
+dst	param	StrNCopy	invented	
+src	param	StrNCopy	invented	
+n	param	StrNCopy	invented	
+StrCat	function	0x80009804	invented	appends a string
+dst	param	StrCat	invented	
+src	param	StrCat	invented	
+StrCopy	function	0x80009900	invented	copies a string
+dst	param	StrCopy	invented	
+src	param	StrCopy	invented	
+StrChr	function	0x800099B0	invented	finds a character in a string, or 0
+str	param	StrChr	invented	
+c	param	StrChr	invented	
+StrLen	function	0x80009A74	invented	the length of a string
+str	param	StrLen	invented	
+IntToStr	function	0x80009AE0	invented	writes a number in decimal
+dst	param	IntToStr	invented	
+value	param	IntToStr	invented	
+Random	function	0x80009C98	invented	guRandom() modulo its argument
+range	param	Random	invented	
+Abs	function	0x80009D2C	invented	the absolute value
+value	param	Abs	invented	
+PrintNum	function	0x80009D78	invented	writes a number in decimal and prints it with PrintStr
+num	param	PrintNum	invented	
+PrintStr	function	0x80009F98	invented	the debug print, which in retail only measures its string
+str	param	PrintStr	invented	
+len	local	PrintStr	invented	
+msg	param	func_80009F38	invented	
+InitProcs	function	0x80009FD8	invented	clears procst and the data block owners
+GetLastProc	function	0x8000A0E4	invented	the last proc of the list, after which CreatProc links a new one; named after GetProcBefore
+FreeBlocks	function	0x8000A408	invented	frees the data blocks a proc owns
+owner	param	FreeBlocks	invented	the id of the proc
+owner	param	AllocBlock	invented	the id of the proc the block is for
+KillProc	function	0x8000A4A4	invented	unlinks a proc and frees its blocks, and its objs if asked
+killObjs	param	KillProc	invented	not 0: free the proc's objs too
+cls	param	CreatProc	invented	the class of the proc, which FindProc and the messages select on
+FindProc	function	0x8000A990	invented	the first proc whose class under a mask is a value
+cls	param	FindProc	invented	
+mask	param	FindProc	invented	
+FindNextProc	function	0x8000AA24	invented	the next such proc after one
+cls	param	FindNextProc	invented	
+mask	param	FindNextProc	invented	
+event	param	ProcPostEvent	invented	the event; every proc waiting for it, or for any (-1), gets it as a message
+msg	param	ProcPostMessage	invented	
+wake	param	ProcPostMessage	invented	not 0: the proc stops sleeping and waiting
+msg	param	ProcPostMessageClass	invented	
+cls	param	ProcPostMessageClass	invented	
+mask	param	ProcPostMessageClass	invented	
+wake	param	ProcPostMessageClass	invented	
+KillOtherProcs	function	0x8000ADEC	invented	kills every proc but one
+KillProcClass	function	0x8000AE70	invented	kills every proc of a class
+cls	param	KillProcClass	invented	
+mask	param	KillProcClass	invented	
+killObjs	param	KillProcClass	invented	
+proc	local	KillProcClass	invented	
+numProcs	global	0x800BEE50	invented	the procs in use; AllocProc refuses at 69
+blockOwners	global	0x800BA5E0	invented	the id of the proc that owns each data block, 0 if free
+blocks	global	0x800B6BF8	invented	the data blocks AllocBlock hands out
+InitObjs	function	0x8000AF00	invented	clears objst
+GetLastObj	function	0x8000AFEC	invented	the last obj of the list; named after GetObjBefore
+FreeObj	function	0x8000B234	invented	unlinks an obj and marks it free
+FreeProcObjs	function	0x8000B2D4	invented	frees the objs a proc owns
+owner	param	FreeProcObjs	invented	the id of the proc
+owner	param	CreatObj	invented	the id of the proc that owns the obj; 0: none
+cls	param	CreatObj	invented	the class of the obj
+DrawTopObjs	function	0x8000B528	invented	the second pass over the objs, those of class 5 that DrawObjs skips; its message is DrawObjs's
+FindObj	function	0x8000B5DC	invented	the first obj whose class under a mask is a value
+cls	param	FindObj	invented	
+mask	param	FindObj	invented	
+FindNextObj	function	0x8000B670	invented	the next such obj after one
+cls	param	FindNextObj	invented	
+mask	param	FindNextObj	invented	
+FreeObjClass	function	0x8000B6FC	invented	frees every obj of a class
+cls	param	FreeObjClass	invented	
+mask	param	FreeObjClass	invented	
+numObjs	global	0x800BCA10	invented	the objs in use
+InitMemStack	function	0x8000B780	invented	sets the memory stack to the free memory; named after mem_stack
+AlignMemStack	function	0x8000B89C	invented	rounds the top of the memory stack up to a power of two
+align	param	AlignMemStack	invented	
+size	param	func_8000B924	invented	
+size	param	mem_stack	invented	
+PushMemStack	function	0x8000B978	invented	saves the top of the memory stack, up to 10 deep
+PopMemStack	function	0x8000B9FC	invented	drops a number of saved tops and goes back to the one under them
+count	param	PopMemStack	invented	
+memStart	global	0x8006DCE8	invented	where the memory stack starts
+memEnd	global	0x8006DCD8	invented	where the memory stack ends
+memStackBase	global	0x800BCA24	invented	the bottom of the memory stack
+memStackEnd	global	0x800BCA18	invented	the end of the memory stack
+memStackTop	global	0x800B8290	invented	the next free byte
+memStackFree	global	0x800B9984	invented	the bytes left
+memStackMarks	global	0x800BEDB0	invented	the tops PushMemStack saves
+memStackDepth	global	0x800BCA04	invented	how many of memStackMarks are in use
+procResult_s	type	wof.h	invented	what a proc's handler returns to DoProcs (a struct tag the code names directly)

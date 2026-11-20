@@ -18,16 +18,16 @@ void func_80021E88(obj_t *obj, frame_t *frame) {
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
 
-    gDPPipeSync(D_800B81E8++);
-    gSPDisplayList(D_800B81E8++, &D_01021970);
-    gDPSetCycleType(D_800B81E8++, G_CYC_COPY);
+    gDPPipeSync(glistp++);
+    gSPDisplayList(glistp++, &D_01021970);
+    gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 118; i++) {
         func_800278A8(&D_80059120[i], 1);
     }
     i = 0;
     while (i < 20) {
         if (i >= 2 && i < 6) {
-            if ((D_800B96C4 >> (i - 2)) % 2 != 0) {
+            if ((contPattern >> (i - 2)) % 2 != 0) {
                 func_800278A8(&D_80058548[i], 1);
             }
         } else {
@@ -42,9 +42,9 @@ void func_8002208C(obj_t *obj, frame_t *frame) {
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
 
-    gDPPipeSync(D_800B81E8++);
-    gSPDisplayList(D_800B81E8++, &D_01021970);
-    gDPSetCycleType(D_800B81E8++, G_CYC_COPY);
+    gDPPipeSync(glistp++);
+    gSPDisplayList(glistp++, &D_01021970);
+    gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 118; i++) {
         func_800278A8(&D_80059120[i], 1);
     }
@@ -60,9 +60,9 @@ void func_80022218(obj_t *obj, frame_t *frame) {
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
 
-    gDPPipeSync(D_800B81E8++);
-    gSPDisplayList(D_800B81E8++, &D_01021970);
-    gDPSetCycleType(D_800B81E8++, G_CYC_COPY);
+    gDPPipeSync(glistp++);
+    gSPDisplayList(glistp++, &D_01021970);
+    gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 118; i++) {
         func_800278A8(&D_80059120[i], 1);
     }
@@ -81,9 +81,9 @@ void func_800223A4(obj_t *obj, frame_t *frame) {
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
 
-    gDPPipeSync(D_800B81E8++);
-    gSPDisplayList(D_800B81E8++, &D_01021970);
-    gDPSetCycleType(D_800B81E8++, G_CYC_COPY);
+    gDPPipeSync(glistp++);
+    gSPDisplayList(glistp++, &D_01021970);
+    gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 118; i++) {
         func_800278A8(&D_80059120[i], 1);
     }
@@ -99,9 +99,9 @@ void func_80022530(obj_t *obj, frame_t *frame) {
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
 
-    gDPPipeSync(D_800B81E8++);
-    gSPDisplayList(D_800B81E8++, &D_01021970);
-    gDPSetCycleType(D_800B81E8++, G_CYC_COPY);
+    gDPPipeSync(glistp++);
+    gSPDisplayList(glistp++, &D_01021970);
+    gDPSetCycleType(glistp++, G_CYC_COPY);
     i = 0;
     for (;;) {
         if (i >= 118) {
@@ -150,7 +150,7 @@ void func_80022784(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
 }
 
 void func_800229D0(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
-    func_80002CE0(44);
+    PlaySound(44);
     func_80022784(proc, images, &items[proc->unk_30->mainMenu.index], 0);
     items[proc->unk_30->mainMenu.index].sel = proc->unk_30->mainMenu.sel;
     do {
@@ -168,7 +168,7 @@ void func_800229D0(proc_t *proc, image_t *images, menuItem_t *items, s32 count) 
 }
 
 void func_80022BC8(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
-    func_80002CE0(44);
+    PlaySound(44);
     func_80022784(proc, images, &items[proc->unk_30->mainMenu.index], 0);
     items[proc->unk_30->mainMenu.index].sel = proc->unk_30->mainMenu.sel;
     do {
@@ -186,7 +186,7 @@ void func_80022BC8(proc_t *proc, image_t *images, menuItem_t *items, s32 count) 
 }
 
 void func_80022DC0(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
-    func_80002CE0(43);
+    PlaySound(43);
     func_800226BC(&images[item->unk_0C + proc->unk_30->mainMenu.sel * item->cols],
                   item->cols, 0);
     proc->unk_30->mainMenu.sel--;
@@ -194,7 +194,7 @@ void func_80022DC0(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
         proc->unk_30->mainMenu.sel = item->rows - 1;
     }
     if (arg3 != 0) {
-        while ((D_800B96C4 >> proc->unk_30->mainMenu.sel) % 2 == 0 && proc->unk_30->mainMenu.sel != 4) {
+        while ((contPattern >> proc->unk_30->mainMenu.sel) % 2 == 0 && proc->unk_30->mainMenu.sel != 4) {
             proc->unk_30->mainMenu.sel--;
             if (proc->unk_30->mainMenu.sel < 0) {
                 proc->unk_30->mainMenu.sel = item->rows - 1;
@@ -208,14 +208,14 @@ void func_80022DC0(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
 }
 
 void func_80022FE0(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
-    func_80002CE0(43);
+    PlaySound(43);
     func_800226BC(&images[item->unk_0C + proc->unk_30->mainMenu.sel * item->cols], item->cols, 0);
     proc->unk_30->mainMenu.sel++;
     if (proc->unk_30->mainMenu.sel >= item->rows) {
         proc->unk_30->mainMenu.sel = 0;
     }
     if (arg3 != 0) {
-        while ((D_800B96C4 >> proc->unk_30->mainMenu.sel) % 2 == 0 && proc->unk_30->mainMenu.sel != 4) {
+        while ((contPattern >> proc->unk_30->mainMenu.sel) % 2 == 0 && proc->unk_30->mainMenu.sel != 4) {
             proc->unk_30->mainMenu.sel++;
             if (proc->unk_30->mainMenu.sel >= item->rows) {
                 proc->unk_30->mainMenu.sel = 0;
@@ -236,15 +236,15 @@ void func_80023200(void) {
     }
 }
 
-struct n64dk_r12 func_800232AC(proc_t *proc) {
+struct procResult_s func_800232AC(proc_t *proc) {
     s32 event;
     s32 cursor;
-    struct n64dk_r12 result;
+    struct procResult_s result;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             proc->unk_30->mainMenu.index = 0;
@@ -256,9 +256,9 @@ struct n64dk_r12 func_800232AC(proc_t *proc) {
             return result;
         }
     }
-    if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
+    if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
         proc->unk_30->mainMenu.delay = 0;
-        func_80002CE0(42);
+        PlaySound(42);
         switch (proc->unk_30->mainMenu.index) {
         case 0:
             func_80022BC8(proc, D_80058548, D_800584C8, 4);
@@ -279,37 +279,37 @@ struct n64dk_r12 func_800232AC(proc_t *proc) {
             func_80009F38("MainMenu1 Proc: button press invalid\n");
         }
     }
-    if ((D_800B96B0 & 0x5000 & 0xFFFF) != 0) {
-        func_80002CE0(42);
+    if ((buttonsPressed & 0x5000 & 0xFFFF) != 0) {
+        PlaySound(42);
         func_80023200();
         func_80026800();
         result.w[1] = 0;
         result.w[0] = 1;
         return result;
-    } else if ((D_800B96B0 & 2048 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 2048 & 0xFFFF) != 0) {
         func_800229D0(proc, D_80058548, D_800584C8, 4);
-    } else if ((D_800B96B0 & 1024 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 1024 & 0xFFFF) != 0) {
         func_80022BC8(proc, D_80058548, D_800584C8, 4);
-    } else if ((D_800B96B0 & 512 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 512 & 0xFFFF) != 0) {
         func_80022DC0(proc, D_80058548, &D_800584C8[proc->unk_30->mainMenu.index], 1);
-    } else if ((D_800B96B0 & 256 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 256 & 0xFFFF) != 0) {
         func_80022FE0(proc, D_80058548, &D_800584C8[proc->unk_30->mainMenu.index], 1);
-    } else if ((D_800B96B0 & 0x8000 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 0x8000 & 0xFFFF) != 0) {
         return result;
     }
     if (proc->unk_30->mainMenu.delay <= 0) {
-        if (D_800B9954.stick_x >= 41) {
+        if (playerPad.stick_x >= 41) {
             func_80022FE0(proc, D_80058548, &D_800584C8[proc->unk_30->mainMenu.index], 1);
-        } else if (D_800B9954.stick_x < -40) {
+        } else if (playerPad.stick_x < -40) {
             func_80022DC0(proc, D_80058548, &D_800584C8[proc->unk_30->mainMenu.index], 1);
         }
-        if (D_800B9954.stick_y >= 41) {
+        if (playerPad.stick_y >= 41) {
             func_800229D0(proc, D_80058548, D_800584C8, 4);
-        } else if (D_800B9954.stick_y < -40) {
+        } else if (playerPad.stick_y < -40) {
             func_80022BC8(proc, D_80058548, D_800584C8, 4);
         }
     } else {
-        proc->unk_30->mainMenu.delay -= D_800B96B4;
+        proc->unk_30->mainMenu.delay -= frameRetraces;
     }
     cursor = proc->unk_30->mainMenu.index;
     if (cursor < 3) {
@@ -344,7 +344,7 @@ void func_80023B44(void) {
     obj_t *obj;
 
     for (i = 0; i < 6; i++) {
-        obj = func_8000B5DC(i | 0xA020000, -1);
+        obj = FindObj(i | 0xA020000, -1);
         if (obj == 0) {
             func_80009F38("SwitchImage: could not find contestant");
         }
@@ -360,14 +360,14 @@ void func_80023B44(void) {
     }
 }
 
-struct n64dk_r12 func_80023CA4(proc_t *proc) {
+struct procResult_s func_80023CA4(proc_t *proc) {
     s32 event;
-    struct n64dk_r12 ret;
+    struct procResult_s ret;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             proc->unk_30->mainMenu.index = 0;
@@ -377,9 +377,9 @@ struct n64dk_r12 func_80023CA4(proc_t *proc) {
             return ret;
         }
     }
-    if ((D_800B96B0 & 0xA000) & 0xFFFF) {
+    if ((buttonsPressed & 0xA000) & 0xFFFF) {
         proc->unk_30->mainMenu.delay = 0;
-        func_80002CE0(42);
+        PlaySound(42);
         switch (proc->unk_30->mainMenu.index) {
         case 0:
             func_80022BC8(proc, D_800588F0, D_80058868, 2);
@@ -388,7 +388,7 @@ struct n64dk_r12 func_80023CA4(proc_t *proc) {
             if (D_800FB808 >= 2) {
                 D_800B9990[D_800FB808].unk_018 = D_80058868[0].sel;
                 D_800FB808 = 0;
-                func_8000AE70(0xA000300, -256, 1);
+                KillProcClass(0xA000300, -256, 1);
                 func_80026800();
                 ret.w[1] = 0;
                 ret.w[0] = 1;
@@ -396,7 +396,7 @@ struct n64dk_r12 func_80023CA4(proc_t *proc) {
             } else {
                 D_800B9990[D_800FB808].unk_018 = D_80058868[0].sel;
                 D_800FB808++;
-                func_8000AE70(0xA000300, -256, 1);
+                KillProcClass(0xA000300, -256, 1);
                 func_800263DC();
                 ret.w[1] = 0;
                 ret.w[0] = 1;
@@ -406,61 +406,61 @@ struct n64dk_r12 func_80023CA4(proc_t *proc) {
             func_80009F38("MainMenu1 Proc: button press invalid\n");
         }
     }
-    if ((D_800B96B0 & 0x5000) & 0xFFFF) {
-        func_80002CE0(42);
+    if ((buttonsPressed & 0x5000) & 0xFFFF) {
+        PlaySound(42);
         D_800B9990[D_800FB808].unk_018 = D_80058868[0].sel;
         D_800FB808 = 0;
-        func_8000AE70(0xA000300, -256, 1);
+        KillProcClass(0xA000300, -256, 1);
         func_80025FA8();
         ret.w[1] = 0;
         ret.w[0] = 1;
         return ret;
-    } else if ((D_800B96B0 & 0x800) & 0xFFFF) {
+    } else if ((buttonsPressed & 0x800) & 0xFFFF) {
         func_800229D0(proc, D_800588F0, D_80058868, 2);
-    } else if ((D_800B96B0 & 0x400) & 0xFFFF) {
+    } else if ((buttonsPressed & 0x400) & 0xFFFF) {
         func_80022BC8(proc, D_800588F0, D_80058868, 2);
-    } else if ((D_800B96B0 & 0x200) & 0xFFFF) {
+    } else if ((buttonsPressed & 0x200) & 0xFFFF) {
         func_80022DC0(proc, D_800588F0, &D_80058868[proc->unk_30->mainMenu.index], 0);
         if (proc->unk_30->mainMenu.index == 0) {
             func_80023B44();
         }
-    } else if ((D_800B96B0 & 0x100) & 0xFFFF) {
+    } else if ((buttonsPressed & 0x100) & 0xFFFF) {
         func_80022FE0(proc, D_800588F0, &D_80058868[proc->unk_30->mainMenu.index], 0);
         if (proc->unk_30->mainMenu.index == 0) {
             func_80023B44();
         }
     }
     if (proc->unk_30->mainMenu.delay <= 0) {
-        if (D_800B9954.stick_x >= 41) {
+        if (playerPad.stick_x >= 41) {
             func_80022FE0(proc, D_800588F0, &D_80058868[proc->unk_30->mainMenu.index], 0);
             if (proc->unk_30->mainMenu.index == 0) {
                 func_80023B44();
             }
-        } else if (D_800B9954.stick_x < -40) {
+        } else if (playerPad.stick_x < -40) {
             func_80022DC0(proc, D_800588F0, &D_80058868[proc->unk_30->mainMenu.index], 0);
             if (proc->unk_30->mainMenu.index == 0) {
                 func_80023B44();
             }
         }
-        if (D_800B9954.stick_y >= 41) {
+        if (playerPad.stick_y >= 41) {
             func_800229D0(proc, D_800588F0, D_80058868, 2);
-        } else if (D_800B9954.stick_y < -40) {
+        } else if (playerPad.stick_y < -40) {
             func_80022BC8(proc, D_800588F0, D_80058868, 2);
         }
     } else {
-        proc->unk_30->mainMenu.delay = proc->unk_30->mainMenu.delay - D_800B96B4;
+        proc->unk_30->mainMenu.delay = proc->unk_30->mainMenu.delay - frameRetraces;
     }
     return ret;
 }
 
-struct n64dk_r12 func_80024370(proc_t *proc) {
+struct procResult_s func_80024370(proc_t *proc) {
     s32 event;
-    struct n64dk_r12 sp18;
+    struct procResult_s sp18;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     sp18.w[1] = 1;
     sp18.w[0] = 0;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             proc->unk_30->mainMenu.index = 0;
@@ -470,9 +470,9 @@ struct n64dk_r12 func_80024370(proc_t *proc) {
             return sp18;
         }
     }
-    if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
+    if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
         proc->unk_30->mainMenu.delay = 0;
-        func_80002CE0(42);
+        PlaySound(42);
         switch (proc->unk_30->mainMenu.index) {
         case 0:
             func_80022BC8(proc, D_80058EB0, D_80058E70, 2);
@@ -486,46 +486,46 @@ struct n64dk_r12 func_80024370(proc_t *proc) {
             func_80009F38("MainMenu1 Proc: button press invalid\n");
         }
     }
-    if ((D_800B96B0 & 0x5000 & 0xFFFF) != 0) {
-        func_80002CE0(42);
+    if ((buttonsPressed & 0x5000 & 0xFFFF) != 0) {
+        PlaySound(42);
         func_80026800();
         sp18.w[1] = 0;
         sp18.w[0] = 1;
         return sp18;
-    } else if ((D_800B96B0 & 2048 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 2048 & 0xFFFF) != 0) {
         func_800229D0(proc, D_80058EB0, D_80058E70, 2);
-    } else if ((D_800B96B0 & 1024 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 1024 & 0xFFFF) != 0) {
         func_80022BC8(proc, D_80058EB0, D_80058E70, 2);
-    } else if ((D_800B96B0 & 512 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 512 & 0xFFFF) != 0) {
         func_80022DC0(proc, D_80058EB0, &D_80058E70[proc->unk_30->mainMenu.index], 0);
-    } else if ((D_800B96B0 & 256 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 256 & 0xFFFF) != 0) {
         func_80022FE0(proc, D_80058EB0, &D_80058E70[proc->unk_30->mainMenu.index], 0);
     }
     if (proc->unk_30->mainMenu.delay <= 0) {
-        if (D_800B9954.stick_x >= 41) {
+        if (playerPad.stick_x >= 41) {
             func_80022FE0(proc, D_80058EB0, &D_80058E70[proc->unk_30->mainMenu.index], 0);
-        } else if (D_800B9954.stick_x < -40) {
+        } else if (playerPad.stick_x < -40) {
             func_80022DC0(proc, D_80058EB0, &D_80058E70[proc->unk_30->mainMenu.index], 0);
         }
-        if (D_800B9954.stick_y >= 41) {
+        if (playerPad.stick_y >= 41) {
             func_800229D0(proc, D_80058EB0, D_80058E70, 2);
-        } else if (D_800B9954.stick_y < -40) {
+        } else if (playerPad.stick_y < -40) {
             func_80022BC8(proc, D_80058EB0, D_80058E70, 2);
         }
     } else {
-        proc->unk_30->mainMenu.delay = proc->unk_30->mainMenu.delay - D_800B96B4;
+        proc->unk_30->mainMenu.delay = proc->unk_30->mainMenu.delay - frameRetraces;
     }
     return sp18;
 }
 
-struct n64dk_r12 func_80024868(proc_t *proc) {
+struct procResult_s func_80024868(proc_t *proc) {
     s32 event;
-    struct n64dk_r12 result;
+    struct procResult_s result;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             proc->unk_30->mainMenu.index = 0;
@@ -535,9 +535,9 @@ struct n64dk_r12 func_80024868(proc_t *proc) {
             return result;
         }
     }
-    if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
+    if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
         proc->unk_30->mainMenu.delay = 0;
-        func_80002CE0(42);
+        PlaySound(42);
         switch (proc->unk_30->mainMenu.index) {
         case 0:
             func_80022BC8(proc, D_80059008, D_80058FC8, 2);
@@ -551,34 +551,34 @@ struct n64dk_r12 func_80024868(proc_t *proc) {
             func_80009F38("MainMenu1 Proc: button press invalid\n");
         }
     }
-    if ((D_800B96B0 & 0x5000 & 0xFFFF) != 0) {
-        func_80002CE0(42);
+    if ((buttonsPressed & 0x5000 & 0xFFFF) != 0) {
+        PlaySound(42);
         func_80026800();
         result.w[1] = 0;
         result.w[0] = 1;
         return result;
-    } else if ((D_800B96B0 & 2048 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 2048 & 0xFFFF) != 0) {
         func_800229D0(proc, D_80059008, D_80058FC8, 2);
-    } else if ((D_800B96B0 & 1024 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 1024 & 0xFFFF) != 0) {
         func_80022BC8(proc, D_80059008, D_80058FC8, 2);
-    } else if ((D_800B96B0 & 512 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 512 & 0xFFFF) != 0) {
         func_80022DC0(proc, D_80059008, &D_80058FC8[proc->unk_30->mainMenu.index], 0);
-    } else if ((D_800B96B0 & 256 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 256 & 0xFFFF) != 0) {
         func_80022FE0(proc, D_80059008, &D_80058FC8[proc->unk_30->mainMenu.index], 0);
     }
     if (proc->unk_30->mainMenu.delay <= 0) {
-        if (D_800B9954.stick_x >= 41) {
+        if (playerPad.stick_x >= 41) {
             func_80022FE0(proc, D_80059008, &D_80058FC8[proc->unk_30->mainMenu.index], 0);
-        } else if (D_800B9954.stick_x < -40) {
+        } else if (playerPad.stick_x < -40) {
             func_80022DC0(proc, D_80059008, &D_80058FC8[proc->unk_30->mainMenu.index], 0);
         }
-        if (D_800B9954.stick_y >= 41) {
+        if (playerPad.stick_y >= 41) {
             func_800229D0(proc, D_80059008, D_80058FC8, 2);
-        } else if (D_800B9954.stick_y < -40) {
+        } else if (playerPad.stick_y < -40) {
             func_80022BC8(proc, D_80059008, D_80058FC8, 2);
         }
     } else {
-        proc->unk_30->mainMenu.delay -= D_800B96B4;
+        proc->unk_30->mainMenu.delay -= frameRetraces;
     }
     return result;
 }
@@ -612,15 +612,15 @@ void func_8002500C(void) {
     D_800B96C0 = D_80058FC8[0].sel + 3;
 }
 
-struct n64dk_r12 func_80025150(proc_t *proc) {
+struct procResult_s func_80025150(proc_t *proc) {
     s32 event;
-    struct n64dk_r12 ret;
+    struct procResult_s ret;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     ret.w[1] = 1;
     ret.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(proc);
+        event = ProcGetMessage(proc);
         if (event == 0) {
             break;
         }
@@ -634,42 +634,42 @@ struct n64dk_r12 func_80025150(proc_t *proc) {
             func_80022784(proc, D_80058B28, &D_80058AA8[3], 0);
             return ret;
         case 36:
-            func_8000ADEC(proc);
-            func_8000AF00();
-            func_8000B9FC(1);
+            KillOtherProcs(proc);
+            InitObjs();
+            PopMemStack(1);
             func_8000BE6C();
             ret.w[1] = 0;
             ret.w[0] = 0;
             return ret;
         }
     }
-    if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
-        func_80002CE0(42);
+    if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
+        PlaySound(42);
         proc->unk_30->mainMenu.delay = 0;
         switch (proc->unk_30->mainMenu.index) {
         case 0:
             func_8002500C();
-            func_8000B9FC(1);
-            func_8000315C();
-            func_8000AAB0(proc, 36, 0);
+            PopMemStack(1);
+            StopAllSounds();
+            ProcPostMessage(proc, 36, 0);
             ret.w[1] = 1;
             ret.w[0] = 2;
             return ret;
             break;
         case 1:
-            func_8000AE70(0xA000300, -256, 1);
+            KillProcClass(0xA000300, -256, 1);
             func_80025FA8();
             ret.w[1] = 0;
             ret.w[0] = 1;
             break;
         case 2:
-            func_8000AE70(0xA000300, -256, 1);
+            KillProcClass(0xA000300, -256, 1);
             func_80026DEC();
             ret.w[1] = 0;
             ret.w[0] = 1;
             break;
         case 3:
-            func_8000AE70(0xA000300, -256, 1);
+            KillProcClass(0xA000300, -256, 1);
             func_80026E50();
             ret.w[1] = 0;
             ret.w[0] = 1;
@@ -678,43 +678,43 @@ struct n64dk_r12 func_80025150(proc_t *proc) {
             func_80009F38("MainMenu3 Proc: button press invalid\n");
         }
     }
-    if ((D_800B96B0 & 0x1000 & 0xFFFF) != 0) {
-        func_80002CE0(42);
+    if ((buttonsPressed & 0x1000 & 0xFFFF) != 0) {
+        PlaySound(42);
         func_8002500C();
-        func_8000315C();
-        func_8000B9FC(1);
-        func_8000AAB0(proc, 36, 0);
+        StopAllSounds();
+        PopMemStack(1);
+        ProcPostMessage(proc, 36, 0);
         ret.w[1] = 1;
         ret.w[0] = 2;
         return ret;
-    } else if ((D_800B96B0 & 0x800 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 0x800 & 0xFFFF) != 0) {
         func_800229D0(proc, D_80058B28, D_80058AA8, 4);
-    } else if ((D_800B96B0 & 0x400 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 0x400 & 0xFFFF) != 0) {
         func_80022BC8(proc, D_80058B28, D_80058AA8, 4);
-    } else if ((D_800B96B0 & 0x200 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 0x200 & 0xFFFF) != 0) {
         func_80022DC0(proc, D_80058B28, &D_80058AA8[proc->unk_30->mainMenu.index], 0);
-    } else if ((D_800B96B0 & 0x100 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 0x100 & 0xFFFF) != 0) {
         func_80022FE0(proc, D_80058B28, &D_80058AA8[proc->unk_30->mainMenu.index], 0);
-    } else if ((D_800B96B0 & 0x4 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 0x4 & 0xFFFF) != 0) {
         return ret;
-    } else if ((D_800B96B0 & 0x8 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 0x8 & 0xFFFF) != 0) {
         return ret;
-    } else if ((D_800B96B0 & 0x4000 & 0xFFFF) != 0) {
+    } else if ((buttonsPressed & 0x4000 & 0xFFFF) != 0) {
         return ret;
     }
     if (proc->unk_30->mainMenu.delay <= 0) {
-        if (D_800B9954.stick_x >= 41) {
+        if (playerPad.stick_x >= 41) {
             func_80022FE0(proc, D_80058B28, &D_80058AA8[proc->unk_30->mainMenu.index], 0);
-        } else if (D_800B9954.stick_x < -40) {
+        } else if (playerPad.stick_x < -40) {
             func_80022DC0(proc, D_80058B28, &D_80058AA8[proc->unk_30->mainMenu.index], 0);
         }
-        if (D_800B9954.stick_y >= 41) {
+        if (playerPad.stick_y >= 41) {
             func_800229D0(proc, D_80058B28, D_80058AA8, 4);
-        } else if (D_800B9954.stick_y < -40) {
+        } else if (playerPad.stick_y < -40) {
             func_80022BC8(proc, D_80058B28, D_80058AA8, 4);
         }
     } else {
-        proc->unk_30->mainMenu.delay = proc->unk_30->mainMenu.delay - D_800B96B4;
+        proc->unk_30->mainMenu.delay = proc->unk_30->mainMenu.delay - frameRetraces;
     }
     return ret;
 }
@@ -772,12 +772,12 @@ void func_80025FA8(void) {
     s32 unused;  /* NOTE: unused in the original */
     proc_t *task;
 
-    task = func_8000A56C(func_800232AC, 0x5000000);
+    task = CreatProc(func_800232AC, 0x5000000);
     func_80027218(task, 0, func_80021E88, 0x5000000);
     func_800258BC();
     j = 0;
     for (i = 2; i < 6; i++) {
-        if ((D_800B96C4 >> (i - 2)) % 2 != 0) {
+        if ((contPattern >> (i - 2)) % 2 != 0) {
             D_80058548[i].x = D_800584A0[j][0];
             D_80058548[i].y = D_800584A0[j][1];
             j++;
@@ -825,7 +825,7 @@ void func_800263DC(void) {
         }
     }
     D_800FB808 = i;
-    task = func_8000A56C(func_80023CA4, 0x5000000);
+    task = CreatProc(func_80023CA4, 0x5000000);
     func_80027218(task, 0, func_8002208C, 0x5000000);
     func_800258BC();
     D_800588F0[0].unk_20 = D_800588A8[i][0][0];
@@ -872,7 +872,7 @@ void func_80026800(void) {
     s32 clashes;
     proc_t *task;
 
-    task = func_8000A56C(func_80025150, 0x5000000);
+    task = CreatProc(func_80025150, 0x5000000);
     func_80027218(task, 0, func_80022218, 0x5000000);
     func_800258BC();
     for (i = 0; i < 3; i++) {
@@ -928,7 +928,7 @@ void func_80026DEC(void) {
     s32 unused;  /* NOTE: unused in the original */
     proc_t *task;
 
-    task = func_8000A56C(func_80024370, 0x05000000);
+    task = CreatProc(func_80024370, 0x05000000);
     func_80027218(task, 0, func_800223A4, 0x05000000);
     func_800258BC();
 }
@@ -937,7 +937,7 @@ void func_80026E50(void) {
     s32 unused;  /* NOTE: unused in the original */
     proc_t *sp14;
 
-    sp14 = func_8000A56C(func_80024868, 0x05000000);
+    sp14 = CreatProc(func_80024868, 0x05000000);
     func_80027218(sp14, 0, func_80022530, 0x05000000);
     func_800258BC();
 }
@@ -946,7 +946,7 @@ void func_80026EB4(void) {
     s32 i;
 
     do {
-    } while (D_800BEDE4 != 0 && D_800B96AC < 100);
+    } while (pendingGfx != 0 && retraceCount < 100);
     func_80005700();
     D_800BCD54 = 7;
     for (i = 0; i < 3; i++) {
@@ -970,12 +970,12 @@ void func_80026FD4(void) {
         D_800B9990[i].unk_014 = 4;
         D_800B9990[i].unk_018 = i;
         D_800BEDD8[i] = i;
-        func_80009900(D_800B9990[i].unk_01C, D_8005A498[i]);
+        StrCopy(D_800B9990[i].unk_01C, D_8005A498[i]);
     }
     count = 0;
     i = 0;
     while (i < 4) {
-        if ((D_800B96C4 >> i) % 2 != 0) {
+        if ((contPattern >> i) % 2 != 0) {
             D_800584C8[count].sel = i;
             D_800B9990[count].unk_014 = i;
             count++;

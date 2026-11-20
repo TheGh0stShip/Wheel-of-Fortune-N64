@@ -16,13 +16,13 @@ s32 func_80033150(s32 arg0, s32 arg1, s32 arg2) {
     }
     slots = D_8005C568[D_800B9990[arg2].unk_018];
     if (slots[arg0].count > 0) {
-        obj = func_8000B5DC(arg2 | 0xA020000, -1);
+        obj = FindObj(arg2 | 0xA020000, -1);
         if (obj == 0) {
             func_80009F38(D_800019BC);
         }
-        other = func_8000A990(arg2 | 0xA000300, -1);
+        other = FindProc(arg2 | 0xA000300, -1);
         if (other != 0) {
-            func_8000A4A4(other, 0);
+            KillProc(other, 0);
         }
         func_80021C8C(slots[arg0].movie, slots[arg0].unk_20, obj, arg2, arg1);
         return 1;

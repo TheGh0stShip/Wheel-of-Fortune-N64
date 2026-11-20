@@ -9,52 +9,52 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
-struct n64dk_r12 func_8000EB40(proc_t *proc) {
-    struct n64dk_r12 result;
+struct procResult_s func_8000EB40(proc_t *proc) {
+    struct procResult_s result;
     s32 event;
 
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(proc);
+        event = ProcGetMessage(proc);
         if (event == 0) {
             break;
         }
         switch (event) {
         case 8:
-            func_8000AAB0(proc, 15, 0);
+            ProcPostMessage(proc, 15, 0);
             D_800B96A8 += 2;
-            result.w[0] = 30 / D_800B96B4;
+            result.w[0] = 30 / frameRetraces;
             return result;
         case 15:
             func_800219B8(7, 40, 180, 20);
             func_80016B9C(3);
             return result;
         case 34:
-            func_8000315C();
+            StopAllSounds();
             result.w[1] = 1;
             result.w[0] = 2;
-            func_8000B6FC(0x1000000, 0xFF000000);
-            func_8000B6FC(0xA000000, 0xFF000000);
-            func_8000B6FC(0x4000000, 0xFF000000);
-            if ((D_800B96B0 & 0x1000) != 0) {
-                func_8000AAB0(proc, 36, 0);
+            FreeObjClass(0x1000000, 0xFF000000);
+            FreeObjClass(0xA000000, 0xFF000000);
+            FreeObjClass(0x4000000, 0xFF000000);
+            if ((buttonsPressed & 0x1000) != 0) {
+                ProcPostMessage(proc, 36, 0);
             } else {
-                func_8000AAB0(proc, 35, 0);
+                ProcPostMessage(proc, 35, 0);
             }
             return result;
         case 35:
-            func_8000ADEC(proc);
-            func_8000AF00();
+            KillOtherProcs(proc);
+            InitObjs();
             func_80021E28();
-            func_8000B9FC(1);
+            PopMemStack(1);
             func_8000E794();
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
         case 36:
-            func_8000ADEC(proc);
-            func_8000AF00();
+            KillOtherProcs(proc);
+            InitObjs();
             func_80021E28();
             func_80026EB4();
             result.w[1] = 0;
@@ -74,7 +74,7 @@ void func_8000EE78(void) {
     D_800BCD54 = 3;
     D_800B8298 = 0.65f;
     do {
-    } while (D_800BEDE4 != 0 && D_800B96AC < 100);
+    } while (pendingGfx != 0 && retraceCount < 100);
     func_800174DC();
     func_8002FE70();
     func_80006B28();
@@ -82,7 +82,7 @@ void func_8000EE78(void) {
     func_80032BF0();
     func_8001A484();
     func_8002EC60();
-    func_8000A56C(func_8000EB40, 0x9000000);
+    CreatProc(func_8000EB40, 0x9000000);
     func_80015848(0, 0, func_800287A4, 0x5000000);
     func_80033CBC();
 }

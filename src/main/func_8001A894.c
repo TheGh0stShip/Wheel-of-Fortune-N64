@@ -6,7 +6,7 @@ s32 func_8001A894(f32 arg0, proc_t *proc) {
     u8 result;
 
     func_8001A628(D_800B61C0);
-    roll = func_80009C98(100);
+    roll = Random(100);
     roll = roll / 100.0f;
     if (roll < arg0) {
         result = func_8001A7A8(D_800B61C0);

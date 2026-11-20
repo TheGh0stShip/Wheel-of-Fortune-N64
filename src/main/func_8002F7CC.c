@@ -1,8 +1,8 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_8002F7CC(proc_t *proc) {
-    struct n64dk_r12 sp10;
+struct procResult_s func_8002F7CC(proc_t *proc) {
+    struct procResult_s sp10;
     OSTime time; /* NOTE: unused in the original. Eight bytes nothing touches; guess: an OSTime */
     s32 sp28;
     s32 sp2C;
@@ -10,7 +10,7 @@ struct n64dk_r12 func_8002F7CC(proc_t *proc) {
     sp10.w[1] = 1;
     sp10.w[0] = 0;
     for (;;) {
-        sp28 = func_8000ACE8(proc);
+        sp28 = ProcGetMessage(proc);
         if (sp28 == 0) {
             break;
         }
@@ -21,8 +21,8 @@ struct n64dk_r12 func_8002F7CC(proc_t *proc) {
         }
     }
     sp2C = (s32)(osGetTime() / osClockRate);
-    if (((sp2C - proc->unk_30->timer.start) >= 30) || (((D_800B96B0 & 0x1000) & 0xFFFF) != 0)) {
-        func_8000ABB8(34, 0, 0, 1);
+    if (((sp2C - proc->unk_30->timer.start) >= 30) || (((buttonsPressed & 0x1000) & 0xFFFF) != 0)) {
+        ProcPostMessageClass(34, 0, 0, 1);
         sp10.w[1] = 0;
     }
     return sp10;

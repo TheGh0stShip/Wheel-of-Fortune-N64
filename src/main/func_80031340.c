@@ -10,8 +10,8 @@ void func_80031340(s16 *arg0, s32 arg1) {
     s16 *dst2;
 
     src = (u16 *)arg0;
-    dst1 = D_800BEF08[0].frame.unk_0AC00[arg1];
-    dst2 = D_800BEF08[1].frame.unk_0AC00[arg1];
+    dst1 = gfxInfo[0].frame.unk_0AC00[arg1];
+    dst2 = gfxInfo[1].frame.unk_0AC00[arg1];
     for (i = 0; i < 0x1000; i++) {
         dst1[i] = src[i];
         dst2[i] = src[i];

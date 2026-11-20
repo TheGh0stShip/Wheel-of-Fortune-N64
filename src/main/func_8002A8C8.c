@@ -3,7 +3,7 @@
 
 void func_8002A8C8(proc_t *proc, s32 arg1) {
     D_800BED88++;
-    func_80002CE0(43);
+    PlaySound(43);
     if (arg1 != 0) {
         proc->unk_30->cursor.index--;
         if (proc->unk_30->cursor.index == 12) {

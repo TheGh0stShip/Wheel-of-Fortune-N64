@@ -1,8 +1,8 @@
 #include "wof.h"
 
 
-struct n64dk_r12 func_8001AE18(proc_t *proc) {
-    struct n64dk_r12 result;
+struct procResult_s func_8001AE18(proc_t *proc) {
+    struct procResult_s result;
     proc_t *task;
     obj_t *target;
     s32 event;
@@ -10,25 +10,25 @@ struct n64dk_r12 func_8001AE18(proc_t *proc) {
     result.w[1] = 1;
     result.w[0] = 0;
     if (proc->unk_30->playerProc.player != D_800FB808) {
-        func_8000AD9C(proc);
+        ProcClearMessages(proc);
         return result;
     }
     for (;;) {
-        event = func_8000ACE8(proc);
+        event = ProcGetMessage(proc);
         if (event == 0) {
             break;
         }
         switch (event) {
         case 8:
             func_80017C00(0, 1);
-            task = func_8000A56C(func_8000FDFC, 0x4000000);
-            target = func_8000B5DC(0x4010000, 0xFFFF0000);
+            task = CreatProc(func_8000FDFC, 0x4000000);
+            target = FindObj(0x4010000, 0xFFFF0000);
             task->unk_30->data8000FDFC.unk_00 = target;
             task->unk_30->data8000FDFC.unk_0C = (f32)(guRandom() % 50 + 100);
             if ((f64)task->unk_30->data8000FDFC.unk_0C > 80.0) {
-                func_8000AAB0(proc, 7, 0);
+                ProcPostMessage(proc, 7, 0);
                 result.w[1] = 1;
-                result.w[0] = 30 / D_800B96B4;
+                result.w[0] = 30 / frameRetraces;
                 return result;
             } else {
                 result.w[1] = 2;
@@ -37,7 +37,7 @@ struct n64dk_r12 func_8001AE18(proc_t *proc) {
             }
             break;
         case 7:
-            if (func_80009C98(100) >= 76) {
+            if (Random(100) >= 76) {
                 func_80017C00(15, 1);
             } else {
                 func_80017C00(3, 1);
@@ -53,14 +53,14 @@ struct n64dk_r12 func_8001AE18(proc_t *proc) {
             return result;
             break;
         case 2:
-            target = func_8000B5DC(0x4010000, 0xFFFF0000);
+            target = FindObj(0x4010000, 0xFFFF0000);
             func_80009364(0);
             if (func_8000928C() == -1) {
                 func_80032B80();
                 func_80017C00(0, 1);
                 if (func_80017548() != 0) {
-                    func_8000A850(3);
-                    func_8000A850(24);
+                    ProcPostEvent(3);
+                    ProcPostEvent(24);
                 }
                 result.w[1] = 0;
                 result.w[0] = 0;
@@ -84,39 +84,39 @@ struct n64dk_r12 func_8001AE18(proc_t *proc) {
             func_80032B10();
             func_80017C00(3, 1);
             func_8002EB90(func_8001A894(proc->unk_30->playerProc.unk_0C, proc) & 255);
-            func_8000AAB0(proc, 5, 0);
+            ProcPostMessage(proc, 5, 0);
             result.w[1] = 1;
-            result.w[0] = 60 / D_800B96B4;
+            result.w[0] = 60 / frameRetraces;
             return result;
         case 16:
             func_80017548();
-            func_8000A850(3);
-            func_8000A850(24);
+            ProcPostEvent(3);
+            ProcPostEvent(24);
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
         case 5:
-            func_80002CE0(D_800B9990[D_800FB808].unk_0FC + (D_800B61B5 - 65));
-            func_8000AAB0(proc, 44, 0);
+            PlaySound(D_800B9990[D_800FB808].unk_0FC + (D_800B61B5 - 65));
+            ProcPostMessage(proc, 44, 0);
             result.w[1] = 1;
-            result.w[0] = 30 / D_800B96B4;
+            result.w[0] = 30 / frameRetraces;
             return result;
         case 44:
             func_8002A014();
-            task = func_8000A990(0x5010000, -1);
-            func_8000AAB0(task, 23, 0);
+            task = FindProc(0x5010000, -1);
+            ProcPostMessage(task, 23, 0);
             if (func_80007888(D_800B61B5, 0) > 0) {
                 func_80007DAC(D_800B61B5);
-                task = func_8000A56C(func_80010574, 0x1000000);
+                task = CreatProc(func_80010574, 0x1000000);
                 task->unk_30->data80010574.letter = D_800B61B5;
                 result.w[1] = 2;
                 result.w[0] = 6;
                 return result;
             } else {
-                func_80002CE0(1);
+                PlaySound(1);
                 if (func_80017548() != 0) {
-                    func_8000A850(3);
-                    func_8000A850(24);
+                    ProcPostEvent(3);
+                    ProcPostEvent(24);
                 }
                 result.w[1] = 0;
                 result.w[0] = 0;
@@ -127,8 +127,8 @@ struct n64dk_r12 func_8001AE18(proc_t *proc) {
             if (func_8000928C() == -3) {
                 D_800B96A0 = 1;
             }
-            func_8000A850(24);
-            func_8000A850(3);
+            ProcPostEvent(24);
+            ProcPostEvent(3);
             result.w[1] = 0;
             result.w[0] = 0;
             return result;

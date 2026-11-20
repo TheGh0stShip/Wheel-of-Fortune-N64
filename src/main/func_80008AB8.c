@@ -24,33 +24,33 @@ void func_80008AB8(void) {
         if (value == -10000) {
             if (D_800B9538 != 0) {
                 D_800B39B8[i].unk_00 = -1;
-                func_80009900(D_800B39B8[i].name, "BANKRUPT");
+                StrCopy(D_800B39B8[i].name, "BANKRUPT");
                 D_800B39B8[i].unk_18 = 0;
                 D_800B39B8[i].unk_1C = 1;
             } else {
                 D_800B39B8[i].unk_00 = value;
-                func_80009900(D_800B39B8[i].name, "10000");
+                StrCopy(D_800B39B8[i].name, "10000");
                 D_800B39B8[i].unk_18 = 1;
             }
         } else if (value < -4) {
             D_800B39B8[i].unk_00 = value;
-            func_80009900(D_800B39B8[i].name, "FREE SPIN");
+            StrCopy(D_800B39B8[i].name, "FREE SPIN");
             D_800B39B8[i].unk_18 = 1;
         } else if (value == -1) {
             D_800B39B8[i].unk_00 = -1;
-            func_80009900(D_800B39B8[i].name, "BANKRUPT");
+            StrCopy(D_800B39B8[i].name, "BANKRUPT");
             D_800B39B8[i].unk_18 = 0;
         } else if (value == -2) {
             D_800B39B8[i].unk_00 = -2;
-            func_80009900(D_800B39B8[i].name, "LOOSE TURN");
+            StrCopy(D_800B39B8[i].name, "LOOSE TURN");
             D_800B39B8[i].unk_18 = 0;
         } else if (value == -3) {
             D_800B39B8[i].unk_00 = -3;
-            func_80009900(D_800B39B8[i].name, "JACKPOT");
+            StrCopy(D_800B39B8[i].name, "JACKPOT");
             D_800B39B8[i].unk_18 = 1;
         } else {
             D_800B39B8[i].unk_00 = value;
-            func_80009AE0(D_800B39B8[i].name, value);
+            IntToStr(D_800B39B8[i].name, value);
             D_800B39B8[i].unk_18 = 0;
         }
         i++;

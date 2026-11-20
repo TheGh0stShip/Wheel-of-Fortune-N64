@@ -1,15 +1,15 @@
 #include "wof.h"
 
-struct n64dk_r12 func_8002C094(proc_t *proc) {
+struct procResult_s func_8002C094(proc_t *proc) {
     s32 event;
     s32 i;
-    struct n64dk_r12 ret;
+    struct procResult_s ret;
     proc_t *task;
 
     ret.w[1] = 1;
     ret.w[0] = 0;
     for (;;) {
-        event = func_8000ACE8(proc);
+        event = ProcGetMessage(proc);
         if (event == 0) {
             break;
         }
@@ -24,8 +24,8 @@ struct n64dk_r12 func_8002C094(proc_t *proc) {
             func_8002B054();
             func_80029440();
             ret.w[1] = 1;
-            ret.w[0] = 60 / D_800B96B4;
-            func_8000AAB0(proc, 11, 0);
+            ret.w[0] = 60 / frameRetraces;
+            ProcPostMessage(proc, 11, 0);
             return ret;
         case 11:
             if (D_800B61A8 < 0) {
@@ -41,7 +41,7 @@ struct n64dk_r12 func_8002C094(proc_t *proc) {
                 D_800B966A[D_8005C394[i] - 65] = 32;
                 func_80007DAC(D_8005C394[i]);
             }
-            task = func_8000A56C(func_80010D3C, 0x1000000);
+            task = CreatProc(func_80010D3C, 0x1000000);
             task->unk_30->data80010D3C.row = 0;
             task->unk_30->data80010D3C.col = 0;
             task->unk_30->data80010D3C.text = D_8005C394;
@@ -51,16 +51,16 @@ struct n64dk_r12 func_8002C094(proc_t *proc) {
         case 6:
             if (D_8005BE00[9].unk_20 != 0) {
                 if (func_80007EEC(0) == 1) {
-                    func_8000A850(10);
-                    func_8000A56C(func_8002BE84, 0x6000000);
+                    ProcPostEvent(10);
+                    CreatProc(func_8002BE84, 0x6000000);
                     ret.w[1] = 0;
                     ret.w[0] = 1;
                     return ret;
                 }
-                D_800BEE20 = func_80002CE0(22);
+                D_800BEE20 = PlaySound(22);
                 func_8002FD50();
                 func_8002EBF4();
-                task = func_8000A56C(func_8002BA44, 0x5050200);
+                task = CreatProc(func_8002BA44, 0x5050200);
                 func_80027218(task, 0, func_80028554, 0x5050200);
                 ret.w[1] = 2;
                 ret.w[0] = 10;
@@ -78,7 +78,7 @@ struct n64dk_r12 func_8002C094(proc_t *proc) {
         case 5:
             if (func_80007818(D_800B61B5) != 0) {
                 if (D_8005BE00[9].unk_20 != 0) {
-                    func_80002CE0(1);
+                    PlaySound(1);
                     func_8002EB40();
                     ret.w[1] = 2;
                     ret.w[0] = 5;
@@ -89,7 +89,7 @@ struct n64dk_r12 func_8002C094(proc_t *proc) {
                 }
             } else {
                 if (D_800BEE28 >= 3) {
-                    func_80002CE0(1);
+                    PlaySound(1);
                     func_8002EB40();
                     ret.w[1] = 2;
                     ret.w[0] = 5;
@@ -107,8 +107,8 @@ struct n64dk_r12 func_8002C094(proc_t *proc) {
             D_8005BE00[i].height = D_8005BCC8[D_800B61B5 - 65].height;
             func_80007DAC(D_800B61B5);
             D_800B61AA[i] = D_800B61B5;
-            if (func_80009A74(D_800B61B0) == 4) {
-                task = func_8000A56C(func_80010D3C, 0x1000000);
+            if (StrLen(D_800B61B0) == 4) {
+                task = CreatProc(func_80010D3C, 0x1000000);
                 task->unk_30->data80010D3C.row = 0;
                 task->unk_30->data80010D3C.col = 0;
                 task->unk_30->data80010D3C.text = D_800B61B0;
@@ -123,32 +123,32 @@ struct n64dk_r12 func_8002C094(proc_t *proc) {
         case 10:
             if (func_800088E4() == 1) {
                 if (D_800BEE20 != -1) {
-                    func_80002F58(D_800BEE20);
+                    StopSound(D_800BEE20);
                 }
-                task = func_8000A990(0x1020000, -1);
-                func_8000AAB0(task, 19, 0);
-                func_8000A850(10);
-                func_8000A56C(func_8002BE84, 0x6000000);
+                task = FindProc(0x1020000, -1);
+                ProcPostMessage(task, 19, 0);
+                ProcPostEvent(10);
+                CreatProc(func_8002BE84, 0x6000000);
                 ret.w[1] = 0;
                 ret.w[0] = 1;
                 return ret;
             }
             func_80011F58();
-            task = func_8000A990(0x1020000, -1);
-            func_8000A4A4(task, 0);
+            task = FindProc(0x1020000, -1);
+            KillProc(task, 0);
             func_8002EBF4();
             ret.w[1] = 2;
             ret.w[0] = 10;
             return ret;
         case 33:
             if (D_800BEE20 != -1) {
-                func_80002F58(D_800BEE20);
+                StopSound(D_800BEE20);
             }
-            func_80002CE0(1);
-            task = func_8000A990(0x1020000, -1);
+            PlaySound(1);
+            task = FindProc(0x1020000, -1);
             func_80011B24();
-            func_8000A850(10);
-            func_8000A56C(func_8002B904, 0x6000000);
+            ProcPostEvent(10);
+            CreatProc(func_8002B904, 0x6000000);
             ret.w[1] = 0;
             ret.w[0] = 1;
             return ret;

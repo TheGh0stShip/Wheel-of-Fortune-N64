@@ -29,10 +29,10 @@ void func_80006BFC(void) {
     default:
         kind = 1;
     }
-    i = D_B025D810[kind].base + func_80009C98(D_B025D810[kind].range);
+    i = D_B025D810[kind].base + Random(D_B025D810[kind].range);
     if (D_800BCD54 != 3) {
         while (D_8004BB98[i].unk_08 != 0) {
-            i = D_B025D810[kind].base + func_80009C98(D_B025D810[kind].range);
+            i = D_B025D810[kind].base + Random(D_B025D810[kind].range);
         }
     }
     func_80006E54(i, 0);

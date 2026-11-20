@@ -1,7 +1,7 @@
 #include "wof.h"
 
-struct n64dk_r12 func_80031A54(proc_t *proc) {
-    struct n64dk_r12 ret;
+struct procResult_s func_80031A54(proc_t *proc) {
+    struct procResult_s ret;
     s32 event;
     obj_t *obj;
     s32 diff;
@@ -15,7 +15,7 @@ struct n64dk_r12 func_80031A54(proc_t *proc) {
     obj = proc->unk_30->vannaAnim.obj;
     sp2C = proc->unk_30->vannaAnim.unk_04;
     for (;;) {
-        event = func_8000ACE8(proc);
+        event = ProcGetMessage(proc);
         if (event == 0) {
             break;
         }
@@ -37,10 +37,10 @@ struct n64dk_r12 func_80031A54(proc_t *proc) {
             break;
         }
     }
-    diff = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_16C00);
-    diff = diff - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
+    diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_16C00);
+    diff = diff - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     obj->unk_44 = base + diff;
-    proc->unk_30->vannaAnim.unk_28 = proc->unk_30->vannaAnim.unk_28 + D_800B96B4;
+    proc->unk_30->vannaAnim.unk_28 = proc->unk_30->vannaAnim.unk_28 + frameRetraces;
     if (proc->unk_30->vannaAnim.unk_28 >= proc->unk_30->vannaAnim.unk_14) {
         proc->unk_30->vannaAnim.unk_28 = proc->unk_30->vannaAnim.unk_28 % proc->unk_30->vannaAnim.unk_14;
         proc->unk_30->vannaAnim.unk_10 = proc->unk_30->vannaAnim.unk_10 + proc->unk_30->vannaAnim.unk_24;
@@ -84,7 +84,7 @@ struct n64dk_r12 func_80031A54(proc_t *proc) {
                             } else {
                                 switch (proc->unk_30->vannaAnim.unk_0C) {
                                 case 3:
-                                    func_8000A850(49);
+                                    ProcPostEvent(49);
                                     D_800B9988 = D_800B9988 + (D_800B61A8 * 44);
                                     D_800B61A8 = D_800B61A8 * -1;
                                     break;

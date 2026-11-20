@@ -9,7 +9,7 @@ void func_80029440(void) {
     proc_t *task;
     obj_t *sp24;
 
-    len = func_80009A74(D_800B9544);
+    len = StrLen(D_800B9544);
     if (len >= 21) {
         func_80009F38("InitCategory: category strlen > 20");
     }
@@ -61,6 +61,6 @@ void func_80029440(void) {
         D_8005B710[n].unk_20 = D_8005B710[n].unk_24;
         return;
     }
-    task = func_8000A56C(func_80029098, 0x6040000);
+    task = CreatProc(func_80029098, 0x6040000);
     sp24 = func_80027218(task, 0, func_80028D3C, 0x5000000);
 }

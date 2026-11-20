@@ -9,7 +9,7 @@ obj_t *func_80027218(proc_t *proc, Gfx *arg1, objDraw_t draw, s32 arg3) {
     if (proc != 0) {
         sp14 = proc->unk_04;
     }
-    obj = func_8000B3B0(sp14, draw, arg3);
+    obj = CreatObj(sp14, draw, arg3);
     if (obj == 0) {
         return obj;
     }

@@ -1,23 +1,23 @@
 #include "wof.h"
 
-struct n64dk_r12 func_8002BA44(proc_t *proc) {
+struct procResult_s func_8002BA44(proc_t *proc) {
     s32 event;
     s32 tens;
     s32 ones;
-    struct n64dk_r12 sp20;
+    struct procResult_s sp20;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     sp20.w[1] = 1;
     sp20.w[0] = 0;
-    while ((event = func_8000ACE8(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 33:
             D_8005B2C0[0].unk_20 = D_8005B118[0];
             D_8005B2C0[0].width = D_8005B178[0];
             D_8005B2C0[1].unk_20 = D_8005B118[0];
             D_8005B2C0[1].width = D_8005B178[0];
-            func_8000AAB0(proc, 31, 0);
-            sp20.w[0] = 30 / D_800B96B4;
+            ProcPostMessage(proc, 31, 0);
+            sp20.w[0] = 30 / frameRetraces;
             return sp20;
         case 31:
             sp20.w[1] = 0;

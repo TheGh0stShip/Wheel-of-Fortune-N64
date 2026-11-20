@@ -1,0 +1,17 @@
+#include "wof.h"
+
+u8 *StrNCopy(u8 *dst, u8 *src, s32 n) {
+    s32 i;
+    s32 j;
+
+    i = 0;
+    j = 0;
+    while (i < n) {
+        dst[i] = src[j];
+        if (src[j] != 0) {
+            j++;
+        }
+        i++;
+    }
+    return dst;
+}

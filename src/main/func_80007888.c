@@ -13,19 +13,19 @@ s32 func_80007888(register s32 arg0, s32 arg1) {
     D_800B9D00 = 1;
     switch (arg1) {
     case 0:
-        p = func_800099B0(D_8004BA04, letter);
+        p = StrChr(D_8004BA04, letter);
         if (p == 0) {
             return -3;
         }
         break;
     case 1:
-        p = func_800099B0(D_8004B9FC, letter);
+        p = StrChr(D_8004B9FC, letter);
         if (p == 0) {
             return -2;
         }
         break;
     default:
-        p = func_800099B0(D_8004B9FC, letter);
+        p = StrChr(D_8004B9FC, letter);
         if (p != 0) {
             arg1 = 1;
         } else {
@@ -33,7 +33,7 @@ s32 func_80007888(register s32 arg0, s32 arg1) {
         }
         break;
     }
-    p = func_800099B0(D_800B966A, letter);
+    p = StrChr(D_800B966A, letter);
     if (p == 0) {
         return -1;
     }
@@ -42,7 +42,7 @@ s32 func_80007888(register s32 arg0, s32 arg1) {
     for (i = 0; i < 4; i++) {
         p = D_800B9601[i];
         while (p != 0) {
-            p = func_800099B0(p, letter);
+            p = StrChr(p, letter);
             if (p != 0) {
                 count++;
                 p++;

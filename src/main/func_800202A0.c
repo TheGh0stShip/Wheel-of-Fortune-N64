@@ -11,10 +11,10 @@ void func_800202A0(u16 *arg0) {
     s32 sp2C;
 
     sp2C = 0x2000000;
-    size = osVirtualToPhysical(D_800BEF08[D_800B61A0].frame.unk_19C00);
-    size = size - osVirtualToPhysical(&D_800BEF08[D_800B61A0].frame);
+    size = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_19C00);
+    size = size - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     src = arg0;
-    dst = D_800BEF08[D_800B61A0].frame.unk_19C00;
+    dst = gfxInfo[curGfxInfo].frame.unk_19C00;
     n = 0;
     page = 0;
     while (page < 2) {
