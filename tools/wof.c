@@ -430,6 +430,13 @@ static void compile_selected(void) {
     mkdirs();
     mirror_lib();
     for (i = 0; i < nunits; i++) {
+        char cc[500];
+        if (!units[i].selected || strcmp(flagmode[class_index(units[i].cls)], "ido")) continue;
+        snprintf(cc, sizeof cc, "%s/cc", ido);
+        if (access(cc, X_OK)) die("unit %s needs the IDO 5.3 compiler, and %s is missing: set WOF_IDO", units[i].name, cc);
+        break;
+    }
+    for (i = 0; i < nunits; i++) {
         if (!units[i].selected) continue;
         while (running >= jobs) {
             wait(&st);
