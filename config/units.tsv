@@ -133,9 +133,7 @@ func_8000E6B4	0x8000E6B4	0x84	match	game	src/main/func_8000E6B4.c
 func_8000E738	0x8000E738	0x5C	match	game	src/main/func_8000E738.c
 func_8000E794	0x8000E794	0x40	match	game	src/main/func_8000E794.c
 func_8000E7D4	0x8000E7D4	0x36C	match	game	src/main/func_8000E7D4.c
-func_8000EB40	0x8000EB40	0x310	match	game	src/main/func_8000EB40.c
-func_8000EE50	0x8000EE50	0x28	match	game	src/main/func_8000EE50.c
-func_8000EE78	0x8000EE78	0xF0	match	game	src/main/func_8000EE78.c
+unit_8000EB40	0x8000EB40	0x428	match	game	src/main/unit_8000EB40.c
 func_8000EF68	0x8000EF68	0x30C	match	game	src/main/func_8000EF68.c
 func_8000F274	0x8000F274	0x4CC	match	game	src/main/func_8000F274.c
 func_8000F740	0x8000F740	0x10C	match	game	src/main/func_8000F740.c

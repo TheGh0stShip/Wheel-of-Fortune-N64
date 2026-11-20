@@ -1,4 +1,13 @@
+// unit_8000EB40.c -- a proc handler, an empty function, and the setup that starts the proc
+//
+// The object's read-only data opens with the RCS run at 0x80000B00, the next object's with the one at
+// 0x80000B90: the functions whose data lie between the two are this object's.
+
 #include "wof.h"
+
+// The #ident line of the system header this object included: the original assembler put the string into
+// the read-only data, which it opens. The header is not in this tree, so its line stands here.
+#ident "$Revision: 1.17 $"
 
 struct n64dk_r12 func_8000EB40(proc_t *proc) {
     struct n64dk_r12 result;
@@ -54,4 +63,26 @@ struct n64dk_r12 func_8000EB40(proc_t *proc) {
         }
     }
     return result;
+}
+
+void func_8000EE50(s32 arg0, s32 arg1) {
+}
+
+void func_8000EE78(void) {
+    s32 unused[4];  /* NOTE: unused in the original; guess: its type, the frame shows at most 16 bytes */
+
+    D_800BCD54 = 3;
+    D_800B8298 = 0.65f;
+    do {
+    } while (D_800BEDE4 != 0 && D_800B96AC < 100);
+    func_800174DC();
+    func_8002FE70();
+    func_80006B28();
+    func_80016310();
+    func_80032BF0();
+    func_8001A484();
+    func_8002EC60();
+    func_8000A56C(func_8000EB40, 0x9000000);
+    func_80015848(0, 0, func_800287A4, 0x5000000);
+    func_80033CBC();
 }
