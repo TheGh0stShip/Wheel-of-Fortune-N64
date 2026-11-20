@@ -1,10 +1,2 @@
 // Addresses of symbols that no unit defines yet. One declaration per line, linker-script syntax.
 // Each entry was read from retail call sites and address pairs; the gate rejects any use that disagrees.
-
-// libultra objects that hold only data, which the unit table cannot express yet
-__libm_qnan_f = 0x800022A8;     // libm_vals.o
-__osThreadSave = 0x800B2420;    // threadsave.o
-osViModeTable = 0x800843C8;     // vitbl.o
-osViModePalLan1 = 0x800842D8;   // vimodepallan1.o
-osViModeMpalLan1 = 0x80084328;  // vimodempallan1.o
-osViModeNtscLan1 = 0x80084378;  // vimodentsclan1.o

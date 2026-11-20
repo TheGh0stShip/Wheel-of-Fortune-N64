@@ -514,6 +514,12 @@ visetspecial	0x8004B198	0x1C0	match	ultra_O1	lib/ultralib/src/io/visetspecial.c
 viswapbuf	0x8004B358	0x50	match	ultra_O1	lib/ultralib/src/io/viswapbuf.c
 viswapcontext	0x8004B3A8	0x360	match	ultra_O1	lib/ultralib/src/io/viswapcontext.c
 vigetcurrcontext	0x8004B708	0x10	match	ultra_O1	lib/ultralib/src/io/vigetcurrcontext.c
+libm_vals	0x800022A8	0x10	match	ultra_asm	lib/ultralib/src/gu/libm_vals.s
+vimodepallan1	0x800842D8	0x50	match	ultra_O1	lib/ultralib/src/vimodes/vimodepallan1.c
+vimodempallan1	0x80084328	0x50	match	ultra_O1	lib/ultralib/src/vimodes/vimodempallan1.c
+vimodentsclan1	0x80084378	0x50	match	ultra_O1	lib/ultralib/src/vimodes/vimodentsclan1.c
+vitbl	0x800843C8	0xD20	match	ultra_O1	lib/ultralib/src/io/vitbl.c
+kdebugserver	0x800B2420	0x1B0	match	ultra_O1	lib/ultralib/src/debug/kdebugserver.c
 func_800887D8	0x800887D8	0xE8	match	game	src/main/func_800887D8.c
 func_800888C0	0x800888C0	0x16C	match	game	src/main/func_800888C0.c
 func_80088A2C	0x80088A2C	0x22C	match	game	src/main/func_80088A2C.c

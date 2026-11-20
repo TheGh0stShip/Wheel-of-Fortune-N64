@@ -168,8 +168,10 @@ src/audio/synstartvoiceparam.c	src/audio/synstartvoiceparam.c	verbatim
 src/audio/synstopvoice.c	src/audio/synstopvoice.c	verbatim
 src/audio/synthInternals.h	src/audio/synthInternals.h	verbatim
 src/audio/synthesizer.c	src/audio/synthesizer.c	verbatim
+src/debug/kdebugserver.c	src/debug/kdebugserver.c	verbatim
 src/gu/cosf.c	src/gu/cosf.c	verbatim
 src/gu/guint.h	src/gu/guint.h	verbatim
+src/gu/libm_vals.s	src/gu/libm_vals.s	verbatim
 src/gu/lookat.c	src/gu/lookat.c	verbatim
 src/gu/mtxcatf.c	src/gu/mtxcatf.c	verbatim
 src/gu/mtxutil.c	src/gu/mtxutil.c	modified
@@ -235,6 +237,7 @@ src/io/visetmode.c	src/io/visetmode.c	verbatim
 src/io/visetspecial.c	src/io/visetspecial.c	verbatim
 src/io/viswapbuf.c	src/io/viswapbuf.c	verbatim
 src/io/viswapcontext.c	src/io/viswapcontext.c	verbatim
+src/io/vitbl.c	src/io/vitbl.c	verbatim
 src/libc/bcopy.s	src/libc/bcopy.s	verbatim
 src/libc/bzero.s	src/libc/bzero.s	verbatim
 src/libc/ll.c	src/libc/ll.c	verbatim
@@ -275,3 +278,6 @@ src/os/writebackdcache.s	src/os/writebackdcache.s	verbatim
 src/os/writebackdcacheall.s	src/os/writebackdcacheall.s	verbatim
 src/os/yieldthread.c	src/os/yieldthread.c	verbatim
 src/sched/sched.c	src/sched/sched.c	verbatim
+src/vimodes/vimodempallan1.c	src/vimodes/vimodempallan1.c	verbatim
+src/vimodes/vimodentsclan1.c	src/vimodes/vimodentsclan1.c	verbatim
+src/vimodes/vimodepallan1.c	src/vimodes/vimodepallan1.c	verbatim
