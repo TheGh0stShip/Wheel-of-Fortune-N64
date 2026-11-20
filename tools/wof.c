@@ -926,12 +926,17 @@ static void verify(Unit *u) {
         int y;
         if (!d->placed || k == u->text || !d->buf) continue;
         len = d->size;
-        while (len && !d->buf[len - 1]) len--; /* trailing alignment padding belongs to nobody */
-        len = (len + 3) & ~3u;
-        /* but a datum the object sizes is its own, zero or not (a global initialised to 0 at the end) */
-        for (y = 0; y < u->nsym; y++)
-            if (u->sym[y].shndx == k && u->sym[y].type == 1 && u->sym[y].size && u->sym[y].value + u->sym[y].size > len)
-                len = u->sym[y].value + u->sym[y].size;
+        if (strcmp(flagmode[class_index(u->cls)], "ido")) {
+            /* GNU as pads a section to its alignment; the original assembler's fill there is stale bytes,
+               so the trailing zeros belong to nobody (asn64 has already cut the game's sections at their
+               last item).  IDO's own section sizes include the padding: an IDO object owns all of it. */
+            while (len && !d->buf[len - 1]) len--;
+            len = (len + 3) & ~3u;
+            /* but a datum the object sizes is its own, zero or not (a global initialised to 0 at the end) */
+            for (y = 0; y < u->nsym; y++)
+                if (u->sym[y].shndx == k && u->sym[y].type == 1 && u->sym[y].size && u->sym[y].value + u->sym[y].size > len)
+                    len = u->sym[y].value + u->sym[y].size;
+        }
         if (len > d->size) len = d->size;
         if (!in_image(d->base, len)) {
             fail(u, ST_DIFF, "%s placed at 0x%08X, outside the image", d->name, d->base);
