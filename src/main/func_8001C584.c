@@ -1,12 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 player;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
-} State;
-
 
 struct n64dk_r12 func_8001C584(s32 arg1) {
     s32 event;
@@ -15,7 +8,7 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (((State *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
+    if (((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04 != D_800FB808) {
         while ((event = func_8000ACE8(arg1)) != 0) {
             switch (event) {
             case 34:
@@ -48,8 +41,8 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
                 func_80016008();
                 D_800B96A8 += 3;
                 func_80002CE0(5);
-                task = func_8000A56C((s32)&func_80017DBC, ((State *)((proc_t *)arg1)->unk_30)->player | 0x2000500);
-                ((State *)((proc_t *)task)->unk_30)->player = ((State *)((proc_t *)arg1)->unk_30)->player;
+                task = func_8000A56C((s32)&func_80017DBC, ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04 | 0x2000500);
+                ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_04 = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04;
                 if (D_800B9CF0 != 0 || D_800B619C == D_800B96C0 - 1) {
                     ret.w[1] = 0;
                     ret.w[0] = 0;
@@ -82,9 +75,9 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
         case 32:
             func_8000A850(24);
             if (D_800BCA00 == 1) {
-                task = func_8000A56C((s32)&func_8001BED8, ((State *)((proc_t *)arg1)->unk_30)->player | 0x2030400);
-                ((State *)((proc_t *)task)->unk_30)->player = ((State *)((proc_t *)arg1)->unk_30)->player;
-                ((State *)((proc_t *)task)->unk_30)->unk_0C = ((State *)((proc_t *)arg1)->unk_30)->unk_0C;
+                task = func_8000A56C((s32)&func_8001BED8, ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04 | 0x2030400);
+                ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_04 = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04;
+                ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_0C = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_0C;
                 ret.w[1] = 2;
                 ret.w[0] = 31;
                 return ret;
@@ -98,9 +91,9 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
         case 15:
             func_8000A850(24);
             if (D_800BCA00 == 1) {
-                task = func_8000A56C((s32)&func_8001BED8, ((State *)((proc_t *)arg1)->unk_30)->player | 0x2030400);
-                ((State *)((proc_t *)task)->unk_30)->player = ((State *)((proc_t *)arg1)->unk_30)->player;
-                ((State *)((proc_t *)task)->unk_30)->unk_0C = ((State *)((proc_t *)arg1)->unk_30)->unk_0C;
+                task = func_8000A56C((s32)&func_8001BED8, ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04 | 0x2030400);
+                ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_04 = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04;
+                ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_0C = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_0C;
                 ret.w[1] = 2;
                 ret.w[0] = 31;
                 return ret;
@@ -112,9 +105,9 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
             return ret;
         case 28:
             if (D_800BCA00 == 1) {
-                task = func_8000A56C((s32)&func_8001BED8, ((State *)((proc_t *)arg1)->unk_30)->player | 0x2030400);
-                ((State *)((proc_t *)task)->unk_30)->player = ((State *)((proc_t *)arg1)->unk_30)->player;
-                ((State *)((proc_t *)task)->unk_30)->unk_0C = ((State *)((proc_t *)arg1)->unk_30)->unk_0C;
+                task = func_8000A56C((s32)&func_8001BED8, ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04 | 0x2030400);
+                ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_04 = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04;
+                ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_0C = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_0C;
                 ret.w[1] = 2;
                 ret.w[0] = 31;
                 return ret;
@@ -130,9 +123,9 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
             D_800B96A0 = 0;
             task = func_8000A990(0x5000000, -1);
             func_8000AAB0(task, 23, 0);
-            task = func_8000A56C((s32)&func_8001AE18, ((State *)((proc_t *)arg1)->unk_30)->player | 0x2000100);
-            ((State *)((proc_t *)task)->unk_30)->player = ((State *)((proc_t *)arg1)->unk_30)->player;
-            ((State *)((proc_t *)task)->unk_30)->unk_0C = ((State *)((proc_t *)arg1)->unk_30)->unk_0C;
+            task = func_8000A56C((s32)&func_8001AE18, ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04 | 0x2000100);
+            ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_04 = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04;
+            ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_0C = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_0C;
             ret.w[1] = 2;
             ret.w[0] = 3;
             return ret;
@@ -141,9 +134,9 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
             D_800B96A0 = 0;
             task = func_8000A990(0x5000000, -1);
             func_8000AAB0(task, 23, 0);
-            task = func_8000A56C((s32)&func_8001B6BC, ((State *)((proc_t *)arg1)->unk_30)->player | 0x2000200);
-            ((State *)((proc_t *)task)->unk_30)->player = ((State *)((proc_t *)arg1)->unk_30)->player;
-            ((State *)((proc_t *)task)->unk_30)->unk_0C = ((State *)((proc_t *)arg1)->unk_30)->unk_0C;
+            task = func_8000A56C((s32)&func_8001B6BC, ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04 | 0x2000200);
+            ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_04 = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04;
+            ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_0C = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_0C;
             ret.w[1] = 2;
             ret.w[0] = 9;
             return ret;
@@ -151,9 +144,9 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
             func_80002CE0(D_800B9990[D_800FB808].unk_108);
             task = func_8000A990(0x5000000, -1);
             func_8000AAB0(task, 23, 0);
-            task = func_8000A56C((s32)&func_8001BC44, ((State *)((proc_t *)arg1)->unk_30)->player | 0x2000300);
-            ((State *)((proc_t *)task)->unk_30)->player = ((State *)((proc_t *)arg1)->unk_30)->player;
-            ((State *)((proc_t *)task)->unk_30)->unk_0C = ((State *)((proc_t *)arg1)->unk_30)->unk_0C;
+            task = func_8000A56C((s32)&func_8001BC44, ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04 | 0x2000300);
+            ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_04 = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04;
+            ((data8001C584_t *)((proc_t *)task)->unk_30)->unk_0C = ((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_0C;
             ret.w[1] = 2;
             ret.w[0] = 10;
             return ret;
@@ -168,7 +161,7 @@ struct n64dk_r12 func_8001C584(s32 arg1) {
             return ret;
         case 39:
             func_800177A4();
-            if (((State *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
+            if (((data8001C584_t *)((proc_t *)arg1)->unk_30)->unk_04 != D_800FB808) {
                 ret.w[1] = 2;
                 ret.w[0] = -1;
             } else {

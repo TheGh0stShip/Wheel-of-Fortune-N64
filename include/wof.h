@@ -174,6 +174,267 @@ typedef struct {
     /* 0x18 */ u8 unk_18[0x4];
 } tile_t;    // size 0x1C
 
+// the data of the proc whose handler is func_8000BEA8
+typedef struct {
+    /* 0x00 */ obj_t *unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ u8 unk_08[0x4];
+    /* 0x0C */ f32 unk_0C;
+    /* 0x10 */ f32 unk_10;
+    /* 0x14 */ f32 unk_14;
+} data8000BEA8_t;    // size 0x18
+
+// the data of the proc whose handler is func_8000C50C
+typedef struct {
+    /* 0x00 */ obj_t *unk_00;
+    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x08 */ s32 unk_08;
+} data8000C50C_t;    // size 0xC
+
+// the data of the proc whose handler is func_8000C6C4
+typedef struct {
+    /* 0x00 */ obj_t *pos;
+    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x08 */ s32 unk_08;
+} data8000C6C4_t;    // size 0xC
+
+// the data of the proc whose handler is func_8000C8A8
+typedef struct {
+    /* 0x00 */ obj_t *cam;
+} data8000C8A8_t;    // size 0x4
+
+// the data of the proc whose handler is func_8000EF68
+typedef struct {
+    /* 0x00 */ u8 unk_00[0xC];
+    /* 0x0C */ f32 unk_0C;
+} data8000EF68_t;    // size 0x10
+
+// the data of the proc whose handler is func_8000F274, created by func_80016310 
+typedef struct {
+    /* 0x00 */ obj_t *actor;
+    /* 0x04 */ f32 unk_04;
+    /* 0x08 */ s32 unk_08;
+} data8000F274_t;    // size 0xC
+
+// the data of the proc whose handler is func_8000F84C
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+} data8000F84C_t;    // size 0x8
+
+// the data of the proc whose handler is func_8000FC3C
+typedef struct {
+    /* 0x00 */ obj_t *unk_00;
+    /* 0x04 */ u8 unk_04[0x8];
+    /* 0x0C */ f32 unk_0C;
+    /* 0x10 */ f32 unk_10;
+} data8000FC3C_t;    // size 0x14
+
+// the data of the proc whose handler is func_8000FDFC
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+} data8000FDFC_t;    // size 0x8
+
+// the data of the proc whose handler is func_8000FFE0
+typedef struct {
+    /* 0x00 */ obj_t *unk_00;
+    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x08 */ s32 unk_08;
+} data8000FFE0_t;    // size 0xC
+
+// the data of the proc whose handler is func_800101F4
+typedef struct {
+    /* 0x00 */ obj_t *unk_00;
+    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x08 */ s32 unk_08;
+} data800101F4_t;    // size 0xC
+
+// the data of the proc whose handler is func_800103B4
+typedef struct {
+    /* 0x00 */ obj_t *unk_00;
+    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x08 */ s32 unk_08;
+} data800103B4_t;    // size 0xC
+
+// the data of the proc whose handler is func_80010574
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 row;
+    /* 0x08 */ s32 col;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ u8 letter;
+} data80010574_t;    // size 0x14
+
+// the data of the proc whose handler is func_80010D3C
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 row;
+    /* 0x08 */ s32 col;
+    /* 0x0C */ u8 unk_0C[0x8];
+    /* 0x14 */ u8 *text;
+} data80010D3C_t;    // size 0x18
+
+// the data of the proc whose handler is func_80016734
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 unk_10;
+} data80016734_t;    // size 0x14
+
+// the data of the proc whose handler is func_80017DBC
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 unk_04;
+} data80017DBC_t;    // size 0x8
+
+// the data of the proc whose handler is func_800183A8
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 player;
+    /* 0x08 */ u8 unk_08[0x4];
+    /* 0x0C */ f32 unk_0C;
+    /* 0x10 */ s8 unk_10;
+} data800183A8_t;    // size 0x14
+
+// the data of the proc whose handler is func_80018D28
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 player;
+    /* 0x08 */ u8 unk_08[0x8];
+    /* 0x10 */ s8 unk_10;
+} data80018D28_t;    // size 0x14
+
+// the data of the proc whose handler is func_8001933C
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 player;
+} data8001933C_t;    // size 0x8
+
+// the data of the proc whose handler is func_80019630
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ u8 unk_08[0x8];
+    /* 0x10 */ s8 unk_10;
+} data80019630_t;    // size 0x14
+
+// the data of the proc whose handler is func_80019AAC, created by func_8001A424 
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 player;
+} data80019AAC_t;    // size 0x8
+
+// the data of the proc whose handler is func_8001AE18
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ u8 unk_08[0x4];
+    /* 0x0C */ f32 unk_0C;
+    /* 0x10 */ s8 unk_10;
+} data8001AE18_t;    // size 0x14
+
+// the data of the proc whose handler is func_8001B6BC
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 player;
+    /* 0x08 */ u8 unk_08[0x4];
+    /* 0x0C */ f32 unk_0C;
+    /* 0x10 */ s8 unk_10;
+} data8001B6BC_t;    // size 0x14
+
+// the data of the proc whose handler is func_8001BC44
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 unk_04;
+} data8001BC44_t;    // size 0x8
+
+// the data of the proc whose handler is func_8001BED8
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ u8 unk_08[0x4];
+    /* 0x0C */ f32 unk_0C;
+    /* 0x10 */ s8 unk_10;
+} data8001BED8_t;    // size 0x14
+
+// the data of the proc whose handler is func_8001C584, created by func_8001D320 func_8001D3CC 
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ f32 unk_0C;
+} data8001C584_t;    // size 0x10
+
+// the data of the proc whose handler is func_80021744, created by func_80021C8C 
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ u8 unk_04[0xC];
+    /* 0x10 */ s32 unk_10;
+    /* 0x14 */ u8 unk_14[0xC];
+    /* 0x20 */ s32 unk_20;
+    /* 0x24 */ s32 unk_24;
+} data80021744_t;    // size 0x28
+
+// the data of the proc whose handler is func_80029098
+typedef struct {
+    /* 0x00 */ obj_t *unk_00;
+    /* 0x04 */ s32 unk_04;
+} data80029098_t;    // size 0x8
+
+// the data of the proc whose handler is func_80029C98
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x10];
+    /* 0x10 */ s32 unk_10;
+} data80029C98_t;    // size 0x14
+
+// the data of the proc whose handler is func_8002B318
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x8];
+    /* 0x08 */ s32 step;
+} data8002B318_t;    // size 0xC
+
+// the data of the proc whose handler is func_8002C094
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ u8 unk_0C[0x8];
+    /* 0x14 */ s32 unk_14;
+} data8002C094_t;    // size 0x18
+
+// the data of the proc whose handler is func_8002CBF4
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 selection;
+    /* 0x08 */ u8 unk_08[0x4];
+    /* 0x0C */ s32 delay;
+} data8002CBF4_t;    // size 0x10
+
+// the data of the proc whose handler is func_8002E0C8
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ union { s32 index; u8 bytes[4]; } unk_04;
+    /* 0x08 */ u8 unk_08[0x4];
+    /* 0x0C */ s32 unk_0C;
+} data8002E0C8_t;    // size 0x10
+
+// the data of the proc whose handler is func_8002EFC0
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ u8 unk_04[0x8];
+    /* 0x0C */ f32 unk_0C;
+} data8002EFC0_t;    // size 0x10
+
+// the data of the proc whose handler is func_80033A28
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+} data80033A28_t;    // size 0xC
+
 //
 // addresses in segment 1, the display list and texture data the game loads: only their
 // addresses are used, so the s32 is a placeholder for data of a kind not known yet

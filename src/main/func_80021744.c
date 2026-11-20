@@ -1,13 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x10];
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ u8 unk_14[0xC];
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ s32 unk_24;
-} Data;
-
 void func_800213CC(s32 arg0);
 
 struct n64dk_r12 func_80021744(s32 arg1) {
@@ -20,8 +12,8 @@ struct n64dk_r12 func_80021744(s32 arg1) {
     while ((event = func_8000ACE8(arg1)) != 0) {
         switch (event) {
         case 8:
-            if (((Data *)((proc_t *)arg1)->unk_30)->unk_24 > 0) {
-                D_800B8294 = ((Data *)((proc_t *)arg1)->unk_30)->unk_24;
+            if (((data80021744_t *)((proc_t *)arg1)->unk_30)->unk_24 > 0) {
+                D_800B8294 = ((data80021744_t *)((proc_t *)arg1)->unk_30)->unk_24;
             }
             D_800B3CB8 = 8;
             break;
@@ -39,9 +31,9 @@ struct n64dk_r12 func_80021744(s32 arg1) {
         D_800B3CB8 = 0;
         result.w[1] = 0;
         result.w[0] = 1;
-        func_800325D0(1, ((Data *)((proc_t *)arg1)->unk_30)->unk_10);
-        if (((Data *)((proc_t *)arg1)->unk_30)->unk_20 != 0) {
-            func_8000A850(((Data *)((proc_t *)arg1)->unk_30)->unk_20);
+        func_800325D0(1, ((data80021744_t *)((proc_t *)arg1)->unk_30)->unk_10);
+        if (((data80021744_t *)((proc_t *)arg1)->unk_30)->unk_20 != 0) {
+            func_8000A850(((data80021744_t *)((proc_t *)arg1)->unk_30)->unk_20);
         }
     }
     return result;

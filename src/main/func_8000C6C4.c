@@ -1,11 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ obj_t *pos;
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-} Data;
-
 
 struct n64dk_r12 func_8000C6C4(s32 arg1) {
     f32 mtx[4][4];
@@ -15,7 +9,7 @@ struct n64dk_r12 func_8000C6C4(s32 arg1) {
     s32 event;
     s32 index;
 
-    pos = ((Data *)((proc_t *)arg1)->unk_30)->pos;
+    pos = ((data8000C6C4_t *)((proc_t *)arg1)->unk_30)->pos;
     for (;;) {
         event = func_8000ACE8(arg1);
         if (event == 0) {
@@ -29,7 +23,7 @@ struct n64dk_r12 func_8000C6C4(s32 arg1) {
             return ret;
         }
     }
-    index = ((Data *)((proc_t *)arg1)->unk_30)->unk_08;
+    index = ((data8000C6C4_t *)((proc_t *)arg1)->unk_30)->unk_08;
     guTranslateF(mtx, (f32)D_800BEE24 * D_80057808[index].unk_08, (f32)D_800BEE24, 0);
     guRotateRPYF(rot, -61.317f, 58.385f, -9.848f);
     guMtxCatF(mtx, rot, mtx);

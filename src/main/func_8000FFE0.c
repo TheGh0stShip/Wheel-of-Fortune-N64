@@ -1,18 +1,12 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ obj_t *unk_00;
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-} State;
-
 struct n64dk_r12 func_8000FFE0(s32 arg1) {
     struct n64dk_r12 result;
     obj_t *obj;
     s32 event;
     s8 pad0;
 
-    obj = ((State *)((proc_t *)arg1)->unk_30)->unk_00;
+    obj = ((data8000FFE0_t *)((proc_t *)arg1)->unk_30)->unk_00;
     for (;;) {
         event = func_8000ACE8(arg1);
         if (event == 0) {
@@ -20,7 +14,7 @@ struct n64dk_r12 func_8000FFE0(s32 arg1) {
         }
         switch (event) {
         case 8:
-            ((State *)((proc_t *)arg1)->unk_30)->unk_08 = 0;
+            ((data8000FFE0_t *)((proc_t *)arg1)->unk_30)->unk_08 = 0;
             obj->unk_48 = &D_010920D8;
             break;
         case 15:
@@ -34,9 +28,9 @@ struct n64dk_r12 func_8000FFE0(s32 arg1) {
             return result;
         }
     }
-    ((State *)((proc_t *)arg1)->unk_30)->unk_08 = ((State *)((proc_t *)arg1)->unk_30)->unk_08 + D_800B96B4;
-    if (((State *)((proc_t *)arg1)->unk_30)->unk_08 >= 5) {
-        ((State *)((proc_t *)arg1)->unk_30)->unk_08 = 0;
+    ((data8000FFE0_t *)((proc_t *)arg1)->unk_30)->unk_08 = ((data8000FFE0_t *)((proc_t *)arg1)->unk_30)->unk_08 + D_800B96B4;
+    if (((data8000FFE0_t *)((proc_t *)arg1)->unk_30)->unk_08 >= 5) {
+        ((data8000FFE0_t *)((proc_t *)arg1)->unk_30)->unk_08 = 0;
         if (obj->unk_48 == &D_01092168) {
             obj->unk_48 = &D_010920D8;
         } else if (obj->unk_48 == &D_01092120) {

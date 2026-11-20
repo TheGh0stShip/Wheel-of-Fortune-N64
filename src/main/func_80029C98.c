@@ -1,10 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x10];
-    /* 0x10 */ s32 unk_10;
-} State;
-
 
 struct n64dk_r12 func_80029C98(s32 arg1) {
     s32 event;
@@ -18,11 +13,11 @@ struct n64dk_r12 func_80029C98(s32 arg1) {
     while ((event = func_8000ACE8(arg1)) != 0) {
         switch (event) {
         case 8:
-            ((State *)((proc_t *)arg1)->unk_30)->unk_10 = 0;
+            ((data80029C98_t *)((proc_t *)arg1)->unk_30)->unk_10 = 0;
         }
     }
-    ((State *)((proc_t *)arg1)->unk_30)->unk_10 = ((State *)((proc_t *)arg1)->unk_30)->unk_10 + 1;
-    count = ((State *)((proc_t *)arg1)->unk_30)->unk_10;
+    ((data80029C98_t *)((proc_t *)arg1)->unk_30)->unk_10 = ((data80029C98_t *)((proc_t *)arg1)->unk_30)->unk_10 + 1;
+    count = ((data80029C98_t *)((proc_t *)arg1)->unk_30)->unk_10;
     if (count >= 17) {
         for (i = 0; i < 9; i++) {
             D_8005B360[i].unk_20 = 0;

@@ -1,11 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-} Data;
-
 struct n64dk_r12 func_80033A28(s32 arg1) {
     struct n64dk_r12 result;
     s32 event;
@@ -18,13 +12,13 @@ struct n64dk_r12 func_80033A28(s32 arg1) {
         case 8:
             func_80002CE0(10);
             D_800B96A8 = 2;
-            ((Data *)((proc_t *)arg1)->unk_30)->unk_04 = 0;
-            ((Data *)((proc_t *)arg1)->unk_30)->unk_08 = 0;
+            ((data80033A28_t *)((proc_t *)arg1)->unk_30)->unk_04 = 0;
+            ((data80033A28_t *)((proc_t *)arg1)->unk_30)->unk_08 = 0;
             break;
         }
     }
-    if (((Data *)((proc_t *)arg1)->unk_30)->unk_04 > 0) {
-        switch (((Data *)((proc_t *)arg1)->unk_30)->unk_04) {
+    if (((data80033A28_t *)((proc_t *)arg1)->unk_30)->unk_04 > 0) {
+        switch (((data80033A28_t *)((proc_t *)arg1)->unk_30)->unk_04) {
         case 1:
             sp24 = func_80002CE0(8);
             break;
@@ -37,13 +31,13 @@ struct n64dk_r12 func_80033A28(s32 arg1) {
         default:
             sp24 = func_80002CE0(guRandom() % 3 + 16);
         }
-        if (D_800B96A8 == ((Data *)((proc_t *)arg1)->unk_30)->unk_04) {
+        if (D_800B96A8 == ((data80033A28_t *)((proc_t *)arg1)->unk_30)->unk_04) {
             D_800B96A8 = 0;
-            ((Data *)((proc_t *)arg1)->unk_30)->unk_04 = 0;
+            ((data80033A28_t *)((proc_t *)arg1)->unk_30)->unk_04 = 0;
         }
     }
-    if (((Data *)((proc_t *)arg1)->unk_30)->unk_04 < D_800B96A8) {
-        ((Data *)((proc_t *)arg1)->unk_30)->unk_04++;
+    if (((data80033A28_t *)((proc_t *)arg1)->unk_30)->unk_04 < D_800B96A8) {
+        ((data80033A28_t *)((proc_t *)arg1)->unk_30)->unk_04++;
         result.w[0] = 10 / D_800B96B4;
     }
     return result;

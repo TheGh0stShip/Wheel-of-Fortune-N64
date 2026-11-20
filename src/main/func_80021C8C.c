@@ -22,15 +22,6 @@ typedef struct {
     /* 0x4 */ BankData data;
 } Bank;
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8 pad4[0xC];
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ u8 pad14[0xC];
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ s32 unk_24;
-} TaskData;
-
 extern Info D_8005822C[];
 extern Bank D_800BEF5C[];
 
@@ -49,10 +40,10 @@ void func_80021C8C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     D_800B998C = (s32)&D_800BEF5C[D_800B61A0].data.pages[arg3];
     func_80016B9C(17);
     task = (proc_t *)func_8000A56C((s32)func_80021744, 0x5010000);
-    ((TaskData *)task->unk_30)->unk_00 = arg2;
-    ((TaskData *)task->unk_30)->unk_24 = D_8005822C[arg0].unk_00;
-    ((TaskData *)task->unk_30)->unk_10 = arg3;
-    ((TaskData *)task->unk_30)->unk_20 = arg4;
+    ((data80021744_t *)task->unk_30)->unk_00 = arg2;
+    ((data80021744_t *)task->unk_30)->unk_24 = D_8005822C[arg0].unk_00;
+    ((data80021744_t *)task->unk_30)->unk_10 = arg3;
+    ((data80021744_t *)task->unk_30)->unk_20 = arg4;
     D_800BCA0C = func_8000B978();
     D_800B40C4 = 0;
     sp18 = func_80021908(arg0);

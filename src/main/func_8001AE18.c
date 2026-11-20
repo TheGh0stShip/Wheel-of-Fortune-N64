@@ -1,13 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ s8 unk_10;
-} State;
-
 
 struct n64dk_r12 func_8001AE18(s32 arg1) {
     struct n64dk_r12 result;
@@ -17,7 +9,7 @@ struct n64dk_r12 func_8001AE18(s32 arg1) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    if (((State *)((proc_t *)arg1)->unk_30)->unk_04 != D_800FB808) {
+    if (((data8001AE18_t *)((proc_t *)arg1)->unk_30)->unk_04 != D_800FB808) {
         func_8000AD9C(arg1);
         return result;
     }
@@ -31,9 +23,9 @@ struct n64dk_r12 func_8001AE18(s32 arg1) {
             func_80017C00(0, 1);
             obj = func_8000A56C(func_8000FDFC, 0x4000000);
             target = func_8000B5DC(0x4010000, 0xFFFF0000);
-            ((State *)obj->unk_30)->unk_00 = target;
-            ((State *)obj->unk_30)->unk_0C = (f32)(guRandom() % 50 + 100);
-            if ((f64)((State *)obj->unk_30)->unk_0C > 80.0) {
+            ((data8001AE18_t *)obj->unk_30)->unk_00 = target;
+            ((data8001AE18_t *)obj->unk_30)->unk_0C = (f32)(guRandom() % 50 + 100);
+            if ((f64)((data8001AE18_t *)obj->unk_30)->unk_0C > 80.0) {
                 func_8000AAB0(arg1, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 30 / D_800B96B4;
@@ -91,7 +83,7 @@ struct n64dk_r12 func_8001AE18(s32 arg1) {
             }
             func_80032B10();
             func_80017C00(3, 1);
-            func_8002EB90(func_8001A894(((State *)((proc_t *)arg1)->unk_30)->unk_0C, arg1) & 255);
+            func_8002EB90(func_8001A894(((data8001AE18_t *)((proc_t *)arg1)->unk_30)->unk_0C, arg1) & 255);
             func_8000AAB0(arg1, 5, 0);
             result.w[1] = 1;
             result.w[0] = 60 / D_800B96B4;
@@ -116,7 +108,7 @@ struct n64dk_r12 func_8001AE18(s32 arg1) {
             if (func_80007888(D_800B61B5, 0) > 0) {
                 func_80007DAC(D_800B61B5);
                 obj = func_8000A56C(func_80010574, 0x1000000);
-                ((State *)obj->unk_30)->unk_10 = D_800B61B5;
+                ((data8001AE18_t *)obj->unk_30)->unk_10 = D_800B61B5;
                 result.w[1] = 2;
                 result.w[0] = 6;
                 return result;

@@ -1,14 +1,6 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ u8 unk_0C[0x8];
-    /* 0x14 */ s32 unk_14;
-} State;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
@@ -58,9 +50,9 @@ struct n64dk_r12 func_8002C094(s32 arg1) {
                 func_80007DAC(D_8005C394[i]);
             }
             task = func_8000A56C((s32)func_80010D3C, 0x1000000);
-            ((State *)((proc_t *)task)->unk_30)->unk_04 = 0;
-            ((State *)((proc_t *)task)->unk_30)->unk_08 = 0;
-            ((State *)((proc_t *)task)->unk_30)->unk_14 = (s32)D_8005C394;
+            ((data8002C094_t *)((proc_t *)task)->unk_30)->unk_04 = 0;
+            ((data8002C094_t *)((proc_t *)task)->unk_30)->unk_08 = 0;
+            ((data8002C094_t *)((proc_t *)task)->unk_30)->unk_14 = (s32)D_8005C394;
             ret.w[1] = 2;
             ret.w[0] = 6;
             return ret;
@@ -125,9 +117,9 @@ struct n64dk_r12 func_8002C094(s32 arg1) {
             D_800B61AA[i] = D_800B61B5;
             if (func_80009A74((s32)D_800B61B0) == 4) {
                 task = func_8000A56C((s32)func_80010D3C, 0x1000000);
-                ((State *)((proc_t *)task)->unk_30)->unk_04 = 0;
-                ((State *)((proc_t *)task)->unk_30)->unk_08 = 0;
-                ((State *)((proc_t *)task)->unk_30)->unk_14 = (s32)D_800B61B0;
+                ((data8002C094_t *)((proc_t *)task)->unk_30)->unk_04 = 0;
+                ((data8002C094_t *)((proc_t *)task)->unk_30)->unk_08 = 0;
+                ((data8002C094_t *)((proc_t *)task)->unk_30)->unk_14 = (s32)D_800B61B0;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {

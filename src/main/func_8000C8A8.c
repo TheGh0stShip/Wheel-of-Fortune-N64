@@ -1,16 +1,12 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ obj_t *cam;
-} Data;
-
 
 struct n64dk_r12 func_8000C8A8(s32 arg1) {
     struct n64dk_r12 ret;
     obj_t *cam;
     s32 event;
 
-    cam = ((Data *)((proc_t *)arg1)->unk_30)->cam;
+    cam = ((data8000C8A8_t *)((proc_t *)arg1)->unk_30)->cam;
     ret.w[1] = 1;
     ret.w[0] = 0;
     for (;;) {

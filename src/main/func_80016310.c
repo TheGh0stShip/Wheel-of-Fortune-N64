@@ -1,11 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ s32 unk_08;
-} Data;
-
 
 void func_80016310(void) {
     proc_t *task;
@@ -27,20 +21,20 @@ void func_80016310(void) {
     func_80015848(0, (s32)&D_010A6098, (s32)func_80014208, 0xA000000);
     func_80015848(0, (s32)&D_010E4260, (s32)func_800153C4, 0xA000000);
     task = (proc_t *)func_8000A56C((s32)func_8000F274, 0x4020000);
-    ((Data *)task->unk_30)->unk_04 = -2.0f;
-    ((Data *)task->unk_30)->unk_08 = 0;
+    ((data8000F274_t *)task->unk_30)->unk_04 = -2.0f;
+    ((data8000F274_t *)task->unk_30)->unk_08 = 0;
     obj = (obj_t *)func_80015848((s32)task, (s32)&D_01037090, (s32)func_80012500, 0x4020000);
     obj->unk_3C = &D_01037EF0;
     func_800132EC(0);
     obj = (obj_t *)func_80015848(0, 0, (s32)func_80013748, 0xA000000);
     task = (proc_t *)func_8000A56C((s32)func_8000F274, 0x4020001);
-    ((Data *)task->unk_30)->unk_04 = -2.0f;
-    ((Data *)task->unk_30)->unk_08 = 0;
+    ((data8000F274_t *)task->unk_30)->unk_04 = -2.0f;
+    ((data8000F274_t *)task->unk_30)->unk_08 = 0;
     obj = (obj_t *)func_80015848((s32)task, (s32)&D_01036FA8, (s32)func_80012500, 0x4020001);
     obj->unk_3C = &D_01037EB0;
     task = (proc_t *)func_8000A56C((s32)func_8000F274, 0x4020002);
-    ((Data *)task->unk_30)->unk_04 = -2.0f;
-    ((Data *)task->unk_30)->unk_08 = 0;
+    ((data8000F274_t *)task->unk_30)->unk_04 = -2.0f;
+    ((data8000F274_t *)task->unk_30)->unk_08 = 0;
     obj = (obj_t *)func_80015848((s32)task, (s32)&D_01037178, (s32)func_80012500, 0x4020002);
     obj->unk_3C = &D_01037E70;
 }

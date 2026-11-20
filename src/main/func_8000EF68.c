@@ -1,10 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0xC];
-    /* 0x0C */ f32 unk_0C;
-} State;
-
 
 struct n64dk_r12 func_8000EF68(s32 arg1) {
     struct n64dk_r12 ret;
@@ -28,7 +23,7 @@ struct n64dk_r12 func_8000EF68(s32 arg1) {
         }
         switch (event) {
         case 8:
-            ((State *)((proc_t *)arg1)->unk_30)->unk_0C = obj->unk_2C;
+            ((data8000EF68_t *)((proc_t *)arg1)->unk_30)->unk_0C = obj->unk_2C;
             break;
         case 34:
             ret.w[1] = 0;
@@ -36,7 +31,7 @@ struct n64dk_r12 func_8000EF68(s32 arg1) {
             return ret;
         }
     }
-    delta = ((State *)((proc_t *)arg1)->unk_30)->unk_0C - D_800B9954.stick_x / D_80057F44;
+    delta = ((data8000EF68_t *)((proc_t *)arg1)->unk_30)->unk_0C - D_800B9954.stick_x / D_80057F44;
     if (delta > 0.0f) {
         delta = delta * -1.0f;
     }

@@ -1,11 +1,6 @@
 #include "wof.h"
 #include "func_800051B4.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 player;
-} Data;
-
 
 struct n64dk_r12 func_8001933C(s32 arg1) {
     struct n64dk_r12 ret;
@@ -15,7 +10,7 @@ struct n64dk_r12 func_8001933C(s32 arg1) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (((Data *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
+    if (((data8001933C_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
         func_8000AD9C(arg1);
         return ret;
     }

@@ -1,14 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ obj_t *unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ f32 unk_14;
-} State;
-
 struct n64dk_r12 func_8000BEA8(s32 arg1) {
     f32 mtx[4][4];
     f32 rot[4][4];
@@ -16,7 +7,7 @@ struct n64dk_r12 func_8000BEA8(s32 arg1) {
     obj_t *obj;
     s32 event;
 
-    obj = ((State *)((proc_t *)arg1)->unk_30)->unk_00;
+    obj = ((data8000BEA8_t *)((proc_t *)arg1)->unk_30)->unk_00;
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
@@ -54,7 +45,7 @@ struct n64dk_r12 func_8000BEA8(s32 arg1) {
         result.w[0] = 2;
         return result;
     }
-    if (func_80002C34(((State *)((proc_t *)arg1)->unk_30)->unk_04) != 0 || D_800B3994 >= 720) {
+    if (func_80002C34(((data8000BEA8_t *)((proc_t *)arg1)->unk_30)->unk_04) != 0 || D_800B3994 >= 720) {
         func_8000ADEC(arg1);
         func_8000AF00();
         func_8000B9FC(1);
@@ -73,9 +64,9 @@ struct n64dk_r12 func_8000BEA8(s32 arg1) {
     guTranslateF(mtx, 0, D_800BEE24, 0);
     guRotateRPYF(rot, obj->unk_28, obj->unk_2C, obj->unk_30);
     guMtxCatF(mtx, rot, mtx);
-    obj->x = ((State *)((proc_t *)arg1)->unk_30)->unk_0C + mtx[3][0];
-    obj->y = ((State *)((proc_t *)arg1)->unk_30)->unk_10 + mtx[3][1];
-    obj->z = ((State *)((proc_t *)arg1)->unk_30)->unk_14 + mtx[3][2];
+    obj->x = ((data8000BEA8_t *)((proc_t *)arg1)->unk_30)->unk_0C + mtx[3][0];
+    obj->y = ((data8000BEA8_t *)((proc_t *)arg1)->unk_30)->unk_10 + mtx[3][1];
+    obj->z = ((data8000BEA8_t *)((proc_t *)arg1)->unk_30)->unk_14 + mtx[3][2];
     if (D_800B3994 >= 721) {
         D_800B3994 = 720;
     }

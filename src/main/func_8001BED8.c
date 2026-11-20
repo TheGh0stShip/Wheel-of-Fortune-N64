@@ -1,13 +1,5 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ s8 unk_10;
-} State;
-
 
 struct n64dk_r12 func_8001BED8(s32 arg1) {
     struct n64dk_r12 sp10;
@@ -18,7 +10,7 @@ struct n64dk_r12 func_8001BED8(s32 arg1) {
 
     sp10.w[1] = 1;
     sp10.w[0] = 0;
-    if (((State *)((proc_t *)arg1)->unk_30)->unk_04 != D_800FB808) {
+    if (((data8001BED8_t *)((proc_t *)arg1)->unk_30)->unk_04 != D_800FB808) {
         func_8000AD9C(arg1);
         return sp10;
     }
@@ -30,16 +22,16 @@ struct n64dk_r12 func_8001BED8(s32 arg1) {
             switch (func_800082E4()) {
             case 4:
                 if (func_80009C98(100) >= 11) {
-                    func_8002EB90(func_8001A894(((State *)((proc_t *)arg1)->unk_30)->unk_0C, arg1) & 255);
+                    func_8002EB90(func_8001A894(((data8001BED8_t *)((proc_t *)arg1)->unk_30)->unk_0C, arg1) & 255);
                 } else {
-                    func_8002EB90(func_8001A97C(((State *)((proc_t *)arg1)->unk_30)->unk_0C) & 255);
+                    func_8002EB90(func_8001A97C(((data8001BED8_t *)((proc_t *)arg1)->unk_30)->unk_0C) & 255);
                 }
                 break;
             case 2:
-                func_8002EB90(func_8001A97C(((State *)((proc_t *)arg1)->unk_30)->unk_0C) & 255);
+                func_8002EB90(func_8001A97C(((data8001BED8_t *)((proc_t *)arg1)->unk_30)->unk_0C) & 255);
                 break;
             case 3:
-                func_8002EB90(func_8001A894(((State *)((proc_t *)arg1)->unk_30)->unk_0C, arg1) & 255);
+                func_8002EB90(func_8001A894(((data8001BED8_t *)((proc_t *)arg1)->unk_30)->unk_0C, arg1) & 255);
                 break;
             }
             func_8000AAB0(arg1, 5, 0);
@@ -59,7 +51,7 @@ struct n64dk_r12 func_8001BED8(s32 arg1) {
             if (func_80007888(D_800B61B5, 2) > 0) {
                 func_80007DAC(D_800B61B5);
                 task = func_8000A56C((s32)&func_80010574, 0x1000000);
-                ((State *)((proc_t *)task)->unk_30)->unk_10 = D_800B61B5;
+                ((data8001BED8_t *)((proc_t *)task)->unk_30)->unk_10 = D_800B61B5;
                 sp10.w[1] = 2;
                 sp10.w[0] = 6;
                 return sp10;
@@ -78,9 +70,9 @@ struct n64dk_r12 func_8001BED8(s32 arg1) {
             func_8002FD50();
             ratio = func_80008628();
             if (ratio > 0.7) {
-                task = func_8000A56C((s32)&func_8001BC44, ((State *)((proc_t *)arg1)->unk_30)->unk_04 | 0x2000300);
-                ((State *)((proc_t *)task)->unk_30)->unk_04 = ((State *)((proc_t *)arg1)->unk_30)->unk_04;
-                ((State *)((proc_t *)task)->unk_30)->unk_0C = ((State *)((proc_t *)arg1)->unk_30)->unk_0C;
+                task = func_8000A56C((s32)&func_8001BC44, ((data8001BED8_t *)((proc_t *)arg1)->unk_30)->unk_04 | 0x2000300);
+                ((data8001BED8_t *)((proc_t *)task)->unk_30)->unk_04 = ((data8001BED8_t *)((proc_t *)arg1)->unk_30)->unk_04;
+                ((data8001BED8_t *)((proc_t *)task)->unk_30)->unk_0C = ((data8001BED8_t *)((proc_t *)arg1)->unk_30)->unk_0C;
                 sp10.w[1] = 2;
                 sp10.w[0] = 10;
                 return sp10;

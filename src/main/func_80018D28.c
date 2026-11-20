@@ -1,13 +1,6 @@
 #include "wof.h"
 #include "func_800051B4.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 player;
-    /* 0x08 */ u8 unk_08[0x8];
-    /* 0x10 */ s8 unk_10;
-} Data;
-
 struct n64dk_r12 func_80018D28(s32 arg1) {
     struct n64dk_r12 ret;
     s32 task;
@@ -16,7 +9,7 @@ struct n64dk_r12 func_80018D28(s32 arg1) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (((Data *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
+    if (((data80018D28_t *)((proc_t *)arg1)->unk_30)->player != D_800FB808) {
         func_8000AD9C(arg1);
         return ret;
     }
@@ -63,7 +56,7 @@ struct n64dk_r12 func_80018D28(s32 arg1) {
             if (func_80007888(D_800B61B5, 1) > 0) {
                 func_80007DAC(D_800B61B5);
                 task = func_8000A56C((s32)func_80010574, 0x1000000);
-                ((Data *)((proc_t *)task)->unk_30)->unk_10 = D_800B61B5;
+                ((data80018D28_t *)((proc_t *)task)->unk_30)->unk_10 = D_800B61B5;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {
