@@ -41,7 +41,7 @@ struct timeval {
 // libc.c. fclose is func_800A4E58, declared in wof.h.
 unsigned int fread( void *ptr, unsigned int size, unsigned int nitems, FILE *stream );
 int fgetc( FILE *stream );
-void *memcpy( void *s1, void *s2, unsigned int n );
+void *memcpy( void *s1, const void *s2, unsigned int n );
 int fseek( FILE *stream, long offset, int whence );
 void free( void *ptr );
 void *malloc( unsigned int size );

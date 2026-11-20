@@ -50,10 +50,10 @@ memcpy
 Copies n bytes from s2 to s1, a byte at a time.
 =====================
 */
-void *memcpy( void *s1, void *s2, unsigned int n ) {
-    unsigned int  i;
-    char          *dst;
-    unsigned char *src;
+void *memcpy( void *s1, const void *s2, unsigned int n ) {
+    unsigned int        i;
+    char                *dst;
+    const unsigned char *src;
 
     dst = s1;
     src = s2;
