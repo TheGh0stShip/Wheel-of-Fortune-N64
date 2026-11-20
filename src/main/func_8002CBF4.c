@@ -15,8 +15,8 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
         case 27:
             D_800BED88++;
             func_8002AFDC();
-            ((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection = D_800B61B5 - 48;
-            D_8005A828[((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection].unk_1C = D_8005A828[((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection].unk_14;
+            ((cursor_t *)((proc_t *)arg1)->unk_30)->index = D_800B61B5 - 48;
+            D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_1C = D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_14;
             break;
         case 8:
             func_8002AFDC();
@@ -43,8 +43,8 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
             func_8002AFDC();
             func_80029974(0);
             func_80028C4C(arg1);
-            D_8005A828[((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection].unk_10 = 1;
-            ((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->delay = 0;
+            D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_10 = 1;
+            ((cursor_t *)((proc_t *)arg1)->unk_30)->unk_0C = 0;
             return result;
         case 15:
             D_800BED88++;
@@ -53,8 +53,8 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
             func_80029440();
             D_800B9CEC = 0;
             func_8002A014();
-            D_8005A828[((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection].unk_10 = 1;
-            ((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->delay = 0;
+            D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_10 = 1;
+            ((cursor_t *)((proc_t *)arg1)->unk_30)->unk_0C = 0;
             func_80029974(0);
         case 1:
             D_800BED88++;
@@ -111,17 +111,17 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
         func_80009F38("Status Proc: player proc does not exist\n");
     }
     if (D_800BCA00 == 1) {
-        D_8005A828[((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection].unk_10 = 0;
+        D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_10 = 0;
         return result;
     }
     if (D_800B9990[D_800FB808].unk_014 == 4) {
-        D_8005A828[((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection].unk_10 = 1;
+        D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_10 = 1;
         return result;
     }
     if ((D_800B96B0 & 0xA000 & 0xFFFF) != 0) {
         D_800BED88++;
-        ((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->delay = 0;
-        switch (((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection) {
+        ((cursor_t *)((proc_t *)arg1)->unk_30)->unk_0C = 0;
+        switch (((cursor_t *)((proc_t *)arg1)->unk_30)->index) {
         case 0:
             if (D_800B9CF8 != 0) {
                 func_8000A850(12);
@@ -176,20 +176,20 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
     } else if ((D_800B96B0 & 0x4000 & 0xFFFF) != 0) {
         return result;
     }
-    if (((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->delay <= 0) {
+    if (((cursor_t *)((proc_t *)arg1)->unk_30)->unk_0C <= 0) {
         if (D_800B9954.stick_y >= 41) {
             func_8002A8C8(arg1, 0);
         } else if (D_800B9954.stick_y < -40) {
             func_8002AAD0(arg1, 0, 1);
         }
     } else {
-        ((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->delay -= D_800B96B4;
+        ((cursor_t *)((proc_t *)arg1)->unk_30)->unk_0C -= D_800B96B4;
     }
-    if (((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection < 0) {
-        ((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection = 3;
-    } else if (((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection >= 4) {
-        ((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection = 0;
+    if (((cursor_t *)((proc_t *)arg1)->unk_30)->index < 0) {
+        ((cursor_t *)((proc_t *)arg1)->unk_30)->index = 3;
+    } else if (((cursor_t *)((proc_t *)arg1)->unk_30)->index >= 4) {
+        ((cursor_t *)((proc_t *)arg1)->unk_30)->index = 0;
     }
-    D_8005A828[((data8002CBF4_t *)((proc_t *)arg1)->unk_30)->selection].unk_10 = 1;
+    D_8005A828[((cursor_t *)((proc_t *)arg1)->unk_30)->index].unk_10 = 1;
     return result;
 }

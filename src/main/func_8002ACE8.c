@@ -1,21 +1,11 @@
 #include "wof.h"
 
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ union {
-        s32 w;
-        u8 b[4];
-    } unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ s32 unk_0C;
-} State;
-
 
 void func_8002ACE8(s32 arg0) {
     s32 i;
 
     D_800BED88++;
-    if (((State *)((proc_t *)arg0)->unk_30)->unk_04.w < 13) {
+    if (((cursor_t *)((proc_t *)arg0)->unk_30)->index < 13) {
         return;
     }
     i = 0;
@@ -32,8 +22,8 @@ void func_8002ACE8(s32 arg0) {
         return;
     }
     func_80002CE0(43);
-    ((State *)((proc_t *)arg0)->unk_30)->unk_04.w = ((State *)((proc_t *)arg0)->unk_30)->unk_04.w - 13;
-    D_8005A998[((State *)((proc_t *)arg0)->unk_30)->unk_04.w].unk_1C = D_8005A998[((State *)((proc_t *)arg0)->unk_30)->unk_04.w].unk_14;
-    D_800B61B5 = ((State *)((proc_t *)arg0)->unk_30)->unk_04.b[3] + 65;
-    ((State *)((proc_t *)arg0)->unk_30)->unk_0C = 15;
+    ((cursor_t *)((proc_t *)arg0)->unk_30)->index = ((cursor_t *)((proc_t *)arg0)->unk_30)->index - 13;
+    D_8005A998[((cursor_t *)((proc_t *)arg0)->unk_30)->index].unk_1C = D_8005A998[((cursor_t *)((proc_t *)arg0)->unk_30)->index].unk_14;
+    D_800B61B5 = ((cursor_t *)((proc_t *)arg0)->unk_30)->index + 65;
+    ((cursor_t *)((proc_t *)arg0)->unk_30)->unk_0C = 15;
 }

@@ -405,22 +405,6 @@ typedef struct {
     /* 0x14 */ s32 unk_14;
 } data8002C094_t;    // size 0x18
 
-// the data of the proc whose handler is func_8002CBF4
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 selection;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ s32 delay;
-} data8002CBF4_t;    // size 0x10
-
-// the data of the proc whose handler is func_8002E0C8
-typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ union { s32 index; u8 bytes[4]; } unk_04;
-    /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ s32 unk_0C;
-} data8002E0C8_t;    // size 0x10
-
 // the data of the proc whose handler is func_8002EFC0
 typedef struct {
     /* 0x00 */ s32 unk_00;
@@ -434,6 +418,15 @@ typedef struct {
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
 } data80033A28_t;    // size 0xC
+
+// The data of the procs that move a cursor over the letters: handlers func_8002CBF4,
+// func_8002D930 and func_8002E0C8, and the helpers they share.
+typedef struct {
+    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x04 */ s32 index;
+    /* 0x08 */ u8 unk_08[0x4];
+    /* 0x0C */ s32 unk_0C;
+} cursor_t;    // size 0x10
 
 //
 // addresses in segment 1, the display list and texture data the game loads: only their
