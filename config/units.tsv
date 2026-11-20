@@ -1,3 +1,4 @@
+func_80000400	0x80000400	0x40	match	asm	asm/func_80000400.s
 func_80002348	0x80002348	0x250	match	game	src/main/func_80002348.c
 func_80002598	0x80002598	0x118	match	game	src/main/func_80002598.c
 func_800026B0	0x800026B0	0x50	match	game	src/main/func_800026B0.c
