@@ -24,12 +24,12 @@ static int D_80086CD0[16] = { 30, 24, 24, 25, 30, 30, 50, 60, 60, 15, 30, 30, 30
 
 /*
 =====================
-func_8009CA80
+InitColorDisplay
 
 Sets up the display: 16 bits a pixel, 5 each of red, green and blue from the top.
 =====================
 */
-void func_8009CA80( char *name, XInfo *xinfo ) {
+void InitColorDisplay( char *name, XInfo *xinfo ) {
     xinfo->depth = 16;
 
     D_80107480[0] = 0xF800;
@@ -39,14 +39,14 @@ void func_8009CA80( char *name, XInfo *xinfo ) {
 
 /*
 =====================
-func_8009CAD8
+ExecuteDisplay
 
 A frame is due: counts it, keeps the time for the frame rate, and hands the converted picture of the
 current frame to the game. With partialFlag set only the frames from startFrame to endFrame are shown,
 and the film ends after endFrame.
 =====================
 */
-void func_8009CAD8( VidStream *vid_stream, XInfo *xinfo ) {
+void ExecuteDisplay( VidStream *vid_stream, XInfo *xinfo ) {
     char                  dummy;    /* NOTE: unused in the original; the image it was passed for is not created */
     Visual                *fc_visual;
     int                   depth, result;    /* NOTE: result is unused in the original, as dummy is */
@@ -66,7 +66,7 @@ void func_8009CAD8( VidStream *vid_stream, XInfo *xinfo ) {
         if ( ( D_80086D38 != -1 ) && ( vid_stream->totNumFrames > D_80086D38 ) ) {
             vid_stream->film_has_ended = TRUE;
             if ( D_80086D18 ) {
-                func_800A2D38( vid_stream );
+                clear_data_stream( vid_stream );
             }
             return;
         }
@@ -80,7 +80,7 @@ void func_8009CAD8( VidStream *vid_stream, XInfo *xinfo ) {
     case 0:
         break;
     default:
-        func_800A4F74( &tfnow, (struct timezone *)NULL );
+        gettimeofday( &tfnow, (struct timezone *)NULL );
         usec = tftarget.tv_usec - tfnow.tv_usec;
         sec = tftarget.tv_sec - tfnow.tv_sec;
         if ( usec < 0 ) {
@@ -101,7 +101,7 @@ void func_8009CAD8( VidStream *vid_stream, XInfo *xinfo ) {
         switch ( D_80086D2C ) {
         case -1:    // the rate the stream asks for
             rate_deal = D_80086CD0[vid_stream->picture_rate];
-            func_800A4F74( &tftarget, (struct timezone *)NULL );
+            gettimeofday( &tftarget, (struct timezone *)NULL );
             one_frame_time = 1000000 / rate_deal;
             break;
         case 0:     // as fast as possible
@@ -109,7 +109,7 @@ void func_8009CAD8( VidStream *vid_stream, XInfo *xinfo ) {
             break;
         default:
             rate_deal = D_80086D2C;
-            func_800A4F74( &tftarget, (struct timezone *)NULL );
+            gettimeofday( &tftarget, (struct timezone *)NULL );
             one_frame_time = 1000000 / rate_deal;
             break;
         }
@@ -128,7 +128,7 @@ void func_8009CAD8( VidStream *vid_stream, XInfo *xinfo ) {
             w = vid_stream->mb_width * pixels_per_mb;
             h = vid_stream->mb_height * pixels_per_mb;
 
-            fc_visual = func_800A2B08( display, &depth );
+            fc_visual = FindFullColorVisual( display, &depth );
             xinfo->ximage = NULL;
         }
 

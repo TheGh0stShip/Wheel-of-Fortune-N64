@@ -39,21 +39,21 @@ struct timeval {
 };
 
 // libc.c. fclose is func_800A4E58, declared in wof.h.
-unsigned int func_800A4A18( void *ptr, unsigned int size, unsigned int nitems, FILE *stream );
-int func_800A4AD8( FILE *stream );
-void *func_800A4B14( void *s1, void *s2, unsigned int n );
-int func_800A4BB4( FILE *stream, long offset, int whence );
-void func_800A4C04( void *ptr );
-void *func_800A4C28( unsigned int size );
-void *func_800A4C70( void *ptr, unsigned int size );
-void func_800A4CBC( int status );
-void *func_800A4CF8( void *s, int c, unsigned int n );
-char *func_800A4D84( char *s1, char *s2 );
-FILE *func_800A4DD0( char *filename );
-double func_800A4E84( double x );
+unsigned int fread( void *ptr, unsigned int size, unsigned int nitems, FILE *stream );
+int fgetc( FILE *stream );
+void *memcpy( void *s1, void *s2, unsigned int n );
+int fseek( FILE *stream, long offset, int whence );
+void free( void *ptr );
+void *malloc( unsigned int size );
+void *realloc( void *ptr, unsigned int size );
+void exit( int status );
+void *memset( void *s, int c, unsigned int n );
+char *strtok( char *s1, char *s2 );
+FILE *fopen( char *filename );
+double sqrt( double x );
 double cos( double x );
-double func_800A4F24( double x );
-int func_800A4F74( struct timeval *tp, ... );
+double floor( double x );
+int gettimeofday( struct timeval *tp, ... );
 
 extern FILE D_80107888;
 

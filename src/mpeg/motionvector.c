@@ -88,12 +88,12 @@ doubled into the half-pel units everything else uses.
 
 /*
 =====================
-func_800998E0
+ComputeForwVector
 
 The forward vector of the current macroblock.
 =====================
 */
-void func_800998E0( int *recon_right_for_ptr, int *recon_down_for_ptr, VidStream *the_stream ) {
+void ComputeForwVector( int *recon_right_for_ptr, int *recon_down_for_ptr, VidStream *the_stream ) {
     Pict       *picture;
     Macroblock *mblock;
 
@@ -111,12 +111,12 @@ void func_800998E0( int *recon_right_for_ptr, int *recon_down_for_ptr, VidStream
 
 /*
 =====================
-func_80099C8C
+ComputeBackVector
 
 The backward vector of the current macroblock.
 =====================
 */
-void func_80099C8C( int *recon_right_back_ptr, int *recon_down_back_ptr, VidStream *the_stream ) {
+void ComputeBackVector( int *recon_right_back_ptr, int *recon_down_back_ptr, VidStream *the_stream ) {
     Pict       *picture;
     Macroblock *mblock;
 

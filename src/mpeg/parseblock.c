@@ -18,19 +18,19 @@
 
 /*
 =====================
-func_800964D0
+ParseReconBlock
 
 Parses block n of the current macroblock and reconstructs its samples in vid_stream->block: the DC
 coefficient from its predictor, the others dequantized as they are decoded, then the inverse DCT.
 A block with one coefficient goes through the cheap inverse DCT.
 =====================
 */
-void func_800964D0( int n, VidStream *vid_stream ) {
+void ParseReconBlock( int n, VidStream *vid_stream ) {
     Block *blockPtr = &vid_stream->block;
     int   coeffCount = 0;
 
     if ( vid_stream->buf_length < 100 ) {
-        func_800887D8( vid_stream );
+        correct_underflow( vid_stream );
     }
 
     {
@@ -238,27 +238,27 @@ void func_800964D0( int n, VidStream *vid_stream ) {
 end:
 
         if ( coeffCount == 1 ) {
-            func_8009D4B8( reconptr, pos );
+            j_rev_dct_sparse( reconptr, pos );
         } else {
-            func_8009D67C( reconptr );
+            j_rev_dct( reconptr );
         }
     }
 }
 
 /*
 =====================
-func_800983D4
+ParseAwayBlock
 
 Parses block n of the current macroblock without reconstructing it.
 =====================
 */
-void func_800983D4( int n, VidStream *vid_stream ) {
+void ParseAwayBlock( int n, VidStream *vid_stream ) {
     unsigned int diff;
     unsigned int size, run;
     int level;
 
     if ( vid_stream->buf_length < 100 ) {
-        func_800887D8( vid_stream );
+        correct_underflow( vid_stream );
     }
 
     if ( vid_stream->mblock.mb_intra ) {

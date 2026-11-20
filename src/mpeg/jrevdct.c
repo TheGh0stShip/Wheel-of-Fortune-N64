@@ -36,30 +36,30 @@ static DCTELEM D_800FD2C8[64][64];
 
 /*
 =====================
-func_8009D3D8
+init_pre_idct
 
 Builds the table of single-coefficient transforms.
 =====================
 */
-void func_8009D3D8( void ) {
+void init_pre_idct( void ) {
     int i;
 
     for ( i = 0; i < 64; i++ ) {
-        func_800A4CF8( (char *)D_800FD2C8[i], 0, 64 * sizeof( DCTELEM ) );
+        memset( (char *)D_800FD2C8[i], 0, 64 * sizeof( DCTELEM ) );
         D_800FD2C8[i][i] = 1 << SPARSE_SCALE_FACTOR;
-        func_8009D67C( D_800FD2C8[i] );
+        j_rev_dct( D_800FD2C8[i] );
     }
 }
 
 /*
 =====================
-func_8009D4B8
+j_rev_dct_sparse
 
 The inverse DCT of a block whose only coefficient is at pos. For the DC coefficient the result is a
 block of one value, written 32 bits at a time; any other block goes through the full transform.
 =====================
 */
-void func_8009D4B8( DCTBLOCK data, int pos ) {
+void j_rev_dct_sparse( DCTBLOCK data, int pos ) {
     short int    val;
     register int *dp;
     register int v;
@@ -119,13 +119,13 @@ void func_8009D4B8( DCTBLOCK data, int pos ) {
         return;
     }
 
-    func_8009D67C( data );
+    j_rev_dct( data );
     return;
 }
 
 /*
 =====================
-func_8009D67C
+j_rev_dct
 
 The inverse DCT of a block, in place.
 
@@ -133,7 +133,7 @@ BUG: where the decoder means the constant 1.306562965 added to a term whose roun
 writes ( FIX( 1.306562965 ) + .5 ): the product is computed in floating point and truncated.
 =====================
 */
-void func_8009D67C( DCTBLOCK data ) {
+void j_rev_dct( DCTBLOCK data ) {
     INT32 tmp0, tmp1, tmp2, tmp3;
     INT32 tmp10, tmp11, tmp12, tmp13;
     INT32 z1, z2, z3, z4, z5;

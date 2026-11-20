@@ -2,7 +2,7 @@
 //
 // guess: the file is what the player keeps of main.c of the Berkeley mpeg_play decoder. func_8009CEC0
 // is its main with the command line taken out and one movie instead of fifteen; func_8009D244 is the
-// body of the loop main ended with, once round; func_8009D300 is DoDitherImage. The flags are the ones
+// body of the loop main ended with, once round; DoDitherImage is DoDitherImage. The flags are the ones
 // the command line set.
 
 #include "wof.h"
@@ -87,7 +87,7 @@ void func_8009CEC0( char *movie, s32 gamma ) {
 
     D_80086D28 = 0;
 
-    D_8010346C = func_800A4DD0( movie );
+    D_8010346C = fopen( movie );
     if ( D_8010346C == NULL ) {
         func_80009F38( "MPEG: input == NULL" );
     }
@@ -100,7 +100,7 @@ void func_8009CEC0( char *movie, s32 gamma ) {
         func_80009F38( "MPEG: endFrame < startFrame" );
     }
 
-    func_8009C5AC();
+    init_tables();
 
     D_801033F8.owncmFlag = owncmFlag;
     D_801033F8.display = NULL;
@@ -115,16 +115,16 @@ void func_8009CEC0( char *movie, s32 gamma ) {
     D_801033F8.cmap = 0;
     D_801033F8.gc = 0;
 
-    func_8009CA80( name, &D_801033F8 );
-    func_800A1BE4( D_801033F8.depth >= 16 );
+    InitColorDisplay( name, &D_801033F8 );
+    InitColorDither( D_801033F8.depth >= 16 );
 
-    func_800894F8();
+    InitCrop();
 
     y = 300;
     largy = 0;
     doDisplay = !D_80086D28;
 
-    D_80107884 = theStream = func_800895C4( (unsigned int)BUF_LENGTH );
+    D_80107884 = theStream = NewVidStream( (unsigned int)BUF_LENGTH );
     theStream->input = D_8010346C;
     theStream->seekValue = seekValue;
     theStream->filename = D_801084A0;
@@ -134,7 +134,7 @@ void func_8009CEC0( char *movie, s32 gamma ) {
     // the first call parses the sequence header; it is not to report anything
     mark = D_80086D20;
     D_80086D20 = 1;
-    if ( func_80089B10( 0, theStream, 1, &D_801033F8 ) == NULL ) {
+    if ( mpegVidRsrc( 0, theStream, 1, &D_801033F8 ) == NULL ) {
         func_80009F38( "MPEG: mpegVidRsrc returned NULL" );
     }
     D_80086D20 = mark;
@@ -142,7 +142,7 @@ void func_8009CEC0( char *movie, s32 gamma ) {
     mult = 1;
 
     if ( theStream != NULL ) {
-        theStream->realTimeStart = func_80089490();
+        theStream->realTimeStart = ReadSysClock();
     }
 
     func_8009D244();
@@ -160,7 +160,7 @@ s32 func_8009D244( void ) {
 
     mark = D_80107884->totNumFrames;
     while ( mark == D_80107884->totNumFrames ) {
-        func_80089B10( 0, D_80107884, 0, &D_801033F8 );
+        mpegVidRsrc( 0, D_80107884, 0, &D_801033F8 );
     }
 
     if ( D_80107884->film_has_ended ) {
@@ -173,12 +173,12 @@ s32 func_8009D244( void ) {
 
 /*
 =====================
-func_8009D300
+DoDitherImage
 
 Converts the current frame from its three planes to the picture that is shown.
 =====================
 */
-void func_8009D300( VidStream *vid_stream ) {
+void DoDitherImage( VidStream *vid_stream ) {
     unsigned char *l = vid_stream->current->luminance,
                   *Cr = vid_stream->current->Cr,
                   *Cb = vid_stream->current->Cb,
@@ -188,5 +188,5 @@ void func_8009D300( VidStream *vid_stream ) {
     int           ditherType = vid_stream->ditherType;          /* NOTE: unused in the original; there is one conversion */
     int           matched_depth = vid_stream->matched_depth;    /* NOTE: unused in the original, as ditherType is */
 
-    func_800A2594( l, Cr, Cb, disp, h, w );
+    Color16DitherImage( l, Cr, Cb, disp, h, w );
 }

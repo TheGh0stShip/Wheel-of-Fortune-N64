@@ -8,12 +8,12 @@
 
 /*
 =====================
-func_800A2B08
+FindFullColorVisual
 
 There is no X server to ask for a visual.
 =====================
 */
-Visual *func_800A2B08( Display *dpy, int *depth ) {
+Visual *FindFullColorVisual( Display *dpy, int *depth ) {
     XVisualInfo vinfo;              /* NOTE: unused in the original; what read the four is gone */
     XVisualInfo *vinfo_ret;         /* NOTE: unused in the original */
     int         numitems, maxdepth; /* NOTE: unused in the original */

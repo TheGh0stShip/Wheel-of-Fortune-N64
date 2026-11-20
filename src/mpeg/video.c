@@ -53,26 +53,26 @@ static unsigned char D_800FB898[NUM_CROP_ENTRIES];
 
 /*
 =====================
-func_80089490
+ReadSysClock
 
 The time in seconds.
 =====================
 */
-double func_80089490( void ) {
+double ReadSysClock( void ) {
     struct timeval tv;
 
-    (void)func_800A4F74( &tv, NULL );
+    (void)gettimeofday( &tv, NULL );
     return ( tv.tv_sec + tv.tv_usec / 1000000.0 );
 }
 
 /*
 =====================
-func_800894F8
+InitCrop
 
 Fills the crop table.
 =====================
 */
-void func_800894F8( void ) {
+void InitCrop( void ) {
     int i;
 
     for ( i = ( -MAX_NEG_CROP ); i < NUM_CROP_ENTRIES - MAX_NEG_CROP; i++ ) {
@@ -88,13 +88,13 @@ void func_800894F8( void ) {
 
 /*
 =====================
-func_800895C4
+NewVidStream
 
 Allocates a video stream with a buffer of buffer_len bytes, and gives it the default quantization
 matrices.
 =====================
 */
-VidStream *func_800895C4( unsigned int buffer_len ) {
+VidStream *NewVidStream( unsigned int buffer_len ) {
     int       i, j;
     VidStream *new;
     static const unsigned char default_intra_matrix[64] = {
@@ -115,7 +115,7 @@ VidStream *func_800895C4( unsigned int buffer_len ) {
     // the buffer is counted in words
     buffer_len = ( buffer_len + 3 ) >> 2;
 
-    new = (VidStream *)func_800A4C28( sizeof( VidStream ) );
+    new = (VidStream *)malloc( sizeof( VidStream ) );
 
     new->group.ext_data = new->group.user_data =
         new->picture.extra_info = new->picture.user_data =
@@ -139,7 +139,7 @@ VidStream *func_800895C4( unsigned int buffer_len ) {
         new->ring[i] = NULL;
     }
 
-    new->buf_start = (unsigned int *)func_800A4C28( buffer_len * 4 );
+    new->buf_start = (unsigned int *)malloc( buffer_len * 4 );
 
     // one word less than there is, for streams that end without a sequence end code
     new->max_buf_length = buffer_len - 1;
@@ -159,12 +159,12 @@ VidStream *func_800895C4( unsigned int buffer_len ) {
 
 /*
 =====================
-func_80089898
+ResetVidStream
 
 Puts a stream back at the beginning of its film.
 =====================
 */
-void func_80089898( VidStream *vid ) {
+void ResetVidStream( VidStream *vid ) {
     int i;
 
     vid->current = vid->past = vid->future = NULL;
@@ -179,7 +179,7 @@ void func_80089898( VidStream *vid ) {
 
     vid->film_has_ended = FALSE;
 
-    vid->realTimeStart = func_80089490();
+    vid->realTimeStart = ReadSysClock();
 
     vid->totNumFrames = 0;
 
@@ -188,18 +188,18 @@ void func_80089898( VidStream *vid ) {
 
 /*
 =====================
-func_80089984
+NewPictImage
 
 Allocates a frame for the stream: the three planes and the picture they are converted to.
 =====================
 */
-PictImage *func_80089984( VidStream *vid_stream, XInfo *xinfo ) {
+PictImage *NewPictImage( VidStream *vid_stream, XInfo *xinfo ) {
     PictImage    *new;
     int          ditherType = vid_stream->ditherType;
     unsigned int width = vid_stream->mb_width * 16;
     unsigned int height = vid_stream->mb_height * 16;
 
-    new = (PictImage *)func_800A4C28( sizeof( PictImage ) );
+    new = (PictImage *)malloc( sizeof( PictImage ) );
 
     {
         int temp_sz;    // bytes a pixel
@@ -213,11 +213,11 @@ PictImage *func_80089984( VidStream *vid_stream, XInfo *xinfo ) {
             temp_sz = 4;
         }
         factor = 1 + IS_2x2_DITHER( ditherType );
-        new->display = (unsigned char *)func_800A4C28( width * height * temp_sz * factor * factor );
+        new->display = (unsigned char *)malloc( width * height * temp_sz * factor * factor );
     }
-    new->luminance = (unsigned char *)func_800A4C28( width * height );
-    new->Cr = (unsigned char *)func_800A4C28( width * height / 4 );
-    new->Cb = (unsigned char *)func_800A4C28( width * height / 4 );
+    new->luminance = (unsigned char *)malloc( width * height );
+    new->Cr = (unsigned char *)malloc( width * height / 4 );
+    new->Cb = (unsigned char *)malloc( width * height / 4 );
 
     new->locked = 0;
 
@@ -226,14 +226,14 @@ PictImage *func_80089984( VidStream *vid_stream, XInfo *xinfo ) {
 
 /*
 =====================
-func_80089B10
+mpegVidRsrc
 
 Parses the stream up to the next thing its caller can act on: a header, or MB_QUANTUM macroblocks of
 the picture being decoded. The first call on a stream sets `first`, and must find a sequence header.
 Returns the stream, or NULL if it is not a video stream.
 =====================
 */
-VidStream *func_80089B10( TimeStamp time_stamp, VidStream *vid_stream, int first, XInfo *xinfo ) {
+VidStream *mpegVidRsrc( TimeStamp time_stamp, VidStream *vid_stream, int first, XInfo *xinfo ) {
     unsigned int data;
     int          i, status;
 
@@ -247,7 +247,7 @@ VidStream *func_80089B10( TimeStamp time_stamp, VidStream *vid_stream, int first
         vid_stream->leftover_bytes = 0;
         vid_stream->seekValue = 0;
         vid_stream->Parse_done = FALSE;
-        func_80088C58( vid_stream );
+        next_start_code( vid_stream );
         show_bits32( data );
         if ( data != SEQ_START_CODE ) {
             return NULL;
@@ -264,7 +264,7 @@ VidStream *func_80089B10( TimeStamp time_stamp, VidStream *vid_stream, int first
         // show the last frame
         if ( vid_stream->future != NULL ) {
             vid_stream->current = vid_stream->future;
-            func_8009CAD8( vid_stream, xinfo );
+            ExecuteDisplay( vid_stream, xinfo );
         }
 
         if ( !D_80086D20 ) {
@@ -272,60 +272,60 @@ VidStream *func_80089B10( TimeStamp time_stamp, VidStream *vid_stream, int first
         }
         vid_stream->film_has_ended = TRUE;
         if ( D_80086D18 ) {
-            func_800A2D38( vid_stream );
+            clear_data_stream( vid_stream );
         }
         goto done;
         break;
 
     case SEQ_START_CODE:
-        if ( func_8008A34C( vid_stream, xinfo ) != PARSE_OK ) {
+        if ( ParseSeqHead( vid_stream, xinfo ) != PARSE_OK ) {
             goto error;
         }
 
         if ( vid_stream->seekValue > 0 ) {
-            func_800A2D84( vid_stream );
+            SeekStream( vid_stream );
         }
         goto done;
 
     case GOP_START_CODE:
-        if ( func_8008B560( vid_stream ) != PARSE_OK ) {
+        if ( ParseGOP( vid_stream ) != PARSE_OK ) {
             goto error;
         }
         goto done;
 
     case PICTURE_START_CODE:
         // the picture header, then the header of its first slice
-        status = func_8008C0A8( vid_stream, time_stamp );
+        status = ParsePicture( vid_stream, time_stamp );
 
         if ( status == SKIP_PICTURE ) {
-            func_80088C58( vid_stream );
-            while ( !func_800888C0( 32, PICTURE_START_CODE, vid_stream ) ) {
-                if ( func_800888C0( 32, GOP_START_CODE, vid_stream ) ) {
+            next_start_code( vid_stream );
+            while ( !next_bits( 32, PICTURE_START_CODE, vid_stream ) ) {
+                if ( next_bits( 32, GOP_START_CODE, vid_stream ) ) {
                     break;
-                } else if ( func_800888C0( 32, SEQ_END_CODE, vid_stream ) ) {
+                } else if ( next_bits( 32, SEQ_END_CODE, vid_stream ) ) {
                     break;
                 }
                 flush_bits( 24 );
-                func_80088C58( vid_stream );
+                next_start_code( vid_stream );
             }
             goto done;
         } else if ( status != PARSE_OK ) {
             goto error;
         }
 
-        if ( func_8008CDB8( vid_stream ) != PARSE_OK ) {
+        if ( ParseSlice( vid_stream ) != PARSE_OK ) {
             goto error;
         }
         break;
 
     case SEQUENCE_ERROR_CODE:
         flush_bits32;
-        func_80088C58( vid_stream );
+        next_start_code( vid_stream );
         goto done;
 
     default:
         if ( ( data >= SLICE_MIN_START_CODE ) && ( data <= SLICE_MAX_START_CODE ) ) {
-            if ( func_8008CDB8( vid_stream ) != PARSE_OK ) {
+            if ( ParseSlice( vid_stream ) != PARSE_OK ) {
                 goto error;
             }
         }
@@ -334,29 +334,29 @@ VidStream *func_80089B10( TimeStamp time_stamp, VidStream *vid_stream, int first
 
     for ( i = 0; i < MB_QUANTUM; i++ ) {
         // 23 zero bits begin a start code; anything else is a macroblock
-        if ( !func_800888C0( 23, 0x00000000, vid_stream ) ) {
-            if ( func_8008D220( vid_stream ) != PARSE_OK ) {
+        if ( !next_bits( 23, 0x00000000, vid_stream ) ) {
+            if ( ParseMacroBlock( vid_stream ) != PARSE_OK ) {
                 goto error;
             }
         } else {
-            func_80088C58( vid_stream );
+            next_start_code( vid_stream );
             show_bits32( data );
 
             // any start code but a slice's ends the picture
             if ( ( ( data < SLICE_MIN_START_CODE ) || ( data > SLICE_MAX_START_CODE ) ) &&
                  ( data != SEQUENCE_ERROR_CODE ) ) {
-                func_800962DC( vid_stream, xinfo );
+                DoPictureDisplay( vid_stream, xinfo );
             }
             goto done;
         }
     }
 
     // did the picture end on the last macroblock of this call?
-    if ( func_800888C0( 23, 0x00000000, vid_stream ) ) {
-        func_80088C58( vid_stream );
+    if ( next_bits( 23, 0x00000000, vid_stream ) ) {
+        next_start_code( vid_stream );
         show_bits32( data );
         if ( ( data < SLICE_MIN_START_CODE ) || ( data > SLICE_MAX_START_CODE ) ) {
-            func_800962DC( vid_stream, xinfo );
+            DoPictureDisplay( vid_stream, xinfo );
         }
     }
 
@@ -364,7 +364,7 @@ VidStream *func_80089B10( TimeStamp time_stamp, VidStream *vid_stream, int first
 
 error:
     fprintf( stderr, "Error!!!!\n" );
-    func_80088C58( vid_stream );
+    next_start_code( vid_stream );
     goto done;
 
 done:
@@ -373,12 +373,12 @@ done:
 
 /*
 =====================
-func_8008A34C
+ParseSeqHead
 
 Parses a sequence header, and allocates the stream's frames once the picture size is known.
 =====================
 */
-int func_8008A34C( VidStream *vid_stream, XInfo *xinfo ) {
+int ParseSeqHead( VidStream *vid_stream, XInfo *xinfo ) {
     unsigned int data;
     int          i;
     int          ditherType = vid_stream->ditherType;   /* NOTE: unused in the original; the dithers that read it are compiled out */
@@ -396,7 +396,7 @@ int func_8008A34C( VidStream *vid_stream, XInfo *xinfo ) {
 
     if ( vid_stream->ring[0] == NULL ) {
         for ( i = 0; i < RING_BUF_SIZE; i++ ) {
-            vid_stream->ring[i] = func_80089984( vid_stream, xinfo );
+            vid_stream->ring[i] = NewPictImage( vid_stream, xinfo );
         }
     }
 
@@ -441,24 +441,24 @@ int func_8008A34C( VidStream *vid_stream, XInfo *xinfo ) {
         }
     }
 
-    func_80088C58( vid_stream );
+    next_start_code( vid_stream );
 
-    if ( func_800888C0( 32, EXT_START_CODE, vid_stream ) ) {
+    if ( next_bits( 32, EXT_START_CODE, vid_stream ) ) {
         flush_bits32;
         if ( vid_stream->ext_data != NULL ) {
-            func_800A4C04( vid_stream->ext_data );
+            free( vid_stream->ext_data );
             vid_stream->ext_data = NULL;
         }
-        vid_stream->ext_data = func_80088A2C( vid_stream );
+        vid_stream->ext_data = get_ext_data( vid_stream );
     }
 
-    if ( func_800888C0( 32, USER_START_CODE, vid_stream ) ) {
+    if ( next_bits( 32, USER_START_CODE, vid_stream ) ) {
         flush_bits32;
         if ( vid_stream->user_data != NULL ) {
-            func_800A4C04( vid_stream->user_data );
+            free( vid_stream->user_data );
             vid_stream->user_data = NULL;
         }
-        vid_stream->user_data = func_80088A2C( vid_stream );
+        vid_stream->user_data = get_ext_data( vid_stream );
     }
 
     return PARSE_OK;
@@ -466,12 +466,12 @@ int func_8008A34C( VidStream *vid_stream, XInfo *xinfo ) {
 
 /*
 =====================
-func_8008B560
+ParseGOP
 
 Parses a group of pictures header.
 =====================
 */
-int func_8008B560( VidStream *vid_stream ) {
+int ParseGOP( VidStream *vid_stream ) {
     unsigned int data;
 
     flush_bits32;
@@ -516,24 +516,24 @@ int func_8008B560( VidStream *vid_stream ) {
         }
     }
 
-    func_80088C58( vid_stream );
+    next_start_code( vid_stream );
 
-    if ( func_800888C0( 32, EXT_START_CODE, vid_stream ) ) {
+    if ( next_bits( 32, EXT_START_CODE, vid_stream ) ) {
         flush_bits32;
         if ( vid_stream->group.ext_data != NULL ) {
-            func_800A4C04( vid_stream->group.ext_data );
+            free( vid_stream->group.ext_data );
             vid_stream->group.ext_data = NULL;
         }
-        vid_stream->group.ext_data = func_80088A2C( vid_stream );
+        vid_stream->group.ext_data = get_ext_data( vid_stream );
     }
 
-    if ( func_800888C0( 32, USER_START_CODE, vid_stream ) ) {
+    if ( next_bits( 32, USER_START_CODE, vid_stream ) ) {
         flush_bits32;
         if ( vid_stream->group.user_data != NULL ) {
-            func_800A4C04( vid_stream->group.user_data );
+            free( vid_stream->group.user_data );
             vid_stream->group.user_data = NULL;
         }
-        vid_stream->group.user_data = func_80088A2C( vid_stream );
+        vid_stream->group.user_data = get_ext_data( vid_stream );
     }
 
     return PARSE_OK;
@@ -541,13 +541,13 @@ int func_8008B560( VidStream *vid_stream ) {
 
 /*
 =====================
-func_8008C0A8
+ParsePicture
 
 Parses a picture header and picks the frame the picture is decoded into. Returns SKIP_PICTURE for a
 picture that cannot be decoded: its reference frames are missing, or its type is switched off.
 =====================
 */
-int func_8008C0A8( VidStream *vid_stream, TimeStamp time_stamp ) {
+int ParsePicture( VidStream *vid_stream, TimeStamp time_stamp ) {
     unsigned int data;
     int          i;
 
@@ -604,31 +604,31 @@ int func_8008C0A8( VidStream *vid_stream, TimeStamp time_stamp ) {
     }
 
     if ( vid_stream->picture.extra_info != NULL ) {
-        func_800A4C04( vid_stream->picture.extra_info );
+        free( vid_stream->picture.extra_info );
         vid_stream->picture.extra_info = NULL;
     }
-    vid_stream->picture.extra_info = func_800890C8( vid_stream );
+    vid_stream->picture.extra_info = get_extra_bit_info( vid_stream );
 
-    func_80088C58( vid_stream );
+    next_start_code( vid_stream );
 
-    if ( func_800888C0( 32, EXT_START_CODE, vid_stream ) ) {
+    if ( next_bits( 32, EXT_START_CODE, vid_stream ) ) {
         flush_bits32;
 
         if ( vid_stream->picture.ext_data != NULL ) {
-            func_800A4C04( vid_stream->picture.ext_data );
+            free( vid_stream->picture.ext_data );
             vid_stream->picture.ext_data = NULL;
         }
-        vid_stream->picture.ext_data = func_80088A2C( vid_stream );
+        vid_stream->picture.ext_data = get_ext_data( vid_stream );
     }
 
-    if ( func_800888C0( 32, USER_START_CODE, vid_stream ) ) {
+    if ( next_bits( 32, USER_START_CODE, vid_stream ) ) {
         flush_bits32;
 
         if ( vid_stream->picture.user_data != NULL ) {
-            func_800A4C04( vid_stream->picture.user_data );
+            free( vid_stream->picture.user_data );
             vid_stream->picture.user_data = NULL;
         }
-        vid_stream->picture.user_data = func_80088A2C( vid_stream );
+        vid_stream->picture.user_data = get_ext_data( vid_stream );
     }
 
     // the first frame of the ring that nothing holds
@@ -637,7 +637,7 @@ int func_8008C0A8( VidStream *vid_stream, TimeStamp time_stamp ) {
     while ( vid_stream->ring[i]->locked != 0 ) {
         if ( ++i >= RING_BUF_SIZE ) {
             func_80009F38( D_80087EE0 );     // "Fatal error. Ring buffer full."
-            func_800A4CBC( 1 );
+            exit( 1 );
         }
     }
 
@@ -652,12 +652,12 @@ int func_8008C0A8( VidStream *vid_stream, TimeStamp time_stamp ) {
 
 /*
 =====================
-func_8008CDB8
+ParseSlice
 
 Parses a slice header and resets what a slice resets: the predictors and the macroblock address.
 =====================
 */
-int func_8008CDB8( VidStream *vid_stream ) {
+int ParseSlice( VidStream *vid_stream ) {
     unsigned int data;
 
     // the start code prefix
@@ -671,10 +671,10 @@ int func_8008CDB8( VidStream *vid_stream ) {
     vid_stream->slice.quant_scale = data;
 
     if ( vid_stream->slice.extra_info != NULL ) {
-        func_800A4C04( vid_stream->slice.extra_info );
+        free( vid_stream->slice.extra_info );
         vid_stream->slice.extra_info = NULL;
     }
-    vid_stream->slice.extra_info = func_800890C8( vid_stream );
+    vid_stream->slice.extra_info = get_extra_bit_info( vid_stream );
 
     vid_stream->mblock.past_intra_addr = -2;
 
@@ -694,13 +694,13 @@ int func_8008CDB8( VidStream *vid_stream ) {
 
 /*
 =====================
-func_8008D220
+ParseMacroBlock
 
 Parses one macroblock and reconstructs its six blocks into the current frame: the address increment,
 the type, the motion vectors and the coded block pattern, then each block's coefficients.
 =====================
 */
-int func_8008D220( VidStream *vid_stream ) {
+int ParseMacroBlock( VidStream *vid_stream ) {
     int          addr_incr;
     unsigned int data;
     int          mask, i, recon_right_for, recon_down_for, recon_right_back, recon_down_back;
@@ -732,9 +732,9 @@ int func_8008D220( VidStream *vid_stream ) {
     // the macroblocks the stream left out
     if ( vid_stream->mblock.mb_address - vid_stream->mblock.past_mb_addr > 1 ) {
         if ( vid_stream->picture.code_type == P_TYPE ) {
-            func_80094064( vid_stream );
+            ProcessSkippedPFrameMBlocks( vid_stream );
         } else if ( vid_stream->picture.code_type == B_TYPE ) {
-            func_80094578( vid_stream );
+            ProcessSkippedBFrameMBlocks( vid_stream );
         }
     }
 
@@ -755,7 +755,7 @@ int func_8008D220( VidStream *vid_stream ) {
 
     case D_TYPE:
         fprintf( stderr, "ERROR:  MPEG-1 Streams with D-frames are not supported\n" );
-        func_800A4CBC( 1 );
+        exit( 1 );
     }
 
     if ( mb_quant == TRUE ) {
@@ -809,7 +809,7 @@ int func_8008D220( VidStream *vid_stream ) {
             vid_stream->mblock.recon_right_for_prev = 0;
             vid_stream->mblock.recon_down_for_prev = 0;
         } else {
-            func_800998E0( &recon_right_for, &recon_down_for, vid_stream );
+            ComputeForwVector( &recon_right_for, &recon_down_for, vid_stream );
         }
     }
 
@@ -824,14 +824,14 @@ int func_8008D220( VidStream *vid_stream ) {
                 recon_right_for = vid_stream->mblock.recon_right_for_prev;
                 recon_down_for = vid_stream->mblock.recon_down_for_prev;
             } else {
-                func_800998E0( &recon_right_for, &recon_down_for, vid_stream );
+                ComputeForwVector( &recon_right_for, &recon_down_for, vid_stream );
             }
 
             if ( !mb_motion_back ) {
                 recon_right_back = vid_stream->mblock.recon_right_back_prev;
                 recon_down_back = vid_stream->mblock.recon_down_back_prev;
             } else {
-                func_80099C8C( &recon_right_back, &recon_down_back, vid_stream );
+                ComputeBackVector( &recon_right_back, &recon_down_back, vid_stream );
             }
 
             vid_stream->mblock.bpict_past_forw = mb_motion_forw;
@@ -843,20 +843,20 @@ int func_8008D220( VidStream *vid_stream ) {
     for ( mask = 32, i = 0; i < 6; mask >>= 1, i++ ) {
         if ( ( vid_stream->mblock.mb_intra ) || ( vid_stream->mblock.cbp & mask ) ) {
             zero_block_flag = 0;
-            func_800964D0( i, vid_stream );
+            ParseReconBlock( i, vid_stream );
         } else {
             zero_block_flag = 1;
         }
 
         if ( vid_stream->mblock.mb_intra ) {
-            func_8008F3AC( vid_stream, i );
+            ReconIMBlock( vid_stream, i );
         } else if ( mb_motion_forw && mb_motion_back ) {
-            func_800933BC( vid_stream, i, recon_right_for, recon_down_for, recon_right_back, recon_down_back,
+            ReconBiMBlock( vid_stream, i, recon_right_for, recon_down_for, recon_right_back, recon_down_back,
                            zero_block_flag );
         } else if ( mb_motion_forw || ( vid_stream->picture.code_type == P_TYPE ) ) {
-            func_8008F828( vid_stream, i, recon_right_for, recon_down_for, zero_block_flag );
+            ReconPMBlock( vid_stream, i, recon_right_for, recon_down_for, zero_block_flag );
         } else if ( mb_motion_back ) {
-            func_80091684( vid_stream, i, recon_right_back, recon_down_back, zero_block_flag );
+            ReconBMBlock( vid_stream, i, recon_right_back, recon_down_back, zero_block_flag );
         }
     }
 
@@ -874,13 +874,13 @@ int func_8008D220( VidStream *vid_stream ) {
 
 /*
 =====================
-func_8008F3AC
+ReconIMBlock
 
 Reconstructs block bnum of an intra macroblock: the decoded samples, clamped, go into the current
 frame. Blocks 0..3 are the quarters of the luminance, 4 is Cb and 5 is Cr.
 =====================
 */
-void func_8008F3AC( VidStream *vid_stream, int bnum ) {
+void ReconIMBlock( VidStream *vid_stream, int bnum ) {
     int           mb_row, mb_col, row, col, row_size, rr;
     unsigned char *dest;
 
@@ -940,14 +940,14 @@ void func_8008F3AC( VidStream *vid_stream, int bnum ) {
 
 /*
 =====================
-func_8008F828
+ReconPMBlock
 
 Reconstructs block bnum of a macroblock predicted from the frame before: the block the vector points
 at, averaged with its neighbour for a half-pel vector, plus the decoded differences unless zflag says
 there are none. The vector is in half pels.
 =====================
 */
-void func_8008F828( VidStream *vid_stream, int bnum, int recon_right_for, int recon_down_for, int zflag ) {
+void ReconPMBlock( VidStream *vid_stream, int bnum, int recon_right_for, int recon_down_for, int zflag ) {
     int           mb_row, mb_col, row, col, row_size, rr;
     unsigned char *dest, *past;
     unsigned char *rindex1, *rindex2, *rindex3, *rindex4;
@@ -1229,13 +1229,13 @@ void func_8008F828( VidStream *vid_stream, int bnum, int recon_right_for, int re
 
 /*
 =====================
-func_80091684
+ReconBMBlock
 
-Reconstructs block bnum of a B picture macroblock predicted from the frame after: as func_8008F828
+Reconstructs block bnum of a B picture macroblock predicted from the frame after: as ReconPMBlock
 does from the frame before.
 =====================
 */
-void func_80091684( VidStream *vid_stream, int bnum, int recon_right_back, int recon_down_back, int zflag ) {
+void ReconBMBlock( VidStream *vid_stream, int bnum, int recon_right_back, int recon_down_back, int zflag ) {
     int mb_row, mb_col, row, col, row_size, rr;
     unsigned char *dest, *future;
     int right_back, down_back, right_half_back, down_half_back;
@@ -1492,14 +1492,14 @@ void func_80091684( VidStream *vid_stream, int bnum, int recon_right_back, int r
 
 /*
 =====================
-func_800933BC
+ReconBiMBlock
 
 Reconstructs block bnum of a B picture macroblock predicted from both frames: the average of the two
 blocks the vectors point at, plus the decoded differences unless zflag says there are none. Half-pel
 components of the vectors are dropped.
 =====================
 */
-void func_800933BC( VidStream *vid_stream, int bnum, int recon_right_for, int recon_down_for,
+void ReconBiMBlock( VidStream *vid_stream, int bnum, int recon_right_for, int recon_down_for,
                     int recon_right_back, int recon_down_back, int zflag ) {
     int mb_row, mb_col, row, col, row_size, rr;
     unsigned char *dest, *past=NULL, *future=NULL;
@@ -1667,13 +1667,13 @@ void func_800933BC( VidStream *vid_stream, int bnum, int recon_right_for, int re
 
 /*
 =====================
-func_80094064
+ProcessSkippedPFrameMBlocks
 
 Fills in the macroblocks a P picture left out between the last one decoded and this one: they are
 copies of the frame before.
 =====================
 */
-void func_80094064( VidStream *vid_stream ) {
+void ProcessSkippedPFrameMBlocks( VidStream *vid_stream ) {
     int row_size, half_row, mb_row, mb_col, row, col, rr;
     int addr, row_incr, half_row_incr, crow, ccol;
     int *dest, *src, *dest1, *src1;
@@ -1750,13 +1750,13 @@ void func_80094064( VidStream *vid_stream ) {
 
 /*
 =====================
-func_80094578
+ProcessSkippedBFrameMBlocks
 
 Fills in the macroblocks a B picture left out between the last one decoded and this one: they repeat
 the prediction of the macroblock before them, with its vectors and its choice of reference frames.
 =====================
 */
-void func_80094578( VidStream *vid_stream ) {
+void ProcessSkippedBFrameMBlocks( VidStream *vid_stream ) {
     int row_size, half_row, mb_row, mb_col, row, col, rr;
     int right_half_for = 0, down_half_for = 0;
     int c_right_half_for = 0, c_down_half_for = 0;
@@ -1834,26 +1834,26 @@ void func_80094578( VidStream *vid_stream ) {
         ccol = col / 2;
 
         if ( vid_stream->mblock.bpict_past_forw ) {
-            func_80095664( vid_stream->past->luminance, forw_lum,
+            ReconSkippedBlock( vid_stream->past->luminance, forw_lum,
                 row, col, row_size, right_for, down_for,
                 right_half_for, down_half_for, 16 );
-            func_80095664( vid_stream->past->Cr, forw_cr, crow,
+            ReconSkippedBlock( vid_stream->past->Cr, forw_cr, crow,
                 ccol, half_row,
                 c_right_for, c_down_for, c_right_half_for, c_down_half_for, 8 );
-            func_80095664( vid_stream->past->Cb, forw_cb, crow,
+            ReconSkippedBlock( vid_stream->past->Cb, forw_cb, crow,
                 ccol, half_row,
                 c_right_for, c_down_for, c_right_half_for, c_down_half_for, 8 );
         }
 
         if ( vid_stream->mblock.bpict_past_back ) {
-            func_80095664( vid_stream->future->luminance, back_lum,
+            ReconSkippedBlock( vid_stream->future->luminance, back_lum,
                 row, col, row_size, right_back, down_back,
                 right_half_back, down_half_back, 16 );
-            func_80095664( vid_stream->future->Cr, back_cr, crow,
+            ReconSkippedBlock( vid_stream->future->Cr, back_cr, crow,
                 ccol, half_row,
                 c_right_back, c_down_back,
                 c_right_half_back, c_down_half_back, 8 );
-            func_80095664( vid_stream->future->Cb, back_cb, crow,
+            ReconSkippedBlock( vid_stream->future->Cb, back_cb, crow,
                 ccol, half_row,
                 c_right_back, c_down_back,
                 c_right_half_back, c_down_half_back, 8 );
@@ -1991,13 +1991,13 @@ void func_80094578( VidStream *vid_stream ) {
 
 /*
 =====================
-func_80095664
+ReconSkippedBlock
 
 Copies the block of width by width pixels that a vector points at from source into dest,
 averaging with the neighbour for a half-pel vector. For the macroblocks a B picture left out.
 =====================
 */
-void func_80095664( unsigned char *source, unsigned char *dest, int row, int col, int row_size, int right,
+void ReconSkippedBlock( unsigned char *source, unsigned char *dest, int row, int col, int row_size, int right,
                     int down, int right_half, int down_half, int width ) {
     int rr;
     unsigned char *source2;
@@ -2140,14 +2140,14 @@ void func_80095664( unsigned char *source, unsigned char *dest, int row, int col
 
 /*
 =====================
-func_800962DC
+DoPictureDisplay
 
 A picture is complete: converts it for display. An I or P picture becomes the frame after, and the
 one it replaces, now the frame before, is the one shown; a B picture is shown at once.
 =====================
 */
-void func_800962DC( VidStream *vid_stream, XInfo *xinfo ) {
-    func_8009D300( vid_stream );
+void DoPictureDisplay( VidStream *vid_stream, XInfo *xinfo ) {
+    DoDitherImage( vid_stream );
 
     if ( ( vid_stream->picture.code_type == I_TYPE ) || ( vid_stream->picture.code_type == P_TYPE ) ) {
         if ( vid_stream->future == NULL ) {
@@ -2163,31 +2163,31 @@ void func_800962DC( VidStream *vid_stream, XInfo *xinfo ) {
             vid_stream->future = vid_stream->current;
             vid_stream->future->locked |= FUTURE_LOCK;
             vid_stream->current = vid_stream->past;
-            func_8009CAD8( vid_stream, xinfo );
+            ExecuteDisplay( vid_stream, xinfo );
         }
     } else {
-        func_8009CAD8( vid_stream, xinfo );
+        ExecuteDisplay( vid_stream, xinfo );
     }
 }
 
 /*
 =====================
-func_8009646C
+SetBFlag
 
 Switches the decoding of B pictures off or on.
 =====================
 */
-void func_8009646C( BOOLEAN val ) {
+void SetBFlag( BOOLEAN val ) {
     D_8008530C = val;
 }
 
 /*
 =====================
-func_8009649C
+SetPFlag
 
 Switches the decoding of P pictures off or on.
 =====================
 */
-void func_8009649C( BOOLEAN val ) {
+void SetPFlag( BOOLEAN val ) {
     D_80085308 = val;
 }

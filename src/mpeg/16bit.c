@@ -69,29 +69,29 @@ static int D_80087560[256] = {
 
 /*
 =====================
-func_800A19D8
+number_of_bits_set
 
 The number of 1 bits in a.
 =====================
 */
-static int func_800A19D8( unsigned long a ) {
+static int number_of_bits_set( unsigned long a ) {
     if ( !a ) {
         return 0;
     }
     if ( a & 1 ) {
-        return 1 + func_800A19D8( a >> 1 );
+        return 1 + number_of_bits_set( a >> 1 );
     }
-    return ( func_800A19D8( a >> 1 ) );
+    return ( number_of_bits_set( a >> 1 ) );
 }
 
 /*
 =====================
-func_800A1A74
+shifted_down
 
 a shifted down by one place if its lowest bit is clear. Nothing calls it.
 =====================
 */
-static unsigned long func_800A1A74( unsigned long a ) {
+static unsigned long shifted_down( unsigned long a ) {
     if ( !a ) {
         return 0;
     }
@@ -103,36 +103,36 @@ static unsigned long func_800A1A74( unsigned long a ) {
 
 /*
 =====================
-func_800A1AE0
+free_bits_at_top
 
 The number of 0 bits above the highest 1 bit of a. Nothing calls it.
 =====================
 */
-static int func_800A1AE0( unsigned long a ) {
+static int free_bits_at_top( unsigned long a ) {
     if ( !a ) {
         return sizeof( unsigned long ) * 8;
     }
     if ( ( (long)a ) < 0l ) {
         return 0;
     }
-    return 1 + func_800A1AE0( a << 1 );
+    return 1 + free_bits_at_top( a << 1 );
 }
 
 /*
 =====================
-func_800A1B60
+free_bits_at_bottom
 
 The number of 0 bits below the lowest 1 bit of a.
 =====================
 */
-static int func_800A1B60( unsigned long a ) {
+static int free_bits_at_bottom( unsigned long a ) {
     if ( !a ) {
         return sizeof( unsigned long ) * 8;
     }
     if ( ( (long)a ) & 1l ) {
         return 0;
     }
-    return 1 + func_800A1B60( a >> 1 );
+    return 1 + free_bits_at_bottom( a >> 1 );
 }
 
 // what each component of a sample adds to the colours: luminance, Cr to red, Cr to green, Cb to green,
@@ -150,13 +150,13 @@ static long *D_800FF2F0;
 
 /*
 =====================
-func_800A1BE4
+InitColorDither
 
 Builds the tables of the colour conversion, for the pixel layout that the masks in D_80107480
 describe. Unless thirty2 is set a pixel takes 16 bits, and the tables hold it twice.
 =====================
 */
-void func_800A1BE4( int thirty2 ) {
+void InitColorDither( int thirty2 ) {
     unsigned long red_mask = D_80107480[0];
     unsigned long green_mask = D_80107480[1];
     unsigned long blue_mask = D_80107480[2];
@@ -164,15 +164,15 @@ void func_800A1BE4( int thirty2 ) {
     int L;  /* NOTE: unused in the original */
     int CR, CB, i;
 
-    D_800FF2C8 = (int *)func_800A4C28( 256 * sizeof( int ) );
-    D_800FF2CC = (int *)func_800A4C28( 256 * sizeof( int ) );
-    D_800FF2D0 = (int *)func_800A4C28( 256 * sizeof( int ) );
-    D_800FF2D4 = (int *)func_800A4C28( 256 * sizeof( int ) );
-    D_800FF2D8 = (int *)func_800A4C28( 256 * sizeof( int ) );
+    D_800FF2C8 = (int *)malloc( 256 * sizeof( int ) );
+    D_800FF2CC = (int *)malloc( 256 * sizeof( int ) );
+    D_800FF2D0 = (int *)malloc( 256 * sizeof( int ) );
+    D_800FF2D4 = (int *)malloc( 256 * sizeof( int ) );
+    D_800FF2D8 = (int *)malloc( 256 * sizeof( int ) );
 
-    D_800FF2E8 = (long *)func_800A4C28( 768 * sizeof( long ) );
-    D_800FF2EC = (long *)func_800A4C28( 768 * sizeof( long ) );
-    D_800FF2F0 = (long *)func_800A4C28( 768 * sizeof( long ) );
+    D_800FF2E8 = (long *)malloc( 768 * sizeof( long ) );
+    D_800FF2EC = (long *)malloc( 768 * sizeof( long ) );
+    D_800FF2F0 = (long *)malloc( 768 * sizeof( long ) );
 
     for ( i = 0; i < 256; i++ ) {
         switch ( D_80086D3C ) {
@@ -209,12 +209,12 @@ void func_800A1BE4( int thirty2 ) {
 
     // a level's top bits, moved to where the colour sits in the pixel
     for ( i = 0; i < 256; i++ ) {
-        D_800FF2E8[i + 256] = i >> ( 8 - func_800A19D8( red_mask ) );
-        D_800FF2E8[i + 256] <<= func_800A1B60( red_mask );
-        D_800FF2EC[i + 256] = i >> ( 8 - func_800A19D8( green_mask ) );
-        D_800FF2EC[i + 256] <<= func_800A1B60( green_mask );
-        D_800FF2F0[i + 256] = i >> ( 8 - func_800A19D8( blue_mask ) );
-        D_800FF2F0[i + 256] <<= func_800A1B60( blue_mask );
+        D_800FF2E8[i + 256] = i >> ( 8 - number_of_bits_set( red_mask ) );
+        D_800FF2E8[i + 256] <<= free_bits_at_bottom( red_mask );
+        D_800FF2EC[i + 256] = i >> ( 8 - number_of_bits_set( green_mask ) );
+        D_800FF2EC[i + 256] <<= free_bits_at_bottom( green_mask );
+        D_800FF2F0[i + 256] = i >> ( 8 - number_of_bits_set( blue_mask ) );
+        D_800FF2F0[i + 256] <<= free_bits_at_bottom( blue_mask );
 
         if ( !thirty2 ) {
             D_800FF2E8[i + 256] |= ( D_800FF2E8[i + 256] ) << 16;
@@ -240,13 +240,13 @@ void func_800A1BE4( int thirty2 ) {
 
 /*
 =====================
-func_800A2594
+Color16DitherImage
 
 Converts a frame to 16-bit pixels, two rows at a time: the four luminance samples that share a
 chrominance sample become four pixels. Every pixel gets its lowest bit set.
 =====================
 */
-void func_800A2594( unsigned char *lum, unsigned char *cr, unsigned char *cb, unsigned char *out, int rows,
+void Color16DitherImage( unsigned char *lum, unsigned char *cr, unsigned char *cb, unsigned char *out, int rows,
                     int cols ) {
     int            L, CR, CB;
     unsigned short *row1, *row2;

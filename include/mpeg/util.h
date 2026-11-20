@@ -82,7 +82,7 @@ extern unsigned int D_80085288[];
 #define get_bits1( result ) \
 { \
     if ( vid_stream->buf_length < 2 ) { \
-        func_800887D8( vid_stream ); \
+        correct_underflow( vid_stream ); \
     } \
     result = ( ( vid_stream->curBits & 0x80000000 ) != 0 ); \
     vid_stream->curBits <<= 1; \
@@ -101,7 +101,7 @@ extern unsigned int D_80085288[];
 #define get_bits2( result ) \
 { \
     if ( vid_stream->buf_length < 2 ) { \
-        func_800887D8( vid_stream ); \
+        correct_underflow( vid_stream ); \
     } \
     vid_stream->bit_offset += 2; \
     \
@@ -123,7 +123,7 @@ extern unsigned int D_80085288[];
 #define get_bitsX( num, mask, shift, result ) \
 { \
     if ( vid_stream->buf_length < 2 ) { \
-        func_800887D8( vid_stream ); \
+        correct_underflow( vid_stream ); \
     } \
     vid_stream->bit_offset += num; \
     \
@@ -190,7 +190,7 @@ extern unsigned int D_80085288[];
 #define show_bits32( result ) \
 { \
     if ( vid_stream->buf_length < 2 ) { \
-        func_800887D8( vid_stream ); \
+        correct_underflow( vid_stream ); \
     } \
     if ( vid_stream->bit_offset ) { \
         result = vid_stream->curBits | ( *( vid_stream->buffer + 1 ) >> ( 32 - vid_stream->bit_offset ) ); \
@@ -204,7 +204,7 @@ extern unsigned int D_80085288[];
     int bO; \
     \
     if ( vid_stream->buf_length < 2 ) { \
-        func_800887D8( vid_stream ); \
+        correct_underflow( vid_stream ); \
     } \
     bO = vid_stream->bit_offset + num; \
     if ( bO > 32 ) { \
@@ -287,7 +287,7 @@ extern unsigned int D_80085288[];
     } \
     \
     if ( vid_stream->buf_length < 2 ) { \
-        func_800887D8( vid_stream ); \
+        correct_underflow( vid_stream ); \
     } \
     \
     vid_stream->buffer++; \
@@ -302,7 +302,7 @@ extern unsigned int D_80085288[];
     } \
     \
     if ( vid_stream->buf_length < 2 ) { \
-        func_800887D8( vid_stream ); \
+        correct_underflow( vid_stream ); \
     } \
     \
     vid_stream->bit_offset += num; \

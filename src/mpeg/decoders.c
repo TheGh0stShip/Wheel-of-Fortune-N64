@@ -348,13 +348,13 @@ decoder (decoders.c), whose bodies these functions reproduce statement for state
 
 /*
 =====================
-func_8009A038
+init_mb_addr_inc
 
 Builds the table for macroblock_address_increment, indexed by the next 11 bits: increments 33 down
 to 1, the escape and the stuffing code.
 =====================
 */
-void func_8009A038( void ) {
+void init_mb_addr_inc( void ) {
     int i, j, val;
 
     for ( i = 0; i < 8; i++ ) {
@@ -402,12 +402,12 @@ void func_8009A038( void ) {
 
 /*
 =====================
-func_8009A7D0
+init_mb_type_P
 
 Builds the table for macroblock_type in P pictures, indexed by the next 6 bits.
 =====================
 */
-void func_8009A7D0( void ) {
+void init_mb_type_P( void ) {
     int i;
 
     D_80107EA0[0].mb_quant = D_80107EA0[0].mb_motion_forward
@@ -426,12 +426,12 @@ void func_8009A7D0( void ) {
 
 /*
 =====================
-func_8009AF48
+init_mb_type_B
 
 Builds the table for macroblock_type in B pictures, indexed by the next 6 bits.
 =====================
 */
-void func_8009AF48( void ) {
+void init_mb_type_B( void ) {
     int i;
 
     D_801078A0[0].mb_quant = D_801078A0[0].mb_motion_forward
@@ -467,13 +467,13 @@ void func_8009AF48( void ) {
 
 /*
 =====================
-func_8009BAE0
+init_motion_vectors
 
 Builds the table for the motion vector codes, indexed by the next 11 bits: 16 down to 0, negative
 when the sign bit that ends the code is set. The 24 lowest indices are not codes.
 =====================
 */
-void func_8009BAE0( void ) {
+void init_motion_vectors( void ) {
     int i, j, val = 16;
 
     for ( i = 0; i < 24; i++ ) {
@@ -493,16 +493,16 @@ void func_8009BAE0( void ) {
 
 /*
 =====================
-func_8009C5AC
+init_tables
 
 Builds the tables that are computed: the four here and the inverse DCT's.
 =====================
 */
-void func_8009C5AC( void ) {
-    func_8009A038();
-    func_8009A7D0();
-    func_8009AF48();
-    func_8009BAE0();
+void init_tables( void ) {
+    init_mb_addr_inc();
+    init_mb_type_P();
+    init_mb_type_B();
+    init_motion_vectors();
 
-    func_8009D3D8();
+    init_pre_idct();
 }

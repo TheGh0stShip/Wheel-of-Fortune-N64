@@ -55,26 +55,26 @@ unsigned int D_80085288[] = {
 
 /*
 =====================
-func_800887D8
+correct_underflow
 
 Refills the stream's buffer when a reader finds less than two words in it. A read error ends the
 player; the end of the data, with nothing left to read, ends the film.
 =====================
 */
-void func_800887D8( VidStream *vid_stream ) {
+void correct_underflow( VidStream *vid_stream ) {
     int status;
 
-    status = func_800A2B40( vid_stream );
+    status = get_more_data( vid_stream );
 
     if ( status < 0 ) {
         if ( !D_80086D20 ) {
             func_80009F38( D_800879DC );     // "Unexpected read error."
         }
-        func_800A4CBC( 1 );
+        exit( 1 );
     } else if ( ( status == 0 ) && ( vid_stream->buf_length < 1 ) ) {
         vid_stream->film_has_ended = TRUE;
         if ( D_80086D18 ) {
-            func_800A2D38( vid_stream );
+            clear_data_stream( vid_stream );
         }
         return;
     }
@@ -83,12 +83,12 @@ void func_800887D8( VidStream *vid_stream ) {
 
 /*
 =====================
-func_800888C0
+next_bits
 
 Is the next `num` bits of the stream `mask`? Reads nothing.
 =====================
 */
-int func_800888C0( int num, unsigned int mask, VidStream *vid_stream ) {
+int next_bits( int num, unsigned int mask, VidStream *vid_stream ) {
     unsigned int stream;
     int          ret_value;
 
@@ -109,21 +109,21 @@ int func_800888C0( int num, unsigned int mask, VidStream *vid_stream ) {
 
 /*
 =====================
-func_80088A2C
+get_ext_data
 
 Reads extension or user data, the bytes up to the next start code, into a buffer it allocates.
 =====================
 */
-char *func_80088A2C( VidStream *vid_stream ) {
+char *get_ext_data( VidStream *vid_stream ) {
     unsigned int size, marker;
     char         *dataPtr;
     unsigned int data;
 
     size = EXT_BUF_SIZE;
-    dataPtr = (char *)func_800A4C28( size );
+    dataPtr = (char *)malloc( size );
     marker = 0;
 
-    while ( !func_800888C0( 24, 0x000001, vid_stream ) ) {
+    while ( !next_bits( 24, 0x000001, vid_stream ) ) {
         get_bits8( data );
 
         dataPtr[marker] = (char)data;
@@ -131,25 +131,25 @@ char *func_80088A2C( VidStream *vid_stream ) {
 
         if ( marker == size ) {
             size += EXT_BUF_SIZE;
-            dataPtr = (char *)func_800A4C70( dataPtr, size );
+            dataPtr = (char *)realloc( dataPtr, size );
         }
     }
 
     // give back what was not used
-    dataPtr = (char *)func_800A4C70( dataPtr, marker );
+    dataPtr = (char *)realloc( dataPtr, marker );
 
     return dataPtr;
 }
 
 /*
 =====================
-func_80088C58
+next_start_code
 
 Skips to the next start code: aligns the stream to a byte, then reads bytes until it has seen
 00 00 01, and steps back over those three so that the start code is what is read next.
 =====================
 */
-int func_80088C58( VidStream *vid_stream ) {
+int next_start_code( VidStream *vid_stream ) {
     int          state;
     int          byteoff;
     unsigned int data;
@@ -159,7 +159,7 @@ int func_80088C58( VidStream *vid_stream ) {
     }
 
     if ( vid_stream->buf_length < 4 ) {
-        func_800887D8( vid_stream );
+        correct_underflow( vid_stream );
     }
 
     byteoff = vid_stream->bit_offset % 8;
@@ -173,7 +173,7 @@ int func_80088C58( VidStream *vid_stream ) {
 
     while ( vid_stream->buf_length > 0 ) {
         if ( vid_stream->buf_length < 4 ) {
-            func_800887D8( vid_stream );
+            correct_underflow( vid_stream );
         }
 
         get_bits8( data );
@@ -213,13 +213,13 @@ int func_80088C58( VidStream *vid_stream ) {
 
 /*
 =====================
-func_800890C8
+get_extra_bit_info
 
 Reads the extra information of a picture or slice header: bytes that each follow a set flag bit, up
 to the first clear one. Returns a buffer it allocates, or NULL when the first flag is clear.
 =====================
 */
-char *func_800890C8( VidStream *vid_stream ) {
+char *get_extra_bit_info( VidStream *vid_stream ) {
     unsigned int size, marker;
     char         *dataPtr;
     unsigned int data;
@@ -231,7 +231,7 @@ char *func_800890C8( VidStream *vid_stream ) {
     }
 
     size = EXT_BUF_SIZE;
-    dataPtr = (char *)func_800A4C28( size );
+    dataPtr = (char *)malloc( size );
     marker = 0;
 
     while ( data ) {
@@ -242,14 +242,14 @@ char *func_800890C8( VidStream *vid_stream ) {
 
         if ( marker == size ) {
             size += EXT_BUF_SIZE;
-            dataPtr = (char *)func_800A4C70( dataPtr, size );
+            dataPtr = (char *)realloc( dataPtr, size );
         }
 
         get_bits1( data );
     }
 
     // give back what was not used
-    dataPtr = (char *)func_800A4C70( dataPtr, marker );
+    dataPtr = (char *)realloc( dataPtr, marker );
 
     return dataPtr;
 }

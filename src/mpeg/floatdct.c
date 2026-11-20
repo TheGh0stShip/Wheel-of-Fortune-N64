@@ -18,17 +18,17 @@ static double D_800FD098[8][8];
 
 /*
 =====================
-func_8009C600
+init_float_idct
 
 Fills the transform matrix.
 =====================
 */
-void func_8009C600( void ) {
+void init_float_idct( void ) {
     int    freq, time;
     double scale;
 
     for ( freq = 0; freq < 8; freq++ ) {
-        scale = ( freq == 0 ) ? func_800A4E84( 0.125 ) : 0.5;
+        scale = ( freq == 0 ) ? sqrt( 0.125 ) : 0.5;
         for ( time = 0; time < 8; time++ ) {
             D_800FD098[freq][time] = scale * cos( ( PI / 8.0 ) * freq * ( time + 0.5 ) );
         }
@@ -37,12 +37,12 @@ void func_8009C600( void ) {
 
 /*
 =====================
-func_8009C754
+float_idct
 
 The inverse DCT of an 8 by 8 block, as two matrix products, with the result clamped to -256..255.
 =====================
 */
-void func_8009C754( short *block ) {
+void float_idct( short *block ) {
     int    i, j, k, v;
     double partial_product;
     double tmp[64];
@@ -68,7 +68,7 @@ void func_8009C754( short *block ) {
                 partial_product += D_800FD098[k][i] * tmp[8 * k + j];
             }
 
-            v = func_800A4F24( partial_product + 0.5 );
+            v = floor( partial_product + 0.5 );
             block[8 * i + j] = ( v < -256 ) ? -256 : ( ( v > 255 ) ? 255 : v );
         }
     }

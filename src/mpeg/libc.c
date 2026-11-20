@@ -14,12 +14,12 @@ FILE D_80107888;
 
 /*
 =====================
-func_800A4A18
+fread
 
-fread: copies the next size * nitems bytes of the stream.
+Copies the next size * nitems bytes of the stream.
 =====================
 */
-unsigned int func_800A4A18( void *ptr, unsigned int size, unsigned int nitems, FILE *stream ) {
+unsigned int fread( void *ptr, unsigned int size, unsigned int nitems, FILE *stream ) {
     int  i;
     int  total;
     char *dst;
@@ -34,23 +34,23 @@ unsigned int func_800A4A18( void *ptr, unsigned int size, unsigned int nitems, F
 
 /*
 =====================
-func_800A4AD8
+fgetc
 
-fgetc: not there.
+Not there: prints that it is missing.
 =====================
 */
-int func_800A4AD8( FILE *stream ) {
+int fgetc( FILE *stream ) {
     func_80009F38( "fgetc: function not yet implemented" );
 }
 
 /*
 =====================
-func_800A4B14
-
 memcpy
+
+Copies n bytes from s2 to s1, a byte at a time.
 =====================
 */
-void *func_800A4B14( void *s1, void *s2, unsigned int n ) {
+void *memcpy( void *s1, void *s2, unsigned int n ) {
     unsigned int  i;
     char          *dst;
     unsigned char *src;
@@ -65,68 +65,68 @@ void *func_800A4B14( void *s1, void *s2, unsigned int n ) {
 
 /*
 =====================
-func_800A4BB4
+fseek
 
-fseek: not there.
+Not there: prints that it is missing.
 =====================
 */
-int func_800A4BB4( FILE *stream, long offset, int whence ) {
+int fseek( FILE *stream, long offset, int whence ) {
     func_80009F38( "fseek: function not yet implemented" );
     return 0;
 }
 
 /*
 =====================
-func_800A4C04
+free
 
-free: does nothing. What the player allocates stays allocated.
+Does nothing: what the player allocates stays allocated.
 =====================
 */
-void func_800A4C04( void *ptr ) {
+void free( void *ptr ) {
 }
 
 /*
 =====================
-func_800A4C28
+malloc
 
-malloc: the game's allocator.
+Allocates from the heap of the game.
 =====================
 */
-void *func_800A4C28( unsigned int size ) {
+void *malloc( unsigned int size ) {
     return func_8000B924( size );
 }
 
 /*
 =====================
-func_800A4C70
+realloc
 
-realloc: not there.
+Not there: prints that it is missing.
 =====================
 */
-void *func_800A4C70( void *ptr, unsigned int size ) {
+void *realloc( void *ptr, unsigned int size ) {
     func_80009F38( "REALLOC: function not yet implemented" );
     return 0;
 }
 
 /*
 =====================
-func_800A4CBC
+exit
 
-exit: reports it and returns to the caller.
+Prints that the player wanted to exit, and returns to it.
 =====================
 */
-void func_800A4CBC( int status ) {
+void exit( int status ) {
     func_80009F38( "MPEG: exited before done" );
 }
 
 /*
 =====================
-func_800A4CF8
-
 memset
+
+Fills n bytes at s with c, a byte at a time.
 =====================
 */
-void *func_800A4CF8( void *s, int c, unsigned int n ) {
+void *memset( void *s, int c, unsigned int n ) {
     unsigned int i;
     char         *dst;
 
@@ -139,24 +139,24 @@ void *func_800A4CF8( void *s, int c, unsigned int n ) {
 
 /*
 =====================
-func_800A4D84
+strtok
 
-strtok: not there.
+Not there: prints that it is missing.
 =====================
 */
-char *func_800A4D84( char *s1, char *s2 ) {
+char *strtok( char *s1, char *s2 ) {
     func_80009F38( "strtok: function not yet implemented" );
     return 0;
 }
 
 /*
 =====================
-func_800A4DD0
+fopen
 
-fopen: opens the one stream there is on the movie at `filename`, which is its address in memory.
+Opens the one stream there is on the movie at `filename`, which is its address in memory.
 =====================
 */
-FILE *func_800A4DD0( char *filename ) {
+FILE *fopen( char *filename ) {
     if ( D_80086D58 != 0 ) {
         func_80009F38( "fopen: File already open. (MPEG)" );
         return 0;
@@ -171,7 +171,8 @@ FILE *func_800A4DD0( char *filename ) {
 =====================
 func_800A4E58
 
-fclose
+fclose: the stream can be opened again. The name stays a placeholder because game code outside the
+player calls the function.
 =====================
 */
 void func_800A4E58( void *stream ) {
@@ -180,12 +181,12 @@ void func_800A4E58( void *stream ) {
 
 /*
 =====================
-func_800A4E84
+sqrt
 
-sqrt: not there.
+Not there: prints that it is missing.
 =====================
 */
-double func_800A4E84( double x ) {
+double sqrt( double x ) {
     func_80009F38( "sqrt: function not yet implemented" );
     return 0.0;
 }
@@ -194,7 +195,7 @@ double func_800A4E84( double x ) {
 =====================
 cos
 
-cos: not there.
+Not there: prints that it is missing.
 =====================
 */
 double cos( double x ) {
@@ -204,24 +205,24 @@ double cos( double x ) {
 
 /*
 =====================
-func_800A4F24
+floor
 
-floor: not there.
+Not there: prints that it is missing.
 =====================
 */
-double func_800A4F24( double x ) {
+double floor( double x ) {
     func_80009F38( "floor: function not yet implemented" );
     return 0.0;
 }
 
 /*
 =====================
-func_800A4F74
+gettimeofday
 
-gettimeofday: the time since the console was switched on.
+The time since the console was switched on.
 =====================
 */
-int func_800A4F74( struct timeval *tp, ... ) {
+int gettimeofday( struct timeval *tp, ... ) {
     long ticks;
 
     ticks = osGetTime();
