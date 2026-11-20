@@ -15,16 +15,16 @@ struct n64dk_r12 func_80033688(proc_t *proc) {
         }
         switch (sp28) {
         case 8:
-            D_800BEE48 = (s32)(osGetTime() / D_80084218);
+            D_800BEE48 = (s32)(osGetTime() / osClockRate);
         }
     }
     D_800BCA1C = 0;
     if (D_800BCD54 == 2) {
         if (D_800BED88 > 0) {
-            D_800BEE48 = (s32)(osGetTime() / D_80084218);
+            D_800BEE48 = (s32)(osGetTime() / osClockRate);
             D_800BED88 = 0;
         } else {
-            if (((osGetTime() / D_80084218) - D_800BEE48) > 30) {
+            if (((osGetTime() / osClockRate) - D_800BEE48) > 30) {
                 func_800335D0();
                 return sp10;
             }
@@ -47,8 +47,8 @@ struct n64dk_r12 func_80033688(proc_t *proc) {
             func_8000B6FC(0x5020000, -1);
             D_800BCD54 = D_800BED98;
             func_80002B34();
-            D_800BCA1C = ((s32)(osGetTime() / D_80084218)) - D_800BA2C0;
-            D_800BEE48 = (s32)(osGetTime() / D_80084218);
+            D_800BCA1C = ((s32)(osGetTime() / osClockRate)) - D_800BA2C0;
+            D_800BEE48 = (s32)(osGetTime() / osClockRate);
         }
     }
     return sp10;

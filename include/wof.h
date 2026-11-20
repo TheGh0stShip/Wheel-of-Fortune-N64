@@ -885,7 +885,6 @@ extern s32 D_8006DD0C;
 extern s32 D_8006DDC4;
 extern long long int D_80082BC8[];  // the data of the graphics microcode at D_80034A88
 extern long long int D_80083BC8[];  // aspMainDataStart
-extern u64 D_80084218;
 extern s32 D_80086D58;
 extern ALCSeq *D_800A507C[];
 extern ALSndpConfig D_800A5084;

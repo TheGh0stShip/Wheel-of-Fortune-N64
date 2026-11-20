@@ -16,12 +16,12 @@ struct n64dk_r12 func_8002F94C(proc_t *proc) {
         }
         switch (sp28) {
         case 8:
-            proc->unk_30->timer.start = (s32)(osGetTime() / D_80084218);
+            proc->unk_30->timer.start = (s32)(osGetTime() / osClockRate);
             break;
         }
     }
     proc->unk_30->timer.start = proc->unk_30->timer.start + D_800BCA1C;
-    sp2C = (s32)(osGetTime() / D_80084218);
+    sp2C = (s32)(osGetTime() / osClockRate);
     if (D_800BCD54 == 4) {
         D_800B40C0 = 20 - (sp2C - proc->unk_30->timer.start);
         if ((sp2C - proc->unk_30->timer.start) >= 20) {
