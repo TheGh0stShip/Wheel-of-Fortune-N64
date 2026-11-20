@@ -39,7 +39,8 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
   `b51b28660699bf029f862f51c319a5962fe9de9b`. A git worktree uses the main checkout's ROM. The ROM is never
   committed.
 - **Flag classes** (`config/flags.tsv`: class, assembler, flags):
-  - `game`: `-O0 -g -G0 -mips3 -mgp32 -mfp32`, assembler `asn64`;
+  - `game`: `-O0 -g -G0 -mips3 -mgp32 -mfp32`, assembler `asn64`, with the SDK's defines and include paths so
+    that game units include `<ultra64.h>` from `lib/ultralib` and the game's own headers from `include/`;
   - `libgcc_*`: `-O2 -G0 -mips3 -mgp32 -mfp32 -DL_<function>`, assembler `asn64`, one class per libgcc function;
   - `ultra_*`: IDO 5.3 (`ido`), `-mips2 -o32 -non_shared -G 0 -Wab,-r4300_mul -DNDEBUG -D_FINALROM`: `-O1` for
     `os/` and `io/`, `-O3` for `audio/`, `gu/`, `libc/` and `sched/`, with the per-file exceptions the table
