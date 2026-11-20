@@ -1,0 +1,13 @@
+# Where each file under lib/libgcc came from.
+#
+# The game links three functions of GCC 2.7.2's libgcc (__udivdi3, __udivmoddi4, __umoddi3). GCC 2.7.2's own
+# libgcc2.c and longlong.h are not on the build machine; the nearest source there is GCC 3.3.6
+# (~/allegrex-gcc/src/gcc-3.3.6.orig/gcc in WSL). When the 2.7.2 files are available they replace these two,
+# and the gate decides whether they do so byte for byte.
+#
+# state: modified      = the upstream file with the changes named;
+#        reconstructed = written here after the upstream text.
+#
+file	upstream	state	changes
+longlong.h	gcc-3.3.6/gcc/longlong.h	modified	the __mips__ umul_ppmm block is restored to its GCC 2.7.2 form (mflo and mfhi inside the asm statement); retail's code has that form
+libgcc2.c	gcc-3.3.6/gcc/libgcc2.c	reconstructed	only L_udivdi3, L_udivmoddi4 and L_umoddi3; 2.7.2 type names (USItype, UDItype, DIunion) and K&R definitions; __clz_tab static in L_udivmoddi4

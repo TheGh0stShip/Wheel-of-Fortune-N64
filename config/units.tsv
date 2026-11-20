@@ -358,8 +358,9 @@ func_80034028	0x80034028	0x3D0	match	game	src/main/func_80034028.c
 func_800343F8	0x800343F8	0x1F0	match	game	src/main/func_800343F8.c
 func_800345E8	0x800345E8	0x368	match	game	src/main/func_800345E8.c
 func_80034950	0x80034950	0x64	match	game	src/main/func_80034950.c
-func_800380B8	0x800380B8	0x20	match	O2	src/main/func_800380B8.c
-func_80038718	0x80038718	0x2C	match	O2	src/main/func_80038718.c
+_udivdi3	0x800380B8	0x20	match	libgcc_udivdi3	lib/libgcc/libgcc2.c	__udivdi3
+_udivmoddi4	0x800380D8	0x63C	match	libgcc_udivmoddi4	lib/libgcc/libgcc2.c	__udivmoddi4
+_umoddi3	0x80038718	0x2C	match	libgcc_umoddi3	lib/libgcc/libgcc2.c	__umoddi3
 aigetlen	0x80038748	0x10	match	ultra_O1	lib/ultralib/src/io/aigetlen.c
 aisetfreq	0x80038758	0x160	match	ultra_O1	lib/ultralib/src/io/aisetfreq.c
 aisetnextbuf	0x800388B8	0xB0	match	ultra_O1	lib/ultralib/src/io/aisetnextbuf.c
