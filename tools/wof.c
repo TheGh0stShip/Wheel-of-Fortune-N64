@@ -833,7 +833,14 @@ static int cmd_gate(void) {
     for (i = 0; i < nunits; i++) {
         Unit *u = &units[i];
         int claimed = !strcmp(u->state, "match");
-        if (f) fprintf(f, "%s\t%s\t0x%08X\t0x%X\t%s\t%s\n", status_name(u->status), u->name, u->vram, u->size, u->state, u->msg);
+        if (f) {
+            /* status, unit, address, size, state, message, then each placed data section as name@address+size */
+            fprintf(f, "%s\t%s\t0x%08X\t0x%X\t%s\t%s\t", status_name(u->status), u->name, u->vram, u->size, u->state, u->msg);
+            for (k = 0; u->status == ST_OK && k < u->nsec; k++)
+                if (u->sec[k].placed && k != u->text)
+                    fprintf(f, "%s@0x%08X+0x%X ", u->sec[k].name, u->sec[k].base, u->sec[k].size);
+            fprintf(f, "\n");
+        }
         if (u->status == ST_OK) nok++;
         else if (u->status == ST_DIFF) ndiff++;
         else nerr++;
