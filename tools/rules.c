@@ -39,6 +39,7 @@ typedef struct {
     char units[16][64]; /* one source may be compiled as several units (libgcc2.c) */
     int nunits, nok;
     int is_header, claimed, gate_ok, selected;
+    int is_sdk; /* under lib/ultralib: SDK text kept verbatim, with R2's extern row and R17's unused-local row relaxed */
     char *raw, *clean;
     Tok *tok;
     int ntok;
@@ -407,7 +408,7 @@ static void check_body(File *f, Func *fn) {
                             if (m != k && f->tok[m].kind == 'i' && f->tok[m].len == (int)strlen(a) && !memcmp(f->tok[m].s, a, f->tok[m].len) &&
                                 !is(f, m - 1, ".") && !is(f, m - 1, "->"))
                                 uses++;
-                        if (!uses && !used_in_macro(a) && !line_has_note(f, f->tok[k].line))
+                        if (!uses && !f->is_sdk && !used_in_macro(a) && !line_has_note(f, f->tok[k].line))
                             finding(f, fn, R17, f->tok[k].line, "local '%s' is never used", a);
                     }
                     if (depth == 0 && is(f, k, "=")) { /* skip the initializer */
@@ -474,8 +475,11 @@ static void scan_file(int fi) {
                 int k;
                 for (k = i + 1; k < close; k++) {
                     tok_text(f, k, a, sizeof a);
-                    if (f->tok[k].kind == 'i' && (!strncmp(a, "pad", 3) || !strncmp(a, "_pad", 4)) && (is(f, k + 1, ";") || is(f, k + 1, "[")))
-                        finding(f, NULL, R17, f->tok[k].line, "padding member '%s'", a);
+                    /* pad, pad0, _pad1: not the SDK's own reserved fields, and not names like paddr */
+                    if (f->tok[k].kind == 'i' && !f->is_sdk && (is(f, k + 1, ";") || is(f, k + 1, "["))) {
+                        const char *d = !strncmp(a, "_pad", 4) ? a + 4 : !strncmp(a, "pad", 3) ? a + 3 : NULL;
+                        if (d && strspn(d, "0123456789") == strlen(d)) finding(f, NULL, R17, f->tok[k].line, "padding member '%s'", a);
+                    }
                     if (is(f, k, "volatile")) finding(f, NULL, R17, f->tok[k].line, "volatile member without a '// volatile:' note");
                 }
             }
@@ -505,11 +509,38 @@ static void scan_file(int fi) {
                 tok_text(f, name, a, sizeof a);
                 if (f->tok[name].kind == 'i') add_decl(0, a, fi, f->tok[start].line, hash_range(f, start, i, -1));
             } else if (is(f, start, "extern") && !has_paren) {
-                name = i - 1;
-                while (name > start && is(f, name, "]")) name = match_open(f, name, "[", "]") - 1;
-                tok_text(f, name, a, sizeof a);
-                add_decl(1, a, fi, f->tok[start].line, hash_range(f, start, i, name));
-                if (!f->is_header) finding(f, NULL, R2, f->tok[start].line, "extern of '%s' outside a header", a);
+                /* extern T a, *b, c[]; : one declaration per declarator, typed by the specifiers plus its own
+                   pointer and array marks (array sizes left out: "x[]" and "x[4]" declare the same object) */
+                int seg = start + 1, spec_end = -1, depth = 0;
+                for (k = start + 1; k <= i; k++) {
+                    if (is(f, k, "[") || is(f, k, "{")) depth++;
+                    if (is(f, k, "]") || is(f, k, "}")) depth--;
+                    if (depth == 0 && (is(f, k, ",") || k == i)) {
+                        unsigned long h;
+                        int m;
+                        name = k - 1;
+                        while (name > seg && is(f, name, "]")) name = match_open(f, name, "[", "]") - 1;
+                        if (spec_end < 0) { /* the first declarator: everything before its stars is the type */
+                            spec_end = name - 1;
+                            while (spec_end > start && is(f, spec_end, "*")) spec_end--;
+                            m = spec_end + 1;
+                        } else {
+                            m = seg;
+                        }
+                        h = hash_range(f, start, spec_end, -1);
+                        for (; m < k; m++) {
+                            if (is(f, m, "*")) h = h * 33 + '*';
+                            if (is(f, m, "[")) h = h * 33 + '[';
+                        }
+                        tok_text(f, name, a, sizeof a);
+                        if (f->tok[name].kind == 'i') {
+                            add_decl(1, a, fi, f->tok[start].line, h);
+                            if (!f->is_header && !f->is_sdk)
+                                finding(f, NULL, R2, f->tok[start].line, "extern of '%s' outside a header", a);
+                        }
+                        seg = k + 1;
+                    }
+                }
             } else if (has_paren && !f->is_header && is(f, i - 1, ")") && start < i) {
                 int open = match_open(f, i - 1, "(", ")");
                 tok_text(f, open - 1, a, sizeof a);
@@ -560,6 +591,7 @@ static File *add_file(const char *path) {
     f->raw = read_file(path);
     if (!f->raw) return NULL;
     f->is_header = strlen(path) > 2 && !strcmp(path + strlen(path) - 2, ".h");
+    f->is_sdk = !strncmp(path, "lib/ultralib/", 13);
     f->clean = clean_copy(f->raw);
     tokenize(f);
     nfiles++;

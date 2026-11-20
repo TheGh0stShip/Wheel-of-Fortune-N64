@@ -10,7 +10,7 @@ requires its SHA-1 to equal the retail ROM's.
 
 | measure | C functions | of |
 |---|---:|---:|
-| **Matched under the rules** (byte-identical and passing every [match] code rule) | **276** | 763 |
+| **Matched under the rules** (byte-identical and passing every [match] code rule) | **322** | 763 |
 | Bytes matched (byte-identical at the gate) | 763 | 763 |
 
 - Every code range of the image now builds from source: 598 units, 402,756 of 402,756 code bytes, covering all
@@ -20,7 +20,7 @@ requires its SHA-1 to equal the retail ROM's.
   That is open work, not progress.
 - The library is libultra (IDO 5.3, built from the `ultralib` reconstruction under `lib/ultralib`) and three
   libgcc functions. Nearly all of the functions that pass the rules today are library functions, not game code;
-  48 library functions are `MATCH-PENDING`.
+  three library functions are `MATCH-PENDING`.
 - Data is not reconstructed: outside the code, about 270,000 bytes of the image still come from the ROM.
 
 Earlier versions of this file described the project as complete. That claim rested on ledgers produced by a
