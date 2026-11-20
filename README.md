@@ -10,12 +10,12 @@ requires its SHA-1 to equal the retail ROM's.
 
 | measure | C functions | of |
 |---|---:|---:|
-| **Matched under the rules** (byte-identical and passing every [match] code rule) | **523** | 746 |
+| **Matched under the rules** (byte-identical and passing every [match] code rule) | **545** | 746 |
 | Bytes matched (byte-identical at the gate) | 746 | 746 |
 
 - Every code range of the image now builds from source: 604 units, 402,756 of 402,756 code bytes, covering all
   773 inventoried function ranges (745 C, 28 original assembly).
-- The game is 441 functions built with GCC 2.7.2. 219 pass the rules; 222 are `MATCH-PENDING`: the bytes are
+- The game is 441 functions built with GCC 2.7.2. 241 pass the rules; 200 are `MATCH-PENDING`: the bytes are
   right, but the source still has per-file copies of some types and globals, or stand-in locals that only hold
   the stack layout. That is open work, not progress. Passing the rules is not the end either: nearly every
   game function still has placeholder names.
