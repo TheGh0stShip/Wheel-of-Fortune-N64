@@ -27,6 +27,11 @@ typedef struct {
 } Gfx;
 
 //
+// globals
+//
+extern s32 D_80000300;      // osTvType
+
+//
 // functions, in address order
 //
 u32     func_80038748( void );                                      // osAiGetLength

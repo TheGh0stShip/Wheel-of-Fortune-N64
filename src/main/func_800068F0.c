@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern s32 D_80000300;
-
 void func_800068F0(void) {
     s32 count;
 
