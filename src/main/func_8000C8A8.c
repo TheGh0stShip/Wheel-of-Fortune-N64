@@ -4,7 +4,6 @@ typedef struct {
     /* 0x00 */ obj_t *cam;
 } Data;
 
-extern u16 D_800B9954;
 
 struct n64dk_r12 func_8000C8A8(s32 arg1) {
     struct n64dk_r12 ret;
@@ -39,22 +38,22 @@ struct n64dk_r12 func_8000C8A8(s32 arg1) {
             D_800B619C = 3;
         }
     }
-    if (D_800B9954 & 0x10) {
+    if (D_800B9954.button & 0x10) {
         cam->unk_30 = cam->unk_30 - 0.5;
     }
-    if (D_800B9954 & 0x20) {
+    if (D_800B9954.button & 0x20) {
         cam->unk_30 = cam->unk_30 + 0.5;
     }
-    if (D_800B9954 & 0x200) {
+    if (D_800B9954.button & 0x200) {
         cam->z = (u16)cam->z + 10;
     }
-    if (D_800B9954 & 0x100) {
+    if (D_800B9954.button & 0x100) {
         cam->z = (u16)cam->z - 10;
     }
-    if (D_800B9954 & 0x800) {
+    if (D_800B9954.button & 0x800) {
         cam->y = (u16)cam->y + 10;
     }
-    if (D_800B9954 & 0x400) {
+    if (D_800B9954.button & 0x400) {
         cam->y = (u16)cam->y - 10;
     }
     return ret;

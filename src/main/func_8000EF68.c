@@ -36,7 +36,7 @@ struct n64dk_r12 func_8000EF68(s32 arg1) {
             return ret;
         }
     }
-    delta = ((State *)((proc_t *)arg1)->unk_30)->unk_0C - D_800B9956 / D_80057F44;
+    delta = ((State *)((proc_t *)arg1)->unk_30)->unk_0C - D_800B9954.stick_x / D_80057F44;
     if (delta > 0.0f) {
         delta = delta * -1.0f;
     }

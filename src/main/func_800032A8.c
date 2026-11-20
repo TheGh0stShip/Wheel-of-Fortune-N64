@@ -9,7 +9,6 @@ struct gd_60_s16 { u8 pad[0x60]; s16 v; };
 struct gd_64_s32 { u8 pad[0x64]; s32 v; };
 struct n64dk_a800BA2D8 { s32 m0; u8 pad4[0x10]; };
 extern struct n64dk_a800BA2D8 D_800BA2D8[];
-extern s32 D_800A70A0;
 
 void func_800032A8(s32 arg0, s32 arg1, s32 arg2) {
     s32 sp18;

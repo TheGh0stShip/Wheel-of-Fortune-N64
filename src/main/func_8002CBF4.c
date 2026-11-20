@@ -184,9 +184,9 @@ struct n64dk_r12 func_8002CBF4(s32 arg1) {
         return result;
     }
     if (((Menu *)((proc_t *)arg1)->unk_30)->delay <= 0) {
-        if (D_800B9957 >= 41) {
+        if (D_800B9954.stick_y >= 41) {
             func_8002A8C8(arg1, 0);
-        } else if (D_800B9957 < -40) {
+        } else if (D_800B9954.stick_y < -40) {
             func_8002AAD0(arg1, 0, 1);
         }
     } else {

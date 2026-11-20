@@ -18,7 +18,6 @@ typedef struct {
 } Vec2f;
 
 extern Vec2f D_800B39A0[];
-extern u16 D_800B9954;
 
 struct n64dk_r12 func_80017938(s32 arg1) {
     struct n64dk_r12 sp10;
@@ -30,16 +29,16 @@ struct n64dk_r12 func_80017938(s32 arg1) {
     if (((Task *)arg1)->unk_30->unk_04 != D_800FB808) {
         return sp10;
     }
-    if ((D_800B9954 & 1 & 0xFFFF) != 0) {
+    if ((D_800B9954.button & 1 & 0xFFFF) != 0) {
         D_800B39A0[D_800FB808].y = D_800B39A0[D_800FB808].y - 0.5;
     }
-    if ((D_800B9954 & 2 & 0xFFFF) != 0) {
+    if ((D_800B9954.button & 2 & 0xFFFF) != 0) {
         D_800B39A0[D_800FB808].y = D_800B39A0[D_800FB808].y + 0.5;
     }
-    if ((D_800B9954 & 4 & 0xFFFF) != 0) {
+    if ((D_800B9954.button & 4 & 0xFFFF) != 0) {
         D_800B39A0[D_800FB808].x = D_800B39A0[D_800FB808].x - 0.5;
     }
-    if ((D_800B9954 & 8 & 0xFFFF) != 0) {
+    if ((D_800B9954.button & 8 & 0xFFFF) != 0) {
         D_800B39A0[D_800FB808].x = D_800B39A0[D_800FB808].x + 0.5;
     }
     task = (Task *)func_8000B5DC(0x3000000, 0xFF000000);

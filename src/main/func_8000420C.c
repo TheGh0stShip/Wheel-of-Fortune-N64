@@ -1,12 +1,6 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u16 unk_00;
-    /* 0x02 */ u8 unk_02;
-    /* 0x03 */ u8 unk_03;
-} Status;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ u8 unk_04[0xC];
 } Slot;
@@ -15,7 +9,6 @@ typedef struct {
     u8 unk_00[0x68];
 } Entry;
 
-extern Status D_800A70A0[];
 extern Slot D_800BEE60[];
 extern Entry D_800AB448[];
 
@@ -41,8 +34,8 @@ void func_8000420C(void) {
     i = 0;
     while (i < 4) {
         if ((D_800B96C4 >> i) % 2 != 0) {
-            if ((D_800A70A0[i].unk_00 & 4) != 0) {
-                if ((D_800A70A0[i].unk_02 & 1) != 0) {
+            if ((D_800A70A0[i].type & 4) != 0) {
+                if ((D_800A70A0[i].status & 1) != 0) {
                     result = osPfsInit(&D_800B3970, &D_800AB448[i], i);
                     if (result == 10 || result == 11) {
                         result = osMotorInit(&D_800B3970, &D_800AB448[i], i);

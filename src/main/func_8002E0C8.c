@@ -11,7 +11,6 @@ typedef struct {
 } State;
 
 extern u8 D_800B9601[][21];
-extern u16 D_800B9954;
 
 struct n64dk_r12 func_8002E0C8(s32 arg1) {
     s32 event;
@@ -109,34 +108,34 @@ struct n64dk_r12 func_8002E0C8(s32 arg1) {
         return result;
     }
     if (((State *)((proc_t *)arg1)->unk_30)->unk_0C <= 0) {
-        if ((D_800B9954 & 2048) != 0) {
+        if ((D_800B9954.button & 2048) != 0) {
             func_8002ACE8(arg1);
             func_8000AAB0(task, 22, 0);
-        } else if ((D_800B9954 & 1024) != 0) {
+        } else if ((D_800B9954.button & 1024) != 0) {
             func_8002AE60(arg1);
             func_8000AAB0(task, 22, 0);
-        } else if ((D_800B9954 & 512) != 0) {
+        } else if ((D_800B9954.button & 512) != 0) {
             func_8002A8C8(arg1, 1);
             func_8000AAB0(task, 22, 0);
-        } else if ((D_800B9954 & 256) != 0) {
+        } else if ((D_800B9954.button & 256) != 0) {
             func_8002AAD0(arg1, 1, 1);
             func_8000AAB0(task, 22, 0);
-        } else if (D_800B9956 < -40) {
+        } else if (D_800B9954.stick_x < -40) {
             func_8002A8C8(arg1, 1);
             func_8000AAB0(task, 22, 0);
-        } else if (D_800B9956 >= 41) {
+        } else if (D_800B9954.stick_x >= 41) {
             func_8002AAD0(arg1, 1, 1);
             func_8000AAB0(task, 22, 0);
-        } else if (D_800B9957 < -40) {
+        } else if (D_800B9954.stick_y < -40) {
             func_8002AE60(arg1);
             func_8000AAB0(task, 22, 0);
-        } else if (D_800B9957 >= 41) {
+        } else if (D_800B9954.stick_y >= 41) {
             func_8002ACE8(arg1);
             func_8000AAB0(task, 22, 0);
-        } else if ((D_800B9954 & 0x8010) != 0) {
+        } else if ((D_800B9954.button & 0x8010) != 0) {
             ((State *)((proc_t *)arg1)->unk_30)->unk_0C = 15;
             func_8000AAB0(task, 17, 0);
-        } else if ((D_800B9954 & 0x4020) != 0) {
+        } else if ((D_800B9954.button & 0x4020) != 0) {
             ((State *)((proc_t *)arg1)->unk_30)->unk_0C = 15;
             func_8000AAB0(task, 18, 0);
         }

@@ -84,20 +84,20 @@ struct n64dk_r12 func_80023CA4(s32 arg1) {
         }
     }
     if (((Cursor *)((proc_t *)arg1)->unk_30)->timer <= 0) {
-        if (D_800B9956 >= 41) {
+        if (D_800B9954.stick_x >= 41) {
             func_80022FE0(arg1, (s32)&D_800588F0, (s32)&D_80058868[((Cursor *)((proc_t *)arg1)->unk_30)->index], 0);
             if (((Cursor *)((proc_t *)arg1)->unk_30)->index == 0) {
                 func_80023B44();
             }
-        } else if (D_800B9956 < -40) {
+        } else if (D_800B9954.stick_x < -40) {
             func_80022DC0(arg1, (s32)&D_800588F0, (s32)&D_80058868[((Cursor *)((proc_t *)arg1)->unk_30)->index], 0);
             if (((Cursor *)((proc_t *)arg1)->unk_30)->index == 0) {
                 func_80023B44();
             }
         }
-        if (D_800B9957 >= 41) {
+        if (D_800B9954.stick_y >= 41) {
             func_800229D0(arg1, (s32)&D_800588F0, (s32)D_80058868, 2);
-        } else if (D_800B9957 < -40) {
+        } else if (D_800B9954.stick_y < -40) {
             func_80022BC8(arg1, (s32)&D_800588F0, (s32)D_80058868, 2);
         }
     } else {

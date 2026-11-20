@@ -104,14 +104,14 @@ struct n64dk_r12 func_80025150(s32 arg1) {
         return ret;
     }
     if (((State *)((proc_t *)arg1)->unk_30)->unk_0C <= 0) {
-        if (D_800B9956 >= 41) {
+        if (D_800B9954.stick_x >= 41) {
             func_80022FE0(arg1, (s32)&D_80058B28, (s32)&D_80058AA8[((State *)((proc_t *)arg1)->unk_30)->unk_08], 0);
-        } else if (D_800B9956 < -40) {
+        } else if (D_800B9954.stick_x < -40) {
             func_80022DC0(arg1, (s32)&D_80058B28, (s32)&D_80058AA8[((State *)((proc_t *)arg1)->unk_30)->unk_08], 0);
         }
-        if (D_800B9957 >= 41) {
+        if (D_800B9954.stick_y >= 41) {
             func_800229D0(arg1, (s32)&D_80058B28, (s32)&D_80058AA8, 4);
-        } else if (D_800B9957 < -40) {
+        } else if (D_800B9954.stick_y < -40) {
             func_80022BC8(arg1, (s32)&D_80058B28, (s32)&D_80058AA8, 4);
         }
     } else {

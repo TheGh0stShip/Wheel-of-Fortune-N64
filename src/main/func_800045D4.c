@@ -1,14 +1,6 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u16 button;
-    /* 0x02 */ s8 stick_x;
-    /* 0x03 */ s8 stick_y;
-    /* 0x04 */ u8 errno;
-    /* 0x05 */ u8 unk_05;
-} Pad;
-
-typedef struct {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
@@ -16,11 +8,9 @@ typedef struct {
 } Rumble;
 
 extern Rumble D_800BEE60[];
-extern Pad D_800A70B0[];
-extern Pad D_800B9954;
 
 void func_800045D4(void) {
-    Pad *pad;
+    OSContPad *pad;
     u16 i;
     s32 j;
     u16 buttons;
@@ -70,18 +60,18 @@ void func_800045D4(void) {
     }
     if (D_800B9D04 != 0) {
         if (D_800BCD54 == 3 || D_800BCD54 == 1 || D_800BCD54 == 7 || D_800BCD54 == 8) {
-            D_800B9956 = 0;
-            D_800B9957 = 0;
+            D_800B9954.stick_x = 0;
+            D_800B9954.stick_y = 0;
             D_800B96B0 = 0;
             i = 0;
             while (i < 4) {
                 D_800B96B0 |= D_800BEE58[i];
                 if ((D_800B96C4 >> i) % 2 != 0) {
                     if (D_800A70B0[i].stick_x >= 41 || D_800A70B0[i].stick_x < -40) {
-                        D_800B9956 = D_800A70B0[i].stick_x;
+                        D_800B9954.stick_x = D_800A70B0[i].stick_x;
                     }
                     if (D_800A70B0[i].stick_y >= 41 || D_800A70B0[i].stick_y < -40) {
-                        D_800B9957 = D_800A70B0[i].stick_y;
+                        D_800B9954.stick_y = D_800A70B0[i].stick_y;
                     }
                 }
                 i++;
