@@ -365,13 +365,15 @@ typedef struct {
     /* 0x08 */ f32 unk_08;
 } data80057808_t;    // size 0xC
 
-// The entries of D_80057BB0[].
+// The entries of D_80057BB0[]. func_80013440 gives the colour an entry is drawn in: unk_10, or
+// unk_14 for the first half of each blink while unk_04 is set.
 typedef struct {
     /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ u8 unk_10[0x8];
+    /* 0x04 */ s32 unk_04;      // not 0: it blinks
+    /* 0x08 */ s32 unk_08;      // the frames one blink takes
+    /* 0x0C */ s32 unk_0C;      // the frames left of this blink
+    /* 0x10 */ s32 unk_10;
+    /* 0x14 */ s32 unk_14;
 } layer_t;    // size 0x18
 
 // One square of the puzzle board. The four rows are D_800B9D08[12], D_800B9E58[14],
@@ -1235,7 +1237,7 @@ void func_80012838( tile_t *tiles, s32 count, s32 arg2 );
 void func_80012D40( obj_t *obj, frame_t *frame );
 void func_800132EC( s32 arg0 );
 void func_800133C8( void );
-s32 func_80013440( s32 arg0 );
+s32 func_80013440( layer_t *layer );
 void func_80013500( s32 arg0 );
 void func_80013748( obj_t *obj, frame_t *frame );
 void func_80014208( obj_t *obj, frame_t *frame );

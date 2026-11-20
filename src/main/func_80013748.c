@@ -24,7 +24,7 @@ void func_80013748(obj_t *obj, frame_t *frame) {
         gfx->words.w0 = 0x6000000;
         gfx->words.w1 = (s32)&D_01021AC8;
         for (i = 0; i < 3; i++) {
-            color = func_80013440((s32)&D_80057BB0[i]);
+            color = func_80013440(&D_80057BB0[i]);
             gfx = D_800B81E8++;
             gfx->words.w0 = 0xBC00000A;
             gfx->words.w1 = color;
