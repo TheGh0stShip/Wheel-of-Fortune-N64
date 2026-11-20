@@ -17,6 +17,9 @@
  *             one item and the next, no object can start, so the users of both are one object's.  An item
  *             a later function uses below one an earlier function uses ties them too, a string literal
  *             two functions share does, and one string at two addresses is two objects' copies;
+ *   bss       the objects' own .bss holds their statics, in object order: the users of one static are one
+ *             object's, and so are the users of a static and those of the statics above it that earlier
+ *             functions use;
  *   data      .data and .bss addresses that a single function uses, where one function's lie inside
  *             another's: the two functions share an object's contribution.
  *
@@ -112,7 +115,7 @@ typedef struct {
 } Pos;
 
 /* why two read-only items are one object's */
-enum { R_NONE, R_CONTIG, R_ORDER };
+enum { R_NONE, R_CONTIG, R_ORDER, R_STATIC, R_STATIC_ORDER };
 
 typedef struct {
     u32 addr;
@@ -924,7 +927,87 @@ static void tie(int lo, int hi, int why, u32 a, u32 b) {
         }
 }
 
-static int nitem_open_tied[3];
+static int nitem_open_tied[5];
+
+/*
+ * cc1 writes an uninitialised file-scope or function-scope static into its object's own .bss, and an
+ * uninitialised global as a common symbol, which the linker gathers after every object's .bss.  So the
+ * .bss starts with the objects' statics, in object order, up to the first address that code outside the
+ * game uses (the entry stub, which clears the section, aside).  A static is visible only inside its object:
+ * every function that uses one is that object's, and a static above one that a later function uses belongs
+ * to that function's object or a later one.  Both tests are counted against the certain positions first.
+ *
+ * An address an instruction only forms may be one past the end of the datum below it (a thread's stack
+ * is passed by its end), so such a use names no datum.  A load or a store does, and so does the D_ name
+ * the function's source writes, which the gate has resolved through the relocation.
+ */
+static int names_static(const Claim *c) {
+    return funcs[c->fn].game >= 0 && (c->kind & (K_LOAD | K_STORE | K_FLOAT | K_DOUBLE | K_NAME));
+}
+
+static void analyse_statics(void) {
+    static struct { u32 addr; int fmin, fmax; } d[4096];
+    int i, n = 0, k, g, pm, bad[2] = { 0, 0 }, conf[2] = { 0, 0 }, open[2] = { 0, 0 };
+    u32 end = RAM_END, pmaddr = 0;
+    for (i = 0; i < nclaims; i++) {
+        const Claim *c = &claims[i];
+        if (in_bss(c->addr) && is_use(c) && funcs[c->fn].game < 0 && c->fn != 0 && c->addr < end) end = c->addr;
+    }
+    for (i = 0; i < nclaims; i++) {
+        const Claim *c = &claims[i];
+        int gi = funcs[c->fn].game;
+        if (!in_bss(c->addr) || c->addr >= end || !names_static(c)) continue;
+        if (!n || d[n - 1].addr != c->addr) {
+            if (n == 4096) die("too many statics");
+            d[n].addr = c->addr;
+            d[n].fmin = d[n].fmax = gi;
+            n++;
+        }
+        if (gi < d[n - 1].fmin) d[n - 1].fmin = gi;
+        if (gi > d[n - 1].fmax) d[n - 1].fmax = gi;
+    }
+    printf("== static .bss ==\n");
+    printf("the objects' own .bss: 0x%08X..0x%08X, up to the first address code outside the game uses; game\n"
+           "  functions use %d addresses there\n", IMAGE_END, end, n);
+    /* k = 0: the users of one static; k = 1: a static below one that an earlier function uses */
+    for (k = 0; k < 2; k++)
+        for (i = 0, pm = -1; i < n; i++) {
+            int lo = d[i].fmin, hi = k ? pm : d[i].fmax;
+            if (lo < hi) {
+                if (tie_crosses(lo, hi)) {
+                    bad[k]++;
+                    printf("note: %s 0x%08X ties %s and %s across a certain boundary\n", k ? "the order at" : "the static", d[i].addr,
+                           funcs[game[lo]].name, funcs[game[hi]].name);
+                }
+                for (g = lo; g < hi; g++)
+                    if (pos[g].text == T_JOIN) conf[k]++;
+            }
+            if (d[i].fmax > pm) pm = d[i].fmax;
+        }
+    printf("one static used by several functions: ties %d certain joins, crosses %d certain boundaries -> %s\n", conf[0], bad[0],
+           bad[0] ? "it decides nothing" : "a tied position counts as joined (likely)");
+    printf("a static below one an earlier function uses: ties %d certain joins, crosses %d certain boundaries -> %s\n", conf[1], bad[1],
+           bad[1] ? "it decides nothing" : "a tied position counts as joined (likely)");
+    for (k = 0; k < 2; k++) {
+        if (bad[k]) continue;
+        for (i = 0, pm = -1; i < n; i++) {
+            int lo = d[i].fmin, hi = k ? pm : d[i].fmax;
+            for (g = lo; g < hi; g++) {
+                if (pos[g].ro_tie) continue;
+                if (pos[g].text == T_OPEN && !pos[g].join_string && !pos[g].data_cross[0] && !pos[g].data_cross[1]) open[k]++;
+                pos[g].ro_tie = k ? R_STATIC_ORDER : R_STATIC;
+                pos[g].tie_addr[0] = k ? pmaddr : d[i].addr;
+                pos[g].tie_addr[1] = d[i].addr;
+            }
+            if (d[i].fmax > pm) pm = d[i].fmax, pmaddr = d[i].addr;
+        }
+    }
+    printf("undetermined positions newly tied: %d by one static, %d by the order of the statics\n", open[0], open[1]);
+    if (verbose)
+        for (i = 0; i < n; i++)
+            printf("  0x%08X %s..%s\n", d[i].addr, funcs[game[d[i].fmin]].name, funcs[game[d[i].fmax]].name);
+    printf("\n");
+}
 static int glo[8192], ghi[8192]; /* per group root: the first and last game function using its items, or -1 */
 static int contig_ok;         /* the contiguity test held at every certain position */
 
@@ -1621,7 +1704,7 @@ static int print_units(int premise, int *hidden, int *nsettled) {
 
 static void print_result(void) {
     static const char *verdict[NGRADES] = { "boundary certain", "boundary likely", "unknown", "joined likely", "joined certain" };
-    static const char *tie_why[3] = { "", "contiguous read-only items", "read-only order" };
+    static const char *tie_why[5] = { "", "contiguous read-only items", "read-only order", "one static .bss datum", "static .bss order" };
     int g, n[NGRADES], nunit = 0, hidden = 0, nsettled = 0, k;
     memset(n, 0, sizeof n);
     printf("== positions ==\n");
@@ -1690,6 +1773,7 @@ int main(int argc, char **argv) {
     analyse_data(0, ".data", in_data);
     analyse_data(1, ".bss", in_bss);
     printf("\n");
+    analyse_statics();
     analyse_items();
     analyse_rodata();
     if (verbose) print_function_map();
