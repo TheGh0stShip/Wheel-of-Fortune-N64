@@ -242,7 +242,7 @@ src/os/createmesgqueue.c	src/os/createmesgqueue.c	verbatim
 src/os/createthread.c	src/os/createthread.c	verbatim
 src/os/destroythread.c	src/os/destroythread.c	modified
 src/os/exceptasm.h	src/os/exceptasm.h	verbatim
-src/os/exceptasm.s	src/os/exceptasm.s	verbatim
+src/os/exceptasm.s	src/os/exceptasm.s	modified
 src/os/getcount.s	src/os/getcount.s	verbatim
 src/os/getsr.s	src/os/getsr.s	verbatim
 src/os/getthreadpri.c	src/os/getthreadpri.c	verbatim

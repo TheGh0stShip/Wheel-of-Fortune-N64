@@ -697,9 +697,13 @@ rcp:
     /* Mask out SP interrupt */
     andi    s1, s1, (MI_INTR_SI | MI_INTR_AI | MI_INTR_VI | MI_INTR_PI | MI_INTR_DP)
     lw      ta0, PHYS_TO_K1(SP_STATUS_REG)
+#if BUILD_VERSION >= VERSION_I
     li      t1, (SP_CLR_INTR | SP_CLR_SIG3)
+#else
+    li      t1, SP_CLR_INTR
+#endif
 
-    /* Clear interrupt and signal 3 */
+    /* Clear interrupt and signal 3 (the signal only from 2.0I on) */
     sw      t1, PHYS_TO_K1(SP_STATUS_REG)
     andi    ta0, ta0, (SP_STATUS_YIELDED | SP_STATUS_TASKDONE)
     beqz    ta0, sp_other_break

@@ -402,7 +402,7 @@ parameters	0x8003CD88	0x60	match	ultra_asm	lib/ultralib/src/os/parameters.s
 sndpstop	0x8003CDE8	0x50	match	ultra_O3	lib/ultralib/src/audio/sndpstop.c
 sndpgetstate	0x8003CE38	0x20	match	ultra_O3	lib/ultralib/src/audio/sndpgetstate.c
 random	0x8003CE58	0x30	match	ultra_O3	lib/ultralib/src/gu/random.c
-exceptasm	0x8003CE88	0x910	open	ultra_exceptasm	lib/ultralib/src/os/exceptasm.s
+exceptasm	0x8003CE88	0x910	match	ultra_exceptasm	lib/ultralib/src/os/exceptasm.s
 leointerrupt	0x8003D798	0x880	match	ultra_O1	lib/ultralib/src/io/leointerrupt.c
 perspective	0x8003E018	0x290	match	ultra_O3	lib/ultralib/src/gu/perspective.c
 pigetstat	0x8003E2A8	0x10	match	ultra_O1	lib/ultralib/src/io/pigetstat.c
