@@ -1,6 +1,7 @@
 #!/bin/sh
 # wof -- run the project tool (tools/wof.c). From a Windows shell this re-enters WSL, where the compiler lives.
-# Three verbs have their own tool: rules (tools/rules.c), unitmap (tools/unitmap.c), report (gate, then rules).
+# Four verbs have their own tool: rules (tools/rules.c), unitmap (tools/unitmap.c), frame (tools/frame.c),
+# report (gate, then rules).
 here=$(cd "$(dirname "$0")" && pwd)
 if [ "$(uname -s)" != Linux ]; then
     wslhere=$(printf '%s' "$here" | sed 's|^/\([a-zA-Z]\)/|/mnt/\L\1/|')
@@ -41,6 +42,9 @@ fi
 if [ ! -x "$WOF_BUILD/unitmap" ] || [ tools/unitmap.c -nt "$WOF_BUILD/unitmap" ]; then
     cc -O2 -Wall -o "$WOF_BUILD/unitmap" tools/unitmap.c || exit 2
 fi
+if [ ! -x "$WOF_BUILD/frame" ] || [ tools/frame.c -nt "$WOF_BUILD/frame" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/frame" tools/frame.c || exit 2
+fi
 case "$1" in
 rules)
     shift
@@ -50,6 +54,11 @@ unitmap)
     # evidence for the original object boundaries, from the ROM and the last gate's unit list
     shift
     exec "$WOF_BUILD/unitmap" "$@"
+    ;;
+frame)
+    # a function's stack frame as retail uses it, next to the locals the source declares
+    shift
+    exec "$WOF_BUILD/frame" "$@"
     ;;
 report)
     # both score numbers, each from its own tool
