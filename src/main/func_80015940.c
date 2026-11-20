@@ -10,7 +10,6 @@ typedef struct {
     /* 0x18 */ s32 unk_18;
 } Tile;
 
-extern u8 D_800B9601[][21];
 
 void func_80015940(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 i;

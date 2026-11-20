@@ -1,6 +1,5 @@
 #include "wof.h"
 
-extern u8 D_800B9559[][21];
 
 s32 func_800111F0(s32 arg0, s32 arg1, s32 arg2) {
     s32 limit;

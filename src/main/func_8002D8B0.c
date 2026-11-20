@@ -8,7 +8,6 @@ typedef struct {
     } unk_04;
 } Info;
 
-extern u8 D_800B966A[];
 
 void func_8002D8B0(s32 arg0) {
     if (D_800B966A[((Info *)((proc_t *)arg0)->unk_30)->unk_04.index] == 32) {

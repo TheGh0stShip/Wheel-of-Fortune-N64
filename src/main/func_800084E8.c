@@ -1,6 +1,5 @@
 #include "wof.h"
 
-extern u8 D_800B966A[];
 
 s32 func_800084E8(void) {
     s32 consonants;

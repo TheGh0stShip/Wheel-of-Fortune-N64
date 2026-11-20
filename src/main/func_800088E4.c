@@ -1,8 +1,5 @@
 #include "wof.h"
 
-extern s8 D_800B9559[][21];
-extern u8 D_800B95AD[][21];
-extern u8 D_800B9601[][21];
 
 s32 func_800088E4(void) {
     s32 i;

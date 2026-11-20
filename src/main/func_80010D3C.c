@@ -17,7 +17,6 @@ extern Slot D_800B9D20[];
 extern Slot D_800B9E70[];
 extern Slot D_800B9FF8[];
 extern Slot D_800BA180[];
-extern u8 D_800B9601[][21];
 
 struct n64dk_r12 func_80010D3C(s32 arg1) {
     struct n64dk_r12 result;

@@ -13,18 +13,14 @@ extern Entry D_800B9D0C[];
 extern Entry D_800B9E5C[];
 extern Entry D_800B9FE4[];
 extern Entry D_800BA16C[];
-extern u8 D_800B9601[];
-extern u8 D_800B9616[];
-extern u8 D_800B962B[];
-extern u8 D_800B9640[];
 
 void func_80011B24(void) {
     s32 i;
 
     for (i = 0; i < 12; i++) {
-        if (D_800B9601[i] >= 65) {
-            if (D_800B9601[i] < 91) {
-                D_800B9D0C[i].unk_00 = D_800579BC[D_800B9601[i]];
+        if (D_800B9601[0][i] >= 65) {
+            if (D_800B9601[0][i] < 91) {
+                D_800B9D0C[i].unk_00 = D_800579BC[D_800B9601[0][i]];
                 D_800B9D0C[i].unk_14 = -1;
                 D_800B9D0C[i].unk_08 = 0;
             }
@@ -32,9 +28,9 @@ void func_80011B24(void) {
     }
     i = 0;
     while (i < 14) {
-        if (D_800B9616[i] >= 65) {
-            if (D_800B9616[i] < 91) {
-                D_800B9E5C[i].unk_00 = D_800579BC[D_800B9616[i]];
+        if (D_800B9601[1][i] >= 65) {
+            if (D_800B9601[1][i] < 91) {
+                D_800B9E5C[i].unk_00 = D_800579BC[D_800B9601[1][i]];
                 D_800B9E5C[i].unk_14 = -1;
                 D_800B9E5C[i].unk_08 = 0;
             }
@@ -43,9 +39,9 @@ void func_80011B24(void) {
     }
     i = 0;
     while (i < 14) {
-        if (D_800B962B[i] >= 65) {
-            if (D_800B962B[i] < 91) {
-                D_800B9FE4[i].unk_00 = D_800579BC[D_800B962B[i]];
+        if (D_800B9601[2][i] >= 65) {
+            if (D_800B9601[2][i] < 91) {
+                D_800B9FE4[i].unk_00 = D_800579BC[D_800B9601[2][i]];
                 D_800B9FE4[i].unk_14 = -1;
                 D_800B9FE4[i].unk_08 = 0;
             }
@@ -54,9 +50,9 @@ void func_80011B24(void) {
     }
     i = 0;
     while (i < 12) {
-        if (D_800B9640[i] >= 65) {
-            if (D_800B9640[i] < 91) {
-                D_800BA16C[i].unk_00 = D_800579BC[D_800B9640[i]];
+        if (D_800B9601[3][i] >= 65) {
+            if (D_800B9601[3][i] < 91) {
+                D_800BA16C[i].unk_00 = D_800579BC[D_800B9601[3][i]];
                 D_800BA16C[i].unk_14 = -1;
                 D_800BA16C[i].unk_08 = 0;
             }

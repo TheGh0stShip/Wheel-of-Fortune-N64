@@ -9,7 +9,6 @@ extern Entry D_800B9D0C[];
 extern Entry D_800B9E5C[];
 extern Entry D_800B9FE4[];
 extern Entry D_800BA16C[];
-extern s8 D_800B95AD[][21];
 
 void func_8001142C(s32 arg0, s32 arg1, u8 arg2) {
     if (arg2 < 65 || arg2 >= 91) {

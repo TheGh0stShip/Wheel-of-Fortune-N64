@@ -1,6 +1,5 @@
 #include "wof.h"
 
-extern s32 D_800B966A;
 
 void func_8001A628(s32 arg0) {
     s32 found;

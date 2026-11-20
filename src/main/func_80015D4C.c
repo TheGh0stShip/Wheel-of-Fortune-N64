@@ -1,10 +1,5 @@
 #include "wof.h"
 
-extern s32 D_800B9544;
-extern s32 D_800B9601;
-extern s32 D_800B9616;
-extern s32 D_800B962B;
-extern s32 D_800B9640;
 
 void func_80015D4C(void) {
     s32 obj;
@@ -13,11 +8,11 @@ void func_80015D4C(void) {
     func_80009F98((s32)"\n");
     func_80009F98((s32)&D_800B9601);
     func_80009F98((s32)"\n");
-    func_80009F98((s32)&D_800B9616);
+    func_80009F98((s32)&D_800B9601[1]);
     func_80009F98((s32)"\n");
-    func_80009F98((s32)&D_800B962B);
+    func_80009F98((s32)&D_800B9601[2]);
     func_80009F98((s32)"\n");
-    func_80009F98((s32)&D_800B9640);
+    func_80009F98((s32)&D_800B9601[3]);
     func_80009F98((s32)"\n");
     obj = func_8000B5DC(0x1010000, -1);
     if (obj == 0) {

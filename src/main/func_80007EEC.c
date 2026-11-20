@@ -1,7 +1,5 @@
 #include "wof.h"
 
-extern u8 D_800B9559[][21];
-extern u8 D_800B9601[][21];
 
 s32 func_80007EEC(s32 arg0) {
     s32 row;

@@ -54,7 +54,7 @@ struct n64dk_r12 func_8002C094(s32 arg1) {
             return ret;
         case 44:
             for (i = 0; D_8005C394[i] != 0; i++) {
-                D_800B9629[D_8005C394[i]] = 32;
+                D_800B966A[D_8005C394[i] - 65] = 32;
                 func_80007DAC(D_8005C394[i]);
             }
             task = func_8000A56C((s32)func_80010D3C, 0x1000000);
@@ -117,7 +117,7 @@ struct n64dk_r12 func_8002C094(s32 arg1) {
             while (i < 10 && D_8005BE00[i].unk_20 != 0) {
                 i++;
             }
-            D_800B9629[D_800B61B5] = 32;
+            D_800B966A[D_800B61B5 - 65] = 32;
             D_8005BE00[i].unk_20 = D_8005BCC8[D_800B61B5 - 65].unk_00;
             D_8005BE00[i].width = D_8005BCC8[D_800B61B5 - 65].unk_04;
             D_8005BE00[i].height = D_8005BCC8[D_800B61B5 - 65].unk_08;

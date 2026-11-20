@@ -1,6 +1,5 @@
 #include "wof.h"
 
-extern u8 D_800B966A[];
 
 void func_800278F0(s32 arg0, s32 arg1) {
     s32 pad0[2];

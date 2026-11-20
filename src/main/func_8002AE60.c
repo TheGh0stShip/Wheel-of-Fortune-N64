@@ -10,7 +10,6 @@ typedef struct {
     /* 0x0C */ s32 unk_0C;
 } State;
 
-extern u8 D_800B966A[];
 
 void func_8002AE60(s32 arg0) {
     s32 i;

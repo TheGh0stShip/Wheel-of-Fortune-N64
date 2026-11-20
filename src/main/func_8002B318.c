@@ -5,7 +5,6 @@ typedef struct {
     /* 0x08 */ s32 step;
 } Data;
 
-extern s32 D_800B9544;
 
 struct n64dk_r12 func_8002B318(s32 arg1) {
     s32 event;

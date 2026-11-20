@@ -10,7 +10,6 @@ typedef struct {
     /* 0x0C */ s32 unk_0C;
 } State;
 
-extern u8 D_800B9601[][21];
 
 struct n64dk_r12 func_8002E0C8(s32 arg1) {
     s32 event;

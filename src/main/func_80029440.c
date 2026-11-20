@@ -1,6 +1,5 @@
 #include "wof.h"
 
-extern u8 D_800B9544[];
 
 void func_80029440(void) {
     s32 len;
