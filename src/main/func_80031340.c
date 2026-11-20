@@ -2,8 +2,9 @@
 
 void func_80031340(s32 arg0, s32 arg1) {
     s32 i;
-    s32 pad0;
-    s32 pad1[2];
+    s32 unused;   /* NOTE: unused in the original */
+    s32 unused2;  /* NOTE: unused in the original */
+    s32 unused3;  /* NOTE: unused in the original */
     u16 *src;
     s16 *dst1;
     s16 *dst2;

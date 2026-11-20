@@ -1,9 +1,9 @@
 #include "wof.h"
 
 void func_8002208C(s32 arg0, s32 arg1) {
-    s32 pad0[2];
+    s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
-    s32 pad1;
+    s32 unused2;  /* NOTE: unused in the original */
     Gfx *gfx;
 
     gfx = D_800B81E8++;

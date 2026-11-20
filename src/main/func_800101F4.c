@@ -4,7 +4,7 @@ struct n64dk_r12 func_800101F4(s32 arg1) {
     struct n64dk_r12 result;
     obj_t *obj;
     s32 event;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     obj = ((data800101F4_t *)((proc_t *)arg1)->unk_30)->unk_00;
     for (;;) {

@@ -1,7 +1,7 @@
 #include "wof.h"
 
 void func_80033CF8(s32 arg0, s32 arg1) {
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     Gfx *gfx;
     Gfx *gfx2;
 

@@ -3,7 +3,7 @@
 
 struct n64dk_r12 func_80010574(s32 arg1) {
     struct n64dk_r12 ret;
-    s32 pad0[2];
+    s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 row;
     s32 col;
     s32 startRow;

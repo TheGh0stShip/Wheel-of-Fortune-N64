@@ -2,8 +2,7 @@
 
 
 void func_8000EE78(void) {
-    s32 pad0[2];
-    s8 pad1;
+    s32 unused[4];  /* NOTE: unused in the original; guess: its type, the frame shows at most 16 bytes */
 
     D_800BCD54 = 3;
     D_800B8298 = 0.65f;

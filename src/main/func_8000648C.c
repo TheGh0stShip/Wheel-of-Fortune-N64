@@ -1,7 +1,7 @@
 #include "wof.h"
 
 void func_8000648C(void) {
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     while (D_800BEDE4 < 2 && D_800B9D04 == 0) {
         while (D_800B3CB8 > D_800B96AC) {

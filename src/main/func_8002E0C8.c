@@ -4,7 +4,7 @@
 struct n64dk_r12 func_8002E0C8(s32 arg1) {
     s32 event;
     struct n64dk_r12 result;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     s32 task;
 
     result.w[1] = 1;

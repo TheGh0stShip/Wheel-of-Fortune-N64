@@ -4,7 +4,7 @@
 s32 func_8000A56C(s32 arg0, s32 arg1) {
     proc_t *last;
     proc_t *task;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     last = (proc_t *)func_8000A0E4();
     task = (proc_t *)func_8000A204();

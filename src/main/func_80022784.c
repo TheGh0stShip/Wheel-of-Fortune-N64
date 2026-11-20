@@ -1,7 +1,7 @@
 #include "wof.h"
 
 typedef struct {
-    /* 0x00 */ u8 pad0[0x4];
+    /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ s32 unk_0C;

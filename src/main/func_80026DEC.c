@@ -1,7 +1,7 @@
 #include "wof.h"
 
 void func_80026DEC(void) {
-    s32 pad;
+    s32 unused;  /* NOTE: unused in the original */
     s32 task;
 
     task = func_8000A56C((s32)func_80024370, 0x05000000);

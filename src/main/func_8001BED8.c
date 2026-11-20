@@ -4,7 +4,7 @@
 struct n64dk_r12 func_8001BED8(s32 arg1) {
     struct n64dk_r12 sp10;
     s32 task;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     s32 event;
     f32 ratio;
 

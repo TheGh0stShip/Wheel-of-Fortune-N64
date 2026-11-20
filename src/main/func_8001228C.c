@@ -2,10 +2,10 @@
 
 struct n64dk_r12 func_8001228C(s32 arg1) {
     struct n64dk_r12 result;
-    s32 pad0[4];
+    s32 unused[4];   /* NOTE: unused in the original; guess: its type, the frame shows at most 16 bytes */
     s32 i;
     s32 slot;
-    s32 pad1[2];
+    s32 unused2[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 event;
 
     result.w[1] = 1;

@@ -1,19 +1,10 @@
 #include "wof.h"
 
 void func_80005FD0(s32 arg0) {
-    s32 pad0;
-    Gfx *gfx;
+    s32 unused;  /* NOTE: unused in the original */
 
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xE7000000;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xED000000;
-    gfx->words.w1 = 0x5003C0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xE7000000;
-    gfx->words.w1 = 0;
-    gfx = D_800B81E8++;
-    gfx->words.w0 = 0xE7000000;
-    gfx->words.w1 = 0;
+    gDPPipeSync(D_800B81E8++);
+    gDPSetScissor(D_800B81E8++, G_SC_NON_INTERLACE, 0, 0, 320, 240);
+    gDPPipeSync(D_800B81E8++);
+    gDPPipeSync(D_800B81E8++);
 }

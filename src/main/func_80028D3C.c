@@ -1,7 +1,7 @@
 #include "wof.h"
 
 void func_80028D3C(s32 arg0, s32 arg1) {
-    s32 pad0[4];
+    s32 unused[4];  /* NOTE: unused in the original; guess: its type, the frame shows at most 16 bytes */
     Gfx *gfx;
     Gfx *gfx2;
 

@@ -3,7 +3,8 @@
 
 struct n64dk_r12 func_800181A4(s32 arg1) {
     struct n64dk_r12 ret;
-    s32 pad0[2];
+    s32 unused;   /* NOTE: unused in the original */
+    s32 unused2;  /* NOTE: unused in the original */
     s32 event;
 
     ret.w[1] = 1;

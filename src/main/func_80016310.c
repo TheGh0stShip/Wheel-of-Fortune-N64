@@ -4,7 +4,7 @@
 void func_80016310(void) {
     proc_t *task;
     obj_t *obj;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     task = 0;
     obj = (obj_t *)func_80015848((s32)task, (s32)&D_01024340, (s32)func_80014F38, 0x4010000);

@@ -3,7 +3,7 @@
 
 struct n64dk_r12 func_80017DBC(s32 arg1) {
     struct n64dk_r12 result;
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     obj_t *obj;
     s32 event;
 

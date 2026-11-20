@@ -3,11 +3,11 @@
 
 struct n64dk_r12 func_80010D3C(s32 arg1) {
     struct n64dk_r12 result;
-    s32 pad0[2];
+    s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 row;
     s32 foundRow;
     s32 foundCol;
-    s32 pad1;
+    s32 unused2;  /* NOTE: unused in the original */
     u8 *p;
     u8 c;
     s32 event;

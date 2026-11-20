@@ -1,7 +1,7 @@
 #include "wof.h"
 
 void func_8000CB58(s32 arg0, s32 arg1) {
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     Gfx *gfx;
 
     if (D_800B3994 >= 318) {

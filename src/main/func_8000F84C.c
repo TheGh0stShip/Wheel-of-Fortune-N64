@@ -4,7 +4,7 @@ struct n64dk_r12 func_8000F84C(s32 arg1) {
     struct n64dk_r12 ret;
     s32 sp20;
     s32 event;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     sp20 = ((data8000F84C_t *)((proc_t *)arg1)->unk_30)->unk_00;
     ret.w[1] = 1;

@@ -4,7 +4,7 @@
 s32 func_8000B3B0(s32 arg0, s32 arg1, s32 arg2) {
     obj_t *tail;
     obj_t *node;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     tail = (obj_t *)func_8000AFEC();
     node = (obj_t *)func_8000B10C();

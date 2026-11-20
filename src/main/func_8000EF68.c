@@ -2,12 +2,13 @@
 
 
 struct n64dk_r12 func_8000EF68(s32 arg1) {
+    // The locals are func_8000F274's, slot for slot; this handler leaves three of them unused.
     struct n64dk_r12 ret;
-    s32 pad0;
+    obj_t *unused;  /* NOTE: unused in the original */
     obj_t *obj;
     f32 delta;
-    s32 pad1;
-    s32 pad2;
+    f32 unused2;  /* NOTE: unused in the original */
+    s32 unused3;  /* NOTE: unused in the original */
     s32 event;
 
     ret.w[1] = 1;

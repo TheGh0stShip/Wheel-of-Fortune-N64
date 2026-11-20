@@ -5,7 +5,7 @@ void func_80029974(s32 arg0) {
     s32 j;
     s32 len;
     s32 value;
-    s32 pad0[2];
+    s32 unused;  /* NOTE: unused in the original */
     u8 buf[24];
 
     for (i = 0; i < 3; i++) {

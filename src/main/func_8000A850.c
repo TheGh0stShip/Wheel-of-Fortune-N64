@@ -1,7 +1,7 @@
 #include "wof.h"
 
 void func_8000A850(s32 arg0) {
-    s32 pad0[4];
+    struct n64dk_r12 unused;  /* NOTE: unused in the original; func_8000A664 uses its own */
     proc_t *node;
 
     if (arg0 >= 53) {

@@ -6,7 +6,7 @@ struct n64dk_r12 func_80029C98(s32 arg1) {
     s32 i;
     s32 count;
     struct n64dk_r12 sp20;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     sp20.w[1] = 1;
     sp20.w[0] = 3 / D_800B96B4 - 1;

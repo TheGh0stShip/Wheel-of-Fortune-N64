@@ -5,7 +5,7 @@ struct n64dk_r12 func_8002B318(s32 arg1) {
     s32 event;
     s32 i;
     struct n64dk_r12 ret;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     ret.w[1] = 1;
     ret.w[0] = 0;

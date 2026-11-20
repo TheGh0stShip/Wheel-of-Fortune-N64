@@ -1,7 +1,7 @@
 #include "wof.h"
 
 void func_800153C4(s32 arg0, s32 arg1) {
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     Gfx *gfx;
 
     guTranslate(&((frame_t *)arg1)->translate[((obj_t *)arg0)->index], ((obj_t *)arg0)->x, ((obj_t *)arg0)->y, ((obj_t *)arg0)->z);

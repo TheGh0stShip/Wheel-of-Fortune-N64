@@ -1,7 +1,7 @@
 #include "wof.h"
 
 void func_8000E738(void) {
-    s32 pad0;
+    s32 unused;  /* NOTE: unused in the original */
     s32 result;
 
     D_800BCD54 = 1;

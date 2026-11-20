@@ -5,7 +5,7 @@ struct n64dk_r12 func_8002BCF4(s32 arg1) {
     s32 tens;
     s32 ones;
     struct n64dk_r12 result;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     result.w[1] = 1;
     result.w[0] = 0;

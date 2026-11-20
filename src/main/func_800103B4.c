@@ -4,7 +4,7 @@ struct n64dk_r12 func_800103B4(s32 arg1) {
     struct n64dk_r12 sp10;
     obj_t *sprite;
     s32 event;
-    s8 pad0;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     sprite = ((data800103B4_t *)((proc_t *)arg1)->unk_30)->unk_00;
     while ((event = func_8000ACE8(arg1)) != 0) {
