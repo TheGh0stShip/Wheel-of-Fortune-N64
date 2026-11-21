@@ -1388,3 +1388,39 @@ prcEventNotEnough2Name	global	0x80057710	rom-string	the string "PRC_EVENT_NOT_EN
 wof_str	unit	0x80009748	invented	strings and numbers: copying, appending, finding and measuring strings, numbers as strings, random numbers, printing and the fatal error (StrNCopy to PrintStr)
 wof_proc	unit	0x80009FD8	invented	the procs: the list, making, killing and running them, their events and messages, and finding and killing them by class (InitProcs to KillProcClass)
 wof_pause	unit	0x800335D0	invented	pausing: the pause picture, the pause proc and starting it (PauseGame to StartPauseProc)
+unused00080	member	frame_t	invented	no code reads or writes it
+unused04C40	member	frame_t	invented	no code reads or writes it
+unused3C	member	proc_t	invented	no code reads or writes it
+unused1C	member	obj_t	invented	no code reads or writes it
+unused34	member	obj_t	invented	no code reads or writes it
+unused40	member	obj_t	invented	no code reads or writes it
+unused00	member	mainMenu_t	invented	no code reads or writes it
+unused08	member	opening_t	invented	no code reads or writes it
+unused04	member	openingWedge_t	invented	no code reads or writes it
+unused04	member	titleLetterProc_t	invented	no code reads or writes it
+unused00	member	wheelPull_t	invented	no code reads or writes it
+unused08	member	wheelSpin_t	invented	no code reads or writes it
+unused04	member	boardLights_t	invented	no code reads or writes it
+unused04	member	wheelLights_t	invented	no code reads or writes it
+unused04	member	baseLights_t	invented	no code reads or writes it
+unused00	member	lightLetter_t	invented	no code reads or writes it
+unused00	member	lightText_t	invented	no code reads or writes it
+unused0C	member	lightText_t	invented	no code reads or writes it
+unused04	member	cameraPath_t	invented	no code reads or writes it
+unused00	member	adjustCamera_t	invented	no code reads or writes it
+unused00	member	playerProc_t	invented	no code reads or writes it
+unused08	member	playerProc_t	invented	no code reads or writes it
+unused04	member	clipPlay_t	invented	no code reads or writes it
+unused14	member	clipPlay_t	invented	no code reads or writes it
+unused00	member	jackpotRoll_t	invented	no code reads or writes it
+unused00	member	credits_t	invented	no code reads or writes it
+unused00	member	timer_t	invented	no code reads or writes it
+unused00	member	confettiBurst_t	invented	no code reads or writes it
+unused00	member	applauseProc_t	invented	no code reads or writes it
+unused00	member	cursor_t	invented	no code reads or writes it
+unused08	member	cursor_t	invented	no code reads or writes it
+unused04	member	moviePlay_t	invented	no code reads or writes it
+unused0C	member	anim_t	invented	no code reads or writes it
+unused14	member	anim_t	invented	no code reads or writes it
+unused20	member	anim_t	invented	no code reads or writes it
+unused0C	member	confetti_t	invented	no code reads or writes it

@@ -88,11 +88,11 @@ typedef struct {
 typedef struct {
     /* 0x00000 */ Mtx projection;         // guess: projection and viewing are the names of the Dynamic
     /* 0x00040 */ Mtx viewing;
-    /* 0x00080 */ u8  unk_00080[0xC0];
+    /* 0x00080 */ u8  unused00080[0xC0];  // NOTE: no code reads or writes it
     /* 0x00140 */ Mtx scale[100];
     /* 0x01A40 */ Mtx translate[100];
     /* 0x03340 */ Mtx rotate[100];
-    /* 0x04C40 */ u8  unk_04C40[0x40];
+    /* 0x04C40 */ u8  unused04C40[0x40];  // NOTE: no code reads or writes it
     /* 0x04C80 */ Mtx hubRotate;
     /* 0x04CC0 */ Gfx glist[3048];
     /* 0x0AC00 */ s16 clipPictures[6][64 * 64];    // six pictures of 64 by 64
@@ -187,7 +187,7 @@ typedef struct proc_s {
     /* 0x30 */ union procData_u *data;          // its data block, from AllocBlock
     /* 0x34 */ s32              creatZero1;     // CreatProc zeroes it and creatZero2; nothing reads them
     /* 0x38 */ s32              creatZero2;
-    /* 0x3C */ u8               unk_3C[0x4];
+    /* 0x3C */ u8               unused3C[0x4];  // NOTE: no code reads or writes it
     /* 0x40 */ struct proc_s    *next;
 } proc_t;   // size 0x44
 
@@ -202,13 +202,13 @@ typedef struct obj_s {
     /* 0x12 */ s16              y;
     /* 0x14 */ s16              z;
     /* 0x18 */ f32              scale;
-    /* 0x1C */ u8               unk_1C[0xC];
+    /* 0x1C */ u8               unused1C[0xC];  // NOTE: no code reads or writes it
     /* 0x28 */ f32              roll;           // roll, pitch, heading: what guRotateRPY is given
     /* 0x2C */ f32              pitch;
     /* 0x30 */ f32              heading;
-    /* 0x34 */ u8               unk_34[0x8];
+    /* 0x34 */ u8               unused34[0x8];  // NOTE: no code reads or writes it
     /* 0x3C */ Mtx              *mtx;           // a matrix its draw function applies first, if not 0
-    /* 0x40 */ u8               unk_40[0x4];
+    /* 0x40 */ u8               unused40[0x4];  // NOTE: no code reads or writes it
     /* 0x44 */ s32              image;          // the segment address of the picture it shows
     /* 0x48 */ Gfx              *dl;            // its display list
     /* 0x4C */ Gfx              *secondDl;      // a second one, drawn with the second half of the picture
@@ -272,7 +272,7 @@ typedef struct {
 // RoundsMenuProc and MainMenu3Proc), and of the four helpers that move its cursor. The name is
 // from the ROM message "MainMenu1 Proc: button press invalid".
 typedef struct {
-    /* 0x00 */ u8  unk_00[0x4];
+    /* 0x00 */ u8  unused00[0x4];  // NOTE: no code reads or writes it
     /* 0x04 */ s32 sel;         // the chosen option of the line the cursor is on
     /* 0x08 */ s32 index;       // the line the cursor is on
     /* 0x0C */ s32 delay;       // frames until the stick moves the cursor again
@@ -451,7 +451,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ obj_t *obj;
     /* 0x04 */ s32 music;
-    /* 0x08 */ u8 unk_08[0x4];
+    /* 0x08 */ u8 unused08[0x4];  // NOTE: no code reads or writes it
     /* 0x0C */ f32 x;
     /* 0x10 */ f32 y;
     /* 0x14 */ f32 z;
@@ -465,14 +465,14 @@ typedef struct {
 // the data of the proc whose handler is OpeningWedgeProc
 typedef struct {
     /* 0x00 */ obj_t *obj;
-    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x04 */ u8 unused04[0x4];  // NOTE: no code reads or writes it
     /* 0x08 */ s32 index;
 } openingWedge_t;    // size 0xC
 
 // the data of the proc whose handler is TitleLetterProc
 typedef struct {
     /* 0x00 */ obj_t *pos;
-    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x04 */ u8 unused04[0x4];  // NOTE: no code reads or writes it
     /* 0x08 */ s32 index;
 } titleLetterProc_t;    // size 0xC
 
@@ -483,7 +483,7 @@ typedef struct {
 
 // the data of the proc whose handler is WheelPullProc
 typedef struct {
-    /* 0x00 */ u8 unk_00[0xC];
+    /* 0x00 */ u8 unused00[0xC];  // NOTE: no code reads or writes it
     /* 0x0C */ f32 restPitch;
 } wheelPull_t;    // size 0x10
 
@@ -506,7 +506,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ obj_t *wheel;
     /* 0x04 */ s32 spinStartZero;   // WheelSpinProc zeroes it as the spin starts; unread
-    /* 0x08 */ u8 unk_08[0x4];
+    /* 0x08 */ u8 unused08[0x4];  // NOTE: no code reads or writes it
     /* 0x0C */ f32 speed;
     /* 0x10 */ f32 lastSpeed;
 } wheelSpin_t;    // size 0x14
@@ -514,27 +514,27 @@ typedef struct {
 // the data of the proc whose handler is BoardLightsProc
 typedef struct {
     /* 0x00 */ obj_t *obj;
-    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x04 */ u8 unused04[0x4];  // NOTE: no code reads or writes it
     /* 0x08 */ s32 frames;
 } boardLights_t;    // size 0xC
 
 // the data of the proc whose handler is WheelLightsProc
 typedef struct {
     /* 0x00 */ obj_t *obj;
-    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x04 */ u8 unused04[0x4];  // NOTE: no code reads or writes it
     /* 0x08 */ s32 frames;
 } wheelLights_t;    // size 0xC
 
 // the data of the proc whose handler is BaseLightsProc
 typedef struct {
     /* 0x00 */ obj_t *obj;
-    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x04 */ u8 unused04[0x4];  // NOTE: no code reads or writes it
     /* 0x08 */ s32 frames;
 } baseLights_t;    // size 0xC
 
 // the data of the proc whose handler is LightLetterProc
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x00 */ u8 unused00[0x4];  // NOTE: no code reads or writes it
     /* 0x04 */ s32 row;
     /* 0x08 */ s32 col;
     /* 0x0C */ s32 vannaStarted;   // set once SetVannaAnim(0) has started her walk
@@ -543,17 +543,17 @@ typedef struct {
 
 // the data of the proc whose handler is LightTextProc, created by BonusRoundProc
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x00 */ u8 unused00[0x4];  // NOTE: no code reads or writes it
     /* 0x04 */ s32 row;
     /* 0x08 */ s32 col;
-    /* 0x0C */ u8 unk_0C[0x8];
+    /* 0x0C */ u8 unused0C[0x8];  // NOTE: no code reads or writes it
     /* 0x14 */ u8 *text;
 } lightText_t;    // size 0x18
 
 // the data of the proc whose handler is CameraPathProc, created by SetView
 typedef struct {
     /* 0x00 */ obj_t *obj;   // NOTE: no obj is made for this proc; the handler reads it all the same
-    /* 0x04 */ u8 unk_04[0x4];
+    /* 0x04 */ u8 unused04[0x4];  // NOTE: no code reads or writes it
     /* 0x08 */ camera_t *path;    // the move it plays
     /* 0x0C */ s32 frame;          // the frame it is at
     /* 0x10 */ s32 count;          // how many frames the move has
@@ -561,7 +561,7 @@ typedef struct {
 
 // the data of the proc whose handler is AdjustCameraProc, created by SetGameView
 typedef struct {
-    /* 0x00 */ u8  unk_00[0x4];
+    /* 0x00 */ u8  unused00[0x4];  // NOTE: no code reads or writes it
     /* 0x04 */ s32 player;      // the player whose turn it was made in
 } adjustCamera_t;    // size 0x8
 
@@ -573,18 +573,18 @@ typedef struct {
 // from the ROM message "Status Proc: player proc does not exist", which StatusProc prints
 // when no proc of this class answers.
 typedef struct {
-    /* 0x00 */ u8  unk_00[0x4];
+    /* 0x00 */ u8  unused00[0x4];  // NOTE: no code reads or writes it
     /* 0x04 */ s32 player;      // the contestant: 0, 1 or 2
-    /* 0x08 */ u8  unk_08[0x4];
+    /* 0x08 */ u8  unused08[0x4];  // NOTE: no code reads or writes it
     /* 0x0C */ f32 skill;
 } playerProc_t;    // size 0x10
 
 // the data of the proc whose handler is ClipProc, created by PlayClip 
 typedef struct {
     /* 0x00 */ obj_t *obj;
-    /* 0x04 */ u8 unk_04[0xC];
+    /* 0x04 */ u8 unused04[0xC];  // NOTE: no code reads or writes it
     /* 0x10 */ s32 slot;
-    /* 0x14 */ u8 unk_14[0xC];
+    /* 0x14 */ u8 unused14[0xC];  // NOTE: no code reads or writes it
     /* 0x20 */ s32 event;
     /* 0x24 */ s32 sound;
 } clipPlay_t;    // size 0x28
@@ -597,13 +597,13 @@ typedef struct {
 
 // the data of the proc whose handler is JackpotRollProc
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x10];
+    /* 0x00 */ u8 unused00[0x10];  // NOTE: no code reads or writes it
     /* 0x10 */ s32 step;
 } jackpotRoll_t;    // size 0x14
 
 // the data of the proc whose handler is CreditsProc
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x8];
+    /* 0x00 */ u8 unused00[0x8];  // NOTE: no code reads or writes it
     /* 0x08 */ s32 step;
 } credits_t;    // size 0xC
 
@@ -613,19 +613,19 @@ typedef struct {
 // thing in the same place and share no helper; the ROM calls the third the "Solve Timer Proc"
 // (in ResetSolveTimer), which is where the name is from.
 typedef struct {
-    /* 0x00 */ u8  unk_00[0x4];
+    /* 0x00 */ u8  unused00[0x4];  // NOTE: no code reads or writes it
     /* 0x04 */ s32 start;       // when it was started or reset, in seconds since the boot
 } timer_t;    // size 0x8
 
 // the data of the proc whose handler is ConfettiBurstProc
 typedef struct {
-    /* 0x00 */ u8  unk_00[0x4];
+    /* 0x00 */ u8  unused00[0x4];  // NOTE: no code reads or writes it
     /* 0x04 */ s32 countdown;      // counts down from 10, a step a frame
 } confettiBurst_t;    // size 0x8
 
 // the data of the proc whose handler is ApplauseProc
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x00 */ u8 unused00[0x4];  // NOTE: no code reads or writes it
     /* 0x04 */ s32 played;
     /* 0x08 */ s32 startZero;   // ApplauseProc zeroes it on its first run; unread
 } applauseProc_t;    // size 0xC
@@ -633,16 +633,16 @@ typedef struct {
 // The data of the procs that move a cursor over the letters: handlers StatusProc,
 // LetterPickProc and SolvePuzzleProc, and the helpers they share.
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x4];
+    /* 0x00 */ u8 unused00[0x4];  // NOTE: no code reads or writes it
     /* 0x04 */ s32 index;
-    /* 0x08 */ u8 unk_08[0x4];
+    /* 0x08 */ u8 unused08[0x4];  // NOTE: no code reads or writes it
     /* 0x0C */ s32 delay;
 } cursor_t;    // size 0x10
 
 // the data of the proc whose handler is MovieProc, created by PlayMovie
 typedef struct {
     /* 0x00 */ obj_t *obj;
-    /* 0x04 */ u8 unk_04[0x1C];
+    /* 0x04 */ u8 unused04[0x1C];  // NOTE: no code reads or writes it
     /* 0x20 */ s32 event;
     /* 0x24 */ s32 sound;
 } moviePlay_t;    // size 0x28
@@ -653,12 +653,12 @@ typedef struct {
     /* 0x00 */ obj_t *obj;
     /* 0x04 */ s32 slot;
     /* 0x08 */ s16 *pictures;         // its pictures: count of the clip_t
-    /* 0x0C */ u8 unk_0C[0x4];
+    /* 0x0C */ u8 unused0C[0x4];  // NOTE: no code reads or writes it
     /* 0x10 */ s32 frame;
-    /* 0x14 */ u8 unk_14[0x4];
+    /* 0x14 */ u8 unused14[0x4];  // NOTE: no code reads or writes it
     /* 0x18 */ s32 count;
     /* 0x1C */ s32 loop;
-    /* 0x20 */ u8 unk_20[0x4];
+    /* 0x20 */ u8 unused20[0x4];  // NOTE: no code reads or writes it
     /* 0x24 */ s32 step;
     /* 0x28 */ s32 timer;
 } anim_t;    // size 0x2C
@@ -668,7 +668,7 @@ typedef struct {
     /* 0x00 */ obj_t *sprite;
     /* 0x04 */ s32 frame;
     /* 0x08 */ s32 timer;
-    /* 0x0C */ u8 unk_0C[0x4];
+    /* 0x0C */ u8 unused0C[0x4];  // NOTE: no code reads or writes it
     /* 0x10 */ s32 count;
     /* 0x14 */ f32 x;
     /* 0x18 */ f32 y;
