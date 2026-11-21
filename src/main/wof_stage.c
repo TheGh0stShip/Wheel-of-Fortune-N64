@@ -11,6 +11,181 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
+Gfx *D_80057988[13] = {
+    (Gfx *)0x010A4D30, (Gfx *)0x010A4CD8, (Gfx *)0x010A4C80, (Gfx *)0x010A4C28, (Gfx *)0x010A4BD0,
+    (Gfx *)0x010A4B78, (Gfx *)0x010A4B20, (Gfx *)0x010A4AC8, (Gfx *)0x010A4A70, (Gfx *)0x010A4A18,
+    (Gfx *)0x010A49C0, (Gfx *)0x010A4968, (Gfx *)0x010A4910
+};
+u8 *letterPictures[13] = {
+    (u8 *)0x010A48B8, (u8 *)0x010A4860, (u8 *)0x010A4808, (u8 *)0x010A47B0, (u8 *)0x010A4758,
+    (u8 *)0x010A4700, (u8 *)0x010A46A8, (u8 *)0x010A4650, (u8 *)0x010A45F8, (u8 *)0x010A45A0,
+    (u8 *)0x010A4548, (u8 *)0x010A44F0, (u8 *)0x010A4498
+};
+Gfx *topRowDls[12] = {
+    (Gfx *)0x01093D10, (Gfx *)0x01093CF0, (Gfx *)0x01093CD0, (Gfx *)0x01093CB0, (Gfx *)0x01093C90,
+    (Gfx *)0x01093C70, (Gfx *)0x01093C50, (Gfx *)0x01093C30, (Gfx *)0x01093C10, (Gfx *)0x01093BF0,
+    (Gfx *)0x01093BD0, (Gfx *)0x01093BB0
+};
+Gfx *secondRowDls[14] = {
+    (Gfx *)0x01093B90, (Gfx *)0x01093B70, (Gfx *)0x01093B50, (Gfx *)0x01093B30, (Gfx *)0x01093B10,
+    (Gfx *)0x01093AF0, (Gfx *)0x01093AD0, (Gfx *)0x01093AB0, (Gfx *)0x01093A90, (Gfx *)0x01093A70,
+    (Gfx *)0x01093A50, (Gfx *)0x01093A30, (Gfx *)0x01093A10, (Gfx *)0x010939F0
+};
+Gfx *thirdRowDls[4] = {
+    (Gfx *)0x010939D0, (Gfx *)0x010939B0, (Gfx *)0x01093990, (Gfx *)0x01093970
+};
+u16 *scoreDigitPictures[10] = {
+    (u16 *)0x01093950, (u16 *)0x01093930, (u16 *)0x01093910, (u16 *)0x010938F0, (u16 *)0x010938D0,
+    (u16 *)0x010938B0, (u16 *)0x01093890, (u16 *)0x01093870, (u16 *)0x01093850, (u16 *)0x01093830
+};
+Gfx *bottomRowDls[48] = {
+    (Gfx *)0x01093810, (Gfx *)0x010937F0, (Gfx *)0x010937D0, (Gfx *)0x010937B0, (Gfx *)0x01093790,
+    (Gfx *)0x01093770, (Gfx *)0x01093750, (Gfx *)0x01093730, (Gfx *)0x01093710, (Gfx *)0x010936F0,
+    (Gfx *)0x010936D0, (Gfx *)0x010936B0, (Gfx *)0x0109B388, (Gfx *)0x0109B788, (Gfx *)0x0109BB88,
+    (Gfx *)0x0109BF88, (Gfx *)0x0109C388, (Gfx *)0x0109C788, (Gfx *)0x0109CB88, (Gfx *)0x0109CF88,
+    (Gfx *)0x0109D388, (Gfx *)0x0109D788, (Gfx *)0x0109DB88, (Gfx *)0x0109DF88, (Gfx *)0x0109E388,
+    (Gfx *)0x0109E788, (Gfx *)0x0109EB88, (Gfx *)0x0109EF88, (Gfx *)0x0109F388, (Gfx *)0x0109F788,
+    (Gfx *)0x0109FB88, (Gfx *)0x0109FF88, (Gfx *)0x010A0388, (Gfx *)0x010A0788, (Gfx *)0x010A0B88,
+    (Gfx *)0x010A0F88, (Gfx *)0x010A1388, (Gfx *)0x010A1788, (Gfx *)0x01030FA8, (Gfx *)0x010317A8,
+    (Gfx *)0x01031FA8, (Gfx *)0x010327A8, (Gfx *)0x01032FA8, (Gfx *)0x010337A8, (Gfx *)0x01033FA8,
+    (Gfx *)0x010347A8, (Gfx *)0x01034FA8, (Gfx *)0x010357A8
+};
+Gfx *D_80057B50[3][8] = {
+    {
+        (Gfx *)0x010306B0, (Gfx *)0x01030690, (Gfx *)0x01030670, (Gfx *)0x01030650,
+        (Gfx *)0x01030630, (Gfx *)0x01030610, (Gfx *)0x010305F0, (Gfx *)0x010305D0
+    },
+    {
+        (Gfx *)0x010307B0, (Gfx *)0x01030790, (Gfx *)0x01030770, (Gfx *)0x01030750,
+        (Gfx *)0x01030730, (Gfx *)0x01030710, (Gfx *)0x010306F0, (Gfx *)0x010306D0
+    },
+    {
+        (Gfx *)0x010308B0, (Gfx *)0x01030890, (Gfx *)0x01030870, (Gfx *)0x01030850,
+        (Gfx *)0x01030830, (Gfx *)0x01030810, (Gfx *)0x010307F0, (Gfx *)0x010307D0
+    }
+};
+layer_t scorePanels[3] = {
+    { (Gfx *)0x01037460, 1, 32, 0, 0xA10000FF, 0xFF2020FF },
+    { (Gfx *)0x01037260, 0, 32, 0, 0xBBBB00FF, -57089 },
+    { (Gfx *)0x01037698, 0, 32, 0, 27647, 0x2020FFFF }
+};
+s32 D_80057BF8[4] = { 0x01010100, 0x01010200, 0x01010300, 0x01010400 };
+wedgeDl_t D_80057C08[24] = {
+    { (Gfx *)0x010FB308, NULL },
+    { (Gfx *)0x010FB1B8, NULL },
+    { (Gfx *)0x010FB1A8, NULL },
+    { (Gfx *)0x010FB0F0, NULL },
+    { (Gfx *)0x010FAFA0, NULL },
+    { (Gfx *)0x010FAF90, NULL },
+    { (Gfx *)0x010FAED8, NULL },
+    { (Gfx *)0x010FAE20, NULL },
+    { (Gfx *)0x010FAD68, NULL },
+    { (Gfx *)0x010FACB0, NULL },
+    { (Gfx *)0x010FABF8, NULL },
+    { (Gfx *)0x010FAB40, NULL },
+    { (Gfx *)0x010FA9D8, NULL },
+    { (Gfx *)0x010FA8E0, NULL },
+    { (Gfx *)0x010FA8D0, NULL },
+    { (Gfx *)0x010FA800, NULL },
+    { (Gfx *)0x010FA748, NULL },
+    { (Gfx *)0x010FA690, NULL },
+    { (Gfx *)0x010FA5D8, NULL },
+    { (Gfx *)0x010FA520, NULL },
+    { (Gfx *)0x010FA468, NULL },
+    { (Gfx *)0x010FA3B0, NULL },
+    { (Gfx *)0x010FA210, NULL },
+    { (Gfx *)0x010FA200, NULL }
+};
+wedgeDl_t D_80057CC8[24] = {
+    { (Gfx *)0x010FB308, NULL },
+    { (Gfx *)0x010FB1B8, NULL },
+    { (Gfx *)0x010FB1A8, NULL },
+    { (Gfx *)0x01124470, NULL },
+    { (Gfx *)0x010FAFA0, NULL },
+    { (Gfx *)0x010FAF90, NULL },
+    { (Gfx *)0x010FAED8, NULL },
+    { (Gfx *)0x010FAE20, NULL },
+    { (Gfx *)0x010FAD68, NULL },
+    { (Gfx *)0x010FACB0, NULL },
+    { (Gfx *)0x011243B8, NULL },
+    { (Gfx *)0x010FAB40, NULL },
+    { (Gfx *)0x010FA9D8, NULL },
+    { (Gfx *)0x010FA8E0, NULL },
+    { (Gfx *)0x01124300, NULL },
+    { (Gfx *)0x010FA800, NULL },
+    { (Gfx *)0x010FA748, NULL },
+    { (Gfx *)0x01124230, NULL },
+    { (Gfx *)0x010FA5D8, NULL },
+    { (Gfx *)0x010FA520, NULL },
+    { (Gfx *)0x010FA468, NULL },
+    { (Gfx *)0x010FA3B0, NULL },
+    { (Gfx *)0x010FA210, NULL },
+    { (Gfx *)0x010FA200, NULL }
+};
+wedgeDl_t D_80057D88[24] = {
+    { (Gfx *)0x010B6D60, NULL },
+    { (Gfx *)0x010B6AC0, NULL },
+    { (Gfx *)0x010B6AB0, NULL },
+    { (Gfx *)0x010B6810, NULL },
+    { (Gfx *)0x010B6800, NULL },
+    { (Gfx *)0x010B42B8, (Gfx *)0x010B5BA0 },
+    { (Gfx *)0x010B6540, NULL },
+    { (Gfx *)0x010B63E0, NULL },
+    { (Gfx *)0x010B7170, (Gfx *)0x010B47C0 },
+    { (Gfx *)0x010B6120, NULL },
+    { (Gfx *)0x010B4E40, (Gfx *)0x010B40D0 },
+    { (Gfx *)0x010B6280, NULL },
+    { (Gfx *)0x010B66A0, NULL },
+    { (Gfx *)0x010B5FC0, NULL },
+    { (Gfx *)0x010B5E60, NULL },
+    { (Gfx *)0x010B5D00, NULL },
+    { (Gfx *)0x010B5A40, NULL },
+    { (Gfx *)0x010B58E0, NULL },
+    { (Gfx *)0x010B5780, NULL },
+    { (Gfx *)0x010B5620, NULL },
+    { (Gfx *)0x010FA210, NULL },
+    { (Gfx *)0x010B52D8, NULL },
+    { (Gfx *)0x010B4FA0, NULL },
+    { (Gfx *)0x010B4A50, NULL }
+};
+wedgeDl_t D_80057E48[24] = {
+    { (Gfx *)0x010EEF40, NULL },
+    { (Gfx *)0x010EEF30, NULL },
+    { (Gfx *)0x010EEDE0, NULL },
+    { (Gfx *)0x010EEDD0, NULL },
+    { (Gfx *)0x010EED18, NULL },
+    { (Gfx *)0x010EEC60, NULL },
+    { (Gfx *)0x010EEBA8, NULL },
+    { (Gfx *)0x010EEAF0, NULL },
+    { (Gfx *)0x010EEA38, NULL },
+    { (Gfx *)0x010EE980, NULL },
+    { (Gfx *)0x010EE260, (Gfx *)0x010EDB40 },
+    { (Gfx *)0x010EE8C8, NULL },
+    { (Gfx *)0x010EE810, NULL },
+    { (Gfx *)0x010EE758, NULL },
+    { (Gfx *)0x010EE6A0, NULL },
+    { (Gfx *)0x010EE5E8, NULL },
+    { (Gfx *)0x010EE530, NULL },
+    { (Gfx *)0x010EE478, NULL },
+    { (Gfx *)0x010EE3C0, NULL },
+    { (Gfx *)0x010EE050, NULL },
+    { (Gfx *)0x010EDF98, NULL },
+    { (Gfx *)0x010EDDF8, NULL },
+    { (Gfx *)0x010EDD00, NULL },
+    { (Gfx *)0x010EDCF0, NULL }
+};
+wedgeDl_t *wedgeDls[7] = {
+    D_80057C08, D_80057CC8, D_80057D88, D_80057E48, D_80057E48, D_80057E48, D_80057E48
+};
+Gfx *backdropDls[4] = {
+    (Gfx *)0x01039E58, (Gfx *)0x0104DE00, (Gfx *)0x01065338, (Gfx *)0x0107A568
+};
+Gfx *backdropOverlays[4] = {
+    (Gfx *)0x0104B320, (Gfx *)0x0105FE28, (Gfx *)0x01076808, (Gfx *)0x0108B9F8
+};
+f32 pullScale = 7.0f;
+s32 minSpinSpeed = 75;
+
 /*
 =====================
 WheelPullProc

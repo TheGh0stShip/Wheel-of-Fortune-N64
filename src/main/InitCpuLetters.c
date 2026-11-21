@@ -2,6 +2,9 @@
 
 #include "wof.h"
 
+u8 consonantOrder[24] = "RSTLNCBDMHFYKJGPQVWXZ";
+u8 vowelOrder[6] = "EAIOU";
+
 /*
 =====================
 InitCpuLetters

@@ -2,6 +2,8 @@
 
 #include "wof.h"
 
+char winnerText[24] = "You are the BIG winner!";
+
 /*
 =====================
 PlayMovie

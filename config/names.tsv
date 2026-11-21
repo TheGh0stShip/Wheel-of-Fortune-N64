@@ -28,7 +28,7 @@ samplesLeft	local	__amHandleDoneMsg	lineage	guess: audiomgr.c of the SDK demos
 audFrameCt	global	0x8004B7A8	lineage	guess: audiomgr.c of the SDK demos
 nextDMA	global	0x8004B7AC	lineage	guess: audiomgr.c of the SDK demos
 curAcmdList	global	0x8004B7B0	lineage	guess: audiomgr.c of the SDK demos
-firstTime	global	0x8004B7B4	lineage	guess: the static of __amHandleDoneMsg in audiomgr.c of the SDK demos
+firstTime	local	0x8004B7B4	lineage	guess: the static of __amHandleDoneMsg in audiomgr.c of the SDK demos
 minFrameSize	global	0x800B96BC	lineage	guess: audiomgr.c of the SDK demos
 maxFrameSize	global	0x800B9950	lineage	guess: audiomgr.c of the SDK demos
 frameSize	global	0x800BCD64	lineage	guess: audiomgr.c of the SDK demos
@@ -850,18 +850,17 @@ contestantPos	global	0x8005A39C	invented	where each of the six contestants stand
 playerPos	global	0x8005A474	invented	where the three players' contestants stand in the main menu
 playerStatusImages	global	0x8005A4B8	invented	the two pictures of each player on the status screen, which FlashPlayerStatus flashes
 statusScoreImages	global	0x8005ADD0	invented	the 7 places of each player's score on the screen
-statusDigitTextures	global	0x8005ACE8	invented	the texture of each digit of statusScoreImages, by character
+statusDigitTextures	global	0x8005ADA8	invented	the texture of each digit of statusScoreImages, by digit (code indexes it by character less '0')
 calledLetterTextures	global	0x8005A8C8	invented	the texture of each letter once it is called
 letterTextures	global	0x8005A930	invented	the texture of each letter not yet called
 bigDigitTextures	global	0x8005B118	invented	the textures of the large digits and the two signs around them
 bigDigitWidths	global	0x8005B178	invented	the width of each of them
 bigDigitAdvances	global	0x8005B148	invented	how far each of them moves the next
-bigCharWidths	global	0x8005B088	invented	the width of each digit, by character, to centre a number
 bigNumberImages	global	0x8005B4C8	invented	the places of the large number: the jackpot, or a total
 rollingNumberImages	global	0x8005B360	invented	the old jackpot as JackpotRollProc rolls it off
 bonusTimerImages	global	0x8005B2C0	invented	the two digits of BonusTimerProc
 retraceImages	global	0x8005B310	invented	the two digits of ShowRetracesProc
-categoryLetterTextures	global	0x8005B5A4	invented	the texture of each letter of the category, by character
+categoryLetterTextures	global	0x8005B6A8	invented	the texture of each letter of the category, by letter (code indexes it by character less 'A')
 bonusLetterImages	global	0x8005BCC8	invented	the picture of each letter as the bonus round shows it chosen
 bonusLetterSlots	global	0x8005BE00	invented	the places of the letters chosen in the bonus round: 6 to 8 the consonants, 9 the vowel
 contestantDls	global	0x8005C3A0	invented	the two display lists of each player's contestant obj
@@ -1012,3 +1011,11 @@ frames	member	boardLights_t	invented	frames since the lights last changed
 FatalError	function	0x80009F38	invented	prints "ERROR: " and the message, then loops forever; the out-of-procs, out-of-objs and out-of-blocks messages end here
 AllocMem	function	0x8000B924	invented	aligns the memory stack to 8 bytes and takes size bytes from it (mem_stack)
 StoreFrame	function	0x80021090	invented	hands a decoded movie frame to the StoreFrame function for the movie's size
+wof_romdata	unit	0x8006DCD8	invented	the memory layout, where the data blocks lie on the cartridge, the movie sizes and the masks of the clips: an object of data alone
+movieSizes	global	0x8006DD2C	invented	the size of each movie less one; movies[i].size points at entry i
+wof_puzzle	unit	0x80006B58	invented	the round and its puzzle: starting a game and a round, laying out the puzzle, calling letters and checking whether it is solved
+wof_status	unit	0x800278F0	invented	the status screen: the players' status and scores, the letters, the jackpot and big numbers, the category, the boot, pause and no-controller screens
+wof_bonus	unit	0x8002B730	invented	the bonus round and the turn's status proc, the last part of wof_status's object after CreditsProc
+wof_audiomgr	unit	0x800032A8	invented	the audio manager, guess: the audiomgr.c of the SDK's demos (amCreateAudioMgr to __clearAudioDMA)
+wof_roundend	unit	0x80017938	invented	the camera of a turn, the end of a round and the winner of the game (AdjustCameraProc to WinnerProc)
+wof_anim	unit	0x80031340	invented	the pictures and animations of the contestants and Vanna, their clips and the procs that play them (SetPicture to HideOtherContestants)

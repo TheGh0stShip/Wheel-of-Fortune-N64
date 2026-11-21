@@ -28,9 +28,13 @@
  *   type     the C type of the datum as datagen takes it (movie_t[38], char[24]), "bin" for bytes no C
  *            file holds, "-" for fill and RCS strings
  *
- * Inputs: config/data.tsv, config/units.tsv, config/functions.tsv, the extern declarations in include/, the
- * ROM (WOF_ROM, any byte order), and from the last gate ($WOF_BUILD): units.txt (the units' placed
- * sections), refs.tsv (every resolved reference) and symbols.map (every placed symbol).
+ * The ranges of config/assets.tsv (the game's creative content, which a unit defines but the build takes
+ * from the cartridge) count as asset bytes, as the bytes of the units of an asset class do.
+ *
+ * Inputs: config/data.tsv, config/assets.tsv, config/units.tsv, config/functions.tsv, the extern
+ * declarations in include/, the ROM (WOF_ROM, any byte order), and from the last gate ($WOF_BUILD):
+ * units.txt (the units' placed sections), refs.tsv (every resolved reference) and symbols.map (every placed
+ * symbol).
  */
 #define _GNU_SOURCE
 #include <ctype.h>
@@ -328,6 +332,34 @@ static int kind_index(const char *k) {
     return -1;
 }
 
+/*
+ * config/assets.tsv: data a unit defines whose initialiser the build takes from the cartridge (the game's
+ * creative content).  Its bytes lie in the owner's placed sections but are asset bytes, not data from source.
+ */
+static void load_assets(void) {
+    FILE *f = fopen("config/assets.tsv", "r");
+    char line[2000];
+    int n = 0;
+    if (!f) return;
+    while (fgets(line, sizeof line, f)) {
+        char *p = line, *owner;
+        u32 start, end, a;
+        n++;
+        chomp(line);
+        if (!line[0] || line[0] == '#') continue;
+        start = strtoul(next_field(&p), NULL, 16);
+        end = strtoul(next_field(&p), NULL, 16);
+        owner = next_field(&p);
+        if (!find_unit(owner)) {
+            printf("config/assets.tsv:%d: owner %s is not a unit of config/units.tsv\n", n, owner);
+            errors++;
+        }
+        for (a = start; a < end; a++)
+            if (in_image(a) && cls[a - IMAGE_VRAM] == C_SOURCE) cls[a - IMAGE_VRAM] = C_ASSET;
+    }
+    fclose(f);
+}
+
 static void load_rows(void) {
     FILE *f = fopen("config/data.tsv", "r");
     char line[2000];
@@ -609,7 +641,8 @@ static int cmd_report(int verbose) {
     printf("image 0x%08X..0x%08X: %u bytes\n", IMAGE_VRAM, IMAGE_END, IMAGE_SIZE);
     printf("  %7u code from source\n", n[C_CODE]);
     printf("  %7u data from source (the units' placed sections, last gate)\n", n[C_SOURCE]);
-    printf("  %7u asset bytes from the cartridge (units of an asset class, last gate)\n", n[C_ASSET]);
+    printf("  %7u asset bytes from the cartridge (units of an asset class, ranges of config/assets.tsv; last gate)\n",
+           n[C_ASSET]);
     printf("  %7u mapped in config/data.tsv, retail's bytes still\n", n[C_MAPPED]);
     for (k = 0; k < NKINDS; k++)
         if (bykind[k][0]) printf("          %7u %s\n", bykind[k][0], kinds[k]);
@@ -1004,6 +1037,7 @@ int main(int argc, char **argv) {
     load_funcs();
     load_rom();
     load_gate();
+    load_assets();
     load_rows();
     load_decls();
     apply_rows();

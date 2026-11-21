@@ -8,6 +8,17 @@
 #include "mpeg/proto.h"
 #include "mpeg/dither.h"
 
+// The #ident lines of the system headers this object included, in order: the original assembler put
+// the strings into the read-only data, which they open. The headers are not in this tree, so their
+// lines stand here.
+#ident "$Revision: 1.49 $"
+#ident "$Revision: 3.70 $"
+#ident "$Revision: 1.5 $"
+#ident "$Revision: 1.2 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.17 $"
+#ident "$Revision: 1.34 $"
+
 // The luminance tables gammaCorrectFlag chooses between, in the order of their addresses: its values 1, 3
 // and 2. Each maps 0..255 to 0..255, darkening the middle of the range less from one to the next.
 static int D_80086D60[256] = {

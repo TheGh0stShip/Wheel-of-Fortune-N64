@@ -9,6 +9,23 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
+// The #ident lines of the system headers this object included, in order: the original assembler put
+// the strings into the read-only data, which they open. The headers are not in this tree, so their
+// lines stand here.
+#ident "$Revision: 1.49 $"
+#ident "$Revision: 3.70 $"
+#ident "$Revision: 1.5 $"
+#ident "$Revision: 1.2 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.17 $"
+#ident "$Revision: 1.34 $"
+#ident "$Revision: 1.36 $"
+#ident "$Revision: 3.97 $"
+#ident "$Revision: 1.13 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 3.31 $"
+#ident "$Revision: 1.23 $"
+
 // the stream
 FILE D_80107888;
 

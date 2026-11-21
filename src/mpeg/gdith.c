@@ -7,6 +7,19 @@
 #include "mpeg/proto.h"
 #include "mpeg/dither.h"
 
+// The #ident lines of the system headers this object included, in order: the original assembler put
+// the strings into the read-only data, which they open and here are all of. The headers are not in
+// this tree, so their lines stand here.
+#ident "$Revision: 1.49 $"
+#ident "$Revision: 3.70 $"
+#ident "$Revision: 1.5 $"
+#ident "$Revision: 1.2 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.17 $"
+#ident "$Revision: 1.34 $"
+#ident "$Revision: 3.31 $"
+#ident "$Revision: 1.23 $"
+
 // The masks of red, green and blue in a pixel, which the colour conversion reads. The decoder keeps
 // them in its table of colour map entries, which the 16-bit conversion does not use otherwise.
 unsigned long wpixel[256];

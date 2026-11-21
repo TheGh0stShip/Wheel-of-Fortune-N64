@@ -6,28 +6,42 @@
  * their members, strings, floats that read back to the same bits, and pointers written as the names they
  * point at.  The types are the ones the compiler sees: the tool parses the preprocessed output the last
  * gate left for a game unit, so every typedef of include/ and of the SDK headers is known with its layout.
- * It reads, and writes nothing but its output.
+ * It reads, and writes nothing but its output (and, with -a, the asset files).
  *
  *   datagen ADDRESS TYPE [NAME]   the definition of NAME (default D_ADDRESS), of TYPE, at ADDRESS
  *   datagen -r ADDRESS            the same for the config/data.tsv row that starts at ADDRESS, with its type
  *   datagen -t TYPE               TYPE's size, alignment and members with their offsets
  *   datagen -c                    check every row of config/data.tsv that names a C type: its size against
  *                                 the row's range, and every pointer in it against what lies at the target
+ *   datagen -a DIR                write the initialiser of every row of config/assets.tsv into DIR/FILE (the
+ *                                 gate's build step; see "Assets" below)
  *   options: -i FILE.i            the preprocessed file whose types to use (default: the first game unit's)
+ *            -x                   every integer in hex (bit masks)
  *
  * TYPE is a C type name with pointers and array dimensions after it: "movie_t[38]", "u16 *[3][3][2]",
  * "char *[53]", "f32", "u8[0x2600]".  "strings" is a run of NUL-terminated char arrays, one definition each,
  * each starting on a 4-byte boundary as GCC places them.  "bin" (bytes no C file holds) is refused.
  *
  * A pointer becomes, in this order: NULL; the name of the symbol the last gate placed there (symbols.map);
- * a function of config/functions.tsv; the start of a config/data.tsv row (D_ADDRESS); an element of a row
- * whose type is an array (&D_ADDRESS[i]); an address-named datum for any other address in RAM (D_ADDRESS,
- * reported on stderr when it lies inside another datum, since the reference then wants writing by hand); a
- * cast constant for anything else (segment and cartridge addresses).  A name is taken by its address (&name)
- * unless it is an array, a string or a function.
+ * a function of config/functions.tsv; the start of a config/data.tsv or config/assets.tsv row (D_ADDRESS);
+ * an element of a row whose type is an array (&D_ADDRESS[i]); an address-named datum for any other address
+ * in RAM (D_ADDRESS, reported on stderr when it lies inside another datum, since the reference then wants
+ * writing by hand); a cast constant for anything else (segment and cartridge addresses).  A name is taken
+ * by its address (&name) unless it is an array, a string or a function.
  *
- * Inputs: the ROM (WOF_ROM), config/data.tsv, config/units.tsv, config/functions.tsv, the extern
- * declarations in include/, and from the last gate ($WOF_BUILD): symbols.map and obj/UNIT.i.
+ * Assets.  The game's creative content (the puzzles, the credits, the clip masks) is not committed: each
+ * row of config/assets.tsv (start, end, owner, type, file, what) names a datum its owning unit defines,
+ * and the gate has this tool write the datum's initialiser from the ROM into $WOF_BUILD/assets/FILE, which
+ * the unit #includes at the definition.  For a C type the file holds the initialiser's elements without
+ * the outer braces, which the definition writes (`puzzle_t puzzles[3879] = {` ... `};`).  For
+ * "ELEM strings" (u8 strings, char strings) it holds one definition a string, `static ELEM D_ADDRESS[] =
+ * "...";`, each on a 4-byte boundary, and the run must end at the row's end.  Asset mode names pointers
+ * from the configuration alone, never from the last gate, so that its output depends on the ROM and
+ * config/ only; a type whose size is not the row's range, or a pointer that wants writing by hand, is an
+ * error.
+ *
+ * Inputs: the ROM (WOF_ROM), config/data.tsv, config/assets.tsv, config/units.tsv, config/functions.tsv, the
+ * extern declarations in include/, and from the last gate ($WOF_BUILD): symbols.map and obj/UNIT.i.
  */
 #define _GNU_SOURCE
 #include <ctype.h>
@@ -55,6 +69,7 @@ static u8 *rom;
 static size_t rom_size;
 static const char *build_dir = "build";
 static int warnings;
+static int hex_ints; /* -x: every integer in hex (bit masks) */
 
 static void die(const char *fmt, ...) {
     va_list ap;
@@ -673,11 +688,64 @@ static void add_symbol(const char *name, u32 addr, u32 size, int func, int globa
     nsyms++;
 }
 
-static void load_symbols(void) {
+/* "u8 strings" -> the length of "u8"; 0 when TYPE is not a run of strings with an element type */
+static int strings_elem(const char *type) {
+    size_t n = strlen(type);
+    if (n > 8 && !strcmp(type + n - 8, " strings")) return (int)(n - 8);
+    return 0;
+}
+
+/* the rows of config/assets.tsv: the data whose initialisers the build takes from the cartridge */
+typedef struct {
+    u32 start, end;
+    char owner[64], type[96], file[128];
+    int line;
+} Asset;
+
+static Asset assets[256];
+static int nassets;
+
+static void load_assets(void) {
+    char line[2000];
+    int n = 0;
+    FILE *f = fopen("config/assets.tsv", "r");
+    if (!f) return;
+    while (fgets(line, sizeof line, f)) {
+        char *p = line;
+        Asset *s;
+        n++;
+        chomp(line);
+        if (line[0] == '#' || !line[0]) continue;
+        if (nassets == (int)(sizeof assets / sizeof assets[0])) die("config/assets.tsv: too many rows");
+        s = &assets[nassets++];
+        s->line = n;
+        s->start = strtoul(next_field(&p), NULL, 16);
+        s->end = strtoul(next_field(&p), NULL, 16);
+        snprintf(s->owner, sizeof s->owner, "%s", next_field(&p));
+        snprintf(s->type, sizeof s->type, "%s", next_field(&p));
+        snprintf(s->file, sizeof s->file, "%s", next_field(&p));
+        if (s->end <= s->start || !in_image(s->start) || !in_image(s->end - 1))
+            die("config/assets.tsv:%d: 0x%08X..0x%08X is not a range of the image", n, s->start, s->end);
+        if (!s->file[0] || strchr(s->file, '/')) die("config/assets.tsv:%d: the file must be a plain name", n);
+        if (nassets > 1 && s->start < s[-1].end) die("config/assets.tsv:%d: starts inside or before the previous row", n);
+        /* an asset row names pointers into it as a data row does */
+        if (nrows < 8192) {
+            Row *r = &rows[nrows++];
+            r->start = s->start;
+            r->end = s->end;
+            snprintf(r->type, sizeof r->type, "%.95s", strings_elem(s->type) ? "strings" : s->type);
+            snprintf(r->kind, sizeof r->kind, "asset");
+        }
+    }
+    fclose(f);
+}
+
+/* the names pointers can take: the last gate's symbols unless only the configuration may name them (-a) */
+static void load_symbols(int from_gate) {
     char path[600], line[2000];
     FILE *f;
     snprintf(path, sizeof path, "%s/symbols.map", build_dir);
-    if ((f = fopen(path, "r"))) {
+    if (from_gate && (f = fopen(path, "r"))) {
         while (fgets(line, sizeof line, f)) {
             char *p = line, *name, *scope, *sec;
             u32 addr, size;
@@ -692,7 +760,7 @@ static void load_symbols(void) {
             add_symbol(name, addr, size, !strcmp(sec, ".text"), !strcmp(scope, "global"));
         }
         fclose(f);
-    } else {
+    } else if (from_gate) {
         warn("%s not found (run ./wof gate first): pointers are named by address only", path);
     }
     if ((f = fopen("config/functions.tsv", "r"))) {
@@ -723,6 +791,7 @@ static void load_symbols(void) {
         }
         fclose(f);
     }
+    load_assets();
 }
 
 /* the names include/ declares with array dimensions: a pointer to one is written without '&' */
@@ -807,6 +876,12 @@ static void pointer_text(u32 v, const Type *pointee, char *out, size_t n) {
     }
     for (i = 0; i < nsyms; i++)
         if (v > syms[i].addr && v < syms[i].addr + syms[i].size) inside = &syms[i];
+    /* an element of an array the pointer's type steps through: &name[i] */
+    if (inside && !inside->func && is_array_name(inside->name) && pointee && pointee->size &&
+        (v - inside->addr) % pointee->size == 0) {
+        snprintf(out, n, "&%s[%u]", inside->name, (v - inside->addr) / pointee->size);
+        return;
+    }
     if (inside) warn("0x%08X points inside %s (+0x%X): write that reference by hand", v, inside->name, v - inside->addr);
     else if (r && r->start != v) warn("0x%08X points inside the row at 0x%08X (%s): write that reference by hand", v, r->start, r->type);
     snprintf(out, n, "&D_%08X", v);
@@ -825,7 +900,7 @@ static void int_text(u64 raw, const Type *t, char *out, size_t n) {
     int64_t s = (int64_t)raw;
     if (t->is_signed && t->size < 8 && (raw >> (t->size * 8 - 1)) & 1) s = (int64_t)(raw | ~((1ull << (t->size * 8)) - 1));
     if (!t->is_signed) s = (int64_t)raw;
-    if (s > -100000 && s < 100000) snprintf(out, n, "%lld", (long long)s);
+    if (!hex_ints && s > -100000 && s < 100000) snprintf(out, n, "%lld", (long long)s);
     else snprintf(out, n, "0x%0*llX", (int)t->size * 2, (unsigned long long)raw);
 }
 
@@ -1075,6 +1150,62 @@ static int emit(u32 a, const char *type, const char *name) {
     return warnings ? 1 : 0;
 }
 
+/* the initialiser of one row of config/assets.tsv, written to DIR/FILE (see "Assets" in the header) */
+static void write_asset(const Asset *s, const char *dir) {
+    char path[600];
+    int elem = strings_elem(s->type), w = warnings;
+    FILE *f;
+    Buf b = { 0 };
+    snprintf(path, sizeof path, "%s/%s", dir, s->file);
+    if (elem) {
+        u32 p = s->start;
+        while (p < s->end) {
+            u32 len = 0;
+            char str[4000], def[4200];
+            while (p + len < s->end && at(p + len)[0]) len++;
+            if (p + len == s->end) die("config/assets.tsv:%d: the string at 0x%08X runs to the row's end", s->line, p);
+            if (2 * len + 8 > sizeof str) die("config/assets.tsv:%d: the string at 0x%08X is too long", s->line, p);
+            string_text(p, len, str, sizeof str);
+            snprintf(def, sizeof def, "static %.*s D_%08X[] = %s;\n", elem, s->type, p, str);
+            put(&b, def);
+            p = (p + len + 1 + 3) & ~3u;
+        }
+        if (p != s->end) die("config/assets.tsv:%d: the strings end at 0x%08X, the row at 0x%08X", s->line, p, s->end);
+    } else {
+        Type *t = parse_type_string(s->type);
+        Buf v = { 0 };
+        if (t->size != s->end - s->start)
+            die("config/assets.tsv:%d: %s is 0x%X bytes, the row 0x%X", s->line, s->type, t->size, s->end - s->start);
+        value(&v, s->start, t, 0);
+        if (v.s[0] == '{' && v.s[v.len - 1] == '}') {
+            /* the elements alone: the definition in the unit writes the braces */
+            v.s[v.len - 1] = 0;
+            put(&b, v.s + 1 + (v.s[1] == '\n'));
+            if (b.len && b.s[b.len - 1] == ' ') b.s[--b.len] = 0;
+            if (!b.len || b.s[b.len - 1] != '\n') put(&b, "\n");
+        } else {
+            put(&b, v.s);
+            put(&b, "\n");
+        }
+        free(v.s);
+    }
+    if (warnings > w) die("config/assets.tsv:%d: %d pointers want writing by hand", s->line, warnings - w);
+    snprintf(path, sizeof path, "%s/%s", dir, s->file);
+    if (!(f = fopen(path, "w"))) die("cannot write %s", path);
+    fprintf(f, "/* %s: 0x%08X..0x%08X of the cartridge's image, as %s (config/assets.tsv); generated */\n", s->file,
+            s->start, s->end, s->type);
+    fputs(b.s ? b.s : "", f);
+    fclose(f);
+    free(b.s);
+}
+
+static int write_assets(const char *dir) {
+    int i;
+    hex_ints = 1; /* a mask is bits: every integer of an asset in hex */
+    for (i = 0; i < nassets; i++) write_asset(&assets[i], dir);
+    return 0;
+}
+
 static void print_layout(const Type *t, const char *name, u32 base, int indent) {
     int i;
     printf("%*s0x%04X %-24s size 0x%X align %u\n", indent * 2, "", base, name, t->size, t->align);
@@ -1156,8 +1287,9 @@ int main(int argc, char **argv) {
     int a = 1;
     if (getenv("WOF_BUILD")) build_dir = getenv("WOF_BUILD");
     if (a + 1 < argc && !strcmp(argv[a], "-i")) ifile = argv[a + 1], a += 2;
+    if (a < argc && !strcmp(argv[a], "-x")) hex_ints = 1, a++;
     if (a >= argc) {
-        fprintf(stderr, "usage: datagen [-i FILE.i] ADDRESS TYPE [NAME] | -r ADDRESS | -t TYPE | -c\n");
+        fprintf(stderr, "usage: datagen [-i FILE.i] [-x] ADDRESS TYPE [NAME] | -r ADDRESS | -t TYPE | -c | -a DIR\n");
         return 2;
     }
     load_types(ifile);
@@ -1167,8 +1299,9 @@ int main(int argc, char **argv) {
         return 0;
     }
     load_rom();
-    load_symbols();
+    load_symbols(strcmp(argv[a], "-a"));
     load_array_names();
+    if (!strcmp(argv[a], "-a") && a + 1 < argc) return write_assets(argv[a + 1]);
     if (!strcmp(argv[a], "-c")) return check_rows();
     if (!strcmp(argv[a], "-r") && a + 1 < argc) {
         u32 addr = strtoul(argv[a + 1], NULL, 16);
@@ -1177,6 +1310,6 @@ int main(int argc, char **argv) {
         return emit(addr, r->type, NULL);
     }
     if (a + 1 < argc) return emit(strtoul(argv[a], NULL, 16), argv[a + 1], a + 2 < argc ? argv[a + 2] : NULL);
-    fprintf(stderr, "usage: datagen [-i FILE.i] ADDRESS TYPE [NAME] | -r ADDRESS | -t TYPE | -c\n");
+    fprintf(stderr, "usage: datagen [-i FILE.i] [-x] ADDRESS TYPE [NAME] | -r ADDRESS | -t TYPE | -c | -a DIR\n");
     return 2;
 }

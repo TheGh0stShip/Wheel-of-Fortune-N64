@@ -6,6 +6,8 @@
  * links an image from the compiled bytes (ROM bytes are the fallback only outside matched units) and
  * requires its SHA-1 to equal the retail hash.  A unit is one object: its .text at the unit's address, or, for
  * an object without code, its data there (a unit of uninitialised data alone has no bytes in the image).
+ * The game's creative content is taken from the cartridge, not from source: before compiling, datagen writes
+ * the initialisers config/assets.tsv names into $WOF_BUILD/assets, and the gate counts them as asset bytes.
  *
  *   wof gate            clean compile of every unit, verify, link, hash; exit 0 only when identical
  *   wof match UNIT...   compile and verify the named units only (the inner loop)
@@ -457,12 +459,93 @@ static void write_baserom(void) {
     fclose(f);
 }
 
+/*
+ * The game's creative content is not in the repository.  config/assets.tsv names the data, each defined by
+ * its owning unit, whose initialisers the build takes from the cartridge: datagen writes each into
+ * $WOF_BUILD/assets/FILE before any unit compiles (the game class has -I $WOF_BUILD, so the unit
+ * #includes "assets/FILE" at the definition), with the types of include/wof.h as the owners' class
+ * preprocesses it.  The gate counts those ranges as asset bytes, never as bytes from source.
+ */
+typedef struct {
+    u32 start, end, covered;
+    char owner[64];
+} Asset;
+
+static Asset assets[256];
+static int nassets;
+
+static void load_assets(void) {
+    FILE *f = fopen("config/assets.tsv", "r");
+    char line[2000];
+    int i, n = 0;
+    if (!f) return;
+    while (fgets(line, sizeof line, f)) {
+        char *p = line;
+        Asset *s;
+        n++;
+        chomp(line);
+        if (!line[0] || line[0] == '#') continue;
+        if (nassets == (int)(sizeof assets / sizeof assets[0])) die("config/assets.tsv: too many rows");
+        s = &assets[nassets++];
+        s->start = strtoul(next_field(&p), NULL, 16);
+        s->end = strtoul(next_field(&p), NULL, 16);
+        snprintf(s->owner, sizeof s->owner, "%s", next_field(&p));
+        for (i = 0; i < nunits && strcmp(units[i].name, s->owner); i++) {}
+        if (i == nunits) die("config/assets.tsv:%d: owner %s is not a unit of config/units.tsv", n, s->owner);
+        if (s->end <= s->start) die("config/assets.tsv:%d: empty range", n);
+    }
+    fclose(f);
+}
+
+static void make_assets(void) {
+    char cmd[3000], path[400];
+    int i, k, ci = -1, needed = 0;
+    FILE *f;
+    for (i = 0; i < nassets; i++)
+        for (k = 0; k < nunits; k++)
+            if (!strcmp(units[k].name, assets[i].owner)) {
+                int c = class_index(units[k].cls);
+                if (ci >= 0 && c != ci) die("config/assets.tsv: the owners of the assets must share one flag class");
+                if (strcmp(flagmode[c], "asn64") && strcmp(flagmode[c], "gas"))
+                    die("config/assets.tsv: unit %s is not compiled by GCC", units[k].name);
+                ci = c;
+                needed |= units[k].selected;
+            }
+    if (!needed) return;
+    snprintf(cmd, sizeof cmd, "rm -rf '%s/assets' && mkdir -p '%s/assets'", build_dir, build_dir);
+    if (system(cmd)) die("cannot make %s/assets", build_dir);
+    snprintf(path, sizeof path, "%s/assets/types.c", build_dir);
+    if (!(f = fopen(path, "w"))) die("cannot write %s", path);
+    fprintf(f, "#include \"wof.h\"\n");
+    fclose(f);
+    setenv("COMPILER_PATH", toolchain, 1);
+    snprintf(cmd, sizeof cmd,
+             "'%s/gcc' -E %s '%s/assets/types.c' > '%s/assets/types.i' && '%s/datagen' -i '%s/assets/types.i' -a '%s/assets'",
+             toolchain, flagstr[ci], build_dir, build_dir, build_dir, build_dir, build_dir);
+    if (system(cmd)) die("cannot write the assets of config/assets.tsv from the ROM");
+}
+
+/* the bytes of [base, base + size) that config/assets.tsv gives to unit u: asset bytes, not bytes from source */
+static u32 asset_bytes_in(const Unit *u, u32 base, u32 size) {
+    u32 n = 0;
+    int i;
+    for (i = 0; i < nassets; i++) {
+        Asset *s = &assets[i];
+        u32 lo = s->start > base ? s->start : base, hi = s->end < base + size ? s->end : base + size;
+        if (strcmp(s->owner, u->name) || hi <= lo) continue;
+        s->covered += hi - lo;
+        n += hi - lo;
+    }
+    return n;
+}
+
 static void compile_selected(void) {
     int jobs = getenv("WOF_JOBS") ? atoi(getenv("WOF_JOBS")) : (int)sysconf(_SC_NPROCESSORS_ONLN);
     int running = 0, i, st;
     if (jobs < 1) jobs = 1;
     mkdirs();
     mirror_lib();
+    make_assets();
     for (i = 0; i < nunits; i++)
         if (units[i].selected && !strcmp(flagmode[class_index(units[i].cls)], "asset")) {
             write_baserom();
@@ -1001,6 +1084,45 @@ static void learn_from_placed(Unit *u) {
         if (u->sec[k].placed && u->sec[k].base_known && k != u->text) relocate(u, k, 0);
 }
 
+/*
+ * A read-only section that nothing references or declares: the read-only data of an object that is only
+ * the RCS run of its #ident lines.  The objects' read-only data lie in the block in link order, which is
+ * the order of their text, each starting on an 8-byte boundary, so such a section is placed at the first
+ * 8-byte boundary after the read-only data of the nearest unit before it (by text address) that has any.
+ * verify() then compares it like every other section.
+ */
+static int is_rodata_name(const char *n) { return !strcmp(n, ".rodata") || !strcmp(n, ".rdata"); }
+
+static int cmp_unit_vram(const void *a, const void *b) {
+    u32 x = units[*(const int *)a].vram, y = units[*(const int *)b].vram;
+    return x < y ? -1 : x > y;
+}
+
+static void place_by_order(void) {
+    int *order = malloc(nunits * sizeof(int)), i, j, k, m;
+    for (i = 0; i < nunits; i++) order[i] = i;
+    qsort(order, nunits, sizeof(int), cmp_unit_vram);
+    for (i = 0; i < nunits; i++) {
+        Unit *u = &units[order[i]];
+        if (u->status == ST_ERR) continue;
+        for (k = 0; k < u->nsec; k++) {
+            Sec *d = &u->sec[k];
+            const Sec *p = NULL;
+            if (!d->placed || d->base_known || !d->buf || !is_rodata_name(d->name)) continue;
+            for (j = i - 1; j >= 0 && !p; j--) {
+                const Unit *v = &units[order[j]];
+                for (m = 0; v->status != ST_ERR && m < v->nsec && !p; m++)
+                    if (v->sec[m].placed && v->sec[m].base_known && v->sec[m].buf && is_rodata_name(v->sec[m].name))
+                        p = &v->sec[m];
+            }
+            if (!p) continue;
+            d->base = (p->base + p->size + 7) & ~7u;
+            d->base_known = 1;
+        }
+    }
+    free(order);
+}
+
 static void run_units(int compile) {
     int i, changed;
     if (compile) compile_selected();
@@ -1018,6 +1140,7 @@ static void run_units(int compile) {
                 changed = 1;
             }
     } while (changed);
+    place_by_order();
     for (i = 0; i < nunits; i++) export_data(&units[i]);
     for (i = 0; i < nunits; i++) verify(&units[i]);
 }
@@ -1076,7 +1199,7 @@ static void write_symbol_map(void) {
 static int cmd_gate(void) {
     u8 *img;
     char digest[41], path[400];
-    int i, k, nok = 0, ndiff = 0, nerr = 0, npartial = 0, nopen = 0, bad = 0, nfn = 0, nfnc = 0;
+    int i, k, nok = 0, ndiff = 0, nerr = 0, npartial = 0, nopen = 0, bad = 0, badasset = 0, nfn = 0, nfnc = 0;
     u32 text_bytes = 0, data_bytes = 0, asset_bytes = 0, fn_bytes = 0, fn_total = 0;
     size_t differing = 0, j;
     FILE *f;
@@ -1120,19 +1243,45 @@ static int cmd_gate(void) {
             bad++;
             continue;
         }
+        /* code the object holds beyond the unit's size would never reach the image, so retail's bytes would stand
+           there unverified: a unit's size has to cover all of its object's code */
+        if (u->partial) {
+            printf("%s: its object holds code outside the unit's 0x%X bytes; the gate would not compare it\n", u->name,
+                   u->size);
+            bad++;
+            continue;
+        }
         memcpy(img + (u->vram - IMAGE_VRAM) + IMAGE_ROM, u->sec[u->text].buf + u->entry_off, u->size);
-        if (!strcmp(flagmode[class_index(u->cls)], "asset")) asset_bytes += u->size;
-        else if (u->data_only) data_bytes += u->size;
-        else text_bytes += u->size;
+        if (!strcmp(flagmode[class_index(u->cls)], "asset")) {
+            asset_bytes += u->size;
+        } else {
+            u32 a = asset_bytes_in(u, u->vram, u->size);
+            asset_bytes += a;
+            if (u->data_only) data_bytes += u->size - a;
+            else text_bytes += u->size - a;
+        }
         for (k = 0; k < u->nsec; k++) {
             Sec *d = &u->sec[k];
             if (!d->placed || k == u->text || !d->buf) continue;
             memcpy(img + (d->base - IMAGE_VRAM) + IMAGE_ROM, d->buf, d->size);
-            if (!strcmp(flagmode[class_index(u->cls)], "asset")) asset_bytes += d->size;
-            else data_bytes += d->size;
+            if (!strcmp(flagmode[class_index(u->cls)], "asset")) {
+                asset_bytes += d->size;
+            } else {
+                u32 a = asset_bytes_in(u, d->base, d->size);
+                asset_bytes += a;
+                data_bytes += d->size - a;
+            }
         }
     }
     if (f) fclose(f);
+    /* an asset range lies whole in its owner's placed data, or the owner does not define what the row names */
+    for (i = 0; i < nassets; i++) {
+        Unit *u = find_unit(assets[i].owner);
+        if (strcmp(u->state, "match") || u->status != ST_OK || assets[i].covered == assets[i].end - assets[i].start) continue;
+        printf("asset 0x%08X..0x%08X: 0x%X of its bytes lie in unit %s's placed data (config/assets.tsv)\n", assets[i].start,
+               assets[i].end, assets[i].covered, u->name);
+        badasset++;
+    }
     for (i = 0; i < nfuncs; i++) {
         fn_total += funcs[i].size;
         for (k = 0; k < nunits; k++) {
@@ -1167,9 +1316,10 @@ static int cmd_gate(void) {
         printf("infer: wrote %s/symbols.inferred.txt and %s/entries.inferred.tsv; this run is not a gate\n", build_dir, build_dir);
         return 1;
     }
-    if (bad || differing || strcmp(digest, ROM_SHA1)) {
-        printf("GATE FAILED: %d claimed units do not reproduce retail; linked image differs in %zu bytes (sha1 %s)\n", bad,
-               differing, digest);
+    if (bad || badasset || differing || strcmp(digest, ROM_SHA1)) {
+        printf("GATE FAILED: %d claimed units do not reproduce retail, %d assets lie outside their owner's data; linked "
+               "image differs in %zu bytes (sha1 %s)\n",
+               bad, badasset, differing, digest);
         return 1;
     }
     printf("GATE OK: linked image sha1 %s is the retail ROM; %d units, %u text + %u data bytes from source, %u asset bytes "
@@ -1308,6 +1458,7 @@ int main(int argc, char **argv) {
     load_units();
     load_flags();
     load_funcs();
+    load_assets();
     if (!strcmp(cmd, "list")) return cmd_list();
     load_rom();
     if (!strcmp(cmd, "gate")) return cmd_gate();

@@ -755,8 +755,7 @@ extern s32 reverbParams[];            // the parameters of the custom reverb
 extern u32 audFrameCt;              // audFrameCt
 extern u32 nextDMA;              // nextDMA
 extern u32 curAcmdList;              // curAcmdList
-extern s32 firstTime;
-extern Lights6 sceneLights;          // the lights of every scene
+extern Lights7 sceneLights;          // the lights of every scene: DrawCamera sets the first six
 extern s32 D_8004B830;
 extern s32 D_8004B838;
 extern s32 debugflag;
@@ -785,6 +784,11 @@ extern u16 *scoreDigitPictures[];
 extern Gfx *bottomRowDls[];
 extern Gfx *D_80057B50[][8];
 extern layer_t scorePanels[];
+extern s32 D_80057BF8[];          // four segment addresses no instruction names
+extern wedgeDl_t D_80057C08[];
+extern wedgeDl_t D_80057CC8[];
+extern wedgeDl_t D_80057D88[];
+extern wedgeDl_t D_80057E48[];
 extern wedgeDl_t *wedgeDls[];
 extern Gfx *backdropDls[];
 extern Gfx *backdropOverlays[];
@@ -792,7 +796,6 @@ extern f32 pullScale;
 extern s32 minSpinSpeed;
 extern view_t views[];
 extern s32 pointerAngles[];
-extern s32 D_800581F4;
 extern s32 playerViews[];
 extern u8 consonantOrder[];          // "RSTLNCBDMHFYKJGPQVWXZ"
 extern u8 vowelOrder[];          // "EAIOU"
@@ -827,7 +830,6 @@ extern u16 *letterTextures[];
 extern image_t letterImages[];
 extern u16 *statusDigitTextures[];
 extern image_t statusScoreImages[][7];
-extern s32 bigCharWidths[];
 extern u16 *bigDigitTextures[];
 extern s32 bigDigitAdvances[];
 extern s32 D_8005B170;
@@ -869,15 +871,51 @@ extern camera_t D_80068C38[];
 extern camera_t D_80069908[];
 extern camera_t D_8006C360[];
 extern s32 memEnd;
+extern s32 D_8006DCDC;
+extern s32 D_8006DCE0;
+extern s32 D_8006DCE4;
 extern s32 memStart;
 extern s32 staticRom;
 extern s32 staticSize;
 extern s32 sceneDataRom;
 extern s32 sceneDataSize;
+extern s32 D_8006DCFC;
+extern s32 D_8006DD00;
 extern s32 sfxCtlRom;
 extern s32 sfxCtlRomEnd;
 extern s32 sfxTblRom;
-extern s32 D_8006DDC4;
+extern s32 D_8006DD10;
+extern s32 D_8006DD14;
+extern s32 D_8006DD18;
+extern s32 D_8006DD1C;
+extern s32 D_8006DD20;
+extern s32 D_8006DD24;
+extern s32 D_8006DD28;
+extern s32 movieSizes[];
+extern s32 D_8006DDC4[];  // a mask, zero at first
+extern s32 D_800703C4[];  // a mask
+extern s32 D_80071EC4[];  // a mask
+extern s32 D_800739C4[];  // a mask
+extern s32 D_800748C4[];  // a mask
+extern s32 D_80075DC4[];  // a mask
+extern s32 D_800769C4[];  // a mask
+extern s32 D_800779C4[];  // a mask
+extern s32 D_80078BC4[];  // a mask
+extern s32 D_80078DC4[];  // a mask
+extern s32 D_80079FC4[];  // a mask
+extern s32 D_8007A1C4[];  // a mask
+extern s32 D_8007B1C4[];  // a mask
+extern s32 D_8007B3C4[];  // a mask
+extern s32 D_8007BFC4[];  // a mask
+extern s32 D_8007CBC4[];  // a mask
+extern s32 D_8007CDC4[];  // a mask
+extern s32 D_8007D9C4[];  // a mask
+extern s32 D_8007EDC4[];  // a mask
+extern s32 D_8007EFC4[];  // a mask
+extern s32 D_800801C4[];  // a mask
+extern s32 D_800813C4[];  // a mask
+extern s32 D_800821C4[];  // a mask
+extern s32 D_800829C4[];  // a mask
 extern long long int D_80082BC8[];  // its data
 extern s32 D_80086D58;
 extern ALCSeq *seqs[];
@@ -1018,6 +1056,7 @@ extern s32 contestantMemMark;
 extern AMAudioMgr __am;        // __am
 extern f32 wheelSpeed;
 extern s32 solveCol;
+extern ALSndPlayer D_800BCCF8;      // the sound player sndPlayer points at
 extern s32 D_800BCD50;
 extern s32 gameMode;
 extern OSScClient gfxClient;

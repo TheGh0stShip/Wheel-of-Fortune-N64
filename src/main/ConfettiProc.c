@@ -2,6 +2,10 @@
 
 #include "wof.h"
 
+s32 confettiTextures[4] = { 0x0101F7D0, 0x0101FFD0, 0x010207D0, 0x01020FD0 };
+f32 confettiGravity = 0.02f;
+f32 confettiDrag = 0.01f;
+
 /*
 =====================
 ConfettiProc

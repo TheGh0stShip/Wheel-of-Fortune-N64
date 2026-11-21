@@ -119,10 +119,15 @@ unit's range in a copy of the ROM, writes the compiled bytes in, and compares th
 - It is green at 0%: read the coverage it prints (`N units, T text + D data bytes from source, A asset bytes from
   the cartridge`). Asset bytes are copied from the ROM by an asset unit and are never progress.
 - A red gate names the units that differ; `./wof diff UNIT` shows where.
+- A unit's size has to cover all of its object's code: an object that holds code past the unit's size fails
+  the gate, since that code would never reach the image and retail's bytes would stand there unverified.
 - A unit's read-only data (jump tables, float literals) is placed where retail's instructions point and compared
   too, up to its last item: the alignment fill after it is not source (retail's is stale assembler bytes) and
   keeps retail's bytes. An IDO object's section is compared whole: IDO's section sizes include their padding.
-  A data section that nothing references or declares has no address and fails.
+  A read-only section that nothing references or declares (an object whose read-only data is only its RCS
+  run) is placed at the first 8-byte boundary after the read-only data of the nearest unit before it in text
+  order, and compared there; any other data section that nothing references or declares has no address and
+  fails.
 - An original object's read-only data opens with the RCS revisions of the system headers it included. Write
   them as that object's `#ident` lines, in order; `asn64` places them.
 - It is blind to honesty of the source. That is the rule checker's job.

@@ -2,6 +2,22 @@
 
 #include "wof.h"
 
+// The text of the credits and the titles over them, static char arrays D_8005BF90..D_8005C1CC and
+// D_8005C240..D_8005C328: the game's content, which the build takes from the cartridge
+// (config/assets.tsv).
+#include "assets/creditsText.inc.c"
+u8 *creditsText[22] = {
+    D_8005BF90, D_8005BFB4, D_8005BFD4, D_8005BFE4, D_8005C000, D_8005C018, D_8005C02C, D_8005C03C,
+    D_8005C050, D_8005C064, D_8005C078, D_8005C098, D_8005C0AC, D_8005C0C0, D_8005C0EC, D_8005C114,
+    D_8005C128, D_8005C150, D_8005C178, D_8005C198, D_8005C1B4, D_8005C1CC
+};
+#include "assets/creditsTitles.inc.c"
+u8 *creditsTitles[22] = {
+    NULL, NULL, D_8005C240, D_8005C250, D_8005C25C, D_8005C26C, D_8005C27C, D_8005C28C, D_8005C2A0,
+    D_8005C2B4, D_8005C2C8, D_8005C2DC, D_8005C2F0, D_8005C300, NULL, D_8005C30C, D_8005C314,
+    D_8005C328, NULL, NULL, NULL, NULL
+};
+
 
 /*
 =====================

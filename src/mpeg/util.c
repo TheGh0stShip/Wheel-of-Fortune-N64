@@ -7,6 +7,17 @@
 #include "mpeg/proto.h"
 #include "mpeg/util.h"
 
+// The #ident lines of the system headers this object included, in order: the original assembler put
+// the strings into the read-only data, which they open. The headers are not in this tree, so their
+// lines stand here.
+#ident "$Revision: 1.34 $"
+#ident "$Revision: 1.5 $"
+#ident "$Revision: 1.49 $"
+#ident "$Revision: 3.70 $"
+#ident "$Revision: 1.2 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.17 $"
+
 // masks for the bit stream macros and the block parser: the top n bits, all but the top n bits, all but
 // the low n bits, and bit n counted from the top
 unsigned int nBitMask[] = {

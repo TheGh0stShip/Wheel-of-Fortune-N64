@@ -2,6 +2,10 @@
 
 #include "wof.h"
 
+// The #ident line of the system header this object included: the original assembler put the string
+// into the read-only data, which it opens. The header is not in this tree, so its line stands here.
+#ident "$Revision: 1.17 $"
+
 
 /*
 =====================

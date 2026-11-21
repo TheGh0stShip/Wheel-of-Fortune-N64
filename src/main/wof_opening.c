@@ -12,6 +12,41 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
+titleLetter_t titleLetters[14] = {
+    { (Gfx *)0x011692C8, (Mtx *)0x01177348, -1.0f },
+    { (Gfx *)0x01169090, (Mtx *)0x01177388, 1.0f },
+    { (Gfx *)0x01168D10, (Mtx *)0x011773C8, -0.666f },
+    { (Gfx *)0x01168890, (Mtx *)0x01177408, 0.666f },
+    { (Gfx *)0x01168500, (Mtx *)0x01177448, 0.333f },
+    { (Gfx *)0x01168380, (Mtx *)0x01177488, 0.0f },
+    { (Gfx *)0x01168130, (Mtx *)0x011774C8, -0.333f },
+    { (Gfx *)0x01167EE8, (Mtx *)0x01177508, 1.0f },
+    { (Gfx *)0x01167DD0, (Mtx *)0x01177548, -0.666f },
+    { (Gfx *)0x01167990, (Mtx *)0x01177588, 0.666f },
+    { (Gfx *)0x011676A0, (Mtx *)0x011775C8, -1.333f },
+    { (Gfx *)0x01167338, (Mtx *)0x01177608, 0.333f },
+    { (Gfx *)0x01166FF0, (Mtx *)0x01177648, -0.333f },
+    { (Gfx *)0x01166C28, (Mtx *)0x01177688, -1.0f }
+};
+Gfx *openingWedgeDls[24] = {
+    (Gfx *)0x01196CA0, (Gfx *)0x01196DF8, (Gfx *)0x01196F48, (Gfx *)0x011970B8, (Gfx *)0x01197210,
+    (Gfx *)0x01197368, (Gfx *)0x011974B8, (Gfx *)0x01197610, (Gfx *)0x01197768, (Gfx *)0x011978B8,
+    (Gfx *)0x01197A08, (Gfx *)0x01197B58, (Gfx *)0x01195AE8, (Gfx *)0x01195C38, (Gfx *)0x01195E18,
+    (Gfx *)0x01195F68, (Gfx *)0x011960C0, (Gfx *)0x01196360, (Gfx *)0x01196370, (Gfx *)0x011964C8,
+    (Gfx *)0x01196618, (Gfx *)0x01196770, (Gfx *)0x01196AE8, (Gfx *)0x01196AF8
+};
+Mtx *openingWedgeMtxs[24] = {
+    (Mtx *)0x0119AE00, (Mtx *)0x0119ADC0, (Mtx *)0x0119AD80, (Mtx *)0x0119AD40, (Mtx *)0x0119AD00,
+    (Mtx *)0x0119ACC0, (Mtx *)0x0119AC80, (Mtx *)0x0119AC40, (Mtx *)0x0119AC00, (Mtx *)0x0119ABC0,
+    (Mtx *)0x0119AB80, (Mtx *)0x0119AB40, (Mtx *)0x0119B0C0, (Mtx *)0x0119B080, (Mtx *)0x0119B040,
+    (Mtx *)0x0119B000, (Mtx *)0x0119AFC0, (Mtx *)0x0119AF80, (Mtx *)0x0119AF40, (Mtx *)0x0119AF00,
+    (Mtx *)0x0119AEC0, NULL, (Mtx *)0x0119AE80, (Mtx *)0x0119AE40
+};
+s32 logoTiles[2][3] = {
+    { 0x01146E88, 0x01147688, 0x01147E88 },
+    { 0x01148688, 0x01148E88, 0x01149688 }
+};
+
 // the one message slot of siLockQ
 static OSMesg siLockMsg;
 

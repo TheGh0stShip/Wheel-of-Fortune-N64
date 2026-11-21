@@ -12,6 +12,19 @@
 #include "mpeg/proto.h"
 #include "mpeg/decoders.h"
 
+// The #ident lines of the system headers this object included, in order: the original assembler put
+// the strings into the read-only data, which they open. The headers are not in this tree, so their
+// lines stand here.
+#ident "$Revision: 1.49 $"
+#ident "$Revision: 1.34 $"
+#ident "$Revision: 1.5 $"
+#ident "$Revision: 1.17 $"
+#ident "$Revision: 3.31 $"
+#ident "$Revision: 3.70 $"
+#ident "$Revision: 1.2 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.17 $"
+
 // zigzag order to column and row
 const int zigzag[64][2] = {
     0, 0, 1, 0, 0, 1, 0, 2, 1, 1, 2, 0, 3, 0, 2, 1, 1, 2, 0, 3, 0, 4, 1, 3,

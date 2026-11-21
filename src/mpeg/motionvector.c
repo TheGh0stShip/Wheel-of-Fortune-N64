@@ -7,6 +7,17 @@
 #include "mpeg/proto.h"
 #include "mpeg/util.h"
 
+// The #ident lines of the system headers this object included, in order: the original assembler put
+// the strings into the read-only data, which they open and here are all of. The headers are not in
+// this tree, so their lines stand here.
+#ident "$Revision: 1.49 $"
+#ident "$Revision: 3.70 $"
+#ident "$Revision: 1.5 $"
+#ident "$Revision: 1.2 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.17 $"
+#ident "$Revision: 1.34 $"
+
 /*
 Reconstructs a motion vector the way the MPEG-1 standard spells it out. A component is coded as a
 difference from the component before (recon_*_prev), in units of f: the code gives the difference

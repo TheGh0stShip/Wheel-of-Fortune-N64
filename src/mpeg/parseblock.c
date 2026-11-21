@@ -8,6 +8,18 @@
 #include "mpeg/proto.h"
 #include "mpeg/decoders.h"
 
+// The #ident lines of the system headers this object included, in order: the original assembler put
+// the strings into the read-only data, which they open and here are all of. The headers are not in
+// this tree, so their lines stand here.
+#ident "$Revision: 1.17 $"
+#ident "$Revision: 1.49 $"
+#ident "$Revision: 3.70 $"
+#ident "$Revision: 1.5 $"
+#ident "$Revision: 1.2 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.17 $"
+#ident "$Revision: 1.34 $"
+
 #define DCT_recon       blockPtr->dct_recon
 #define DCT_dc_y_past   blockPtr->dct_dc_y_past
 #define DCT_dc_cr_past  blockPtr->dct_dc_cr_past

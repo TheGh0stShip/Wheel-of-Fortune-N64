@@ -1,5 +1,7 @@
 #include "wof.h"
 
+s32 D_8004B830 = 1;
+
 void createGfxTask(gfxInfo_t *info) {
     frame_t *frame;
     OSScTask *t;

@@ -1,0 +1,35 @@
+# config/assets.tsv -- the game's creative content: data a unit defines whose initialiser the build takes from the
+# cartridge, so that the repository carries no puzzle, credit or picture of the game.  The owning unit keeps the
+# definition (its name, type and place) and #includes "assets/FILE" at it; the gate has datagen write FILE from
+# the ROM into $WOF_BUILD/assets before it compiles, and counts the range as asset bytes, never as bytes from
+# source.  The header of tools/datagen.c ("Assets") defines what a file holds.
+# Columns: start, end (exclusive), owner (the unit that defines the datum), type (as datagen takes it; "ELEM
+# strings" for a run of static ELEM arrays, one definition a string), file (under $WOF_BUILD/assets), what.
+0x8004BA20	0x8004BB98	wof_puzzle	u8 strings	puzzleKinds.inc.c	the 30 kinds of puzzle by name, D_8004BA20..D_8004BB90
+0x8004BB98	0x8005716C	wof_puzzle	puzzle_t[3879]	puzzles.inc.c	puzzles: each puzzle's cartridge address and kind
+0x8005BF90	0x8005C1E8	CreditsProc	char strings	creditsText.inc.c	the text of the 22 credits, D_8005BF90..D_8005C1CC
+0x8005C240	0x8005C33C	CreditsProc	char strings	creditsTitles.inc.c	the titles over the credits, D_8005C240..D_8005C328
+0x8006DDC4	0x800703C4	wof_romdata	s32[0x980]	D_8006DDC4.inc.c	zero, then a clip mask, one bit a pixel
+0x800703C4	0x80071EC4	wof_romdata	s32[1728]	D_800703C4.inc.c	a clip mask, one bit a pixel
+0x80071EC4	0x800739C4	wof_romdata	s32[1728]	D_80071EC4.inc.c	a clip mask, one bit a pixel
+0x800739C4	0x800748C4	wof_romdata	s32[960]	D_800739C4.inc.c	a clip mask, one bit a pixel
+0x800748C4	0x80075DC4	wof_romdata	s32[1344]	D_800748C4.inc.c	a clip mask, one bit a pixel
+0x80075DC4	0x800769C4	wof_romdata	s32[768]	D_80075DC4.inc.c	a clip mask, one bit a pixel
+0x800769C4	0x800779C4	wof_romdata	s32[1024]	D_800769C4.inc.c	a clip mask, one bit a pixel
+0x800779C4	0x80078BC4	wof_romdata	s32[1152]	D_800779C4.inc.c	a clip mask, one bit a pixel
+0x80078BC4	0x80078DC4	wof_romdata	s32[128]	D_80078BC4.inc.c	a clip mask, one bit a pixel
+0x80078DC4	0x80079FC4	wof_romdata	s32[1152]	D_80078DC4.inc.c	a clip mask, one bit a pixel
+0x80079FC4	0x8007A1C4	wof_romdata	s32[128]	D_80079FC4.inc.c	a clip mask, one bit a pixel
+0x8007A1C4	0x8007B1C4	wof_romdata	s32[1024]	D_8007A1C4.inc.c	a clip mask, one bit a pixel
+0x8007B1C4	0x8007B3C4	wof_romdata	s32[128]	D_8007B1C4.inc.c	a clip mask, one bit a pixel
+0x8007B3C4	0x8007BFC4	wof_romdata	s32[768]	D_8007B3C4.inc.c	a clip mask, one bit a pixel
+0x8007BFC4	0x8007CBC4	wof_romdata	s32[768]	D_8007BFC4.inc.c	a clip mask, one bit a pixel
+0x8007CBC4	0x8007CDC4	wof_romdata	s32[128]	D_8007CBC4.inc.c	a clip mask, one bit a pixel
+0x8007CDC4	0x8007D9C4	wof_romdata	s32[768]	D_8007CDC4.inc.c	a clip mask, one bit a pixel
+0x8007D9C4	0x8007EDC4	wof_romdata	s32[1280]	D_8007D9C4.inc.c	a clip mask, one bit a pixel
+0x8007EDC4	0x8007EFC4	wof_romdata	s32[128]	D_8007EDC4.inc.c	a clip mask, one bit a pixel
+0x8007EFC4	0x800801C4	wof_romdata	s32[1152]	D_8007EFC4.inc.c	a clip mask, one bit a pixel
+0x800801C4	0x800813C4	wof_romdata	s32[1152]	D_800801C4.inc.c	a clip mask, one bit a pixel
+0x800813C4	0x800821C4	wof_romdata	s32[896]	D_800813C4.inc.c	a clip mask, one bit a pixel
+0x800821C4	0x800829C4	wof_romdata	s32[512]	D_800821C4.inc.c	a clip mask, one bit a pixel
+0x800829C4	0x80082BC4	wof_romdata	s32[128]	D_800829C4.inc.c	a clip mask, one bit a pixel
