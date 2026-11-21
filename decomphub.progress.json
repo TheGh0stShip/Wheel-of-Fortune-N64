@@ -3,8 +3,30 @@
   "repository": "https://github.com/TheGh0stShip/Wheel-of-Fortune-N64",
   "tracks": [
     {
-      "id": "matching-code",
-      "label": "Matching decompiled C code",
+      "id": "matching-source-code",
+      "label": "Code reproduced from byte-identical source",
+      "scope": "USA ROM SHA-1 b51b28660699bf029f862f51c319a5962fe9de9b. Denominators cover an incomplete catalogue of discovered executable function intervals. Only independently replayed matching C counts. Linked credit covers C placed by GNU ld in a verified pinned mixed image. Other bytes are preserved local ROM inputs.",
+      "measurement": {
+        "kind": "ratio",
+        "completed": 402772,
+        "total": 402772,
+        "unit": "bytes"
+      }
+    },
+    {
+      "id": "matching-source-functions",
+      "label": "Functions reproduced from byte-identical source",
+      "scope": "USA ROM SHA-1 b51b28660699bf029f862f51c319a5962fe9de9b. Denominators cover an incomplete catalogue of discovered executable function intervals. Only independently replayed matching C counts. Linked credit covers C placed by GNU ld in a verified pinned mixed image. Other bytes are preserved local ROM inputs.",
+      "measurement": {
+        "kind": "ratio",
+        "completed": 775,
+        "total": 775,
+        "unit": "functions"
+      }
+    },
+    {
+      "id": "matching-c-code",
+      "label": "Matching ordinary C code",
       "scope": "USA ROM SHA-1 b51b28660699bf029f862f51c319a5962fe9de9b. Denominators cover an incomplete catalogue of discovered executable function intervals. Only independently replayed matching C counts. Linked credit covers C placed by GNU ld in a verified pinned mixed image. Other bytes are preserved local ROM inputs.",
       "measurement": {
         "kind": "ratio",
@@ -14,8 +36,8 @@
       }
     },
     {
-      "id": "matching-functions",
-      "label": "C-decompiled function candidates",
+      "id": "matching-c-functions",
+      "label": "Functions reproduced as ordinary C",
       "scope": "USA ROM SHA-1 b51b28660699bf029f862f51c319a5962fe9de9b. Denominators cover an incomplete catalogue of discovered executable function intervals. Only independently replayed matching C counts. Linked credit covers C placed by GNU ld in a verified pinned mixed image. Other bytes are preserved local ROM inputs.",
       "measurement": {
         "kind": "ratio",

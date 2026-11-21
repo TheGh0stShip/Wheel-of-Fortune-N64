@@ -131,9 +131,13 @@ def generate(root):
             "measurement": {"kind": "ratio", "completed": completed, "total": total, "unit": unit},
         }
 
+    accounted = accounted_functions(root, rows)
+    source_bytes = sum(int(row["code_size"], 0) for row in rows if function_key(row) in accounted)
     tracks = [
-        track("matching-code", "Matching decompiled C code", matching_bytes, total_bytes, "bytes"),
-        track("matching-functions", "C-decompiled function candidates", len(verified), len(rows), "functions"),
+        track("matching-source-code", "Code reproduced from byte-identical source", source_bytes, total_bytes, "bytes"),
+        track("matching-source-functions", "Functions reproduced from byte-identical source", len(accounted), len(rows), "functions"),
+        track("matching-c-code", "Matching ordinary C code", matching_bytes, total_bytes, "bytes"),
+        track("matching-c-functions", "Functions reproduced as ordinary C", len(verified), len(rows), "functions"),
     ]
     if (root / "progress-linked.tsv").is_file():
         linked = linked_functions(root, rows)
@@ -166,11 +170,15 @@ def main():
         rows = inventory(args.root / "progress-inventory.tsv")
         objdiff = objdiff_report(progress, rows, linked_functions(args.root, rows),
                                  accounted_functions(args.root, rows))
-        args.objdiff.write_text(json.dumps(objdiff, indent=2) + "\n", encoding="utf-8")
+        objdiff_text = json.dumps(objdiff, indent=2) + "\n"
+        if args.check:
+            if not args.objdiff.exists() or args.objdiff.read_text(encoding="utf-8") != objdiff_text:
+                parser.exit(1, f"{args.objdiff} is stale\n")
+        else:
+            args.objdiff.write_text(objdiff_text, encoding="utf-8")
 
 
 def objdiff_report(progress, rows, linked=(), accounted=None):
-    code, functions = (track["measurement"] for track in progress["tracks"][:2])
     category = "catalogued-code"
 
     def measures(size, matching, count, matched, linked_bytes, linked_count):
@@ -191,37 +199,50 @@ def objdiff_report(progress, rows, linked=(), accounted=None):
 
     units = []
     linked_bytes = 0
+    total_bytes = c_bytes = source_bytes = 0
+    c_functions = source_functions = 0
     for row in rows:
         size = int(row["code_size"], 0)
-        matched = matching_c(row)
+        c_matched = matching_c(row)
         address = str(int(row["vram"], 0))
         key = function_key(row)
         complete = key in (accounted or linked)
+        source_matched = key in accounted if accounted else c_matched
+        total_bytes += size
+        c_bytes += size if c_matched else 0
+        source_bytes += size if source_matched else 0
+        c_functions += int(c_matched)
+        source_functions += int(source_matched)
         if complete:
             linked_bytes += size
         metadata = {"progress_categories": [category]}
         if complete:
             metadata["complete"] = True
-        if matched:
+        if c_matched:
             metadata["source_path"] = row["source"]
         elif accounted and key in accounted:
             metadata["source_path"] = accounted[key]["source"]
         units.append({
             "name": f"{row['image']}/{row['function']}@{row['vram']}",
-            "measures": measures(size, size if matched else 0, 1, int(matched),
+            "measures": measures(size, size if source_matched else 0, 1, int(source_matched),
                                  size if complete else 0, int(complete)),
             "functions": [{
                 "name": row["function"], "size": str(size), "address": address,
-                "fuzzy_match_percent": 100.0 if matched else 0.0,
+                "fuzzy_match_percent": 100.0 if source_matched else 0.0,
                 "metadata": {"virtual_address": address},
             }],
             "metadata": metadata,
         })
-    totals = measures(code["total"], code["completed"], functions["total"], functions["completed"],
+    totals = measures(total_bytes, source_bytes, len(rows), source_functions,
                       linked_bytes, len(accounted) if accounted else len(linked))
+    ctotals = measures(total_bytes, c_bytes, len(rows), c_functions,
+                       linked_bytes, len(accounted) if accounted else len(linked))
     return {
         "version": 2, "measures": totals, "units": units,
-        "categories": [{"id": category, "name": "Catalogued code only", "measures": totals}],
+        "categories": [
+            {"id": category, "name": "Byte-identical source", "measures": totals},
+            {"id": "matching-c", "name": "Ordinary matching C", "measures": ctotals},
+        ],
     }
 
 

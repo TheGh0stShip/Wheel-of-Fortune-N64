@@ -13,8 +13,9 @@ Complete matching-source reconstruction of the USA release. Every catalogued fun
 
 [ByteMatch](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64) receives the same scoped figures under the `usa-catalogued` version.
 
-[![Source-reproduced code](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64.svg?version=usa-catalogued&category=catalogued-code&measure=complete_code_percent&label=Source-reproduced%20code)](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64/usa-catalogued)
-[![Matching C bytes](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64.svg?version=usa-catalogued&category=catalogued-code&measure=matched_code_percent&label=Matching%20C%20bytes)](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64/usa-catalogued)
+[![Byte-identical source](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64.svg?version=usa-catalogued&category=catalogued-code&measure=matched_code_percent&label=Byte-identical%20source)](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64/usa-catalogued)
+[![Ordinary matching C](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64.svg?version=usa-catalogued&category=matching-c&measure=matched_code_percent&label=Ordinary%20matching%20C)](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64/usa-catalogued)
+[![Fully linked](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64.svg?version=usa-catalogued&category=catalogued-code&measure=complete_code_percent&label=Fully%20linked)](https://bytematch.dev/TheGh0stShip/Wheel-of-Fortune-N64/usa-catalogued)
 
 On ByteMatch, **Units complete: 775 of 775** and **Fully linked: 100.00%** are the completion measurements. Gray segments in its unit heat map denote exact assembly/runtime source excluded from the ordinary-C score; they do not denote missing or raw functions. ByteMatch's fuzzy score is a lower bound based on exact C matches because partial similarity is unmeasured.
 
