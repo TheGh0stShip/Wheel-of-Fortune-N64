@@ -24,10 +24,12 @@ requires its SHA-1 to equal the retail ROM's.
   not settled, and those functions still sit one per file.
 - The library is libultra (IDO 5.3, built from the `ultralib` reconstruction under `lib/ultralib`) and three
   libgcc functions: 305 C functions, all of which pass the rules.
-- Data: the gate links 250,561 data bytes from source, defined in the units that own them (the puzzles, the
-  camera paths, the menu and stage tables, the clip masks, and so on). The SDK's RSP microcode, 18,880 bytes,
-  is linked whole as the SDK shipped it: the build takes those bytes from your ROM and counts them apart, as
-  asset bytes. 2,811 bytes still come from the ROM, data whose owning object is not settled yet;
+- Data: the gate links 117,281 data bytes from source, defined in the units that own them (the camera paths,
+  the menu, stage and status tables, the audio and scene tables, and so on). The repository carries none of
+  the game's creative content: the puzzles, their categories, the credits and the clip masks (133,280 bytes)
+  are generated from your ROM at build time into the units that own them (`config/assets.tsv`), and the SDK's
+  RSP microcode (18,880 bytes) is linked whole as the SDK shipped it; the gate counts these 152,160 bytes
+  apart, as asset bytes. 2,811 bytes still come from the ROM, data whose owning object is not settled yet;
   `./wof datamap` accounts for each of them by range, kind and candidate owner (`config/data.tsv`).
 
 Earlier versions of this file described the project as complete. That claim rested on ledgers produced by a
