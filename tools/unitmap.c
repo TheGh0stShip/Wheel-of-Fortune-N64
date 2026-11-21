@@ -21,7 +21,12 @@
  *             object's, and so are the users of a static and those of the statics above it that earlier
  *             functions use;
  *   data      .data and .bss addresses that a single function uses, where one function's lie inside
- *             another's: the two functions share an object's contribution.
+ *             another's: the two functions share an object's contribution;
+ *   units     the .data that the units define today lies in link order too: two units whose .data lie in
+ *             the opposite order to their text are one object's;
+ *   calls     a function whose address another names (a proc handler passed to CreatProc), or that only
+ *             one other function calls, is taken to sit with its users.  C lets any file call any
+ *             function, and the certain positions show how often the habit fails.
  *
  * The text settles about half of the positions for certain.  Every other test is first counted against
  * those, and one that a certain boundary contradicts is reported and decides nothing.
@@ -115,7 +120,7 @@ typedef struct {
 } Pos;
 
 /* why two read-only items are one object's */
-enum { R_NONE, R_CONTIG, R_ORDER, R_STATIC, R_STATIC_ORDER };
+enum { R_NONE, R_CONTIG, R_ORDER, R_STATIC, R_STATIC_ORDER, R_DATA_ORDER };
 
 typedef struct {
     u32 addr;
@@ -336,6 +341,26 @@ static int in_ro(u32 addr) { return addr >= ro_start && addr < ro_end; }
 static int in_data(u32 addr) { return addr >= ro_end && addr < IMAGE_END && func_at(addr) < 0; }
 static int in_bss(u32 addr) { return addr >= IMAGE_END && addr < RAM_END; }
 
+/* a call (jal), or a function's address formed in another function (a proc handler, a draw function) */
+typedef struct {
+    int from, to; /* indices into funcs */
+    int ref;      /* 1: the address is formed, 0: a jal */
+} Edge;
+
+static Edge *edges;
+static int nedges, capedges;
+
+static void add_edge(int from, int to, int ref) {
+    if (nedges == capedges) {
+        capedges = capedges ? capedges * 2 : 4096;
+        edges = realloc(edges, capedges * sizeof(Edge));
+    }
+    edges[nedges].from = from;
+    edges[nedges].to = to;
+    edges[nedges].ref = ref;
+    nedges++;
+}
+
 static void add_claim(u32 addr, int fn, int kind) {
     if (nclaims == capclaims) {
         capclaims = capclaims ? capclaims * 2 : 4096;
@@ -392,6 +417,11 @@ static void scan_function(int fi) {
             }
             break;
         case 0x03: /* jal */
+            {
+                u32 target = (pc & 0xF0000000u) | ((w & 0x03FFFFFFu) << 2);
+                int to = func_at(target);
+                if (to >= 0 && funcs[to].vram == target) add_edge(fi, to, 0);
+            }
             memset(ok, 0, sizeof ok);
             break;
         case 0x0F: /* lui */
@@ -424,6 +454,7 @@ static void scan_function(int fi) {
             break;
         }
         if (kind && ok[rs] && (in_ro(addr) || in_data(addr) || in_bss(addr))) add_claim(addr, fi, kind | (idx[rs] ? K_INDEX : 0));
+        if (kind == K_ADDR && ok[rs] && in_image(addr) && func_at(addr) >= 0 && funcs[func_at(addr)].vram == addr) add_edge(fi, func_at(addr), 1);
         if (writes >= 0) ok[writes] = 0;
     }
     (void)i;
@@ -442,6 +473,12 @@ static void scan_jump_tables(void) {
 }
 
 static int nsections, nsections_ro;
+/* the initialised-data sections the last gate placed for units with text: the unit's first and last function */
+static struct {
+    u32 base, size;
+    int first, last; /* indices into funcs */
+} dsecs[1024];
+static int ndsecs;
 
 /* the data sections the last gate placed: status, unit, address, size, state, message, name@address+size ... */
 static void load_gate_sections(void) {
@@ -482,6 +519,13 @@ static void load_gate_sections(void) {
             /* the unit's first function owns the start of the section and its last function the end */
             add_claim(base, fi, K_SECTION);
             add_claim((base + size - 1) & ~3u, last, K_SECTION);
+            if (in_data(base) && !strncmp(tok, ".data@", 6) && ndsecs < 1024) {
+                dsecs[ndsecs].base = base;
+                dsecs[ndsecs].size = size;
+                dsecs[ndsecs].first = fi;
+                dsecs[ndsecs].last = last;
+                ndsecs++;
+            }
         }
     }
     fclose(f);
@@ -1154,6 +1198,117 @@ static void analyse_items(void) {
     if (ndup_joined || ndup_same) ndups = 0;
 }
 
+/* ---------------------------------------------------------------- calls, handlers and the units' .data */
+
+/*
+ * Two readings of the call graph, each counted against the certain positions like every other test:
+ *
+ *   handlers    a function whose address another function forms (a proc's handler that its creator passes
+ *               to CreatProc, a draw function passed to MakeObj) is taken to sit in its namers' object;
+ *   one user    a function that only one other function calls or names is taken to be that one's helper,
+ *               in its object; "every user" takes every function called only from game code to sit in the
+ *               object of all its callers.
+ *
+ * A function used from outside the game (the libraries, the entry stub) is left out.  A test that a certain
+ * boundary contradicts is printed with its counts and decides nothing: C lets any file call any non-static
+ * function, so these are habits of the original team at best, and the certain positions show how often the
+ * habit failed.
+ */
+static void analyse_calls(void) {
+    static const char *const vname[] = { "handlers", "one user", "every user" };
+    int v, g, i;
+    printf("== calls and function addresses ==\n");
+    for (i = 0, g = 0, v = 0; i < nedges; i++)
+        if (funcs[edges[i].from].game >= 0 && funcs[edges[i].to].game >= 0) {
+            if (edges[i].ref) v++;
+            else g++;
+        }
+    printf("calls (jal) from game functions to game functions: %d; function addresses formed by game functions: %d\n", g, v);
+    /* a word of a unit's placed .data that holds a game function's address names it too (a table of handlers) */
+    for (i = 0, v = nedges; i < ndsecs; i++) {
+        u32 a;
+        for (a = dsecs[i].base; a + 4 <= dsecs[i].base + dsecs[i].size; a += 4) {
+            u32 w = be32(rom_at(a));
+            int to = in_image(w) ? func_at(w) : -1;
+            if (to >= 0 && funcs[to].vram == w && funcs[to].game >= 0) add_edge(dsecs[i].first, to, 1);
+        }
+    }
+    printf("function addresses in the units' placed .data: %d\n", nedges - v);
+    for (v = 0; v < 3; v++) {
+        int n = 0, bad = 0, conf = 0, open = 0;
+        for (g = 0; g < ngame; g++) {
+            int h = game[g], lo = g, hi = g, ext = 0, anyref = 0, nu = 0, last = -1;
+            for (i = 0; i < nedges; i++) {
+                int u;
+                if (edges[i].to != h || edges[i].from == h) continue;
+                u = funcs[edges[i].from].game;
+                if (u < 0) {
+                    ext = 1;
+                    continue;
+                }
+                if (edges[i].ref) anyref = 1;
+                if (u != last) nu++, last = u;
+                if (u < lo) lo = u;
+                if (u > hi) hi = u;
+            }
+            if (ext || !nu || lo == hi) continue;
+            if (v == 0 && !anyref) continue;
+            if (v == 1 && nu != 1) continue;
+            n++;
+            if (tie_crosses(lo, hi)) {
+                bad++;
+                if (verbose) printf("  %s: %s, used by %s..%s, across a certain boundary\n", vname[v], funcs[h].name, funcs[game[lo]].name,
+                                    funcs[game[hi]].name);
+            } else {
+                int k;
+                for (k = lo; k < hi; k++) {
+                    if (pos[k].text == T_JOIN) conf++;
+                    if (pos[k].text == T_OPEN) open++;
+                }
+            }
+        }
+        printf("%-10s  %3d functions; %2d of them are used across a certain boundary (the others' spans hold %d certain\n"
+               "            joins and %d undetermined positions) -> %s\n", vname[v], n, bad, conf, open,
+               bad ? "it decides nothing" : "a tied position counts as joined (likely)");
+    }
+    printf("\n");
+}
+
+/*
+ * The linker lays out every object's .data in link order, the order of their text, as it does the read-only
+ * data.  The units that define data today place it where retail's instructions point (the gate checks it),
+ * so two units whose .data lie in the opposite order to their text are one object's, with every function
+ * between them.  Counted against the certain positions first.
+ */
+static void analyse_data_order(void) {
+    int i, k, g, bad = 0, conf = 0, open = 0, ninv = 0;
+    printf("== the units' .data ==\n");
+    printf("units with text that define .data in the last gate: %d\n", ndsecs);
+    for (i = 0; i < ndsecs; i++)
+        for (k = 0; k < ndsecs; k++) {
+            int lo = funcs[dsecs[i].first].game, hi = funcs[dsecs[k].last].game;
+            if (lo < 0 || hi < 0 || funcs[dsecs[i].first].vram >= funcs[dsecs[k].first].vram || dsecs[i].base < dsecs[k].base) continue;
+            ninv++;
+            printf("  %s's .data (0x%08X) lies above %s's (0x%08X), whose text is later\n", funcs[dsecs[i].first].name, dsecs[i].base,
+                   funcs[dsecs[k].first].name, dsecs[k].base);
+            if (tie_crosses(lo, hi)) bad++;
+            for (g = lo; g < hi; g++)
+                if (pos[g].text == T_JOIN) conf++;
+        }
+    printf("order: %d pairs of units in the opposite order; %d cross a certain boundary -> %s\n", ninv, bad,
+           bad ? "it decides nothing" : "a tied position counts as joined (likely)");
+    if (!bad)
+        for (i = 0; i < ndsecs; i++)
+            for (k = 0; k < ndsecs; k++) {
+                int lo = funcs[dsecs[i].first].game, hi = funcs[dsecs[k].last].game;
+                if (lo < 0 || hi < 0 || funcs[dsecs[i].first].vram >= funcs[dsecs[k].first].vram || dsecs[i].base < dsecs[k].base) continue;
+                for (g = lo; g < hi; g++)
+                    if (pos[g].text == T_OPEN && !pos[g].ro_tie) open++;
+                tie(lo, hi, R_DATA_ORDER, dsecs[k].base, dsecs[i].base);
+            }
+    printf("undetermined positions newly tied: %d (certain joins in the spans: %d)\n\n", open, conf);
+}
+
 static int nagree, npinned, nwide, nconflict, nnojoin, norder, nunused, nsingle, nsingle_gap, nsingle_open, nsingle_join;
 
 static int is_candidate(const Pos *p) {
@@ -1704,7 +1859,8 @@ static int print_units(int premise, int *hidden, int *nsettled) {
 
 static void print_result(void) {
     static const char *verdict[NGRADES] = { "boundary certain", "boundary likely", "unknown", "joined likely", "joined certain" };
-    static const char *tie_why[5] = { "", "contiguous read-only items", "read-only order", "one static .bss datum", "static .bss order" };
+    static const char *tie_why[6] = { "", "contiguous read-only items", "read-only order", "one static .bss datum", "static .bss order",
+                                      "the order of the units' .data" };
     int g, n[NGRADES], nunit = 0, hidden = 0, nsettled = 0, k;
     memset(n, 0, sizeof n);
     printf("== positions ==\n");
@@ -1743,7 +1899,7 @@ static void print_result(void) {
     printf("  boundary certain: %3d  (%d text gaps, %d where the game's text is interrupted)\n", n[G_CERTAIN], ngap, nend - 1);
     printf("  boundary likely:  %3d  (a read-only object start, or a duplicate string, falls there and nowhere else)\n", n[G_LIKELY]);
     printf("  joined certain:   %3d  (the function ends off an 8-byte boundary)\n", n[G_JOIN]);
-    printf("  joined likely:    %3d  (one string literal on both sides, read-only contiguity or order, or interleaved data)\n", n[G_JOIN_LIKELY]);
+    printf("  joined likely:    %3d  (a string literal on both sides, read-only contiguity or order, interleaved data, the units' .data order)\n", n[G_JOIN_LIKELY]);
     printf("  unknown:          %3d\n", n[G_UNKNOWN]);
     printf("proposed units: %d, %d of them settled.  An object's end falls on an 8-byte boundary about as often as off one,\n"
            "so about %d boundaries hide in the text; %d are found as likely, which leaves about %d among the %d unknown\n"
@@ -1775,6 +1931,8 @@ int main(int argc, char **argv) {
     printf("\n");
     analyse_statics();
     analyse_items();
+    analyse_calls();
+    analyse_data_order();
     analyse_rodata();
     if (verbose) print_function_map();
     print_result();
