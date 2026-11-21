@@ -128,7 +128,6 @@ siLockMade = 0x80057800;
 gameMode = 0x800BCD54;
 openingFrame = 0x800B3994;
 openingFrames = 0x800B6198;
-openingPath = 0x8005EB48;
 solveRow = 0x800B61B8;
 solveCol = 0x800BCCF4;
 curLetter = 0x800B61B5;

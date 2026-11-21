@@ -202,21 +202,13 @@
 0x8005C948	0x8005C958	data	ConfettiProc	s32[4]	used by ConfettiProc; 0 pointer words, 0 zero words
 0x8005C958	0x8005C95C	data	ConfettiProc	f32	used by ConfettiProc; 0 pointer words, 0 zero words
 0x8005C95C	0x8005C960	data	ConfettiProc	f32	used by ConfettiProc; 0 pointer words, 0 zero words
-0x8005C960	0x8005EB44	data	new:campath_8005C960	camera_t[241]	views[15].path points here with count 241; a data-only object: 8-aligned, closed by stale fill
 0x8005EB44	0x8005EB48	fill	-	-	stale bytes ("rJan") to an 8-byte boundary: fill between camera-path objects
-0x8005EB48	0x800650AC	data	new:campath_8005EB48	camera_t[721]	used by wof_camera (the opening's move); a data-only object closed by stale fill
 0x800650AC	0x800650B0	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
-0x800650B0	0x80067294	data	new:campath_800650B0	camera_t[241]	views[11].path points here with count 241; a data-only object
 0x80067294	0x80067298	fill	-	-	stale bytes (00000100) to an 8-byte boundary: fill between camera-path objects
-0x80067298	0x80067F64	data	new:campath_80067298	camera_t[91]	nothing points here: a camera move no view uses; 91 frames of camera_t between two paths' fill (up vector 0,0,1 closes it as it closes the others)
 0x80067F64	0x80067F68	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
-0x80067F68	0x80068C34	data	new:campath_80067F68	camera_t[91]	views[14].path points here with count 91; a data-only object
 0x80068C34	0x80068C38	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
-0x80068C38	0x80069904	data	new:campath_80068C38	camera_t[91]	views[13].path points here with count 91; a data-only object
 0x80069904	0x80069908	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
-0x80069908	0x8006C35C	data	new:campath_80069908	camera_t[301]	views[12].path points here with count 301; a data-only object
 0x8006C35C	0x8006C360	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
-0x8006C360	0x8006DCD4	data	new:campath_8006C360	camera_t[181]	views[16].path points here with count 181; a data-only object
 0x8006DCD4	0x8006DCD8	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
 0x8006DCD8	0x8006DCE8	data	new:data_8006DCD8	s32[4]	used by InitMemStack; 4 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue; the header declares one s32, the item runs to the next one
 0x8006DCE8	0x8006DCEC	data	new:data_8006DCD8	s32	used by InitMemStack; 1 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue

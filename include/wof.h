@@ -860,7 +860,14 @@ extern s32 D_8005C90C[];
 extern s32 confettiTextures[];
 extern f32 confettiGravity;
 extern f32 confettiDrag;
+extern camera_t D_8005C960[];
 extern camera_t openingPath[];
+extern camera_t D_800650B0[];
+extern camera_t D_80067298[];   // a move no view plays
+extern camera_t D_80067F68[];
+extern camera_t D_80068C38[];
+extern camera_t D_80069908[];
+extern camera_t D_8006C360[];
 extern s32 memEnd;
 extern s32 memStart;
 extern s32 staticRom;

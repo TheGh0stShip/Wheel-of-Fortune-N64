@@ -978,9 +978,6 @@ static void value(Buf *b, u32 a, const Type *t, int indent) {
     if (t->kind == T_STRUCT || t->kind == T_UNION) {
         int i, nm = t->kind == T_UNION && t->nmembers ? 1 : t->nmembers;
         Buf inner = { 0 };
-        int nested = 0;
-        for (i = 0; i < nm; i++)
-            if (!is_scalar(t->members[i].type)) nested = 1;
         put(&inner, "{");
         for (i = 0; i < nm; i++) {
             const Member *m = &t->members[i];
@@ -1000,14 +997,30 @@ static void value(Buf *b, u32 a, const Type *t, int indent) {
             if (i + 1 < nm) put(&inner, ",");
         }
         put(&inner, " }");
-        if (!nested || inner.len + indent * 4 < 100) {
+        if (!strchr(inner.s, '\n') && inner.len + indent * 4 + 1 <= 100) {
             put(b, inner.s);
-        } else { /* one member a line */
+        } else { /* members on lines of up to 100 columns, an aggregate member on a line of its own */
+            u32 col = 0;
             put(b, "{");
             for (i = 0; i < nm; i++) {
-                newline(b, indent + 1);
-                value(b, a + t->members[i].offset, t->members[i].type, indent + 1);
-                if (i + 1 < nm) put(b, ",");
+                const Member *m = &t->members[i];
+                if (is_scalar(m->type) && !m->bits) {
+                    scalar_text(a + m->offset, m->type, tmp, sizeof tmp);
+                    if (!col || col + strlen(tmp) + 2 > 100) {
+                        newline(b, indent + 1);
+                        col = (indent + 1) * 4;
+                    } else {
+                        put(b, " ");
+                        col++;
+                    }
+                    put(b, tmp);
+                    col += strlen(tmp);
+                } else {
+                    newline(b, indent + 1);
+                    value(b, a + m->offset, m->type, indent + 1);
+                    col = 0;
+                }
+                if (i + 1 < nm) put(b, ","), col++;
             }
             newline(b, indent);
             put(b, "}");
