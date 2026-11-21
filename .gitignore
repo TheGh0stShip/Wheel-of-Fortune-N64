@@ -1,4 +1,5 @@
-/build/
+/build/*
+!/build/report.json
 __pycache__/
 *.pyc
 *.n64
