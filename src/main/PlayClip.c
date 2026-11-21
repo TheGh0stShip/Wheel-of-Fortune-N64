@@ -15,10 +15,10 @@ void PlayClip(s32 arg0, s32 *arg1, obj_t *arg2, s32 arg3, s32 arg4) {
     D_800B998C = gfxInfo[curGfxInfo].frame.unk_0AC00[arg3];
     SetCameraView(17);
     task = CreatProc(ClipProc, 0x5010000);
-    task->data->data80021744.unk_00 = arg2;
-    task->data->data80021744.unk_24 = movies[arg0].unk_04;
-    task->data->data80021744.unk_10 = arg3;
-    task->data->data80021744.unk_20 = arg4;
+    task->data->clipPlay.obj = arg2;
+    task->data->clipPlay.sound = movies[arg0].unk_04;
+    task->data->clipPlay.slot = arg3;
+    task->data->clipPlay.event = arg4;
     movieMemMark = PushMemStack();
     movieDone = 0;
     sp18 = LoadMovie(arg0);

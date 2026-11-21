@@ -15,7 +15,7 @@ void UpdateMovie(proc_t *proc) {
     base = 0x2000000;
     diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_19C00);
     diff = diff - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
-    proc->data->data80021548.unk_00->image = base + diff;
+    proc->data->moviePlay.obj->image = base + diff;
     if (movieDone == 0) {
         movieDone = func_8009D244();
     }

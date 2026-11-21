@@ -25,7 +25,7 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
             }
             ProcPostMessage(task, 22, 0);
             letterImages[proc->data->cursor.index].unk_10 = 1;
-            proc->data->cursor.unk_0C = 0;
+            proc->data->cursor.delay = 0;
             result.w[0] = 45 / frameRetraces;
             return result;
         case 25:
@@ -79,7 +79,7 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
     if ((buttonsPressed & 0xA000) != 0) {
         if (CountSolveBlanks() != 0) {
             ResetSolveTimer();
-            proc->data->cursor.unk_0C = 15;
+            proc->data->cursor.delay = 15;
             ProcPostMessage(task, 17, 0);
         } else {
             task = FindProc(0x7030000, -1);
@@ -96,7 +96,7 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
         }
         return result;
     }
-    if (proc->data->cursor.unk_0C <= 0) {
+    if (proc->data->cursor.delay <= 0) {
         if ((playerPad.button & 2048) != 0) {
             MoveCursorUp(proc);
             ProcPostMessage(task, 22, 0);
@@ -122,14 +122,14 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
             MoveCursorUp(proc);
             ProcPostMessage(task, 22, 0);
         } else if ((playerPad.button & 0x8010) != 0) {
-            proc->data->cursor.unk_0C = 15;
+            proc->data->cursor.delay = 15;
             ProcPostMessage(task, 17, 0);
         } else if ((playerPad.button & 0x4020) != 0) {
-            proc->data->cursor.unk_0C = 15;
+            proc->data->cursor.delay = 15;
             ProcPostMessage(task, 18, 0);
         }
     } else {
-        proc->data->cursor.unk_0C -= frameRetraces;
+        proc->data->cursor.delay -= frameRetraces;
     }
     if (proc->data->cursor.index < 0) {
         proc->data->cursor.index = 25;

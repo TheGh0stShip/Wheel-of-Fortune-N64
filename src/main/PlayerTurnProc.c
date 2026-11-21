@@ -23,7 +23,7 @@ struct procResult_s PlayerTurnProc(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 38:
-            PlaySound(players[curPlayer].unk_10C);
+            PlaySound(players[curPlayer].freeSpinSound);
             players[curPlayer].freeSpin = 0;
             task = FindProc(0x5000000, -1);
             ProcPostMessage(task, 24, 0);

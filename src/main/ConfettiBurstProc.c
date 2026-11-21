@@ -15,23 +15,23 @@ struct procResult_s ConfettiBurstProc(proc_t *proc) {
         }
         switch (sp30) {
         case 8:
-            proc->data->data800345E8.unk_04 = 10;
+            proc->data->confettiBurst.countdown = 10;
             break;
         }
     }
-    proc->data->data800345E8.unk_04--;
-    if (proc->data->data800345E8.unk_04 < 0) {
-        if (proc->data->data800345E8.unk_04 < -40) {
+    proc->data->confettiBurst.countdown--;
+    if (proc->data->confettiBurst.countdown < 0) {
+        if (proc->data->confettiBurst.countdown < -40) {
             sp20.w[1] = 0;
             sp20.w[0] = 1;
             return sp20;
         }
-        if (proc->data->data800345E8.unk_04 >= -9) {
+        if (proc->data->confettiBurst.countdown >= -9) {
             AddConfetti(80, 150, 60, 80, 30, 10, 2, 1);
         } else {
             AddConfetti(80, 150, 60, 80, 30, 10, 2, 1);
             sp20.w[1] = 1;
-            sp20.w[0] = ((guRandom() % -1) * proc->data->data800345E8.unk_04) / frameRetraces;
+            sp20.w[0] = ((guRandom() % -1) * proc->data->confettiBurst.countdown) / frameRetraces;
             return sp20;
         }
     } else {

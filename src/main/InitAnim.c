@@ -15,7 +15,7 @@ void InitAnim(s32 arg0, s32 arg1) {
     if (kind >= 6) {
         func_80009F38("InitAnim: invalid contestant number");
     }
-    if (contestantClips[kind][arg0].unk_18 == 0) {
+    if (contestantClips[kind][arg0].pictures == 0) {
         return;
     }
     obj = FindObj(arg1 | 0xA020000, -1);
@@ -27,9 +27,9 @@ void InitAnim(s32 arg0, s32 arg1) {
         KillProc(task, 0);
     }
     task = CreatProc(AnimProc, arg1 | 0xA000300);
-    task->data->anim.unk_04 = arg1;
-    task->data->anim.unk_08 = contestantClips[kind][arg0].unk_18;
-    task->data->anim.unk_18 = contestantClips[kind][arg0].count;
-    task->data->anim.unk_1C = contestantClips[kind][arg0].unk_10;
+    task->data->anim.slot = arg1;
+    task->data->anim.pictures = contestantClips[kind][arg0].pictures;
+    task->data->anim.count = contestantClips[kind][arg0].count;
+    task->data->anim.loop = contestantClips[kind][arg0].loop;
     task->data->anim.obj = obj;
 }

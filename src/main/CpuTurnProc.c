@@ -26,7 +26,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 38:
-            PlaySound(players[curPlayer].unk_10C);
+            PlaySound(players[curPlayer].freeSpinSound);
             players[curPlayer].freeSpin = 0;
             /* fallthrough */
         case 3:

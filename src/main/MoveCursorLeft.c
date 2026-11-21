@@ -23,5 +23,5 @@ void MoveCursorLeft(proc_t *proc, s32 arg1) {
         actionImages[proc->data->cursor.index].unk_1C = actionImages[proc->data->cursor.index].unk_14;
     }
     curLetter = proc->data->cursor.index + 65;
-    proc->data->cursor.unk_0C = 15;
+    proc->data->cursor.delay = 15;
 }

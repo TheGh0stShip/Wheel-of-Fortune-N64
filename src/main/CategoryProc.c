@@ -9,7 +9,7 @@ struct procResult_s CategoryProc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    obj = proc->data->data80029098.unk_00;
+    obj = proc->data->categoryShow.obj;
     for (;;) {
         event = ProcGetMessage(proc);
         if (event == 0) {
@@ -21,7 +21,7 @@ struct procResult_s CategoryProc(proc_t *proc) {
                 func_80032B80();
             }
             SetVannaAnim(2);
-            proc->data->data80029098.unk_04 = 0;
+            proc->data->categoryShow.index = 0;
             break;
         case 6:
             if (round == 6) {
@@ -35,7 +35,7 @@ struct procResult_s CategoryProc(proc_t *proc) {
             return result;
         }
     }
-    index = proc->data->data80029098.unk_04;
+    index = proc->data->categoryShow.index;
     if (categoryImages[index].unk_24 == 0 || index >= 22) {
         if (round != 6) {
             PlaySound(curPlayer + 139);
@@ -52,6 +52,6 @@ struct procResult_s CategoryProc(proc_t *proc) {
         index = index % 16;
     }
     obj->image = D_8005BA80[index];
-    proc->data->data80029098.unk_04++;
+    proc->data->categoryShow.index++;
     return result;
 }

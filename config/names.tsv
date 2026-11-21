@@ -735,3 +735,58 @@ pausedMode	global	0x800BED98	invented	the gameMode the pause interrupted
 pausedTime	global	0x800BCA1C	invented	the seconds the last pause lasted, which the timers add to their start
 lastInputTime	global	0x800BEE48	invented	the second a button was last used
 inputCount	global	0x800BED88	invented	cursor moves since PauseProc last looked
+moviePlay_t	type	wof.h	invented	the data of MovieProc
+moviePlay	member	procData_t	invented	the data of MovieProc
+clipPlay_t	type	wof.h	invented	the data of ClipProc
+clipPlay	member	procData_t	invented	the data of ClipProc
+applauseProc_t	type	wof.h	invented	the data of ApplauseProc
+applauseProc	member	procData_t	invented	the data of ApplauseProc
+confettiBurst_t	type	wof.h	invented	the data of ConfettiBurstProc
+confettiBurst	member	procData_t	invented	the data of ConfettiBurstProc
+confetti_t	type	wof.h	invented	the data of ConfettiProc
+confetti	member	procData_t	invented	the data of ConfettiProc
+opening_t	type	wof.h	invented	the data of OpeningProc
+opening	member	procData_t	invented	the data of OpeningProc
+categoryShow_t	type	wof.h	invented	the data of CategoryProc
+categoryShow	member	procData_t	invented	the data of CategoryProc
+jackpotRoll_t	type	wof.h	invented	the data of JackpotRollProc
+jackpotRoll	member	procData_t	invented	the data of JackpotRollProc
+credits_t	type	wof.h	invented	the data of CreditsProc
+credits	member	procData_t	invented	the data of CreditsProc
+obj	member	moviePlay_t	invented	the obj the movie is drawn by
+event	member	moviePlay_t	invented	the event posted when the movie ends
+sound	member	moviePlay_t	invented	the sound played with the movie, if above 0
+obj	member	clipPlay_t	invented	the contestant's obj
+slot	member	clipPlay_t	invented	the picture slot of the frame the clip is decoded into
+event	member	clipPlay_t	invented	the event posted when the clip ends
+sound	member	clipPlay_t	invented	the sound played with the clip, if above 0
+played	member	applauseProc_t	invented	how much of applause has been played
+countdown	member	confettiBurst_t	invented	counts down from 10 a frame; below 0 the burst thins out, below -40 it ends
+obj	member	opening_t	invented	the obj OpeningProc moves
+music	member	opening_t	invented	the slot of the opening's music; the opening ends when it stops
+x	member	opening_t	invented	where the obj starts
+y	member	opening_t	invented
+z	member	opening_t	invented
+obj	member	categoryShow_t	invented	the obj that runs over the category
+index	member	categoryShow_t	invented	the letter of the category shown next
+step	member	jackpotRoll_t	invented	the frame of the roll, to 17
+delay	member	cursor_t	invented	frames until the stick moves the cursor again
+slot	member	anim_t	invented	the picture slot it plays into: the player's number
+pictures	member	anim_t	invented	the decoded frames of the animation
+count	member	anim_t	invented	how many frames
+loop	member	anim_t	invented	0: once, 1: back and forth, 2: over and over
+pictures	member	vannaAnim_t	invented	the decoded frames of the animation
+anim	member	vannaAnim_t	invented	the animation's number
+frame	member	vannaAnim_t	invented	the frame shown
+count	member	vannaAnim_t	invented	how many frames
+loop	member	vannaAnim_t	invented	as loop of anim_t
+mirror	member	vannaAnim_t	invented	-1: the picture is shown mirrored, with lightDir
+loop	member	clip_t	invented	what loop of the animation becomes
+mirror	member	clip_t	invented	what mirror of Vanna's animation becomes
+pictures	member	clip_t	invented	the frames, once they are decoded
+name	member	player_t	invented	the player's name, from defaultNames
+freeSpinSound	member	player_t	invented	the sound the contestant makes on using a free spin
+winSound	member	player_t	invented	the sound the contestant makes on winning the game
+letters	member	voice_t	invented	the first of the contestant's 26 sounds that call the letters
+freeSpinSound	member	voice_t	invented	what freeSpinSound of the player becomes
+winSound	member	voice_t	invented	what winSound of the player becomes

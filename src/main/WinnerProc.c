@@ -16,8 +16,8 @@ struct procResult_s WinnerProc(proc_t *proc) {
             func_80032B10();
             HideOtherContestants();
             applause += 3;
-            if (players[curPlayer].unk_110 > 0) {
-                PlaySound(players[curPlayer].unk_110);
+            if (players[curPlayer].winSound > 0) {
+                PlaySound(players[curPlayer].winSound);
             }
             ret.w[1] = 1;
             ret.w[0] = 45 / frameRetraces;

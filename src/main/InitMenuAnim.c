@@ -10,7 +10,7 @@ void InitMenuAnim(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     if (arg0 >= 6) {
         func_80009F38("InitAnim: invalid animation number");
     }
-    if (menuClips[arg0].unk_18 == 0) {
+    if (menuClips[arg0].pictures == 0) {
         return;
     }
     task = FindProc(arg1 | 0xA000300, -1);
@@ -23,9 +23,9 @@ void InitMenuAnim(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     obj->x = arg2;
     obj->y = arg3;
     obj->z = arg4;
-    task->data->anim.unk_04 = arg1;
-    task->data->anim.unk_08 = menuClips[arg0].unk_18;
-    task->data->anim.unk_18 = menuClips[arg0].count;
-    task->data->anim.unk_1C = menuClips[arg0].unk_10;
+    task->data->anim.slot = arg1;
+    task->data->anim.pictures = menuClips[arg0].pictures;
+    task->data->anim.count = menuClips[arg0].count;
+    task->data->anim.loop = menuClips[arg0].loop;
     task->data->anim.obj = obj;
 }

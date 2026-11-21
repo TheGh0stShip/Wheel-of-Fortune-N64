@@ -11,8 +11,8 @@ struct procResult_s ClipProc(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            if (proc->data->data80021744.unk_24 > 0) {
-                movieSound = proc->data->data80021744.unk_24;
+            if (proc->data->clipPlay.sound > 0) {
+                movieSound = proc->data->clipPlay.sound;
             }
             minRetraces = 8;
             break;
@@ -30,9 +30,9 @@ struct procResult_s ClipProc(proc_t *proc) {
         minRetraces = 0;
         result.w[1] = 0;
         result.w[0] = 1;
-        InitAnim(1, proc->data->data80021744.unk_10);
-        if (proc->data->data80021744.unk_20 != 0) {
-            ProcPostEvent(proc->data->data80021744.unk_20);
+        InitAnim(1, proc->data->clipPlay.slot);
+        if (proc->data->clipPlay.event != 0) {
+            ProcPostEvent(proc->data->clipPlay.event);
         }
     }
     return result;

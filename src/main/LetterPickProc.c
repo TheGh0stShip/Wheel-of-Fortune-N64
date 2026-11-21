@@ -17,7 +17,7 @@ struct procResult_s LetterPickProc(proc_t *proc) {
         case 8:
             InitLetterCursor(proc);
             letterImages[proc->data->cursor.index].unk_10 = 1;
-            proc->data->cursor.unk_0C = 0;
+            proc->data->cursor.delay = 0;
             return result;
         case 23:
             letterImages[proc->data->cursor.index].unk_10 = 0;
@@ -63,7 +63,7 @@ struct procResult_s LetterPickProc(proc_t *proc) {
             return result;
         }
     }
-    if (proc->data->cursor.unk_0C <= 0) {
+    if (proc->data->cursor.delay <= 0) {
         if ((playerPad.button & 0x800) != 0) {
             MoveCursorUp(proc);
         } else if ((playerPad.button & 0x400) != 0) {
@@ -87,7 +87,7 @@ struct procResult_s LetterPickProc(proc_t *proc) {
             }
         }
     } else {
-        proc->data->cursor.unk_0C -= frameRetraces;
+        proc->data->cursor.delay -= frameRetraces;
     }
     if (proc->data->cursor.index < 0) {
         proc->data->cursor.index = 25;

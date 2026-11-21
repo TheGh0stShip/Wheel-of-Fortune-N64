@@ -11,7 +11,7 @@ struct procResult_s AnimProc(proc_t *proc) {
 
     base = 0x2000000;
     sprite = proc->data->anim.obj;
-    index = proc->data->anim.unk_04;
+    index = proc->data->anim.slot;
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
@@ -26,7 +26,7 @@ struct procResult_s AnimProc(proc_t *proc) {
         result.w[0] = 0;
         return result;
     }
-    addr = proc->data->anim.unk_08 + proc->data->anim.frame * ( 64 * 64 );
+    addr = proc->data->anim.pictures + proc->data->anim.frame * ( 64 * 64 );
     SetPicture(addr, index);
     offset = osVirtualToPhysical(&gfxInfo[curGfxInfo].frame.unk_0AC00[index]);
     offset = offset - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
@@ -36,7 +36,7 @@ struct procResult_s AnimProc(proc_t *proc) {
         proc->data->anim.timer %= 4;
         proc->data->anim.frame += proc->data->anim.step;
         if (proc->data->anim.frame < 0) {
-            if (proc->data->anim.unk_1C != 0) {
+            if (proc->data->anim.loop != 0) {
                 proc->data->anim.frame = 1;
                 proc->data->anim.step = 1;
             } else {
@@ -44,11 +44,11 @@ struct procResult_s AnimProc(proc_t *proc) {
                 result.w[0] = 0;
                 return result;
             }
-        } else if (proc->data->anim.frame >= proc->data->anim.unk_18) {
-            if (proc->data->anim.unk_1C == 1) {
-                proc->data->anim.frame = proc->data->anim.unk_18 - 2;
+        } else if (proc->data->anim.frame >= proc->data->anim.count) {
+            if (proc->data->anim.loop == 1) {
+                proc->data->anim.frame = proc->data->anim.count - 2;
                 proc->data->anim.step = -1;
-            } else if (proc->data->anim.unk_1C == 2) {
+            } else if (proc->data->anim.loop == 2) {
                 proc->data->anim.frame = 0;
                 proc->data->anim.step = 1;
             } else {

@@ -98,7 +98,7 @@ struct procResult_s OpeningProc(proc_t *proc) {
     obj_t *obj;
     s32 event;
 
-    obj = proc->data->data8000BEA8.unk_00;
+    obj = proc->data->opening.obj;
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
@@ -136,7 +136,7 @@ struct procResult_s OpeningProc(proc_t *proc) {
         result.w[0] = 2;
         return result;
     }
-    if (IsSoundStopped(proc->data->data8000BEA8.unk_04) != 0 || openingFrame >= 720) {
+    if (IsSoundStopped(proc->data->opening.music) != 0 || openingFrame >= 720) {
         KillOtherProcs(proc);
         InitObjs();
         PopMemStack(1);
@@ -155,9 +155,9 @@ struct procResult_s OpeningProc(proc_t *proc) {
     guTranslateF(mtx, 0, D_800BEE24, 0);
     guRotateRPYF(rot, obj->roll, obj->pitch, obj->heading);
     guMtxCatF(mtx, rot, mtx);
-    obj->x = proc->data->data8000BEA8.unk_0C + mtx[3][0];
-    obj->y = proc->data->data8000BEA8.unk_10 + mtx[3][1];
-    obj->z = proc->data->data8000BEA8.unk_14 + mtx[3][2];
+    obj->x = proc->data->opening.x + mtx[3][0];
+    obj->y = proc->data->opening.y + mtx[3][1];
+    obj->z = proc->data->opening.z + mtx[3][2];
     if (openingFrame >= 721) {
         openingFrame = 720;
     }
@@ -536,9 +536,9 @@ void StartOpening(void) {
     obj->y = -20;
     task = CreatProc(OpeningProc, 0x8000000);
     obj = MakeObj(task, D_01197D78, func_8000D400, 0x8010000);
-    task->data->data8000BEA8.unk_0C = -272.0f;
-    task->data->data8000BEA8.unk_10 = 306.0f;
-    task->data->data8000BEA8.unk_14 = -411.0f;
+    task->data->opening.x = -272.0f;
+    task->data->opening.y = 306.0f;
+    task->data->opening.z = -411.0f;
     obj->x = -272;
     obj->y = 306;
     obj->z = -411;
@@ -546,7 +546,7 @@ void StartOpening(void) {
     obj->pitch = 58.385f;
     obj->heading = -9.848f;
     D_800B61AC = 0;
-    task->data->data8000BEA8.unk_04 = PlaySound(15);
+    task->data->opening.music = PlaySound(15);
     for (i = 0; i < 24; i++) {
         task = CreatProc(func_8000C50C, 0x8010000);
         task->data->data8000C50C.unk_08 = i;

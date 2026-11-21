@@ -10,8 +10,8 @@ void DrawVanna(obj_t *obj, frame_t *frame) {
     if (gameMode == 6) {
         actor = FindProc(0xA000400, -1);
         if (actor != 0) {
-            pixels = actor->data->vannaAnim.unk_08 + actor->data->vannaAnim.unk_10 * ( 64 * 96 );
-            SetVannaPicture(pixels, actor->data->vannaAnim.unk_20 * lightDir);
+            pixels = actor->data->vannaAnim.pictures + actor->data->vannaAnim.frame * ( 64 * 96 );
+            SetVannaPicture(pixels, actor->data->vannaAnim.mirror * lightDir);
         }
     }
     gSPMatrix(glistp++, &D_0113AE28, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);

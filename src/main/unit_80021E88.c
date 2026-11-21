@@ -584,12 +584,12 @@ struct procResult_s RoundsMenuProc(proc_t *proc) {
 }
 
 void SetContestantSounds(s32 player) {
-    players[player].unk_110 = voices[players[player].contestant].unk_14;
-    players[player].letterSounds = voices[players[player].contestant].unk_00;
+    players[player].winSound = voices[players[player].contestant].winSound;
+    players[player].letterSounds = voices[players[player].contestant].letters;
     players[player].unk_100 = voices[players[player].contestant].unk_04;
     players[player].unk_104 = voices[players[player].contestant].unk_08;
     players[player].unk_108 = voices[players[player].contestant].unk_0C;
-    players[player].unk_10C = voices[players[player].contestant].unk_10;
+    players[player].freeSpinSound = voices[players[player].contestant].freeSpinSound;
 }
 
 void ApplyOptions(void) {
@@ -970,7 +970,7 @@ void InitOptions(void) {
         players[i].controller = 4;
         players[i].contestant = i;
         savedContestants[i] = i;
-        StrCopy(players[i].unk_01C, defaultNames[i]);
+        StrCopy(players[i].name, defaultNames[i]);
     }
     count = 0;
     i = 0;

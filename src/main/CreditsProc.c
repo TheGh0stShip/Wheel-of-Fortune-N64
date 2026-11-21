@@ -23,7 +23,7 @@ struct procResult_s CreditsProc(proc_t *proc) {
             }
             ResetMotors();
             MakeScreenObj(0, 0, func_80028064, 0x5050000);
-            proc->data->data8002B318.step = 0;
+            proc->data->credits.step = 0;
             gameMode = 8;
             FreeObjClass(0x5050100, -1);
             KillProcClass(0xA000400, -1, 1);
@@ -49,18 +49,18 @@ struct procResult_s CreditsProc(proc_t *proc) {
             return ret;
         }
     }
-    if (proc->data->data8002B318.step >= 22) {
+    if (proc->data->credits.step >= 22) {
         ProcPostMessage(proc, 46, 0);
         return ret;
     }
     ResetBoard();
-    LoadPuzzle(0, creditsText[proc->data->data8002B318.step]);
-    if (creditsTitles[proc->data->data8002B318.step] != 0) {
-        StrCopy(category, creditsTitles[proc->data->data8002B318.step]);
+    LoadPuzzle(0, creditsText[proc->data->credits.step]);
+    if (creditsTitles[proc->data->credits.step] != 0) {
+        StrCopy(category, creditsTitles[proc->data->credits.step]);
         InitCategory();
     }
     RevealPuzzle();
-    proc->data->data8002B318.step++;
+    proc->data->credits.step++;
     ret.w[0] = 65 / frameRetraces;
     return ret;
 }

@@ -14,8 +14,8 @@ struct procResult_s MovieProc(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            if (proc->data->data80021548.unk_24 > 0) {
-                movieSound = proc->data->data80021548.unk_24;
+            if (proc->data->moviePlay.sound > 0) {
+                movieSound = proc->data->moviePlay.sound;
             }
             minRetraces = 4;
             break;
@@ -33,9 +33,9 @@ struct procResult_s MovieProc(proc_t *proc) {
         ret.w[0] = 1;
         if (movieDone == 2) {
             func_800A4E58(0);
-            PlayMovie(curMovie, proc->data->data80021548.unk_20, proc->data->data80021548.unk_00->x, proc->data->data80021548.unk_00->y);
-        } else if (proc->data->data80021548.unk_20 != 0) {
-            ProcPostEvent(proc->data->data80021548.unk_20);
+            PlayMovie(curMovie, proc->data->moviePlay.event, proc->data->moviePlay.obj->x, proc->data->moviePlay.obj->y);
+        } else if (proc->data->moviePlay.event != 0) {
+            ProcPostEvent(proc->data->moviePlay.event);
         }
     }
     return ret;

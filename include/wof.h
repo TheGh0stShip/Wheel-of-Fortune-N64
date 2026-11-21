@@ -161,13 +161,13 @@ typedef struct obj_s {
 typedef struct {
     /* 0x00 */ obj_t *obj;
     /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s16 *unk_08;         // its pictures: unk_18 of the clip_t
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ s32 unk_10;
+    /* 0x08 */ s16 *pictures;         // its pictures: count of the clip_t
+    /* 0x0C */ s32 anim;
+    /* 0x10 */ s32 frame;
     /* 0x14 */ s32 unk_14;
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ s32 unk_1C;
-    /* 0x20 */ s32 unk_20;
+    /* 0x18 */ s32 count;
+    /* 0x1C */ s32 loop;
+    /* 0x20 */ s32 mirror;
     /* 0x24 */ s32 unk_24;
     /* 0x28 */ s32 unk_28;
 } vannaAnim_t;    // size 0x2C
@@ -236,9 +236,9 @@ typedef struct {
     /* 0x04 */ s32 height;
     /* 0x08 */ s32 count;       // how many pictures; 0: there is no such run
     /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ s16 *unk_18;     // the pictures, once they are decoded
+    /* 0x10 */ s32 loop;
+    /* 0x14 */ s32 mirror;
+    /* 0x18 */ s16 *pictures;     // the pictures, once they are decoded
     /* 0x1C */ s32 movie;       // its number in movies
     /* 0x20 */ s32 *unk_20;     // what D_800B81E4 is while it is decoded
 } clip_t;    // size 0x24
@@ -253,12 +253,12 @@ typedef struct {
 // The sounds of one of the six contestants a player can be: voices[6]. SetContestantSounds copies
 // them into unk_0FC to unk_110 of the player_t, in this order.
 typedef struct {
-    /* 0x00 */ s32 unk_00;      // the first of 26 sounds: the letters, as the contestant calls them
+    /* 0x00 */ s32 letters;      // the first of 26 sounds: the letters, as the contestant calls them
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;      // -1: the contestant has none
+    /* 0x10 */ s32 freeSpinSound;
+    /* 0x14 */ s32 winSound;      // -1: the contestant has none
 } voice_t;    // size 0x18
 
 // One of the three contestants: players[3].
@@ -270,15 +270,15 @@ typedef struct {
     /* 0x010 */ s32 unk_010;
     /* 0x014 */ s32 controller;
     /* 0x018 */ s32 contestant;
-    /* 0x01C */ u8 unk_01C[0x14];
+    /* 0x01C */ u8 name[0x14];
     /* 0x030 */ u8 unk_030[10][0x14];
     /* 0x0F8 */ s32 prize;
     /* 0x0FC */ s32 letterSounds;
     /* 0x100 */ s32 unk_100;
     /* 0x104 */ s32 unk_104;
     /* 0x108 */ s32 unk_108;
-    /* 0x10C */ s32 unk_10C;
-    /* 0x110 */ s32 unk_110;
+    /* 0x10C */ s32 freeSpinSound;
+    /* 0x110 */ s32 winSound;
 } player_t;    // size 0x114
 
 // A frame and the task that draws it: gfxInfo[2], and curGfxInfo says which is in use.
@@ -391,13 +391,13 @@ typedef struct {
 
 // the data of the proc whose handler is OpeningProc
 typedef struct {
-    /* 0x00 */ obj_t *unk_00;
-    /* 0x04 */ s32 unk_04;
+    /* 0x00 */ obj_t *obj;
+    /* 0x04 */ s32 music;
     /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ f32 unk_14;
-} data8000BEA8_t;    // size 0x18
+    /* 0x0C */ f32 x;
+    /* 0x10 */ f32 y;
+    /* 0x14 */ f32 z;
+} opening_t;    // size 0x18
 
 // the data of the proc whose handler is func_8000C310
 typedef struct {
@@ -523,31 +523,31 @@ typedef struct {
 
 // the data of the proc whose handler is ClipProc, created by PlayClip 
 typedef struct {
-    /* 0x00 */ obj_t *unk_00;
+    /* 0x00 */ obj_t *obj;
     /* 0x04 */ u8 unk_04[0xC];
-    /* 0x10 */ s32 unk_10;
+    /* 0x10 */ s32 slot;
     /* 0x14 */ u8 unk_14[0xC];
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ s32 unk_24;
-} data80021744_t;    // size 0x28
+    /* 0x20 */ s32 event;
+    /* 0x24 */ s32 sound;
+} clipPlay_t;    // size 0x28
 
 // the data of the proc whose handler is CategoryProc
 typedef struct {
-    /* 0x00 */ obj_t *unk_00;
-    /* 0x04 */ s32 unk_04;
-} data80029098_t;    // size 0x8
+    /* 0x00 */ obj_t *obj;
+    /* 0x04 */ s32 index;
+} categoryShow_t;    // size 0x8
 
 // the data of the proc whose handler is JackpotRollProc
 typedef struct {
     /* 0x00 */ u8 unk_00[0x10];
-    /* 0x10 */ s32 unk_10;
-} data80029C98_t;    // size 0x14
+    /* 0x10 */ s32 step;
+} jackpotRoll_t;    // size 0x14
 
 // the data of the proc whose handler is CreditsProc
 typedef struct {
     /* 0x00 */ u8 unk_00[0x8];
     /* 0x08 */ s32 step;
-} data8002B318_t;    // size 0xC
+} credits_t;    // size 0xC
 
 
 // The data of the procs that time something out: handlers RoundTimerProc, DemoTimerProc,
@@ -562,15 +562,15 @@ typedef struct {
 // the data of the proc whose handler is ConfettiBurstProc
 typedef struct {
     /* 0x00 */ u8  unk_00[0x4];
-    /* 0x04 */ s32 unk_04;      // counts down from 10, a step a frame
-} data800345E8_t;    // size 0x8
+    /* 0x04 */ s32 countdown;      // counts down from 10, a step a frame
+} confettiBurst_t;    // size 0x8
 
 // the data of the proc whose handler is ApplauseProc
 typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
+    /* 0x04 */ s32 played;
     /* 0x08 */ s32 unk_08;
-} data80033A28_t;    // size 0xC
+} applauseProc_t;    // size 0xC
 
 // The data of the procs that move a cursor over the letters: handlers StatusProc,
 // LetterPickProc and SolvePuzzleProc, and the helpers they share.
@@ -578,28 +578,28 @@ typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 index;
     /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ s32 unk_0C;
+    /* 0x0C */ s32 delay;
 } cursor_t;    // size 0x10
 
 // the data of the proc whose handler is MovieProc, created by PlayMovie
 typedef struct {
-    /* 0x00 */ obj_t *unk_00;
+    /* 0x00 */ obj_t *obj;
     /* 0x04 */ u8 unk_04[0x1C];
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ s32 unk_24;
-} data80021548_t;    // size 0x28
+    /* 0x20 */ s32 event;
+    /* 0x24 */ s32 sound;
+} moviePlay_t;    // size 0x28
 
 // The data of a contestant animation proc (handler AnimProc), which InitAnim creates: the
 // name is from the ROM messages "InitAnim: ..." in InitMenuAnim and InitAnim.
 typedef struct {
     /* 0x00 */ obj_t *obj;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s16 *unk_08;         // its pictures: unk_18 of the clip_t
+    /* 0x04 */ s32 slot;
+    /* 0x08 */ s16 *pictures;         // its pictures: count of the clip_t
     /* 0x0C */ u8 unk_0C[0x4];
     /* 0x10 */ s32 frame;
     /* 0x14 */ u8 unk_14[0x4];
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ s32 unk_1C;
+    /* 0x18 */ s32 count;
+    /* 0x1C */ s32 loop;
     /* 0x20 */ u8 unk_20[0x4];
     /* 0x24 */ s32 step;
     /* 0x28 */ s32 timer;
@@ -616,7 +616,7 @@ typedef struct {
     /* 0x18 */ f32 y;
     /* 0x1C */ f32 vx;
     /* 0x20 */ f32 vy;
-} data80034028_t;    // size 0x24
+} confetti_t;    // size 0x24
 
 // The data block of a proc (unk_30): one of the 0x50-byte blocks of blocks, holding the
 // struct of its kind of proc. A proc that has an obj keeps it in the first word: CreatProc's
@@ -626,7 +626,7 @@ typedef union procData_u {
     obj_t           *obj;
     vannaAnim_t     vannaAnim;
     mainMenu_t      mainMenu;
-    data8000BEA8_t  data8000BEA8;
+    opening_t  opening;
     data8000C310_t  data8000C310;
     data8000C50C_t  data8000C50C;
     data8000C6C4_t  data8000C6C4;
@@ -643,17 +643,17 @@ typedef union procData_u {
     cameraPath_t  cameraPath;
     adjustCamera_t  adjustCamera;
     playerProc_t    playerProc;
-    data80021744_t  data80021744;
-    data80029098_t  data80029098;
-    data80029C98_t  data80029C98;
-    data8002B318_t  data8002B318;
+    clipPlay_t  clipPlay;
+    categoryShow_t  categoryShow;
+    jackpotRoll_t  jackpotRoll;
+    credits_t  credits;
     timer_t         timer;
-    data800345E8_t  data800345E8;
-    data80033A28_t  data80033A28;
+    confettiBurst_t  confettiBurst;
+    applauseProc_t  applauseProc;
     cursor_t        cursor;
-    data80021548_t  data80021548;
+    moviePlay_t  moviePlay;
     anim_t          anim;
-    data80034028_t  data80034028;
+    confetti_t  confetti;
 } procData_t;
 
 //

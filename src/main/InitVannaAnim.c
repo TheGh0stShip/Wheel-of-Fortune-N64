@@ -14,7 +14,7 @@ proc_t *InitVannaAnim(s32 arg0, s32 arg1) {
     } else if (arg0 >= 6) {
         func_80009F38("InitVannaAnim: invalid animation number");
     }
-    if (vannaClips[arg0].unk_18 == 0) {
+    if (vannaClips[arg0].pictures == 0) {
         return 0;
     }
     if (arg1 != 0) {
@@ -24,12 +24,12 @@ proc_t *InitVannaAnim(s32 arg0, s32 arg1) {
     task = CreatProc(VannaAnimProc, 0xA000400);
     child = MakeObj(task, 0, DrawVanna, 0xA030000);
     child->x = D_800B9988;
-    task->data->vannaAnim.unk_0C = id;
-    task->data->vannaAnim.unk_08 = vannaClips[arg0].unk_18;
-    task->data->vannaAnim.unk_18 = vannaClips[arg0].count;
+    task->data->vannaAnim.anim = id;
+    task->data->vannaAnim.pictures = vannaClips[arg0].pictures;
+    task->data->vannaAnim.count = vannaClips[arg0].count;
     task->data->vannaAnim.unk_14 = vannaClips[arg0].unk_0C;
-    task->data->vannaAnim.unk_1C = vannaClips[arg0].unk_10;
-    task->data->vannaAnim.unk_20 = vannaClips[arg0].unk_14;
+    task->data->vannaAnim.loop = vannaClips[arg0].loop;
+    task->data->vannaAnim.mirror = vannaClips[arg0].mirror;
     task->data->vannaAnim.obj = child;
     return task;
 }

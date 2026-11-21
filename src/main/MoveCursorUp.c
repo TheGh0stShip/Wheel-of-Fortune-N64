@@ -25,5 +25,5 @@ void MoveCursorUp(proc_t *proc) {
     proc->data->cursor.index = proc->data->cursor.index - 13;
     letterImages[proc->data->cursor.index].unk_1C = letterImages[proc->data->cursor.index].unk_14;
     curLetter = proc->data->cursor.index + 65;
-    proc->data->cursor.unk_0C = 15;
+    proc->data->cursor.delay = 15;
 }

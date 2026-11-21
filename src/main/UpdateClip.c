@@ -13,10 +13,10 @@ void UpdateClip(proc_t *proc) {
     s32 sp34;
 
     sp34 = 0x2000000;
-    sp10 = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_0AC00[proc->data->data80021744.unk_10]);
+    sp10 = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_0AC00[proc->data->clipPlay.slot]);
     sp10 = sp10 - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
-    proc->data->data80021744.unk_00->image = sp34 + sp10;
-    D_800B998C = gfxInfo[curGfxInfo].frame.unk_0AC00[proc->data->data80021744.unk_10];
+    proc->data->clipPlay.obj->image = sp34 + sp10;
+    D_800B998C = gfxInfo[curGfxInfo].frame.unk_0AC00[proc->data->clipPlay.slot];
     if (movieDone == 0) {
         movieDone = func_8009D244();
     }

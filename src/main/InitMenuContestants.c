@@ -11,8 +11,8 @@ void InitMenuContestants(void) {
     D_800BCA60 = PushMemStack();
     for (i = 0; i < 6; i++) {
         size = menuClips[i].width * menuClips[i].height * 2;
-        menuClips[i].unk_18 = func_8000B924(size * menuClips[i].count);
-        DecodeMovie(menuClips[i].movie, menuClips[i].count, menuClips[i].unk_18, menuClips[i].unk_20);
+        menuClips[i].pictures = func_8000B924(size * menuClips[i].count);
+        DecodeMovie(menuClips[i].movie, menuClips[i].count, menuClips[i].pictures, menuClips[i].unk_20);
     }
     retraceCount = 0;
 }

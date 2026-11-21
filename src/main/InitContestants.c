@@ -24,18 +24,18 @@ void InitContestants(void) {
         for (j = 0; j < 2; j++) {
             if (slots[j].count > 0) {
                 size = slots[j].width * slots[j].height * 2;
-                slots[j].unk_18 = func_8000B924(size * slots[j].count);
-                DecodeMovie(slots[j].movie, slots[j].count, slots[j].unk_18, slots[j].unk_20);
+                slots[j].pictures = func_8000B924(size * slots[j].count);
+                DecodeMovie(slots[j].movie, slots[j].count, slots[j].pictures, slots[j].unk_20);
             } else {
-                slots[j].unk_18 = 0;
+                slots[j].pictures = 0;
             }
         }
     }
     i = 0;
     while (i < 6) {
         size = vannaClips[i].width * vannaClips[i].height * 2;
-        vannaClips[i].unk_18 = func_8000B924(size * vannaClips[i].count);
-        DecodeMovie(vannaClips[i].movie, vannaClips[i].count, vannaClips[i].unk_18, vannaClips[i].unk_20);
+        vannaClips[i].pictures = func_8000B924(size * vannaClips[i].count);
+        DecodeMovie(vannaClips[i].movie, vannaClips[i].count, vannaClips[i].pictures, vannaClips[i].unk_20);
         i++;
     }
     lightDir = 1;

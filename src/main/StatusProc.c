@@ -43,7 +43,7 @@ struct procResult_s StatusProc(proc_t *proc) {
             SetScorePictures(0);
             InitActionCursor(proc);
             actionImages[proc->data->cursor.index].unk_10 = 1;
-            proc->data->cursor.unk_0C = 0;
+            proc->data->cursor.delay = 0;
             return result;
         case 15:
             inputCount++;
@@ -53,7 +53,7 @@ struct procResult_s StatusProc(proc_t *proc) {
             shownJackpot = 0;
             ShowJackpot();
             actionImages[proc->data->cursor.index].unk_10 = 1;
-            proc->data->cursor.unk_0C = 0;
+            proc->data->cursor.delay = 0;
             SetScorePictures(0);
         case 1:
             inputCount++;
@@ -119,7 +119,7 @@ struct procResult_s StatusProc(proc_t *proc) {
     }
     if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
         inputCount++;
-        proc->data->cursor.unk_0C = 0;
+        proc->data->cursor.delay = 0;
         switch (proc->data->cursor.index) {
         case 0:
             if (canSpin != 0) {
@@ -175,14 +175,14 @@ struct procResult_s StatusProc(proc_t *proc) {
     } else if ((buttonsPressed & 0x4000 & 0xFFFF) != 0) {
         return result;
     }
-    if (proc->data->cursor.unk_0C <= 0) {
+    if (proc->data->cursor.delay <= 0) {
         if (playerPad.stick_y >= 41) {
             MoveCursorLeft(proc, 0);
         } else if (playerPad.stick_y < -40) {
             MoveCursorRight(proc, 0, 1);
         }
     } else {
-        proc->data->cursor.unk_0C -= frameRetraces;
+        proc->data->cursor.delay -= frameRetraces;
     }
     if (proc->data->cursor.index < 0) {
         proc->data->cursor.index = 3;
