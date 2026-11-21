@@ -121,7 +121,7 @@ void StartRound(void) {
     canBuyVowel = 0;
     canSolve = 0;
     for (i = 0; i < 3; i++) {
-        players[i].unk_010 = 0;
+        players[i].roundStartZero = 0;
     }
 }
 
@@ -691,33 +691,33 @@ void InitWheel(void) {
             if (prizeTaken != 0) {
                 wedges[i].value = -1;
                 StrCopy(wedges[i].name, "BANKRUPT");
-                wedges[i].unk_18 = 0;
+                wedges[i].special = 0;
                 wedges[i].claimed = 1;
             } else {
                 wedges[i].value = value;
                 StrCopy(wedges[i].name, "10000");
-                wedges[i].unk_18 = 1;
+                wedges[i].special = 1;
             }
         } else if (value < -4) {
             wedges[i].value = value;
             StrCopy(wedges[i].name, "FREE SPIN");
-            wedges[i].unk_18 = 1;
+            wedges[i].special = 1;
         } else if (value == -1) {
             wedges[i].value = -1;
             StrCopy(wedges[i].name, "BANKRUPT");
-            wedges[i].unk_18 = 0;
+            wedges[i].special = 0;
         } else if (value == -2) {
             wedges[i].value = -2;
             StrCopy(wedges[i].name, "LOOSE TURN");
-            wedges[i].unk_18 = 0;
+            wedges[i].special = 0;
         } else if (value == -3) {
             wedges[i].value = -3;
             StrCopy(wedges[i].name, "JACKPOT");
-            wedges[i].unk_18 = 1;
+            wedges[i].special = 1;
         } else {
             wedges[i].value = value;
             IntToStr(wedges[i].name, value);
-            wedges[i].unk_18 = 0;
+            wedges[i].special = 0;
         }
         i++;
     }
@@ -735,13 +735,13 @@ void ClaimWedge(void) {
     if (wedges[curWedge].value == -10000) {
         wedges[curWedge].value = -1;
         StrCopy(wedges[curWedge].name, "BANKRUPT");
-        wedges[curWedge].unk_18 = 0;
+        wedges[curWedge].special = 0;
         wedges[curWedge].claimed = 1;
         return;
     }
     wedges[curWedge].value = wedges[curWedge].value * -1;
     IntToStr(wedges[curWedge].name, wedges[curWedge].value);
-    wedges[curWedge].unk_18 = 0;
+    wedges[curWedge].special = 0;
     wedges[curWedge].claimed = 1;
 }
 
@@ -835,19 +835,19 @@ void ClearScores(void) {
     players[0].total = 0;
     players[0].prize = 0;
     for (i = 0; i < 10; i++) {
-        StrCopy(players[0].unk_030[i], "0");
+        StrCopy(players[0].scoreStrings[i], "0");
     }
     players[1].score = 0;
     players[1].total = 0;
     players[1].prize = 0;
     for (i = 0; i < 10; i++) {
-        StrCopy(players[1].unk_030[i], "0");
+        StrCopy(players[1].scoreStrings[i], "0");
     }
     players[2].score = 0;
     players[2].total = 0;
     players[2].prize = 0;
     for (i = 0; i < 10; i++) {
-        StrCopy(players[2].unk_030[i], "0");
+        StrCopy(players[2].scoreStrings[i], "0");
     }
 }
 

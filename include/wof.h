@@ -93,11 +93,11 @@ typedef struct {
     /* 0x01A40 */ Mtx translate[100];
     /* 0x03340 */ Mtx rotate[100];
     /* 0x04C40 */ u8  unk_04C40[0x40];
-    /* 0x04C80 */ Mtx unk_04C80;
+    /* 0x04C80 */ Mtx hubRotate;
     /* 0x04CC0 */ Gfx glist[3048];
-    /* 0x0AC00 */ s16 unk_0AC00[6][64 * 64];    // six pictures of 64 by 64
-    /* 0x16C00 */ s16 unk_16C00[64 * 96];
-    /* 0x19C00 */ s16 unk_19C00[0x2400];        // each screen lays out its own pictures here
+    /* 0x0AC00 */ s16 clipPictures[6][64 * 64];    // six pictures of 64 by 64
+    /* 0x16C00 */ s16 vannaPicture[64 * 96];
+    /* 0x19C00 */ s16 moviePicture[0x2400];        // each screen lays out its own pictures here
 } frame_t;  // size 0x1E400
 
 // What a proc's handler returns to DoProcs: w[1] says what becomes of the proc (0: it ends,
@@ -127,8 +127,8 @@ typedef struct proc_s {
     /* 0x18 */ s32              count;          // messages waiting in items
     /* 0x1C */ s32              items[5];
     /* 0x30 */ union procData_u *data;          // its data block, from AllocBlock
-    /* 0x34 */ s32              unk_34;
-    /* 0x38 */ s32              unk_38;
+    /* 0x34 */ s32              creatZero1;     // CreatProc zeroes it and creatZero2; nothing reads them
+    /* 0x38 */ s32              creatZero2;
     /* 0x3C */ u8               unk_3C[0x4];
     /* 0x40 */ struct proc_s    *next;
 } proc_t;   // size 0x44
@@ -160,16 +160,16 @@ typedef struct obj_s {
 // the data of the proc that animates Vanna (InitVannaAnim creates it)
 typedef struct {
     /* 0x00 */ obj_t *obj;
-    /* 0x04 */ s32 unk_04;
+    /* 0x04 */ s32 slot;   // as anim_t.slot: VannaAnimProc reads it, nothing sets it
     /* 0x08 */ s16 *pictures;         // its pictures: count of the clip_t
     /* 0x0C */ s32 anim;
     /* 0x10 */ s32 frame;
-    /* 0x14 */ s32 unk_14;
+    /* 0x14 */ s32 frameTime;      // retraces a picture shows
     /* 0x18 */ s32 count;
     /* 0x1C */ s32 loop;
     /* 0x20 */ s32 mirror;
-    /* 0x24 */ s32 unk_24;
-    /* 0x28 */ s32 unk_28;
+    /* 0x24 */ s32 step;
+    /* 0x28 */ s32 timer;
 } vannaAnim_t;    // size 0x2C
 
 // A picture DrawImageAt draws: where it goes and how big it is. The tables of them start at
@@ -191,9 +191,9 @@ typedef struct {
 // One of the MPEG movies on the cartridge: movies[38]. LoadMovie loads one.
 typedef struct {
     /* 0x00 */ s32 rom;         // where it is on the cartridge
-    /* 0x04 */ s32 unk_04;      // if above 0, the proc that plays the movie puts it in movieSound
+    /* 0x04 */ s32 sound;      // if above 0, the proc that plays the movie puts it in movieSound
     /* 0x08 */ s32 *size;       // points at its size in bytes, less one
-    /* 0x0C */ s32 unk_0C;      // 1, 2 or 3: what mpegStart is told about it
+    /* 0x0C */ s32 gamma;      // 1, 2 or 3: what mpegStart is told about it
 } movie_t;    // size 0x10
 
 // One line of a menu: a label, and options of which one is chosen. A line holds numbers of
@@ -222,7 +222,7 @@ typedef struct {
 // The picture of a letter of the alphabet as BonusRoundProc shows the letter chosen:
 // bonusLetterImages[26].
 typedef struct {
-    /* 0x00 */ u16 *unk_00;     // what texture of the image_t becomes
+    /* 0x00 */ u16 *texture;     // what texture of the image_t becomes
     /* 0x04 */ s32 width;
     /* 0x08 */ s32 height;
 } letterImage_t;    // size 0xC
@@ -235,28 +235,28 @@ typedef struct {
     /* 0x00 */ s32 width;
     /* 0x04 */ s32 height;
     /* 0x08 */ s32 count;       // how many pictures; 0: there is no such run
-    /* 0x0C */ s32 unk_0C;
+    /* 0x0C */ s32 frameTime;   // retraces a picture shows: VannaAnimProc uses it, AnimProc takes 4
     /* 0x10 */ s32 loop;
     /* 0x14 */ s32 mirror;
     /* 0x18 */ s16 *pictures;     // the pictures, once they are decoded
     /* 0x1C */ s32 movie;       // its number in movies
-    /* 0x20 */ s32 *unk_20;     // what curMask is while it is decoded
+    /* 0x20 */ s32 *mask;     // what curMask is while it is decoded
 } clip_t;    // size 0x24
 
 // three coordinates: where InitMenuAnim puts a contestant's obj
 typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
+    /* 0x00 */ s32 x;
+    /* 0x04 */ s32 y;
+    /* 0x08 */ s32 z;
 } vec_t;    // size 0xC
 
 // The sounds of one of the six contestants a player can be: voices[6]. SetContestantSounds copies
-// them into unk_0FC to unk_110 of the player_t, in this order.
+// them into letterSounds to winSound of the player_t, in this order.
 typedef struct {
     /* 0x00 */ s32 letters;      // the first of 26 sounds: the letters, as the contestant calls them
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
+    /* 0x04 */ s32 spinSound;
+    /* 0x08 */ s32 buyVowelSound;
+    /* 0x0C */ s32 solveSound;
     /* 0x10 */ s32 freeSpinSound;
     /* 0x14 */ s32 winSound;      // -1: the contestant has none
 } voice_t;    // size 0x18
@@ -267,16 +267,16 @@ typedef struct {
     /* 0x004 */ s32 total;
     /* 0x008 */ s32 freeSpin;
     /* 0x00C */ s32 hasPrize;
-    /* 0x010 */ s32 unk_010;
+    /* 0x010 */ s32 roundStartZero;   // StartRound zeroes it; nothing reads it
     /* 0x014 */ s32 controller;
     /* 0x018 */ s32 contestant;
     /* 0x01C */ u8 name[0x14];
-    /* 0x030 */ u8 unk_030[10][0x14];
+    /* 0x030 */ u8 scoreStrings[10][0x14];   // ClearScores sets each to "0"; nothing reads them
     /* 0x0F8 */ s32 prize;
     /* 0x0FC */ s32 letterSounds;
-    /* 0x100 */ s32 unk_100;
-    /* 0x104 */ s32 unk_104;
-    /* 0x108 */ s32 unk_108;
+    /* 0x100 */ s32 spinSound;
+    /* 0x104 */ s32 buyVowelSound;
+    /* 0x108 */ s32 solveSound;
     /* 0x10C */ s32 freeSpinSound;
     /* 0x110 */ s32 winSound;
 } player_t;    // size 0x114
@@ -340,15 +340,15 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s32 value;
     /* 0x04 */ s8 name[0x14];
-    /* 0x18 */ s32 unk_18;
+    /* 0x18 */ s32 special;      // 1 on 10000, FREE SPIN, JACKPOT until claimed; unread
     /* 0x1C */ s32 claimed;
 } wedge_t;    // size 0x20
 
 // The display lists of one wedge of the wheel. wedgeDls[7] points at the 24 of each kind of
 // round.
 typedef struct {
-    /* 0x00 */ Gfx *unk_00;
-    /* 0x04 */ Gfx *unk_04;     // if not 0, drawn in its place once the wedge is claimed
+    /* 0x00 */ Gfx *dl;
+    /* 0x04 */ Gfx *claimedDl;     // if not 0, drawn in its place once the wedge is claimed
 } wedgeDl_t;    // size 0x8
 
 // One puzzle of the built-in list: puzzles[].
@@ -438,16 +438,16 @@ typedef struct {
 
 // the data of the proc whose handler is WheelStopProc, created by TurnWheel
 typedef struct {
-    /* 0x00 */ obj_t *unk_00;   // NOTE: no obj is made for this proc; the handler reads it all the same
-    /* 0x04 */ s32 unk_04;
+    /* 0x00 */ obj_t *obj;   // NOTE: no obj is made for this proc; the handler reads it all the same
+    /* 0x04 */ s32 was3500;     // WheelStopProc sets it when the wedge is worth 3500; unread
 } wheelStop_t;    // size 0x8
 
 // The data of the proc whose handler is WheelSpinProc, which ends each frame in TurnWheel
 // on the same data. SpinProc, CpuSpinProc and FinalSpinProc create it and put the obj
-// of class 0x401 in unk_00.
+// of class 0x401 in wheel.
 typedef struct {
     /* 0x00 */ obj_t *wheel;
-    /* 0x04 */ s32 unk_04;
+    /* 0x04 */ s32 spinStartZero;   // WheelSpinProc zeroes it as the spin starts; unread
     /* 0x08 */ u8 unk_08[0x4];
     /* 0x0C */ f32 speed;
     /* 0x10 */ f32 lastSpeed;
@@ -462,16 +462,16 @@ typedef struct {
 
 // the data of the proc whose handler is WheelLightsProc
 typedef struct {
-    /* 0x00 */ obj_t *unk_00;
+    /* 0x00 */ obj_t *obj;
     /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
+    /* 0x08 */ s32 frames;
 } wheelLights_t;    // size 0xC
 
 // the data of the proc whose handler is BaseLightsProc
 typedef struct {
-    /* 0x00 */ obj_t *unk_00;
+    /* 0x00 */ obj_t *obj;
     /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
+    /* 0x08 */ s32 frames;
 } baseLights_t;    // size 0xC
 
 // the data of the proc whose handler is LightLetterProc
@@ -479,7 +479,7 @@ typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 row;
     /* 0x08 */ s32 col;
-    /* 0x0C */ s32 unk_0C;
+    /* 0x0C */ s32 vannaStarted;   // set once SetVannaAnim(0) has started her walk
     /* 0x10 */ u8 letter;
 } lightLetter_t;    // size 0x14
 
@@ -494,7 +494,7 @@ typedef struct {
 
 // the data of the proc whose handler is CameraPathProc, created by SetView
 typedef struct {
-    /* 0x00 */ obj_t *unk_00;   // NOTE: no obj is made for this proc; the handler reads it all the same
+    /* 0x00 */ obj_t *obj;   // NOTE: no obj is made for this proc; the handler reads it all the same
     /* 0x04 */ u8 unk_04[0x4];
     /* 0x08 */ camera_t *path;    // the move it plays
     /* 0x0C */ s32 frame;          // the frame it is at
@@ -509,7 +509,7 @@ typedef struct {
 
 // The data of a player proc: the proc of a turn, whose handler is PlayerTurnProc for a person
 // and CpuTurnProc for the machine, and the procs a turn makes for its steps, to which it
-// copies player, and from CpuTurnProc unk_0C as well, through this struct: RoundOverProc,
+// copies player, and from CpuTurnProc skill as well, through this struct: RoundOverProc,
 // SpinProc, BuyVowelProc, SolveProc, FinalSpinTurnProc, CpuSpinProc, CpuBuyVowelProc,
 // CpuSolveProc and CpuFinalSpinTurnProc. RoundOverProc is made by both kinds of turn. The name is
 // from the ROM message "Status Proc: player proc does not exist", which StatusProc prints
@@ -569,7 +569,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ s32 played;
-    /* 0x08 */ s32 unk_08;
+    /* 0x08 */ s32 startZero;   // ApplauseProc zeroes it on its first run; unread
 } applauseProc_t;    // size 0xC
 
 // The data of the procs that move a cursor over the letters: handlers StatusProc,
@@ -618,7 +618,7 @@ typedef struct {
     /* 0x20 */ f32 vy;
 } confetti_t;    // size 0x24
 
-// The data block of a proc (unk_30): one of the 0x50-byte blocks of blocks, holding the
+// The data block of a proc (data): one of the 0x50-byte blocks of blocks, holding the
 // struct of its kind of proc. A proc that has an obj keeps it in the first word: CreatProc's
 // callers that make the obj (MakeObj, MakeScreenObj) store it there for every kind.
 // guess: a union, which the bytes do not tell from a cast at each use.

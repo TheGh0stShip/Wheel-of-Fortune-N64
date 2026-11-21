@@ -102,9 +102,9 @@ void ReadControllers(void) {
     u16 i;
     s32 j;
     u16 buttons;
-    u16 sp1E;
+    u16 one;  /* NOTE: set to 1 and never read */
 
-    sp1E = 1;
+    one = 1;
     osContGetReadData(contPads);
     i = 0;
     while (i < 4) {

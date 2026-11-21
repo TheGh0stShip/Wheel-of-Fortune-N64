@@ -102,12 +102,12 @@ The machine decides to solve, spin or buy a vowel.
 */
 void CpuChooseAction(proc_t *proc) {
     proc_t *task;
-    s32 sp14;
+    s32 zero;  /* NOTE: set to 0 and never read */
     f32 score;
     f32 roll;
     f32 done;
 
-    sp14 = 0;
+    zero = 0;
     done = CheckPercentDone();
     task = FindProc(0x5000000, -1);
     if (canSolve != 0) {
@@ -690,7 +690,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
             return ret;
         case 12:
             if (guRandom() % 100 < 33) {
-                PlaySound(players[curPlayer].unk_100);
+                PlaySound(players[curPlayer].spinSound);
             }
             jackpotWon = 0;
             task = FindProc(0x5000000, -1);
@@ -702,7 +702,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
             ret.w[0] = 3;
             return ret;
         case 13:
-            PlaySound(players[curPlayer].unk_104);
+            PlaySound(players[curPlayer].buyVowelSound);
             jackpotWon = 0;
             task = FindProc(0x5000000, -1);
             ProcPostMessage(task, 23, 0);
@@ -713,7 +713,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
             ret.w[0] = 9;
             return ret;
         case 14:
-            PlaySound(players[curPlayer].unk_108);
+            PlaySound(players[curPlayer].solveSound);
             task = FindProc(0x5000000, -1);
             ProcPostMessage(task, 23, 0);
             task = CreatProc(CpuSolveProc, proc->data->playerProc.player | 0x2000300);

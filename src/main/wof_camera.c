@@ -74,7 +74,7 @@ struct procResult_s CameraPathProc(proc_t *proc) {
     struct procResult_s result;
     obj_t *obj;
 
-    obj = proc->data->cameraPath.unk_00;
+    obj = proc->data->cameraPath.obj;
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {

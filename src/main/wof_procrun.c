@@ -76,8 +76,8 @@ proc_t *CreatProc(procHandler_t handler, s32 cls) {
     task->items[0] = 8;
     task->count = 1;
     task->next = 0;
-    task->unk_34 = 0;
-    task->unk_38 = 0;
+    task->creatZero1 = 0;
+    task->creatZero2 = 0;
     task->data = AllocBlock(task->id);
     return task;
 }

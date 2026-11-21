@@ -360,7 +360,7 @@ struct procResult_s WheelStopProc(proc_t *proc) {
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    obj = proc->data->wheelStop.unk_00;
+    obj = proc->data->wheelStop.obj;
     ret.w[1] = 1;
     ret.w[0] = 0;
     while ((event = ProcGetMessage(proc)) != 0) {
@@ -379,7 +379,7 @@ struct procResult_s WheelStopProc(proc_t *proc) {
                 applause++;
                 break;
             case 3500:
-                proc->data->wheelStop.unk_04 = 1;
+                proc->data->wheelStop.was3500 = 1;
                 applause++;
                 ProcPostMessage(proc, 41, 0);
                 ret.w[1] = 1;
@@ -461,7 +461,7 @@ struct procResult_s WheelSpinProc(proc_t *proc) {
             StartWheelLights();
             PlayContestantAnims();
             SetVannaAnim(1);
-            proc->data->wheelSpin.unk_04 = 0;
+            proc->data->wheelSpin.spinStartZero = 0;
             applause++;
             ProcPostMessage(proc, 41, 0);
             return TurnWheel(proc);
@@ -542,7 +542,7 @@ struct procResult_s WheelLightsProc(proc_t *proc) {
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    obj = proc->data->wheelLights.unk_00;
+    obj = proc->data->wheelLights.obj;
     for (;;) {
         event = ProcGetMessage(proc);
         if (event == 0) {
@@ -550,7 +550,7 @@ struct procResult_s WheelLightsProc(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            proc->data->wheelLights.unk_08 = 0;
+            proc->data->wheelLights.frames = 0;
             obj->dl = D_011358C0;
             break;
         case 2:
@@ -560,9 +560,9 @@ struct procResult_s WheelLightsProc(proc_t *proc) {
             return result;
         }
     }
-    proc->data->wheelLights.unk_08 = proc->data->wheelLights.unk_08 + frameRetraces;
-    if (proc->data->wheelLights.unk_08 >= 6) {
-        proc->data->wheelLights.unk_08 = 0;
+    proc->data->wheelLights.frames = proc->data->wheelLights.frames + frameRetraces;
+    if (proc->data->wheelLights.frames >= 6) {
+        proc->data->wheelLights.frames = 0;
         if (obj->dl == D_011358C0) {
             obj->dl = D_01135908;
         } else {
@@ -588,11 +588,11 @@ struct procResult_s BaseLightsProc(proc_t *proc) {
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    sprite = proc->data->baseLights.unk_00;
+    sprite = proc->data->baseLights.obj;
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            proc->data->baseLights.unk_08 = 0;
+            proc->data->baseLights.frames = 0;
             sprite->dl = D_01136108;
             break;
         case 2:
@@ -602,9 +602,9 @@ struct procResult_s BaseLightsProc(proc_t *proc) {
             return result;
         }
     }
-    proc->data->baseLights.unk_08 = proc->data->baseLights.unk_08 + frameRetraces;
-    if (proc->data->baseLights.unk_08 >= 6) {
-        proc->data->baseLights.unk_08 = 0;
+    proc->data->baseLights.frames = proc->data->baseLights.frames + frameRetraces;
+    if (proc->data->baseLights.frames >= 6) {
+        proc->data->baseLights.frames = 0;
         if (sprite->dl == D_01136080) {
             sprite->dl = D_01136108;
         } else {
@@ -635,7 +635,7 @@ struct procResult_s LightLetterProc(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            proc->data->lightLetter.unk_0C = 0;
+            proc->data->lightLetter.vannaStarted = 0;
             proc->data->lightLetter.row = 0;
             if (lightDir == 1) {
                 proc->data->lightLetter.col = 0;
@@ -661,16 +661,16 @@ struct procResult_s LightLetterProc(proc_t *proc) {
     letter = proc->data->lightLetter.letter;
     col = proc->data->lightLetter.col;
     startRow = proc->data->lightLetter.row;
-    if (proc->data->lightLetter.unk_0C == 0) {
+    if (proc->data->lightLetter.vannaStarted == 0) {
         if (lightDir == 1) {
             if (col >= 7) {
                 SetVannaAnim(0);
-                proc->data->lightLetter.unk_0C = 1;
+                proc->data->lightLetter.vannaStarted = 1;
             }
         } else {
             if (col < 7) {
                 SetVannaAnim(0);
-                proc->data->lightLetter.unk_0C = 1;
+                proc->data->lightLetter.vannaStarted = 1;
             }
         }
     }
@@ -708,9 +708,9 @@ struct procResult_s LightLetterProc(proc_t *proc) {
         }
         col = col + lightDir;
     }
-    if (proc->data->lightLetter.unk_0C == 0) {
+    if (proc->data->lightLetter.vannaStarted == 0) {
         SetVannaAnim(0);
-        proc->data->lightLetter.unk_0C = 1;
+        proc->data->lightLetter.vannaStarted = 1;
     }
     ret.w[1] = 2;
     ret.w[0] = 49;
@@ -1570,10 +1570,10 @@ void DrawWheel(obj_t *obj, frame_t *frame) {
         gSPLightColor(glistp++, LIGHT_1, 0xC8C8C8FF);
         i = 0;
         while (i < 24) {
-            if (wedges[i].claimed != 0 && wedgeDls[round][i].unk_04 != 0) {
-                gSPDisplayList(glistp++, wedgeDls[round][i].unk_04);
+            if (wedges[i].claimed != 0 && wedgeDls[round][i].claimedDl != 0) {
+                gSPDisplayList(glistp++, wedgeDls[round][i].claimedDl);
             } else {
-                gSPDisplayList(glistp++, wedgeDls[round][i].unk_00);
+                gSPDisplayList(glistp++, wedgeDls[round][i].dl);
             }
             i++;
         }

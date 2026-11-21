@@ -33,7 +33,7 @@ struct procResult_s ApplauseProc(proc_t *proc) {
             PlaySound(10);
             applause = 2;
             proc->data->applauseProc.played = 0;
-            proc->data->applauseProc.unk_08 = 0;
+            proc->data->applauseProc.startZero = 0;
             break;
         }
     }

@@ -1156,3 +1156,47 @@ bootArg	global	0x800BA5D4	invented	boot passes it to the idle thread, which pass
 sndPlayerData	global	0x800BCCF8	invented	the ALSndPlayer that sndPlayer points at
 logoSpread	global	0x800BEE24	invented	OpeningProc adds 5 a retrace from frame 269 to 318; the hub, the wedges and the title letters move out from the logo's centre by it
 framebuffer0	global	0x803B5000	invented	gfxInfo[0].framebuffer
+framebuffer1	global	0x803DA800	invented	gfxInfo[1].framebuffer
+hubRotate	member	frame_t	invented	the matrix DrawOpeningHub builds from hubAngle and multiplies in after the obj's rotation
+clipPictures	member	frame_t	invented	six 64 by 64 picture slots: AnimProc, SetPicture, PlayClip and UpdateClip put a contestant's or a clip's current picture in slot slot
+vannaPicture	member	frame_t	invented	the 64 by 96 picture VannaAnimProc points Vanna's obj at
+moviePicture	member	frame_t	invented	where StoreFrame96, StoreFrame112 and StoreFrame64x64 put the movie frame shown on screen, and UpdateMovie points the movie's obj
+frameTime	member	vannaAnim_t	invented	retraces each picture shows: VannaAnimProc steps frame when timer reaches it; InitVannaAnim copies clip_t.frameTime
+step	member	vannaAnim_t	invented	added to frame at each step: 1, -1 to play back, 0 to hold; as anim_t.step
+timer	member	vannaAnim_t	invented	retraces since the last step, as anim_t.timer
+sound	member	movie_t	invented	PlayMovie and PlayClip copy it into their proc's sound
+gamma	member	movie_t	invented	PlayMovie, PlayClip and DecodeMovie pass it as mpegStart's gamma, which chooses the luminance table
+texture	member	letterImage_t	invented	BonusRoundProc copies it into the texture of a bonusLetterSlots entry
+frameTime	member	clip_t	invented	retraces each picture shows (4 or 6): InitVannaAnim copies it to vannaAnim_t.frameTime; AnimProc uses 4, which all contestant clips hold
+mask	member	clip_t	invented	the clip mask its frames are stored through: PlayClip and DecodeMovie set curMask from it
+x	member	vec_t	invented	the first of the three coordinates InitMenuAnim takes as x, y, z
+y	member	vec_t	invented	the second
+z	member	vec_t	invented	the third
+spinSound	member	voice_t	invented	SetContestantSounds copies it into player_t.spinSound, which PlayerTurnProc and CpuTurnProc play on a spin
+buyVowelSound	member	voice_t	invented	copied into player_t.buyVowelSound, played when the player buys a vowel
+solveSound	member	voice_t	invented	copied into player_t.solveSound, played when the player solves
+scoreStrings	member	player_t	invented	ten strings ClearScores sets to "0" with the score; nothing reads them
+spinSound	member	player_t	invented	PlayerTurnProc plays it (one time in three) and CpuTurnProc plays it when the player spins
+buyVowelSound	member	player_t	invented	played when the player buys a vowel (event 13)
+solveSound	member	player_t	invented	played when the player solves (event 14)
+special	member	wedge_t	invented	InitWheel sets it 1 for the 10000, FREE SPIN and JACKPOT wedges and 0 for the rest; ClaimWedge clears it; nothing reads it
+dl	member	wedgeDl_t	invented	the wedge's display list, which DrawWheel and DrawOpeningWheel draw
+claimedDl	member	wedgeDl_t	invented	if not 0, DrawWheel draws it in place of dl once the wedge is claimed
+obj	member	wheelStop_t	invented	the first word, which WheelStopProc reads as its obj like every handler (no obj is made for it)
+obj	member	wheelLights_t	invented	the ring obj StartWheelLights gives the proc
+frames	member	wheelLights_t	invented	retraces since the bulbs last changed, as boardLights_t.frames
+obj	member	baseLights_t	invented	the ring obj StartWheelLights gives the proc
+frames	member	baseLights_t	invented	retraces since the bulbs last changed
+vannaStarted	member	lightLetter_t	invented	0 until LightLetterProc has started Vanna's walk (SetVannaAnim(0)), then 1
+obj	member	cameraPath_t	invented	the first word, which CameraPathProc reads as its obj like every handler (no obj is made for it)
+creatZero1	member	proc_t	invented	named for what is written to it: CreatProc zeroes it, and nothing else reads or writes it
+creatZero2	member	proc_t	invented	the same: CreatProc zeroes it, and nothing else touches it
+roundStartZero	member	player_t	invented	named for what is written: StartRound zeroes it for each player; nothing reads it
+was3500	member	wheelStop_t	invented	named for what is written: WheelStopProc sets it to 1 when the wedge's value is 3500; nothing reads it
+spinStartZero	member	wheelSpin_t	invented	named for what is written: WheelSpinProc zeroes it as the spin starts (message 8); nothing reads it
+startZero	member	applauseProc_t	invented	named for what is written: ApplauseProc zeroes it on its first run (message 8); nothing reads it
+slot	member	vannaAnim_t	invented	the word at the place of anim_t.slot, which VannaAnimProc reads into a local as AnimProc reads slot; nothing sets it
+slot	local	VannaAnimProc	invented	holds vannaAnim.slot, as AnimProc's index holds anim.slot; nothing reads it after
+zero	local	CpuChooseAction	invented	named for what is stored: set to 0 at the start and never read
+zero	local	GameThread	invented	named for what is stored: set to 0 before the loop and never read
+one	local	ReadControllers	invented	named for what is stored: set to 1 at the start and never read

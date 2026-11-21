@@ -813,7 +813,7 @@ struct procResult_s PlayerTurnProc(proc_t *proc) {
             return ret;
         case 12:
             if (guRandom() % 100 < 33) {
-                PlaySound(players[curPlayer].unk_100);
+                PlaySound(players[curPlayer].spinSound);
             }
             jackpotWon = 0;
             task = CreatProc(SpinProc, proc->data->playerProc.player | 0x2000100);
@@ -822,7 +822,7 @@ struct procResult_s PlayerTurnProc(proc_t *proc) {
             ret.w[0] = 3;
             return ret;
         case 13:
-            PlaySound(players[curPlayer].unk_104);
+            PlaySound(players[curPlayer].buyVowelSound);
             jackpotWon = 0;
             task = CreatProc(BuyVowelProc, proc->data->playerProc.player | 0x2000200);
             task->data->playerProc.player = proc->data->playerProc.player;
@@ -830,7 +830,7 @@ struct procResult_s PlayerTurnProc(proc_t *proc) {
             ret.w[0] = 9;
             return ret;
         case 14:
-            PlaySound(players[curPlayer].unk_108);
+            PlaySound(players[curPlayer].solveSound);
             task = CreatProc(SolveProc, proc->data->playerProc.player | 0x2000300);
             task->data->playerProc.player = proc->data->playerProc.player;
             ret.w[1] = 2;

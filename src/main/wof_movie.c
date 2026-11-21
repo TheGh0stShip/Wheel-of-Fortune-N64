@@ -76,10 +76,10 @@ void StoreFrame112(u16 *pixels) {
     s32 base;
 
     base = 0x2000000;
-    size = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_19C00);
+    size = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.moviePicture);
     size = size - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     src = pixels;
-    dst = gfxInfo[curGfxInfo].frame.unk_19C00;
+    dst = gfxInfo[curGfxInfo].frame.moviePicture;
     n = 0;
     page = 0;
     while (page < 2) {
@@ -140,10 +140,10 @@ void StoreFrame64x64(u16 *pixels) {
     s32 base;
 
     base = 0x2000000;
-    diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_0AC00[0]);
+    diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.clipPictures[0]);
     diff = diff - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     src = pixels;
-    dst = gfxInfo[curGfxInfo].frame.unk_0AC00[0];
+    dst = gfxInfo[curGfxInfo].frame.clipPictures[0];
     if (movieToMemory != 0) {
         dst = moviePictures;
         mask = curMask;
@@ -174,7 +174,7 @@ void StoreFrame64x64(u16 *pixels) {
         curMask += 128;
         return;
     }
-    dst = gfxInfo[curGfxInfo].frame.unk_19C00;
+    dst = gfxInfo[curGfxInfo].frame.moviePicture;
     row = 0;
     n = 0;
     mask = curMask;
@@ -222,10 +222,10 @@ void StoreFrame64x96(u16 *pixels) {
     s32 base;
 
     base = 0x2000000;
-    diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_0AC00[0]);
+    diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.clipPictures[0]);
     diff = diff - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     src = pixels;
-    dst = gfxInfo[curGfxInfo].frame.unk_0AC00[0];
+    dst = gfxInfo[curGfxInfo].frame.clipPictures[0];
     if (movieToMemory != 0) {
         dst = moviePictures;
         mask = curMask;
@@ -345,7 +345,7 @@ void UpdateMovie(proc_t *proc) {
     s32 base;
 
     base = 0x2000000;
-    diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_19C00);
+    diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.moviePicture);
     diff = diff - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     proc->data->moviePlay.obj->image = base + diff;
     if (movieDone == 0) {
@@ -373,10 +373,10 @@ void UpdateClip(proc_t *proc) {
     s32 base;
 
     base = 0x2000000;
-    offset = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_0AC00[proc->data->clipPlay.slot]);
+    offset = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.clipPictures[proc->data->clipPlay.slot]);
     offset = offset - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     proc->data->clipPlay.obj->image = base + offset;
-    moviePictures = gfxInfo[curGfxInfo].frame.unk_0AC00[proc->data->clipPlay.slot];
+    moviePictures = gfxInfo[curGfxInfo].frame.clipPictures[proc->data->clipPlay.slot];
     if (movieDone == 0) {
         movieDone = mpegNextFrame();
     }
@@ -553,12 +553,12 @@ void PlayMovie(s32 movie, s32 event, s32 x, s32 y) {
     movieToMemory = 0;
     task = CreatProc(MovieProc, 0x5010000);
     task->data->moviePlay.obj = MakeMovieObj(task, winnerText, x, y, movie);
-    task->data->moviePlay.sound = movies[movie].unk_04;
+    task->data->moviePlay.sound = movies[movie].sound;
     task->data->moviePlay.event = event;
     movieMemMark = PushMemStack();
     movieDone = 0;
     movieData = LoadMovie(movie);
-    mpegStart(movieData, movies[movie].unk_0C);
+    mpegStart(movieData, movies[movie].gamma);
 }
 
 /*
@@ -595,7 +595,7 @@ void DecodeMovie(s32 movie, s32 count, s16 *pictures, s32 *mask) {
     movieMemMark = PushMemStack();
     movieDone = 0;
     movieData = LoadMovie(movie);
-    mpegStart(movieData, movies[movie].unk_0C);
+    mpegStart(movieData, movies[movie].gamma);
     for (i = 1; i < count; i++) {
         mpegNextFrame();
     }
@@ -623,17 +623,17 @@ void PlayClip(s32 movie, s32 *mask, obj_t *obj, s32 slot, s32 event) {
     movieToMemory = 1;
     curMask = mask;
     curMovie = movie;
-    moviePictures = gfxInfo[curGfxInfo].frame.unk_0AC00[slot];
+    moviePictures = gfxInfo[curGfxInfo].frame.clipPictures[slot];
     SetCameraView(17);
     task = CreatProc(ClipProc, 0x5010000);
     task->data->clipPlay.obj = obj;
-    task->data->clipPlay.sound = movies[movie].unk_04;
+    task->data->clipPlay.sound = movies[movie].sound;
     task->data->clipPlay.slot = slot;
     task->data->clipPlay.event = event;
     movieMemMark = PushMemStack();
     movieDone = 0;
     movieData = LoadMovie(movie);
-    mpegStart(movieData, movies[movie].unk_0C);
+    mpegStart(movieData, movies[movie].gamma);
 }
 
 /*

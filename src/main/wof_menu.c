@@ -720,13 +720,13 @@ void SwitchImage(void) {
             FatalError("SwitchImage: could not find contestant");
         }
         if (i == contestantMenu[0].sel) {
-            obj->x = frontContestantPos.unk_00;
-            obj->y = frontContestantPos.unk_04;
-            obj->z = frontContestantPos.unk_08;
+            obj->x = frontContestantPos.x;
+            obj->y = frontContestantPos.y;
+            obj->z = frontContestantPos.z;
         } else {
-            obj->x = contestantPos[i].unk_00;
-            obj->y = contestantPos[i].unk_04;
-            obj->z = contestantPos[i].unk_08;
+            obj->x = contestantPos[i].x;
+            obj->y = contestantPos[i].y;
+            obj->z = contestantPos[i].z;
         }
     }
 }
@@ -985,9 +985,9 @@ Copies the sounds of a player's contestant into the player.
 void SetContestantSounds(s32 player) {
     players[player].winSound = voices[players[player].contestant].winSound;
     players[player].letterSounds = voices[players[player].contestant].letters;
-    players[player].unk_100 = voices[players[player].contestant].unk_04;
-    players[player].unk_104 = voices[players[player].contestant].unk_08;
-    players[player].unk_108 = voices[players[player].contestant].unk_0C;
+    players[player].spinSound = voices[players[player].contestant].spinSound;
+    players[player].buyVowelSound = voices[players[player].contestant].buyVowelSound;
+    players[player].solveSound = voices[players[player].contestant].solveSound;
     players[player].freeSpinSound = voices[players[player].contestant].freeSpinSound;
 }
 
@@ -1293,9 +1293,9 @@ void StartContestantMenu(void) {
     contestantMenu[0].sel = players[curPlayer].contestant;
     for (i = 0; i < 6; i++) {
         if (i == contestantMenu[0].sel) {
-            InitMenuAnim(i, i, frontContestantPos.unk_00, frontContestantPos.unk_04, frontContestantPos.unk_08);
+            InitMenuAnim(i, i, frontContestantPos.x, frontContestantPos.y, frontContestantPos.z);
         } else {
-            InitMenuAnim(i, i, contestantPos[i].unk_00, contestantPos[i].unk_04, contestantPos[i].unk_08);
+            InitMenuAnim(i, i, contestantPos[i].x, contestantPos[i].y, contestantPos[i].z);
         }
     }
 }
@@ -1338,7 +1338,7 @@ void StartMainMenu3(void) {
     }
     i = 0;
     while (i < 3) {
-        InitMenuAnim(players[i].contestant, i, playerPos[i].unk_00, playerPos[i].unk_04, playerPos[i].unk_08);
+        InitMenuAnim(players[i].contestant, i, playerPos[i].x, playerPos[i].y, playerPos[i].z);
         switch (mainMenu1[i].sel) {
         case 0:
             mainMenu3Images[i * 3 + 2].texture = D_01158068;

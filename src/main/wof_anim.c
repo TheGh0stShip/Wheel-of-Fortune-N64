@@ -232,8 +232,8 @@ void SetPicture(s16 *pixels, s32 slot) {
     s16 *dst2;
 
     src = (u16 *)pixels;
-    dst1 = gfxInfo[0].frame.unk_0AC00[slot];
-    dst2 = gfxInfo[1].frame.unk_0AC00[slot];
+    dst1 = gfxInfo[0].frame.clipPictures[slot];
+    dst2 = gfxInfo[1].frame.clipPictures[slot];
     for (i = 0; i < 0x1000; i++) {
         dst1[i] = src[i];
         dst2[i] = src[i];
@@ -256,7 +256,7 @@ void SetVannaPicture(s16 *pixels, s32 dir) {
     s16 *dst;
 
     src = (u16 *)pixels;
-    dst = gfxInfo[curGfxInfo].frame.unk_16C00;
+    dst = gfxInfo[curGfxInfo].frame.vannaPicture;
     if (dir == -1) {
         for (i = 0; i < 96; i++) {
             k = 63;
@@ -309,7 +309,7 @@ struct procResult_s AnimProc(proc_t *proc) {
     }
     addr = proc->data->anim.pictures + proc->data->anim.frame * ( 64 * 64 );
     SetPicture(addr, index);
-    offset = osVirtualToPhysical(&gfxInfo[curGfxInfo].frame.unk_0AC00[index]);
+    offset = osVirtualToPhysical(&gfxInfo[curGfxInfo].frame.clipPictures[index]);
     offset = offset - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     sprite->image = base + offset;
     proc->data->anim.timer += frameRetraces;
@@ -356,7 +356,7 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
     s32 event;
     obj_t *obj;
     s32 diff;
-    s32 sp2C;
+    s32 slot;  /* NOTE: read from the data and never used, as AnimProc uses its slot */
     s32 i;
     s32 unused;  /* NOTE: unused in the original */
     s16 *frame;
@@ -364,7 +364,7 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
 
     base = 0x2000000;
     obj = proc->data->vannaAnim.obj;
-    sp2C = proc->data->vannaAnim.unk_04;
+    slot = proc->data->vannaAnim.slot;
     for (;;) {
         event = ProcGetMessage(proc);
         if (event == 0) {
@@ -372,33 +372,33 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            proc->data->vannaAnim.unk_28 = 0;
+            proc->data->vannaAnim.timer = 0;
             proc->data->vannaAnim.frame = 0;
-            proc->data->vannaAnim.unk_24 = 1;
+            proc->data->vannaAnim.step = 1;
             switch (proc->data->vannaAnim.anim) {
             case 0:
                 vannaX = vannaX + (lightDir * 40);
                 break;
             case 80:
                 proc->data->vannaAnim.frame = proc->data->vannaAnim.count - 1;
-                proc->data->vannaAnim.unk_24 = -1;
+                proc->data->vannaAnim.step = -1;
                 proc->data->vannaAnim.loop = 0;
                 break;
             }
             break;
         }
     }
-    diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_16C00);
+    diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.vannaPicture);
     diff = diff - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     obj->image = base + diff;
-    proc->data->vannaAnim.unk_28 = proc->data->vannaAnim.unk_28 + frameRetraces;
-    if (proc->data->vannaAnim.unk_28 >= proc->data->vannaAnim.unk_14) {
-        proc->data->vannaAnim.unk_28 = proc->data->vannaAnim.unk_28 % proc->data->vannaAnim.unk_14;
-        proc->data->vannaAnim.frame = proc->data->vannaAnim.frame + proc->data->vannaAnim.unk_24;
+    proc->data->vannaAnim.timer = proc->data->vannaAnim.timer + frameRetraces;
+    if (proc->data->vannaAnim.timer >= proc->data->vannaAnim.frameTime) {
+        proc->data->vannaAnim.timer = proc->data->vannaAnim.timer % proc->data->vannaAnim.frameTime;
+        proc->data->vannaAnim.frame = proc->data->vannaAnim.frame + proc->data->vannaAnim.step;
         if (proc->data->vannaAnim.frame < 0) {
             if (proc->data->vannaAnim.loop != 0) {
                 proc->data->vannaAnim.frame = 1;
-                proc->data->vannaAnim.unk_24 = 1;
+                proc->data->vannaAnim.step = 1;
             } else {
                 InitVannaAnim(4, 0);
                 ret.w[1] = 0;
@@ -409,7 +409,7 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
             if (proc->data->vannaAnim.frame >= proc->data->vannaAnim.count) {
                 if (proc->data->vannaAnim.loop == 1) {
                     proc->data->vannaAnim.frame = proc->data->vannaAnim.count - 2;
-                    proc->data->vannaAnim.unk_24 = -1;
+                    proc->data->vannaAnim.step = -1;
                 } else {
                     if (proc->data->vannaAnim.loop == 2) {
                         if (proc->data->vannaAnim.anim == 1) {
@@ -420,11 +420,11 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
                         } else {
                             proc->data->vannaAnim.frame = 0;
                         }
-                        proc->data->vannaAnim.unk_24 = 1;
+                        proc->data->vannaAnim.step = 1;
                     } else {
                         if (proc->data->vannaAnim.loop == 3) {
                             proc->data->vannaAnim.frame = proc->data->vannaAnim.count - 1;
-                            proc->data->vannaAnim.unk_24 = 0;
+                            proc->data->vannaAnim.step = 0;
                         } else {
                             if (proc->data->vannaAnim.loop < 0) {
                                 vannaX = vannaX + (lightDir * 44);
@@ -612,7 +612,7 @@ proc_t *InitVannaAnim(s32 anim, s32 replace) {
     task->data->vannaAnim.anim = id;
     task->data->vannaAnim.pictures = vannaClips[anim].pictures;
     task->data->vannaAnim.count = vannaClips[anim].count;
-    task->data->vannaAnim.unk_14 = vannaClips[anim].unk_0C;
+    task->data->vannaAnim.frameTime = vannaClips[anim].frameTime;
     task->data->vannaAnim.loop = vannaClips[anim].loop;
     task->data->vannaAnim.mirror = vannaClips[anim].mirror;
     task->data->vannaAnim.obj = child;
@@ -693,7 +693,7 @@ void InitContestants(void) {
             if (slots[j].count > 0) {
                 size = slots[j].width * slots[j].height * 2;
                 slots[j].pictures = AllocMem(size * slots[j].count);
-                DecodeMovie(slots[j].movie, slots[j].count, slots[j].pictures, slots[j].unk_20);
+                DecodeMovie(slots[j].movie, slots[j].count, slots[j].pictures, slots[j].mask);
             } else {
                 slots[j].pictures = 0;
             }
@@ -703,7 +703,7 @@ void InitContestants(void) {
     while (i < 6) {
         size = vannaClips[i].width * vannaClips[i].height * 2;
         vannaClips[i].pictures = AllocMem(size * vannaClips[i].count);
-        DecodeMovie(vannaClips[i].movie, vannaClips[i].count, vannaClips[i].pictures, vannaClips[i].unk_20);
+        DecodeMovie(vannaClips[i].movie, vannaClips[i].count, vannaClips[i].pictures, vannaClips[i].mask);
         i++;
     }
     lightDir = 1;
@@ -750,7 +750,7 @@ s32 PlayContestantClip(s32 clip, s32 event, s32 player) {
         if (other != 0) {
             KillProc(other, 0);
         }
-        PlayClip(slots[clip].movie, slots[clip].unk_20, obj, player, event);
+        PlayClip(slots[clip].movie, slots[clip].mask, obj, player, event);
         return 1;
         return; /* dead, kept for the match */
     }
@@ -776,7 +776,7 @@ void InitMenuContestants(void) {
     for (i = 0; i < 6; i++) {
         size = menuClips[i].width * menuClips[i].height * 2;
         menuClips[i].pictures = AllocMem(size * menuClips[i].count);
-        DecodeMovie(menuClips[i].movie, menuClips[i].count, menuClips[i].pictures, menuClips[i].unk_20);
+        DecodeMovie(menuClips[i].movie, menuClips[i].count, menuClips[i].pictures, menuClips[i].mask);
     }
     retraceCount = 0;
 }

@@ -491,11 +491,11 @@ void DrawOpeningHub(obj_t *obj, frame_t *frame) {
     guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
     guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
     guRotateRPY(&frame->rotate[obj->index], obj->roll, obj->pitch, obj->heading);
-    guRotateRPY(&frame->unk_04C80, 0, hubAngle, 0);
+    guRotateRPY(&frame->hubRotate, 0, hubAngle, 0);
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPMatrix(glistp++, &frame->unk_04C80, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &frame->hubRotate, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPDisplayList(glistp++, D_010219C8);
     gSPDisplayList(glistp++, obj->dl);
 }
@@ -546,7 +546,7 @@ void DrawOpeningWheel(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, D_010FA038);
     gSPLightColor(glistp++, LIGHT_1, 0xC8C8C8FF);
     for (i = 0; i < 24; i++) {
-        gSPDisplayList(glistp++, wedgeDls[0][i].unk_00);
+        gSPDisplayList(glistp++, wedgeDls[0][i].dl);
     }
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPDisplayList(glistp++, obj->dl);

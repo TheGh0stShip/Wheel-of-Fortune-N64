@@ -10,9 +10,9 @@ The game thread: runs RunFrame forever.
 =====================
 */
 void GameThread(void *arg) {
-    s32 sp10;
+    s32 zero;  /* NOTE: set to 0 and never read */
 
-    sp10 = 0;
+    zero = 0;
     while (1) {
         RunFrame();
     }

@@ -23,10 +23,10 @@ void StoreFrame96(u16 *pixels) {
     s32 base;
 
     base = 0x2000000;
-    offset = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_19C00);
+    offset = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.moviePicture);
     offset = offset - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     src = pixels;
-    dst = gfxInfo[curGfxInfo].frame.unk_19C00;
+    dst = gfxInfo[curGfxInfo].frame.moviePicture;
     n = 0;
     for (k = 0; k < 3; k++) {
         for (y = 0; y < 32; y++) {

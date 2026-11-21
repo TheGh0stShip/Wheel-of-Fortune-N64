@@ -1681,7 +1681,7 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
                 i++;
             }
             uncalled[curLetter - 65] = 32;
-            bonusLetterSlots[i].texture = bonusLetterImages[curLetter - 65].unk_00;
+            bonusLetterSlots[i].texture = bonusLetterImages[curLetter - 65].texture;
             bonusLetterSlots[i].width = bonusLetterImages[curLetter - 65].width;
             bonusLetterSlots[i].height = bonusLetterImages[curLetter - 65].height;
             ShowLetter(curLetter);
