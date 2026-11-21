@@ -876,9 +876,9 @@ extern camera_t nextRoundPath[];    // the move of view 13, between rounds
 extern camera_t gameStartPath[];    // the move of view 12, at the start of a game
 extern camera_t view16Path[];       // the move of view 16, which no code selects
 extern s32 memEnd;
-extern s32 D_8006DCDC;
-extern s32 D_8006DCE0;
-extern s32 D_8006DCE4;
+extern s32 framebuffer0Word;        // 0x803B5000, framebuffer0's address; unread
+extern s32 framebuffer0Word2;       // the same again; nothing reads it
+extern s32 memStartWord;            // 0x801084B0, memStart's value; unread
 extern s32 memStart;
 extern s32 staticRom;
 extern s32 staticSize;
@@ -889,13 +889,13 @@ extern s32 bssEnd;                  // the end of the .bss; nothing reads it
 extern s32 sfxCtlRom;
 extern s32 sfxCtlRomEnd;
 extern s32 sfxTblRom;
-extern s32 D_8006DD10;
-extern s32 D_8006DD14;
-extern s32 D_8006DD18;
-extern s32 D_8006DD1C;
-extern s32 D_8006DD20;
-extern s32 D_8006DD24;
-extern s32 D_8006DD28;
+extern s32 sfxCtlRomWord;           // 0xB01A3E48, sfxCtlRom's value; unread
+extern s32 sfxTblRomWord1;          // this and the next five: sfxTblRom's value
+extern s32 sfxTblRomWord2;
+extern s32 sfxTblRomWord3;
+extern s32 sfxTblRomWord4;
+extern s32 sfxTblRomWord5;
+extern s32 sfxTblRomWord6;
 extern s32 movieSizes[];
 extern s32 celebrationMask[];  // zero, then a mask: StartCelebration decodes movie 22 through it
 extern s32 vannaWalkMask[];  // a mask
@@ -962,7 +962,7 @@ extern obj_t objst[];
 extern s32 openingFrames;
 extern s32 round;
 extern s32 curGfxInfo;
-extern s32 D_800B61A4;
+extern s32 initProcsZero;           // InitProcs sets it to 0; nothing reads it
 extern s32 lightDir;
 extern s8 bonusSlotLetters[];       // by bonusLetterSlots; 6 to 9 are bonusPicks
 extern f32 hubAngle;                // the turn of the opening's hub, less a degree each retrace
@@ -1013,8 +1013,8 @@ extern OSSched sc;
 extern u32 maxFrameSize;              // maxFrameSize
 extern OSContPad playerPad;
 extern ALHeap audioHeap;
-extern s32 D_800B9974;
-extern s32 D_800B9980;
+extern s32 startStatusZero2;        // StartStatus sets it to 0; nothing reads it
+extern s32 turnStartZero;           // StartRound and NextPlayer zero it; unread
 extern s32 memStackFree;
 extern s32 vannaX;
 extern s16 *moviePictures;
@@ -1042,14 +1042,14 @@ extern camera_t *curCamera;
 extern s32 blockOwners[];
 extern u64 scheduleStack[];            // the stack of the scheduler: OS_SC_STACKSIZE bytes
 extern u16 numSoundsPlaying;
-extern s32 D_800BC6FC;
+extern s32 initGame37;              // InitGame sets it to 37; nothing reads it
 extern OSIoMesg audDMAIOMesgBuf[];       // audDMAIOMesgBuf[NUM_DMA_MESSAGES]
 extern s32 finalSpin;
 extern s32 memStackDepth;
 extern void *staticSegment;           // segment 1: the display lists and pictures InitGraphics loads
 extern s32 movieMemMark;
 extern s32 numObjs;
-extern s32 D_800BCA14;
+extern s32 startStatusZero1;        // StartStatus sets it to 0; nothing reads it
 extern s32 memStackEnd;
 extern s32 pausedTime;
 extern s32 movieSoundSlot;
@@ -1062,7 +1062,7 @@ extern AMAudioMgr __am;        // __am
 extern f32 wheelSpeed;
 extern s32 solveCol;
 extern ALSndPlayer sndPlayerData;      // the sound player sndPlayer points at
-extern s32 D_800BCD50;
+extern s32 initGameZero;            // InitGame sets it to 0; nothing reads it
 extern s32 gameMode;
 extern OSScClient gfxClient;
 extern u32 frameSize;              // frameSize

@@ -34,12 +34,12 @@ void InitGame(void) {
     movieSound = 0;
     retraceCount = 0;
     frameRetraces = 0;
-    D_800BCD50 = 0;
+    initGameZero = 0;
     InitMemStack();
     InitControllers();
     InitAudio();
     InitGraphics();
-    D_800BC6FC = 37;
+    initGame37 = 37;
     movieDone = 1;
     InitProcs();
     InitObjs();

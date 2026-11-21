@@ -1277,3 +1277,19 @@ searchlight1Mtx	global	0x01176C88	invented	the matrix that places searchlight1Dl
 searchlight2Mtx	global	0x01176CC8	invented	the matrix that places searchlight2Dl
 openingPanelsMtx	global	0x01176D08	invented	the matrix DrawOpeningStudio loads before openingPanelsDl
 openingHubDl	global	0x01197D78	invented	OpeningProc's obj's display list: the same disc as wheelHubDl with a texture, the hub of the opening's logo
+initProcsZero	global	0x800B61A4	invented	named for what is written: InitProcs sets it to 0; nothing reads it
+startStatusZero1	global	0x800BCA14	invented	named for what is written: StartStatus sets it to 0, first of two; nothing reads it
+startStatusZero2	global	0x800B9974	invented	named for what is written: StartStatus sets it to 0, second of two; nothing reads it
+turnStartZero	global	0x800B9980	invented	named for what is written: StartRound and NextPlayer set it to 0, at each new turn; nothing reads it
+initGame37	global	0x800BC6FC	invented	named for what is written: InitGame sets it to 37; nothing reads it
+initGameZero	global	0x800BCD50	invented	named for what is written: InitGame sets it to 0; nothing reads it
+framebuffer0Word	global	0x8006DCDC	invented	named for its value, 0x803B5000, framebuffer0's address; a word of wof_romdata nothing reads
+framebuffer0Word2	global	0x8006DCE0	invented	the same value again; nothing reads it
+memStartWord	global	0x8006DCE4	invented	named for its value, 0x801084B0, the same as memStart's; nothing reads it
+sfxCtlRomWord	global	0x8006DD10	invented	named for its value, 0xB01A3E48, the same as sfxCtlRom's; nothing reads it
+sfxTblRomWord1	global	0x8006DD14	invented	named for its value, 0xB00A5C78, the same as sfxTblRom's, the first of six such words; nothing reads them
+sfxTblRomWord2	global	0x8006DD18	invented	the second word holding sfxTblRom's value
+sfxTblRomWord3	global	0x8006DD1C	invented	the third
+sfxTblRomWord4	global	0x8006DD20	invented	the fourth
+sfxTblRomWord5	global	0x8006DD24	invented	the fifth
+sfxTblRomWord6	global	0x8006DD28	invented	the sixth

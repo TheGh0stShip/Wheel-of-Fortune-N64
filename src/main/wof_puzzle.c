@@ -95,7 +95,7 @@ void StartRound(void) {
     } else {
         jackpot = 0;
     }
-    D_800B9980 = 0;
+    turnStartZero = 0;
     if (round != 6) {
         InitWheel();
     }
@@ -859,7 +859,7 @@ Passes the turn to the next player, or for a new round to the round's first.
 =====================
 */
 void NextPlayer(s32 newRound) {
-    D_800B9980 = 0;
+    turnStartZero = 0;
     jackpotWon = 0;
     if (newRound == 0) {
         if (CheckSolved(0) == 2) {

@@ -24,7 +24,7 @@ void InitProcs(void) {
     numProcs = 0;
     procst[0].handler = 0;
     procst[0].next = 0;
-    D_800B61A4 = 0;
+    initProcsZero = 0;
     for (i = 0; i < 70; i++) {
         blockOwners[i] = 0;
     }

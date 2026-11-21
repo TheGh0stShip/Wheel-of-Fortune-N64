@@ -25,6 +25,6 @@ void StartStatus(void) {
     StatusStub();
     task = CreatProc(StatusProc, 0x5000000);
     MakeScreenObj(task, 0, DrawStatus, 0x5000000);
-    D_800BCA14 = 0;
-    D_800B9974 = 0;
+    startStatusZero1 = 0;
+    startStatusZero2 = 0;
 }

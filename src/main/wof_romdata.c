@@ -12,9 +12,9 @@
 #include "wof.h"
 
 s32 memEnd = 0x8038F800;
-s32 D_8006DCDC = 0x803B5000;
-s32 D_8006DCE0 = 0x803B5000;
-s32 D_8006DCE4 = 0x801084B0;
+s32 framebuffer0Word = 0x803B5000;
+s32 framebuffer0Word2 = 0x803B5000;
+s32 memStartWord = 0x801084B0;
 s32 memStart = 0x801084B0;
 s32 staticRom = 0xB025D828;
 s32 staticSize = 0x0013AE68;
@@ -25,13 +25,13 @@ s32 bssEnd = 0x800FB898;
 s32 sfxCtlRom = 0xB01A3E48;
 s32 sfxCtlRomEnd = 0xB01AB350;
 s32 sfxTblRom = 0xB00A5C78;
-s32 D_8006DD10 = 0xB01A3E48;
-s32 D_8006DD14 = 0xB00A5C78;
-s32 D_8006DD18 = 0xB00A5C78;
-s32 D_8006DD1C = 0xB00A5C78;
-s32 D_8006DD20 = 0xB00A5C78;
-s32 D_8006DD24 = 0xB00A5C78;
-s32 D_8006DD28 = 0xB00A5C78;
+s32 sfxCtlRomWord = 0xB01A3E48;
+s32 sfxTblRomWord1 = 0xB00A5C78;
+s32 sfxTblRomWord2 = 0xB00A5C78;
+s32 sfxTblRomWord3 = 0xB00A5C78;
+s32 sfxTblRomWord4 = 0xB00A5C78;
+s32 sfxTblRomWord5 = 0xB00A5C78;
+s32 sfxTblRomWord6 = 0xB00A5C78;
 
 // the size of each movie less one: movies[i].size points at entry i
 s32 movieSizes[38] = {
