@@ -32,26 +32,26 @@ struct procResult_s FinalSpinProc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
-            ProcPostMessage(proc, 41, 0);
+        case PRC_EVENT_INIT:
+            ProcPostMessage(proc, PRC_EVENT_NEXT_SOUND, 0);
             result.w[1] = 1;
             result.w[0] = 180 / frameRetraces;
             return result;
-        case 41:
-            PlayMovieCorner(8, 44);
+        case PRC_EVENT_NEXT_SOUND:
+            PlayMovieCorner(8, PRC_EVENT_DONE_SAYING);
             result.w[1] = 2;
-            result.w[0] = 44;
+            result.w[0] = PRC_EVENT_DONE_SAYING;
             return result;
-        case 2:
+        case PRC_EVENT_WHEEL_STOPPED:
             ApplyWedge(1);
             if (GetWedgeValue() <= 0 || GetWedgeValue() == 10000) {
                 result.w[1] = 1;
                 result.w[0] = 60 / frameRetraces;
                 return result;
             }
-            ProcPostEvent(32);
+            ProcPostEvent(PRC_EVENT_DONE_FINAL_SPIN);
             PrintStr("Final spin is ");
             PrintNum(GetWedgeValue());
             PrintStr("\n");
@@ -66,7 +66,7 @@ struct procResult_s FinalSpinProc(proc_t *proc) {
     task->data->wheelSpin.wheel = node;
     task->data->wheelSpin.speed = guRandom() % 25 + 75;
     result.w[1] = 2;
-    result.w[0] = 2;
+    result.w[0] = PRC_EVENT_WHEEL_STOPPED;
     return result;
 }
 
@@ -88,11 +88,11 @@ struct procResult_s RoundTimerProc(proc_t *proc) {
     result.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             roundTime = 0;
             i = 0;
             for (;;) {
@@ -106,7 +106,7 @@ struct procResult_s RoundTimerProc(proc_t *proc) {
                 }
                 i++;
             }
-        case 43:
+        case PRC_EVENT_RESET_START_TIME:
             proc->data->timer.start = (s32)(osGetTime() / osClockRate);
             break;
         }
@@ -138,7 +138,7 @@ struct procResult_s RoundTimerProc(proc_t *proc) {
         if (((f64)CheckPercentDone()) < 0.6) {
             PlaySound(3);
             CreatProc(FinalSpinProc, 0x7020000);
-            ProcPostMessageClass(30, 0, 0, 0);
+            ProcPostMessageClass(PRC_EVENT_GAME_TIMEOUT, 0, 0, 0);
         }
         gameOver = 1;
         result.w[1] = 0;
@@ -165,18 +165,18 @@ struct procResult_s DemoTimerProc(proc_t *proc) {
     result.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->timer.start = (s32)(osGetTime() / osClockRate);
             break;
         }
     }
     now = (s32)(osGetTime() / osClockRate);
     if (((now - proc->data->timer.start) >= 30) || (((buttonsPressed & 0x1000) & 0xFFFF) != 0)) {
-        ProcPostMessageClass(34, 0, 0, 1);
+        ProcPostMessageClass(PRC_EVENT_DEMO_TIMEOUT, 0, 0, 1);
         result.w[1] = 0;
     }
     return result;
@@ -186,7 +186,7 @@ struct procResult_s DemoTimerProc(proc_t *proc) {
 =====================
 SolveTimerProc
 
-The time to solve: 8 seconds, or 20 in the bonus round; then it posts message 33.
+The time to solve: 8 seconds, or 20 in the bonus round; then it posts PRC_EVENT_SOLVE_TIMEOUT.
 =====================
 */
 struct procResult_s SolveTimerProc(proc_t *proc) {
@@ -199,11 +199,11 @@ struct procResult_s SolveTimerProc(proc_t *proc) {
     result.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->timer.start = (s32)(osGetTime() / osClockRate);
             break;
         }
@@ -214,13 +214,13 @@ struct procResult_s SolveTimerProc(proc_t *proc) {
         bonusTimeLeft = 20 - (now - proc->data->timer.start);
         if ((now - proc->data->timer.start) >= 20) {
             bonusTimeLeft = 0;
-            ProcPostMessageClass(33, 0, 0, 0);
+            ProcPostMessageClass(PRC_EVENT_SOLVE_TIMEOUT, 0, 0, 0);
             result.w[1] = 0;
         }
     } else {
         if ((now - proc->data->timer.start) >= 8) {
-            ProcPostMessageClass(33, 0, 0, 0);
-            ProcPostEvent(33);
+            ProcPostMessageClass(PRC_EVENT_SOLVE_TIMEOUT, 0, 0, 0);
+            ProcPostEvent(PRC_EVENT_SOLVE_TIMEOUT);
             result.w[1] = 0;
         }
     }
@@ -231,7 +231,8 @@ struct procResult_s SolveTimerProc(proc_t *proc) {
 =====================
 FreeSpinTimerProc
 
-Gives a player who may use a free spin 5 seconds to choose; then event 48, and the turn is lost.
+Gives a player who may use a free spin 5 seconds to choose; then PRC_EVENT_FREE_TIMEOUT, and the
+turn is lost.
 =====================
 */
 struct procResult_s FreeSpinTimerProc(proc_t *proc) {
@@ -244,11 +245,11 @@ struct procResult_s FreeSpinTimerProc(proc_t *proc) {
     result.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->timer.start = (s32)(osGetTime() / osClockRate);
             break;
         }
@@ -256,7 +257,7 @@ struct procResult_s FreeSpinTimerProc(proc_t *proc) {
     proc->data->timer.start = proc->data->timer.start + pausedTime;
     now = (s32)(osGetTime() / osClockRate);
     if ((now - proc->data->timer.start) >= 5) {
-        ProcPostEvent(48);
+        ProcPostEvent(PRC_EVENT_FREE_TIMEOUT);
         result.w[1] = 0;
     }
     return result;
@@ -312,7 +313,7 @@ void ResetSolveTimer(void) {
     if (task == 0) {
         FatalError("ResetSolveTimer: Solve Timer Proc does not exist.\n");
     }
-    ProcPostMessage(task, 8, 0);
+    ProcPostMessage(task, PRC_EVENT_INIT, 0);
 }
 
 /*

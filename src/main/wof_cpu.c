@@ -114,15 +114,15 @@ void CpuChooseAction(proc_t *proc) {
         if (jackpotWon != 0) {
             if (done > 0.6) {
                 curLetter = 50;
-                ProcPostMessage(proc, 14, 0);
-                ProcPostMessage(task, 27, 0);
+                ProcPostMessage(proc, PRC_EVENT_SOLVE_SELECTED, 0);
+                ProcPostMessage(task, PRC_EVENT_COMPUTER_CHANGED, 0);
                 return;
             }
         }
         if (done > 0.7 || canSpin == 0) {
             curLetter = 50;
-            ProcPostMessage(proc, 14, 0);
-            ProcPostMessage(task, 27, 0);
+            ProcPostMessage(proc, PRC_EVENT_SOLVE_SELECTED, 0);
+            ProcPostMessage(task, PRC_EVENT_COMPUTER_CHANGED, 0);
             return;
         }
     }
@@ -137,31 +137,31 @@ void CpuChooseAction(proc_t *proc) {
         case 4:
             if (score < proc->data->playerProc.skill || players[curPlayer].score < 250) {
                 curLetter = 48;
-                ProcPostMessage(proc, 12, 0);
+                ProcPostMessage(proc, PRC_EVENT_SPIN_SELECTED, 0);
             } else {
                 curLetter = 49;
-                ProcPostMessage(proc, 13, 0);
+                ProcPostMessage(proc, PRC_EVENT_SVOWEL_SELECTED, 0);
             }
             break;
         case 3:
             curLetter = 48;
-            ProcPostMessage(proc, 12, 0);
+            ProcPostMessage(proc, PRC_EVENT_SPIN_SELECTED, 0);
             break;
         case 2:
             curLetter = 49;
-            ProcPostMessage(proc, 13, 0);
+            ProcPostMessage(proc, PRC_EVENT_SVOWEL_SELECTED, 0);
             break;
         }
     } else if (canBuyVowel != 0) {
         if (StrLen(cpuVowels) != 0) {
             curLetter = 49;
-            ProcPostMessage(proc, 13, 0);
+            ProcPostMessage(proc, PRC_EVENT_SVOWEL_SELECTED, 0);
         } else {
             curLetter = 48;
-            ProcPostMessage(proc, 12, 0);
+            ProcPostMessage(proc, PRC_EVENT_SPIN_SELECTED, 0);
         }
     }
-    ProcPostMessage(task, 27, 0);
+    ProcPostMessage(task, PRC_EVENT_COMPUTER_CHANGED, 0);
 }
 
 /*
@@ -185,18 +185,18 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
     }
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             SetGameView(0, 1);
             task = CreatProc(WheelSpinProc, 0x4000000);
             target = FindObj(0x4010000, 0xFFFF0000);
             task->data->wheelSpin.wheel = target;
             task->data->wheelSpin.speed = (f32)(guRandom() % 50 + 100);
             if ((f64)task->data->wheelSpin.speed > 80.0) {
-                ProcPostMessage(proc, 7, 0);
+                ProcPostMessage(proc, PRC_EVENT_WHEEL_LONG_SPIN, 0);
                 result.w[1] = 1;
                 result.w[0] = 30 / frameRetraces;
                 return result;
@@ -206,31 +206,31 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
                 return result;
             }
             break;
-        case 7:
+        case PRC_EVENT_WHEEL_LONG_SPIN:
             if (Random(100) >= 76) {
                 SetGameView(15, 1);
             } else {
                 SetGameView(3, 1);
             }
             result.w[1] = 2;
-            result.w[0] = 4;
+            result.w[0] = PRC_EVENT_WHEEL_ALMOST_STOPPED;
             return result;
             break;
-        case 4:
+        case PRC_EVENT_WHEEL_ALMOST_STOPPED:
             SetGameView(0, 1);
             result.w[1] = 2;
-            result.w[0] = 2;
+            result.w[0] = PRC_EVENT_WHEEL_STOPPED;
             return result;
             break;
-        case 2:
+        case PRC_EVENT_WHEEL_STOPPED:
             target = FindObj(0x4010000, 0xFFFF0000);
             ApplyWedge(0);
             if (GetWedgeValue() == -1) {
                 SetContestantsStill();
                 SetGameView(0, 1);
                 if (LoseTurn() != 0) {
-                    ProcPostEvent(3);
-                    ProcPostEvent(24);
+                    ProcPostEvent(PRC_EVENT_DONE_SPINING);
+                    ProcPostEvent(PRC_EVENT_COMPUTER_DONE);
                 }
                 result.w[1] = 0;
                 result.w[0] = 0;
@@ -240,9 +240,9 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
                     SetContestantsStill();
                     SetGameView(0, 1);
                     if (MustLoseTurn() != 0) {
-                        PlayMovieCorner(12, 16);
+                        PlayMovieCorner(12, PRC_EVENT_VIDEO_DONE);
                         result.w[1] = 2;
-                        result.w[0] = 16;
+                        result.w[0] = PRC_EVENT_VIDEO_DONE;
                         return result;
                     }
                     LoseTurn();
@@ -254,55 +254,55 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
             PlayContestantAnims();
             SetGameView(3, 1);
             StartCpuLetterPick(CpuPickConsonant(proc->data->playerProc.skill, proc) & 255);
-            ProcPostMessage(proc, 5, 0);
+            ProcPostMessage(proc, PRC_EVENT_DONE_SELECTING, 0);
             result.w[1] = 1;
             result.w[0] = 60 / frameRetraces;
             return result;
-        case 16:
+        case PRC_EVENT_VIDEO_DONE:
             LoseTurn();
-            ProcPostEvent(3);
-            ProcPostEvent(24);
+            ProcPostEvent(PRC_EVENT_DONE_SPINING);
+            ProcPostEvent(PRC_EVENT_COMPUTER_DONE);
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
-        case 5:
+        case PRC_EVENT_DONE_SELECTING:
             PlaySound(players[curPlayer].letterSounds + (curLetter - 65));
-            ProcPostMessage(proc, 44, 0);
+            ProcPostMessage(proc, PRC_EVENT_DONE_SAYING, 0);
             result.w[1] = 1;
             result.w[0] = 30 / frameRetraces;
             return result;
-        case 44:
+        case PRC_EVENT_DONE_SAYING:
             ShowJackpot();
             task = FindProc(0x5010000, -1);
-            ProcPostMessage(task, 23, 0);
+            ProcPostMessage(task, PRC_EVENT_COMPUTER_SELECTED, 0);
             if (CallLetter(curLetter, 0) > 0) {
                 ShowLetter(curLetter);
                 task = CreatProc(LightLetterProc, 0x1000000);
                 task->data->lightLetter.letter = curLetter;
                 result.w[1] = 2;
-                result.w[0] = 6;
+                result.w[0] = PRC_EVENT_DONE_REVEALING;
                 return result;
             } else {
                 PlaySound(1);
                 if (LoseTurn() != 0) {
-                    ProcPostEvent(3);
-                    ProcPostEvent(24);
+                    ProcPostEvent(PRC_EVENT_DONE_SPINING);
+                    ProcPostEvent(PRC_EVENT_COMPUTER_DONE);
                 }
                 result.w[1] = 0;
                 result.w[0] = 0;
                 return result;
             }
             break;
-        case 6:
+        case PRC_EVENT_DONE_REVEALING:
             if (GetWedgeValue() == -3) {
                 jackpotWon = 1;
             }
-            ProcPostEvent(24);
-            ProcPostEvent(3);
+            ProcPostEvent(PRC_EVENT_COMPUTER_DONE);
+            ProcPostEvent(PRC_EVENT_DONE_SPINING);
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -332,13 +332,13 @@ struct procResult_s CpuBuyVowelProc(proc_t *proc) {
     }
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             if (players[curPlayer].score < 250) {
-                ProcPostMessage(proc, 51, 0);
+                ProcPostMessage(proc, PRC_EVENT_NOT_ENOUGH, 0);
                 PlaySound(1);
                 ret.w[1] = 1;
                 ret.w[0] = 30 / frameRetraces;
@@ -346,40 +346,40 @@ struct procResult_s CpuBuyVowelProc(proc_t *proc) {
             } else {
                 SetGameView(3, 1);
                 StartCpuLetterPick(CpuPickVowel(proc->data->playerProc.skill) & 255);
-                ProcPostMessage(proc, 5, 0);
+                ProcPostMessage(proc, PRC_EVENT_DONE_SELECTING, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 60 / frameRetraces;
                 return ret;
             }
             break;
-        case 5:
+        case PRC_EVENT_DONE_SELECTING:
             PlaySound(players[curPlayer].letterSounds + (curLetter - 'A'));
-            ProcPostMessage(proc, 44, 0);
+            ProcPostMessage(proc, PRC_EVENT_DONE_SAYING, 0);
             ret.w[1] = 1;
             ret.w[0] = 30 / frameRetraces;
             return ret;
-        case 44:
+        case PRC_EVENT_DONE_SAYING:
             task = FindProc(0x5010000, -1);
-            ProcPostMessage(task, 23, 0);
+            ProcPostMessage(task, PRC_EVENT_COMPUTER_SELECTED, 0);
             if (CallLetter(curLetter, 1) > 0) {
                 ShowLetter(curLetter);
                 task = CreatProc(LightLetterProc, 0x1000000);
                 task->data->lightLetter.letter = curLetter;
                 ret.w[1] = 2;
-                ret.w[0] = 6;
+                ret.w[0] = PRC_EVENT_DONE_REVEALING;
             } else {
                 PlaySound(1);
                 if (LoseTurn() != 0) {
-                    ProcPostEvent(9);
-                    ProcPostEvent(24);
+                    ProcPostEvent(PRC_EVENT_DONE_VOWEL);
+                    ProcPostEvent(PRC_EVENT_COMPUTER_DONE);
                 }
                 ret.w[1] = 0;
                 ret.w[0] = 0;
                 return ret;
             }
             break;
-        case 51:
-            ProcPostEvent(9);
+        case PRC_EVENT_NOT_ENOUGH:
+            ProcPostEvent(PRC_EVENT_DONE_VOWEL);
             PlaySound(150);
             // RULE-EXCEPTION: R25, no prototype in scope: retail passes the 0.8 as a double
             StartRumble(players[curPlayer].controller, 30, 0.8);
@@ -387,13 +387,13 @@ struct procResult_s CpuBuyVowelProc(proc_t *proc) {
             ret.w[1] = 0;
             ret.w[0] = 0;
             return ret;
-        case 6:
-            ProcPostEvent(24);
-            ProcPostEvent(9);
+        case PRC_EVENT_DONE_REVEALING:
+            ProcPostEvent(PRC_EVENT_COMPUTER_DONE);
+            ProcPostEvent(PRC_EVENT_DONE_VOWEL);
             ret.w[1] = 0;
             ret.w[0] = 0;
             return ret;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             ret.w[1] = 0;
             ret.w[0] = 0;
             return ret;
@@ -422,34 +422,34 @@ struct procResult_s CpuSolveProc(proc_t *proc) {
         return result;
     }
     task = FindProc(0x1020000, -1);
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             StartSolvePuzzle();
             SetGameView(3, 1);
             result.w[1] = 2;
-            result.w[0] = 5;
+            result.w[0] = PRC_EVENT_DONE_SELECTING;
             return result;
-        case 5:
+        case PRC_EVENT_DONE_SELECTING:
             if (CheckSolve() == 1) {
-                ProcPostMessage(task, 19, 0);
-                ProcPostEvent(24);
-                ProcPostEvent(10);
+                ProcPostMessage(task, PRC_EVENT_HIGHLIGHT_ALL, 0);
+                ProcPostEvent(PRC_EVENT_COMPUTER_DONE);
+                ProcPostEvent(PRC_EVENT_DONE_SOLVE);
                 result.w[1] = 0;
                 result.w[0] = 0;
             } else {
-                ProcPostMessage(task, 20, 0);
+                ProcPostMessage(task, PRC_EVENT_CLEAR_GUESSED, 0);
                 PlaySound(1);
                 if (LoseTurn() != 0) {
-                    ProcPostEvent(10);
-                    ProcPostEvent(24);
+                    ProcPostEvent(PRC_EVENT_DONE_SOLVE);
+                    ProcPostEvent(PRC_EVENT_COMPUTER_DONE);
                 }
                 result.w[1] = 0;
                 result.w[0] = 0;
                 return result;
             }
             break;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -479,9 +479,9 @@ struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
         return result;
     }
     task = FindProc(0x5000000, -1);
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             SetGameView(3, 1);
             switch (GetHiddenKinds()) {
             case 4:
@@ -498,38 +498,38 @@ struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
                 StartCpuLetterPick(CpuPickConsonant(proc->data->playerProc.skill, proc) & 255);
                 break;
             }
-            ProcPostMessage(proc, 5, 0);
+            ProcPostMessage(proc, PRC_EVENT_DONE_SELECTING, 0);
             result.w[1] = 1;
             result.w[0] = 60 / frameRetraces;
             return result;
             break;
-        case 5:
+        case PRC_EVENT_DONE_SELECTING:
             PlaySound(players[curPlayer].letterSounds + (curLetter - 65));
-            ProcPostMessage(proc, 44, 0);
+            ProcPostMessage(proc, PRC_EVENT_DONE_SAYING, 0);
             result.w[1] = 1;
             result.w[0] = 30 / frameRetraces;
             return result;
-        case 44:
+        case PRC_EVENT_DONE_SAYING:
             task = FindProc(0x5010000, -1);
-            ProcPostMessage(task, 23, 0);
+            ProcPostMessage(task, PRC_EVENT_COMPUTER_SELECTED, 0);
             if (CallLetter(curLetter, 2) > 0) {
                 ShowLetter(curLetter);
                 task = CreatProc(LightLetterProc, 0x1000000);
                 task->data->lightLetter.letter = curLetter;
                 result.w[1] = 2;
-                result.w[0] = 6;
+                result.w[0] = PRC_EVENT_DONE_REVEALING;
                 return result;
             } else {
                 PlaySound(1);
                 LoseTurn();
-                ProcPostEvent(24);
-                ProcPostEvent(31);
-                ProcPostMessage(task, 31, 0);
+                ProcPostEvent(PRC_EVENT_COMPUTER_DONE);
+                ProcPostEvent(PRC_EVENT_DONE_SPEEDUP);
+                ProcPostMessage(task, PRC_EVENT_DONE_SPEEDUP, 0);
                 result.w[1] = 0;
                 result.w[0] = 0;
                 return result;
             }
-        case 6:
+        case PRC_EVENT_DONE_REVEALING:
             SetScorePictures(0);
             StartSolveTimer();
             ratio = CheckPercentDone();
@@ -538,26 +538,26 @@ struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
                 task->data->playerProc.player = proc->data->playerProc.player;
                 task->data->playerProc.skill = proc->data->playerProc.skill;
                 result.w[1] = 2;
-                result.w[0] = 10;
+                result.w[0] = PRC_EVENT_DONE_SOLVE;
                 return result;
             } else {
                 result.w[1] = 1;
                 result.w[0] = 0;
                 return result;
             }
-        case 33:
+        case PRC_EVENT_SOLVE_TIMEOUT:
             PlaySound(1);
-        case 10:
+        case PRC_EVENT_DONE_SOLVE:
             if (CheckSolve() != 1) {
                 LoseTurn();
             }
-            ProcPostEvent(24);
-            ProcPostEvent(31);
-            ProcPostMessage(task, 31, 0);
+            ProcPostEvent(PRC_EVENT_COMPUTER_DONE);
+            ProcPostEvent(PRC_EVENT_DONE_SPEEDUP);
+            ProcPostMessage(task, PRC_EVENT_DONE_SPEEDUP, 0);
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -581,13 +581,13 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
     ret.w[1] = 1;
     ret.w[0] = 0;
     if (proc->data->playerProc.player != curPlayer) {
-        while ((event = ProcGetMessage(proc)) != 0) {
+        while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
             switch (event) {
-            case 34:
+            case PRC_EVENT_DEMO_TIMEOUT:
                 ret.w[1] = 0;
                 ret.w[0] = 0;
                 return ret;
-            case 42:
+            case PRC_EVENT_BONUS_ROUND:
                 ret.w[1] = 0;
                 ret.w[0] = 0;
                 return ret;
@@ -595,21 +595,21 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
         }
         return ret;
     }
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 38:
+        case PRC_EVENT_FREE_SPIN_USED:
             PlaySound(players[curPlayer].freeSpinSound);
             players[curPlayer].freeSpin = 0;
             /* fallthrough */
-        case 3:
-        case 9:
-        case 10:
-        case 31:
+        case PRC_EVENT_DONE_SPINING:
+        case PRC_EVENT_DONE_VOWEL:
+        case PRC_EVENT_DONE_SOLVE:
+        case PRC_EVENT_DONE_SPEEDUP:
             SetGameView(3, 1);
             task = FindProc(0x5000000, -1);
-            ProcPostMessage(task, 24, 0);
+            ProcPostMessage(task, PRC_EVENT_COMPUTER_DONE, 0);
             if (CheckSolved(1) == 1) {
-                ProcPostMessage(task, 21, 0);
+                ProcPostMessage(task, PRC_EVENT_ROUND_OVER, 0);
                 StartBoardLights();
                 applause += 3;
                 PlaySound(5);
@@ -620,7 +620,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
                     ret.w[0] = 0;
                 } else {
                     ret.w[1] = 2;
-                    ret.w[0] = 39;
+                    ret.w[0] = PRC_EVENT_START_ROUND;
                 }
                 return ret;
             }
@@ -628,110 +628,110 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
                 vowelsOnlyAnnounced = 1;
                 PlaySound(6);
             }
-            ProcPostMessage(proc, 28, 0);
+            ProcPostMessage(proc, PRC_EVENT_COMPUTER_SELECT, 0);
             ret.w[1] = 1;
             ret.w[0] = 20 / frameRetraces;
             return ret;
-        case 8:
+        case PRC_EVENT_INIT:
             ret.w[1] = 2;
-            ret.w[0] = 40;
+            ret.w[0] = PRC_EVENT_START_FIRST_ROUND;
             return ret;
-        case 40:
+        case PRC_EVENT_START_FIRST_ROUND:
             InitBoard();
-            ProcPostMessage(proc, 1, 0);
+            ProcPostMessage(proc, PRC_EVENT_NEXT_PLAYER, 0);
             SetGameView(3, 1);
             ret.w[1] = 1;
             ret.w[0] = 60 / frameRetraces;
             return ret;
-        case 1:
-        case 32:
-            ProcPostEvent(24);
+        case PRC_EVENT_NEXT_PLAYER:
+        case PRC_EVENT_DONE_FINAL_SPIN:
+            ProcPostEvent(PRC_EVENT_COMPUTER_DONE);
             if (finalSpin == 1) {
                 task = CreatProc(CpuFinalSpinTurnProc, proc->data->playerProc.player | 0x2030400);
                 task->data->playerProc.player = proc->data->playerProc.player;
                 task->data->playerProc.skill = proc->data->playerProc.skill;
                 ret.w[1] = 2;
-                ret.w[0] = 31;
+                ret.w[0] = PRC_EVENT_DONE_SPEEDUP;
                 return ret;
             }
-            ProcPostMessage(proc, 28, 0);
+            ProcPostMessage(proc, PRC_EVENT_COMPUTER_SELECT, 0);
             ret.w[1] = 1;
             ret.w[0] = 30 / frameRetraces;
             SetGameView(3, 1);
             applause++;
             return ret;
-        case 15:
-            ProcPostEvent(24);
+        case PRC_EVENT_NEXT_ROUND:
+            ProcPostEvent(PRC_EVENT_COMPUTER_DONE);
             if (finalSpin == 1) {
                 task = CreatProc(CpuFinalSpinTurnProc, proc->data->playerProc.player | 0x2030400);
                 task->data->playerProc.player = proc->data->playerProc.player;
                 task->data->playerProc.skill = proc->data->playerProc.skill;
                 ret.w[1] = 2;
-                ret.w[0] = 31;
+                ret.w[0] = PRC_EVENT_DONE_SPEEDUP;
                 return ret;
             }
-            ProcPostMessage(proc, 12, 0);
+            ProcPostMessage(proc, PRC_EVENT_SPIN_SELECTED, 0);
             ret.w[1] = 1;
             ret.w[0] = 60 / frameRetraces;
             SetGameView(3, 1);
             return ret;
-        case 28:
+        case PRC_EVENT_COMPUTER_SELECT:
             if (finalSpin == 1) {
                 task = CreatProc(CpuFinalSpinTurnProc, proc->data->playerProc.player | 0x2030400);
                 task->data->playerProc.player = proc->data->playerProc.player;
                 task->data->playerProc.skill = proc->data->playerProc.skill;
                 ret.w[1] = 2;
-                ret.w[0] = 31;
+                ret.w[0] = PRC_EVENT_DONE_SPEEDUP;
                 return ret;
             }
             CpuChooseAction(proc);
             ret.w[1] = 1;
             ret.w[0] = 60 / frameRetraces;
             return ret;
-        case 12:
+        case PRC_EVENT_SPIN_SELECTED:
             if (guRandom() % 100 < 33) {
                 PlaySound(players[curPlayer].spinSound);
             }
             jackpotWon = 0;
             task = FindProc(0x5000000, -1);
-            ProcPostMessage(task, 23, 0);
+            ProcPostMessage(task, PRC_EVENT_COMPUTER_SELECTED, 0);
             task = CreatProc(CpuSpinProc, proc->data->playerProc.player | 0x2000100);
             task->data->playerProc.player = proc->data->playerProc.player;
             task->data->playerProc.skill = proc->data->playerProc.skill;
             ret.w[1] = 2;
-            ret.w[0] = 3;
+            ret.w[0] = PRC_EVENT_DONE_SPINING;
             return ret;
-        case 13:
+        case PRC_EVENT_SVOWEL_SELECTED:
             PlaySound(players[curPlayer].buyVowelSound);
             jackpotWon = 0;
             task = FindProc(0x5000000, -1);
-            ProcPostMessage(task, 23, 0);
+            ProcPostMessage(task, PRC_EVENT_COMPUTER_SELECTED, 0);
             task = CreatProc(CpuBuyVowelProc, proc->data->playerProc.player | 0x2000200);
             task->data->playerProc.player = proc->data->playerProc.player;
             task->data->playerProc.skill = proc->data->playerProc.skill;
             ret.w[1] = 2;
-            ret.w[0] = 9;
+            ret.w[0] = PRC_EVENT_DONE_VOWEL;
             return ret;
-        case 14:
+        case PRC_EVENT_SOLVE_SELECTED:
             PlaySound(players[curPlayer].solveSound);
             task = FindProc(0x5000000, -1);
-            ProcPostMessage(task, 23, 0);
+            ProcPostMessage(task, PRC_EVENT_COMPUTER_SELECTED, 0);
             task = CreatProc(CpuSolveProc, proc->data->playerProc.player | 0x2000300);
             task->data->playerProc.player = proc->data->playerProc.player;
             task->data->playerProc.skill = proc->data->playerProc.skill;
             ret.w[1] = 2;
-            ret.w[0] = 10;
+            ret.w[0] = PRC_EVENT_DONE_SOLVE;
             return ret;
-        case 37:
+        case PRC_EVENT_USE_FREE_SPIN:
             jackpotWon = 0;
             task = FindProc(0x5000000, -1);
             curLetter = '3';
-            ProcPostMessage(task, 27, 1);
-            ProcPostMessage(proc, 38, 0);
+            ProcPostMessage(task, PRC_EVENT_COMPUTER_CHANGED, 1);
+            ProcPostMessage(proc, PRC_EVENT_FREE_SPIN_USED, 0);
             ret.w[1] = 1;
             ret.w[0] = 60 / frameRetraces;
             return ret;
-        case 39:
+        case PRC_EVENT_START_ROUND:
             NextRound();
             if (proc->data->playerProc.player != curPlayer) {
                 ret.w[1] = 2;
@@ -741,11 +741,11 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
                 ret.w[0] = 0;
             }
             return ret;
-        case 30:
+        case PRC_EVENT_GAME_TIMEOUT:
             ret.w[1] = 2;
-            ret.w[0] = 32;
+            ret.w[0] = PRC_EVENT_DONE_FINAL_SPIN;
             return ret;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             ret.w[1] = 0;
             ret.w[0] = 0;
             return ret;

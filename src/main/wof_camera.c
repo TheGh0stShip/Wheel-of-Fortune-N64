@@ -66,7 +66,7 @@ s32 IsBoardHidden(void) {
 =====================
 CameraPathProc
 
-Plays a camera move a frame at a time; event 45 when it ends.
+Plays a camera move a frame at a time; PRC_EVENT_DONE_CAMPATH when it ends.
 =====================
 */
 struct procResult_s CameraPathProc(proc_t *proc) {
@@ -79,11 +79,11 @@ struct procResult_s CameraPathProc(proc_t *proc) {
     result.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             curCamera = &proc->data->cameraPath.path[proc->data->cameraPath.frame];
             return result;
         }
@@ -91,7 +91,7 @@ struct procResult_s CameraPathProc(proc_t *proc) {
     proc->data->cameraPath.frame += frameRetraces;
     if (proc->data->cameraPath.frame >= proc->data->cameraPath.count) {
         curCamera = proc->data->cameraPath.path - 1 + proc->data->cameraPath.count;
-        ProcPostEvent(45);
+        ProcPostEvent(PRC_EVENT_DONE_CAMPATH);
         result.w[1] = 0;
         result.w[0] = 0;
         return result;

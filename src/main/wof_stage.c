@@ -193,7 +193,8 @@ s32 minSpinSpeed = 75;
 =====================
 WheelPullProc
 
-The player pulls the wheel back with the stick; a button or a fast enough swing spins it (event 29)
+The player pulls the wheel back with the stick; a button or a fast enough swing spins it
+(PRC_EVENT_PLAYER_SPUN)
 =====================
 */
 struct procResult_s WheelPullProc(proc_t *proc) {
@@ -214,14 +215,14 @@ struct procResult_s WheelPullProc(proc_t *proc) {
     }
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->wheelPull.restPitch = obj->pitch;
             break;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             ret.w[1] = 0;
             ret.w[0] = 0;
             return ret;
@@ -237,12 +238,12 @@ struct procResult_s WheelPullProc(proc_t *proc) {
     obj->pitch = obj->pitch + delta;
     if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
         wheelSpeed = (f32)(guRandom() % 40) + 100.0f;
-        ProcPostEvent(29);
+        ProcPostEvent(PRC_EVENT_PLAYER_SPUN);
         ret.w[1] = 0;
         ret.w[0] = 0;
     }
     if (minSpinSpeed < wheelSpeed) {
-        ProcPostEvent(29);
+        ProcPostEvent(PRC_EVENT_PLAYER_SPUN);
         ret.w[1] = 0;
         ret.w[0] = 0;
     }
@@ -268,11 +269,11 @@ struct procResult_s PointerProc(proc_t *proc) {
 
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
@@ -366,9 +367,9 @@ struct procResult_s WheelStopProc(proc_t *proc) {
     obj = proc->data->wheelStop.obj;
     ret.w[1] = 1;
     ret.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             SetVannaStill();
             SetContestantsStill();
             switch (GetWedgeValue()) {
@@ -384,19 +385,19 @@ struct procResult_s WheelStopProc(proc_t *proc) {
             case 3500:
                 proc->data->wheelStop.was3500 = 1;
                 applause++;
-                ProcPostMessage(proc, 41, 0);
+                ProcPostMessage(proc, PRC_EVENT_NEXT_SOUND, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 10 / frameRetraces;
                 return ret;
             case 5000:
                 applause++;
-                ProcPostMessage(proc, 41, 0);
+                ProcPostMessage(proc, PRC_EVENT_NEXT_SOUND, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 10 / frameRetraces;
                 return ret;
             case 10000:
                 applause = applause + 3;
-                ProcPostMessage(proc, 41, 0);
+                ProcPostMessage(proc, PRC_EVENT_NEXT_SOUND, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 10 / frameRetraces;
                 return ret;
@@ -408,7 +409,7 @@ struct procResult_s WheelStopProc(proc_t *proc) {
     }
     ret.w[1] = 0;
     ret.w[0] = 0;
-    ProcPostEvent(2);
+    ProcPostEvent(PRC_EVENT_WHEEL_STOPPED);
     return ret;
 }
 
@@ -436,7 +437,7 @@ struct procResult_s TurnWheel(proc_t *proc) {
     }
     if (proc->data->wheelSpin.speed <= 50.0f) {
         if (proc->data->wheelSpin.lastSpeed > 50.0f) {
-            ProcPostEvent(4);
+            ProcPostEvent(PRC_EVENT_WHEEL_ALMOST_STOPPED);
         }
     }
     wheelSpeed = proc->data->wheelSpin.speed;
@@ -458,20 +459,20 @@ struct procResult_s WheelSpinProc(proc_t *proc) {
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     obj = proc->data->wheelSpin.wheel;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             StartWheelLights();
             PlayContestantAnims();
             SetVannaAnim(1);
             proc->data->wheelSpin.spinStartZero = 0;
             applause++;
-            ProcPostMessage(proc, 41, 0);
+            ProcPostMessage(proc, PRC_EVENT_NEXT_SOUND, 0);
             return TurnWheel(proc);
-        case 41:
+        case PRC_EVENT_NEXT_SOUND:
             applause += players[curPlayer].score / 5000;
             return TurnWheel(proc);
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             ret.w[1] = 0;
             ret.w[0] = 0;
             return ret;
@@ -496,19 +497,19 @@ struct procResult_s BoardLightsProc(proc_t *proc) {
     obj = proc->data->boardLights.obj;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->boardLights.frames = 0;
             obj->dl = boardLights1Dl;
             break;
-        case 15:
-        case 34:
-        case 39:
-        case 42:
-        case 47:
+        case PRC_EVENT_NEXT_ROUND:
+        case PRC_EVENT_DEMO_TIMEOUT:
+        case PRC_EVENT_START_ROUND:
+        case PRC_EVENT_BONUS_ROUND:
+        case PRC_EVENT_STOP_FLASHING_PUZZLE:
             obj->dl = boardLightsOffDl;
             result.w[1] = 0;
             result.w[0] = 0;
@@ -535,8 +536,8 @@ struct procResult_s BoardLightsProc(proc_t *proc) {
 =====================
 WheelLightsProc
 
-Flashes the bulbs of the ring under the wheel while the wheel turns, and puts them out at event 2,
-when it stops.
+Flashes the bulbs of the ring under the wheel while the wheel turns, and puts them out at
+PRC_EVENT_WHEEL_STOPPED.
 =====================
 */
 struct procResult_s WheelLightsProc(proc_t *proc) {
@@ -548,15 +549,15 @@ struct procResult_s WheelLightsProc(proc_t *proc) {
     obj = proc->data->wheelLights.obj;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->wheelLights.frames = 0;
             obj->dl = wheelLightsOnDl;
             break;
-        case 2:
+        case PRC_EVENT_WHEEL_STOPPED:
             obj->dl = wheelLightsOffDl;
             result.w[1] = 0;
             result.w[0] = 0;
@@ -582,7 +583,7 @@ struct procResult_s WheelLightsProc(proc_t *proc) {
 BaseLightsProc
 
 Flashes the bulbs of the wide ring at the foot of the wheel while the wheel turns, and puts them out
-at event 2.
+at PRC_EVENT_WHEEL_STOPPED.
 =====================
 */
 struct procResult_s BaseLightsProc(proc_t *proc) {
@@ -592,13 +593,13 @@ struct procResult_s BaseLightsProc(proc_t *proc) {
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     sprite = proc->data->baseLights.obj;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->baseLights.frames = 0;
             sprite->dl = baseLightsOn2Dl;
             break;
-        case 2:
+        case PRC_EVENT_WHEEL_STOPPED:
             sprite->dl = baseLightsOffDl;
             result.w[1] = 0;
             result.w[0] = 0;
@@ -635,9 +636,9 @@ struct procResult_s LightLetterProc(proc_t *proc) {
     u8 letter;
     s32 event;
 
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->lightLetter.vannaStarted = 0;
             proc->data->lightLetter.row = 0;
             if (lightDir == 1) {
@@ -650,12 +651,12 @@ struct procResult_s LightLetterProc(proc_t *proc) {
             ret.w[0] = 0;
             return ret;
             break;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             ret.w[1] = 0;
             ret.w[0] = 0;
             return ret;
-        case 49:
-            ProcPostEvent(6);
+        case PRC_EVENT_VANNA_STOPPED:
+            ProcPostEvent(PRC_EVENT_DONE_REVEALING);
             ret.w[1] = 0;
             ret.w[0] = 0;
             return ret;
@@ -716,7 +717,7 @@ struct procResult_s LightLetterProc(proc_t *proc) {
         proc->data->lightLetter.vannaStarted = 1;
     }
     ret.w[1] = 2;
-    ret.w[0] = 49;
+    ret.w[0] = PRC_EVENT_VANNA_STOPPED;
     return ret;
 }
 
@@ -768,19 +769,19 @@ struct procResult_s LightTextProc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             result.w[1] = 1;
             result.w[0] = 0;
             return result;
             break;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
-        case 49:
-            ProcPostEvent(6);
+        case PRC_EVENT_VANNA_STOPPED:
+            ProcPostEvent(PRC_EVENT_DONE_REVEALING);
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -790,7 +791,7 @@ struct procResult_s LightTextProc(proc_t *proc) {
     if (c == 0) {
         SetVannaAnim(0);
         result.w[1] = 2;
-        result.w[0] = 49;
+        result.w[0] = PRC_EVENT_VANNA_STOPPED;
         return result;
     }
     row = proc->data->lightText.row;
@@ -1121,11 +1122,11 @@ struct procResult_s CursorProc(proc_t *proc) {
     result.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             i = 0;
             while (i < 4) {
                 slot = FindHiddenSquare(i, -1, 1);
@@ -1139,26 +1140,26 @@ struct procResult_s CursorProc(proc_t *proc) {
             solveCol = slot;
             SetSquareLetter(solveRow, solveCol, curLetter);
             break;
-        case 17:
+        case PRC_EVENT_CURSOR_RIGHT:
             NextSolveSquare();
             break;
-        case 18:
+        case PRC_EVENT_CURSOR_LEFT:
             PrevSolveSquare();
             break;
-        case 19:
+        case PRC_EVENT_HIGHLIGHT_ALL:
             ResetSquares();
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
-        case 20:
+        case PRC_EVENT_CLEAR_GUESSED:
             GreyHiddenSquares();
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
-        case 22:
+        case PRC_SELECTION_CHANGED:
             SetSquareLetter(solveRow, solveCol, curLetter);
             break;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             result.w[1] = 0;
             result.w[0] = 0;
             return result;

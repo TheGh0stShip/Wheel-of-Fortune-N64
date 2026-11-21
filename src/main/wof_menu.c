@@ -608,9 +608,9 @@ struct procResult_s MainMenu1Proc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->mainMenu.index = 0;
             proc->data->mainMenu.sel = mainMenu1[0].sel;
             InitMainFlash(proc, mainMenu1Images, &mainMenu1[1], 0);
@@ -745,9 +745,9 @@ struct procResult_s ContestantMenuProc(proc_t *proc) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->mainMenu.index = 0;
             proc->data->mainMenu.sel = contestantMenu[0].sel;
             InitMainFlash(proc, contestantMenuImages, &contestantMenu[1], 0);
@@ -845,9 +845,9 @@ struct procResult_s SkillMenuProc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->mainMenu.index = 0;
             proc->data->mainMenu.sel = skillMenu[0].sel;
             InitMainFlash(proc, skillMenuImages, &skillMenu[1], 0);
@@ -917,9 +917,9 @@ struct procResult_s RoundsMenuProc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->mainMenu.index = 0;
             proc->data->mainMenu.sel = roundsMenu[0].sel;
             InitMainFlash(proc, roundsMenuImages, &roundsMenu[1], 0);
@@ -1034,11 +1034,11 @@ struct procResult_s MainMenu3Proc(proc_t *proc) {
     ret.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->mainMenu.index = 0;
             proc->data->mainMenu.sel = 0;
             InitMainFlash(proc, mainMenu3Images, mainMenu3, 1);
@@ -1046,7 +1046,7 @@ struct procResult_s MainMenu3Proc(proc_t *proc) {
             InitMainFlash(proc, mainMenu3Images, &mainMenu3[2], 0);
             InitMainFlash(proc, mainMenu3Images, &mainMenu3[3], 0);
             return ret;
-        case 36:
+        case PRC_EVENT_START_PRESSED:
             KillOtherProcs(proc);
             InitObjs();
             PopMemStack(1);
@@ -1064,7 +1064,7 @@ struct procResult_s MainMenu3Proc(proc_t *proc) {
             ApplyOptions();
             PopMemStack(1);
             StopAllSounds();
-            ProcPostMessage(proc, 36, 0);
+            ProcPostMessage(proc, PRC_EVENT_START_PRESSED, 0);
             ret.w[1] = 1;
             ret.w[0] = 2;
             return ret;
@@ -1096,7 +1096,7 @@ struct procResult_s MainMenu3Proc(proc_t *proc) {
         ApplyOptions();
         StopAllSounds();
         PopMemStack(1);
-        ProcPostMessage(proc, 36, 0);
+        ProcPostMessage(proc, PRC_EVENT_START_PRESSED, 0);
         ret.w[1] = 1;
         ret.w[0] = 2;
         return ret;

@@ -26,7 +26,7 @@ void ProcPostEvent(s32 event) {
     while (node->next != 0) {
         node = node->next;
         if (node->event == event || node->event == -1) {
-            node->event = 0;
+            node->event = PRC_EVENT_NULL;
             node->waiting = 0;
             node->sleep = 0;
             if (node->count < 5) {

@@ -72,8 +72,8 @@ proc_t *CreatProc(procHandler_t handler, s32 cls) {
     task->handler = handler;
     task->cls = cls;
     task->sleep = 0;
-    task->event = 0;
-    task->items[0] = 8;
+    task->event = PRC_EVENT_NULL;
+    task->items[0] = PRC_EVENT_INIT;
     task->count = 1;
     task->next = 0;
     task->creatZero1 = 0;

@@ -27,9 +27,9 @@ struct procResult_s ApplauseProc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             PlaySound(10);
             applause = 2;
             proc->data->applauseProc.played = 0;

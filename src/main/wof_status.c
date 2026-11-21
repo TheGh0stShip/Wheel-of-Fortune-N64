@@ -753,18 +753,18 @@ struct procResult_s CategoryProc(proc_t *proc) {
     obj = proc->data->categoryShow.obj;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             if (round < numRounds) {
                 SetContestantsStill();
             }
             SetVannaAnim(2);
             proc->data->categoryShow.index = 0;
             break;
-        case 6:
+        case PRC_EVENT_DONE_REVEALING:
             if (round == 6) {
                 SetVannaAnim(80);
             } else {
@@ -781,7 +781,7 @@ struct procResult_s CategoryProc(proc_t *proc) {
         if (round != 6) {
             PlaySound(curPlayer + 139);
         }
-        ProcPostMessage(proc, 6, 0);
+        ProcPostMessage(proc, PRC_EVENT_DONE_REVEALING, 0);
         result.w[1] = 1;
         result.w[0] = 20 / frameRetraces;
         return result;
@@ -937,9 +937,9 @@ struct procResult_s JackpotRollProc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 3 / frameRetraces - 1;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->jackpotRoll.step = 0;
         }
     }
@@ -1276,25 +1276,25 @@ struct procResult_s ShowTotalProc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             gameMode = 8;
             ShowTotal();
             MakeScreenObj(proc, 0, DrawBigNumber, 0x5050100);
             applause += 2;
             result.w[0] = 30 / frameRetraces;
             return result;
-        case 46:
+        case PRC_EVENT_GAME_OVER:
             StopAllSounds();
             result.w[1] = 1;
             result.w[0] = 2;
             FreeObjClass(0x1000000, 0xFF000000);
             FreeObjClass(0xA000000, 0xFF000000);
             FreeObjClass(0x4000000, 0xFF000000);
-            ProcPostMessage(proc, 35, 0);
+            ProcPostMessage(proc, PRC_EVENT_DEMO_RESET, 0);
             return result;
-        case 35:
+        case PRC_EVENT_DEMO_RESET:
             KillOtherProcs(proc);
             InitObjs();
             StopMovie();
@@ -1304,9 +1304,9 @@ struct procResult_s ShowTotalProc(proc_t *proc) {
             return result;
         }
     }
-    PlayMovieCorner(0, 46);
+    PlayMovieCorner(0, PRC_EVENT_GAME_OVER);
     result.w[1] = 2;
-    result.w[0] = 46;
+    result.w[0] = PRC_EVENT_GAME_OVER;
     return result;
 }
 
@@ -1342,9 +1342,9 @@ struct procResult_s CreditsProc(proc_t *proc) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             i = 0;
             for (;;) {
                 if (i >= 22) {
@@ -1363,16 +1363,16 @@ struct procResult_s CreditsProc(proc_t *proc) {
             FreeObjClass(0xA030000, -1);
             PlaySound(21);
             break;
-        case 46:
+        case PRC_EVENT_GAME_OVER:
             StopAllSounds();
             ret.w[1] = 1;
             ret.w[0] = 2;
             FreeObjClass(0x1000000, 0xFF000000);
             FreeObjClass(0xA000000, 0xFF000000);
             FreeObjClass(0x4000000, 0xFF000000);
-            ProcPostMessage(proc, 35, 0);
+            ProcPostMessage(proc, PRC_EVENT_DEMO_RESET, 0);
             return ret;
-        case 35:
+        case PRC_EVENT_DEMO_RESET:
             KillOtherProcs(proc);
             InitObjs();
             StopMovie();
@@ -1383,7 +1383,7 @@ struct procResult_s CreditsProc(proc_t *proc) {
         }
     }
     if (proc->data->credits.step >= 22) {
-        ProcPostMessage(proc, 46, 0);
+        ProcPostMessage(proc, PRC_EVENT_GAME_OVER, 0);
         return ret;
     }
     ResetBoard();
@@ -1415,25 +1415,25 @@ struct procResult_s ShowWinTotalProc(proc_t *proc) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             gameMode = 8;
             ShowTotal();
             MakeScreenObj(proc, 0, DrawBigNumber, 0x5050100);
             applause++;
             ret.w[0] = 30 / frameRetraces;
             return ret;
-        case 46:
+        case PRC_EVENT_GAME_OVER:
             CreatProc(CreditsProc, 0x6060000);
             ret.w[1] = 0;
             ret.w[0] = 0;
             return ret;
         }
     }
-    PlayMovieCorner(0, 46);
+    PlayMovieCorner(0, PRC_EVENT_GAME_OVER);
     ret.w[1] = 2;
-    ret.w[0] = 46;
+    ret.w[0] = PRC_EVENT_GAME_OVER;
     return ret;
 }
 
@@ -1451,9 +1451,9 @@ struct procResult_s BonusLostProc(proc_t *proc) {
 
     ret.w[1] = 1;
     ret.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             ret.w[0] = 30 / frameRetraces;
             return ret;
         }
@@ -1481,17 +1481,17 @@ struct procResult_s BonusTimerProc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 33:
+        case PRC_EVENT_SOLVE_TIMEOUT:
             bonusTimerImages[0].texture = bigDigitTextures[0];
             bonusTimerImages[0].width = bigDigitWidths[0];
             bonusTimerImages[1].texture = bigDigitTextures[0];
             bonusTimerImages[1].width = bigDigitWidths[0];
-            ProcPostMessage(proc, 31, 0);
+            ProcPostMessage(proc, PRC_EVENT_DONE_SPEEDUP, 0);
             result.w[0] = 30 / frameRetraces;
             return result;
-        case 31:
+        case PRC_EVENT_DONE_SPEEDUP:
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
@@ -1524,7 +1524,7 @@ struct procResult_s ShowRetracesProc(proc_t *proc) {
     result.w[0] = 0;
     do {
         busy = ProcGetMessage(proc);
-    } while (busy != 0);
+    } while (busy != PRC_EVENT_NULL);
     tens = frameRetraces / 10;
     ones = frameRetraces % 10;
     retraceImages[0].texture = bigDigitTextures[tens];
@@ -1548,9 +1548,9 @@ struct procResult_s BonusWonProc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             applause = applause + 6;
             SetVannaAnim(1);
             StartBoardLights();
@@ -1587,11 +1587,11 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
     ret.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             bonusMusicSlot = -1;
             for (i = 0; i < 5; i++) {
                 bonusSlotLetters[i + 6] = 0;
@@ -1602,18 +1602,18 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
             InitCategory();
             ret.w[1] = 1;
             ret.w[0] = 60 / frameRetraces;
-            ProcPostMessage(proc, 11, 0);
+            ProcPostMessage(proc, PRC_EVENT_STATUS_WAKEUP, 0);
             return ret;
-        case 11:
+        case PRC_EVENT_STATUS_WAKEUP:
             if (lightDir < 0) {
-                PlayMovieCorner(9, 44);
+                PlayMovieCorner(9, PRC_EVENT_DONE_SAYING);
             } else {
-                PlayMovie(9, 44, 180, 20);
+                PlayMovie(9, PRC_EVENT_DONE_SAYING, 180, 20);
             }
             ret.w[1] = 2;
-            ret.w[0] = 44;
+            ret.w[0] = PRC_EVENT_DONE_SAYING;
             return ret;
-        case 44:
+        case PRC_EVENT_DONE_SAYING:
             for (i = 0; givenLetters[i] != 0; i++) {
                 uncalled[givenLetters[i] - 65] = 32;
                 ShowLetter(givenLetters[i]);
@@ -1623,12 +1623,12 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
             task->data->lightText.col = 0;
             task->data->lightText.text = givenLetters;
             ret.w[1] = 2;
-            ret.w[0] = 6;
+            ret.w[0] = PRC_EVENT_DONE_REVEALING;
             return ret;
-        case 6:
+        case PRC_EVENT_DONE_REVEALING:
             if (bonusLetterSlots[9].texture != 0) {
                 if (CheckSolved(0) == 1) {
-                    ProcPostEvent(10);
+                    ProcPostEvent(PRC_EVENT_DONE_SOLVE);
                     CreatProc(BonusWonProc, 0x6000000);
                     ret.w[1] = 0;
                     ret.w[0] = 1;
@@ -1640,25 +1640,25 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
                 task = CreatProc(BonusTimerProc, 0x5050200);
                 MakeScreenObj(task, 0, DrawBonusTimer, 0x5050200);
                 ret.w[1] = 2;
-                ret.w[0] = 10;
+                ret.w[0] = PRC_EVENT_DONE_SOLVE;
                 return ret;
             }
             if (lightDir < 0) {
-                PlayMovieCorner(10, 0);
+                PlayMovieCorner(10, PRC_EVENT_NULL);
             } else {
-                PlayMovie(10, 0, 180, 20);
+                PlayMovie(10, PRC_EVENT_NULL, 180, 20);
             }
             StartLetterPick();
             ret.w[1] = 2;
-            ret.w[0] = 5;
+            ret.w[0] = PRC_EVENT_DONE_SELECTING;
             return ret;
-        case 5:
+        case PRC_EVENT_DONE_SELECTING:
             if (IsVowel(curLetter) != 0) {
                 if (bonusLetterSlots[9].texture != 0) {
                     PlaySound(1);
                     StartLetterPick();
                     ret.w[1] = 2;
-                    ret.w[0] = 5;
+                    ret.w[0] = PRC_EVENT_DONE_SELECTING;
                     return ret;
                 } else {
                     bonusVowels++;
@@ -1669,7 +1669,7 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
                     PlaySound(1);
                     StartLetterPick();
                     ret.w[1] = 2;
-                    ret.w[0] = 5;
+                    ret.w[0] = PRC_EVENT_DONE_SELECTING;
                     return ret;
                 }
                 bonusConsonants++;
@@ -1690,21 +1690,21 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
                 task->data->lightText.col = 0;
                 task->data->lightText.text = &bonusSlotLetters[6];
                 ret.w[1] = 2;
-                ret.w[0] = 6;
+                ret.w[0] = PRC_EVENT_DONE_REVEALING;
             } else {
                 StartLetterPick();
                 ret.w[1] = 2;
-                ret.w[0] = 5;
+                ret.w[0] = PRC_EVENT_DONE_SELECTING;
             }
             return ret;
-        case 10:
+        case PRC_EVENT_DONE_SOLVE:
             if (CheckSolve() == 1) {
                 if (bonusMusicSlot != -1) {
                     StopSound(bonusMusicSlot);
                 }
                 task = FindProc(0x1020000, -1);
-                ProcPostMessage(task, 19, 0);
-                ProcPostEvent(10);
+                ProcPostMessage(task, PRC_EVENT_HIGHLIGHT_ALL, 0);
+                ProcPostEvent(PRC_EVENT_DONE_SOLVE);
                 CreatProc(BonusWonProc, 0x6000000);
                 ret.w[1] = 0;
                 ret.w[0] = 1;
@@ -1715,21 +1715,21 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
             KillProc(task, 0);
             StartSolvePuzzle();
             ret.w[1] = 2;
-            ret.w[0] = 10;
+            ret.w[0] = PRC_EVENT_DONE_SOLVE;
             return ret;
-        case 33:
+        case PRC_EVENT_SOLVE_TIMEOUT:
             if (bonusMusicSlot != -1) {
                 StopSound(bonusMusicSlot);
             }
             PlaySound(1);
             task = FindProc(0x1020000, -1);
             RevealPuzzle();
-            ProcPostEvent(10);
+            ProcPostEvent(PRC_EVENT_DONE_SOLVE);
             CreatProc(BonusLostProc, 0x6000000);
             ret.w[1] = 0;
             ret.w[0] = 1;
             return ret;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             ret.w[1] = 0;
             ret.w[0] = 1;
             return ret;
@@ -1772,15 +1772,15 @@ struct procResult_s StatusProc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 27:
+        case PRC_EVENT_COMPUTER_CHANGED:
             inputCount++;
             UnflashActions();
             proc->data->cursor.index = curLetter - 48;
             actionImages[proc->data->cursor.index].flashLeft = actionImages[proc->data->cursor.index].flashFrames;
             break;
-        case 8:
+        case PRC_EVENT_INIT:
             UnflashActions();
             ClearCategory();
             shownJackpot = 0;
@@ -1790,17 +1790,17 @@ struct procResult_s StatusProc(proc_t *proc) {
                 letterImages[i].flash = 0;
             }
             result.w[1] = 2;
-            result.w[0] = 40;
+            result.w[0] = PRC_EVENT_START_FIRST_ROUND;
             return result;
-        case 40:
+        case PRC_EVENT_START_FIRST_ROUND:
             InitCategory();
             FlashPlayerStatus();
-        case 3:
-        case 9:
-        case 10:
-        case 11:
-        case 24:
-        case 31:
+        case PRC_EVENT_DONE_SPINING:
+        case PRC_EVENT_DONE_VOWEL:
+        case PRC_EVENT_DONE_SOLVE:
+        case PRC_EVENT_STATUS_WAKEUP:
+        case PRC_EVENT_COMPUTER_DONE:
+        case PRC_EVENT_DONE_SPEEDUP:
             inputCount++;
             UnflashActions();
             SetScorePictures(0);
@@ -1808,7 +1808,7 @@ struct procResult_s StatusProc(proc_t *proc) {
             actionImages[proc->data->cursor.index].flash = 1;
             proc->data->cursor.delay = 0;
             return result;
-        case 15:
+        case PRC_EVENT_NEXT_ROUND:
             inputCount++;
             UnflashActions();
             InitActionCursor(proc);
@@ -1818,12 +1818,12 @@ struct procResult_s StatusProc(proc_t *proc) {
             actionImages[proc->data->cursor.index].flash = 1;
             proc->data->cursor.delay = 0;
             SetScorePictures(0);
-        case 1:
+        case PRC_EVENT_NEXT_PLAYER:
             inputCount++;
             InitActionCursor(proc);
             FlashPlayerStatus();
             return result;
-        case 21:
+        case PRC_EVENT_ROUND_OVER:
             inputCount++;
             UnflashActions();
             InitActionCursor(proc);
@@ -1837,30 +1837,30 @@ struct procResult_s StatusProc(proc_t *proc) {
             }
             result.w[1] = 2;
             if (gameOver != 0 || round == numRounds - 1) {
-                result.w[0] = 42;
+                result.w[0] = PRC_EVENT_BONUS_ROUND;
             } else {
-                result.w[0] = 15;
+                result.w[0] = PRC_EVENT_NEXT_ROUND;
             }
             return result;
-        case 23:
+        case PRC_EVENT_COMPUTER_SELECTED:
             inputCount++;
             UnflashActions();
             result.w[1] = 2;
-            result.w[0] = 24;
+            result.w[0] = PRC_EVENT_COMPUTER_DONE;
             return result;
-        case 30:
+        case PRC_EVENT_GAME_TIMEOUT:
             UnflashActions();
             result.w[1] = 2;
-            result.w[0] = 32;
+            result.w[0] = PRC_EVENT_DONE_FINAL_SPIN;
             finalSpin = 1;
             return result;
-        case 42:
+        case PRC_EVENT_BONUS_ROUND:
             inputCount++;
             StartBonusRound();
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             UnflashActions();
             result.w[1] = 0;
             result.w[0] = 1;
@@ -1886,9 +1886,9 @@ struct procResult_s StatusProc(proc_t *proc) {
         switch (proc->data->cursor.index) {
         case 0:
             if (canSpin != 0) {
-                ProcPostEvent(12);
+                ProcPostEvent(PRC_EVENT_SPIN_SELECTED);
                 result.w[1] = 2;
-                result.w[0] = 3;
+                result.w[0] = PRC_EVENT_DONE_SPINING;
                 return result;
             } else {
                 PlaySound(1);
@@ -1897,9 +1897,9 @@ struct procResult_s StatusProc(proc_t *proc) {
             break;
         case 1:
             if (canBuyVowel != 0) {
-                ProcPostEvent(13);
+                ProcPostEvent(PRC_EVENT_SVOWEL_SELECTED);
                 result.w[1] = 2;
-                result.w[0] = 9;
+                result.w[0] = PRC_EVENT_DONE_VOWEL;
                 return result;
             } else {
                 PlaySound(1);
@@ -1908,9 +1908,9 @@ struct procResult_s StatusProc(proc_t *proc) {
             break;
         case 2:
             if (canSolve != 0) {
-                ProcPostEvent(14);
+                ProcPostEvent(PRC_EVENT_SOLVE_SELECTED);
                 result.w[1] = 2;
-                result.w[0] = 10;
+                result.w[0] = PRC_EVENT_DONE_SOLVE;
                 return result;
             } else {
                 PlaySound(1);
@@ -1918,7 +1918,7 @@ struct procResult_s StatusProc(proc_t *proc) {
             }
             break;
         case 3:
-            ProcPostEvent(38);
+            ProcPostEvent(PRC_EVENT_FREE_SPIN_USED);
             StopFreeSpinTimer();
             return result;
         default:
@@ -1986,27 +1986,27 @@ struct procResult_s LetterPickProc(proc_t *proc) {
     result.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             InitLetterCursor(proc);
             letterImages[proc->data->cursor.index].flash = 1;
             proc->data->cursor.delay = 0;
             return result;
-        case 23:
+        case PRC_EVENT_COMPUTER_SELECTED:
             letterImages[proc->data->cursor.index].flash = 0;
-            ProcPostEvent(5);
+            ProcPostEvent(PRC_EVENT_DONE_SELECTING);
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
-        case 33:
-            ProcPostEvent(5);
+        case PRC_EVENT_SOLVE_TIMEOUT:
+            ProcPostEvent(PRC_EVENT_DONE_SELECTING);
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -2022,14 +2022,14 @@ struct procResult_s LetterPickProc(proc_t *proc) {
         inputCount++;
         if (uncalled[proc->data->cursor.index] != ' ') {
             curLetter = proc->data->cursor.index + 65;
-            ProcPostEvent(5);
+            ProcPostEvent(PRC_EVENT_DONE_SELECTING);
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
         } else {
             if (round != 6) {
                 curLetter = proc->data->cursor.index + 65;
-                ProcPostEvent(5);
+                ProcPostEvent(PRC_EVENT_DONE_SELECTING);
                 result.w[1] = 0;
                 result.w[0] = 0;
                 return result;
@@ -2132,60 +2132,60 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
     result.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             InitLetterCursor(proc);
             task = GetCursorProc();
             if (players[curPlayer].controller == 4) {
                 proc->data->cursor.index = puzzleText[solveRow][solveCol] - 65;
                 curLetter = proc->data->cursor.index + 65;
-                ProcPostMessage(proc, 25, 0);
+                ProcPostMessage(proc, PRC_EVENT_SOLVE_NEXT, 0);
             }
-            ProcPostMessage(task, 22, 0);
+            ProcPostMessage(task, PRC_SELECTION_CHANGED, 0);
             letterImages[proc->data->cursor.index].flash = 1;
             proc->data->cursor.delay = 0;
             result.w[0] = 45 / frameRetraces;
             return result;
-        case 25:
+        case PRC_EVENT_SOLVE_NEXT:
             ResetSolveTimer();
             letterImages[proc->data->cursor.index].flash = 0;
             curLetter = proc->data->cursor.index + 32;
             if (CountSolveBlanks() != 0) {
-                ProcPostMessage(proc, 26, 0);
+                ProcPostMessage(proc, PRC_EVENT_SOLVE_CHANGED, 0);
                 task = GetCursorProc();
-                ProcPostMessage(task, 17, 0);
+                ProcPostMessage(task, PRC_EVENT_CURSOR_RIGHT, 0);
             } else {
-                ProcPostEvent(5);
+                ProcPostEvent(PRC_EVENT_DONE_SELECTING);
                 result.w[1] = 0;
                 result.w[0] = 0;
             }
             return result;
-        case 26:
+        case PRC_EVENT_SOLVE_CHANGED:
             letterImages[proc->data->cursor.index].flash = 0;
             letterImages[proc->data->cursor.index].flashLeft = letterImages[proc->data->cursor.index].flashFrames;
             proc->data->cursor.index = puzzleText[solveRow][solveCol] - 65;
             curLetter = proc->data->cursor.index + 65;
             result.w[0] = 45 / frameRetraces;
-            ProcPostMessage(proc, 25, 0);
+            ProcPostMessage(proc, PRC_EVENT_SOLVE_NEXT, 0);
             task = GetCursorProc();
-            ProcPostMessage(task, 22, 0);
+            ProcPostMessage(task, PRC_SELECTION_CHANGED, 0);
             letterImages[proc->data->cursor.index].flash = 1;
             return result;
-        case 33:
+        case PRC_EVENT_SOLVE_TIMEOUT:
             letterImages[proc->data->cursor.index].flash = 0;
             if (round == 6) {
                 task = FindProc(0x5050000, -1);
-                ProcPostMessage(task, 33, 1);
+                ProcPostMessage(task, PRC_EVENT_SOLVE_TIMEOUT, 1);
             } else {
-                ProcPostEvent(5);
+                ProcPostEvent(PRC_EVENT_DONE_SELECTING);
             }
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -2201,16 +2201,16 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
         if (CountSolveBlanks() != 0) {
             ResetSolveTimer();
             proc->data->cursor.delay = 15;
-            ProcPostMessage(task, 17, 0);
+            ProcPostMessage(task, PRC_EVENT_CURSOR_RIGHT, 0);
         } else {
             task = FindProc(0x7030000, -1);
             if (round == 6) {
-                ProcPostEvent(10);
+                ProcPostEvent(PRC_EVENT_DONE_SOLVE);
             } else {
                 if (task != 0) {
                     KillProc(task, 0);
                 }
-                ProcPostEvent(5);
+                ProcPostEvent(PRC_EVENT_DONE_SELECTING);
             }
             result.w[1] = 0;
             result.w[0] = 0;
@@ -2220,34 +2220,34 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
     if (proc->data->cursor.delay <= 0) {
         if ((playerPad.button & 2048) != 0) {
             MoveCursorUp(proc);
-            ProcPostMessage(task, 22, 0);
+            ProcPostMessage(task, PRC_SELECTION_CHANGED, 0);
         } else if ((playerPad.button & 1024) != 0) {
             MoveCursorDown(proc);
-            ProcPostMessage(task, 22, 0);
+            ProcPostMessage(task, PRC_SELECTION_CHANGED, 0);
         } else if ((playerPad.button & 512) != 0) {
             MoveCursorLeft(proc, 1);
-            ProcPostMessage(task, 22, 0);
+            ProcPostMessage(task, PRC_SELECTION_CHANGED, 0);
         } else if ((playerPad.button & 256) != 0) {
             MoveCursorRight(proc, 1, 1);
-            ProcPostMessage(task, 22, 0);
+            ProcPostMessage(task, PRC_SELECTION_CHANGED, 0);
         } else if (playerPad.stick_x < -40) {
             MoveCursorLeft(proc, 1);
-            ProcPostMessage(task, 22, 0);
+            ProcPostMessage(task, PRC_SELECTION_CHANGED, 0);
         } else if (playerPad.stick_x >= 41) {
             MoveCursorRight(proc, 1, 1);
-            ProcPostMessage(task, 22, 0);
+            ProcPostMessage(task, PRC_SELECTION_CHANGED, 0);
         } else if (playerPad.stick_y < -40) {
             MoveCursorDown(proc);
-            ProcPostMessage(task, 22, 0);
+            ProcPostMessage(task, PRC_SELECTION_CHANGED, 0);
         } else if (playerPad.stick_y >= 41) {
             MoveCursorUp(proc);
-            ProcPostMessage(task, 22, 0);
+            ProcPostMessage(task, PRC_SELECTION_CHANGED, 0);
         } else if ((playerPad.button & 0x8010) != 0) {
             proc->data->cursor.delay = 15;
-            ProcPostMessage(task, 17, 0);
+            ProcPostMessage(task, PRC_EVENT_CURSOR_RIGHT, 0);
         } else if ((playerPad.button & 0x4020) != 0) {
             proc->data->cursor.delay = 15;
-            ProcPostMessage(task, 18, 0);
+            ProcPostMessage(task, PRC_EVENT_CURSOR_LEFT, 0);
         }
     } else {
         proc->data->cursor.delay -= frameRetraces;

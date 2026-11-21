@@ -20,9 +20,9 @@ struct procResult_s ConfettiProc(proc_t *proc) {
     obj_t *sprite;
 
     sprite = proc->data->confetti.sprite;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->confetti.timer = 0;
             proc->data->confetti.frame = 0;
             break;

@@ -398,17 +398,17 @@ struct procResult_s MovieProc(proc_t *proc) {
     ret.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             if (proc->data->moviePlay.sound > 0) {
                 movieSound = proc->data->moviePlay.sound;
             }
             minRetraces = 4;
             break;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             ret.w[1] = 0;
             ret.w[0] = 1;
             return ret;
@@ -423,7 +423,7 @@ struct procResult_s MovieProc(proc_t *proc) {
         if (movieDone == 2) {
             fclose(0);
             PlayMovie(curMovie, proc->data->moviePlay.event, proc->data->moviePlay.obj->x, proc->data->moviePlay.obj->y);
-        } else if (proc->data->moviePlay.event != 0) {
+        } else if (proc->data->moviePlay.event != PRC_EVENT_NULL) {
             ProcPostEvent(proc->data->moviePlay.event);
         }
     }
@@ -444,15 +444,15 @@ struct procResult_s ClipProc(proc_t *proc) {
 
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             if (proc->data->clipPlay.sound > 0) {
                 movieSound = proc->data->clipPlay.sound;
             }
             minRetraces = 8;
             break;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
@@ -467,7 +467,7 @@ struct procResult_s ClipProc(proc_t *proc) {
         result.w[1] = 0;
         result.w[0] = 1;
         InitAnim(1, proc->data->clipPlay.slot);
-        if (proc->data->clipPlay.event != 0) {
+        if (proc->data->clipPlay.event != PRC_EVENT_NULL) {
             ProcPostEvent(proc->data->clipPlay.event);
         }
     }

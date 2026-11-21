@@ -130,26 +130,26 @@ struct procResult_s GameStartProc(proc_t *proc) {
     obj = proc->data->obj;
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             StopAllSounds();
-            ProcPostMessage(proc, 36, 0);
+            ProcPostMessage(proc, PRC_EVENT_START_PRESSED, 0);
             result.w[1] = 1;
             result.w[0] = 2;
             return result;
-        case 36:
+        case PRC_EVENT_START_PRESSED:
             KillOtherProcs(proc);
             InitObjs();
             PopMemStack(1);
             StartGame();
             SetCameraView(12);
             result.w[1] = 2;
-            result.w[0] = 45;
+            result.w[0] = PRC_EVENT_DONE_CAMPATH;
             return result;
-        case 45:
+        case PRC_EVENT_DONE_CAMPATH:
             SetCameraView(3);
-            PlayMovie(5, 40, 180, 20);
+            PlayMovie(5, PRC_EVENT_START_FIRST_ROUND, 180, 20);
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
@@ -188,15 +188,15 @@ struct procResult_s OpeningProc(proc_t *proc) {
     result.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             result.w[1] = 1;
             result.w[0] = 2;
             return result;
-        case 36:
+        case PRC_EVENT_START_PRESSED:
             KillOtherProcs(proc);
             InitObjs();
             PopMemStack(1);
@@ -204,7 +204,7 @@ struct procResult_s OpeningProc(proc_t *proc) {
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             KillOtherProcs(proc);
             InitObjs();
             PopMemStack(1);
@@ -216,7 +216,7 @@ struct procResult_s OpeningProc(proc_t *proc) {
     }
     if ((buttonsPressed & 0x1000) != 0) {
         StopAllSounds();
-        ProcPostMessage(proc, 36, 0);
+        ProcPostMessage(proc, PRC_EVENT_START_PRESSED, 0);
         result.w[1] = 1;
         result.w[0] = 2;
         return result;
@@ -264,12 +264,12 @@ struct procResult_s OpeningWheelProc(proc_t *proc) {
     obj = proc->data->openingWheel.obj;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 34:
-        case 36:
+        case PRC_EVENT_DEMO_TIMEOUT:
+        case PRC_EVENT_START_PRESSED:
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
@@ -313,10 +313,10 @@ struct procResult_s OpeningWedgeProc(proc_t *proc) {
     s32 unused;  /* NOTE: unused in the original; TitleLetterProc keeps an index here */
 
     pos = proc->data->openingWedge.obj;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 34:
-        case 36:
+        case PRC_EVENT_DEMO_TIMEOUT:
+        case PRC_EVENT_START_PRESSED:
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
@@ -351,12 +351,12 @@ struct procResult_s TitleLetterProc(proc_t *proc) {
     pos = proc->data->titleLetterProc.pos;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 34:
-        case 36:
+        case PRC_EVENT_DEMO_TIMEOUT:
+        case PRC_EVENT_START_PRESSED:
             ret.w[1] = 0;
             ret.w[0] = 1;
             return ret;
@@ -391,11 +391,11 @@ struct procResult_s DebugCameraProc(proc_t *proc) {
     ret.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             cam->y = -140;
             cam->z = -380;
         }
@@ -624,13 +624,13 @@ struct procResult_s LogoProc(proc_t *proc) {
     obj = proc->data->obj;
     result.w[1] = 1;
     result.w[0] = 0;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             result.w[1] = 1;
             result.w[0] = 180 / frameRetraces;
             return result;
-        case 16:
+        case PRC_EVENT_VIDEO_DONE:
             KillOtherProcs(proc);
             InitObjs();
             StartOpening();
@@ -644,9 +644,9 @@ struct procResult_s LogoProc(proc_t *proc) {
     obj->x = 64;
     obj->y = 110;
     proc->data->obj = obj;
-    PlayMovie(23, 16, 104, 20);
+    PlayMovie(23, PRC_EVENT_VIDEO_DONE, 104, 20);
     result.w[1] = 2;
-    result.w[0] = 16;
+    result.w[0] = PRC_EVENT_VIDEO_DONE;
     return result;
 }
 

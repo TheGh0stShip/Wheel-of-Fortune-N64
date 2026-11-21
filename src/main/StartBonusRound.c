@@ -24,14 +24,14 @@ void StartBonusRound(void) {
         }
     }
     if (players[curPlayer].controller == 4) {
-        ProcPostMessageClass(42, 0, 0, 1);
+        ProcPostMessageClass(PRC_EVENT_BONUS_ROUND, 0, 0, 1);
         CreatProc(ShowTotalProc, 0x6000000);
         return;
     }
     ResetMotors();
     SetGameView(3, 0);
     StartRound();
-    ProcPostMessageClass(42, 0, 0, 1);
+    ProcPostMessageClass(PRC_EVENT_BONUS_ROUND, 0, 0, 1);
     handle = CreatProc(BonusRoundProc, 0x5050000);
     MakeScreenObj(handle, 0, DrawLetterPick, 0x5050000);
     InitBoard();

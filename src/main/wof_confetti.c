@@ -48,11 +48,11 @@ struct procResult_s ConfettiBurstProc(proc_t *proc) {
     obj = proc->data->obj;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->confettiBurst.countdown = 10;
             break;
         }
@@ -96,6 +96,6 @@ The movie and the confetti of a win.
 */
 void StartCelebration(void) {
     curMask = celebrationMask;
-    PlayMovie(0x16, 0, 0x28, 0xF);
+    PlayMovie(0x16, PRC_EVENT_NULL, 0x28, 0xF);
     CreatProc(ConfettiBurstProc, 0x05030000);
 }

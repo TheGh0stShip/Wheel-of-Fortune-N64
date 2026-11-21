@@ -292,9 +292,9 @@ struct procResult_s AnimProc(proc_t *proc) {
     base = 0x2000000;
     sprite = proc->data->anim.obj;
     index = proc->data->anim.slot;
-    while ((event = ProcGetMessage(proc)) != 0) {
+    while ((event = ProcGetMessage(proc)) != PRC_EVENT_NULL) {
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->anim.timer = 0;
             proc->data->anim.frame = 0;
             proc->data->anim.step = 1;
@@ -366,11 +366,11 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
     slot = proc->data->vannaAnim.slot;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             proc->data->vannaAnim.timer = 0;
             proc->data->vannaAnim.frame = 0;
             proc->data->vannaAnim.step = 1;
@@ -434,7 +434,7 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
                             } else {
                                 switch (proc->data->vannaAnim.anim) {
                                 case 3:
-                                    ProcPostEvent(49);
+                                    ProcPostEvent(PRC_EVENT_VANNA_STOPPED);
                                     vannaX = vannaX + (lightDir * 44);
                                     lightDir = lightDir * -1;
                                     break;

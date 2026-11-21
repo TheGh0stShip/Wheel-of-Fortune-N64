@@ -19,11 +19,11 @@ struct procResult_s PauseProc(proc_t *proc) {
     result.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
+        case PRC_EVENT_INIT:
             lastInputTime = (s32)(osGetTime() / osClockRate);
         }
     }
@@ -43,7 +43,7 @@ struct procResult_s PauseProc(proc_t *proc) {
             if (((buttonsPressed & 0xB000) & 0xFFFF) != 0) {
                 task = FindProc(0x6060000, -1);
                 if (task != 0) {
-                    ProcPostMessage(task, 46, 1);
+                    ProcPostMessage(task, PRC_EVENT_GAME_OVER, 1);
                 }
             }
             return result;

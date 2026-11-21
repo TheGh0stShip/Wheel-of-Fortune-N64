@@ -24,20 +24,20 @@ struct procResult_s DemoProc(proc_t *proc) {
     result.w[0] = 0;
     for (;;) {
         event = ProcGetMessage(proc);
-        if (event == 0) {
+        if (event == PRC_EVENT_NULL) {
             break;
         }
         switch (event) {
-        case 8:
-            ProcPostMessage(proc, 15, 0);
+        case PRC_EVENT_INIT:
+            ProcPostMessage(proc, PRC_EVENT_NEXT_ROUND, 0);
             applause += 2;
             result.w[0] = 30 / frameRetraces;
             return result;
-        case 15:
-            PlayMovie(7, 40, 180, 20);
+        case PRC_EVENT_NEXT_ROUND:
+            PlayMovie(7, PRC_EVENT_START_FIRST_ROUND, 180, 20);
             SetCameraView(3);
             return result;
-        case 34:
+        case PRC_EVENT_DEMO_TIMEOUT:
             StopAllSounds();
             result.w[1] = 1;
             result.w[0] = 2;
@@ -45,12 +45,12 @@ struct procResult_s DemoProc(proc_t *proc) {
             FreeObjClass(0xA000000, 0xFF000000);
             FreeObjClass(0x4000000, 0xFF000000);
             if ((buttonsPressed & 0x1000) != 0) {
-                ProcPostMessage(proc, 36, 0);
+                ProcPostMessage(proc, PRC_EVENT_START_PRESSED, 0);
             } else {
-                ProcPostMessage(proc, 35, 0);
+                ProcPostMessage(proc, PRC_EVENT_DEMO_RESET, 0);
             }
             return result;
-        case 35:
+        case PRC_EVENT_DEMO_RESET:
             KillOtherProcs(proc);
             InitObjs();
             StopMovie();
@@ -59,7 +59,7 @@ struct procResult_s DemoProc(proc_t *proc) {
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
-        case 36:
+        case PRC_EVENT_START_PRESSED:
             KillOtherProcs(proc);
             InitObjs();
             StopMovie();
