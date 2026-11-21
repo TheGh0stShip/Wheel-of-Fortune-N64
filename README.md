@@ -23,6 +23,7 @@ The matching C is not presented as fully human-reviewed or portable source. A by
 - ROM SHA-1 `b51b28660699bf029f862f51c319a5962fe9de9b`
 - ROM size 4,194,304 bytes
 - `src/main/` contains the verified function sources.
+- `src/main/types.h` supplies the fixed-width N64 integer and floating-point aliases required by the library sources.
 - `MATCHED.tsv` records image, address, owned code size, and recipe for each source.
 - `source-accounted.tsv` covers all 775 catalogued functions with immutable source hashes.
 - `asm/accounted/` contains the exact assembly/runtime sources for ranges that cannot be ordinary C.
