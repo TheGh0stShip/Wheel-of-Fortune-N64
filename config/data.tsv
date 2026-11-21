@@ -86,7 +86,7 @@
 0x8004B7AC	0x8004B7B0	data	?func_80003CC8 func_80003FDC	u32	used by func_80003CC8 func_80003FDC; 0 pointer words, 1 zero words
 0x8004B7B0	0x8004B7B4	data	func_80003944	u32	used by func_80003944; 0 pointer words, 1 zero words
 0x8004B7B4	0x8004B7B8	data	func_80003C68	s32	used by func_80003C68; 0 pointer words, 0 zero words
-0x8004B7B8	0x8004B830	data	unit_80016638	Lights6	used by unit_80016638; 0 pointer words, 11 zero words
+0x8004B7B8	0x8004B830	data	unit_80016638	Lights7	used by unit_80016638; 0 pointer words, 11 zero words; the header declares Lights6, but seven lights follow the ambient one (0x78 bytes)
 0x8004B830	0x8004B838	data	func_800057A8	s32	used by func_800057A8; 0 pointer words, 1 zero words
 0x8004B838	0x8004B83C	data	func_800060B0	s32	used by func_800060B0; 0 pointer words, 1 zero words
 0x8004B83C	0x8004B840	data	func_800060B0	s32	used by func_800060B0 func_800063A0; 0 pointer words, 1 zero words
@@ -119,7 +119,8 @@
 0x80057A68	0x80057A90	data	unit_8000EF68	u16 *[10]	used by unit_8000EF68; 0 pointer words, 0 zero words
 0x80057A90	0x80057B50	data	unit_8000EF68	Gfx *[48]	used by unit_8000EF68; 0 pointer words, 0 zero words
 0x80057B50	0x80057BB0	data	unit_8000EF68	Gfx *[3][8]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x80057BB0	0x80057C08	data	unit_8000EF68	layer_t[3]	used by unit_8000EF68; 0 pointer words, 5 zero words
+0x80057BB0	0x80057BF8	data	unit_8000EF68	layer_t[3]	used by unit_8000EF68; 0 pointer words, 5 zero words
+0x80057BF8	0x80057C08	data	unit_8000EF68	?	the bytes after 0x80057BB0's layer_t[3]: four words of segment addresses (0x01010100..0x01010400); no instruction names them
 0x80057C08	0x80057CC8	data	unit_8000EF68	wedgeDl_t[24]	D_80057F08[0] points here: the 24 wedges of one kind of round (wedgeDl_t, 8 bytes each)
 0x80057CC8	0x80057D88	data	unit_8000EF68	wedgeDl_t[24]	D_80057F08[1] points here
 0x80057D88	0x80057E48	data	unit_8000EF68	wedgeDl_t[24]	D_80057F08[2] points here
@@ -131,7 +132,7 @@
 0x80057F48	0x80057F50	data	unit_8000EF68	s32	used by unit_8000EF68; 0 pointer words, 0 zero words
 0x80057F50	0x800581F0	data	?func_80017938 unit_80016638	view_t[21]	used by func_80017938 unit_80016638; 6 pointer words, 90 zero words
 0x800581F0	0x800581F4	data	unit_8000EF68	s32[1]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x800581F4	0x800581FC	data	func_80017DBC	s32	used by func_80017DBC; 0 pointer words, 0 zero words
+0x800581F4	0x800581FC	data	func_80017DBC	s32[2]	used by func_80017DBC; 0 pointer words, 0 zero words; the header declares one s32, func_80017DBC reads two words
 0x800581FC	0x80058208	data	func_80017C00	s32[3]	used by func_80017C00; 0 pointer words, 1 zero words
 0x80058208	0x80058220	data	func_8001A5D0	u8[24]	used by func_8001A5D0; "RSTLNCBDMHFYKJGPQVWXZ"
 0x80058220	0x80058228	data	func_8001A5D0	u8[8]	used by func_8001A5D0; "EAIOU"
@@ -163,9 +164,11 @@
 0x8005A828	0x8005A8C8	data	func_800278F0	image_t[4]	used by func_800278F0 func_8002A8C8 func_8002AAD0 func_8002AFDC func_8002CBF4; 0 pointer words, 7 zero words
 0x8005A8C8	0x8005A930	data	func_800278F0	u16 *[26]	used by func_800278F0 func_80028194; 0 pointer words, 0 zero words
 0x8005A930	0x8005A998	data	func_800278F0	u16 *[26]	used by func_800278F0 func_80028194; 0 pointer words, 0 zero words
-0x8005A998	0x8005ACE8	data	func_800278F0	image_t[21]	used by func_800278F0 func_80028194 func_8002A8C8 func_8002AAD0 func_8002ACE8 func_8002AE60 func_8002CBF4 func_8002D930 func_8002E0C8; 0 pointer words, 42 zero words
+0x8005A998	0x8005ACE0	data	func_800278F0	image_t[21]	used by func_800278F0 func_80028194 func_8002A8C8 func_8002AAD0 func_8002ACE8 func_8002AE60 func_8002CBF4 func_8002D930 func_8002E0C8; 0 pointer words, 42 zero words
+0x8005ACE0	0x8005ACE8	data	func_800278F0	?	the bytes after 0x8005A998's image_t[21]: two words (0xCB, 0xD7) like the head of a further image_t; no instruction names them
 0x8005ACE8	0x8005ADD0	data	func_80029974	u16 *[58]	used by func_80029974; 0 pointer words, 10 zero words
-0x8005ADD0	0x8005B088	data	func_80029974	image_t[2][7]	used by func_800278F0 func_80029974 func_80029BFC func_8002EC60; 0 pointer words, 59 zero words; the range runs 136 bytes past [2][7], which other functions use inside it: the dimension is open
+0x8005ADD0	0x8005B000	data	func_80029974	image_t[2][7]	used by func_800278F0 func_80029974 func_80029BFC func_8002EC60; 0 pointer words, 59 zero words; the range runs 136 bytes past [2][7], which other functions use inside it: the dimension is open
+0x8005B000	0x8005B088	data	func_80029974	?	the bytes after 0x8005ADD0's image_t[2][7]: 0x88 bytes like the heads of further image_t entries; func_80029974 and func_80029BFC index the table, so its dimension may be larger than the header says
 0x8005B088	0x8005B118	data	?func_8002A014 func_8002A538	s32[36]	used by func_8002A014 func_8002A538; 0 pointer words, 12 zero words
 0x8005B118	0x8005B148	data	?func_8002A014 func_8002A538 func_8002BA44 func_8002BCF4	u16 *[12]	used by func_8002A014 func_8002A538 func_8002BA44 func_8002BCF4; 0 pointer words, 0 zero words
 0x8005B148	0x8005B170	data	?func_8002A014 func_8002A538	s32[10]	used by func_8002A014 func_8002A538; 0 pointer words, 0 zero words
@@ -176,9 +179,11 @@
 0x8005B2C0	0x8005B310	data	?func_80028554 func_8002BA44	image_t[2]	used by func_80028554 func_8002BA44; 0 pointer words, 6 zero words
 0x8005B310	0x8005B360	data	?func_8002867C func_8002BCF4	image_t[2]	used by func_8002867C func_8002BCF4; 0 pointer words, 6 zero words
 0x8005B360	0x8005B4C8	data	?func_800278F0 func_80029C98 func_8002A014	image_t[9]	used by func_800278F0 func_80029C98 func_8002A014; 0 pointer words, 29 zero words
-0x8005B4C8	0x8005B5A4	data	?func_800278F0 func_80027F3C func_80029C98 func_8002A014 func_8002A538	image_t[5]	used by func_800278F0 func_80027F3C func_80029C98 func_8002A014 func_8002A538; 0 pointer words, 18 zero words
+0x8005B4C8	0x8005B590	data	?func_800278F0 func_80027F3C func_80029C98 func_8002A014 func_8002A538	image_t[5]	used by func_800278F0 func_80027F3C func_80029C98 func_8002A014 func_8002A538; 0 pointer words, 18 zero words
+0x8005B590	0x8005B5A4	data	?func_800278F0 func_80027F3C func_80029C98 func_8002A014 func_8002A538	?	the bytes after 0x8005B4C8's image_t[5]: 0x14 bytes like the head of a further image_t, up to D_8005B5A4
 0x8005B5A4	0x8005B630	data	func_80029440	u16 *[35]	used by func_80029440; 0 pointer words, 11 zero words
-0x8005B630	0x8005B710	data	func_800278F0	image_t[5]	used by func_800278F0; 0 pointer words, 9 zero words
+0x8005B630	0x8005B6F8	data	func_800278F0	image_t[5]	used by func_800278F0; 0 pointer words, 9 zero words
+0x8005B6F8	0x8005B710	data	func_800278F0	?	the bytes after 0x8005B630's image_t[5]: six segment addresses 0x01016C50..0x010173D0, 0x180 apart (pictures); no instruction names them
 0x8005B710	0x8005BA80	data	func_800278F0	image_t[22]	used by func_800278F0 func_80028064 func_80028194 func_80028CC4 func_80029098 func_80029440 func_8002B318; 0 pointer words, 66 zero words
 0x8005BA80	0x8005BAC0	data	func_80029098	s32[16]	used by func_80029098; 0 pointer words, 0 zero words
 0x8005BAC0	0x8005BCC8	data	?func_800287A4 func_80028B1C	image_t[13]	used by func_800287A4 func_80028B1C; 0 pointer words, 26 zero words

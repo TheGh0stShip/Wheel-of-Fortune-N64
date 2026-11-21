@@ -29,6 +29,8 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
 | symbol proposals | `./wof infer` (not a gate: it reads addresses from retail and writes proposals to the build directory) |
 | unit boundaries | `./wof unitmap [-v]` (not a gate: prints the evidence for original object boundaries among the game functions, from the ROM and the last gate's unit list; `-v` adds the strings each function uses) |
 | stack frames | `./wof frame [-v] [-s] UNIT...` (not a gate: prints a game function's stack frame as retail uses it, slot by slot, next to the locals the source declares, with the evidence about each local the function never names or names after its offset; a function name or address works too; `-v` adds the instructions, `-s` gives one line per function, `-a` takes every game unit, `-c` compares the tool's layout rule with cc1's debug info from the last gate) |
+| data map | `./wof datamap`, `-v`, `-g`, `-p LO HI` (not a gate: checks `config/data.tsv`, the map of every image byte that is neither compiled code nor data from source, and counts the image by class, kind and owner against the last gate; `-g` lists the unmapped ranges cut at what points into them, `-p` proposes rows) |
+| data definitions | `./wof datagen ADDRESS TYPE [NAME]`, `-r ADDRESS`, `-t TYPE`, `-c` (not a gate: prints the C definition of a datum from the ROM, given its type, with pointers written as the names they point at; `-r` takes a `config/data.tsv` row, `-t` prints a type's layout, `-c` checks every row's type against its range) |
 | `permute` | none |
 
 - **Toolchain.** Two compilers, both inside WSL and outside the repository: GCC 2.7.2 for MIPS (`gcc`, `cc1`,

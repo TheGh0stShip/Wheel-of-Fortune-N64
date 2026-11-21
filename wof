@@ -1,7 +1,7 @@
 #!/bin/sh
 # wof -- run the project tool (tools/wof.c). From a Windows shell this re-enters WSL, where the compiler lives.
-# Five verbs have their own tool: rules (tools/rules.c), unitmap (tools/unitmap.c), frame (tools/frame.c),
-# datamap (tools/datamap.c), report (gate, then rules).
+# Six verbs have their own tool: rules (tools/rules.c), unitmap (tools/unitmap.c), frame (tools/frame.c),
+# datamap (tools/datamap.c), datagen (tools/datagen.c), report (gate, then rules).
 here=$(cd "$(dirname "$0")" && pwd)
 if [ "$(uname -s)" != Linux ]; then
     wslhere=$(printf '%s' "$here" | sed 's|^/\([a-zA-Z]\)/|/mnt/\L\1/|')
@@ -48,6 +48,9 @@ fi
 if [ ! -x "$WOF_BUILD/datamap" ] || [ tools/datamap.c -nt "$WOF_BUILD/datamap" ]; then
     cc -O2 -Wall -o "$WOF_BUILD/datamap" tools/datamap.c || exit 2
 fi
+if [ ! -x "$WOF_BUILD/datagen" ] || [ tools/datagen.c -nt "$WOF_BUILD/datagen" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/datagen" tools/datagen.c -lm || exit 2
+fi
 case "$1" in
 rules)
     shift
@@ -67,6 +70,11 @@ datamap)
     # the map of the image's data (config/data.tsv), checked and counted against the last gate
     shift
     exec "$WOF_BUILD/datamap" "$@"
+    ;;
+datagen)
+    # the C definition of a datum from the ROM, given its type (the types of the last gate's game units)
+    shift
+    exec "$WOF_BUILD/datagen" "$@"
     ;;
 report)
     # both score numbers, each from its own tool
