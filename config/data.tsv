@@ -16,13 +16,9 @@
 0x80000ABD	0x80000AC0	fill	-	-	zeros to an 8-byte boundary: fill between objects (the RCS run that opens wof_opening's object follows)
 0x80000AFC	0x80000B00	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80000E24	0x80000E28	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x800011EC	0x800011F0	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x80001364	0x80001368	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800014B4	0x800014B8	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x8000155C	0x80001560	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x80001882	0x80001888	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800018F4	0x800018F8	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x8000191E	0x80001920	fill	?FinalSpinProc..wof_timers	-	zero alignment: inside one object if FinalSpinProc and RoundTimerProc are one object's, else fill between objects
 0x8000195B	0x80001960	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80001A2F	0x80001A30	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80001A42	0x80001A48	fill	-	-	zeros to an 8-byte boundary: fill between objects

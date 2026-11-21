@@ -1,31 +1,34 @@
 # config/units.tsv -- unit, address, size, state (match: in the gate; open: parked), flag class, source,
 # optional entry symbol. A game unit is one original object, or the part of one that the evidence settles.
 #
-# "# open:" lines name the positions between game functions that no evidence settles (./wof unitmap:
-# "unknown"), above the unit after them; "# open inside:" lines name those a unit holds on evidence
-# unitmap does not read, and say which. Every such position was tested with all of: the text padding
-# (a 4-byte gap ends an object, a function ending off an 8-byte boundary with the next right after
-# joins one); the read-only data (object starts at RCS runs and alignment zeros, bracketed and put in
-# order; contiguous items; items in text order; one string literal used on both sides; one string at
-# two addresses); the objects' static .bss (shared statics and their order); .data and .bss
-# interleaving between two functions' private data; the order of the units' .data against their
-# users; stale fill that ends an object's .data; and the call graph (helpers called from one place,
-# proc handlers named by their creator, function addresses in data), which fails at certain positions
-# and so decides nothing. The order of the common .bss (uninitialised globals) was compared with the
-# order of their first users and does not follow it.
+# Above each game unit, "# premise:" names the joins inside it that rest on the RCS premise alone (every
+# object from 0x8000BAA8 on opens its read-only data with an RCS run, which the project accepts: in every
+# assignment of the RCS starts to the positions that meets it, no run lies where an object starting there
+# would need one). "# open:" names a position between game functions that no evidence settles
+# (./wof unitmap: "unknown"), above the unit after it; "# open inside:" one a unit holds on evidence
+# unitmap does not read, and which. Every open position was tested with all of: the text padding (a 4-byte
+# gap ends an object, a function ending off an 8-byte boundary with the next right after joins one); the
+# read-only data (object starts at RCS runs and alignment zeros, bracketed and put in order; contiguous
+# items; items in text order; one string literal used on both sides; one string at two addresses); the
+# objects' static .bss (shared statics and their order); .data and .bss interleaving between two
+# functions' private data; the order of the units' .data against their users; stale fill that ends an
+# object's .data; the RCS premise; and the call graph (helpers called from one place, proc handlers named
+# by their creator, function addresses in data), which fails at certain positions and so decides
+# nothing. The order of the common .bss (uninitialised globals) was compared with the order of their
+# first users and does not follow it.
 func_80000400	0x80000400	0x40	match	asm	asm/func_80000400.s
 wof_audio	0x80002348	0xF5C	match	game	src/main/wof_audio.c
 # open inside: after amCreateAudioMgr: nothing in the image decides it; the unit holds it as the audiomgr.c of the SDK demos, one file
 wof_audiomgr	0x800032A8	0xEB8	match	game	src/main/wof_audiomgr.c
 # open: after __clearAudioDMA, between wof_audiomgr and wof_controller: nothing in the image decides it
 wof_controller	0x80004160	0xCF0	match	game	src/main/wof_controller.c
-# open: after ReadControllers, between wof_controller and StartMotor: one of the positions the read-only object start at 0x800004F0 may take; nothing else decides it
+# open: after ReadControllers, between wof_controller and StartMotor: one of the positions the read-only object start at 0x800004F0 may take
 StartMotor	0x80004E50	0x60	match	game	src/main/StartMotor.c
-# open: after StartMotor, between StartMotor and wof_rumble: one of the positions the read-only object start at 0x800004F0 may take; nothing else decides it
+# open: after StartMotor, between StartMotor and wof_rumble: one of the positions the read-only object start at 0x800004F0 may take
 wof_rumble	0x80004EB0	0x3A8	match	game	src/main/wof_rumble.c
-# open: after StartRumble, between wof_rumble and ResetMotors: one of the positions the read-only object start at 0x800004F0 may take; nothing else decides it
+# open: after StartRumble, between wof_rumble and ResetMotors: one of the positions the read-only object start at 0x800004F0 may take
 ResetMotors	0x80005258	0xA8	match	game	src/main/ResetMotors.c
-# open: after ResetMotors, between ResetMotors and wof_graphics: one of the positions the read-only object start at 0x800004F0 may take; nothing else decides it
+# open: after ResetMotors, between ResetMotors and wof_graphics: one of the positions the read-only object start at 0x800004F0 may take
 wof_graphics	0x80005300	0x400	match	game	src/main/wof_graphics.c
 # open: after InitGraphics, between wof_graphics and LoadSceneData: nothing in the image decides it
 LoadSceneData	0x80005700	0xA8	match	game	src/main/LoadSceneData.c
@@ -47,11 +50,11 @@ NewGame	0x80006B28	0x30	match	game	src/main/NewGame.c
 # open: after NewGame, between NewGame and wof_puzzle: nothing in the image decides it
 wof_puzzle	0x80006B58	0x2BEC	match	game	src/main/wof_puzzle.c
 wof_strcat	0x80009748	0x1B8	match	game	src/main/wof_strcat.c
-# open: after StrCat, between wof_strcat and StrCopy: one of the positions the read-only object start at 0x800007D8 may take; nothing else decides it
+# open: after StrCat, between wof_strcat and StrCopy: one of the positions the read-only object start at 0x800007D8 may take
 StrCopy	0x80009900	0xB0	match	game	src/main/StrCopy.c
-# open: after StrCopy, between StrCopy and wof_strlen: one of the positions the read-only object start at 0x800007D8 may take; nothing else decides it
+# open: after StrCopy, between StrCopy and wof_strlen: one of the positions the read-only object start at 0x800007D8 may take
 wof_strlen	0x800099B0	0x130	match	game	src/main/wof_strlen.c
-# open: after StrLen, between wof_strlen and IntToStr: one of the positions the read-only object start at 0x800007D8 may take; nothing else decides it
+# open: after StrLen, between wof_strlen and IntToStr: one of the positions the read-only object start at 0x800007D8 may take
 IntToStr	0x80009AE0	0x1B8	match	game	src/main/IntToStr.c
 # open: after IntToStr, between IntToStr and Random: nothing in the image decides it
 Random	0x80009C98	0x70	match	game	src/main/Random.c
@@ -64,7 +67,7 @@ FatalError	0x80009F38	0x60	match	game	src/main/FatalError.c
 # open: after FatalError, between FatalError and PrintStr: nothing in the image decides it
 PrintStr	0x80009F98	0x3C	match	game	src/main/PrintStr.c
 wof_procinit	0x80009FD8	0x180	match	game	src/main/wof_procinit.c
-# open: after GetLastProc, between wof_procinit and wof_procalloc: one of the positions the read-only object start at 0x800007F0 may take; nothing else decides it
+# open: after GetLastProc, between wof_procinit and wof_procalloc: one of the positions the read-only object start at 0x800007F0 may take
 wof_procalloc	0x8000A158	0x2B0	match	game	src/main/wof_procalloc.c
 # open: after AllocBlock, between wof_procalloc and wof_procrun: nothing in the image decides it
 wof_procrun	0x8000A408	0x448	match	game	src/main/wof_procrun.c
@@ -77,128 +80,70 @@ KillProcClass	0x8000AE70	0x8C	match	game	src/main/KillProcClass.c
 wof_objinit	0x8000AF00	0x160	match	game	src/main/wof_objinit.c
 # open: after GetLastObj, between wof_objinit and wof_obj: nothing in the image decides it
 wof_obj	0x8000B060	0x610	match	game	src/main/wof_obj.c
-# open: after FindObj, between wof_obj and wof_objclass: one of the positions the read-only object start at 0x80000AA0 may take; nothing else decides it
+# open: after FindObj, between wof_obj and wof_objclass: one of the positions the read-only object start at 0x80000AA0 may take
 wof_objclass	0x8000B670	0x110	match	game	src/main/wof_objclass.c
-# open: after FreeObjClass, between wof_objclass and wof_memstack: one of the positions the read-only object start at 0x80000AA0 may take; nothing else decides it
-wof_memstack	0x8000B780	0x1F8	match	game	src/main/wof_memstack.c
-# open: after AllocMem, between wof_memstack and wof_mempush: nothing in the image decides it
-wof_mempush	0x8000B978	0x12C	match	game	src/main/wof_mempush.c
-# open inside: after InitSiLock: one of the positions the read-only object start at 0x80000AC0 may take; nothing else decides it; the unit holds it on the premise that from 0x8000BAA8 on every object opens its read-only data with an RCS run (see the unit)
-# open inside: after LockSi: one of the positions the read-only object start at 0x80000AC0 may take; nothing else decides it; the unit holds it on the premise that from 0x8000BAA8 on every object opens its read-only data with an RCS run (see the unit)
-# open inside: after UnlockSi: one of the positions the read-only object start at 0x80000AC0 may take; nothing else decides it; the unit holds it on the premise that from 0x8000BAA8 on every object opens its read-only data with an RCS run (see the unit)
-# open inside: after BeginGame: one of the positions the read-only object start at 0x80000AC0 may take; nothing else decides it; the unit holds it on the premise that from 0x8000BAA8 on every object opens its read-only data with an RCS run (see the unit)
-# open inside: after OpeningProc: one of the positions the read-only object start at 0x80000AC0 may take; nothing else decides it; the unit holds it on the premise that from 0x8000BAA8 on every object opens its read-only data with an RCS run (see the unit)
+# premise: joined after AllocMem
+# open: after FreeObjClass, between wof_objclass and wof_memstack: one of the positions the read-only object start at 0x80000AA0 may take
+wof_memstack	0x8000B780	0x324	match	game	src/main/wof_memstack.c
+# premise: joined after InitSiLock, LockSi, UnlockSi, BeginGame, OpeningProc
 wof_opening	0x8000BAA8	0x3098	match	game	src/main/wof_opening.c
 wof_demo	0x8000EB40	0x428	match	game	src/main/wof_demo.c
 wof_stage	0x8000EF68	0x76CC	match	game	src/main/wof_stage.c
-# open inside: after func_80016638: one of the positions the read-only object start at 0x80000E28 may take; nothing else decides it; the unit holds it on the premise that from 0x8000BAA8 on every object opens its read-only data with an RCS run (see the unit)
+# premise: joined after func_80016638
 wof_camera	0x80016638	0xF0C	match	game	src/main/wof_camera.c
-LoseTurn	0x80017548	0x130	match	game	src/main/LoseTurn.c
-# open: after LoseTurn, between LoseTurn and NextTurn: one of the positions the read-only object start at 0x80000E98 may take; nothing else decides it
-NextTurn	0x80017678	0xB0	match	game	src/main/NextTurn.c
-# open: after NextTurn, between NextTurn and wof_nextround: one of the positions the read-only object start at 0x80000E98 may take; nothing else decides it
-wof_nextround	0x80017728	0x120	match	game	src/main/wof_nextround.c
-# open: after NextRound, between wof_nextround and FindWinner: one of the positions the read-only object start at 0x80000E98 may take; nothing else decides it
-FindWinner	0x80017848	0xF0	match	game	src/main/FindWinner.c
-# open: after FindWinner, between FindWinner and wof_roundend: one of the positions the read-only object start at 0x80000E98 may take; nothing else decides it
-wof_roundend	0x80017938	0xA70	match	game	src/main/wof_roundend.c
-# open: after WinnerProc, between wof_roundend and SpinProc: nothing in the image decides it
-SpinProc	0x800183A8	0x980	match	game	src/main/SpinProc.c
-# open: after SpinProc, between SpinProc and wof_buyvowel: nothing in the image decides it
-wof_buyvowel	0x80018D28	0x908	match	game	src/main/wof_buyvowel.c
-# open: after SolveProc, between wof_buyvowel and wof_players: nothing in the image decides it
-wof_players	0x80019630	0xFA0	match	game	src/main/wof_players.c
-# open: after InitPlayers, between wof_players and InitCpuLetters: one of the positions the read-only object start at 0x800011B0 may take; nothing else decides it
+# premise: joined after LoseTurn, NextTurn, NextRound, FindWinner, WinnerProc, SpinProc, SolveProc
+wof_turns	0x80017548	0x3088	match	game	src/main/wof_turns.c
+# open: after InitPlayers, between wof_turns and InitCpuLetters: one of the positions the read-only object start at 0x800011B0 may take, and the RCS premise leaves it open
 InitCpuLetters	0x8001A5D0	0x58	match	game	src/main/InitCpuLetters.c
-# open: after InitCpuLetters, between InitCpuLetters and wof_cpuletters: one of the positions the read-only object start at 0x800011B0 may take; nothing else decides it
+# open: after InitCpuLetters, between InitCpuLetters and wof_cpuletters: one of the positions the read-only object start at 0x800011B0 may take, and the RCS premise leaves it open
 wof_cpuletters	0x8001A628	0x180	match	game	src/main/wof_cpuletters.c
-# open: after PickMissLetter, between wof_cpuletters and wof_cpupick: one of the positions the read-only object start at 0x800011B0 may take; nothing else decides it
-wof_cpupick	0x8001A7A8	0x670	match	game	src/main/wof_cpupick.c
-# open: after CpuChooseAction, between wof_cpupick and wof_cpuprocs: nothing in the image decides it
-wof_cpuprocs	0x8001AE18	0x10C0	match	game	src/main/wof_cpuprocs.c
-# open: after CpuSolveProc, between wof_cpuprocs and wof_cputurn: nothing in the image decides it
-wof_cputurn	0x8001BED8	0x1448	match	game	src/main/wof_cputurn.c
-# open: after CpuTurnProc, between wof_cputurn and wof_addcpu: nothing in the image decides it
-wof_addcpu	0x8001D320	0x120	match	game	src/main/wof_addcpu.c
-# open: after AddCpu, between wof_addcpu and DrawMovie64: one of the positions the read-only object start at 0x800014B8 may take; nothing else decides it
+# premise: joined after CpuChooseAction, CpuSolveProc, CpuTurnProc
+# open: after PickMissLetter, between wof_cpuletters and wof_cpu: one of the positions the read-only object start at 0x800011B0 may take, and the RCS premise leaves it open
+wof_cpu	0x8001A7A8	0x2C98	match	game	src/main/wof_cpu.c
+# open: after AddCpu, between wof_cpu and DrawMovie64: one of the positions the read-only object start at 0x800014B8 may take, and the RCS premise leaves it open
 DrawMovie64	0x8001D440	0x6B0	match	game	src/main/DrawMovie64.c
-# open: after DrawMovie64, between DrawMovie64 and DrawMovie96: one of the positions the read-only object start at 0x800014B8 may take; nothing else decides it
+# open: after DrawMovie64, between DrawMovie64 and DrawMovie96: one of the positions the read-only object start at 0x800014B8 may take, and the RCS premise leaves it open
 DrawMovie96	0x8001DAF0	0x1258	match	game	src/main/DrawMovie96.c
-# open: after DrawMovie96, between DrawMovie96 and StoreFrame96: one of the positions the read-only object start at 0x800014B8 may take; nothing else decides it
+# open: after DrawMovie96, between DrawMovie96 and StoreFrame96: one of the positions the read-only object start at 0x800014B8 may take, and the RCS premise leaves it open
 StoreFrame96	0x8001ED48	0x2A8	match	game	src/main/StoreFrame96.c
-# open: after StoreFrame96, between StoreFrame96 and DrawMovie112: one of the positions the read-only object start at 0x800014B8 may take; nothing else decides it
+# open: after StoreFrame96, between StoreFrame96 and DrawMovie112: one of the positions the read-only object start at 0x800014B8 may take, and the RCS premise leaves it open
 DrawMovie112	0x8001EFF0	0x1160	match	game	src/main/DrawMovie112.c
-# open: after DrawMovie112, between DrawMovie112 and wof_movie: one of the positions the read-only object start at 0x800014B8 may take; nothing else decides it
-wof_movie	0x80020150	0x1170	match	game	src/main/wof_movie.c
-# open: after MakeMovieObj, between wof_movie and wof_movieupdate: nothing in the image decides it
-wof_movieupdate	0x800212C0	0x288	match	game	src/main/wof_movieupdate.c
-# open: after UpdateClip, between wof_movieupdate and wof_movieproc: nothing in the image decides it
-wof_movieproc	0x80021548	0x3C0	match	game	src/main/wof_movieproc.c
-# open: after ClipProc, between wof_movieproc and LoadMovie: nothing in the image decides it
-LoadMovie	0x80021908	0xB0	match	game	src/main/LoadMovie.c
-# open: after LoadMovie, between LoadMovie and wof_movieplay: nothing in the image decides it
-wof_movieplay	0x800219B8	0x470	match	game	src/main/wof_movieplay.c
-# open: after PlayClip, between wof_movieplay and StopMovie: nothing in the image decides it
-StopMovie	0x80021E28	0x5C	match	game	src/main/StopMovie.c
-# open inside: after StartContestantMenu: nothing in the image decides it; the unit holds it on the premise that from 0x8000BAA8 on every object opens its read-only data with an RCS run (see the unit)
+# premise: joined after MakeMovieObj, UpdateClip, ClipProc, LoadMovie, PlayClip
+# open: after DrawMovie112, between DrawMovie112 and wof_movie: one of the positions the read-only object start at 0x800014B8 may take, and the RCS premise leaves it open
+wof_movie	0x80020150	0x1D34	match	game	src/main/wof_movie.c
+# premise: joined after StartContestantMenu
 wof_menu	0x80021E88	0x538C	match	game	src/main/wof_menu.c
-wof_image	0x80027218	0x690	match	game	src/main/wof_image.c
-# open: after DrawImageAt, between wof_image and DrawImage: nothing in the image decides it
-DrawImage	0x800278A8	0x48	match	game	src/main/DrawImage.c
-# open: after DrawImage, between DrawImage and wof_status: nothing in the image decides it
-wof_status	0x800278F0	0x5FC0	match	game	src/main/wof_status.c
-# open: after StatusProc, between wof_status and InitLetterCursor: nothing in the image decides it
-InitLetterCursor	0x8002D8B0	0x80	match	game	src/main/InitLetterCursor.c
-# open: after InitLetterCursor, between InitLetterCursor and LetterPickProc: nothing in the image decides it
-LetterPickProc	0x8002D930	0x650	match	game	src/main/LetterPickProc.c
-# open: after LetterPickProc, between LetterPickProc and wof_solveblanks: nothing in the image decides it
-wof_solveblanks	0x8002DF80	0x148	match	game	src/main/wof_solveblanks.c
-# open: after GetCursorProc, between wof_solveblanks and SolvePuzzleProc: nothing in the image decides it
-SolvePuzzleProc	0x8002E0C8	0xA78	match	game	src/main/SolvePuzzleProc.c
-# open: after SolvePuzzleProc, between SolvePuzzleProc and StartLetterPick: one of the positions the read-only object start at 0x800018F8 may take; nothing else decides it
+# premise: joined after DrawImageAt, DrawImage, StatusProc, InitLetterCursor, LetterPickProc, GetCursorProc
+wof_status	0x80027218	0x7928	match	game	src/main/wof_status.c
+# open: after SolvePuzzleProc, between wof_status and StartLetterPick: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
 StartLetterPick	0x8002EB40	0x50	match	game	src/main/StartLetterPick.c
-# open: after StartLetterPick, between StartLetterPick and wof_startpick: one of the positions the read-only object start at 0x800018F8 may take; nothing else decides it
+# open: after StartLetterPick, between StartLetterPick and wof_startpick: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
 wof_startpick	0x8002EB90	0xD0	match	game	src/main/wof_startpick.c
-# open: after StartSolvePuzzle, between wof_startpick and StartStatus: one of the positions the read-only object start at 0x800018F8 may take; nothing else decides it
+# open: after StartSolvePuzzle, between wof_startpick and StartStatus: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
 StartStatus	0x8002EC60	0x160	match	game	src/main/StartStatus.c
-# open: after StartStatus, between StartStatus and func_8002EDC0: one of the positions the read-only object start at 0x800018F8 may take; nothing else decides it
+# open: after StartStatus, between StartStatus and func_8002EDC0: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
 func_8002EDC0	0x8002EDC0	0x20	match	game	src/main/func_8002EDC0.c
-# open: after func_8002EDC0, between func_8002EDC0 and StartBonusRound: one of the positions the read-only object start at 0x800018F8 may take; nothing else decides it
+# open: after func_8002EDC0, between func_8002EDC0 and StartBonusRound: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
 StartBonusRound	0x8002EDE0	0x1E0	match	game	src/main/StartBonusRound.c
-# open: after StartBonusRound, between StartBonusRound and FinalSpinProc: one of the positions the read-only object start at 0x800018F8 may take; nothing else decides it
-FinalSpinProc	0x8002EFC0	0x378	match	game	src/main/FinalSpinProc.c
-# open: after FinalSpinProc, between FinalSpinProc and wof_timers: nothing in the image decides it
-wof_timers	0x8002F338	0x828	match	game	src/main/wof_timers.c
-# open: after SolveTimerProc, between wof_timers and func_8002FB60: nothing in the image decides it
-func_8002FB60	0x8002FB60	0x178	match	game	src/main/func_8002FB60.c
-# open: after func_8002FB60, between func_8002FB60 and wof_waittimer: nothing in the image decides it
-wof_waittimer	0x8002FCD8	0x78	match	game	src/main/wof_waittimer.c
-# open: after func_8002FD14, between wof_waittimer and wof_starttimers: nothing in the image decides it
-wof_starttimers	0x8002FD50	0x120	match	game	src/main/wof_starttimers.c
-# open: after StartRoundTimer, between wof_starttimers and StartDemoTimer: nothing in the image decides it
-StartDemoTimer	0x8002FE70	0x3C	match	game	src/main/StartDemoTimer.c
-DrawContestant	0x8002FEB0	0x5E0	match	game	src/main/DrawContestant.c
-# open: after DrawContestant, between DrawContestant and wof_drawvanna: one of the positions the read-only object start at 0x80001960 may take; nothing else decides it
-wof_drawvanna	0x80030490	0xEB0	match	game	src/main/wof_drawvanna.c
-# open: after DrawVanna, between wof_drawvanna and wof_anim: one of the positions the read-only object start at 0x80001960 may take; nothing else decides it
-wof_anim	0x80031340	0x2290	match	game	src/main/wof_anim.c
-# open: after HideOtherContestants, between wof_anim and PauseGame: nothing in the image decides it
+# premise: joined after FinalSpinProc, SolveTimerProc, func_8002FB60, func_8002FD14, StartRoundTimer
+# open: after StartBonusRound, between StartBonusRound and wof_timers: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
+wof_timers	0x8002EFC0	0xEEC	match	game	src/main/wof_timers.c
+# premise: joined after DrawContestant, DrawVanna
+wof_anim	0x8002FEB0	0x3720	match	game	src/main/wof_anim.c
+# open: after HideOtherContestants, between wof_anim and PauseGame: the RCS runs at 0x80001A30 and 0x80001A48, which no function uses, may open objects here; the RCS premise leaves it open
 PauseGame	0x800335D0	0xB8	match	game	src/main/PauseGame.c
-# open: after PauseGame, between PauseGame and PauseProc: nothing in the image decides it
+# open: after PauseGame, between PauseGame and PauseProc: the RCS runs at 0x80001A30 and 0x80001A48, which no function uses, may open objects here; the RCS premise leaves it open
 PauseProc	0x80033688	0x360	match	game	src/main/PauseProc.c
-# open: after PauseProc, between PauseProc and StartPauseProc: nothing in the image decides it
+# open: after PauseProc, between PauseProc and StartPauseProc: the RCS runs at 0x80001A30 and 0x80001A48, which no function uses, may open objects here; the RCS premise leaves it open
 StartPauseProc	0x800339E8	0x3C	match	game	src/main/StartPauseProc.c
 wof_applause	0x80033A28	0x2D0	match	game	src/main/wof_applause.c
-# open: after StartApplause, between wof_applause and DrawConfetti: one of the positions the read-only object start at 0x80001A60 may take; nothing else decides it
+# open: after StartApplause, between wof_applause and DrawConfetti: one of the positions the read-only object start at 0x80001A60 may take, and the RCS premise leaves it open
 DrawConfetti	0x80033CF8	0x330	match	game	src/main/DrawConfetti.c
-# open: after DrawConfetti, between DrawConfetti and ConfettiProc: one of the positions the read-only object start at 0x80001A60 may take; nothing else decides it
+# open: after DrawConfetti, between DrawConfetti and ConfettiProc: one of the positions the read-only object start at 0x80001A60 may take, and the RCS premise leaves it open
 ConfettiProc	0x80034028	0x3D0	match	game	src/main/ConfettiProc.c
-# open: after ConfettiProc, between ConfettiProc and AddConfetti: one of the positions the read-only object start at 0x80001A60 may take; nothing else decides it
-AddConfetti	0x800343F8	0x1F0	match	game	src/main/AddConfetti.c
-# open: after AddConfetti, between AddConfetti and ConfettiBurstProc: nothing in the image decides it
-ConfettiBurstProc	0x800345E8	0x368	match	game	src/main/ConfettiBurstProc.c
-# open: after ConfettiBurstProc, between ConfettiBurstProc and StartCelebration: nothing in the image decides it
-StartCelebration	0x80034950	0x64	match	game	src/main/StartCelebration.c
+# premise: joined after AddConfetti, ConfettiBurstProc
+# open: after ConfettiProc, between ConfettiProc and wof_confetti: one of the positions the read-only object start at 0x80001A60 may take, and the RCS premise leaves it open
+wof_confetti	0x800343F8	0x5BC	match	game	src/main/wof_confetti.c
 rspboot	0x800349B8	0xD0	match	sdk_ucode	asm/sdk/rspboot.s
 ucode_80034A88	0x80034A88	0x1400	match	sdk_ucode	asm/sdk/ucode_80034A88.s
 ucode_80035E88	0x80035E88	0x1410	match	sdk_ucode	asm/sdk/ucode_80035E88.s

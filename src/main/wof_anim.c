@@ -1,19 +1,139 @@
-// wof_anim.c -- the pictures and animations of the contestants and Vanna: their clips, decoded once
-// from the movies, and the procs that play them
+// wof_anim.c -- the draw functions of the contestants and Vanna, and their pictures and animations:
+// their clips, decoded once from the movies, and the procs that play them
 //
-// One object from SetPicture to HideOtherContestants: SetPicture, SetVannaPicture, AnimProc,
-// VannaAnimProc, func_80032858, InitVannaAnim, PlayContestantClip and InitMenuContestants end off an
-// 8-byte boundary with the next function right after; InitMenuAnim, InitAnim and the functions to
-// InitContestants share string literals or lie among each other's read-only items and data. Its
-// read-only data opens with the RCS run at 0x80001960, which could open an object starting as early
-// as after DemoTimer; where the object starts before SetPicture and where it ends after
-// HideOtherContestants the text does not say.
+// The object starts after the 4-byte gap that ends StartDemoTimer. Its read-only data opens with the
+// RCS run at 0x80001960, which could open an object starting after DrawContestant or DrawVanna instead;
+// that it opens at the gap, so that DrawContestant to DrawVanna are this object's, rests on the RCS
+// premise (every object from 0x8000BAA8 on opens its read-only data with an RCS run, which the project
+// accepts). Inside, DrawMenuContestant, SetPicture, SetVannaPicture, AnimProc, VannaAnimProc,
+// func_80032858, InitVannaAnim, PlayContestantClip and InitMenuContestants end off an 8-byte boundary
+// with the next function right after, which happens only inside an object; InitMenuAnim, InitAnim and
+// the functions to InitContestants share string literals or lie among each other's read-only items and
+// data. Where it ends after HideOtherContestants the text does not say: the RCS runs at 0x80001A30,
+// 0x80001A48 and 0x80001A60 open the next objects at three of the positions after
+// HideOtherContestants, PauseGame, PauseProc, StartPauseProc (a text gap), StartApplause, DrawConfetti
+// and ConfettiProc.
 
 #include "wof.h"
 
 // The #ident line of the system header this object included: the original assembler put the string
 // into the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
+
+/*
+=====================
+DrawContestant
+
+The draw function of a player's contestant.
+=====================
+*/
+void DrawContestant(obj_t *obj, frame_t *frame) {
+    if (obj->image == 0) {
+        return;
+    }
+    switch (func_80016638()) {
+    case 0:
+        gSPLightColor(glistp++, LIGHT_3, 0xCCCCCCCC);
+        gSPLightColor(glistp++, LIGHT_4, 0xCCCCCCCC);
+        gSPTexture(glistp++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+        gDPPipeSync(glistp++);
+        gDPSetRenderMode(glistp++, G_RM_AA_ZB_TEX_EDGE, G_RM_AA_ZB_TEX_EDGE2);
+        gDPSetCombineMode(glistp++, G_CC_MODULATERGBDECALA, G_CC_MODULATERGBDECALA);
+        gDPLoadTextureBlock(glistp++, obj->image, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 64, 0,
+                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                            5, 6, G_TX_NOLOD, G_TX_NOLOD);
+        gDPPipeSync(glistp++);
+        gSPDisplayList(glistp++, obj->dl);
+        gDPLoadTextureBlock(glistp++, obj->image + 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 64, 0,
+                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                            5, 6, G_TX_NOLOD, G_TX_NOLOD);
+        gSPDisplayList(glistp++, obj->secondDl);
+        gDPPipeSync(glistp++);
+        SetLightColor(3);
+        SetLightColor(4);
+        gDPSetRenderMode(glistp++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+    }
+}
+
+/*
+=====================
+DrawMenuContestant
+
+The draw function of a contestant in the menus.
+=====================
+*/
+void DrawMenuContestant(obj_t *obj, frame_t *frame) {
+    if (obj->image == 0) {
+        return;
+    }
+    guTranslate(&frame->translate[obj->index], (f32)obj->x, (f32)obj->y, (f32)obj->z);
+    guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
+    guRotateRPY(&frame->rotate[obj->index], obj->roll, obj->pitch, obj->heading);
+    gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPDisplayList(glistp++, D_010219C8);
+    gSPTexture(glistp++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+    gDPPipeSync(glistp++);
+    gDPSetRenderMode(glistp++, G_RM_AA_ZB_TEX_EDGE, G_RM_AA_ZB_TEX_EDGE2);
+    gDPSetCombineMode(glistp++, G_CC_MODULATERGBDECALA, G_CC_MODULATERGBDECALA);
+    gDPLoadTextureBlock(glistp++, obj->image, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 64, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                        5, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPDisplayList(glistp++, obj->dl);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 64, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                        5, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gSPDisplayList(glistp++, obj->secondDl);
+    gDPPipeSync(glistp++);
+    gDPSetRenderMode(glistp++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+}
+
+/*
+=====================
+DrawVanna
+
+The draw function of Vanna.
+=====================
+*/
+void DrawVanna(obj_t *obj, frame_t *frame) {
+    proc_t *actor;
+    s16 *pixels;
+
+    if (obj->image == 0) {
+        return;
+    }
+    if (gameMode == 6) {
+        actor = FindProc(0xA000400, -1);
+        if (actor != 0) {
+            pixels = actor->data->vannaAnim.pictures + actor->data->vannaAnim.frame * ( 64 * 96 );
+            SetVannaPicture(pixels, actor->data->vannaAnim.mirror * lightDir);
+        }
+    }
+    gSPMatrix(glistp++, &D_0113AE28, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+    guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
+    gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+    gSPTexture(glistp++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+    gDPPipeSync(glistp++);
+    gDPSetRenderMode(glistp++, G_RM_AA_ZB_TEX_EDGE, G_RM_AA_ZB_TEX_EDGE2);
+    gDPSetCombineMode(glistp++, G_CC_MODULATERGBDECALA, G_CC_MODULATERGBDECALA);
+    gDPLoadTextureBlock(glistp++, obj->image, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                        6, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPDisplayList(glistp++, D_0113AD08);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                        6, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gSPDisplayList(glistp++, D_0113AD28);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x2000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                        6, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gSPDisplayList(glistp++, D_0113AD48);
+    gDPPipeSync(glistp++);
+    gDPSetRenderMode(glistp++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+}
 
 Gfx *contestantDls[3][2] = {
     { (Gfx *)0x0113A9F0, (Gfx *)0x0113AA18 },

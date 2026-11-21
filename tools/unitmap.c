@@ -1722,8 +1722,8 @@ static void analyse_rodata(void) {
         printf("after the last of them (0x%08X) it may hold: from the position after %s to the one after %s,\n"
                "  %d RCS starts from 0x%08X on, %d certain boundaries.  Assignments that meet it: %d.  Of the\n"
                "  undetermined positions there it makes %d boundaries and %d joins, and leaves %d open.\n"
-               "  These are not evidence: the proposed units below do not use them; the units under the premise\n"
-               "  are listed apart.\n\n",
+               "  The project accepts the premise: where nothing else decides, a position it makes a boundary or a\n"
+               "  join counts as one (likely), and the proposed units below use them.\n\n",
                starts[hyp_k0 - 1].addr, funcs[game[hyp_first]].name, funcs[game[last]].name, nstarts - hyp_k0, starts[hyp_k0].addr,
                ncert, hyp_nsol, nb, nj, no);
     }
@@ -1830,6 +1830,9 @@ static int grade(const Pos *p) {
     if (p->text == T_JOIN) return G_JOIN;
     if (p->join_string || data_joined(p) || p->ro_tie) return G_JOIN_LIKELY;
     if (p->ro_pin >= 0 || p->dup_pin >= 0 || p->fill_pin) return G_LIKELY;
+    /* the RCS premise, which the project accepts, where nothing else decides */
+    if (p->text == T_OPEN && hyp[p - pos] == H_BOUNDARY) return G_LIKELY;
+    if (p->text == T_OPEN && hyp[p - pos] == H_JOIN) return G_JOIN_LIKELY;
     return G_UNKNOWN;
 }
 
@@ -1977,6 +1980,11 @@ static void print_result(void) {
             sprintf(ev + strlen(ev), "; the copies of \"%.24s\" at 0x%08X and 0x%08X need a boundary here and nowhere else",
                     string_at(items[dups[p->dup_pin].a].addr), items[dups[p->dup_pin].a].addr, items[dups[p->dup_pin].b].addr);
         if (p->fill_pin) strcat(ev, "; stale .data fill between two functions' data falls here and nowhere else");
+        if (p->text == T_OPEN && hyp[g] == H_BOUNDARY && gr == G_LIKELY && p->ro_pin < 0 && p->dup_pin < 0 && !p->fill_pin)
+            strcat(ev, "; the RCS premise: a boundary in every assignment of the RCS starts");
+        if (p->text == T_OPEN && hyp[g] == H_JOIN && gr == G_JOIN_LIKELY && !p->join_string && !data_joined(p) && !p->ro_tie)
+            strcat(ev, "; the RCS premise: a join in every assignment of the RCS starts");
+        if (p->text == T_OPEN && hyp[g] == H_OPEN && gr == G_UNKNOWN) strcat(ev, "; the RCS premise leaves it open");
         if (p->join_addr) sprintf(ev + strlen(ev), "; 0x%08X is used on both sides%s", p->join_addr, p->join_string ? " (one string literal)" : " (not a string: may be a named constant)");
         if (p->ro_tie) sprintf(ev + strlen(ev), "; %s 0x%08X and 0x%08X", tie_why[p->ro_tie], p->tie_addr[0], p->tie_addr[1]);
         for (k = 0; k < 2; k++)
@@ -1987,13 +1995,12 @@ static void print_result(void) {
         printf("%-21s %-17s %s\n", funcs[game[g]].name, verdict[gr], ev[0] ? ev + 2 : "no evidence");
     }
     nunit = print_units(0, &hidden, &nsettled);
-    if (hyp_first >= 0) print_units(1, NULL, NULL);
     printf("\n== summary ==\n");
     printf("positions between consecutive game functions: %d\n", ngame - 1);
     printf("  boundary certain: %3d  (%d text gaps, %d where the game's text is interrupted)\n", n[G_CERTAIN], ngap, nend - 1);
-    printf("  boundary likely:  %3d  (a read-only object start, or a duplicate string, falls there and nowhere else)\n", n[G_LIKELY]);
+    printf("  boundary likely:  %3d  (a read-only object start, a duplicate string or stale .data fill falls there and nowhere else, or the RCS premise)\n", n[G_LIKELY]);
     printf("  joined certain:   %3d  (the function ends off an 8-byte boundary)\n", n[G_JOIN]);
-    printf("  joined likely:    %3d  (a string literal on both sides, read-only contiguity or order, interleaved data, the units' .data order)\n", n[G_JOIN_LIKELY]);
+    printf("  joined likely:    %3d  (a string literal on both sides, read-only contiguity or order, interleaved data, the units' .data order, the RCS premise)\n", n[G_JOIN_LIKELY]);
     printf("  unknown:          %3d\n", n[G_UNKNOWN]);
     printf("proposed units: %d, %d of them settled.  An object's end falls on an 8-byte boundary about as often as off one,\n"
            "so about %d boundaries hide in the text; %d are found as likely, which leaves about %d among the %d unknown\n"

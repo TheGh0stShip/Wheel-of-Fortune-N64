@@ -1,14 +1,123 @@
-// wof_status.c -- the status screen: the players' status and scores, the letters and their cursor,
-// the jackpot and the big numbers, the category, the boot, pause and no-controller screens, the
-// credits, and the bonus round and the turn's status proc
+// wof_status.c -- the pictures on the screen and the status screen: the players' status and scores, the
+// letters and their cursor, the jackpot and the big numbers, the category, the boot, pause and
+// no-controller screens, the credits, the bonus round, the turn's status proc, and picking a letter and
+// solving
 //
-// One object from DrawStatus to StatusProc: every function but the ones the data ties in ends off an
-// 8-byte boundary with the next right after, which happens only inside an object, and the data ties
-// in the rest (func_80028D3C, CategoryProc, FlashScore, ShowJackpot, ShowTotal, MoveCursorLeft to
-// MoveCursorUp, ShowTotalProc, CreditsProc: each one's data lies among the others'). Where the object
-// starts before DrawStatus, and whether it runs on after StatusProc, the text does not say.
+// The object starts after the 4-byte gap that ends InitOptions, where the RCS run at 0x80001678 opens
+// its read-only data. From MakeScreenObj to SolvePuzzleProc every function but the ones the data ties
+// in ends off an 8-byte boundary with the next right after, which happens only inside an object; the
+// data ties in func_80028D3C, CategoryProc, FlashScore, ShowJackpot, ShowTotal, MoveCursorLeft to
+// MoveCursorUp, ShowTotalProc and CreditsProc (each one's data lies among the others'). The joins after
+// DrawImageAt, DrawImage, StatusProc, InitLetterCursor, LetterPickProc and GetCursorProc rest on the RCS
+// premise (every object from 0x8000BAA8 on opens its read-only data with an RCS run, which the project
+// accepts): no run lies where an object starting there would need one. Where it ends after
+// SolvePuzzleProc the text does not say: the RCS run at 0x800018F8 opens the next object after one of
+// SolvePuzzleProc to StartBonusRound.
 
 #include "wof.h"
+
+// The #ident line of the system header this object included: the original assembler put the string
+// into the read-only data, which it opens. The header is not in this tree, so its line stands here.
+#ident "$Revision: 1.17 $"
+
+/*
+=====================
+MakeScreenObj
+
+MakeObj for a picture on the screen: placed in front of the camera.
+=====================
+*/
+obj_t *MakeScreenObj(proc_t *proc, Gfx *dl, objDraw_t draw, s32 cls) {
+    obj_t *obj;
+    s32 owner;
+
+    owner = 0;
+    if (proc != 0) {
+        owner = proc->id;
+    }
+    obj = CreatObj(owner, draw, cls);
+    if (obj == 0) {
+        return obj;
+    }
+    if (proc != 0) {
+        proc->data->obj = obj;
+    }
+    obj->scale = 1.0f;
+    obj->x = -160;
+    obj->y = -80;
+    obj->z = -450;
+    obj->roll = 0;
+    obj->pitch = 0;
+    obj->heading = 0;
+    obj->dl = dl;
+    return obj;
+}
+
+/*
+=====================
+GetImageTexture
+
+Which of a picture's two textures to draw this frame, by how it flashes.
+=====================
+*/
+u16 *GetImageTexture(image_t *image, s32 lit) {
+    u16 *result;
+
+    if (lit != 0) {
+        result = image->texture;
+    } else {
+        result = image->dimTexture;
+    }
+    if (image->flash == 1) {
+        if (image->flashLeft > image->flashLit) {
+            result = image->dimTexture;
+        }
+        image->flashLeft -= frameRetraces;
+        if (image->flashLeft < 0) {
+            image->flashLeft = image->flashFrames;
+        }
+    } else if (image->flash == 2) {
+        result = image->dimTexture;
+    }
+    return result;
+}
+
+/*
+=====================
+DrawImageAt
+
+Draws a picture moved by an offset.
+=====================
+*/
+void DrawImageAt(image_t *image, s32 lit, s32 dx, s32 dy) {
+    u16 *texture;
+
+    texture = GetImageTexture(image, lit);
+    if (texture != 0) {
+        gDPLoadTextureBlock(glistp++, texture, G_IM_FMT_RGBA, G_IM_SIZ_16b,
+                            image->width, image->height, 0,
+                            G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                            6, 6, G_TX_NOLOD, G_TX_NOLOD);
+        gDPPipeSync(glistp++);
+        gSPTextureRectangle(glistp++,
+                            (image->x + dx) << 2, (image->y + dy) << 2,
+                            (image->x + dx + image->width - 1) << 2,
+                            (image->y + dy + image->height - 1) << 2,
+                            G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+        gDPPipeSync(glistp++);
+    }
+}
+
+/*
+=====================
+DrawImage
+
+Draws a picture where it is.
+=====================
+*/
+void DrawImage(image_t *image, s32 lit) {
+    DrawImageAt(image, lit, 0, 0);
+}
 
 image_t playerStatusImages[3][2] = {
     {
@@ -1809,5 +1918,310 @@ struct procResult_s StatusProc(proc_t *proc) {
         proc->data->cursor.index = 0;
     }
     actionImages[proc->data->cursor.index].flash = 1;
+    return result;
+}
+
+/*
+=====================
+InitLetterCursor
+
+Moves the letter cursor off a called letter.
+=====================
+*/
+void InitLetterCursor(proc_t *proc) {
+    if (uncalled[proc->data->cursor.index] == 32) {
+        MoveCursorRight(proc, 1, 0);
+    }
+    curLetter = proc->data->cursor.index + 65;
+}
+
+/*
+=====================
+LetterPickProc
+
+The cursor over the letters as a letter is called.
+=====================
+*/
+struct procResult_s LetterPickProc(proc_t *proc) {
+    s32 event;
+    struct procResult_s result;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
+
+    result.w[1] = 1;
+    result.w[0] = 0;
+    for (;;) {
+        event = ProcGetMessage(proc);
+        if (event == 0) {
+            break;
+        }
+        switch (event) {
+        case 8:
+            InitLetterCursor(proc);
+            letterImages[proc->data->cursor.index].flash = 1;
+            proc->data->cursor.delay = 0;
+            return result;
+        case 23:
+            letterImages[proc->data->cursor.index].flash = 0;
+            ProcPostEvent(5);
+            result.w[1] = 0;
+            result.w[0] = 0;
+            return result;
+        case 33:
+            ProcPostEvent(5);
+            result.w[1] = 0;
+            result.w[0] = 0;
+            return result;
+        case 34:
+            result.w[1] = 0;
+            result.w[0] = 0;
+            return result;
+        }
+    }
+    curLetter = proc->data->cursor.index + 65;
+    letterImages[proc->data->cursor.index].flash = 0;
+    if (players[curPlayer].controller == 4) {
+        letterImages[proc->data->cursor.index].flash = 1;
+        return result;
+    }
+    if ((buttonsPressed & 0xA000) != 0) {
+        inputCount++;
+        if (uncalled[proc->data->cursor.index] != ' ') {
+            curLetter = proc->data->cursor.index + 65;
+            ProcPostEvent(5);
+            result.w[1] = 0;
+            result.w[0] = 0;
+            return result;
+        } else {
+            if (round != 6) {
+                curLetter = proc->data->cursor.index + 65;
+                ProcPostEvent(5);
+                result.w[1] = 0;
+                result.w[0] = 0;
+                return result;
+            } else {
+                PlaySound(1);
+            }
+            return result;
+        }
+    }
+    if (proc->data->cursor.delay <= 0) {
+        if ((playerPad.button & 0x800) != 0) {
+            MoveCursorUp(proc);
+        } else if ((playerPad.button & 0x400) != 0) {
+            MoveCursorDown(proc);
+        } else if ((playerPad.button & 0x200) != 0) {
+            MoveCursorLeft(proc, 1);
+        } else if ((playerPad.button & 0x100) != 0) {
+            MoveCursorRight(proc, 1, 1);
+        } else {
+            if (playerPad.stick_x < -40) {
+                MoveCursorLeft(proc, 1);
+            }
+            if (playerPad.stick_x >= 41) {
+                MoveCursorRight(proc, 1, 1);
+            }
+            if (playerPad.stick_y < -40) {
+                MoveCursorDown(proc);
+            }
+            if (playerPad.stick_y >= 41) {
+                MoveCursorUp(proc);
+            }
+        }
+    } else {
+        proc->data->cursor.delay -= frameRetraces;
+    }
+    if (proc->data->cursor.index < 0) {
+        proc->data->cursor.index = 25;
+    } else if (proc->data->cursor.index >= 26) {
+        proc->data->cursor.index = 0;
+    }
+    letterImages[proc->data->cursor.index].flash = 1;
+    return result;
+}
+
+/*
+=====================
+CountSolveBlanks
+
+The squares of solveBoard still blank.
+=====================
+*/
+s32 CountSolveBlanks(void) {
+    s32 i;
+    s32 j;
+    s32 count;
+
+    count = 0;
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 14; j++) {
+            if (solveBoard[i][j] == 43) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+/*
+=====================
+GetCursorProc
+
+Finds the cursor proc for SolvePuzzleProc, whose message it prints.
+=====================
+*/
+proc_t *GetCursorProc(void) {
+    proc_t *result;
+
+    result = FindProc(0x1020000, -1);
+    if (result == 0) {
+        FatalError("SolvePuzzleProc Proc: cursor proc does not exist\n");
+    }
+    return result;
+}
+
+/*
+=====================
+SolvePuzzleProc
+
+The proc of the letters as a puzzle is solved: the player picks a letter for each hidden square the
+cursor proc stands on.
+=====================
+*/
+struct procResult_s SolvePuzzleProc(proc_t *proc) {
+    s32 event;
+    struct procResult_s result;
+    s32 unused;  /* NOTE: unused in the original */
+    proc_t *task;
+
+    result.w[1] = 1;
+    result.w[0] = 0;
+    for (;;) {
+        event = ProcGetMessage(proc);
+        if (event == 0) {
+            break;
+        }
+        switch (event) {
+        case 8:
+            InitLetterCursor(proc);
+            task = GetCursorProc();
+            if (players[curPlayer].controller == 4) {
+                proc->data->cursor.index = puzzleText[solveRow][solveCol] - 65;
+                curLetter = proc->data->cursor.index + 65;
+                ProcPostMessage(proc, 25, 0);
+            }
+            ProcPostMessage(task, 22, 0);
+            letterImages[proc->data->cursor.index].flash = 1;
+            proc->data->cursor.delay = 0;
+            result.w[0] = 45 / frameRetraces;
+            return result;
+        case 25:
+            ResetSolveTimer();
+            letterImages[proc->data->cursor.index].flash = 0;
+            curLetter = proc->data->cursor.index + 32;
+            if (CountSolveBlanks() != 0) {
+                ProcPostMessage(proc, 26, 0);
+                task = GetCursorProc();
+                ProcPostMessage(task, 17, 0);
+            } else {
+                ProcPostEvent(5);
+                result.w[1] = 0;
+                result.w[0] = 0;
+            }
+            return result;
+        case 26:
+            letterImages[proc->data->cursor.index].flash = 0;
+            letterImages[proc->data->cursor.index].flashLeft = letterImages[proc->data->cursor.index].flashFrames;
+            proc->data->cursor.index = puzzleText[solveRow][solveCol] - 65;
+            curLetter = proc->data->cursor.index + 65;
+            result.w[0] = 45 / frameRetraces;
+            ProcPostMessage(proc, 25, 0);
+            task = GetCursorProc();
+            ProcPostMessage(task, 22, 0);
+            letterImages[proc->data->cursor.index].flash = 1;
+            return result;
+        case 33:
+            letterImages[proc->data->cursor.index].flash = 0;
+            if (round == 6) {
+                task = FindProc(0x5050000, -1);
+                ProcPostMessage(task, 33, 1);
+            } else {
+                ProcPostEvent(5);
+            }
+            result.w[1] = 0;
+            result.w[0] = 0;
+            return result;
+        case 34:
+            result.w[1] = 0;
+            result.w[0] = 0;
+            return result;
+        }
+    }
+    letterImages[proc->data->cursor.index].flash = 0;
+    if (players[curPlayer].controller == 4) {
+        letterImages[proc->data->cursor.index].flash = 1;
+        return result;
+    }
+    task = GetCursorProc();
+    if ((buttonsPressed & 0xA000) != 0) {
+        if (CountSolveBlanks() != 0) {
+            ResetSolveTimer();
+            proc->data->cursor.delay = 15;
+            ProcPostMessage(task, 17, 0);
+        } else {
+            task = FindProc(0x7030000, -1);
+            if (round == 6) {
+                ProcPostEvent(10);
+            } else {
+                if (task != 0) {
+                    KillProc(task, 0);
+                }
+                ProcPostEvent(5);
+            }
+            result.w[1] = 0;
+            result.w[0] = 0;
+        }
+        return result;
+    }
+    if (proc->data->cursor.delay <= 0) {
+        if ((playerPad.button & 2048) != 0) {
+            MoveCursorUp(proc);
+            ProcPostMessage(task, 22, 0);
+        } else if ((playerPad.button & 1024) != 0) {
+            MoveCursorDown(proc);
+            ProcPostMessage(task, 22, 0);
+        } else if ((playerPad.button & 512) != 0) {
+            MoveCursorLeft(proc, 1);
+            ProcPostMessage(task, 22, 0);
+        } else if ((playerPad.button & 256) != 0) {
+            MoveCursorRight(proc, 1, 1);
+            ProcPostMessage(task, 22, 0);
+        } else if (playerPad.stick_x < -40) {
+            MoveCursorLeft(proc, 1);
+            ProcPostMessage(task, 22, 0);
+        } else if (playerPad.stick_x >= 41) {
+            MoveCursorRight(proc, 1, 1);
+            ProcPostMessage(task, 22, 0);
+        } else if (playerPad.stick_y < -40) {
+            MoveCursorDown(proc);
+            ProcPostMessage(task, 22, 0);
+        } else if (playerPad.stick_y >= 41) {
+            MoveCursorUp(proc);
+            ProcPostMessage(task, 22, 0);
+        } else if ((playerPad.button & 0x8010) != 0) {
+            proc->data->cursor.delay = 15;
+            ProcPostMessage(task, 17, 0);
+        } else if ((playerPad.button & 0x4020) != 0) {
+            proc->data->cursor.delay = 15;
+            ProcPostMessage(task, 18, 0);
+        }
+    } else {
+        proc->data->cursor.delay -= frameRetraces;
+    }
+    if (proc->data->cursor.index < 0) {
+        proc->data->cursor.index = 25;
+    } else if (proc->data->cursor.index >= 26) {
+        proc->data->cursor.index = 0;
+    }
+    letterImages[proc->data->cursor.index].flash = 1;
     return result;
 }
