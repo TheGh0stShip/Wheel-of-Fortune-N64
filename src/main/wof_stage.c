@@ -1327,7 +1327,7 @@ void UnlightPlayers(void) {
 =====================
 GetLayerColor
 
-A layer's colour: unk_14 in the first half of each blink.
+A layer's colour: blinkColor in the first half of each blink.
 =====================
 */
 s32 GetLayerColor(layer_t *layer) {
