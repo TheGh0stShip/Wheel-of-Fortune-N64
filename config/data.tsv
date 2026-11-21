@@ -4,61 +4,61 @@
 # yet; sdk:NAME, an SDK object linked whole; '-' for fill between objects; ?A..B or "?A B", one of those units),
 # type (as datagen takes it; "strings" for a run of char arrays defined one by one; bin for bytes no C file
 # holds; '-' for RCS runs and fill; '?' where the evidence gives none), evidence.
-0x80000498	0x800004AA	ident	func_800032A8	-	RCS run; func_800032A8's read-only data follows at the next 4-byte boundary: one object
-0x800004AA	0x800004AC	fill	func_800032A8	-	zero alignment to 4 bytes inside one object: func_800032A8's data follows
-0x800004DD	0x800004E0	fill	func_800045D4	-	zero alignment to 4 bytes inside one object: func_800045D4's data follows
-0x800004F0	0x80000502	ident	?func_800045D4..func_80005300	-	RCS run; zero fill to an 8-byte boundary follows: the run may be all of an object's read-only data (an object between func_800045D4's and func_80005300's)
+0x80000498	0x800004AA	ident	amCreateAudioMgr	-	RCS run; amCreateAudioMgr's read-only data follows at the next 4-byte boundary: one object
+0x800004AA	0x800004AC	fill	amCreateAudioMgr	-	zero alignment to 4 bytes inside one object: amCreateAudioMgr's data follows
+0x800004DD	0x800004E0	fill	ReadControllers	-	zero alignment to 4 bytes inside one object: ReadControllers's data follows
+0x800004F0	0x80000502	ident	?ReadControllers..SetLightColor	-	RCS run; zero fill to an 8-byte boundary follows: the run may be all of an object's read-only data (an object between ReadControllers's and SetLightColor's)
 0x80000502	0x80000508	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80000634	0x80000638	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x8000068C	0x80000690	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800007D2	0x800007D8	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800007DE	0x800007E0	fill	func_80009F38	-	zero alignment to 4 bytes inside one object: func_80009F38's data follows
 0x800007EA	0x800007F0	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x80000853	0x80000854	fill	func_8000A31C	-	zero alignment to 4 bytes inside one object: func_8000A31C's data follows
-0x80000891	0x80000894	fill	func_8000A664	-	zero alignment to 4 bytes inside one object: func_8000A664's data follows
-0x800008B6	0x800008B8	fill	func_8000A850	-	zero alignment to 4 bytes inside one object: func_8000A850's data follows
-0x800008F9	0x800008FC	fill	func_8000AAB0	-	zero alignment to 4 bytes inside one object: func_8000AAB0's data follows
-0x8000095F	0x80000960	fill	func_8000ABB8	-	zero alignment to 4 bytes inside one object: func_8000ABB8's data follows
-0x800009CF	0x800009D0	fill	func_8000AD9C	-	zero alignment to 4 bytes inside one object: func_8000AD9C's data follows
-0x800009EE	0x800009F0	fill	func_8000B060	-	zero alignment to 4 bytes inside one object: func_8000B060's data follows
-0x80000A12	0x80000A14	fill	func_8000B10C	-	zero alignment to 4 bytes inside one object: func_8000B10C's data follows
-0x80000A51	0x80000A54	fill	func_8000B3B0	-	zero alignment to 4 bytes inside one object: func_8000B3B0's data follows
-0x80000A73	0x80000A74	fill	func_8000B468	-	zero alignment to 4 bytes inside one object: func_8000B468's data follows
+0x80000853	0x80000854	fill	AllocBlock	-	zero alignment to 4 bytes inside one object: AllocBlock's data follows
+0x80000891	0x80000894	fill	DoProcs	-	zero alignment to 4 bytes inside one object: DoProcs's data follows
+0x800008B6	0x800008B8	fill	ProcPostEvent	-	zero alignment to 4 bytes inside one object: ProcPostEvent's data follows
+0x800008F9	0x800008FC	fill	ProcPostMessage	-	zero alignment to 4 bytes inside one object: ProcPostMessage's data follows
+0x8000095F	0x80000960	fill	ProcPostMessageClass	-	zero alignment to 4 bytes inside one object: ProcPostMessageClass's data follows
+0x800009CF	0x800009D0	fill	ProcClearMessages	-	zero alignment to 4 bytes inside one object: ProcClearMessages's data follows
+0x800009EE	0x800009F0	fill	GetObjBefore	-	zero alignment to 4 bytes inside one object: GetObjBefore's data follows
+0x80000A12	0x80000A14	fill	AllocObj	-	zero alignment to 4 bytes inside one object: AllocObj's data follows
+0x80000A51	0x80000A54	fill	CreatObj	-	zero alignment to 4 bytes inside one object: CreatObj's data follows
+0x80000A73	0x80000A74	fill	DrawObjs	-	zero alignment to 4 bytes inside one object: DrawObjs's data follows
 0x80000A9A	0x80000AA0	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x80000ABD	0x80000AC0	fill	unit_8000BAA8	-	zero alignment to 4 bytes inside one object: unit_8000BAA8's data follows
+0x80000ABD	0x80000AC0	fill	wof_opening	-	zero alignment to 4 bytes inside one object: wof_opening's data follows
 0x80000AFC	0x80000B00	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80000E24	0x80000E28	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x80000E98	0x80000EAA	ident	func_80017938	-	RCS run; func_80017938's read-only data follows at the next 4-byte boundary: one object
-0x80000EAA	0x80000EAC	fill	func_80017938	-	zero alignment to 4 bytes inside one object: func_80017938's data follows
-0x800011B0	0x800011C2	ident	func_8001A894	-	RCS run; func_8001A894's read-only data follows at the next 4-byte boundary: one object
-0x800011C2	0x800011C4	fill	func_8001A894	-	zero alignment to 4 bytes inside one object: func_8001A894's data follows
+0x80000E98	0x80000EAA	ident	AdjustCameraProc	-	RCS run; AdjustCameraProc's read-only data follows at the next 4-byte boundary: one object
+0x80000EAA	0x80000EAC	fill	AdjustCameraProc	-	zero alignment to 4 bytes inside one object: AdjustCameraProc's data follows
+0x800011B0	0x800011C2	ident	CpuPickConsonant	-	RCS run; CpuPickConsonant's read-only data follows at the next 4-byte boundary: one object
+0x800011C2	0x800011C4	fill	CpuPickConsonant	-	zero alignment to 4 bytes inside one object: CpuPickConsonant's data follows
 0x800011EC	0x800011F0	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800012A4	0x800012A8	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80001364	0x80001368	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800014B4	0x800014B8	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x800014B8	0x80001533	ident	func_80020150	-	RCS run; func_80020150's read-only data follows at the next 4-byte boundary: one object
-0x80001533	0x80001534	fill	func_80020150	-	zero alignment to 4 bytes inside one object: func_80020150's data follows
-0x80001555	0x80001558	fill	func_800211E4	-	zero alignment to 4 bytes inside one object: func_800211E4's data follows
+0x800014B8	0x80001533	ident	DrawMovie	-	RCS run; DrawMovie's read-only data follows at the next 4-byte boundary: one object
+0x80001533	0x80001534	fill	DrawMovie	-	zero alignment to 4 bytes inside one object: DrawMovie's data follows
+0x80001555	0x80001558	fill	MakeMovieObj	-	zero alignment to 4 bytes inside one object: MakeMovieObj's data follows
 0x8000155C	0x80001560	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x80001678	0x8000168A	ident	func_80027218	-	RCS run; func_80027218's read-only data follows at the next 4-byte boundary: one object
-0x8000168A	0x8000168C	fill	func_80027218	-	zero alignment to 4 bytes inside one object: func_80027218's data follows
+0x80001678	0x8000168A	ident	MakeScreenObj	-	RCS run; MakeScreenObj's read-only data follows at the next 4-byte boundary: one object
+0x8000168A	0x8000168C	fill	MakeScreenObj	-	zero alignment to 4 bytes inside one object: MakeScreenObj's data follows
 0x800016B3	0x800016B8	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80001882	0x80001888	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800018F4	0x800018F8	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x800018F8	0x8000190A	ident	func_8002EFC0	-	RCS run; func_8002EFC0's read-only data follows at the next 4-byte boundary: one object
-0x8000190A	0x8000190C	fill	func_8002EFC0	-	zero alignment to 4 bytes inside one object: func_8002EFC0's data follows
-0x8000191E	0x80001920	fill	func_8002F338	-	zero alignment to 4 bytes inside one object: func_8002F338's data follows
+0x800018F8	0x8000190A	ident	FinalSpinProc	-	RCS run; FinalSpinProc's read-only data follows at the next 4-byte boundary: one object
+0x8000190A	0x8000190C	fill	FinalSpinProc	-	zero alignment to 4 bytes inside one object: FinalSpinProc's data follows
+0x8000191E	0x80001920	fill	RoundTimerProc	-	zero alignment to 4 bytes inside one object: RoundTimerProc's data follows
 0x8000195B	0x80001960	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x80001960	0x80001972	ident	func_800323C4	-	RCS run; func_800323C4's read-only data follows at the next 4-byte boundary: one object
-0x80001972	0x80001974	fill	func_800323C4	-	zero alignment to 4 bytes inside one object: func_800323C4's data follows
-0x800019E1	0x800019E4	fill	func_8003288C	-	zero alignment to 4 bytes inside one object: func_8003288C's data follows
+0x80001960	0x80001972	ident	InitMenuAnim	-	RCS run; InitMenuAnim's read-only data follows at the next 4-byte boundary: one object
+0x80001972	0x80001974	fill	InitMenuAnim	-	zero alignment to 4 bytes inside one object: InitMenuAnim's data follows
+0x800019E1	0x800019E4	fill	InitVannaAnim	-	zero alignment to 4 bytes inside one object: InitVannaAnim's data follows
 0x80001A2F	0x80001A30	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x80001A30	0x80001A42	ident	?func_80032BF0..func_800343F8	-	RCS run; zero fill to an 8-byte boundary follows: the run may be all of an object's read-only data (an object between func_80032BF0's and func_800343F8's)
+0x80001A30	0x80001A42	ident	?InitContestants..AddConfetti	-	RCS run; zero fill to an 8-byte boundary follows: the run may be all of an object's read-only data (an object between InitContestants's and AddConfetti's)
 0x80001A42	0x80001A48	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x80001A48	0x80001A5A	ident	?func_80032BF0..func_800343F8	-	RCS run; zero fill to an 8-byte boundary follows: the run may be all of an object's read-only data (an object between func_80032BF0's and func_800343F8's)
+0x80001A48	0x80001A5A	ident	?InitContestants..AddConfetti	-	RCS run; zero fill to an 8-byte boundary follows: the run may be all of an object's read-only data (an object between InitContestants's and AddConfetti's)
 0x80001A5A	0x80001A60	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x80001A60	0x80001A72	ident	func_800343F8	-	RCS run; func_800343F8's read-only data follows at the next 4-byte boundary: one object
-0x80001A72	0x80001A74	fill	func_800343F8	-	zero alignment to 4 bytes inside one object: func_800343F8's data follows
+0x80001A60	0x80001A72	ident	AddConfetti	-	RCS run; AddConfetti's read-only data follows at the next 4-byte boundary: one object
+0x80001A72	0x80001A74	fill	AddConfetti	-	zero alignment to 4 bytes inside one object: AddConfetti's data follows
 0x800032A4	0x800032A8	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800060AC	0x800060B0	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
 0x80006324	0x80006328	fill	-	-	zeros to an 8-byte boundary: fill between objects
@@ -74,192 +74,192 @@
 0x8002FEAC	0x8002FEB0	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80033A24	0x80033A28	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800349B4	0x800349B8	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x800349B8	0x80034A88	ucode	sdk:rspboot	bin	RSP boot microcode text: every task's ucode_boot (func_80003944, func_800057A8 load D_800349B8 and size it to D_80034A88); first in .text after the game's objects, before libgcc and libultra
-0x80034A88	0x80035E88	ucode	sdk:gfx_80034A88	bin	graphics microcode text, Fast3D family ("RSP SW Version: 2.0H, 02-12-97" in its data; yield size 0x900): func_800057A8's ucode; ends in the 2400beef word as the next one does
+0x800349B8	0x80034A88	ucode	sdk:rspboot	bin	RSP boot microcode text: every task's ucode_boot (__amHandleFrameMsg, createGfxTask load D_800349B8 and size it to D_80034A88); first in .text after the game's objects, before libgcc and libultra
+0x80034A88	0x80035E88	ucode	sdk:gfx_80034A88	bin	graphics microcode text, Fast3D family ("RSP SW Version: 2.0H, 02-12-97" in its data; yield size 0x900): createGfxTask's ucode; ends in the 2400beef word as the next one does
 0x80035E88	0x80037298	ucode	sdk:gfx_80035E88	bin	a second graphics microcode text of the same family (2659 of its first 0x1400 bytes differ from the first's; ends in 2400beef): nothing in the code names it, linked but unused
-0x80037298	0x800380B8	ucode	sdk:aspMain	bin	audio microcode text: func_80003944's ucode (D_80037298), the SDK's aspMain; 8 zero bytes close its section before libgcc's text at 0x800380B8
+0x80037298	0x800380B8	ucode	sdk:aspMain	bin	audio microcode text: __amHandleFrameMsg's ucode (D_80037298), the SDK's aspMain; 8 zero bytes close its section before libgcc's text at 0x800380B8
 0x80038714	0x80038718	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
 0x80038744	0x80038748	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
-0x8004B718	0x8004B71C	data	unit_80002348	ALSndPlayer *	used by unit_80002348; 1 pointer words, 0 zero words
-0x8004B71C	0x8004B7A8	data	unit_80002348	s32[35]	used by unit_80002348; 0 pointer words, 17 zero words
-0x8004B7A8	0x8004B7AC	data	?func_800037A0 func_80003CC8 func_80003FDC	u32	used by func_800037A0 func_80003CC8 func_80003FDC; 0 pointer words, 1 zero words
-0x8004B7AC	0x8004B7B0	data	?func_80003CC8 func_80003FDC	u32	used by func_80003CC8 func_80003FDC; 0 pointer words, 1 zero words
-0x8004B7B0	0x8004B7B4	data	func_80003944	u32	used by func_80003944; 0 pointer words, 1 zero words
-0x8004B7B4	0x8004B7B8	data	func_80003C68	s32	used by func_80003C68; 0 pointer words, 0 zero words
-0x8004B7B8	0x8004B830	data	unit_80016638	Lights7	used by unit_80016638; 0 pointer words, 11 zero words; the header declares Lights6, but seven lights follow the ambient one (0x78 bytes)
-0x8004B830	0x8004B838	data	func_800057A8	s32	used by func_800057A8; 0 pointer words, 1 zero words
-0x8004B838	0x8004B83C	data	func_800060B0	s32	used by func_800060B0; 0 pointer words, 1 zero words
-0x8004B83C	0x8004B840	data	func_800060B0	s32	used by func_800060B0 func_800063A0; 0 pointer words, 1 zero words
-0x8004B840	0x8004B844	data	func_800060B0	s32	used by func_800060B0; 0 pointer words, 1 zero words
-0x8004B844	0x8004B848	data	func_800060B0	s32	used by func_800060B0; 0 pointer words, 1 zero words
-0x8004B848	0x8004B860	data	func_80017DBC	s32[6]	used by func_80017DBC; 0 pointer words, 0 zero words
-0x8004B860	0x8004B8C0	data	func_80008AB8	s32[24]	used by func_80008AB8; 0 pointer words, 0 zero words
-0x8004B8C0	0x8004B920	data	func_80008AB8	s32[24]	used by func_80008AB8; 0 pointer words, 0 zero words
-0x8004B920	0x8004B980	data	func_80008AB8	s32[24]	used by func_80008AB8; 0 pointer words, 0 zero words
-0x8004B980	0x8004B9E0	data	func_80008AB8	s32[24]	used by func_80008AB8; 0 pointer words, 0 zero words
-0x8004B9E0	0x8004B9FC	data	func_80006E54	u8[28]	used by func_80006E54; "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; with the vowels, consonants, categories and puzzles one object's data (unitmap: func_80006E54..func_80007888 are joined by 0x8004BA04)
-0x8004B9FC	0x8004BA04	data	?func_80007818 func_80007888	s8[8]	used by func_80007818 func_80007888; "AEIOU"
-0x8004BA04	0x8004BA20	data	func_80007888	s8[28]	used by func_80007888; "BCDFGHJKLMNPQRSTVWXYZ"
-0x8004BA20	0x8004BB98	data	func_80006E54	strings	30 category names, each a char array of its own, sorted, word-aligned; only D_8004BB98's entries point at them (puzzle_t.unk_04); the puzzle object's data
-0x8004BB98	0x8005716C	data	func_80006E54	puzzle_t[3879]	used by func_80006BFC and func_80006E54; 3879 entries of 12 bytes: cartridge address (0xB0...), category, 0
+0x8004B718	0x8004B71C	data	wof_audio	ALSndPlayer *	used by wof_audio; 1 pointer words, 0 zero words
+0x8004B71C	0x8004B7A8	data	wof_audio	s32[35]	used by wof_audio; 0 pointer words, 17 zero words
+0x8004B7A8	0x8004B7AC	data	?__amMain __amDMA __clearAudioDMA	u32	used by __amMain __amDMA __clearAudioDMA; 0 pointer words, 1 zero words
+0x8004B7AC	0x8004B7B0	data	?__amDMA __clearAudioDMA	u32	used by __amDMA __clearAudioDMA; 0 pointer words, 1 zero words
+0x8004B7B0	0x8004B7B4	data	__amHandleFrameMsg	u32	used by __amHandleFrameMsg; 0 pointer words, 1 zero words
+0x8004B7B4	0x8004B7B8	data	__amHandleDoneMsg	s32	used by __amHandleDoneMsg; 0 pointer words, 0 zero words
+0x8004B7B8	0x8004B830	data	wof_camera	Lights7	used by wof_camera; 0 pointer words, 11 zero words; the header declares Lights6, but seven lights follow the ambient one (0x78 bytes)
+0x8004B830	0x8004B838	data	createGfxTask	s32	used by createGfxTask; 0 pointer words, 1 zero words
+0x8004B838	0x8004B83C	data	parse_args	s32	used by parse_args; 0 pointer words, 1 zero words
+0x8004B83C	0x8004B840	data	parse_args	s32	used by parse_args idle; 0 pointer words, 1 zero words
+0x8004B840	0x8004B844	data	parse_args	s32	used by parse_args; 0 pointer words, 1 zero words
+0x8004B844	0x8004B848	data	parse_args	s32	used by parse_args; 0 pointer words, 1 zero words
+0x8004B848	0x8004B860	data	RoundOverProc	s32[6]	used by RoundOverProc; 0 pointer words, 0 zero words
+0x8004B860	0x8004B8C0	data	InitWheel	s32[24]	used by InitWheel; 0 pointer words, 0 zero words
+0x8004B8C0	0x8004B920	data	InitWheel	s32[24]	used by InitWheel; 0 pointer words, 0 zero words
+0x8004B920	0x8004B980	data	InitWheel	s32[24]	used by InitWheel; 0 pointer words, 0 zero words
+0x8004B980	0x8004B9E0	data	InitWheel	s32[24]	used by InitWheel; 0 pointer words, 0 zero words
+0x8004B9E0	0x8004B9FC	data	LoadPuzzle	u8[28]	used by LoadPuzzle; "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; with the vowels, consonants, categories and puzzles one object's data (unitmap: LoadPuzzle..CallLetter are joined by 0x8004BA04)
+0x8004B9FC	0x8004BA04	data	?IsVowel CallLetter	s8[8]	used by IsVowel CallLetter; "AEIOU"
+0x8004BA04	0x8004BA20	data	CallLetter	s8[28]	used by CallLetter; "BCDFGHJKLMNPQRSTVWXYZ"
+0x8004BA20	0x8004BB98	data	LoadPuzzle	strings	30 category names, each a char array of its own, sorted, word-aligned; only puzzles's entries point at them (puzzle_t.unk_04); the puzzle object's data
+0x8004BB98	0x8005716C	data	LoadPuzzle	puzzle_t[3879]	used by StartRound and LoadPuzzle; 3879 entries of 12 bytes: cartridge address (0xB0...), category, 0
 0x8005716C	0x80057170	fill	-	-	stale bytes (c8870001) to an 8-byte boundary: the puzzle object's data ends here
-0x80057170	0x80057729	data	?func_80007888..unit_8000BAA8	strings	53 strings "PRC_EVENT_NULL 0".."PRC_EVENT_NOT_ENOUGH2 52": the proc events by name, one char array each; only the table after them points here
-0x80057729	0x8005772C	fill	?func_80007888..unit_8000BAA8	-	zero alignment to 4 bytes inside one object: the table of names follows
-0x8005772C	0x80057800	data	?func_80007888..unit_8000BAA8	char *[53]	the 53 event names in order; no instruction uses the table (a debug table); in data order between the puzzle object's data and unit_8000BAA8's, so an object between them in link order (the proc system is a candidate)
-0x80057800	0x80057808	data	unit_8000BAA8	s32	used by unit_8000BAA8; 0 pointer words, 1 zero words
-0x80057808	0x800578B0	data	unit_8000BAA8	data80057808_t[14]	used by unit_8000BAA8; 0 pointer words, 1 zero words
-0x800578B0	0x80057910	data	unit_8000BAA8	Gfx *[24]	used by unit_8000BAA8; 0 pointer words, 0 zero words
-0x80057910	0x80057970	data	unit_8000BAA8	Mtx *[24]	used by unit_8000BAA8; 0 pointer words, 1 zero words
-0x80057970	0x80057988	data	unit_8000BAA8	s32[2][3]	used by unit_8000BAA8; 0 pointer words, 0 zero words
-0x80057988	0x800579BC	data	unit_8000EF68	Gfx *[13]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x800579BC	0x800579F0	data	unit_8000EF68	u8 *[13]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x800579F0	0x80057A20	data	unit_8000EF68	Gfx *[12]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x80057A20	0x80057A58	data	unit_8000EF68	Gfx *[14]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x80057A58	0x80057A68	data	unit_8000EF68	Gfx *[4]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x80057A68	0x80057A90	data	unit_8000EF68	u16 *[10]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x80057A90	0x80057B50	data	unit_8000EF68	Gfx *[48]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x80057B50	0x80057BB0	data	unit_8000EF68	Gfx *[3][8]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x80057BB0	0x80057BF8	data	unit_8000EF68	layer_t[3]	used by unit_8000EF68; 0 pointer words, 5 zero words
-0x80057BF8	0x80057C08	data	unit_8000EF68	?	the bytes after 0x80057BB0's layer_t[3]: four words of segment addresses (0x01010100..0x01010400); no instruction names them
-0x80057C08	0x80057CC8	data	unit_8000EF68	wedgeDl_t[24]	D_80057F08[0] points here: the 24 wedges of one kind of round (wedgeDl_t, 8 bytes each)
-0x80057CC8	0x80057D88	data	unit_8000EF68	wedgeDl_t[24]	D_80057F08[1] points here
-0x80057D88	0x80057E48	data	unit_8000EF68	wedgeDl_t[24]	D_80057F08[2] points here
-0x80057E48	0x80057F08	data	unit_8000EF68	wedgeDl_t[24]	D_80057F08[3..6] point here
-0x80057F08	0x80057F24	data	unit_8000EF68	wedgeDl_t *[7]	used by unit_8000BAA8 unit_8000EF68; 7 pointer words, 0 zero words
-0x80057F24	0x80057F34	data	unit_8000EF68	Gfx *[4]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x80057F34	0x80057F44	data	unit_8000EF68	Gfx *[4]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x80057F44	0x80057F48	data	unit_8000EF68	f32	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x80057F48	0x80057F50	data	unit_8000EF68	s32	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x80057F50	0x800581F0	data	?func_80017938 unit_80016638	view_t[21]	used by func_80017938 unit_80016638; 6 pointer words, 90 zero words
-0x800581F0	0x800581F4	data	unit_8000EF68	s32[1]	used by unit_8000EF68; 0 pointer words, 0 zero words
-0x800581F4	0x800581FC	data	func_80017DBC	s32[2]	used by func_80017DBC; 0 pointer words, 0 zero words; the header declares one s32, func_80017DBC reads two words
-0x800581FC	0x80058208	data	func_80017C00	s32[3]	used by func_80017C00; 0 pointer words, 1 zero words
-0x80058208	0x80058220	data	func_8001A5D0	u8[24]	used by func_8001A5D0; "RSTLNCBDMHFYKJGPQVWXZ"
-0x80058220	0x80058228	data	func_8001A5D0	u8[8]	used by func_8001A5D0; "EAIOU"
-0x80058228	0x80058488	data	?func_80021908 func_800219B8 func_80021B4C func_80021C8C	movie_t[38]	used by func_80021908 func_800219B8 func_80021B4C func_80021C8C; 38 pointer words, 0 zero words
-0x80058488	0x800584A0	data	func_800219B8	char[24]	used by func_800219B8; "You are the BIG winner!"
-0x800584A0	0x800584C8	data	unit_80021E88	s32[5][2]	used by unit_80021E88; 0 pointer words, 0 zero words
-0x800584C8	0x80058548	data	unit_80021E88	menuItem_t[4]	used by unit_80021E88; 0 pointer words, 8 zero words
-0x80058548	0x80058868	data	unit_80021E88	image_t[20]	used by unit_80021E88; 0 pointer words, 40 zero words
-0x80058868	0x800588A8	data	unit_80021E88	menuItem_t[2]	used by unit_80021E88; 0 pointer words, 4 zero words
-0x800588A8	0x800588F0	data	unit_80021E88	u16 *[3][3][2]	used by unit_80021E88; 0 pointer words, 0 zero words
-0x800588F0	0x80058AA8	data	unit_80021E88	image_t[11]	used by unit_80021E88; 0 pointer words, 34 zero words
-0x80058AA8	0x80058B28	data	unit_80021E88	menuItem_t[4]	used by unit_80021E88; 0 pointer words, 16 zero words
-0x80058B28	0x80058E70	data	unit_80021E88	image_t[21]	used by unit_80021E88; 0 pointer words, 42 zero words
-0x80058E70	0x80058EB0	data	unit_80021E88	menuItem_t[2]	used by unit_80021E88; 0 pointer words, 5 zero words
-0x80058EB0	0x80058FC8	data	unit_80021E88	image_t[7]	used by unit_80021E88; 0 pointer words, 14 zero words
-0x80058FC8	0x80059008	data	unit_80021E88	menuItem_t[2]	used by unit_80021E88; 0 pointer words, 4 zero words
-0x80059008	0x80059120	data	unit_80021E88	image_t[7]	used by unit_80021E88; 0 pointer words, 14 zero words
-0x80059120	0x8005A390	data	unit_80021E88	image_t[118]	used by unit_80021E88; 0 pointer words, 118 zero words
-0x8005A390	0x8005A39C	data	unit_80021E88	vec_t	used by unit_80021E88; 0 pointer words, 1 zero words
-0x8005A39C	0x8005A3E4	data	unit_80021E88	vec_t[6]	used by unit_80021E88; 0 pointer words, 1 zero words
-0x8005A3E4	0x8005A474	data	unit_80021E88	voice_t[6]	used by unit_80021E88; 0 pointer words, 0 zero words
-0x8005A474	0x8005A498	data	unit_80021E88	vec_t[3]	used by unit_80021E88; 0 pointer words, 1 zero words
-0x8005A498	0x8005A4B8	data	unit_80021E88	u8[3][10]	used by unit_80021E88; "Player 1"; 2 zero bytes align the next item
-0x8005A4B8	0x8005A5A8	data	?func_800278F0 func_8002CAB4 func_8002CBF4 func_8002EC60	image_t[3][2]	used by func_800278F0 func_8002CAB4 func_8002CBF4 func_8002EC60; 0 pointer words, 10 zero words
-0x8005A5A8	0x8005A620	data	func_800278F0	image_t[3]	used by func_800278F0; 0 pointer words, 9 zero words
-0x8005A620	0x8005A760	data	func_800288CC	image_t[8]	used by func_800288CC; 0 pointer words, 24 zero words
-0x8005A760	0x8005A7B0	data	func_800289F4	image_t[2]	used by func_800289F4; 0 pointer words, 2 zero words
-0x8005A7B0	0x8005A828	data	func_800278F0	image_t[3]	used by func_800278F0; 0 pointer words, 9 zero words
-0x8005A828	0x8005A8C8	data	func_800278F0	image_t[4]	used by func_800278F0 func_8002A8C8 func_8002AAD0 func_8002AFDC func_8002CBF4; 0 pointer words, 7 zero words
-0x8005A8C8	0x8005A930	data	func_800278F0	u16 *[26]	used by func_800278F0 func_80028194; 0 pointer words, 0 zero words
-0x8005A930	0x8005A998	data	func_800278F0	u16 *[26]	used by func_800278F0 func_80028194; 0 pointer words, 0 zero words
-0x8005A998	0x8005ACE0	data	func_800278F0	image_t[21]	used by func_800278F0 func_80028194 func_8002A8C8 func_8002AAD0 func_8002ACE8 func_8002AE60 func_8002CBF4 func_8002D930 func_8002E0C8; 0 pointer words, 42 zero words
-0x8005ACE0	0x8005ACE8	data	func_800278F0	?	the bytes after 0x8005A998's image_t[21]: two words (0xCB, 0xD7) like the head of a further image_t; no instruction names them
-0x8005ACE8	0x8005ADD0	data	func_80029974	u16 *[58]	used by func_80029974; 0 pointer words, 10 zero words
-0x8005ADD0	0x8005B000	data	func_80029974	image_t[2][7]	used by func_800278F0 func_80029974 func_80029BFC func_8002EC60; 0 pointer words, 59 zero words; the range runs 136 bytes past [2][7], which other functions use inside it: the dimension is open
-0x8005B000	0x8005B088	data	func_80029974	?	the bytes after 0x8005ADD0's image_t[2][7]: 0x88 bytes like the heads of further image_t entries; func_80029974 and func_80029BFC index the table, so its dimension may be larger than the header says
-0x8005B088	0x8005B118	data	?func_8002A014 func_8002A538	s32[36]	used by func_8002A014 func_8002A538; 0 pointer words, 12 zero words
-0x8005B118	0x8005B148	data	?func_8002A014 func_8002A538 func_8002BA44 func_8002BCF4	u16 *[12]	used by func_8002A014 func_8002A538 func_8002BA44 func_8002BCF4; 0 pointer words, 0 zero words
-0x8005B148	0x8005B170	data	?func_8002A014 func_8002A538	s32[10]	used by func_8002A014 func_8002A538; 0 pointer words, 0 zero words
-0x8005B170	0x8005B174	data	?func_8002A014 func_8002A538	s32	used by func_8002A014 func_8002A538; 0 pointer words, 0 zero words
-0x8005B174	0x8005B178	data	?func_8002A014 func_8002A538	s32	used by func_8002A014 func_8002A538; 0 pointer words, 0 zero words
-0x8005B178	0x8005B1A8	data	?func_8002A014 func_8002A538 func_8002BA44 func_8002BCF4	s32[12]	used by func_8002A014 func_8002A538 func_8002BA44 func_8002BCF4; 0 pointer words, 0 zero words
+0x80057170	0x80057729	data	?CallLetter..wof_opening	strings	53 strings "PRC_EVENT_NULL 0".."PRC_EVENT_NOT_ENOUGH2 52": the proc events by name, one char array each; only the table after them points here
+0x80057729	0x8005772C	fill	?CallLetter..wof_opening	-	zero alignment to 4 bytes inside one object: the table of names follows
+0x8005772C	0x80057800	data	?CallLetter..wof_opening	char *[53]	the 53 event names in order; no instruction uses the table (a debug table); in data order between the puzzle object's data and wof_opening's, so an object between them in link order (the proc system is a candidate)
+0x80057800	0x80057808	data	wof_opening	s32	used by wof_opening; 0 pointer words, 1 zero words
+0x80057808	0x800578B0	data	wof_opening	titleLetter_t[14]	used by wof_opening; 0 pointer words, 1 zero words
+0x800578B0	0x80057910	data	wof_opening	Gfx *[24]	used by wof_opening; 0 pointer words, 0 zero words
+0x80057910	0x80057970	data	wof_opening	Mtx *[24]	used by wof_opening; 0 pointer words, 1 zero words
+0x80057970	0x80057988	data	wof_opening	s32[2][3]	used by wof_opening; 0 pointer words, 0 zero words
+0x80057988	0x800579BC	data	wof_stage	Gfx *[13]	used by wof_stage; 0 pointer words, 0 zero words
+0x800579BC	0x800579F0	data	wof_stage	u8 *[13]	used by wof_stage; 0 pointer words, 0 zero words
+0x800579F0	0x80057A20	data	wof_stage	Gfx *[12]	used by wof_stage; 0 pointer words, 0 zero words
+0x80057A20	0x80057A58	data	wof_stage	Gfx *[14]	used by wof_stage; 0 pointer words, 0 zero words
+0x80057A58	0x80057A68	data	wof_stage	Gfx *[4]	used by wof_stage; 0 pointer words, 0 zero words
+0x80057A68	0x80057A90	data	wof_stage	u16 *[10]	used by wof_stage; 0 pointer words, 0 zero words
+0x80057A90	0x80057B50	data	wof_stage	Gfx *[48]	used by wof_stage; 0 pointer words, 0 zero words
+0x80057B50	0x80057BB0	data	wof_stage	Gfx *[3][8]	used by wof_stage; 0 pointer words, 0 zero words
+0x80057BB0	0x80057BF8	data	wof_stage	layer_t[3]	used by wof_stage; 0 pointer words, 5 zero words
+0x80057BF8	0x80057C08	data	wof_stage	?	the bytes after 0x80057BB0's layer_t[3]: four words of segment addresses (0x01010100..0x01010400); no instruction names them
+0x80057C08	0x80057CC8	data	wof_stage	wedgeDl_t[24]	wedgeDls[0] points here: the 24 wedges of one kind of round (wedgeDl_t, 8 bytes each)
+0x80057CC8	0x80057D88	data	wof_stage	wedgeDl_t[24]	wedgeDls[1] points here
+0x80057D88	0x80057E48	data	wof_stage	wedgeDl_t[24]	wedgeDls[2] points here
+0x80057E48	0x80057F08	data	wof_stage	wedgeDl_t[24]	wedgeDls[3..6] point here
+0x80057F08	0x80057F24	data	wof_stage	wedgeDl_t *[7]	used by wof_opening wof_stage; 7 pointer words, 0 zero words
+0x80057F24	0x80057F34	data	wof_stage	Gfx *[4]	used by wof_stage; 0 pointer words, 0 zero words
+0x80057F34	0x80057F44	data	wof_stage	Gfx *[4]	used by wof_stage; 0 pointer words, 0 zero words
+0x80057F44	0x80057F48	data	wof_stage	f32	used by wof_stage; 0 pointer words, 0 zero words
+0x80057F48	0x80057F50	data	wof_stage	s32	used by wof_stage; 0 pointer words, 0 zero words
+0x80057F50	0x800581F0	data	?AdjustCameraProc wof_camera	view_t[21]	used by AdjustCameraProc wof_camera; 6 pointer words, 90 zero words
+0x800581F0	0x800581F4	data	wof_stage	s32[1]	used by wof_stage; 0 pointer words, 0 zero words
+0x800581F4	0x800581FC	data	RoundOverProc	s32[2]	used by RoundOverProc; 0 pointer words, 0 zero words; the header declares one s32, RoundOverProc reads two words
+0x800581FC	0x80058208	data	SetGameView	s32[3]	used by SetGameView; 0 pointer words, 1 zero words
+0x80058208	0x80058220	data	InitCpuLetters	u8[24]	used by InitCpuLetters; "RSTLNCBDMHFYKJGPQVWXZ"
+0x80058220	0x80058228	data	InitCpuLetters	u8[8]	used by InitCpuLetters; "EAIOU"
+0x80058228	0x80058488	data	?LoadMovie PlayMovie DecodeMovie PlayClip	movie_t[38]	used by LoadMovie PlayMovie DecodeMovie PlayClip; 38 pointer words, 0 zero words
+0x80058488	0x800584A0	data	PlayMovie	char[24]	used by PlayMovie; "You are the BIG winner!"
+0x800584A0	0x800584C8	data	wof_menu	s32[5][2]	used by wof_menu; 0 pointer words, 0 zero words
+0x800584C8	0x80058548	data	wof_menu	menuItem_t[4]	used by wof_menu; 0 pointer words, 8 zero words
+0x80058548	0x80058868	data	wof_menu	image_t[20]	used by wof_menu; 0 pointer words, 40 zero words
+0x80058868	0x800588A8	data	wof_menu	menuItem_t[2]	used by wof_menu; 0 pointer words, 4 zero words
+0x800588A8	0x800588F0	data	wof_menu	u16 *[3][3][2]	used by wof_menu; 0 pointer words, 0 zero words
+0x800588F0	0x80058AA8	data	wof_menu	image_t[11]	used by wof_menu; 0 pointer words, 34 zero words
+0x80058AA8	0x80058B28	data	wof_menu	menuItem_t[4]	used by wof_menu; 0 pointer words, 16 zero words
+0x80058B28	0x80058E70	data	wof_menu	image_t[21]	used by wof_menu; 0 pointer words, 42 zero words
+0x80058E70	0x80058EB0	data	wof_menu	menuItem_t[2]	used by wof_menu; 0 pointer words, 5 zero words
+0x80058EB0	0x80058FC8	data	wof_menu	image_t[7]	used by wof_menu; 0 pointer words, 14 zero words
+0x80058FC8	0x80059008	data	wof_menu	menuItem_t[2]	used by wof_menu; 0 pointer words, 4 zero words
+0x80059008	0x80059120	data	wof_menu	image_t[7]	used by wof_menu; 0 pointer words, 14 zero words
+0x80059120	0x8005A390	data	wof_menu	image_t[118]	used by wof_menu; 0 pointer words, 118 zero words
+0x8005A390	0x8005A39C	data	wof_menu	vec_t	used by wof_menu; 0 pointer words, 1 zero words
+0x8005A39C	0x8005A3E4	data	wof_menu	vec_t[6]	used by wof_menu; 0 pointer words, 1 zero words
+0x8005A3E4	0x8005A474	data	wof_menu	voice_t[6]	used by wof_menu; 0 pointer words, 0 zero words
+0x8005A474	0x8005A498	data	wof_menu	vec_t[3]	used by wof_menu; 0 pointer words, 1 zero words
+0x8005A498	0x8005A4B8	data	wof_menu	u8[3][10]	used by wof_menu; "Player 1"; 2 zero bytes align the next item
+0x8005A4B8	0x8005A5A8	data	?DrawStatus FlashPlayerStatus StatusProc StartStatus	image_t[3][2]	used by DrawStatus FlashPlayerStatus StatusProc StartStatus; 0 pointer words, 10 zero words
+0x8005A5A8	0x8005A620	data	DrawStatus	image_t[3]	used by DrawStatus; 0 pointer words, 9 zero words
+0x8005A620	0x8005A760	data	DrawBootScreen	image_t[8]	used by DrawBootScreen; 0 pointer words, 24 zero words
+0x8005A760	0x8005A7B0	data	DrawNoController	image_t[2]	used by DrawNoController; 0 pointer words, 2 zero words
+0x8005A7B0	0x8005A828	data	DrawStatus	image_t[3]	used by DrawStatus; 0 pointer words, 9 zero words
+0x8005A828	0x8005A8C8	data	DrawStatus	image_t[4]	used by DrawStatus MoveCursorLeft MoveCursorRight UnflashActions StatusProc; 0 pointer words, 7 zero words
+0x8005A8C8	0x8005A930	data	DrawStatus	u16 *[26]	used by DrawStatus DrawLetterPick; 0 pointer words, 0 zero words
+0x8005A930	0x8005A998	data	DrawStatus	u16 *[26]	used by DrawStatus DrawLetterPick; 0 pointer words, 0 zero words
+0x8005A998	0x8005ACE0	data	DrawStatus	image_t[21]	used by DrawStatus DrawLetterPick MoveCursorLeft MoveCursorRight MoveCursorUp MoveCursorDown StatusProc LetterPickProc SolvePuzzleProc; 0 pointer words, 42 zero words
+0x8005ACE0	0x8005ACE8	data	DrawStatus	?	the bytes after 0x8005A998's image_t[21]: two words (0xCB, 0xD7) like the head of a further image_t; no instruction names them
+0x8005ACE8	0x8005ADD0	data	SetScorePictures	u16 *[58]	used by SetScorePictures; 0 pointer words, 10 zero words
+0x8005ADD0	0x8005B000	data	SetScorePictures	image_t[2][7]	used by DrawStatus SetScorePictures FlashScore StartStatus; 0 pointer words, 59 zero words; the range runs 136 bytes past [2][7], which other functions use inside it: the dimension is open
+0x8005B000	0x8005B088	data	SetScorePictures	?	the bytes after 0x8005ADD0's image_t[2][7]: 0x88 bytes like the heads of further image_t entries; SetScorePictures and FlashScore index the table, so its dimension may be larger than the header says
+0x8005B088	0x8005B118	data	?ShowJackpot ShowTotal	s32[36]	used by ShowJackpot ShowTotal; 0 pointer words, 12 zero words
+0x8005B118	0x8005B148	data	?ShowJackpot ShowTotal BonusTimerProc ShowRetracesProc	u16 *[12]	used by ShowJackpot ShowTotal BonusTimerProc ShowRetracesProc; 0 pointer words, 0 zero words
+0x8005B148	0x8005B170	data	?ShowJackpot ShowTotal	s32[10]	used by ShowJackpot ShowTotal; 0 pointer words, 0 zero words
+0x8005B170	0x8005B174	data	?ShowJackpot ShowTotal	s32	used by ShowJackpot ShowTotal; 0 pointer words, 0 zero words
+0x8005B174	0x8005B178	data	?ShowJackpot ShowTotal	s32	used by ShowJackpot ShowTotal; 0 pointer words, 0 zero words
+0x8005B178	0x8005B1A8	data	?ShowJackpot ShowTotal BonusTimerProc ShowRetracesProc	s32[12]	used by ShowJackpot ShowTotal BonusTimerProc ShowRetracesProc; 0 pointer words, 0 zero words
 0x8005B1A8	0x8005B2C0	data	func_8002842C	image_t[7]	used by func_8002842C; 0 pointer words, 14 zero words
-0x8005B2C0	0x8005B310	data	?func_80028554 func_8002BA44	image_t[2]	used by func_80028554 func_8002BA44; 0 pointer words, 6 zero words
-0x8005B310	0x8005B360	data	?func_8002867C func_8002BCF4	image_t[2]	used by func_8002867C func_8002BCF4; 0 pointer words, 6 zero words
-0x8005B360	0x8005B4C8	data	?func_800278F0 func_80029C98 func_8002A014	image_t[9]	used by func_800278F0 func_80029C98 func_8002A014; 0 pointer words, 29 zero words
-0x8005B4C8	0x8005B590	data	?func_800278F0 func_80027F3C func_80029C98 func_8002A014 func_8002A538	image_t[5]	used by func_800278F0 func_80027F3C func_80029C98 func_8002A014 func_8002A538; 0 pointer words, 18 zero words
-0x8005B590	0x8005B5A4	data	?func_800278F0 func_80027F3C func_80029C98 func_8002A014 func_8002A538	?	the bytes after 0x8005B4C8's image_t[5]: 0x14 bytes like the head of a further image_t, up to D_8005B5A4
-0x8005B5A4	0x8005B630	data	func_80029440	u16 *[35]	used by func_80029440; 0 pointer words, 11 zero words
-0x8005B630	0x8005B6F8	data	func_800278F0	image_t[5]	used by func_800278F0; 0 pointer words, 9 zero words
-0x8005B6F8	0x8005B710	data	func_800278F0	?	the bytes after 0x8005B630's image_t[5]: six segment addresses 0x01016C50..0x010173D0, 0x180 apart (pictures); no instruction names them
-0x8005B710	0x8005BA80	data	func_800278F0	image_t[22]	used by func_800278F0 func_80028064 func_80028194 func_80028CC4 func_80029098 func_80029440 func_8002B318; 0 pointer words, 66 zero words
-0x8005BA80	0x8005BAC0	data	func_80029098	s32[16]	used by func_80029098; 0 pointer words, 0 zero words
-0x8005BAC0	0x8005BCC8	data	?func_800287A4 func_80028B1C	image_t[13]	used by func_800287A4 func_80028B1C; 0 pointer words, 26 zero words
-0x8005BCC8	0x8005BE00	data	func_8002C094	letterImage_t[26]	used by func_8002C094; 0 pointer words, 0 zero words
-0x8005BE00	0x8005BF90	data	func_8002C094	image_t[10]	used by func_80028194 func_8002B054 func_8002C094; 0 pointer words, 30 zero words
-0x8005BF90	0x8005C1E8	data	func_8002B318	strings	pointed to from data; 22 strings from "THIS HAS BEEN	WHEEL OF	FORTUNE"
-0x8005C1E8	0x8005C240	data	func_8002B318	u8 *[22]	used by func_8002B318; 22 pointer words, 0 zero words
-0x8005C240	0x8005C33C	data	func_8002B318	strings	pointed to from data; 15 strings from "LEAD PROGRAMMER"
-0x8005C33C	0x8005C394	data	func_8002B318	u8 *[22]	used by func_8002B318; 15 pointer words, 7 zero words
-0x8005C394	0x8005C3A0	data	func_8002C094	u8[12]	used by func_8002C094; "RSTLNE"
-0x8005C3A0	0x8005C3B8	data	func_80032BF0	Gfx *[3][2]	used by func_80032BF0; 0 pointer words, 0 zero words
-0x8005C3B8	0x8005C568	data	func_80032BF0	clip_t[6][2]	used by func_800325D0 func_80032BF0; 12 pointer words, 24 zero words
-0x8005C568	0x8005C718	data	func_80033150	clip_t[6][2]	used by func_80033150; 6 pointer words, 61 zero words
-0x8005C718	0x8005C7F0	data	?func_800323C4 func_80033334	clip_t[6]	used by func_800323C4 func_80033334; 6 pointer words, 12 zero words
-0x8005C7F0	0x8005C8C8	data	?func_8003288C func_80032BF0	clip_t[6]	used by func_8003288C func_80032BF0; 6 pointer words, 7 zero words
-0x8005C8C8	0x8005C8FC	data	func_80031A54	s32[13]	used by func_80031A54; 0 pointer words, 2 zero words
-0x8005C8FC	0x8005C908	data	func_80031A54	s32[3]	used by func_80031A54; 0 pointer words, 1 zero words
-0x8005C908	0x8005C90C	data	func_80031A54	s32[1]	used by func_80031A54; 0 pointer words, 0 zero words
-0x8005C90C	0x8005C948	data	func_80031A54	s32[15]	used by func_80031A54; 0 pointer words, 1 zero words
-0x8005C948	0x8005C958	data	func_80034028	s32[4]	used by func_80034028; 0 pointer words, 0 zero words
-0x8005C958	0x8005C95C	data	func_80034028	f32	used by func_80034028; 0 pointer words, 0 zero words
-0x8005C95C	0x8005C960	data	func_80034028	f32	used by func_80034028; 0 pointer words, 0 zero words
-0x8005C960	0x8005EB44	data	new:campath_8005C960	camera_t[241]	D_80057F50[15].path points here with count 241; a data-only object: 8-aligned, closed by stale fill
+0x8005B2C0	0x8005B310	data	?DrawBonusTimer BonusTimerProc	image_t[2]	used by DrawBonusTimer BonusTimerProc; 0 pointer words, 6 zero words
+0x8005B310	0x8005B360	data	?func_8002867C ShowRetracesProc	image_t[2]	used by func_8002867C ShowRetracesProc; 0 pointer words, 6 zero words
+0x8005B360	0x8005B4C8	data	?DrawStatus JackpotRollProc ShowJackpot	image_t[9]	used by DrawStatus JackpotRollProc ShowJackpot; 0 pointer words, 29 zero words
+0x8005B4C8	0x8005B590	data	?DrawStatus DrawBigNumber JackpotRollProc ShowJackpot ShowTotal	image_t[5]	used by DrawStatus DrawBigNumber JackpotRollProc ShowJackpot ShowTotal; 0 pointer words, 18 zero words
+0x8005B590	0x8005B5A4	data	?DrawStatus DrawBigNumber JackpotRollProc ShowJackpot ShowTotal	?	the bytes after 0x8005B4C8's image_t[5]: 0x14 bytes like the head of a further image_t, up to categoryLetterTextures
+0x8005B5A4	0x8005B630	data	InitCategory	u16 *[35]	used by InitCategory; 0 pointer words, 11 zero words
+0x8005B630	0x8005B6F8	data	DrawStatus	image_t[5]	used by DrawStatus; 0 pointer words, 9 zero words
+0x8005B6F8	0x8005B710	data	DrawStatus	?	the bytes after 0x8005B630's image_t[5]: six segment addresses 0x01016C50..0x010173D0, 0x180 apart (pictures); no instruction names them
+0x8005B710	0x8005BA80	data	DrawStatus	image_t[22]	used by DrawStatus func_80028064 DrawLetterPick ClearCategory CategoryProc InitCategory CreditsProc; 0 pointer words, 66 zero words
+0x8005BA80	0x8005BAC0	data	CategoryProc	s32[16]	used by CategoryProc; 0 pointer words, 0 zero words
+0x8005BAC0	0x8005BCC8	data	?func_800287A4 DrawPause	image_t[13]	used by func_800287A4 DrawPause; 0 pointer words, 26 zero words
+0x8005BCC8	0x8005BE00	data	BonusRoundProc	letterImage_t[26]	used by BonusRoundProc; 0 pointer words, 0 zero words
+0x8005BE00	0x8005BF90	data	BonusRoundProc	image_t[10]	used by DrawLetterPick ClearBonusLetters BonusRoundProc; 0 pointer words, 30 zero words
+0x8005BF90	0x8005C1E8	data	CreditsProc	strings	pointed to from data; 22 strings from "THIS HAS BEEN	WHEEL OF	FORTUNE"
+0x8005C1E8	0x8005C240	data	CreditsProc	u8 *[22]	used by CreditsProc; 22 pointer words, 0 zero words
+0x8005C240	0x8005C33C	data	CreditsProc	strings	pointed to from data; 15 strings from "LEAD PROGRAMMER"
+0x8005C33C	0x8005C394	data	CreditsProc	u8 *[22]	used by CreditsProc; 15 pointer words, 7 zero words
+0x8005C394	0x8005C3A0	data	BonusRoundProc	u8[12]	used by BonusRoundProc; "RSTLNE"
+0x8005C3A0	0x8005C3B8	data	InitContestants	Gfx *[3][2]	used by InitContestants; 0 pointer words, 0 zero words
+0x8005C3B8	0x8005C568	data	InitContestants	clip_t[6][2]	used by InitAnim InitContestants; 12 pointer words, 24 zero words
+0x8005C568	0x8005C718	data	PlayContestantClip	clip_t[6][2]	used by PlayContestantClip; 6 pointer words, 61 zero words
+0x8005C718	0x8005C7F0	data	?InitMenuAnim InitMenuContestants	clip_t[6]	used by InitMenuAnim InitMenuContestants; 6 pointer words, 12 zero words
+0x8005C7F0	0x8005C8C8	data	?InitVannaAnim InitContestants	clip_t[6]	used by InitVannaAnim InitContestants; 6 pointer words, 7 zero words
+0x8005C8C8	0x8005C8FC	data	VannaAnimProc	s32[13]	used by VannaAnimProc; 0 pointer words, 2 zero words
+0x8005C8FC	0x8005C908	data	VannaAnimProc	s32[3]	used by VannaAnimProc; 0 pointer words, 1 zero words
+0x8005C908	0x8005C90C	data	VannaAnimProc	s32[1]	used by VannaAnimProc; 0 pointer words, 0 zero words
+0x8005C90C	0x8005C948	data	VannaAnimProc	s32[15]	used by VannaAnimProc; 0 pointer words, 1 zero words
+0x8005C948	0x8005C958	data	ConfettiProc	s32[4]	used by ConfettiProc; 0 pointer words, 0 zero words
+0x8005C958	0x8005C95C	data	ConfettiProc	f32	used by ConfettiProc; 0 pointer words, 0 zero words
+0x8005C95C	0x8005C960	data	ConfettiProc	f32	used by ConfettiProc; 0 pointer words, 0 zero words
+0x8005C960	0x8005EB44	data	new:campath_8005C960	camera_t[241]	views[15].path points here with count 241; a data-only object: 8-aligned, closed by stale fill
 0x8005EB44	0x8005EB48	fill	-	-	stale bytes ("rJan") to an 8-byte boundary: fill between camera-path objects
-0x8005EB48	0x800650AC	data	new:campath_8005EB48	camera_t[721]	used by unit_80016638 (the opening's move); a data-only object closed by stale fill
+0x8005EB48	0x800650AC	data	new:campath_8005EB48	camera_t[721]	used by wof_camera (the opening's move); a data-only object closed by stale fill
 0x800650AC	0x800650B0	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
-0x800650B0	0x80067294	data	new:campath_800650B0	camera_t[241]	D_80057F50[11].path points here with count 241; a data-only object
+0x800650B0	0x80067294	data	new:campath_800650B0	camera_t[241]	views[11].path points here with count 241; a data-only object
 0x80067294	0x80067298	fill	-	-	stale bytes (00000100) to an 8-byte boundary: fill between camera-path objects
 0x80067298	0x80067F64	data	new:campath_80067298	camera_t[91]	nothing points here: a camera move no view uses; 91 frames of camera_t between two paths' fill (up vector 0,0,1 closes it as it closes the others)
 0x80067F64	0x80067F68	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
-0x80067F68	0x80068C34	data	new:campath_80067F68	camera_t[91]	D_80057F50[14].path points here with count 91; a data-only object
+0x80067F68	0x80068C34	data	new:campath_80067F68	camera_t[91]	views[14].path points here with count 91; a data-only object
 0x80068C34	0x80068C38	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
-0x80068C38	0x80069904	data	new:campath_80068C38	camera_t[91]	D_80057F50[13].path points here with count 91; a data-only object
+0x80068C38	0x80069904	data	new:campath_80068C38	camera_t[91]	views[13].path points here with count 91; a data-only object
 0x80069904	0x80069908	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
-0x80069908	0x8006C35C	data	new:campath_80069908	camera_t[301]	D_80057F50[12].path points here with count 301; a data-only object
+0x80069908	0x8006C35C	data	new:campath_80069908	camera_t[301]	views[12].path points here with count 301; a data-only object
 0x8006C35C	0x8006C360	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
-0x8006C360	0x8006DCD4	data	new:campath_8006C360	camera_t[181]	D_80057F50[16].path points here with count 181; a data-only object
+0x8006C360	0x8006DCD4	data	new:campath_8006C360	camera_t[181]	views[16].path points here with count 181; a data-only object
 0x8006DCD4	0x8006DCD8	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
-0x8006DCD8	0x8006DCE8	data	new:data_8006DCD8	s32[4]	used by func_8000B780; 4 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue; the header declares one s32, the item runs to the next one
-0x8006DCE8	0x8006DCEC	data	new:data_8006DCD8	s32	used by func_8000B780; 1 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue
-0x8006DCEC	0x8006DCF0	data	new:data_8006DCD8	s32	used by func_80005624; 0 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue
-0x8006DCF0	0x8006DCF4	data	new:data_8006DCD8	s32	used by func_80005624; 0 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue
-0x8006DCF4	0x8006DCF8	data	new:data_8006DCD8	s32	used by func_80005700; 0 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue
-0x8006DCF8	0x8006DD04	data	new:data_8006DCD8	s32[3]	used by func_80005700; 1 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue; the header declares one s32, the item runs to the next one
-0x8006DD04	0x8006DD08	data	new:data_8006DCD8	s32	used by unit_80002348; 0 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue
-0x8006DD08	0x8006DD0C	data	new:data_8006DCD8	s32	used by unit_80002348; 0 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue
-0x8006DD0C	0x8006DD2C	data	new:data_8006DCD8	s32[8]	used by unit_80002348; 0 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue; the header declares one s32, the item runs to the next one
-0x8006DD2C	0x8006DDC4	data	new:data_8006DCD8	s32[38]	the 38 movie sizes less one: D_80058228[i].size points at entry i; followed at 4 mod 8 by the masks, so one object with them and with 0x8006DCD8..0x8006DD2C
-0x8006DDC4	0x800703C4	data	new:data_8006DCD8	u8[0x2600]	used by func_80034950, which makes it D_800B81E4 (the mask of the picture being decoded) before playing movie 0x16; zero at first, then a 1-bit mask
-0x800703C4	0x80071EC4	data	new:data_8006DCD8	u8[0x1B00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x80071EC4	0x800739C4	data	new:data_8006DCD8	u8[0x1B00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x800739C4	0x800748C4	data	new:data_8006DCD8	u8[0xF00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x800748C4	0x80075DC4	data	new:data_8006DCD8	u8[0x1500]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x80075DC4	0x800769C4	data	new:data_8006DCD8	u8[0xC00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x800769C4	0x800779C4	data	new:data_8006DCD8	u8[0x1000]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x800779C4	0x80078BC4	data	new:data_8006DCD8	u8[0x1200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x80078BC4	0x80078DC4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x80078DC4	0x80079FC4	data	new:data_8006DCD8	u8[0x1200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x80079FC4	0x8007A1C4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x8007A1C4	0x8007B1C4	data	new:data_8006DCD8	u8[0x1000]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x8007B1C4	0x8007B3C4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x8007B3C4	0x8007BFC4	data	new:data_8006DCD8	u8[0xC00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x8007BFC4	0x8007CBC4	data	new:data_8006DCD8	u8[0xC00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x8007CBC4	0x8007CDC4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x8007CDC4	0x8007D9C4	data	new:data_8006DCD8	u8[0xC00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x8007D9C4	0x8007EDC4	data	new:data_8006DCD8	u8[0x1400]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x8007EDC4	0x8007EFC4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x8007EFC4	0x800801C4	data	new:data_8006DCD8	u8[0x1200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x800801C4	0x800813C4	data	new:data_8006DCD8	u8[0x1200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x800813C4	0x800821C4	data	new:data_8006DCD8	u8[0xE00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x800821C4	0x800829C4	data	new:data_8006DCD8	u8[0x800]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
-0x800829C4	0x80082BC4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in D_8005C3B8..D_8005C7F0 points here; at 4 mod 8, so inside data_8006DCD8's object
+0x8006DCD8	0x8006DCE8	data	new:data_8006DCD8	s32[4]	used by InitMemStack; 4 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue; the header declares one s32, the item runs to the next one
+0x8006DCE8	0x8006DCEC	data	new:data_8006DCD8	s32	used by InitMemStack; 1 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue
+0x8006DCEC	0x8006DCF0	data	new:data_8006DCD8	s32	used by InitGraphics; 0 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue
+0x8006DCF0	0x8006DCF4	data	new:data_8006DCD8	s32	used by InitGraphics; 0 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue
+0x8006DCF4	0x8006DCF8	data	new:data_8006DCD8	s32	used by LoadSceneData; 0 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue
+0x8006DCF8	0x8006DD04	data	new:data_8006DCD8	s32[3]	used by LoadSceneData; 1 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue; the header declares one s32, the item runs to the next one
+0x8006DD04	0x8006DD08	data	new:data_8006DCD8	s32	used by wof_audio; 0 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue
+0x8006DD08	0x8006DD0C	data	new:data_8006DCD8	s32	used by wof_audio; 0 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue
+0x8006DD0C	0x8006DD2C	data	new:data_8006DCD8	s32[8]	used by wof_audio; 0 pointer words, 0 zero words; the first items of data_8006DCD8's object (cartridge addresses, buffer addresses), which the movie sizes and masks continue; the header declares one s32, the item runs to the next one
+0x8006DD2C	0x8006DDC4	data	new:data_8006DCD8	s32[38]	the 38 movie sizes less one: movies[i].size points at entry i; followed at 4 mod 8 by the masks, so one object with them and with 0x8006DCD8..0x8006DD2C
+0x8006DDC4	0x800703C4	data	new:data_8006DCD8	u8[0x2600]	used by StartCelebration, which makes it D_800B81E4 (the mask of the picture being decoded) before playing movie 0x16; zero at first, then a 1-bit mask
+0x800703C4	0x80071EC4	data	new:data_8006DCD8	u8[0x1B00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x80071EC4	0x800739C4	data	new:data_8006DCD8	u8[0x1B00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x800739C4	0x800748C4	data	new:data_8006DCD8	u8[0xF00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x800748C4	0x80075DC4	data	new:data_8006DCD8	u8[0x1500]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x80075DC4	0x800769C4	data	new:data_8006DCD8	u8[0xC00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x800769C4	0x800779C4	data	new:data_8006DCD8	u8[0x1000]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x800779C4	0x80078BC4	data	new:data_8006DCD8	u8[0x1200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x80078BC4	0x80078DC4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x80078DC4	0x80079FC4	data	new:data_8006DCD8	u8[0x1200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x80079FC4	0x8007A1C4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x8007A1C4	0x8007B1C4	data	new:data_8006DCD8	u8[0x1000]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x8007B1C4	0x8007B3C4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x8007B3C4	0x8007BFC4	data	new:data_8006DCD8	u8[0xC00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x8007BFC4	0x8007CBC4	data	new:data_8006DCD8	u8[0xC00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x8007CBC4	0x8007CDC4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x8007CDC4	0x8007D9C4	data	new:data_8006DCD8	u8[0xC00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x8007D9C4	0x8007EDC4	data	new:data_8006DCD8	u8[0x1400]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x8007EDC4	0x8007EFC4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x8007EFC4	0x800801C4	data	new:data_8006DCD8	u8[0x1200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x800801C4	0x800813C4	data	new:data_8006DCD8	u8[0x1200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x800813C4	0x800821C4	data	new:data_8006DCD8	u8[0xE00]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x800821C4	0x800829C4	data	new:data_8006DCD8	u8[0x800]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
+0x800829C4	0x80082BC4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
 0x80082BC4	0x80082BC8	fill	-	-	stale bytes (323b092e) to an 8-byte boundary: data_8006DCD8's object ends; the microcode data follows
-0x80082BC8	0x800833C8	ucode	sdk:gfx_80034A88	bin	the data of the graphics microcode at 0x80034A88: func_800057A8's ucode_data (D_80082BC8), SP_UCODE_DATA_SIZE bytes; holds "RSP SW Version: 2.0H, 02-12-97"; first in .data after the game's objects, in the order of the texts
+0x80082BC8	0x800833C8	ucode	sdk:gfx_80034A88	bin	the data of the graphics microcode at 0x80034A88: createGfxTask's ucode_data (D_80082BC8), SP_UCODE_DATA_SIZE bytes; holds "RSP SW Version: 2.0H, 02-12-97"; first in .data after the game's objects, in the order of the texts
 0x800833C8	0x80083BC8	ucode	sdk:gfx_80035E88	bin	the data of the second graphics microcode: 0x800 bytes, 34 of them differ from the first's; nothing names it
-0x80083BC8	0x80083E88	ucode	sdk:aspMain	bin	aspMain's data: func_80003944's ucode_data (D_80083BC8); libultra's .data (aisetnextbuf) follows at 0x80083E88
+0x80083BC8	0x80083E88	ucode	sdk:aspMain	bin	aspMain's data: __amHandleFrameMsg's ucode_data (D_80083BC8); libultra's .data (aisetnextbuf) follows at 0x80083E88
 0x80086D14	0x80086D18	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
 0x80086D5C	0x80086D60	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
 0x80087960	0x800879DB	ident	mpeg_util	-	RCS run; mpeg_util's read-only data follows at the next 4-byte boundary: one object
