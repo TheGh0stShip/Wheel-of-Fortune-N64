@@ -1,0 +1,1427 @@
+# name	kind	where	evidence	reason
+CheckPercentDone	function	0x80008628	rom-string	"CheckPercentDone: No letters in puzzle"
+GetProcBefore	function	0x8000A158	rom-string	"GetProcBefore: Could not find proc"
+AllocProc	function	0x8000A204	rom-string	"AllocProc: Out of Procs"
+AllocBlock	function	0x8000A31C	rom-string	"AllocBlock: Out of Blocks."
+CreatProc	function	0x8000A56C	rom-string	"CreatProc: Failed to alloc proc"
+DoProcs	function	0x8000A664	rom-string	"DoProcs: Tried to execute a NULL"
+ProcPostEvent	function	0x8000A850	rom-string	"ProcPostEvent: bogus event"
+ProcPostMessage	function	0x8000AAB0	rom-string	"ProcPostMessage: NULL proc"
+ProcPostMessageClass	function	0x8000ABB8	rom-string	"ProcPostMessageClass: bogus message"
+ProcGetMessage	function	0x8000ACE8	rom-string	"ProcGetMessage: NULL proc"
+ProcClearMessages	function	0x8000AD9C	rom-string	"ProcClearMessages: NULL proc"
+GetObjBefore	function	0x8000B060	rom-string	"GetObjBefore: Could not find obj"
+AllocObj	function	0x8000B10C	rom-string	"AllocObj: Out of Objects"
+CreatObj	function	0x8000B3B0	rom-string	"CreatObj: Failed to alloc obj"
+DrawObjs	function	0x8000B468	rom-string	"DrawObjs: Tried to execute a NULL ID"; the first of the two functions that print it, the pass over every obj
+mem_stack	function	0x8000B7F4	rom-string	"mem_stack: OUT OF MEMMORY!!!"; kept verbatim, though every other recorded name is VerbNoun
+procst	global	0x800B82A0	rom-string	"AllocProc: Reached end of procst." names the table AllocProc searches
+objst	global	0x800B40C8	rom-string	"AllocObj: Reached end of objst." names the table AllocObj searches
+amCreateAudioMgr	function	0x800032A8	lineage	guess: audiomgr.c of the SDK demos, whose body it is
+__amMain	function	0x800037A0	lineage	guess: audiomgr.c of the SDK demos
+__amHandleFrameMsg	function	0x80003944	lineage	guess: audiomgr.c of the SDK demos
+__amHandleDoneMsg	function	0x80003C68	lineage	guess: audiomgr.c of the SDK demos
+__amDMA	function	0x80003CC8	lineage	guess: audiomgr.c of the SDK demos
+__amDmaNew	function	0x80003F64	lineage	guess: audiomgr.c of the SDK demos
+__clearAudioDMA	function	0x80003FDC	lineage	guess: audiomgr.c of the SDK demos
+samplesLeft	local	__amHandleDoneMsg	lineage	guess: audiomgr.c of the SDK demos
+audFrameCt	global	0x8004B7A8	lineage	guess: audiomgr.c of the SDK demos
+nextDMA	global	0x8004B7AC	lineage	guess: audiomgr.c of the SDK demos
+curAcmdList	global	0x8004B7B0	lineage	guess: audiomgr.c of the SDK demos
+firstTime	local	0x8004B7B4	lineage	guess: the static of __amHandleDoneMsg in audiomgr.c of the SDK demos
+minFrameSize	global	0x800B96BC	lineage	guess: audiomgr.c of the SDK demos
+maxFrameSize	global	0x800B9950	lineage	guess: audiomgr.c of the SDK demos
+frameSize	global	0x800BCD64	lineage	guess: audiomgr.c of the SDK demos
+maxRSPCmds	global	0x800BEDA4	lineage	guess: audiomgr.c of the SDK demos
+dmaBuffs	global	0x800BA2C8	lineage	guess: audiomgr.c of the SDK demos
+audDMAMessageQ	global	0x800BA598	lineage	guess: audiomgr.c of the SDK demos
+audDMAMessageBuf	global	0x800FB818	lineage	guess: audiomgr.c of the SDK demos
+audDMAIOMesgBuf	global	0x800BC700	lineage	guess: audiomgr.c of the SDK demos
+dmaState	global	0x800BA5C8	lineage	guess: audiomgr.c of the SDK demos
+__am	global	0x800BCA68	lineage	guess: audiomgr.c of the SDK demos
+audioStack	global	0x800A50A0	lineage	guess: audiomgr.c of the SDK demos
+maxDmaBuffsUsed	global	0x800B96B8	invented	the peak count of DMA buffers in use that __amHandleFrameMsg keeps; not in the SDK source
+InitAudio	function	0x80002348	invented	starts the heap, the audio manager, the sequence player, the sound player and the bank
+PlaySequence	function	0x80002598	invented	starts a sequence of the sequence file on a sequence player
+StopSequence	function	0x800026B0	invented	alCSPStop on a sequence player
+player	param	StopSequence	invented	the sequence player, as in PlaySequence
+FindFreeSound	function	0x80002700	invented	frees the sounds that have stopped and returns the first free slot of soundIds, or -1
+PauseSounds	function	0x800028E4	invented	frees the stopped sounds and stops the playing ones without freeing them; ResumeSounds plays them again
+ResumeSounds	function	0x80002B34	invented	plays again every allocated sound that is stopped
+IsSoundStopped	function	0x80002C34	invented	1 when the sound in a slot is AL_STOPPED
+slot	param	IsSoundStopped	invented	a slot of soundIds
+PlaySound	function	0x80002CE0	invented	allocates a slot for a sound of the bank, sets its pitch from its detune and plays it; returns the slot
+sound	param	PlaySound	invented	the sound's number in the instrument of the sound effects
+pitch	local	PlaySound	invented	what alSndpSetPitch is given
+StopSound	function	0x80002F58	invented	stops and frees the sound in a slot
+slot	param	StopSound	invented	a slot of soundIds
+SetSoundMix	function	0x80003014	invented	sets the effect mix, pan and volume of the sound in a slot
+slot	param	SetSoundMix	invented	a slot of soundIds
+fxMix	param	SetSoundMix	invented	given to alSndpSetFXMix
+pan	param	SetSoundMix	invented	given to alSndpSetPan
+vol	param	SetSoundMix	invented	given to alSndpSetVol
+mix	local	SetSoundMix	invented	fxMix as the u8 alSndpSetFXMix takes
+panPos	local	SetSoundMix	invented	pan as the u8 alSndpSetPan takes
+volume	local	SetSoundMix	invented	vol as the s16 alSndpSetVol takes
+SetSoundPitch	function	0x800030E8	invented	alSndpSetPitch on the sound in a slot
+slot	param	SetSoundPitch	invented	a slot of soundIds
+pitch	param	SetSoundPitch	invented	given to alSndpSetPitch
+StopAllSounds	function	0x8000315C	invented	stops every sound and the first sequence player
+GetSoundCount	function	0x80003234	invented	the sounds in the instrument of the sound effects
+GetSeqCount	function	0x8000326C	invented	the sequences in the sequence file
+audioHeap	global	0x800B9960	invented	the ALHeap InitAudio makes and every audio allocation uses
+seqPlayers	global	0x800BED90	invented	the ALCSPlayer pointers PlaySequence takes by number
+seqs	global	0x800A507C	invented	the ALCSeq of each sequence player
+sndPlayer	global	0x8004B718	invented	the ALSndPlayer every sound function uses
+sndpConfig	global	0x800A5084	invented	the ALSndpConfig given to alSndpNew
+sfxBankFile	global	0x800B3990	invented	the bank file InitAudio copies from the cartridge
+sfxInst	global	0x800A5090	invented	the first instrument of sfxBankFile, whose sounds are the sound effects
+curSound	global	0x800A5098	invented	the ALSound PlaySound is starting
+soundIds	global	0x800A509C	invented	the ALSndId of each sound slot, -1 where none
+soundStates	global	0x800B81F0	invented	the last state alSndpGetState gave for each sound slot
+numSoundsPlaying	global	0x800BC6F8	invented	counts the slots whose sound has not stopped
+seqFile	global	0x800B81D8	invented	the ALSeqFile PlaySequence reads
+seqBankFile	global	0x800B3998	invented	the bank file PlaySequence gives the sequence player (nothing sets it)
+sfxCtlRom	global	0x8006DD04	invented	where sfxBankFile starts on the cartridge
+sfxCtlRomEnd	global	0x8006DD08	invented	where sfxBankFile ends on the cartridge
+sfxTblRom	global	0x8006DD0C	invented	the wave table alBnkfNew is given for sfxBankFile
+boot	function	0x80006328	lineage	guess: the boot entry of the SDK demos: osInitialize, then the idle thread
+idle	function	0x800063A0	lineage	guess: idle of the SDK demos: the PI manager, the main thread unless debugflag, then lowest priority
+parse_args	function	0x800060B0	lineage	guess: parse_args of the SDK demos: splits the argument string and reads -d and the other flags
+argstring	param	parse_args	lineage	guess: parse_args of the SDK demos
+debugflag	global	0x8004B83C	lineage	guess: the SDK demos' flag that keeps idle from starting the main thread (-d)
+mainproc	function	0x800065D4	lineage	guess: mainproc of the SDK demos: the main thread, which handles the scheduler's messages
+GameThread	function	0x800067D8	invented	the game thread: runs RunFrame forever
+InitGame	function	0x800068F0	invented	creates the queues and the scheduler and starts memory, controllers, audio, graphics, procs and objs
+RunFrame	function	0x8000648C	invented	waits for the retraces of a frame, runs DoProcs and sends the frame's graphics task
+idleThread	global	0x800AD7A0	lineage	guess: the SDK demos' name
+idleThreadStack	global	0x800ADB00	lineage	guess: the SDK demos' name
+mainThread	global	0x800AD5F0	lineage	guess: the SDK demos' name
+mainThreadStack	global	0x800BCD88	lineage	guess: the SDK demos' name
+gameThread	global	0x800AD950	invented	the thread of GameThread
+gameThreadStack	global	0x800AB5F0	invented	the stack of gameThread
+PiMessageQ	global	0x800AFE20	lineage	guess: the SDK demos' name for the PI manager's queue
+PiMessages	global	0x800AFB00	lineage	guess: the SDK demos' name for the PI manager's messages
+dmaMessageQ	global	0x800AFE38	lineage	guess: the SDK demos' name for the queue a ROM read waits on
+dmaMessageBuf	global	0x800AFE50	lineage	guess: the SDK demos' name
+sc	global	0x800B96C8	lineage	guess: the SDK demos' name for the scheduler
+scheduleStack	global	0x800BA6F8	lineage	guess: the SDK demos' name
+sched_cmdQ	global	0x800BEEA0	lineage	guess: the SDK demos' name for osScGetCmdQ's queue
+pendingGfx	global	0x800BEDE4	lineage	guess: the SDK demos' count of graphics tasks not yet done (+2 on the pre-NMI message)
+glistp	global	0x800B81E8	lineage	guess: the SDK demos' display list pointer
+dram_stack	global	0x800B3CC0	lineage	guess: the SDK demos' name for the graphics microcode's stack
+zbuffer	global	0x8038F800	lineage	guess: the SDK demos' name for the depth buffer
+staticSegment	global	0x800BCA08	lineage	guess: the SDK demos' STATIC_SEGMENT (1), which this is the memory of
+createGfxTask	function	0x800057A8	lineage	guess: createGfxTask of the SDK demos, as its banner says
+gfxMsgQ	global	0x800B9688	invented	the scheduler's client queue for the graphics tasks and the retraces
+gfxMsgBuf	global	0x800BCA40	invented	the messages of gfxMsgQ
+gfxClient	global	0x800BCD58	invented	the scheduler client of gfxMsgQ
+gfxInfo	global	0x800BEF08	invented	the two gfxInfo_t, one drawn while the other is built
+curGfxInfo	global	0x800B61A0	invented	which of gfxInfo RunFrame builds next
+gfxYieldBuf	global	0x800B61E0	invented	the yield buffer of the graphics task
+numGfxTasks	global	0x800AB5E8	invented	counts the graphics tasks createGfxTask sends
+retraceCount	global	0x800B96AC	invented	retraces since the last frame; mainproc counts them, RunFrame takes them
+frameRetraces	global	0x800B96B4	invented	the retraces the last frame took, at least 1
+minRetraces	global	0x800B3CB8	invented	RunFrame waits for this many retraces a frame
+retraceTime	global	0x800FB810	invented	retraces since InitGame
+newFrame	global	0x800B9D04	invented	set by RunFrame after each frame; ReadControllers reads input for the game only then, and clears it
+InitGraphics	function	0x80005624	invented	loads segment 1 from the cartridge and gives each gfxInfo its framebuffer
+ResetScissor	function	0x80005FD0	invented	sets the scissor back to the whole screen between the two DrawObjs passes
+SetLightColor	function	0x80005300	invented	gSPLightColor on one of the six lights
+light	param	SetLightColor	invented	1 to 6: LIGHT_1 to LIGHT_6
+ReadRom	function	0x80006828	invented	reads bytes from the cartridge by PI DMA and waits for them
+rom	param	ReadRom	invented	the cartridge address
+ram	param	ReadRom	invented	where the bytes go
+size	param	ReadRom	invented	the bytes to read
+ControllerThread	function	0x80004160	invented	the controller thread: on each SI event of a read it started, ReadControllers
+InitControllers	function	0x8000420C	invented	"Failure initing controllers"; starts the rumble and controller threads, osContInit, the rumble paks
+ReadControllers	function	0x800045D4	invented	reads the pads, runs the rumble, counts presses and gives the game its buttons
+StartMotor	function	0x80004E50	invented	asks the rumble thread to start a pak's motor
+StopMotor	function	0x80004EB0	invented	asks the rumble thread to stop a pak's motor
+ResetMotor	function	0x80004F0C	invented	asks the rumble thread to start a pak over (osMotorInit, then stop)
+cont	param	StartMotor	invented	the controller
+cont	param	StopMotor	invented	the controller
+cont	param	ResetMotor	invented	the controller
+RumbleThread	function	0x80004F6C	invented	the rumble thread: carries out the motor messages
+StartRumble	function	0x800051B4	invented	rumbles a controller's pak for some frames at some strength
+cont	param	StartRumble	invented	the controller
+frames	param	StartRumble	invented	how many frames
+strength	param	StartRumble	invented	the share of the frames the motor runs, 0 to 1
+ResetMotors	function	0x80005258	invented	ResetMotor on each controller that has a rumble pak
+contMsgQ	global	0x800B3970	invented	the queue of the controller events
+contMsgBuf	global	0x800BCD68	invented	its one message
+contEventMsg	global	0x800A70C8	invented	the message of the SI event
+contPattern	global	0x800B96C4	invented	the bit pattern osContInit gives
+contStatus	global	0x800A70A0	invented	the OSContStatus osContInit gives
+contPads	global	0x800A70B0	invented	the OSContPad osContGetReadData gives
+contThread	global	0x800A9298	invented	the thread of ControllerThread
+contThreadStack	global	0x800A9448	invented	its stack
+contReading	global	0x800FB80C	invented	set while a controller read mainproc started is not yet taken
+rumbleThread	global	0x800A70E8	invented	the thread of RumbleThread
+rumbleThreadStack	global	0x800A7298	invented	its stack
+rumbleMsgQ	global	0x800BCD70	invented	the queue of rumbleThread
+rumbleMsgBuf	global	0x800B6BF4	invented	its one message
+rumbleMsg	global	0x800BCA30	invented	the message StartMotor, StopMotor and ResetMotor send
+contPfs	global	0x800AB448	invented	the OSPfs of each controller's pak, for osMotorInit
+rumbles	global	0x800BEE60	invented	the rumble_t of each controller
+motorOn	global	0x800BEDE8	invented	1 while a controller's motor runs
+contPressed	global	0x800BEE58	invented	the buttons pressed on each controller since the last read for the game
+buttonUpFrames	global	0x800B6AE8	invented	for each controller and button the frames it has been up (to 6); a press counts after 5
+buttonsPressed	global	0x800B96B0	invented	the buttons ReadControllers gives the game: of the player's controller, or of all
+playerPad	global	0x800B9954	invented	the pad ReadControllers gives the game: the player's, or the stick of any
+StrNCopy	function	0x80009748	invented	copies n characters, repeating the source's end once it is reached
+dst	param	StrNCopy	invented	
+src	param	StrNCopy	invented	
+n	param	StrNCopy	invented	
+StrCat	function	0x80009804	invented	appends a string
+dst	param	StrCat	invented	
+src	param	StrCat	invented	
+StrCopy	function	0x80009900	invented	copies a string
+dst	param	StrCopy	invented	
+src	param	StrCopy	invented	
+StrChr	function	0x800099B0	invented	finds a character in a string, or 0
+str	param	StrChr	invented	
+c	param	StrChr	invented	
+StrLen	function	0x80009A74	invented	the length of a string
+str	param	StrLen	invented	
+IntToStr	function	0x80009AE0	invented	writes a number in decimal
+dst	param	IntToStr	invented	
+value	param	IntToStr	invented	
+Random	function	0x80009C98	invented	guRandom() modulo its argument
+range	param	Random	invented	
+Abs	function	0x80009D2C	invented	the absolute value
+value	param	Abs	invented	
+PrintNum	function	0x80009D78	invented	writes a number in decimal and prints it with PrintStr
+num	param	PrintNum	invented	
+PrintStr	function	0x80009F98	invented	the debug print, which in retail only measures its string
+str	param	PrintStr	invented	
+len	local	PrintStr	invented	
+msg	param	FatalError	invented	
+InitProcs	function	0x80009FD8	invented	clears procst and the data block owners
+GetLastProc	function	0x8000A0E4	invented	the last proc of the list, after which CreatProc links a new one; named after GetProcBefore
+FreeBlocks	function	0x8000A408	invented	frees the data blocks a proc owns
+owner	param	FreeBlocks	invented	the id of the proc
+owner	param	AllocBlock	invented	the id of the proc the block is for
+KillProc	function	0x8000A4A4	invented	unlinks a proc and frees its blocks, and its objs if asked
+killObjs	param	KillProc	invented	not 0: free the proc's objs too
+cls	param	CreatProc	invented	the class of the proc, which FindProc and the messages select on
+FindProc	function	0x8000A990	invented	the first proc whose class under a mask is a value
+cls	param	FindProc	invented	
+mask	param	FindProc	invented	
+FindNextProc	function	0x8000AA24	invented	the next such proc after one
+cls	param	FindNextProc	invented	
+mask	param	FindNextProc	invented	
+event	param	ProcPostEvent	invented	the event; every proc waiting for it, or for any (-1), gets it as a message
+msg	param	ProcPostMessage	invented	
+wake	param	ProcPostMessage	invented	not 0: the proc stops sleeping and waiting
+msg	param	ProcPostMessageClass	invented	
+cls	param	ProcPostMessageClass	invented	
+mask	param	ProcPostMessageClass	invented	
+wake	param	ProcPostMessageClass	invented	
+KillOtherProcs	function	0x8000ADEC	invented	kills every proc but one
+KillProcClass	function	0x8000AE70	invented	kills every proc of a class
+cls	param	KillProcClass	invented	
+mask	param	KillProcClass	invented	
+killObjs	param	KillProcClass	invented	
+proc	local	KillProcClass	invented	
+numProcs	global	0x800BEE50	invented	the procs in use; AllocProc refuses at 69
+blockOwners	global	0x800BA5E0	invented	the id of the proc that owns each data block, 0 if free
+blocks	global	0x800B6BF8	invented	the data blocks AllocBlock hands out
+InitObjs	function	0x8000AF00	invented	clears objst
+GetLastObj	function	0x8000AFEC	invented	the last obj of the list; named after GetObjBefore
+FreeObj	function	0x8000B234	invented	unlinks an obj and marks it free
+FreeProcObjs	function	0x8000B2D4	invented	frees the objs a proc owns
+owner	param	FreeProcObjs	invented	the id of the proc
+owner	param	CreatObj	invented	the id of the proc that owns the obj; 0: none
+cls	param	CreatObj	invented	the class of the obj
+DrawTopObjs	function	0x8000B528	invented	the second pass over the objs, those of class 5 that DrawObjs skips; its message is DrawObjs's
+FindObj	function	0x8000B5DC	invented	the first obj whose class under a mask is a value
+cls	param	FindObj	invented	
+mask	param	FindObj	invented	
+FindNextObj	function	0x8000B670	invented	the next such obj after one
+cls	param	FindNextObj	invented	
+mask	param	FindNextObj	invented	
+FreeObjClass	function	0x8000B6FC	invented	frees every obj of a class
+cls	param	FreeObjClass	invented	
+mask	param	FreeObjClass	invented	
+numObjs	global	0x800BCA10	invented	the objs in use
+InitMemStack	function	0x8000B780	invented	sets the memory stack to the free memory; named after mem_stack
+AlignMemStack	function	0x8000B89C	invented	rounds the top of the memory stack up to a power of two
+align	param	AlignMemStack	invented	
+size	param	AllocMem	invented	
+size	param	mem_stack	invented	
+PushMemStack	function	0x8000B978	invented	saves the top of the memory stack, up to 10 deep
+PopMemStack	function	0x8000B9FC	invented	drops a number of saved tops and goes back to the one under them
+count	param	PopMemStack	invented	
+memStart	global	0x8006DCE8	invented	where the memory stack starts
+memEnd	global	0x8006DCD8	invented	where the memory stack ends
+memStackBase	global	0x800BCA24	invented	the bottom of the memory stack
+memStackEnd	global	0x800BCA18	invented	the end of the memory stack
+memStackTop	global	0x800B8290	invented	the next free byte
+memStackFree	global	0x800B9984	invented	the bytes left
+memStackMarks	global	0x800BEDB0	invented	the tops PushMemStack saves
+memStackDepth	global	0x800BCA04	invented	how many of memStackMarks are in use
+procResult_s	type	wof.h	invented	what a proc's handler returns to DoProcs (a struct tag the code names directly)
+handler	member	proc_t	invented	what DoProcs calls; 0 if free
+id	member	proc_t	invented	its number: InitProcs sets it to the entry; blocks and objs are tagged with it
+cls	member	proc_t	invented	the class FindProc and ProcPostMessageClass select on, given to CreatProc
+sleep	member	proc_t	invented	frames until DoProcs runs the handler again
+event	member	proc_t	invented	the event the proc waits for; ProcPostEvent matches it, -1 matches any
+waiting	member	proc_t	invented	not 0: DoProcs skips the proc until its event comes
+data	member	proc_t	invented	its data block, from AllocBlock
+owner	member	obj_t	invented	the id of the proc the obj belongs to; FreeProcObjs selects on it
+cls	member	obj_t	invented	the class FindObj selects on, given to CreatObj
+draw	member	obj_t	invented	the draw function DrawObjs calls; 0 if free
+roll	member	obj_t	invented	the first angle given to guRotateRPY (its r)
+pitch	member	obj_t	invented	the second angle given to guRotateRPY (its p)
+heading	member	obj_t	invented	the third angle given to guRotateRPY (its h)
+mtx	member	obj_t	invented	a matrix its draw function applies first, if not 0
+image	member	obj_t	invented	the segment address of the picture the draw function loads
+dl	member	obj_t	invented	its display list
+secondDl	member	obj_t	invented	the display list drawn with the second half of the picture
+roll	member	view_t	invented	what the roll of the camera obj becomes
+pitch	member	view_t	invented	what the pitch of the camera obj becomes
+heading	member	view_t	invented	what the heading of the camera obj becomes
+present	member	rumble_t	invented	1 once osMotorInit found a rumble pak
+level	member	rumble_t	invented	the sum of strength: ReadControllers runs the motor a frame each time it reaches 1
+strength	member	rumble_t	invented	added to level each frame
+frames	member	rumble_t	invented	frames of rumble left
+NewGame	function	0x80006B28	invented	starts a game: ResetGame
+ResetGame	function	0x80006B58	invented	sets the round and the player to the first, clears the scores and starts the first round
+StartRound	function	0x80006BFC	invented	sets the round's jackpot and wheel and loads a puzzle of the round's kind not used before
+LoadPuzzle	function	0x80006E54	invented	reads a puzzle (or takes the text given) and lays it out on the four rows of the board
+puzzle	param	LoadPuzzle	invented	its number in puzzles
+str	param	LoadPuzzle	invented	if not 0, the puzzle's text, which is not read from the cartridge
+CountLetter	function	0x800076E0	invented	how often a letter is in the puzzle; -1 if it was called already
+letter	param	CountLetter	invented	
+IsVowel	function	0x80007818	invented	1 if a letter is in vowels
+letter	param	IsVowel	invented	
+CallLetter	function	0x80007888	invented	calls a letter for the player: scores it by the wedge and returns how often it is in the puzzle
+c	param	CallLetter	invented	
+kind	param	CallLetter	invented	0: a consonant, 1: a vowel bought, else either
+ShowLetter	function	0x80007DAC	invented	puts a letter on the board wherever the puzzle has it
+letter	param	ShowLetter	invented	
+CheckSolved	function	0x80007EEC	invented	0: consonants are hidden, 2: only vowels are, 1: the puzzle is solved (and banks the round's score if asked)
+bank	param	CheckSolved	invented	not 0: a solved puzzle's score goes to the player's total
+GetHiddenKinds	function	0x800082E4	invented	which kinds of letters the board still hides: 4 both, 3 consonants, 2 vowels, 1 none
+GetUncalledKinds	function	0x800084E8	invented	which kinds of letters are still uncalled: 4 both, 3 consonants, 2 vowels, 0 none
+StartSolve	function	0x800087F8	invented	copies the board into solveBoard, which the player fills in
+CheckSolve	function	0x800088E4	invented	1 and the whole puzzle shown if solveBoard is the puzzle
+InitWheel	function	0x80008AB8	invented	sets the 24 wedges of the wheel for the round
+ClaimWedge	function	0x80008F64	invented	takes the prize off the wedge the wheel stopped on: the 10000 becomes BANKRUPT, a free spin its value
+SetWedge	function	0x80009108	invented	the wedge the wheel stopped on, from its angle (or a random one for -1)
+degrees	param	SetWedge	invented	
+GetWedgeValue	function	0x8000928C	invented	the value of curWedge; the 10000 wedge is 10000 only in its middle third, else BANKRUPT
+ApplyWedge	function	0x80009364	invented	acts on curWedge: a final spin keeps its value, BANKRUPT clears the round's score, the jackpot round adds to the jackpot
+final	param	ApplyWedge	invented	not 0: the spin is the final spin
+ClearScores	function	0x80009494	invented	sets every player's scores to 0
+NextPlayer	function	0x8000963C	invented	passes the turn to the next player, or for a new round to the round's first
+newRound	param	NextPlayer	invented	
+curPlayer	global	0x800FB808	invented	whose turn it is
+players	global	0x800B9990	invented	the three contestants
+round	global	0x800B619C	invented	the round: 0 to 5, 6 the bonus round
+numRounds	global	0x800B96C0	invented	the rounds before the bonus round
+jackpot	global	0x800B9540	invented	5000 at the start of the jackpot round (round 2), and every wedge spun in it is added
+jackpotWon	global	0x800B96A0	invented	set when the wheel stops on JACKPOT; CheckSolved then adds jackpot to the score
+finalSpin	global	0x800BCA00	invented	set for the final spin, after which each letter scores finalSpinValue
+finalSpinValue	global	0x800B953C	invented	the value of the final spin
+gameOver	global	0x800B9CF0	invented	set when the time runs out or the last round ends; no round follows
+puzzleText	global	0x800B9601	invented	the puzzle laid out on the four rows of the board
+board	global	0x800B9559	invented	what the board shows: the letters turned, '+' for a hidden one
+solveBoard	global	0x800B95AD	invented	the board as the player fills it in to solve
+category	global	0x800B9544	invented	the puzzle's category
+uncalled	global	0x800B966A	invented	the letters not yet called, a space for each called one
+curPuzzle	global	0x800B61D8	invented	the number of the puzzle in play
+puzzles	global	0x8004BB98	invented	the built-in list of puzzles
+puzzleRanges	global	0xB025D810	invented	the puzzles each kind of round draws from
+alphabet	global	0x8004B9E0	invented	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+vowelLetters	global	0x8004B9FC	invented	the vowels, which IsVowel looks up
+consonantLetters	global	0x8004BA04	invented	the consonants, which CallLetter looks a consonant up in
+wedges	global	0x800B39B8	invented	the 24 wedges of the wheel
+curWedge	global	0x800BEDA8	invented	the wedge the wheel stopped on
+wedgeThird	global	0x800BEDF8	invented	the angle in fifths of a wedge: which third of the 10000 wedge it stopped on
+wheelSpeed	global	0x800BCCF0	invented	how fast the wheel turns, in degrees a second
+InitSiLock	function	0x8000BAA8	invented	makes the one-message queue that LockSi and UnlockSi pass between the controller reads and the rumble pak
+LockSi	function	0x8000BB10	invented	takes the SI lock, making it first if need be
+UnlockSi	function	0x8000BB68	invented	gives the SI lock back
+siLockQ	global	0x800BA5B0	invented	the queue whose one message is the SI lock
+siLockMsg	global	0x800AFE58	invented	the one message slot of siLockQ
+siLockMade	global	0x80057800	invented	set once InitSiLock has run
+StartOpening	function	0x8000E7D4	invented	starts the opening: the camera move of the studio, the wheel, the letters flying in
+RestartOpening	function	0x8000E794	invented	starts the opening again after the demo
+LogoProc	function	0x8000E4B0	invented	shows the pictures before the opening for 3 seconds, then a movie, then StartOpening
+StartLogos	function	0x8000E6B4	invented	starts LogoProc; InitGame's choice when a controller is in
+StartDemo	function	0x8000EE78	invented	sets gameMode 3 and starts a game the machine plays
+DemoProc	function	0x8000EB40	invented	plays the demo's movie and, when the demo ends, goes back to the opening or to the title on START
+gameMode	global	0x800BCD54	invented	what the game is doing: 1 the opening, 2 a game, 3 the demo, 4 the bonus round, and more
+openingFrame	global	0x800B3994	invented	the frame of the opening, to openingFrames
+openingFrames	global	0x800B6198	invented	how many frames the opening's camera move has
+openingPath	global	0x8005EB48	invented	the camera move of the opening, a camera_t for each frame
+WheelPullProc	function	0x8000EF68	invented	the player pulls the wheel back with the stick; a button or a fast enough swing spins it (event 29)
+PointerProc	function	0x8000F274	invented	the pointer of a player that clicks over the pegs as the wheel turns, with sound and rumble; sets the wedge
+TurnWheel	function	0x8000FC3C	invented	turns the wheel a frame and slows it; when it stops, WheelStopProc
+WheelSpinProc	function	0x8000FDFC	invented	the wheel turning after a spin, through TurnWheel
+WheelStopProc	function	0x8000F84C	invented	the wheel has stopped: the sound of the wedge, and the crowd for the high values
+InitStage	function	0x80016310	invented	makes the objs of the studio: the wheel, the board, the scores and a pointer for each player
+LightLetterProc	function	0x80010574	invented	lights the squares of the called letter one after another, from the side of direction
+TurnSquares	function	0x80010AB8	invented	turns the lit squares of a column to show their letters
+col	param	TurnSquares	invented	
+LightTextProc	function	0x80010D3C	invented	lights the squares of each letter of a text in turn
+FindHiddenSquare	function	0x800111F0	invented	the next hidden square of a row from a column in a direction, or -1
+row	param	FindHiddenSquare	invented	
+col	param	FindHiddenSquare	invented	
+dir	param	FindHiddenSquare	invented	
+SetSquareBlink	function	0x80011304	invented	makes a square blink, or stop
+row	param	SetSquareBlink	invented	
+col	param	SetSquareBlink	invented	
+blink	param	SetSquareBlink	invented	
+SetSquareLetter	function	0x8001142C	invented	puts a letter into solveBoard and shows it on its square
+row	param	SetSquareLetter	invented	
+col	param	SetSquareLetter	invented	
+letter	param	SetSquareLetter	invented	
+NextSolveSquare	function	0x80011620	invented	moves the solving cursor to the next hidden square
+PrevSolveSquare	function	0x80011780	invented	moves the solving cursor to the hidden square before
+ResetSquares	function	0x80011920	invented	takes the colour and the blinking off every square
+RevealPuzzle	function	0x80011B24	invented	shows every letter of the puzzle on its square
+GreyHiddenSquares	function	0x80011F58	invented	shows each hidden square blank and grey
+CursorProc	function	0x8001228C	invented	the cursor over the hidden squares as a puzzle is solved; the ROM's message calls it the "cursor proc"
+solveRow	global	0x800B61B8	invented	the row of the solving cursor
+solveCol	global	0x800BCCF4	invented	the column of the solving cursor
+curLetter	global	0x800B61B5	invented	the letter chosen, or the machine's choice ('0' spin, '1' buy, '2' solve)
+lightDir	global	0x800B61A8	invented	1 or -1: the side from which LightLetterProc lights the squares
+GetSquareColor	function	0x8001277C	invented	a square's colour, or -1 in the first half of each blink
+DrawSquares	function	0x80012838	invented	draws a row of the board's squares, the blank ones or the others
+DrawBoard	function	0x80012D40	invented	the draw function of the board
+DrawPointer	function	0x80012500	invented	the draw function of a player's pointer
+GetLayerColor	function	0x80013440	invented	a layer's colour: unk_14 in the first half of each blink
+LightPlayer	function	0x800132EC	invented	makes the score of one player blink
+player	param	LightPlayer	invented	
+UnlightPlayers	function	0x800133C8	invented	stops every score blinking
+SetScoreDigits	function	0x80013500	invented	lays out the digit pictures of each player's round score or total
+total	param	SetScoreDigits	invented	
+DrawScores	function	0x80013748	invented	the draw function of the scores
+DrawWheel	function	0x80014F38	invented	the draw function of the wheel and its 24 wedges
+MakeObj	function	0x80015848	invented	CreatObj for a proc, with a display list and no transform; the proc's data gets it
+dl	param	MakeObj	invented	
+cls	param	MakeObj	invented	
+InitSquares	function	0x80015940	invented	gives a row of squares their display lists and the pictures of the puzzle's punctuation
+dls	param	InitSquares	invented	
+InitBoard	function	0x80015D4C	invented	prints the puzzle, makes the board obj and lays out its squares
+ClearSquares	function	0x80015EDC	invented	gives a row of squares their display lists, all blank
+dls	param	ClearSquares	invented	
+StartBoardLights	function	0x80016008	invented	the proc that runs the lights of the board when a puzzle is solved
+ResetBoard	function	0x800161A8	invented	makes the board obj if need be and blanks every square
+CameraPathProc	function	0x80016734	invented	plays a camera move a frame at a time; event 45 when it ends
+SetView	function	0x80016944	invented	puts the camera obj at a view, and plays its camera move if it has one
+view	param	SetView	invented	
+SetCameraView	function	0x80016B9C	invented	SetView on the camera obj
+view	param	SetCameraView	invented	
+CameraProc	function	0x80016BEC	invented	the proc of the camera obj, which does nothing
+DrawCamera	function	0x80016C78	invented	the draw function of the camera: the projection and guLookAt, from the opening, a move or the obj
+InitCamera	function	0x8001745C	invented	makes the camera obj of a proc
+CreateCamera	function	0x800174DC	invented	makes the camera proc and its obj
+curView	global	0x800BA2BC	invented	the view SetView last set
+views	global	0x80057F50	invented	the places of the camera, by number
+curCamera	global	0x800BA5D8	invented	the camera_t of a move in play, or 0
+cameraUpX	global	0x800B6BE8	invented	the up vector of guLookAt during a move
+cameraUpY	global	0x800B6BEC	invented	
+cameraUpZ	global	0x800B6BF0	invented	
+LoseTurn	function	0x80017548	invented	the turn passes, unless the player holds a free spin, who is asked (message 37) and keeps it
+NextTurn	function	0x80017678	invented	the turn passes to the next player
+NextRound	function	0x800177A4	invented	starts the next round
+FindWinner	function	0x80017848	invented	the player with the most money takes the turn and is shown
+AdjustCameraProc	function	0x80017938	invented	the C buttons turn the camera for the player whose turn it is
+SetGameView	function	0x80017C00	invented	SetView for a step of a turn
+view	param	SetGameView	invented	
+RoundOverProc	function	0x80017DBC	invented	the puzzle is solved: the camera, the movie, then the next round or the end of the game
+WinnerProc	function	0x800181A4	invented	shows the winner of the game
+SpinProc	function	0x800183A8	invented	a person spins: the wheel, the wedge, then a consonant
+BuyVowelProc	function	0x80018D28	invented	a person buys a vowel for 250
+SolveProc	function	0x8001933C	invented	a person solves the puzzle
+FinalSpinTurnProc	function	0x80019630	invented	a person's turn in the final spin: a letter, then the solve
+PlayerTurnProc	function	0x80019AAC	invented	the turn of a person: makes the procs of its steps; named after the ROM's "player proc"
+AddPlayer	function	0x8001A424	invented	the turn proc of a person
+player	param	AddPlayer	invented	
+InitPlayers	function	0x8001A484	invented	a turn proc for each contestant, a person's or the machine's
+InitCpuLetters	function	0x8001A5D0	invented	the orders in which the machine calls letters
+RemoveCalledLetters	function	0x8001A628	invented	drops from a string the letters already called
+letters	param	RemoveCalledLetters	invented	
+PickMissLetter	function	0x8001A6DC	invented	the last letter of a string that is not in the puzzle, or a space
+letters	param	PickMissLetter	invented	
+PickHitLetter	function	0x8001A7A8	invented	the last letter of a string that is in the puzzle, or else PickMissLetter's
+letters	param	PickHitLetter	invented	
+CpuPickConsonant	function	0x8001A894	invented	the machine's consonant: a right one with the chance of its skill
+skill	param	CpuPickConsonant	invented	
+CpuPickVowel	function	0x8001A97C	invented	the machine's vowel: a right one with the chance of its skill
+skill	param	CpuPickVowel	invented	
+CpuChooseAction	function	0x8001AA60	invented	the machine decides to solve, spin or buy a vowel
+CpuSpinProc	function	0x8001AE18	invented	the machine spins
+CpuBuyVowelProc	function	0x8001B6BC	invented	the machine buys a vowel
+CpuSolveProc	function	0x8001BC44	invented	the machine solves
+CpuFinalSpinTurnProc	function	0x8001BED8	invented	the machine's turn in the final spin
+CpuTurnProc	function	0x8001C584	invented	the turn of the machine: makes the procs of its steps
+AddDemoCpu	function	0x8001D320	invented	a machine turn proc for the demo, of skill 0.65
+player	param	AddDemoCpu	invented	
+AddCpu	function	0x8001D3CC	invented	a machine turn proc of the skill chosen
+player	param	AddCpu	invented	
+cpuSkill	global	0x800B8298	invented	the chance that the machine picks a right letter
+cpuConsonants	global	0x800B61C0	invented	the consonants the machine has left, in its order
+cpuVowels	global	0x800B6AE0	invented	the vowels the machine has left, in its order
+consonantOrder	global	0x80058208	invented	"RSTLNCBDMHFYKJGPQVWXZ": the order the machine calls consonants in
+vowelOrder	global	0x80058220	invented	"EAIOU": the order the machine buys vowels in
+canSpin	global	0x800B9CF8	invented	0 once only vowels are hidden
+canBuyVowel	global	0x800B9CFC	invented	0 until the round's first letter
+canSolve	global	0x800B9D00	invented	0 until the round's first letter
+cameraTurn	global	0x800B39A0	invented	what each player has turned the camera by with the C buttons
+SolvePuzzleProc	function	0x8002E0C8	rom-string	"SolvePuzzleProc Proc: cursor proc does not exist", printed through GetCursorProc
+GetCursorProc	function	0x8002E064	invented	finds the cursor proc for SolvePuzzleProc, whose message it prints
+StatusProc	function	0x8002CBF4	rom-string	"Status Proc: player proc does not exist" and "Status Proc: button press invalid"; the ROM's "Status Proc"
+LetterPickProc	function	0x8002D930	invented	the cursor over the letters as a letter is called
+InitLetterCursor	function	0x8002D8B0	invented	moves the letter cursor off a called letter
+CountSolveBlanks	function	0x8002DF80	invented	the squares of solveBoard still blank
+MoveCursorLeft	function	0x8002A8C8	invented	moves a cursor left over the letters or the choices
+MoveCursorRight	function	0x8002AAD0	invented	moves a cursor right over the letters or the choices
+MoveCursorUp	function	0x8002ACE8	invented	moves the letter cursor up a row, if that row has an uncalled letter
+MoveCursorDown	function	0x8002AE60	invented	moves the letter cursor down a row, if that row has an uncalled letter
+StartLetterPick	function	0x8002EB40	invented	LetterPickProc for a person
+StartCpuLetterPick	function	0x8002EB90	invented	LetterPickProc on the letter the machine chose
+letter	param	StartCpuLetterPick	invented	
+StartSolvePuzzle	function	0x8002EBF4	invented	StartSolve, the cursor proc and SolvePuzzleProc
+StartStatus	function	0x8002EC60	invented	StatusProc and its obj
+StartBonusRound	function	0x8002EDE0	invented	sets the bonus round (gameMode 4) for the player with the most money
+FinalSpinProc	function	0x8002EFC0	invented	the host's final spin when the time runs out: "Final spin is "
+RoundTimerProc	function	0x8002F338	invented	the time of a round, 300 seconds a person and 240 the machine; then the final spin or the end
+DemoTimerProc	function	0x8002F7CC	invented	ends the demo after 30 seconds or on START
+SolveTimerProc	function	0x8002F94C	rom-string	the ROM's "Solve Timer Proc" (in ResetSolveTimer's message): 8 seconds to solve, 20 in the bonus round
+StartSolveTimer	function	0x8002FD50	invented	creates SolveTimerProc
+ResetSolveTimer	function	0x8002FD8C	rom-string	"ResetSolveTimer: Solve Timer Proc does not exist."
+StartRoundTimer	function	0x8002FE2C	invented	creates RoundTimerProc
+StartDemoTimer	function	0x8002FE70	invented	creates DemoTimerProc
+roundTime	global	0x800B81DC	invented	the seconds a round may last
+bonusTimeLeft	global	0x800B40C0	invented	the seconds left to solve the bonus puzzle
+event	local	RoundTimerProc	invented	
+now	local	RoundTimerProc	invented	seconds since the boot
+i	local	RoundTimerProc	invented	
+result	local	RoundTimerProc	invented	
+event	local	DemoTimerProc	invented	
+now	local	DemoTimerProc	invented	
+result	local	DemoTimerProc	invented	
+event	local	SolveTimerProc	invented	
+now	local	SolveTimerProc	invented	
+result	local	SolveTimerProc	invented	
+event	local	func_8002FB60	invented	
+now	local	func_8002FB60	invented	
+result	local	func_8002FB60	invented	
+row	local	CheckPercentDone	invented	
+col	local	CheckPercentDone	invented	
+count	local	CheckPercentDone	invented	the hidden letters, then the turned ones
+letters	local	CheckPercentDone	invented	
+wheelPull_t	type	wof.h	invented	the data of WheelPullProc
+wheelPull	member	procData_t	invented	the data of WheelPullProc
+pointer_t	type	wof.h	invented	the data of PointerProc
+pointer	member	procData_t	invented	the data of PointerProc
+wheelStop_t	type	wof.h	invented	the data of WheelStopProc
+wheelStop	member	procData_t	invented	the data of WheelStopProc
+wheelSpin_t	type	wof.h	invented	the data of WheelSpinProc
+wheelSpin	member	procData_t	invented	the data of WheelSpinProc
+lightLetter_t	type	wof.h	invented	the data of LightLetterProc
+lightLetter	member	procData_t	invented	the data of LightLetterProc
+lightText_t	type	wof.h	invented	the data of LightTextProc
+lightText	member	procData_t	invented	the data of LightTextProc
+cameraPath_t	type	wof.h	invented	the data of CameraPathProc
+cameraPath	member	procData_t	invented	the data of CameraPathProc
+adjustCamera_t	type	wof.h	invented	the data of AdjustCameraProc
+adjustCamera	member	procData_t	invented	the data of AdjustCameraProc
+score	member	player_t	invented	the money of the round, which CallLetter adds to and BANKRUPT clears
+total	member	player_t	invented	the money of the game: CheckSolved adds the round's score and prize to it
+freeSpin	member	player_t	invented	set when the wheel stops on FREE SPIN; LoseTurn lets the player keep the turn
+hasPrize	member	player_t	invented	set when the player takes the 10000 wedge; BANKRUPT and the end of the round clear it
+controller	member	player_t	invented	the controller that plays the contestant; 4 for the machine
+contestant	member	player_t	invented	which of the six contestants the player is
+prize	member	player_t	invented	the money of the 10000 wedge, banked with the round's score
+letterSounds	member	player_t	invented	the first of the contestant's 26 sounds that call the letters
+value	member	wedge_t	invented	its money, or -1 BANKRUPT, -2 LOSE TURN, -3 JACKPOT, -10000 the 10000 wedge, below -4 FREE SPIN
+claimed	member	wedge_t	invented	set once ClaimWedge took its prize; the wheel then draws it differently
+rom	member	puzzle_t	invented	where the puzzle's text is on the cartridge; LoadPuzzle reads 101 bytes
+category	member	puzzle_t	invented	its category, which LoadPuzzle copies
+used	member	puzzle_t	invented	counts the games it was played in; StartRound skips a used one
+dl	member	tile_t	invented	the square's display list
+image	member	tile_t	invented	the picture the square shows
+letterImage	member	tile_t	invented	the picture of its letter, shown once the square is turned
+blink	member	tile_t	invented	not 0: the square blinks
+blinkFrames	member	tile_t	invented	the frames one blink takes
+blinkLeft	member	tile_t	invented	the frames left of this blink
+color	member	tile_t	invented	the square's colour
+dl	member	layer_t	invented	its display list
+blink	member	layer_t	invented	not 0: it blinks
+blinkFrames	member	layer_t	invented	the frames one blink takes
+blinkLeft	member	layer_t	invented	the frames left of this blink
+color	member	layer_t	invented	the colour it is drawn in
+blinkColor	member	layer_t	invented	the colour of the first half of each blink
+restPitch	member	wheelPull_t	invented	the wheel's angle when the pull started; the stick pulls it back from there
+offset	member	pointer_t	invented	added to the wheel's angle when PointerProc sets the wedge
+swing	member	pointer_t	invented	how far the pointer moved last frame; a backward swing clicks
+wheel	member	wheelSpin_t	invented	the wheel obj
+speed	member	wheelSpin_t	invented	how fast the wheel turns, in degrees a second; TurnWheel slows it
+lastSpeed	member	wheelSpin_t	invented	speed a frame earlier, to see it fall below 50
+path	member	cameraPath_t	invented	the camera move it plays
+frame	member	cameraPath_t	invented	the frame of the move it is at
+count	member	cameraPath_t	invented	how many frames the move has
+player	member	adjustCamera_t	invented	the player whose turn made the proc
+skill	member	playerProc_t	invented	the machine's chance of a right letter; 0 for a person
+StartGame	function	0x8000BBA8	invented	waits for the graphics, sets gameMode 2 and makes the procs and objs of a game
+GameStartProc	function	0x8000BC64	invented	clears the menus, StartGame, then the camera and the movie that open a game
+BeginGame	function	0x8000BE6C	invented	creates GameStartProc, when the main menu starts a game
+OpeningProc	function	0x8000BEA8	invented	runs the opening: on START the menus, at its end the demo
+StartMenus	function	0x80026EB4	invented	sets gameMode 7 and opens the main menu with the camera and the contestants
+InitOptions	function	0x80026FD4	invented	the options before any menu: the machine's skill, 6 rounds, a controller for each player present
+LoadSceneData	function	0x80005700	invented	waits for the graphics, saves the memory stack and reads a block from the cartridge; each screen starts with it
+InitMainFlash	function	0x80022784	rom-string	"InitMainFlash: Invalid button"
+on	param	InitMainFlash	invented	not 0: the line the cursor is on
+SetImageFlash	function	0x800226BC	invented	sets how a run of pictures flashes
+flash	param	SetImageFlash	invented	0 lit, 1 flashing, 2 dim
+MenuUp	function	0x800229D0	invented	moves a menu's cursor to the line above that it can stop on
+MenuDown	function	0x80022BC8	invented	moves a menu's cursor to the line below that it can stop on
+MenuLeft	function	0x80022DC0	invented	chooses the option before on a menu's line
+MenuRight	function	0x80022FE0	invented	chooses the option after on a menu's line
+skipAbsent	param	MenuLeft	invented	not 0: skip the controllers that are not plugged in
+skipAbsent	param	MenuRight	invented	not 0: skip the controllers that are not plugged in
+SetControllers	function	0x80023200	invented	gives each player the controller the players menu chose, and its contestant's sounds
+MainMenu1Proc	function	0x800232AC	rom-string	"MainMenu1 Proc: button press invalid": the players menu, the first that prints it
+SwitchImage	function	0x80023B44	rom-string	"SwitchImage: could not find contestant"
+ContestantMenuProc	function	0x80023CA4	invented	the menu where each person picks a contestant; it prints MainMenu1Proc's message
+SkillMenuProc	function	0x80024370	invented	the menu of the machine's skill; it prints MainMenu1Proc's message
+RoundsMenuProc	function	0x80024868	invented	the menu of the number of rounds; it prints MainMenu1Proc's message
+SetContestantSounds	function	0x80024D60	invented	copies the sounds of a player's contestant into the player
+player	param	SetContestantSounds	invented	
+ApplyOptions	function	0x8002500C	invented	keeps the contestants and sets the controllers, the machine's skill and the rounds the menus chose
+MainMenu3Proc	function	0x80025150	rom-string	"MainMenu3 Proc: button press invalid": the main menu, which starts a game or opens the others
+InitMarquee	function	0x800258BC	invented	sets the lights around the menus flashing in a running pattern
+StartMainMenu1	function	0x80025FA8	invented	opens the players menu (MainMenu1Proc)
+StartContestantMenu	function	0x800263DC	invented	opens the contestant menu for the next person
+StartMainMenu3	function	0x80026800	invented	opens the main menu (MainMenu3Proc)
+StartSkillMenu	function	0x80026DEC	invented	opens the skill menu
+StartRoundsMenu	function	0x80026E50	invented	opens the rounds menu
+DrawMainMenu1	function	0x80021E88	invented	the draw function of the players menu
+DrawContestantMenu	function	0x8002208C	invented	the draw function of the contestant menu
+DrawMainMenu3	function	0x80022218	invented	the draw function of the main menu
+DrawSkillMenu	function	0x800223A4	invented	the draw function of the skill menu
+DrawRoundsMenu	function	0x80022530	invented	the draw function of the rounds menu
+mainMenu1	global	0x800584C8	invented	the lines of the players menu: a controller for each player, and OK
+mainMenu1Images	global	0x80058548	invented	the pictures of the players menu
+contestantMenu	global	0x80058868	invented	the lines of the contestant menu
+contestantMenuImages	global	0x800588F0	invented	the pictures of the contestant menu
+mainMenu3	global	0x80058AA8	invented	the lines of the main menu
+mainMenu3Images	global	0x80058B28	invented	the pictures of the main menu
+skillMenu	global	0x80058E70	invented	the lines of the skill menu
+skillMenuImages	global	0x80058EB0	invented	the pictures of the skill menu
+roundsMenu	global	0x80058FC8	invented	the lines of the rounds menu
+roundsMenuImages	global	0x80059008	invented	the pictures of the rounds menu
+marqueeImages	global	0x80059120	invented	the 118 lights around the menus
+savedContestants	global	0x800BEDD8	invented	the contestants the menus chose, which StartMenus puts back
+voices	global	0x8005A3E4	invented	the sounds of each of the six contestants
+defaultNames	global	0x8005A498	invented	the names InitOptions gives the players
+MakeScreenObj	function	0x80027218	invented	MakeObj for a picture on the screen: placed in front of the camera
+dl	param	MakeScreenObj	invented	
+cls	param	MakeScreenObj	invented	
+GetImageTexture	function	0x8002731C	invented	which of a picture's two textures to draw this frame, by how it flashes
+lit	param	GetImageTexture	invented	not 0: the lit texture, where it is not dimmed
+DrawImageAt	function	0x8002741C	invented	draws a picture moved by an offset
+lit	param	DrawImageAt	invented	
+dx	param	DrawImageAt	invented	
+dy	param	DrawImageAt	invented	
+DrawImage	function	0x800278A8	invented	draws a picture where it is
+lit	param	DrawImage	invented	
+DrawLetterPick	function	0x80028194	invented	the draw function of the letters to call, the category and the bonus letters
+DrawMovie	function	0x80020150	invented	the draw function of a movie, by its size
+DrawMovie64	function	0x8001D440	invented	draws a movie 64 pixels wide
+DrawMovie96	function	0x8001DAF0	invented	draws a movie 96 pixels wide
+DrawMovie112	function	0x8001EFF0	invented	draws a movie 112 pixels wide
+StoreFrame112	function	0x800202A0	invented	copies a decoded frame 112 pixels wide into the frame's picture memory, in the tiles DrawMovie112 loads
+StoreFrame96	function	0x8001ED48	invented	the same for a movie 96 pixels wide
+StoreFrame64x64	function	0x800206C8	invented	the same for a movie of 64 by 64
+StoreFrame64x96	function	0x80020C98	invented	the same for a movie of 64 by 96
+MakeMovieObj	function	0x800211E4	invented	the obj a movie is drawn by
+UpdateMovie	function	0x800212C0	invented	points the movie obj at this frame's picture and decodes the next
+UpdateClip	function	0x800213CC	invented	points a contestant's obj at its picture and decodes the next
+MovieProc	function	0x80021548	invented	plays a movie on the screen; at its end, its event
+ClipProc	function	0x80021744	invented	plays a movie as a contestant's picture; at its end, its event
+LoadMovie	function	0x80021908	invented	reads a movie from the cartridge into the memory stack
+movie	param	LoadMovie	invented	its number in movies
+PlayMovie	function	0x800219B8	invented	plays a movie at a place on the screen, then posts an event
+movie	param	PlayMovie	invented	
+event	param	PlayMovie	invented	
+x	param	PlayMovie	invented	
+y	param	PlayMovie	invented	
+PlayMovieCorner	function	0x80021B04	invented	PlayMovie at (25, 20), the top left
+movie	param	PlayMovieCorner	invented	
+event	param	PlayMovieCorner	invented	
+DecodeMovie	function	0x80021B4C	invented	decodes a number of frames of a movie into memory at once
+movie	param	DecodeMovie	invented	
+count	param	DecodeMovie	invented	
+PlayClip	function	0x80021C8C	invented	plays a movie as a contestant's picture (ClipProc)
+StopMovie	function	0x80021E28	invented	ends the movie in play and frees its memory
+movies	global	0x80058228	invented	the MPEG movies on the cartridge
+curMovie	global	0x800BCA28	invented	the movie in play
+movieDone	global	0x800B40C4	invented	what the MPEG player's frame call returned at the movie's end; 0 while it plays
+movieToMemory	global	0x800B96A4	invented	set while a movie is decoded into memory rather than shown
+movieMemMark	global	0x800BCA0C	invented	what PushMemStack returned before the movie was loaded
+movieSound	global	0x800B8294	invented	a sound mainproc plays when the next graphics task is done
+movieSoundSlot	global	0x800BCA20	invented	the slot of movieSound
+InitCategory	function	0x80029440	rom-string	"InitCategory: category strlen > 20"
+CategoryProc	function	0x80029098	invented	shows the category a letter at a time
+SetScorePictures	function	0x80029974	invented	lays out the digit pictures of each player's score on the screen, and on the stage
+total	param	SetScorePictures	invented	
+FlashScore	function	0x80029BFC	invented	makes a player's score on the screen flash
+player	param	FlashScore	invented	
+ShowJackpot	function	0x8002A014	invented	lays out the jackpot on the screen in the jackpot round, rolling it when it changes
+JackpotRollProc	function	0x80029C98	invented	rolls the old jackpot off and the new one on
+ShowTotal	function	0x8002A538	invented	lays out the player's total in the middle of the screen
+ShowTotalProc	function	0x8002B094	invented	shows the winner's total and a movie, then the opening again
+ShowWinTotalProc	function	0x8002B730	invented	shows the total of a bonus round won and a movie, then the credits
+CreditsProc	function	0x8002B318	invented	shows the credits as puzzles on the board, one after another
+BonusLostProc	function	0x8002B904	invented	the bonus puzzle was not solved: the camera, then ShowTotalProc
+BonusTimerProc	function	0x8002BA44	invented	shows the seconds left to solve the bonus puzzle
+ShowRetracesProc	function	0x8002BCF4	invented	shows frameRetraces as two digits
+BonusWonProc	function	0x8002BE84	invented	the bonus puzzle was solved: 25000, the lights and the celebration
+BonusRoundProc	function	0x8002C094	invented	the bonus round: the given letters, three consonants and a vowel, then the solve
+FlashPlayerStatus	function	0x8002CAB4	invented	makes the status pictures of the player whose turn it is flash
+InitActionCursor	function	0x80028C4C	invented	puts the cursor of StatusProc on the first action the player can take
+UnflashActions	function	0x8002AFDC	invented	stops the four action pictures flashing
+creditsText	global	0x8005C1E8	invented	the credits, as the text of 22 puzzles
+creditsTitles	global	0x8005C33C	invented	the category shown over each puzzle of the credits, or 0
+givenLetters	global	0x8005C394	invented	the letters the bonus round gives
+bonusConsonants	global	0x800BEE28	invented	the consonants called in the bonus round
+bonusVowels	global	0x800BEE4C	invented	the vowels called in the bonus round
+bonusMusicSlot	global	0x800BEE20	invented	the slot of the sound that plays while the bonus puzzle is solved
+shownJackpot	global	0x800B9CEC	invented	the jackpot ShowJackpot last laid out
+letterImages	global	0x8005A998	invented	the 26 letters to call on the screen
+actionImages	global	0x8005A828	invented	the actions on the screen: spin, buy a vowel, solve
+categoryImages	global	0x8005B710	invented	the letters of the category on the screen
+InitAnim	function	0x800325D0	rom-string	"InitAnim: invalid animation number", "...invalid contestant number", "...cannot find contestant obj": the one of the two that prints all three
+InitMenuAnim	function	0x800323C4	invented	InitAnim for a contestant shown in the menus, with its obj; prints InitAnim's first message
+InitVannaAnim	function	0x8003288C	rom-string	"InitVannaAnim: invalid animation number"
+InitContestants	function	0x80032BF0	rom-string	"InitContestants: invalid image num"
+PlayContestantClip	function	0x80033150	invented	plays a movie as a player's picture, if the contestant has one; prints InitContestants' and InitAnim's messages
+SetVannaAnim	function	0x80032AD4	invented	InitVannaAnim in place of the animation playing
+anim	param	SetVannaAnim	invented	
+SetPicture	function	0x80031340	invented	copies a picture into a picture slot of both frames
+SetVannaPicture	function	0x8003143C	invented	copies Vanna's picture into this frame, mirrored for -1
+DrawContestant	function	0x8002FEB0	invented	the draw function of a player's contestant
+DrawMenuContestant	function	0x80030490	invented	the draw function of a contestant in the menus
+DrawVanna	function	0x80030B5C	invented	the draw function of Vanna
+AnimProc	function	0x800315FC	invented	plays a contestant's animation
+VannaAnimProc	function	0x80031A54	invented	plays Vanna's animation
+InitMenuContestants	function	0x80033334	invented	decodes the movies of the six contestants of the menus
+HideOtherContestants	function	0x800334E4	invented	frees the pictures of every player but the one whose turn it is
+contestantClips	global	0x8005C3B8	invented	the two animations of each contestant
+contestantMovies	global	0x8005C568	invented	the movies PlayContestantClip plays for each contestant
+menuClips	global	0x8005C718	invented	the animation of each contestant in the menus
+vannaClips	global	0x8005C7F0	invented	Vanna's animations
+PauseGame	function	0x800335D0	invented	pauses: gameMode 6, the sounds paused, the pause picture shown
+PauseProc	function	0x80033688	invented	START pauses and resumes; 30 seconds without a button in a game pause it too
+StartPauseProc	function	0x800339E8	invented	creates PauseProc
+ApplauseProc	function	0x80033A28	invented	plays the crowd's applause, as loud as applause asks
+StartApplause	function	0x80033CBC	invented	creates ApplauseProc
+ConfettiProc	function	0x80034028	invented	a piece of confetti falling across the screen
+AddConfetti	function	0x800343F8	invented	a piece of confetti at a random place, speed and count of turns
+ConfettiBurstProc	function	0x800345E8	invented	throws confetti for a while
+StartCelebration	function	0x80034950	invented	the movie and the confetti of a win
+DrawConfetti	function	0x80033CF8	invented	the draw function of a piece of confetti
+MustLoseTurn	function	0x80017728	invented	0 when the player holds a free spin outside the final spin
+applause	global	0x800B96A8	invented	how much applause the crowd owes; ApplauseProc plays it down
+pauseStart	global	0x800BA2C0	invented	the second the pause began
+pausedMode	global	0x800BED98	invented	the gameMode the pause interrupted
+pausedTime	global	0x800BCA1C	invented	the seconds the last pause lasted, which the timers add to their start
+lastInputTime	global	0x800BEE48	invented	the second a button was last used
+inputCount	global	0x800BED88	invented	cursor moves since PauseProc last looked
+moviePlay_t	type	wof.h	invented	the data of MovieProc
+moviePlay	member	procData_t	invented	the data of MovieProc
+clipPlay_t	type	wof.h	invented	the data of ClipProc
+clipPlay	member	procData_t	invented	the data of ClipProc
+applauseProc_t	type	wof.h	invented	the data of ApplauseProc
+applauseProc	member	procData_t	invented	the data of ApplauseProc
+confettiBurst_t	type	wof.h	invented	the data of ConfettiBurstProc
+confettiBurst	member	procData_t	invented	the data of ConfettiBurstProc
+confetti_t	type	wof.h	invented	the data of ConfettiProc
+confetti	member	procData_t	invented	the data of ConfettiProc
+opening_t	type	wof.h	invented	the data of OpeningProc
+opening	member	procData_t	invented	the data of OpeningProc
+categoryShow_t	type	wof.h	invented	the data of CategoryProc
+categoryShow	member	procData_t	invented	the data of CategoryProc
+jackpotRoll_t	type	wof.h	invented	the data of JackpotRollProc
+jackpotRoll	member	procData_t	invented	the data of JackpotRollProc
+credits_t	type	wof.h	invented	the data of CreditsProc
+credits	member	procData_t	invented	the data of CreditsProc
+obj	member	moviePlay_t	invented	the obj the movie is drawn by
+event	member	moviePlay_t	invented	the event posted when the movie ends
+sound	member	moviePlay_t	invented	the sound played with the movie, if above 0
+obj	member	clipPlay_t	invented	the contestant's obj
+slot	member	clipPlay_t	invented	the picture slot of the frame the clip is decoded into
+event	member	clipPlay_t	invented	the event posted when the clip ends
+sound	member	clipPlay_t	invented	the sound played with the clip, if above 0
+played	member	applauseProc_t	invented	how much of applause has been played
+countdown	member	confettiBurst_t	invented	counts down from 10 a frame; below 0 the burst thins out, below -40 it ends
+obj	member	opening_t	invented	the obj OpeningProc moves
+music	member	opening_t	invented	the slot of the opening's music; the opening ends when it stops
+x	member	opening_t	invented	where the obj starts
+y	member	opening_t	invented
+z	member	opening_t	invented
+obj	member	categoryShow_t	invented	the obj that runs over the category
+index	member	categoryShow_t	invented	the letter of the category shown next
+step	member	jackpotRoll_t	invented	the frame of the roll, to 17
+delay	member	cursor_t	invented	frames until the stick moves the cursor again
+slot	member	anim_t	invented	the picture slot it plays into: the player's number
+pictures	member	anim_t	invented	the decoded frames of the animation
+count	member	anim_t	invented	how many frames
+loop	member	anim_t	invented	0: once, 1: back and forth, 2: over and over
+pictures	member	vannaAnim_t	invented	the decoded frames of the animation
+anim	member	vannaAnim_t	invented	the animation's number
+frame	member	vannaAnim_t	invented	the frame shown
+count	member	vannaAnim_t	invented	how many frames
+loop	member	vannaAnim_t	invented	as loop of anim_t
+mirror	member	vannaAnim_t	invented	-1: the picture is shown mirrored, with lightDir
+loop	member	clip_t	invented	what loop of the animation becomes
+mirror	member	clip_t	invented	what mirror of Vanna's animation becomes
+pictures	member	clip_t	invented	the frames, once they are decoded
+name	member	player_t	invented	the player's name, from defaultNames
+freeSpinSound	member	player_t	invented	the sound the contestant makes on using a free spin
+winSound	member	player_t	invented	the sound the contestant makes on winning the game
+letters	member	voice_t	invented	the first of the contestant's 26 sounds that call the letters
+freeSpinSound	member	voice_t	invented	what freeSpinSound of the player becomes
+winSound	member	voice_t	invented	what winSound of the player becomes
+flash	member	image_t	invented	0: lit, 1: flashing, 2: dim
+flashFrames	member	image_t	invented	the frames of one flash
+flashLit	member	image_t	invented	the frames of each flash that the lit texture shows
+flashLeft	member	image_t	invented	the frames left of this flash
+texture	member	image_t	invented	the lit texture; 0: nothing is drawn
+dimTexture	member	image_t	invented	the dim texture, of a dimmed or flashing picture
+selectable	member	menuItem_t	invented	0: the cursor passes the line by
+label	member	menuItem_t	invented	the first picture of the label
+labelCount	member	menuItem_t	invented	how many pictures the label has
+options	member	menuItem_t	invented	the first picture of the first option
+wof_audio	unit	0x80002348	invented	the game's sound layer: the audio heap, the sequence players, the sound player and the sound effects
+wof_opening	unit	0x8000BAA8	invented	the SI lock, the start of a game, the logos and the opening with its procs and draw functions
+wof_demo	unit	0x8000EB40	invented	the demo the machine plays: DemoProc and StartDemo
+wof_stage	unit	0x8000EF68	invented	the studio: the wheel and its pointers, the board and its squares, the scores, and InitStage
+wof_camera	unit	0x80016638	invented	the camera: its views, its moves and its draw function
+wof_menu	unit	0x80021E88	invented	the menus: their procs, their draw functions and the options they set
+reverbParams	global	0x8004B71C	invented	the parameters of the custom reverb InitAudio gives the synthesizer
+sceneLights	global	0x8004B7B8	invented	the lights DrawCamera sets for every scene
+wheelStartAngles	global	0x8004B848	invented	the angle the wheel starts each round at
+firstRoundWedges	global	0x8004B860	invented	the values of the 24 wedges of round 0
+secondRoundWedges	global	0x8004B8C0	invented	the values of the 24 wedges of round 1
+jackpotRoundWedges	global	0x8004B920	invented	the values of the 24 wedges of round 2, the jackpot round
+laterRoundWedges	global	0x8004B980	invented	the values of the 24 wedges of the later rounds
+titleLetter_t	type	wof.h	invented	one of the 14 letters of WHEEL OF FORTUNE that fly in during the opening
+titleLetters	global	0x80057808	invented	the 14 letters of WHEEL OF FORTUNE in the opening
+openingWedgeDls	global	0x800578B0	invented	the display lists of the 24 wedges StartOpening makes
+openingWedgeMtxs	global	0x80057910	invented	their matrices
+logoTiles	global	0x80057970	invented	the six 64 by 64 tiles of the picture LogoProc shows
+DrawLogo	function	0x8000DF2C	invented	the draw function of the picture LogoProc shows, in six tiles
+DrawBootScreen	function	0x800288CC	invented	the draw function of the first screen when a controller is in
+DrawNoController	function	0x800289F4	invented	the draw function of the screen shown when no controller is in
+ShowNoController	function	0x8000E738	invented	InitGame's choice when no controller is in: a screen and nothing more
+bootScreenImages	global	0x8005A620	invented	the pictures of DrawBootScreen
+noControllerImages	global	0x8005A760	invented	the pictures of DrawNoController
+topRowDls	global	0x800579F0	invented	the display lists of the squares of the board's top row
+secondRowDls	global	0x80057A20	invented	the display lists of the squares of the second row
+thirdRowDls	global	0x80057A58	invented	the display lists of the squares of the third row
+bottomRowDls	global	0x80057A90	invented	the display lists of the squares of the bottom row
+topRow	global	0x800B9D08	invented	the 12 squares of the board's top row
+secondRow	global	0x800B9E58	invented	the 14 squares of the second row
+thirdRow	global	0x800B9FE0	invented	the 14 squares of the third row
+bottomRow	global	0x800BA168	invented	the 12 squares of the bottom row
+scoreDigits	global	0x800BEEA8	invented	the pictures of the 8 places of each player's score on the stage
+scorePanels	global	0x80057BB0	invented	the panels of the three scores on the stage, which LightPlayer makes blink
+wedgeDls	global	0x80057F08	invented	the display lists of the wedges, for each kind of round
+backdropDls	global	0x80057F24	invented	the four backdrops of the studio
+backdropOverlays	global	0x80057F34	invented	what is drawn over each backdrop, if not 0
+backdrop	global	0x800B81E0	invented	which backdrop InitStage chose at random
+pullScale	global	0x80057F44	invented	the stick's reading is divided by it to give the wheel's pull, in degrees
+minSpinSpeed	global	0x80057F48	invented	the speed at which a swing of the wheel becomes a spin
+pointerAngles	global	0x800581F0	invented	the angle of each player's pointer on the wheel
+playerViews	global	0x800581FC	invented	the view of each player
+winnerText	global	0x80058488	invented	"You are the BIG winner!", which PlayMovie hands MakeMovieObj and nothing reads
+frontContestantPos	global	0x8005A390	invented	where the contestant chosen in the contestant menu stands
+contestantPos	global	0x8005A39C	invented	where each of the six contestants stands in the contestant menu
+playerPos	global	0x8005A474	invented	where the three players' contestants stand in the main menu
+playerStatusImages	global	0x8005A4B8	invented	the two pictures of each player on the status screen, which FlashPlayerStatus flashes
+statusScoreImages	global	0x8005ADD0	invented	the 7 places of each player's score on the screen
+statusDigitTextures	global	0x8005ADA8	invented	the texture of each digit of statusScoreImages, by digit (code indexes it by character less '0')
+calledLetterTextures	global	0x8005A8C8	invented	the texture of each letter once it is called
+letterTextures	global	0x8005A930	invented	the texture of each letter not yet called
+bigDigitTextures	global	0x8005B118	invented	the textures of the large digits and the two signs around them
+bigDigitWidths	global	0x8005B178	invented	the width of each of them
+bigDigitAdvances	global	0x8005B148	invented	how far each of them moves the next; [10] and [11] are those of the $ and the , that ShowJackpot and ShowTotal add
+bigNumberImages	global	0x8005B4C8	invented	the places of the large number: the jackpot, or a total
+rollingNumberImages	global	0x8005B360	invented	the old jackpot as JackpotRollProc rolls it off
+bonusTimerImages	global	0x8005B2C0	invented	the two digits of BonusTimerProc
+retraceImages	global	0x8005B310	invented	the two digits of ShowRetracesProc
+categoryLetterTextures	global	0x8005B6A8	invented	the texture of each letter of the category, by letter (code indexes it by character less 'A')
+bonusLetterImages	global	0x8005BCC8	invented	the picture of each letter as the bonus round shows it chosen
+bonusLetterSlots	global	0x8005BE00	invented	the places of the letters chosen in the bonus round: 6 to 8 the consonants, 9 the vowel
+contestantDls	global	0x8005C3A0	invented	the two display lists of each player's contestant obj
+confettiTextures	global	0x8005C948	invented	the four frames of a piece of confetti
+confettiGravity	global	0x8005C958	invented	added to a piece's fall each retrace
+confettiDrag	global	0x8005C95C	invented	taken from a piece's sideways speed each retrace
+staticRom	global	0x8006DCEC	invented	where segment 1 is on the cartridge
+staticSize	global	0x8006DCF0	invented	its size
+sceneDataRom	global	0x8006DCF4	invented	where the block LoadSceneData reads is on the cartridge
+sceneDataSize	global	0x8006DCF8	invented	its size
+sceneData	global	0x800B9CF4	invented	the block LoadSceneData reads
+prizeTaken	global	0x800B9538	invented	set once the 10000 wedge was taken; InitWheel then puts BANKRUPT in its place
+vannaX	global	0x800B9988	invented	where InitVannaAnim puts Vanna's obj
+moviePictures	global	0x800B998C	invented	the memory a movie is decoded into
+camX	global	0x800BEE2C	invented	the camera obj's place and angles as createGfxTask found them
+camY	global	0x800BEE30	invented	
+camZ	global	0x800BEE34	invented	
+camRoll	global	0x800BEE3C	invented	
+camPitch	global	0x800BEE40	invented	
+camHeading	global	0x800BEE44	invented	
+vowelsOnlyAnnounced	global	0x800BEE54	invented	set once the turn proc has played the sound that only vowels are left
+contestantMemMark	global	0x800BCA60	invented	what PushMemStack returned before the contestants' animations were decoded
+dl	member	titleLetter_t	invented	the letter's display list
+mtx	member	titleLetter_t	invented	its matrix
+spread	member	titleLetter_t	invented	how far sideways the opening's lift moves it
+tile	param	GetSquareColor	invented	
+blanks	param	DrawSquares	invented	not 0: draw the blank squares, else the others
+cpu	param	SetGameView	invented	not 0: the machine's turn, which makes no AdjustCameraProc
+pixels	param	StoreFrame112	invented	the decoded frame
+pixels	param	StoreFrame96	invented	the decoded frame
+pixels	param	StoreFrame64x64	invented	the decoded frame
+pixels	param	StoreFrame64x96	invented	the decoded frame
+text	param	MakeMovieObj	invented	not read
+movie	param	MakeMovieObj	invented	not read
+pictures	param	DecodeMovie	invented	where the frames go
+movie	param	PlayClip	invented	
+obj	param	PlayClip	invented	the contestant's obj
+slot	param	PlayClip	invented	the picture slot: the player's number
+event	param	PlayClip	invented	posted at the clip's end
+letters	param	MoveCursorLeft	invented	not 0: the cursor is on the letters, else on the actions
+letters	param	MoveCursorRight	invented	not 0: the cursor is on the letters, else on the actions
+sound	param	MoveCursorRight	invented	not 0: the move makes its sound
+pixels	param	SetPicture	invented	
+slot	param	SetPicture	invented	
+pixels	param	SetVannaPicture	invented	
+dir	param	SetVannaPicture	invented	-1: mirrored
+contestant	param	InitMenuAnim	invented	
+slot	param	InitMenuAnim	invented	the picture slot and the obj's number
+x	param	InitMenuAnim	invented	
+y	param	InitMenuAnim	invented	
+z	param	InitMenuAnim	invented	
+anim	param	InitAnim	invented	0 or 1
+player	param	InitAnim	invented	
+anim	param	InitVannaAnim	invented	
+replace	param	InitVannaAnim	invented	not 0: the animation playing is killed first
+clip	param	PlayContestantClip	invented	
+event	param	PlayContestantClip	invented	posted at the clip's end
+player	param	PlayContestantClip	invented	
+x	param	AddConfetti	invented	the left of the range it starts in
+xRange	param	AddConfetti	invented	
+y	param	AddConfetti	invented	the top of the range it starts in
+yRange	param	AddConfetti	invented	
+speedRange	param	AddConfetti	invented	of its sideways speed, in hundredths
+speedBase	param	AddConfetti	invented	
+turnsRange	param	AddConfetti	invented	of how many turns of its four frames it lasts
+turnsBase	param	AddConfetti	invented	
+msg	local	LockSi	invented	by its type
+obj	local	AddConfetti	invented	by its type
+obj	local	SetCameraView	invented	by its type
+obj	local	SetGameView	invented	by its type
+result	local	AdjustCameraProc	invented	by its type
+result	local	CpuFinalSpinTurnProc	invented	by its type
+result	local	CpuSolveProc	invented	by its type
+result	local	PauseProc	invented	by its type
+task	local	StartStatus	invented	by its type
+obj	local	HideOtherContestants	invented	by its type
+obj	local	StartBoardLights	invented	by its type
+obj	local	StartLogos	invented	by its type
+task	local	StartRoundsMenu	invented	by its type
+movieData	local	DecodeMovie	invented	by its type
+movieData	local	PlayClip	invented	by its type
+result	local	BonusWonProc	invented	by its type
+result	local	SkillMenuProc	invented	by its type
+task	local	HideOtherContestants	invented	by its type
+movieData	local	PlayMovie	invented	by its type
+base	local	InitMenuContestants	invented	the address of segment 2, where the frame is
+obj	local	CameraProc	invented	by its type
+obj	local	GameStartProc	invented	by its type
+obj	local	LogoProc	invented	by its type
+obj	local	WheelSpinProc	invented	by its type
+obj	local	WheelStopProc	invented	by its type
+result	local	BonusTimerProc	invented	by its type
+result	local	ConfettiBurstProc	invented	by its type
+result	local	JackpotRollProc	invented	by its type
+task	local	PauseProc	invented	by its type
+obj	local	InitCategory	invented	by its type
+base	local	InitContestants	invented	the address of segment 2, where the frame is
+obj	local	CameraPathProc	invented	by its type
+base	local	StoreFrame112	invented	the address of segment 2, where the frame is
+base	local	PlayContestantClip	invented	the address of segment 2, where the frame is
+base	local	UpdateClip	invented	the address of segment 2, where the frame is
+base	local	StoreFrame96	invented	the address of segment 2, where the frame is
+obj	local	ConfettiBurstProc	invented	by its type
+slot	local	ApplauseProc	invented	the slot of the sound played
+event	local	ConfettiBurstProc	invented	
+i	local	ConfettiBurstProc	invented	
+roll	local	CpuChooseAction	invented	a random number from 0 to 1
+done	local	CpuChooseAction	invented	the share of the puzzle turned
+size	local	LoadSceneData	invented	
+owner	local	MakeScreenObj	invented	the id of the proc, 0 for none
+event	local	PauseProc	invented	
+c	local	StartCpuLetterPick	invented	the letter as a character
+offset	local	StoreFrame96	invented	the offset of the picture memory in the frame
+offset	local	UpdateClip	invented	the offset of the picture slot in the frame
+angle	local	PointerProc	invented	the wheel's angle under the pointer, then how far past a peg
+deflection	local	PointerProc	invented	how far a peg pushes the pointer
+pegs	local	PointerProc	invented	the pegs passed: the angle in fives of degrees
+OpeningWheelProc	function	0x8000C310	invented	turns the wheel in the opening and flashes its lights; it rises after frame 600
+DrawOpeningWheel	function	0x8000D8B8	invented	the draw function of the wheel in the opening, with its 24 wedges
+OpeningWedgeProc	function	0x8000C50C	invented	places one of the 24 wedges of the opening around the wheel as the lift rises
+TitleLetterProc	function	0x8000C6C4	invented	places one of the letters of WHEEL OF FORTUNE as the lift rises
+DrawOpeningPiece	function	0x8000D6D8	invented	the draw function of a wedge or a title letter in the opening, before frame 318
+DebugCameraProc	function	0x8000C8A8	invented	moves the camera and changes the round with the buttons; nothing creates it
+DebugPointerProc	function	0x8000F740	invented	turns an obj with the C buttons; nothing creates it
+BoardLightsProc	function	0x8000FFE0	invented	runs the lights of the board through its three display lists, until a turn goes on
+DrawStatus	function	0x800278F0	invented	the draw function of the status screen of StatusProc
+DrawBigNumber	function	0x80027F3C	invented	the draw function of bigNumberImages
+DrawBonusTimer	function	0x80028554	invented	the draw function of bonusTimerImages
+DrawPause	function	0x80028B1C	invented	the draw function of the pause screen
+ClearCategory	function	0x80028CC4	invented	takes the letters of the category off the screen
+ClearBonusLetters	function	0x8002B054	invented	takes the four letters chosen in the bonus round off the screen
+openingWheel_t	type	wof.h	invented	the data of OpeningWheelProc
+openingWheel	member	procData_t	invented	the data of OpeningWheelProc
+openingWedge_t	type	wof.h	invented	the data of OpeningWedgeProc
+openingWedge	member	procData_t	invented	the data of OpeningWedgeProc
+titleLetterProc_t	type	wof.h	invented	the data of TitleLetterProc
+titleLetterProc	member	procData_t	invented	the data of TitleLetterProc
+debugCamera_t	type	wof.h	invented	the data of DebugCameraProc
+debugCamera	member	procData_t	invented	the data of DebugCameraProc
+boardLights_t	type	wof.h	invented	the data of BoardLightsProc
+boardLights	member	procData_t	invented	the data of BoardLightsProc
+obj	member	openingWheel_t	invented	the wheel obj
+obj	member	openingWedge_t	invented	the wedge's obj
+index	member	openingWedge_t	invented	which of the 24 wedges
+index	member	titleLetterProc_t	invented	which of the 14 letters
+obj	member	boardLights_t	invented	the board obj
+frames	member	boardLights_t	invented	frames since the lights last changed
+FatalError	function	0x80009F38	invented	prints "ERROR: " and the message, then loops forever; the out-of-procs, out-of-objs and out-of-blocks messages end here
+AllocMem	function	0x8000B924	invented	aligns the memory stack to 8 bytes and takes size bytes from it (mem_stack)
+StoreFrame	function	0x80021090	invented	hands a decoded movie frame to the StoreFrame function for the movie's size
+wof_romdata	unit	0x8006DCD8	invented	the memory layout, where the data blocks lie on the cartridge, the movie sizes and the masks of the clips: an object of data alone
+movieSizes	global	0x8006DD2C	invented	the size of each movie less one; movies[i].size points at entry i
+wof_puzzle	unit	0x80006B28	invented	the round, its puzzle and its wheel, the players' scores and turns (NewGame to NextPlayer)
+wof_status	unit	0x800278F0	invented	the pictures on the screen, the status screen, the credits, the bonus round, picking a letter and solving, and the functions that start them (MakeScreenObj to StartBonusRound)
+wof_audiomgr	unit	0x800032A8	invented	the audio manager, guess: the audiomgr.c of the SDK's demos (amCreateAudioMgr to __clearAudioDMA)
+wof_anim	unit	0x80031340	invented	the draw functions, pictures and animations of the contestants and Vanna, their clips and the procs that play them (DrawContestant to HideOtherContestants)
+wof_controller	unit	0x80004160	invented	the controllers and the rumble: the controller thread, the rumble thread and its motor messages, reading the pads (ControllerThread to ResetMotors)
+wof_graphics	unit	0x80005300	invented	the graphics: the lights' colours, segment 1, a screen's data, the frame's task and the scissor (SetLightColor to ResetScissor)
+wof_main	unit	0x80006328	invented	the boot, the idle, main and game threads, the frame, reading the cartridge and starting the game (boot to InitGame)
+wof_obj	unit	0x8000AF00	invented	the objs: the list, making, freeing, drawing and finding them by class (InitObjs to FreeObjClass)
+wof_memstack	unit	0x8000B780	invented	the memory stack: setting it up, taking from it, aligning it, saving and restoring its top (InitMemStack to PopMemStack)
+wof_movie	unit	0x8001D440	invented	the movies: drawing, storing, playing, loading and stopping them, and the movies on the cartridge (DrawMovie64 to StopMovie)
+wof_timers	unit	0x8002F338	invented	the host's final spin and the timers of a round, the demo, a solve and five seconds, with their starts (FinalSpinProc to StartDemoTimer)
+wof_applause	unit	0x80033A28	invented	the crowd's applause (ApplauseProc and StartApplause)
+wof_procevents	unit	0x80057170	invented	the proc events by name: an object of data alone
+procEventNames	global	0x8005772C	invented	the 53 proc events by name, PRC_EVENT_NULL to PRC_EVENT_NOT_ENOUGH2, from the strings it points at
+wof_silock	unit	0x80057800	invented	siLockMade: an object of data alone, closed by stale fill
+wof_turns	unit	0x80017548	invented	the turns, the end of a round, a person's steps, the players' turn procs and the machine's first letters (LoseTurn to InitCpuLetters)
+wof_cpu	unit	0x8001A628	invented	the machine's turn: its letters, its choice, its steps and its turn procs (RemoveCalledLetters to AddCpu)
+wof_confetti	unit	0x80033CF8	invented	confetti: its draw function and proc, a piece, a burst and the celebration (DrawConfetti to StartCelebration)
+SeedRandom	function	0x80009D08	invented	guess: empty, one s32 argument, nothing calls it; it follows Random, which draws from guRandom's own sequence, so a seed function would have nothing to do
+DrawOpeningStudio	function	0x8000CB58	invented	the draw function StartOpening makes: from frame 318 the studio set (sky panels, floor) and its plants and lamps, before it the blue panels behind the logo; read from renders of the display lists
+DrawOpeningHub	function	0x8000D400	invented	draws OpeningProc's obj, the wheel's hub (the same disc as wheelHubDl), turned by hubAngle, before frame 318
+DrawSearchlights	function	0x8000DCA0	invented	draws two thin beam meshes at two fixed matrices and turns them by two degrees a frame, from frame 318 of the opening
+DemoStub	function	0x8000EE50	invented	empty, two s32 arguments, nothing calls it or holds its address; it lies between DemoProc and StartDemo in the demo's object
+WheelLightsProc	function	0x800101F4	invented	swaps the obj of class 0xA010100 between the two lit-bulb display lists of the ring under the wheel every 6 frames, from the spin to event 2 (WheelStopProc), then the unlit one; the textures are bulbs, lit and unlit
+BaseLightsProc	function	0x800103B4	invented	the same for the obj of class 0xA010200, the wider ring of bulbs at the foot of the wheel
+DrawLetterBoard	function	0x80014208	invented	draws letterBoardDl and the 26 one-letter quads of letterBoardDls: the render shows a board with A to Z and Player 1 to 3
+DrawSetPiece	function	0x800144F0	invented	the draw function InitStage gives the podium, the logo screen and the floor: their display list under the scene's lights, in every view
+DrawWheelLights	function	0x80014768	invented	the draw function of the two bulb rings (classes 0xA010100 and 0xA010200), under a white light, unless IsBoardView
+DrawBackdrop	function	0x80014A5C	invented	the draw function of the obj InitStage makes from backdropDls[backdrop], dimly lit, then backdropOverlays[backdrop]
+DrawCeiling	function	0x800153C4	invented	the draw function of ceilingDl, a grid at the studio's top (y 1155) across the whole set, then its trim ceilingTrimDl
+StartWheelLights	function	0x80016098	invented	creates WheelLightsProc and BaseLightsProc for the two bulb-ring objs; WheelSpinProc calls it when the wheel starts turning
+IsBoardView	function	0x80016638	invented	1 for curView 3, 18 and 20, views straight down -z at the board's x (-269); DrawWheel, DrawPointer, DrawScores, DrawContestant and AnimProc draw or animate nothing then
+IsBoardHidden	function	0x800166C0	invented	0 for curView 3, 11 to 15, 18 and 20 (the board views and the camera moves), 1 otherwise; DrawBoard draws only when it is 0
+DrawCreditsTitle	function	0x80028064	invented	the draw function CreditsProc makes: categoryImages, which hold the title of each credits page, 10 right and 20 down
+DrawBonusPrize	function	0x8002842C	invented	draws bonusPrizeImages, the glyphs $ 2 5 , 0 0 0, which BonusWonProc shows as it adds 25000 to the total
+DrawRetraces	function	0x8002867C	invented	draws retraceImages like the draw functions around it; nothing refers to it
+DrawPressStart	function	0x800287A4	invented	draws pressStartImages (category glyphs spelling PRESS START between the plate's caps); StartOpening and StartDemo make its obj
+DrawCategoryWheel	function	0x80028D3C	invented	draws one 24x24 picture of categoryWheelFrames, a small wheel in 16 turning frames, at the letter CategoryProc is showing
+StatusStub	function	0x8002EDC0	invented	empty; StartStatus, StartBonusRound and RestartOpening call it, and it lies after StartStatus in the status object
+FreeSpinTimerProc	function	0x8002FB60	invented	after 5 seconds posts event 48, on which PlayerTurnProc loses the turn; started where LoseTurn offers a free spin (message 37) and stopped when the player picks the free spin action
+StartFreeSpinTimer	function	0x8002FCD8	invented	creates FreeSpinTimerProc; PlayerTurnProc calls it on message 37, the offer of a free spin
+StopFreeSpinTimer	function	0x8002FD14	invented	kills the procs of FreeSpinTimerProc's class; StatusProc calls it when the free spin action is picked (event 38)
+SetVannaStill	function	0x80032858	invented	SetVannaAnim(4): vannaClips[4] is one picture of movie 24, the movie of animation 1
+PlayContestantAnims	function	0x80032B10	invented	InitAnim(0) for each player: contestantClips[c][0], the clip of several pictures
+SetContestantsStill	function	0x80032B80	invented	InitAnim(1) for each player: contestantClips[c][1], one picture (the one menuClips shows)
+wheelLights_t	type	wof.h	invented	the data of WheelLightsProc
+baseLights_t	type	wof.h	invented	the data of BaseLightsProc
+wheelLights	member	procData_t	invented	the data of WheelLightsProc
+baseLights	member	procData_t	invented	the data of BaseLightsProc
+seed	param	SeedRandom	invented	guess: as the function's name
+result	local	BaseLightsProc	invented	the procResult_s it returns, as in WheelLightsProc
+obj	local	StartWheelLights	invented	the bulb-ring obj found for each proc
+mask	param	DecodeMovie	invented	becomes curMask, the clip mask the frames are stored through
+mask	param	PlayClip	invented	becomes curMask, the clip mask the frames are stored through
+mpegStart	function	0x8009CEC0	invented	the decoder's main (guess: mpeg_play's main.c, cut down to one movie), which the game calls to open a movie and decode its first frame; the program starts at boot, and main is no name for a function called once a movie
+mpegNextFrame	function	0x8009D244	invented	the body of the loop mpeg_play's main ended with, which had no name: decodes until one more frame is shown, and returns 1 at the film's end
+fclose	function	0x800A4E58	lineage	guess: the C library's fclose, which mpeg_play calls on its input when the film ends; include/mpeg/libc.h said so, and the stand-in only marks the one stream closed
+streamOpen	global	0x80086D58	invented	fopen sets it and refuses while it is set; fclose clears it; the game's movie functions call fclose first while it is set
+noContestantObjMsg	global	0x800019BC	invented	the string "InitAnim: cannot find contestant obj" that PlayContestantClip passes to FatalError
+gfxUcodeText	global	0x80034A88	invented	the text of the graphics microcode createGfxTask gives its task; which SDK microcode it is the bytes do not say, so it is named for its role
+gfxUcodeData	global	0x80082BC8	invented	the data of that microcode, the task's ucode_data
+firstframe	global	0x8004B830	lineage	guess: the SDK demos' gfx.c: 1 at first, and createGfxTask sends rdpstateinit_dl and clears it, between setup_rspstate and setup_rdpstate
+vFlag	global	0x8004B838	invented	parse_args sets it for the -v switch; nothing reads it
+sFlag	global	0x8004B840	invented	parse_args sets it for the -s switch; nothing reads it
+lFlag	global	0x8004B844	invented	parse_args sets it for the -l switch; nothing reads it
+letterBoardDls	global	0x80057988	invented	DrawLetterBoard draws its 26 entries, each one quad with one letter's texture (the first is A's): the letters of the letter board
+scorePanelDigitDls	global	0x80057B50	invented	[3][8] quads DrawScores draws with each digit texture of scoreDigits: the digits of the scores on the stage
+firstRoundWedgeDls	global	0x80057C08	invented	wedgeDls[0], used when round is 0, as firstRoundWedges is
+secondRoundWedgeDls	global	0x80057CC8	invented	wedgeDls[1], used when round is 1, as secondRoundWedges is
+jackpotRoundWedgeDls	global	0x80057D88	invented	wedgeDls[2], used when round is 2, as jackpotRoundWedges is
+laterRoundWedgeDls	global	0x80057E48	invented	wedgeDls[3] to [6], used in the later rounds, as laterRoundWedges is
+controllerLabelPos	global	0x800584A0	invented	StartMainMenu1 puts pictures 2 to 6 of the first menu, the labels Controller 1 to 4 and Computer, at these places in turn, one for each controller plugged in
+playerMenuTextures	global	0x800588A8	invented	for each player the textures StartContestantMenu gives pictures 0, 7 and 8 of contestantMenuImages: the player's label and status pictures
+prizeImages	global	0x8005A5A8	invented	DrawStatus draws entry i while players[i].hasPrize: the prize token
+freeSpinImages	global	0x8005A7B0	invented	DrawStatus draws entry i while players[i].freeSpin: the free spin token
+bonusPrizeImages	global	0x8005B1A8	invented	seven big-digit glyphs, $ 2 5 , 0 0 0, which DrawBonusPrize shows
+jackpotSignImages	global	0x8005B630	invented	three pictures that read JACKPOT on a sign; DrawStatus shows them in round 2
+categoryWheelFrames	global	0x8005BA80	invented	16 pictures of 24 by 24 of a small wheel turning; CategoryProc shows them in turn
+pressStartImages	global	0x8005BAC0	invented	13 category glyphs: the plate's caps around P R E S S, a space, S T A R T
+vannaWalkOffsets	global	0x8005C8C8	invented	added, times 4 times lightDir, to vannaX for each picture of animation 0, the walk along the board
+vannaTurnOffsets	global	0x8005C8FC	invented	added, times 4 times lightDir, to vannaX for each of the 4 pictures of animation 3, after which lightDir turns
+columnEdges	global	0x8005C90C	invented	VannaAnimProc turns the squares of column i - 1 while vannaX lies between [i - 1] and [i]: steps of 71 from 0, the edges of the 14 columns
+fastSpinPath1	global	0x800650B0	invented	the move of view 11, which SpinProc picks at random with view 15 for a spin of 110 or more
+fastSpinPath2	global	0x8005C960	invented	the move of view 15, the other of the two
+gameStartPath	global	0x80069908	invented	the move of view 12, which GameStartProc sets when a game starts
+nextRoundPath	global	0x80068C38	invented	the move of view 13, which RoundOverProc sets before the next round
+view14Path	global	0x80067F68	invented	the move of view 14; no code selects view 14
+view16Path	global	0x8006C360	invented	the move of view 16; no code selects view 16
+unusedCameraPath	global	0x80067298	invented	a camera move of 91 frames that no view holds
+sceneDataRomEnd	global	0x8006DCFC	invented	its value is sceneDataRom + sceneDataSize, the end of the cartridge's contents; nothing reads it
+bssEnd	global	0x8006DD00	invented	its value, 0x800FB898, is where the entry stub stops clearing the uninitialised data; nothing reads it
+celebrationMask	global	0x8006DDC4	invented	the mask StartCelebration puts in curMask before it decodes movie 22
+vannaWalkMask	global	0x800703C4	invented	the mask of vannaClips[0], the walk
+vannaAnim1Mask	global	0x80071EC4	invented	the mask of vannaClips[1] and [4], both from movie 24
+vannaAnim2Mask	global	0x800748C4	invented	the mask of vannaClips[2]
+vannaTurnMask	global	0x80075DC4	invented	the mask of vannaClips[3], after which Vanna turns
+vannaAnim5Mask	global	0x800739C4	invented	the mask of vannaClips[5]
+contestant0AnimMask	global	0x800769C4	invented	the mask of contestantClips[0][0], contestant 0's clip of several pictures
+contestant1AnimMask	global	0x80078DC4	invented	the mask of contestantClips[1][0]
+contestant2AnimMask	global	0x8007A1C4	invented	the mask of contestantClips[2][0]
+contestant3AnimMask	global	0x8007BFC4	invented	the mask of contestantClips[3][0]
+contestant4AnimMask	global	0x8007D9C4	invented	the mask of contestantClips[4][0]
+contestant5AnimMask	global	0x800813C4	invented	the mask of contestantClips[5][0]
+contestant0StillMask	global	0x80078BC4	invented	the mask of contestantClips[0][1] and menuClips[0], one picture
+contestant1StillMask	global	0x80079FC4	invented	the mask of contestantClips[1][1] and menuClips[1]
+contestant2StillMask	global	0x8007B1C4	invented	the mask of contestantClips[2][1] and menuClips[2]
+contestant3StillMask	global	0x8007CBC4	invented	the mask of contestantClips[3][1] and menuClips[3]
+contestant4StillMask	global	0x8007EDC4	invented	the mask of contestantClips[4][1] and menuClips[4]
+contestant5StillMask	global	0x800829C4	invented	the mask of contestantClips[5][1] and menuClips[5]
+contestant0ClipMask1	global	0x800779C4	invented	the mask of contestantMovies[0][1], a clip PlayContestantClip plays
+contestant2ClipMask0	global	0x8007B3C4	invented	the mask of contestantMovies[2][0]
+contestant3ClipMask0	global	0x8007CDC4	invented	the mask of contestantMovies[3][0]
+contestant4ClipMask0	global	0x8007EFC4	invented	the mask of contestantMovies[4][0]
+contestant4ClipMask1	global	0x800801C4	invented	the mask of contestantMovies[4][1]
+contestant5ClipMask0	global	0x800821C4	invented	the mask of contestantMovies[5][0]
+retraceClient	global	0x800B3988	invented	the second client InitGame adds to the scheduler, which sends its clients the retraces; nothing reads its queue
+retraceMsgQ	global	0x800B9CD0	invented	that client's queue
+retraceMsgBuf	global	0x800BEE00	invented	the 8 messages of retraceMsgQ
+bonusSlotLetters	global	0x800B61AA	invented	BonusRoundProc stores the letter of bonusLetterSlots[i] at [i]; the picks, slots 6 to 9, are cleared at the round's start and read from [6] as a string, which LightTextProc lights once it holds 4 letters
+hubAngle	global	0x800B61AC	invented	StartOpening zeroes it, OpeningProc takes a degree off each retrace, DrawOpeningHub turns the hub by it
+curMask	global	0x800B81E4	invented	the clip mask StoreFrame64x64 and StoreFrame64x96 store frames through; PlayClip, DecodeMovie and StartCelebration set it
+puzzleTail	global	0x800B9655	invented	LoadPuzzle copies the text after the fourth tab of the puzzle's line, up to the newline, here; nothing reads it
+bootArg	global	0x800BA5D4	invented	boot passes it to the idle thread, which passes it to mainproc and GameThread
+sndPlayerData	global	0x800BCCF8	invented	the ALSndPlayer that sndPlayer points at
+logoSpread	global	0x800BEE24	invented	OpeningProc adds 5 a retrace from frame 269 to 318; the hub, the wedges and the title letters move out from the logo's centre by it
+framebuffer0	global	0x803B5000	invented	gfxInfo[0].framebuffer
+framebuffer1	global	0x803DA800	invented	gfxInfo[1].framebuffer
+hubRotate	member	frame_t	invented	the matrix DrawOpeningHub builds from hubAngle and multiplies in after the obj's rotation
+clipPictures	member	frame_t	invented	six 64 by 64 picture slots: AnimProc, SetPicture, PlayClip and UpdateClip put a contestant's or a clip's current picture in slot slot
+vannaPicture	member	frame_t	invented	the 64 by 96 picture VannaAnimProc points Vanna's obj at
+moviePicture	member	frame_t	invented	where StoreFrame96, StoreFrame112 and StoreFrame64x64 put the movie frame shown on screen, and UpdateMovie points the movie's obj
+frameTime	member	vannaAnim_t	invented	retraces each picture shows: VannaAnimProc steps frame when timer reaches it; InitVannaAnim copies clip_t.frameTime
+step	member	vannaAnim_t	invented	added to frame at each step: 1, -1 to play back, 0 to hold; as anim_t.step
+timer	member	vannaAnim_t	invented	retraces since the last step, as anim_t.timer
+sound	member	movie_t	invented	PlayMovie and PlayClip copy it into their proc's sound
+gamma	member	movie_t	invented	PlayMovie, PlayClip and DecodeMovie pass it as mpegStart's gamma, which chooses the luminance table
+texture	member	letterImage_t	invented	BonusRoundProc copies it into the texture of a bonusLetterSlots entry
+frameTime	member	clip_t	invented	retraces each picture shows (4 or 6): InitVannaAnim copies it to vannaAnim_t.frameTime; AnimProc uses 4, which all contestant clips hold
+mask	member	clip_t	invented	the clip mask its frames are stored through: PlayClip and DecodeMovie set curMask from it
+x	member	vec_t	invented	the first of the three coordinates InitMenuAnim takes as x, y, z
+y	member	vec_t	invented	the second
+z	member	vec_t	invented	the third
+spinSound	member	voice_t	invented	SetContestantSounds copies it into player_t.spinSound, which PlayerTurnProc and CpuTurnProc play on a spin
+buyVowelSound	member	voice_t	invented	copied into player_t.buyVowelSound, played when the player buys a vowel
+solveSound	member	voice_t	invented	copied into player_t.solveSound, played when the player solves
+scoreStrings	member	player_t	invented	ten strings ClearScores sets to "0" with the score; nothing reads them
+spinSound	member	player_t	invented	PlayerTurnProc plays it (one time in three) and CpuTurnProc plays it when the player spins
+buyVowelSound	member	player_t	invented	played when the player buys a vowel (event 13)
+solveSound	member	player_t	invented	played when the player solves (event 14)
+special	member	wedge_t	invented	InitWheel sets it 1 for the 10000, FREE SPIN and JACKPOT wedges and 0 for the rest; ClaimWedge clears it; nothing reads it
+dl	member	wedgeDl_t	invented	the wedge's display list, which DrawWheel and DrawOpeningWheel draw
+claimedDl	member	wedgeDl_t	invented	if not 0, DrawWheel draws it in place of dl once the wedge is claimed
+obj	member	wheelStop_t	invented	the first word, which WheelStopProc reads as its obj like every handler (no obj is made for it)
+obj	member	wheelLights_t	invented	the ring obj StartWheelLights gives the proc
+frames	member	wheelLights_t	invented	retraces since the bulbs last changed, as boardLights_t.frames
+obj	member	baseLights_t	invented	the ring obj StartWheelLights gives the proc
+frames	member	baseLights_t	invented	retraces since the bulbs last changed
+vannaStarted	member	lightLetter_t	invented	0 until LightLetterProc has started Vanna's walk (SetVannaAnim(0)), then 1
+obj	member	cameraPath_t	invented	the first word, which CameraPathProc reads as its obj like every handler (no obj is made for it)
+creatZero1	member	proc_t	invented	named for what is written to it: CreatProc zeroes it, and nothing else reads or writes it
+creatZero2	member	proc_t	invented	the same: CreatProc zeroes it, and nothing else touches it
+roundStartZero	member	player_t	invented	named for what is written: StartRound zeroes it for each player; nothing reads it
+was3500	member	wheelStop_t	invented	named for what is written: WheelStopProc sets it to 1 when the wedge's value is 3500; nothing reads it
+spinStartZero	member	wheelSpin_t	invented	named for what is written: WheelSpinProc zeroes it as the spin starts (message 8); nothing reads it
+startZero	member	applauseProc_t	invented	named for what is written: ApplauseProc zeroes it on its first run (message 8); nothing reads it
+slot	member	vannaAnim_t	invented	the word at the place of anim_t.slot, which VannaAnimProc reads into a local as AnimProc reads slot; nothing sets it
+slot	local	VannaAnimProc	invented	holds vannaAnim.slot, as AnimProc's index holds anim.slot; nothing reads it after
+zero	local	CpuChooseAction	invented	named for what is stored: set to 0 at the start and never read
+zero	local	GameThread	invented	named for what is stored: set to 0 before the loop and never read
+one	local	ReadControllers	invented	named for what is stored: set to 1 at the start and never read
+statusDollarTexture	global	0x01010FA0	invented	SetScorePictures puts it before the digits of each score on the status screen: the $
+categoryLeftTexture	global	0x01017550	invented	InitCategory puts it before the category's letters: the picture is the rounded left cap of the plate
+categoryRightTexture	global	0x01017650	invented	InitCategory puts it after the letters: the right cap
+categoryAmpersandTexture	global	0x01017750	invented	InitCategory's picture for & in a category
+categoryDashTexture	global	0x010178D0	invented	InitCategory's picture for -
+categorySlashTexture	global	0x01017A50	invented	InitCategory's picture for /
+categorySpaceTexture	global	0x01017BD0	invented	InitCategory's picture for a space; pressStartImages uses it too
+rdpstateinit_dl	global	0x010217E0	lineage	guess: the SDK demos' rdpstateinit_dl: it zeroes the env, prim, blend, fog and fill colours and the eight tiles, and createGfxTask sends it on the first frame only
+setup_rdpstate	global	0x010218C8	lineage	guess: the SDK demos' setup_rdpstate: cycle type, scissor, texture and render modes, sent each frame after setup_rspstate
+setup_rspstate	global	0x01021948	lineage	guess: the SDK demos' setup_rspstate: viewport, then clear and set the geometry mode (z-buffer, shade, smooth, cull back) and texture off, the first thing each frame
+imageSetupDl	global	0x01021970	invented	the state every draw function of 2D pictures sends before switching to copy mode: texture on, MODULATERGBA, point sampling
+litSetupDl	global	0x010219C8	invented	the state of the lit 3D draw functions: texture on, MODULATERGB, bilinear, lighting, z-buffer, back faces culled
+alphaSetupDl	global	0x01021A20	invented	texture on, MODULATERGBA, average filter, no geometry mode: DrawBoard sends it before drawing the squares a second time
+alphaLitSetupDl	global	0x01021A70	invented	alphaSetupDl's state plus lighting, z-buffer and culling; DrawLetterBoard sends it before the letters
+shadeSetupDl	global	0x01021AC8	invented	texture off and G_CC_SHADE; DrawScores sends it before the score panels
+wheelRimDl	global	0x01024340	invented	the wheel obj's display list, drawn after the hub and the wedges: the render is the rim and its pegs
+podiumDl	global	0x01024368	invented	drawn by DrawSetPiece: the render is a curved top on wooden posts beside the wheel, radius about 320
+scoreWoodDl	global	0x010308D0	invented	the last thing DrawScores draws: six triangles with a wood texture before the score panels
+scoreDollarTexture	global	0x01035FA8	invented	SetScoreDigits puts it before the digits of each score on the stage: the $
+scoreBlankTexture	global	0x010367A8	invented	the texture of a digit of a stage score that shows nothing; DrawScores loads it once for all of them
+pointer0Dl	global	0x01037090	invented	the display list of player 0's pointer (class 0x4020000); the render is a pointer
+pointer1Dl	global	0x01036FA8	invented	the display list of player 1's pointer
+pointer2Dl	global	0x01037178	invented	the display list of player 2's pointer
+pointer0Mtx	global	0x01037EF0	invented	the matrix that places player 0's pointer (its obj's mtx)
+pointer1Mtx	global	0x01037EB0	invented	the matrix that places player 1's pointer
+pointer2Mtx	global	0x01037E70	invented	the matrix that places player 2's pointer
+boardLightsOffDl	global	0x01092090	invented	the board obj's display list when BoardLightsProc is not running: the render is the chain of lights around the board
+boardLights1Dl	global	0x010920D8	invented	the first of the three display lists BoardLightsProc cycles through every 5 retraces
+boardLights2Dl	global	0x01092120	invented	the second
+boardLights3Dl	global	0x01092168	invented	the third
+boardFrameDl	global	0x01093D50	invented	drawn by DrawBoard after the board obj's lights and before the squares: the render is the board's frame and grid
+dashSquareTexture	global	0x010A1B88	invented	InitSquares' picture for - in the puzzle; it shows a dash
+ampersandSquareTexture	global	0x010A1F88	invented	InitSquares' picture for &
+apostropheSquareTexture	global	0x010A2388	invented	InitSquares' picture for '
+questionSquareTexture	global	0x010A2788	invented	InitSquares' picture for ?
+blankSquareTexture	global	0x010A2B88	invented	InitSquares' picture for a space, / or the end of a line, and ClearSquares' for every square
+letterSquareTexture	global	0x010A3388	invented	InitSquares' picture for a square that holds a letter; it is plain white
+periodSquareTexture	global	0x010A3788	invented	InitSquares' picture for .
+letterBoardDl	global	0x010A6098	invented	the obj DrawLetterBoard draws: the render is a board with the letters A to Z and the panels Player 1 to 3
+floorDl	global	0x010B3728	invented	drawn by DrawSetPiece: a flat dark plane at y -155 under the whole set
+ceilingTrimDl	global	0x010E3748	invented	drawn after ceilingDl: thin strips 84 high along the ceiling's edge
+ceilingDl	global	0x010E4260	invented	drawn by DrawCeiling: a lighting grid at y 1155 over the whole set
+wheelHubDl	global	0x010FA038	invented	drawn by DrawWheel and DrawOpeningWheel before the wedges: a teal disc of radius 76 at the centre
+logoScreenDl	global	0x0112BBA8	invented	drawn by DrawSetPiece: a framed panel on a wall whose 16 tiles make the WHEEL OF FORTUNE logo
+wheelLightsDl	global	0x011356C0	invented	the band of bulbs under the wheel (radius 204), with no texture of its own; the three below load a bulb texture and call it
+wheelLightsOffDl	global	0x01135878	invented	the band with unlit bulbs: its texture is bulbs off
+wheelLightsOnDl	global	0x011358C0	invented	the band with lit bulbs, the first of the two WheelLightsProc and OpeningWheelProc swap
+wheelLightsOn2Dl	global	0x01135908	invented	the band with lit bulbs, the second
+baseLightsOffDl	global	0x01135FF8	invented	the wider ring of bulbs at the wheel's foot (radius 320) with unlit bulbs
+baseLightsOnDl	global	0x01136080	invented	that ring lit, the first of the two BaseLightsProc swaps
+baseLightsOn2Dl	global	0x01136108	invented	that ring lit, the second
+menuContestantDl	global	0x0113A9B0	invented	the dl InitMenuAnim gives a contestant's obj in the menus: a quad for the first half of the picture
+menuContestantSecondDl	global	0x0113A9D0	invented	its secondDl: the quad for the second half
+vannaLowerDl	global	0x0113AD08	invented	the lowest of the three quads DrawVanna draws her picture on (y 0 to 131), with its first 32 rows
+vannaMiddleDl	global	0x0113AD28	invented	the middle quad (y 131 to 263)
+vannaUpperDl	global	0x0113AD48	invented	the highest quad (y 263 to 394)
+vannaMtx	global	0x0113AE28	invented	the matrix DrawVanna loads before her position
+logoPalette	global	0x01146E68	invented	the palette DrawLogo loads for the six 4-bit tiles of logoTiles
+controller1Texture	global	0x01158068	invented	the texture of the label Controller 1 in the menus; the picture says Controller 1
+controller2Texture	global	0x01158868	invented	Controller 2
+controller3Texture	global	0x01159068	invented	Controller 3
+controller4Texture	global	0x01159868	invented	Controller 4
+computerTexture	global	0x01157868	invented	the texture of the label Computer; the picture says Computer
+controller1DimTexture	global	0x0115B868	invented	the dimTexture that goes with controller1Texture (the picture is the brighter one)
+controller2DimTexture	global	0x0115C068	invented	the dimTexture of Controller 2
+controller3DimTexture	global	0x0115C868	invented	the dimTexture of Controller 3
+controller4DimTexture	global	0x0115D068	invented	the dimTexture of Controller 4
+computerDimTexture	global	0x0115B068	invented	the dimTexture of Computer
+searchlight1Dl	global	0x01166928	invented	the first beam DrawSearchlights draws: a thin tall cone (y 0 to 313)
+searchlight2Dl	global	0x01166598	invented	the second beam
+openingPropsDl	global	0x01166BF8	invented	drawn by DrawOpeningStudio from frame 318: textured quads of a shrub, ivy and a hanging lamp
+openingPanelsDl	global	0x011696A0	invented	drawn by DrawOpeningStudio before frame 318: three dark blue panels behind the logo
+openingStudioDl	global	0x0116C028	invented	drawn by DrawOpeningStudio from frame 318: the set, with panels of clouds, a floor and plants
+searchlight1Mtx	global	0x01176C88	invented	the matrix that places searchlight1Dl
+searchlight2Mtx	global	0x01176CC8	invented	the matrix that places searchlight2Dl
+openingPanelsMtx	global	0x01176D08	invented	the matrix DrawOpeningStudio loads before openingPanelsDl
+openingHubDl	global	0x01197D78	invented	OpeningProc's obj's display list: the same disc as wheelHubDl with a texture, the hub of the opening's logo
+initProcsZero	global	0x800B61A4	invented	named for what is written: InitProcs sets it to 0; nothing reads it
+startStatusZero1	global	0x800BCA14	invented	named for what is written: StartStatus sets it to 0, first of two; nothing reads it
+startStatusZero2	global	0x800B9974	invented	named for what is written: StartStatus sets it to 0, second of two; nothing reads it
+turnStartZero	global	0x800B9980	invented	named for what is written: StartRound and NextPlayer set it to 0, at each new turn; nothing reads it
+initGame37	global	0x800BC6FC	invented	named for what is written: InitGame sets it to 37; nothing reads it
+initGameZero	global	0x800BCD50	invented	named for what is written: InitGame sets it to 0; nothing reads it
+framebuffer0Word	global	0x8006DCDC	invented	named for its value, 0x803B5000, framebuffer0's address; a word of wof_romdata nothing reads
+framebuffer0Word2	global	0x8006DCE0	invented	the same value again; nothing reads it
+memStartWord	global	0x8006DCE4	invented	named for its value, 0x801084B0, the same as memStart's; nothing reads it
+sfxCtlRomWord	global	0x8006DD10	invented	named for its value, 0xB01A3E48, the same as sfxCtlRom's; nothing reads it
+sfxTblRomWord1	global	0x8006DD14	invented	named for its value, 0xB00A5C78, the same as sfxTblRom's, the first of six such words; nothing reads them
+sfxTblRomWord2	global	0x8006DD18	invented	the second word holding sfxTblRom's value
+sfxTblRomWord3	global	0x8006DD1C	invented	the third
+sfxTblRomWord4	global	0x8006DD20	invented	the fourth
+sfxTblRomWord5	global	0x8006DD24	invented	the fifth
+sfxTblRomWord6	global	0x8006DD28	invented	the sixth
+obj	param	DrawRetraces	invented	the objDraw_t parameters its sibling draw functions (DrawBonusTimer, DrawBonusPrize, DrawPressStart) have, whose body it shares; nothing calls it, and the gate shows the types change no byte
+frame	param	DrawRetraces	invented	as obj
+squareLetterTextures	global	0x80057AC0	invented	the 26 I8 pictures of the letters A to Z that InitSquares, SetSquareLetter and RevealPuzzle put on the squares, read as [c - 'A']; the old split made them entries 12 to 37 of bottomRowDls, read through letterPictures[c]
+scoreDigitTextures	global	0x80057B28	invented	the 10 pictures of the digits 0 to 9 that SetScoreDigits puts on the stage scores, read as [ch - '0']; the old split made them entries 38 to 47 of bottomRowDls, read through scoreDigitPictures[ch]
+boardClasses	global	0x80057BF8	invented	guess: its words 0x1010100 to 0x1010400 have the form of the board family's proc and obj classes (the board is 0x1010000, and ResetBoard kills procs of 0x1010100 and 0x1010200); as segment addresses two would fall inside the free spin picture; nothing reads it
+PRC_EVENT_NULL	constant	wof.h	rom-string	"PRC_EVENT_NULL 0", entry 0 of procEventNames
+prcEventNullName	global	0x80057170	rom-string	the string "PRC_EVENT_NULL 0" it holds
+PRC_EVENT_NEXT_PLAYER	constant	wof.h	rom-string	"PRC_EVENT_NEXT_PLAYER 1", entry 1 of procEventNames
+prcEventNextPlayerName	global	0x80057184	rom-string	the string "PRC_EVENT_NEXT_PLAYER 1" it holds
+PRC_EVENT_WHEEL_STOPPED	constant	wof.h	rom-string	"PRC_EVENT_WHEEL_STOPPED 2", entry 2 of procEventNames
+prcEventWheelStoppedName	global	0x8005719C	rom-string	the string "PRC_EVENT_WHEEL_STOPPED 2" it holds
+PRC_EVENT_DONE_SPINING	constant	wof.h	rom-string	"PRC_EVENT_DONE_SPINING 3", entry 3 of procEventNames
+prcEventDoneSpiningName	global	0x800571B8	rom-string	the string "PRC_EVENT_DONE_SPINING 3" it holds
+PRC_EVENT_WHEEL_ALMOST_STOPPED	constant	wof.h	rom-string	"PRC_EVENT_WHEEL_ALMOST_STOPPED 4", entry 4 of procEventNames
+prcEventWheelAlmostStoppedName	global	0x800571D4	rom-string	the string "PRC_EVENT_WHEEL_ALMOST_STOPPED 4" it holds
+PRC_EVENT_DONE_SELECTING	constant	wof.h	rom-string	"PRC_EVENT_DONE_SELECTING 5", entry 5 of procEventNames
+prcEventDoneSelectingName	global	0x800571F8	rom-string	the string "PRC_EVENT_DONE_SELECTING 5" it holds
+PRC_EVENT_DONE_REVEALING	constant	wof.h	rom-string	"PRC_EVENT_DONE_REVEALING 6", entry 6 of procEventNames
+prcEventDoneRevealingName	global	0x80057214	rom-string	the string "PRC_EVENT_DONE_REVEALING 6" it holds
+PRC_EVENT_WHEEL_LONG_SPIN	constant	wof.h	rom-string	"PRC_EVENT_WHEEL_LONG_SPIN 7", entry 7 of procEventNames
+prcEventWheelLongSpinName	global	0x80057230	rom-string	the string "PRC_EVENT_WHEEL_LONG_SPIN 7" it holds
+PRC_EVENT_INIT	constant	wof.h	rom-string	"PRC_EVENT_INIT 8", entry 8 of procEventNames
+prcEventInitName	global	0x8005724C	rom-string	the string "PRC_EVENT_INIT 8" it holds
+PRC_EVENT_DONE_VOWEL	constant	wof.h	rom-string	"PRC_EVENT_DONE_VOWEL 9", entry 9 of procEventNames
+prcEventDoneVowelName	global	0x80057260	rom-string	the string "PRC_EVENT_DONE_VOWEL 9" it holds
+PRC_EVENT_DONE_SOLVE	constant	wof.h	rom-string	"PRC_EVENT_DONE_SOLVE 10", entry 10 of procEventNames
+prcEventDoneSolveName	global	0x80057278	rom-string	the string "PRC_EVENT_DONE_SOLVE 10" it holds
+PRC_EVENT_STATUS_WAKEUP	constant	wof.h	rom-string	"PRC_EVENT_STATUS_WAKEUP 11", entry 11 of procEventNames
+prcEventStatusWakeupName	global	0x80057290	rom-string	the string "PRC_EVENT_STATUS_WAKEUP 11" it holds
+PRC_EVENT_SPIN_SELECTED	constant	wof.h	rom-string	"PRC_EVENT_SPIN_SELECTED 12", entry 12 of procEventNames
+prcEventSpinSelectedName	global	0x800572AC	rom-string	the string "PRC_EVENT_SPIN_SELECTED 12" it holds
+PRC_EVENT_SVOWEL_SELECTED	constant	wof.h	rom-string	"PRC_EVENT_SVOWEL_SELECTED 13", entry 13 of procEventNames
+prcEventSvowelSelectedName	global	0x800572C8	rom-string	the string "PRC_EVENT_SVOWEL_SELECTED 13" it holds
+PRC_EVENT_SOLVE_SELECTED	constant	wof.h	rom-string	"PRC_EVENT_SOLVE_SELECTED 14", entry 14 of procEventNames
+prcEventSolveSelectedName	global	0x800572E8	rom-string	the string "PRC_EVENT_SOLVE_SELECTED 14" it holds
+PRC_EVENT_NEXT_ROUND	constant	wof.h	rom-string	"PRC_EVENT_NEXT_ROUND 15", entry 15 of procEventNames
+prcEventNextRoundName	global	0x80057304	rom-string	the string "PRC_EVENT_NEXT_ROUND 15" it holds
+PRC_EVENT_VIDEO_DONE	constant	wof.h	rom-string	"PRC_EVENT_VIDEO_DONE 16", entry 16 of procEventNames
+prcEventVideoDoneName	global	0x8005731C	rom-string	the string "PRC_EVENT_VIDEO_DONE 16" it holds
+PRC_EVENT_CURSOR_RIGHT	constant	wof.h	rom-string	"PRC_EVENT_CURSOR_RIGHT 17", entry 17 of procEventNames
+prcEventCursorRightName	global	0x80057334	rom-string	the string "PRC_EVENT_CURSOR_RIGHT 17" it holds
+PRC_EVENT_CURSOR_LEFT	constant	wof.h	rom-string	"PRC_EVENT_CURSOR_LEFT 18", entry 18 of procEventNames
+prcEventCursorLeftName	global	0x80057350	rom-string	the string "PRC_EVENT_CURSOR_LEFT 18" it holds
+PRC_EVENT_HIGHLIGHT_ALL	constant	wof.h	rom-string	"PRC_EVENT_HIGHLIGHT_ALL 19", entry 19 of procEventNames
+prcEventHighlightAllName	global	0x8005736C	rom-string	the string "PRC_EVENT_HIGHLIGHT_ALL 19" it holds
+PRC_EVENT_CLEAR_GUESSED	constant	wof.h	rom-string	"PRC_EVENT_CLEAR_GUESSED 20", entry 20 of procEventNames
+prcEventClearGuessedName	global	0x80057388	rom-string	the string "PRC_EVENT_CLEAR_GUESSED 20" it holds
+PRC_EVENT_ROUND_OVER	constant	wof.h	rom-string	"PRC_EVENT_ROUND_OVER 21", entry 21 of procEventNames
+prcEventRoundOverName	global	0x800573A4	rom-string	the string "PRC_EVENT_ROUND_OVER 21" it holds
+PRC_SELECTION_CHANGED	constant	wof.h	rom-string	"PRC_SELECTION_CHANGED 22", entry 22 of procEventNames
+prcSelectionChangedName	global	0x800573BC	rom-string	the string "PRC_SELECTION_CHANGED 22" it holds
+PRC_EVENT_COMPUTER_SELECTED	constant	wof.h	rom-string	"PRC_EVENT_COMPUTER_SELECTED 23", entry 23 of procEventNames
+prcEventComputerSelectedName	global	0x800573D8	rom-string	the string "PRC_EVENT_COMPUTER_SELECTED 23" it holds
+PRC_EVENT_COMPUTER_DONE	constant	wof.h	rom-string	"PRC_EVENT_COMPUTER_DONE 24", entry 24 of procEventNames
+prcEventComputerDoneName	global	0x800573F8	rom-string	the string "PRC_EVENT_COMPUTER_DONE 24" it holds
+PRC_EVENT_SOLVE_NEXT	constant	wof.h	rom-string	"PRC_EVENT_SOLVE_NEXT 25", entry 25 of procEventNames
+prcEventSolveNextName	global	0x80057414	rom-string	the string "PRC_EVENT_SOLVE_NEXT 25" it holds
+PRC_EVENT_SOLVE_CHANGED	constant	wof.h	rom-string	"PRC_EVENT_SOLVE_CHANGED 26", entry 26 of procEventNames
+prcEventSolveChangedName	global	0x8005742C	rom-string	the string "PRC_EVENT_SOLVE_CHANGED 26" it holds
+PRC_EVENT_COMPUTER_CHANGED	constant	wof.h	rom-string	"PRC_EVENT_COMPUTER_CHANGED 27", entry 27 of procEventNames
+prcEventComputerChangedName	global	0x80057448	rom-string	the string "PRC_EVENT_COMPUTER_CHANGED 27" it holds
+PRC_EVENT_COMPUTER_SELECT	constant	wof.h	rom-string	"PRC_EVENT_COMPUTER_SELECT 28", entry 28 of procEventNames
+prcEventComputerSelectName	global	0x80057468	rom-string	the string "PRC_EVENT_COMPUTER_SELECT 28" it holds
+PRC_EVENT_PLAYER_SPUN	constant	wof.h	rom-string	"PRC_EVENT_PLAYER_SPUN 29", entry 29 of procEventNames
+prcEventPlayerSpunName	global	0x80057488	rom-string	the string "PRC_EVENT_PLAYER_SPUN 29" it holds
+PRC_EVENT_GAME_TIMEOUT	constant	wof.h	rom-string	"PRC_EVENT_GAME_TIMEOUT 30", entry 30 of procEventNames
+prcEventGameTimeoutName	global	0x800574A4	rom-string	the string "PRC_EVENT_GAME_TIMEOUT 30" it holds
+PRC_EVENT_DONE_SPEEDUP	constant	wof.h	rom-string	"PRC_EVENT_DONE_SPEEDUP 31", entry 31 of procEventNames
+prcEventDoneSpeedupName	global	0x800574C0	rom-string	the string "PRC_EVENT_DONE_SPEEDUP 31" it holds
+PRC_EVENT_DONE_FINAL_SPIN	constant	wof.h	rom-string	"PRC_EVENT_DONE_FINAL_SPIN 32", entry 32 of procEventNames
+prcEventDoneFinalSpinName	global	0x800574DC	rom-string	the string "PRC_EVENT_DONE_FINAL_SPIN 32" it holds
+PRC_EVENT_SOLVE_TIMEOUT	constant	wof.h	rom-string	"PRC_EVENT_SOLVE_TIMEOUT 33", entry 33 of procEventNames
+prcEventSolveTimeoutName	global	0x800574FC	rom-string	the string "PRC_EVENT_SOLVE_TIMEOUT 33" it holds
+PRC_EVENT_DEMO_TIMEOUT	constant	wof.h	rom-string	"PRC_EVENT_DEMO_TIMEOUT 34", entry 34 of procEventNames
+prcEventDemoTimeoutName	global	0x80057518	rom-string	the string "PRC_EVENT_DEMO_TIMEOUT 34" it holds
+PRC_EVENT_DEMO_RESET	constant	wof.h	rom-string	"PRC_EVENT_DEMO_RESET 35", entry 35 of procEventNames
+prcEventDemoResetName	global	0x80057534	rom-string	the string "PRC_EVENT_DEMO_RESET 35" it holds
+PRC_EVENT_START_PRESSED	constant	wof.h	rom-string	"PRC_EVENT_START_PRESSED 36", entry 36 of procEventNames
+prcEventStartPressedName	global	0x8005754C	rom-string	the string "PRC_EVENT_START_PRESSED 36" it holds
+PRC_EVENT_USE_FREE_SPIN	constant	wof.h	rom-string	"PRC_EVENT_USE_FREE_SPIN 37", entry 37 of procEventNames
+prcEventUseFreeSpinName	global	0x80057568	rom-string	the string "PRC_EVENT_USE_FREE_SPIN 37" it holds
+PRC_EVENT_FREE_SPIN_USED	constant	wof.h	rom-string	"PRC_EVENT_FREE_SPIN_USED 38", entry 38 of procEventNames
+prcEventFreeSpinUsedName	global	0x80057584	rom-string	the string "PRC_EVENT_FREE_SPIN_USED 38" it holds
+PRC_EVENT_START_ROUND	constant	wof.h	rom-string	"PRC_EVENT_START_ROUND 39", entry 39 of procEventNames
+prcEventStartRoundName	global	0x800575A0	rom-string	the string "PRC_EVENT_START_ROUND 39" it holds
+PRC_EVENT_START_FIRST_ROUND	constant	wof.h	rom-string	"PRC_EVENT_START_FIRST_ROUND 40", entry 40 of procEventNames
+prcEventStartFirstRoundName	global	0x800575BC	rom-string	the string "PRC_EVENT_START_FIRST_ROUND 40" it holds
+PRC_EVENT_NEXT_SOUND	constant	wof.h	rom-string	"PRC_EVENT_NEXT_SOUND 41", entry 41 of procEventNames
+prcEventNextSoundName	global	0x800575DC	rom-string	the string "PRC_EVENT_NEXT_SOUND 41" it holds
+PRC_EVENT_BONUS_ROUND	constant	wof.h	rom-string	"PRC_EVENT_BONUS_ROUND 42", entry 42 of procEventNames
+prcEventBonusRoundName	global	0x800575F4	rom-string	the string "PRC_EVENT_BONUS_ROUND 42" it holds
+PRC_EVENT_RESET_START_TIME	constant	wof.h	rom-string	"PRC_EVENT_RESET_START_TIME 43", entry 43 of procEventNames
+prcEventResetStartTimeName	global	0x80057610	rom-string	the string "PRC_EVENT_RESET_START_TIME 43" it holds
+PRC_EVENT_DONE_SAYING	constant	wof.h	rom-string	"PRC_EVENT_DONE_SAYING 44", entry 44 of procEventNames
+prcEventDoneSayingName	global	0x80057630	rom-string	the string "PRC_EVENT_DONE_SAYING 44" it holds
+PRC_EVENT_DONE_CAMPATH	constant	wof.h	rom-string	"PRC_EVENT_DONE_CAMPATH 45", entry 45 of procEventNames
+prcEventDoneCampathName	global	0x8005764C	rom-string	the string "PRC_EVENT_DONE_CAMPATH 45" it holds
+PRC_EVENT_GAME_OVER	constant	wof.h	rom-string	"PRC_EVENT_GAME_OVER 46", entry 46 of procEventNames
+prcEventGameOverName	global	0x80057668	rom-string	the string "PRC_EVENT_GAME_OVER 46" it holds
+PRC_EVENT_STOP_FLASHING_PUZZLE	constant	wof.h	rom-string	"PRC_EVENT_STOP_FLASHING_PUZZLE 47", entry 47 of procEventNames
+prcEventStopFlashingPuzzleName	global	0x80057680	rom-string	the string "PRC_EVENT_STOP_FLASHING_PUZZLE 47" it holds
+PRC_EVENT_FREE_TIMEOUT	constant	wof.h	rom-string	"PRC_EVENT_FREE_TIMEOUT 48", entry 48 of procEventNames
+prcEventFreeTimeoutName	global	0x800576A4	rom-string	the string "PRC_EVENT_FREE_TIMEOUT 48" it holds
+PRC_EVENT_VANNA_STOPPED	constant	wof.h	rom-string	"PRC_EVENT_VANNA_STOPPED 49", entry 49 of procEventNames
+prcEventVannaStoppedName	global	0x800576C0	rom-string	the string "PRC_EVENT_VANNA_STOPPED 49" it holds
+PRC_EVENT_UP_EXCITEMENT	constant	wof.h	rom-string	"PRC_EVENT_UP_EXCITEMENT 50", entry 50 of procEventNames
+prcEventUpExcitementName	global	0x800576DC	rom-string	the string "PRC_EVENT_UP_EXCITEMENT 50" it holds
+PRC_EVENT_NOT_ENOUGH	constant	wof.h	rom-string	"PRC_EVENT_NOT_ENOUGH 51", entry 51 of procEventNames
+prcEventNotEnoughName	global	0x800576F8	rom-string	the string "PRC_EVENT_NOT_ENOUGH 51" it holds
+PRC_EVENT_NOT_ENOUGH2	constant	wof.h	rom-string	"PRC_EVENT_NOT_ENOUGH2 52", entry 52 of procEventNames
+prcEventNotEnough2Name	global	0x80057710	rom-string	the string "PRC_EVENT_NOT_ENOUGH2 52" it holds
+wof_str	unit	0x80009748	invented	strings and numbers: copying, appending, finding and measuring strings, numbers as strings, random numbers, printing and the fatal error (StrNCopy to PrintStr)
+wof_proc	unit	0x80009FD8	invented	the procs: the list, making, killing and running them, their events and messages, and finding and killing them by class (InitProcs to KillProcClass)
+wof_pause	unit	0x800335D0	invented	pausing: the pause picture, the pause proc and starting it (PauseGame to StartPauseProc)
+unused00080	member	frame_t	invented	no code reads or writes it
+unused04C40	member	frame_t	invented	no code reads or writes it
+unused3C	member	proc_t	invented	no code reads or writes it
+unused1C	member	obj_t	invented	no code reads or writes it
+unused34	member	obj_t	invented	no code reads or writes it
+unused40	member	obj_t	invented	no code reads or writes it
+unused00	member	mainMenu_t	invented	no code reads or writes it
+unused08	member	opening_t	invented	no code reads or writes it
+unused04	member	openingWedge_t	invented	no code reads or writes it
+unused04	member	titleLetterProc_t	invented	no code reads or writes it
+unused00	member	wheelPull_t	invented	no code reads or writes it
+unused08	member	wheelSpin_t	invented	no code reads or writes it
+unused04	member	boardLights_t	invented	no code reads or writes it
+unused04	member	wheelLights_t	invented	no code reads or writes it
+unused04	member	baseLights_t	invented	no code reads or writes it
+unused00	member	lightLetter_t	invented	no code reads or writes it
+unused00	member	lightText_t	invented	no code reads or writes it
+unused0C	member	lightText_t	invented	no code reads or writes it
+unused04	member	cameraPath_t	invented	no code reads or writes it
+unused00	member	adjustCamera_t	invented	no code reads or writes it
+unused00	member	playerProc_t	invented	no code reads or writes it
+unused08	member	playerProc_t	invented	no code reads or writes it
+unused04	member	clipPlay_t	invented	no code reads or writes it
+unused14	member	clipPlay_t	invented	no code reads or writes it
+unused00	member	jackpotRoll_t	invented	no code reads or writes it
+unused00	member	credits_t	invented	no code reads or writes it
+unused00	member	timer_t	invented	no code reads or writes it
+unused00	member	confettiBurst_t	invented	no code reads or writes it
+unused00	member	applauseProc_t	invented	no code reads or writes it
+unused00	member	cursor_t	invented	no code reads or writes it
+unused08	member	cursor_t	invented	no code reads or writes it
+unused04	member	moviePlay_t	invented	no code reads or writes it
+unused0C	member	anim_t	invented	no code reads or writes it
+unused14	member	anim_t	invented	no code reads or writes it
+unused20	member	anim_t	invented	no code reads or writes it
+unused0C	member	confetti_t	invented	no code reads or writes it
+unused00	member	FILE	invented	no code reads or writes it

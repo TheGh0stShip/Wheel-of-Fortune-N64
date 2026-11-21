@@ -1,0 +1,74 @@
+# config/data.tsv -- the image's bytes that are neither compiled code nor yet data from source, range by range.
+# ./wof datamap checks it against the last gate and counts it; the header of tools/datamap.c defines the columns:
+# start, end (exclusive), kind (ident fill rodata data ucode), owner (a unit; new:NAME, an object no unit holds
+# yet; sdk:NAME, an SDK object linked whole; '-' for fill between objects; ?A..B or "?A B", one of those units),
+# type (as datagen takes it; "strings" for a run of char arrays defined one by one; bin for bytes no C file
+# holds; '-' for RCS runs and fill; '?' where the evidence gives none), evidence.
+# The game's creative content (puzzles, credits, clip masks) is not mapped here: its units define it, the build takes
+# its initialisers from the cartridge, and config/assets.tsv lists those ranges, which datamap counts as asset bytes.
+0x800007D2	0x800007D8	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x800007EA	0x800007F0	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x800009EE	0x800009F0	fill	-	-	zeros to an 8-byte boundary: fill between objects (the text gap after KillProcClass lies between the users of the data on either side)
+0x80000A9A	0x80000AA0	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x80000ABD	0x80000AC0	fill	-	-	zeros to an 8-byte boundary: fill between objects (the RCS run that opens wof_opening's object follows)
+0x80000AFC	0x80000B00	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x80000E24	0x80000E28	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x800014B4	0x800014B8	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x8000155C	0x80001560	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x800018F4	0x800018F8	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x8000195B	0x80001960	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x80001A2F	0x80001A30	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x80001A42	0x80001A48	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x80001A5A	0x80001A60	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x800032A4	0x800032A8	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x800060AC	0x800060B0	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x80006324	0x80006328	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x80006B24	0x80006B28	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x80009744	0x80009748	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x80009FD4	0x80009FD8	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x8000AEFC	0x8000AF00	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x8000BAA4	0x8000BAA8	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x80016634	0x80016638	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x80017544	0x80017548	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x80021E84	0x80021E88	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x80027214	0x80027218	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x8002FEAC	0x8002FEB0	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x80033A24	0x80033A28	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x800349B4	0x800349B8	fill	-	-	zeros to an 8-byte boundary: fill between objects
+0x80038714	0x80038718	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x80038744	0x80038748	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x8004B834	0x8004B838	fill	-	-	zeros to an 8-byte boundary after createGfxTask's datum: fill between objects (parse_args' data follows)
+0x8005716C	0x80057170	fill	-	-	stale bytes (c8870001) to an 8-byte boundary: the puzzle object's data ends here
+0x80057804	0x80057808	fill	-	-	stale fill to an 8-byte boundary: fill between objects
+0x80057F4C	0x80057F50	fill	-	-	stale bytes (6a596a59) to an 8-byte boundary: wof_stage's data ends; views starts an object at 0x80057F50
+0x80058226	0x80058228	fill	-	-	stale bytes (00 01) to an 8-byte boundary after vowelOrder: fill between objects (movies starts the next)
+0x8005A4B6	0x8005A4B8	fill	-	-	stale bytes (83 8f) to an 8-byte boundary after wof_menu's last datum: fill between objects
+0x8005C39B	0x8005C3A0	fill	-	-	stale bytes (S 00 S 19 1f) to an 8-byte boundary after givenLetters: the status object's data ends
+0x8005EB44	0x8005EB48	fill	-	-	stale bytes ("rJan") to an 8-byte boundary: fill between camera-path objects
+0x800650AC	0x800650B0	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
+0x80067294	0x80067298	fill	-	-	stale bytes (00000100) to an 8-byte boundary: fill between camera-path objects
+0x80067F64	0x80067F68	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
+0x80068C34	0x80068C38	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
+0x80069904	0x80069908	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
+0x8006C35C	0x8006C360	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
+0x8006DCD4	0x8006DCD8	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x80082BC4	0x80082BC8	fill	-	-	stale bytes (323b092e) to an 8-byte boundary: data_8006DCD8's object ends; the microcode data follows
+0x80086D14	0x80086D18	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x80086D5C	0x80086D60	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x800879F3	0x800879F8	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x80087EFF	0x80087F00	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x80087F8D	0x80087F90	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x8008800B	0x80088010	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x8008809D	0x800880A0	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x80088167	0x80088168	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x80088404	0x80088408	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x80088483	0x80088488	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x800887D4	0x800887D8	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x8008948C	0x80089490	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x800964CC	0x800964D0	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x8009C5FC	0x8009C600	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x8009CEBC	0x8009CEC0	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x8009D3D4	0x8009D3D8	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x800A19D4	0x800A19D8	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x800A2B3C	0x800A2B40	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
+0x800A5074	0x800A5078	fill	-	-	stale bytes to an 8-byte boundary: fill between objects

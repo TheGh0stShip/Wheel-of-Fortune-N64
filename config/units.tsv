@@ -1,0 +1,311 @@
+# config/units.tsv -- unit, address, size, state (match: in the gate; open: parked), flag class, source,
+# optional entry symbol. A game unit is one original object, or the reading of one that the evidence and
+# the project's rulings give.
+#
+# Above each game unit: "# premise:" names the joins inside it that rest on the RCS premise alone (every
+# object from 0x8000BAA8 on opens its read-only data with an RCS run, which the project accepts: in every
+# assignment of the RCS starts that meets it, no run lies where an object starting there would need one);
+# "# guess:" the joins and the boundary before it that rest on the user's ruling (AGENTS.md, R15): where
+# no evidence settles a position it is a join, the likelier reading, and where one of several read-only
+# object starts must fall, the boundary goes at the candidate the remaining evidence favours (said on the
+# line), the earliest if none; "# lineage:" a boundary that rests on the published source a unit descends
+# from; "# open inside:" a position a unit holds on that lineage. ./wof unitmap reports evidence only and
+# still lists every "# guess:" and lineage position as unknown. Every such position was tested with all
+# of: the text padding (a 4-byte gap ends an object, a function ending off an 8-byte boundary with the
+# next right after joins one); the read-only data (object starts at RCS runs and alignment zeros,
+# bracketed and put in order; contiguous items; items in text order; one string literal used on both
+# sides; one string at two addresses); the objects' static .bss (shared statics and their order); .data
+# and .bss interleaving between two functions' private data; the order of the units' .data against their
+# users; stale fill that ends an object's .data; the RCS premise; and the call graph (helpers called from
+# one place, proc handlers named by their creator, function addresses in data), which fails at certain
+# positions and so decides nothing alone. The order of the common .bss (uninitialised globals) was
+# compared with the order of their first users and does not follow it.
+func_80000400	0x80000400	0x40	match	asm	asm/func_80000400.s
+wof_audio	0x80002348	0xF5C	match	game	src/main/wof_audio.c
+# open inside: after amCreateAudioMgr: nothing in the image decides it; the unit holds it as the audiomgr.c of the SDK demos, one file
+wof_audiomgr	0x800032A8	0xEB8	match	game	src/main/wof_audiomgr.c
+# lineage: boundary after __clearAudioDMA: nothing in the image decides it; the SDK demos' audiomgr.c ends there
+# guess: joined after ReadControllers, StartMotor, StartRumble (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_controller	0x80004160	0x11A0	match	game	src/main/wof_controller.c
+# guess: boundary after ResetMotors (the user's ruling: the RCS run at 0x800004F0 opens an object after one of ReadControllers, StartMotor, StartRumble and ResetMotors; the call graph ties the rumble to the controllers (InitControllers starts RumbleThread, ReadControllers calls StartMotor and StopMotor))
+# guess: joined after InitGraphics, LoadSceneData, createGfxTask (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_graphics	0x80005300	0xDAC	match	game	src/main/wof_graphics.c
+parse_args	0x800060B0	0x274	match	game	src/main/parse_args.c
+# guess: joined after boot, mainproc, GameThread, ReadRom (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_main	0x80006328	0x7FC	match	game	src/main/wof_main.c
+# guess: joined after NewGame (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_puzzle	0x80006B28	0x2C1C	match	game	src/main/wof_puzzle.c
+# guess: joined after StrCat, StrCopy, StrLen, IntToStr, Random, Abs, PrintNum, FatalError (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_str	0x80009748	0x88C	match	game	src/main/wof_str.c
+# guess: joined after GetLastProc, AllocBlock, DoProcs, ProcPostMessage, KillOtherProcs (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_proc	0x80009FD8	0xF24	match	game	src/main/wof_proc.c
+# guess: joined after GetLastObj, FindObj (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_obj	0x8000AF00	0x880	match	game	src/main/wof_obj.c
+# guess: boundary after FreeObjClass (the user's ruling: the zero word before 0x80000AA0 opens mem_stack's object after FindObj or FreeObjClass; FindNextObj and FreeObjClass work the obj list FindObj walks)
+# premise: joined after AllocMem
+wof_memstack	0x8000B780	0x324	match	game	src/main/wof_memstack.c
+# premise: joined after InitSiLock, LockSi, UnlockSi, BeginGame, OpeningProc
+wof_opening	0x8000BAA8	0x3098	match	game	src/main/wof_opening.c
+wof_demo	0x8000EB40	0x428	match	game	src/main/wof_demo.c
+wof_stage	0x8000EF68	0x76CC	match	game	src/main/wof_stage.c
+# premise: joined after IsBoardView
+wof_camera	0x80016638	0xF0C	match	game	src/main/wof_camera.c
+# premise: joined after LoseTurn, NextTurn, NextRound, FindWinner, WinnerProc, SpinProc, SolveProc
+# guess: joined after InitPlayers (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_turns	0x80017548	0x30E0	match	game	src/main/wof_turns.c
+# guess: boundary after InitCpuLetters (the user's ruling: the RCS run at 0x800011B0 opens an object after one of InitPlayers, InitCpuLetters and PickMissLetter; InitCpuLetters is called by this object's functions (and StartBonusRound) and its vowelOrder runs on from this object's data without a gap)
+# premise: joined after CpuChooseAction, CpuSolveProc, CpuTurnProc
+# guess: joined after PickMissLetter (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_cpu	0x8001A628	0x2E18	match	game	src/main/wof_cpu.c
+# guess: boundary after AddCpu (the user's ruling: the RCS run at 0x800014B8 opens an object after one of AddCpu, DrawMovie64, DrawMovie96, StoreFrame96 and DrawMovie112; DrawMovie picks DrawMovie64, DrawMovie96 and DrawMovie112 by the movie's size)
+# premise: joined after MakeMovieObj, UpdateClip, ClipProc, LoadMovie, PlayClip
+# guess: joined after DrawMovie64, DrawMovie96, StoreFrame96, DrawMovie112 (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_movie	0x8001D440	0x4A44	match	game	src/main/wof_movie.c
+# premise: joined after StartContestantMenu
+wof_menu	0x80021E88	0x538C	match	game	src/main/wof_menu.c
+# premise: joined after DrawImageAt, DrawImage, StatusProc, InitLetterCursor, LetterPickProc, GetCursorProc
+# guess: joined after SolvePuzzleProc, StartLetterPick, StartSolvePuzzle, StartStatus, StatusStub (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_status	0x80027218	0x7DA8	match	game	src/main/wof_status.c
+# guess: boundary after StartBonusRound (the user's ruling: the RCS run at 0x800018F8 opens an object after one of SolvePuzzleProc to StartBonusRound; the functions before it start the status object's procs (LetterPickProc, SolvePuzzleProc, StatusProc, BonusRoundProc))
+# premise: joined after FinalSpinProc, SolveTimerProc, FreeSpinTimerProc, StopFreeSpinTimer, StartRoundTimer
+wof_timers	0x8002EFC0	0xEEC	match	game	src/main/wof_timers.c
+# premise: joined after DrawContestant, DrawVanna
+wof_anim	0x8002FEB0	0x3720	match	game	src/main/wof_anim.c
+# guess: boundary after HideOtherContestants (the user's ruling: the RCS runs at 0x80001A30 and 0x80001A48 open objects at two of the positions after HideOtherContestants, PauseGame, PauseProc and StartPauseProc (a text gap, which takes the second); PauseGame, PauseProc and StartPauseProc are the pause (StartPauseProc starts PauseProc))
+# guess: joined after PauseGame, PauseProc (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_pause	0x800335D0	0x454	match	game	src/main/wof_pause.c
+wof_applause	0x80033A28	0x2D0	match	game	src/main/wof_applause.c
+# guess: boundary after StartApplause (the user's ruling: the RCS run at 0x80001A60 opens AddConfetti's object after one of StartApplause, DrawConfetti and ConfettiProc; AddConfetti makes its piece with ConfettiProc and DrawConfetti)
+# premise: joined after AddConfetti, ConfettiBurstProc
+# guess: joined after DrawConfetti, ConfettiProc (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_confetti	0x80033CF8	0xCBC	match	game	src/main/wof_confetti.c
+rspboot	0x800349B8	0xD0	match	sdk_ucode	asm/sdk/rspboot.s
+ucode_80034A88	0x80034A88	0x1400	match	sdk_ucode	asm/sdk/ucode_80034A88.s
+ucode_80035E88	0x80035E88	0x1410	match	sdk_ucode	asm/sdk/ucode_80035E88.s
+aspMain	0x80037298	0xE20	match	sdk_ucode	asm/sdk/aspMain.s
+_udivdi3	0x800380B8	0x20	match	libgcc_udivdi3	lib/libgcc/libgcc2.c	__udivdi3
+_udivmoddi4	0x800380D8	0x63C	match	libgcc_udivmoddi4	lib/libgcc/libgcc2.c	__udivmoddi4
+_umoddi3	0x80038718	0x2C	match	libgcc_umoddi3	lib/libgcc/libgcc2.c	__umoddi3
+aigetlen	0x80038748	0x10	match	ultra_O1	lib/ultralib/src/io/aigetlen.c
+aisetfreq	0x80038758	0x160	match	ultra_O1	lib/ultralib/src/io/aisetfreq.c
+aisetnextbuf	0x800388B8	0xB0	match	ultra_O1	lib/ultralib/src/io/aisetnextbuf.c
+ai	0x80038968	0x30	match	ultra_O1	lib/ultralib/src/io/ai.c
+pimgr	0x80038998	0x190	match	ultra_O1	lib/ultralib/src/io/pimgr.c
+piacs	0x80038B28	0xC0	match	ultra_O1	lib/ultralib/src/io/piacs.c
+epirawdma	0x80038BE8	0x230	match	ultra_O1	lib/ultralib/src/io/epirawdma.c
+cartrominit	0x80038E18	0xF0	match	ultra_O1	lib/ultralib/src/io/cartrominit.c
+bzero	0x80038F08	0xA0	match	ultra_asm_O2	lib/ultralib/src/libc/bzero.s
+leodiskinit	0x80038FA8	0x100	match	ultra_O1	lib/ultralib/src/io/leodiskinit.c
+devmgr	0x800390A8	0x490	match	ultra_O1	lib/ultralib/src/io/devmgr.c
+epirawread	0x80039538	0x50	match	ultra_O1	lib/ultralib/src/io/epirawread.c
+epirawwrite	0x80039588	0x50	match	ultra_O1	lib/ultralib/src/io/epirawwrite.c
+pirawdma	0x800395D8	0xE0	match	ultra_O1	lib/ultralib/src/io/pirawdma.c
+sndpsetpitch	0x800396B8	0x60	match	ultra_O3	lib/ultralib/src/audio/sndpsetpitch.c
+sndpsetvol	0x80039718	0x60	match	ultra_O3	lib/ultralib/src/audio/sndpsetvol.c
+sndpsetpan	0x80039778	0x60	match	ultra_O3	lib/ultralib/src/audio/sndpsetpan.c
+sndpsetfxmix	0x800397D8	0x60	match	ultra_O3	lib/ultralib/src/audio/sndpsetfxmix.c
+synthesizer	0x80039838	0x6E0	match	ultra_O3	lib/ultralib/src/audio/synthesizer.c
+motor	0x80039F18	0x620	match	ultra_O1	lib/ultralib/src/io/motor.c
+sl	0x8003A538	0xC0	match	ultra_O3	lib/ultralib/src/audio/sl.c
+heapinit	0x8003A5F8	0x40	match	ultra_O3	lib/ultralib/src/audio/heapinit.c
+heapalloc	0x8003A638	0x60	match	ultra_O3	lib/ultralib/src/audio/heapalloc.c
+load	0x8003A698	0xB50	match	ultra_O3	lib/ultralib/src/audio/load.c
+copy	0x8003B1E8	0x80	match	ultra_O3	lib/ultralib/src/audio/copy.c
+auxbus	0x8003B268	0x110	match	ultra_O3	lib/ultralib/src/audio/auxbus.c
+cspplay	0x8003B378	0x30	match	ultra_O3	lib/ultralib/src/audio/cspplay.c
+cspsetbank	0x8003B3A8	0x40	match	ultra_O3	lib/ultralib/src/audio/cspsetbank.c
+cseq	0x8003B3E8	0xAC0	match	ultra_O3	lib/ultralib/src/audio/cseq.c
+rotaterpy	0x8003BEA8	0x1A0	match	ultra_O3	lib/ultralib/src/gu/rotaterpy.c
+scale	0x8003C048	0xA0	match	ultra_O3	lib/ultralib/src/gu/scale.c
+sinf	0x8003C0E8	0x1C0	match	ultra_O3	lib/ultralib/src/gu/sinf.c
+translate	0x8003C2A8	0xA0	match	ultra_O3	lib/ultralib/src/gu/translate.c
+yieldthread	0x8003C348	0x50	match	ultra_O1	lib/ultralib/src/os/yieldthread.c
+drvrnew	0x8003C398	0x7A0	match	ultra_O3	lib/ultralib/src/audio/drvrnew.c
+setthreadpri	0x8003CB38	0xE0	match	ultra_O1	lib/ultralib/src/os/setthreadpri.c
+invaldcache	0x8003CC18	0xB0	match	ultra_asm	lib/ultralib/src/os/invaldcache.s
+invalicache	0x8003CCC8	0x80	match	ultra_asm	lib/ultralib/src/os/invalicache.s
+interrupt	0x8003CD48	0x40	match	ultra_asm	lib/ultralib/src/os/interrupt.s
+parameters	0x8003CD88	0x60	match	ultra_asm	lib/ultralib/src/os/parameters.s
+sndpstop	0x8003CDE8	0x50	match	ultra_O3	lib/ultralib/src/audio/sndpstop.c
+sndpgetstate	0x8003CE38	0x20	match	ultra_O3	lib/ultralib/src/audio/sndpgetstate.c
+random	0x8003CE58	0x30	match	ultra_O3	lib/ultralib/src/gu/random.c
+exceptasm	0x8003CE88	0x910	match	ultra_exceptasm	lib/ultralib/src/os/exceptasm.s
+leointerrupt	0x8003D798	0x880	match	ultra_O1	lib/ultralib/src/io/leointerrupt.c
+perspective	0x8003E018	0x290	match	ultra_O3	lib/ultralib/src/gu/perspective.c
+pigetstat	0x8003E2A8	0x10	match	ultra_O1	lib/ultralib/src/io/pigetstat.c
+pirawread	0x8003E2B8	0x60	match	ultra_O1	lib/ultralib/src/io/pirawread.c
+recvmesg	0x8003E318	0x140	match	ultra_O1	lib/ultralib/src/os/recvmesg.c
+resetglobalintmask	0x8003E458	0x60	match	ultra_O1	lib/ultralib/src/os/resetglobalintmask.c
+sendmesg	0x8003E4B8	0x150	match	ultra_O1	lib/ultralib/src/os/sendmesg.c
+seteventmesg	0x8003E608	0x70	match	ultra_O1	lib/ultralib/src/os/seteventmesg.c
+setglobalintmask	0x8003E678	0x50	match	ultra_O1	lib/ultralib/src/os/setglobalintmask.c
+createthread	0x8003E6C8	0x150	match	ultra_O1	lib/ultralib/src/os/createthread.c
+destroythread	0x8003E818	0x100	match	ultra_O1	lib/ultralib/src/os/destroythread.c
+bnkf	0x8003E918	0x250	match	ultra_O3	lib/ultralib/src/audio/bnkf.c
+env	0x8003EB68	0xC60	match	ultra_O3	lib/ultralib/src/audio/env.c
+event	0x8003F7C8	0x340	match	ultra_O3	lib/ultralib/src/audio/event.c
+filter	0x8003FB08	0x20	match	ultra_O3	lib/ultralib/src/audio/filter.c
+mainbus	0x8003FB28	0x150	match	ultra_O3	lib/ultralib/src/audio/mainbus.c
+resample	0x8003FC78	0x300	match	ultra_O3	lib/ultralib/src/audio/resample.c
+virtualtophysical	0x8003FF78	0x80	match	ultra_O1	lib/ultralib/src/os/virtualtophysical.c
+reverb	0x8003FFF8	0xC50	match	ultra_O3	lib/ultralib/src/audio/reverb.c
+save	0x80040C48	0xC0	match	ultra_O3	lib/ultralib/src/audio/save.c
+mtxutil	0x80040D08	0x270	match	ultra_O3	lib/ultralib/src/gu/mtxutil.c
+mtxcatf	0x80040F78	0x210	match	ultra_O3	lib/ultralib/src/gu/mtxcatf.c
+cspsetseq	0x80041188	0x40	match	ultra_O3	lib/ultralib/src/audio/cspsetseq.c
+cspstop	0x800411C8	0x30	match	ultra_O3	lib/ultralib/src/audio/cspstop.c
+csplayer	0x800411F8	0x1230	match	ultra_O3	lib/ultralib/src/audio/csplayer.c
+seqplayer	0x80042428	0x1940	match	ultra_O3	lib/ultralib/src/audio/seqplayer.c
+seq	0x80043D68	0x620	match	ultra_O3	lib/ultralib/src/audio/seq.c
+synfreevoice	0x80044388	0xB0	match	ultra_O3	lib/ultralib/src/audio/synfreevoice.c
+synallocvoice	0x80044438	0x230	match	ultra_O3	lib/ultralib/src/audio/synallocvoice.c
+synstopvoice	0x80044668	0x80	match	ultra_O3	lib/ultralib/src/audio/synstopvoice.c
+synstartvoiceparam	0x800446E8	0xF0	match	ultra_O3	lib/ultralib/src/audio/synstartvoiceparam.c
+startthread	0x800447D8	0x150	match	ultra_O1	lib/ultralib/src/os/startthread.c
+thread	0x80044928	0x40	match	ultra_O1	lib/ultralib/src/os/thread.c
+getthreadpri	0x80044968	0x20	match	ultra_O1	lib/ultralib/src/os/getthreadpri.c
+gettime	0x80044988	0x90	match	ultra_O1	lib/ultralib/src/os/gettime.c
+getcount	0x80044A18	0x10	match	ultra_asm	lib/ultralib/src/os/getcount.s
+timerintr	0x80044A28	0x400	match	ultra_O1	lib/ultralib/src/os/timerintr.c
+setcompare	0x80044E28	0x10	match	ultra_asm	lib/ultralib/src/os/setcompare.s
+initialize	0x80044E38	0x290	match	ultra_O1	lib/ultralib/src/os/initialize.c
+setfpccsr	0x800450C8	0x10	match	ultra_asm	lib/ultralib/src/os/setfpccsr.s
+setsr	0x800450D8	0x10	match	ultra_asm	lib/ultralib/src/os/setsr.s
+ll	0x800450E8	0x2C0	match	ultra_ll	lib/ultralib/src/libc/ll.c
+getsr	0x800453A8	0x10	match	ultra_asm	lib/ultralib/src/os/getsr.s
+writebackdcache	0x800453B8	0x80	match	ultra_asm	lib/ultralib/src/os/writebackdcache.s
+maptlbrdb	0x80045438	0x60	match	ultra_asm	lib/ultralib/src/os/maptlbrdb.s
+createmesgqueue	0x80045498	0x30	match	ultra_O1	lib/ultralib/src/os/createmesgqueue.c
+probetlb	0x800454C8	0xC0	match	ultra_asm	lib/ultralib/src/os/probetlb.s
+setintmask	0x80045588	0xA0	match	ultra_asm	lib/ultralib/src/os/setintmask.s
+pidma	0x80045628	0x110	match	ultra_O1	lib/ultralib/src/io/pidma.c
+pigetcmdq	0x80045738	0x30	match	ultra_O1	lib/ultralib/src/io/pigetcmdq.c
+jammesg	0x80045768	0x150	match	ultra_O1	lib/ultralib/src/os/jammesg.c
+cents2ratio	0x800458B8	0x50	match	ultra_O3	lib/ultralib/src/audio/cents2ratio.c
+synsetpitch	0x80045908	0x90	match	ultra_O3	lib/ultralib/src/audio/synsetpitch.c
+synsetvol	0x80045998	0xA0	match	ultra_O3	lib/ultralib/src/audio/synsetvol.c
+synsetfxmix	0x80045A38	0xA0	match	ultra_O3	lib/ultralib/src/audio/synsetfxmix.c
+synsetpan	0x80045AD8	0x90	match	ultra_O3	lib/ultralib/src/audio/synsetpan.c
+synsetpriority	0x80045B68	0x10	match	ultra_O3	lib/ultralib/src/audio/synsetpriority.c
+synallocfx	0x80045B78	0xA0	match	ultra_O3	lib/ultralib/src/audio/synallocfx.c
+syndelete	0x80045C18	0x10	match	ultra_O3	lib/ultralib/src/audio/syndelete.c
+synaddplayer	0x80045C28	0x50	match	ultra_O3	lib/ultralib/src/audio/synaddplayer.c
+pfsisplug	0x80045C78	0x370	match	ultra_O1	lib/ultralib/src/io/pfsisplug.c
+contramread	0x80045FE8	0x390	match	ultra_O1	lib/ultralib/src/io/contramread.c
+pfsgetstatus	0x80046378	0x110	match	ultra_O1	lib/ultralib/src/io/pfsgetstatus.c
+contramwrite	0x80046488	0x380	match	ultra_O1	lib/ultralib/src/io/contramwrite.c
+pfsinit	0x80046808	0xC0	match	ultra_O1	lib/ultralib/src/io/pfsinit.c
+contpfs	0x800468C8	0xD60	match	ultra_O1	lib/ultralib/src/io/contpfs.c
+pfschecker	0x80047628	0xA60	match	ultra_O1	lib/ultralib/src/io/pfschecker.c
+sirawdma	0x80048088	0xB0	match	ultra_O1	lib/ultralib/src/io/sirawdma.c
+siacs	0x80048138	0xC0	match	ultra_O1	lib/ultralib/src/io/siacs.c
+contreaddata	0x800481F8	0x260	match	ultra_O1	lib/ultralib/src/io/contreaddata.c
+controller	0x80048458	0x3C0	match	ultra_O1	lib/ultralib/src/io/controller.c
+settimer	0x80048818	0xE0	match	ultra_O1	lib/ultralib/src/os/settimer.c
+crc	0x800488F8	0x180	match	ultra_O1	lib/ultralib/src/io/crc.c
+sched	0x80048A78	0x940	match	ultra_O3	lib/ultralib/src/sched/sched.c
+sptask	0x800493B8	0x2F0	match	ultra_O1	lib/ultralib/src/io/sptask.c
+bcopy	0x800496A8	0x310	match	ultra_asm_O2	lib/ultralib/src/libc/bcopy.s
+sprawdma	0x800499B8	0x90	match	ultra_O1	lib/ultralib/src/io/sprawdma.c
+sptaskyield	0x80049A48	0x20	match	ultra_O1	lib/ultralib/src/io/sptaskyield.c
+sptaskyielded	0x80049A68	0x80	match	ultra_O1	lib/ultralib/src/io/sptaskyielded.c
+vigetcurrframebuf	0x80049AE8	0x40	match	ultra_O1	lib/ultralib/src/io/vigetcurrframebuf.c
+vi	0x80049B28	0x140	match	ultra_O1	lib/ultralib/src/io/vi.c
+vigetnextframebuf	0x80049C68	0x40	match	ultra_O1	lib/ultralib/src/io/vigetnextframebuf.c
+spsetpc	0x80049CA8	0x40	match	ultra_O1	lib/ultralib/src/io/spsetpc.c
+dpsetnextbuf	0x80049CE8	0xB0	match	ultra_O1	lib/ultralib/src/io/dpsetnextbuf.c
+dp	0x80049D98	0x30	match	ultra_O1	lib/ultralib/src/io/dp.c
+sp	0x80049DC8	0x30	match	ultra_O1	lib/ultralib/src/io/sp.c
+spgetstat	0x80049DF8	0x10	match	ultra_O1	lib/ultralib/src/io/spgetstat.c
+spsetstat	0x80049E08	0x10	match	ultra_O1	lib/ultralib/src/io/spsetstat.c
+writebackdcacheall	0x80049E18	0x30	match	ultra_asm	lib/ultralib/src/os/writebackdcacheall.s
+viblack	0x80049E48	0x70	match	ultra_O1	lib/ultralib/src/io/viblack.c
+sndpallocate	0x80049EB8	0xA0	match	ultra_O3	lib/ultralib/src/audio/sndpallocate.c
+sndpdeallocate	0x80049F58	0x50	match	ultra_O3	lib/ultralib/src/audio/sndpdeallocate.c
+sndpsetsound	0x80049FA8	0x20	match	ultra_O3	lib/ultralib/src/audio/sndpsetsound.c
+sndpplay	0x80049FC8	0x70	match	ultra_O3	lib/ultralib/src/audio/sndpplay.c
+cosf	0x8004A038	0x170	match	ultra_O3	lib/ultralib/src/gu/cosf.c
+lookat	0x8004A1A8	0x330	match	ultra_O3	lib/ultralib/src/gu/lookat.c
+sqrtf	0x8004A4D8	0x10	match	ultra_asm	lib/ultralib/src/gu/sqrtf.s
+sndplayer	0x8004A4E8	0x710	match	ultra_O3	lib/ultralib/src/audio/sndplayer.c
+synstartvoice	0x8004ABF8	0x90	match	ultra_O3	lib/ultralib/src/audio/synstartvoice.c
+si	0x8004AC88	0x30	match	ultra_O1	lib/ultralib/src/io/si.c
+sirawread	0x8004ACB8	0x50	match	ultra_O1	lib/ultralib/src/io/sirawread.c
+sirawwrite	0x8004AD08	0x50	match	ultra_O1	lib/ultralib/src/io/sirawwrite.c
+vimgr	0x8004AD58	0x360	match	ultra_O1	lib/ultralib/src/io/vimgr.c
+visetevent	0x8004B0B8	0x70	match	ultra_O1	lib/ultralib/src/io/visetevent.c
+visetmode	0x8004B128	0x70	match	ultra_O1	lib/ultralib/src/io/visetmode.c
+visetspecial	0x8004B198	0x1C0	match	ultra_O1	lib/ultralib/src/io/visetspecial.c
+viswapbuf	0x8004B358	0x50	match	ultra_O1	lib/ultralib/src/io/viswapbuf.c
+viswapcontext	0x8004B3A8	0x360	match	ultra_O1	lib/ultralib/src/io/viswapcontext.c
+vigetcurrcontext	0x8004B708	0x10	match	ultra_O1	lib/ultralib/src/io/vigetcurrcontext.c
+libm_vals	0x800022A8	0x10	match	ultra_asm	lib/ultralib/src/gu/libm_vals.s
+vimodepallan1	0x800842D8	0x50	match	ultra_O1	lib/ultralib/src/vimodes/vimodepallan1.c
+vimodempallan1	0x80084328	0x50	match	ultra_O1	lib/ultralib/src/vimodes/vimodempallan1.c
+vimodentsclan1	0x80084378	0x50	match	ultra_O1	lib/ultralib/src/vimodes/vimodentsclan1.c
+vitbl	0x800843C8	0xD20	match	ultra_O1	lib/ultralib/src/io/vitbl.c
+kdebugserver	0x800B2420	0x1B0	match	ultra_O1	lib/ultralib/src/debug/kdebugserver.c
+# open inside: after correct_underflow: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after get_ext_data: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after next_start_code: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+mpeg_util	0x800887D8	0xCB4	match	game	src/mpeg/util.c
+# open inside: after ReadSysClock: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after NewVidStream: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after NewPictImage: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ParseSeqHead: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ParseGOP: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ParsePicture: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ParseSlice: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReconIMBlock: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ProcessSkippedPFrameMBlocks: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+mpeg_video	0x80089490	0xD03C	match	game	src/mpeg/video.c
+mpeg_parseblock	0x800964D0	0x3410	match	game	src/mpeg/parseblock.c
+# lineage: boundary after ParseAwayBlock: nothing in the image decides it; the mpeg_play file mpeg_parseblock descends from ends there
+mpeg_motionvector	0x800998E0	0x758	match	game	src/mpeg/motionvector.c
+# lineage: boundary after ComputeBackVector: nothing in the image decides it; the mpeg_play file mpeg_motionvector descends from ends there
+# open inside: after init_mb_addr_inc: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after init_mb_type_P: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after init_mb_type_B: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+mpeg_decoders	0x8009A038	0x25C4	match	game	src/mpeg/decoders.c
+mpeg_floatdct	0x8009C600	0x480	match	game	src/mpeg/floatdct.c
+# lineage: boundary after float_idct: nothing in the image decides it; the mpeg_play file mpeg_floatdct descends from ends there
+# open inside: after InitColorDisplay: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+mpeg_gdith	0x8009CA80	0x43C	match	game	src/mpeg/gdith.c
+# open inside: after mpegNextFrame: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+mpeg_main	0x8009CEC0	0x514	match	game	src/mpeg/main.c
+# open inside: after init_pre_idct: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+mpeg_jrevdct	0x8009D3D8	0x45FC	match	game	src/mpeg/jrevdct.c
+# open inside: after func_800A1A74: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after func_800A1AE0: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+mpeg_16bit	0x800A19D8	0x1130	match	game	src/mpeg/16bit.c
+# lineage: boundary after Color16DitherImage: nothing in the image decides it; the mpeg_play file mpeg_16bit descends from ends there
+mpeg_util32	0x800A2B08	0x34	match	game	src/mpeg/util32.c
+# open inside: after get_more_data: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after SeekStream: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after pure_get_more_data: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after read_sys: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReadStartCode: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReadPackHeader: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReadSystemHeader: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReadSTD: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReadRate: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+mpeg_readfile	0x800A2B40	0x1ED8	match	game	src/mpeg/readfile.c
+# lineage: boundary after MakeFloatClockTime: nothing in the image decides it; the mpeg_play file mpeg_readfile descends from ends there
+# open inside: after fread: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after free: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after malloc: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after exit: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after strtok: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after fopen: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+mpeg_libc	0x800A4A18	0x65C	match	game	src/mpeg/libc.c
+wof_procevents	0x80057170	0x690	match	game	src/main/wof_procevents.c
+wof_silock	0x80057800	0x4	match	game	src/main/wof_silock.c
+campath_8005C960	0x8005C960	0x21E4	match	game	src/main/campath_8005C960.c
+campath_8005EB48	0x8005EB48	0x6564	match	game	src/main/campath_8005EB48.c
+campath_800650B0	0x800650B0	0x21E4	match	game	src/main/campath_800650B0.c
+campath_80067298	0x80067298	0xCCC	match	game	src/main/campath_80067298.c
+campath_80067F68	0x80067F68	0xCCC	match	game	src/main/campath_80067F68.c
+campath_80068C38	0x80068C38	0xCCC	match	game	src/main/campath_80068C38.c
+campath_80069908	0x80069908	0x2A54	match	game	src/main/campath_80069908.c
+campath_8006C360	0x8006C360	0x1974	match	game	src/main/campath_8006C360.c
+wof_romdata	0x8006DCD8	0x14EEC	match	game	src/main/wof_romdata.c

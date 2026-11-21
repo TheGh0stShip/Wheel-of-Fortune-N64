@@ -1,0 +1,93 @@
+#!/bin/sh
+# wof -- run the project tool (tools/wof.c). From a Windows shell this re-enters WSL, where the compiler lives.
+# Seven verbs have their own tool: rules (tools/rules.c), unitmap (tools/unitmap.c), frame (tools/frame.c),
+# datamap (tools/datamap.c), datagen (tools/datagen.c), rename (tools/rename.c), report (gate, then rules).
+here=$(cd "$(dirname "$0")" && pwd)
+if [ "$(uname -s)" != Linux ]; then
+    wslhere=$(printf '%s' "$here" | sed 's|^/\([a-zA-Z]\)/|/mnt/\L\1/|')
+    MSYS_NO_PATHCONV=1 exec wsl -d "${WOF_WSL_DISTRO:-Ubuntu}" -- sh "$wslhere/wof" "$@"
+fi
+cd "$here" || exit 2
+# Build output lives on the Linux filesystem: the Windows mount is too slow for hundreds of small objects.
+: "${WOF_BUILD:=$HOME/wof/build/$(printf '%s' "$here" | cksum | cut -d' ' -f1)}"
+export WOF_BUILD
+mkdir -p "$WOF_BUILD"
+# The original cpp is a 32-bit program: it cannot #include a file from a Windows mount, where stat() fails on
+# the 64-bit inode numbers ("Value too large for defined data type"). Headers are therefore read from a copy
+# in the build directory, which config/flags.tsv names as $WOF_BUILD/include.
+rm -rf "$WOF_BUILD/include"
+[ -d include ] && cp -r include "$WOF_BUILD/include"
+if [ ! -x "$WOF_BUILD/wof" ] || [ tools/wof.c -nt "$WOF_BUILD/wof" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/wof" tools/wof.c || exit 2
+fi
+if [ ! -x "$WOF_BUILD/asn64" ] || [ tools/asn64.c -nt "$WOF_BUILD/asn64" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/asn64" tools/asn64.c || exit 2
+fi
+if [ -z "$WOF_ROM" ]; then
+    # a git worktree has no ROM of its own: fall back to the main checkout
+    main=$here
+    if [ -f .git ]; then
+        main=$(sed -n 's|^gitdir: \(.*\)/\.git/worktrees/.*|\1|p' .git | sed 's|^\([A-Za-z]\):|/mnt/\L\1|')
+    fi
+    for d in "$here" "$main"; do
+        for f in "$d"/*.z64 "$d"/*.n64 "$d"/*.v64; do
+            [ -f "$f" ] && WOF_ROM=$f && break 2
+        done
+    done
+    export WOF_ROM
+fi
+if [ ! -x "$WOF_BUILD/rules" ] || [ tools/rules.c -nt "$WOF_BUILD/rules" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/rules" tools/rules.c || exit 2
+fi
+if [ ! -x "$WOF_BUILD/unitmap" ] || [ tools/unitmap.c -nt "$WOF_BUILD/unitmap" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/unitmap" tools/unitmap.c || exit 2
+fi
+if [ ! -x "$WOF_BUILD/frame" ] || [ tools/frame.c -nt "$WOF_BUILD/frame" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/frame" tools/frame.c || exit 2
+fi
+if [ ! -x "$WOF_BUILD/datamap" ] || [ tools/datamap.c -nt "$WOF_BUILD/datamap" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/datamap" tools/datamap.c || exit 2
+fi
+if [ ! -x "$WOF_BUILD/datagen" ] || [ tools/datagen.c -nt "$WOF_BUILD/datagen" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/datagen" tools/datagen.c -lm || exit 2
+fi
+if [ ! -x "$WOF_BUILD/rename" ] || [ tools/rename.c -nt "$WOF_BUILD/rename" ]; then
+    cc -O2 -Wall -o "$WOF_BUILD/rename" tools/rename.c || exit 2
+fi
+case "$1" in
+rules)
+    shift
+    exec "$WOF_BUILD/rules" "$@"
+    ;;
+unitmap)
+    # evidence for the original object boundaries, from the ROM and the last gate's unit list
+    shift
+    exec "$WOF_BUILD/unitmap" "$@"
+    ;;
+frame)
+    # a function's stack frame as retail uses it, next to the locals the source declares
+    shift
+    exec "$WOF_BUILD/frame" "$@"
+    ;;
+datamap)
+    # the map of the image's data (config/data.tsv), checked and counted against the last gate
+    shift
+    exec "$WOF_BUILD/datamap" "$@"
+    ;;
+datagen)
+    # the C definition of a datum from the ROM, given its type (the types of the last gate's game units)
+    shift
+    exec "$WOF_BUILD/datagen" "$@"
+    ;;
+rename)
+    # rename identifiers across the game sources from spec files (not a gate: run the gate after it)
+    shift
+    exec "$WOF_BUILD/rename" "$@"
+    ;;
+report)
+    # both score numbers, each from its own tool
+    "$WOF_BUILD/wof" gate | tail -3
+    exec "$WOF_BUILD/rules"
+    ;;
+esac
+exec "$WOF_BUILD/wof" "$@"

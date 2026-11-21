@@ -2,4 +2,6 @@
 !/build/report.json
 __pycache__/
 *.pyc
-
+*.n64
+*.z64
+*.v64

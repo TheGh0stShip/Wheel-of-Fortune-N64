@@ -1,0 +1,260 @@
+# Wheel of Fortune (N64, USA): agent guide
+
+Reconstruct the original source so the original compiler, with the original flags, emits object code that matches
+the retail ROM byte for byte, function by function. Correct structure outranks any score: types, ownership,
+storage, control flow, unit boundaries and referents.
+
+The point of the project is source a reader can understand. Matching bytes prove the source is faithful; they
+don't make it readable. Every function must pass the reader test of the `decomp-code-rules` skill: would a
+programmer on the original team have typed this? Source that matches through tricks (a fakematch) is not a match.
+
+**Only the tools' printed results count.** The upstream ledgers and documents (`README.md`, `MATCHED.tsv`,
+`progress-*.tsv`, `source-accounted.tsv`, `RELINK.json`, `CARTRIDGE.json`, `docs/`, `proofs/`) are claims made by
+an earlier toolchain that is not in this repository. They are neither inputs nor maintained. Never quote a number
+from them.
+
+## Project adapter
+
+Everything runs through `./wof` at the repository root. From a Windows shell it re-enters WSL (`Ubuntu`), where
+the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/wof <command>`.
+
+| verb | this project's command |
+|---|---|
+| `build` / `gate` | `./wof gate` (always a clean compile of every unit; about 10 seconds) |
+| `match <unit>` | `./wof match UNIT...` |
+| `diff <function>` | `./wof diff UNIT` (left: retail, right: built) |
+| `report` | `./wof report` (the gate's result, then both score numbers) |
+| `rules [<unit>]` | `./wof rules [-v] [UNIT...]` |
+| `disasm` | `./wof diff UNIT`; for ranges outside a unit, `mips-linux-gnu-objdump -D -b binary -m mips:4300 -EB` on the ROM |
+| symbol proposals | `./wof infer` (not a gate: it reads addresses from retail and writes proposals to the build directory) |
+| unit boundaries | `./wof unitmap [-v]` (not a gate: prints the evidence for original object boundaries among the game functions, from the ROM and the last gate's unit list; `-v` adds the strings each function uses) |
+| stack frames | `./wof frame [-v] [-s] UNIT...` (not a gate: prints a game function's stack frame as retail uses it, slot by slot, next to the locals the source declares, with the evidence about each local the function never names or names after its offset; a function name or address works too; `-v` adds the instructions, `-s` gives one line per function, `-a` takes every game unit, `-c` compares the tool's layout rule with cc1's debug info from the last gate) |
+| data map | `./wof datamap`, `-v`, `-g`, `-p LO HI` (not a gate: checks `config/data.tsv`, the map of every image byte that is neither compiled code nor data from source (asset ranges are in `config/assets.tsv`), and counts the image by class, kind and owner against the last gate; `-g` lists the unmapped ranges cut at what points into them, `-p` proposes rows) |
+| data definitions | `./wof datagen ADDRESS TYPE [NAME]`, `-r ADDRESS`, `-t TYPE`, `-c` (not a gate: prints the C definition of a datum from the ROM, given its type, with pointers written as the names they point at; `-r` takes a `config/data.tsv` row, `-t` prints a type's layout, `-c` checks every row's type against its range; `-a DIR` is the gate's asset step) |
+| renames | `./wof rename [-n] SPEC...` (not a gate: renames identifier tokens across the game's sources, headers and config from `OLD NEW [FILE[:A-B]]` lines, comments included, strings not; refuses a collision or a name the library and MPEG trees use; a one-function unit's file follows its function; `config/names.tsv` records every name given and its evidence) |
+| `permute` | none |
+
+- **Toolchain.** Two compilers, both inside WSL and outside the repository: GCC 2.7.2 for MIPS (`gcc`, `cc1`,
+  `as` 2.6) in `$WOF_TOOLCHAIN`, default `~/wof/gcc272`, for the game and libgcc; IDO 5.3 in `$WOF_IDO`, default
+  `~/wof/ido53`, for libultra. Host tools need `cc` and `mips-linux-gnu-objdump` in WSL. Build output goes to
+  `~/wof/build/<checkout id>` in WSL, outside the repository; the wrapper prints nothing about it, tools print
+  the paths they write.
+- **ROM.** Any byte order; the tools swap it in memory and refuse a ROM whose SHA-1 is not
+  `b51b28660699bf029f862f51c319a5962fe9de9b`. A git worktree uses the main checkout's ROM. The ROM is never
+  committed.
+- **Flag classes** (`config/flags.tsv`: class, assembler, flags):
+  - `game`: `-O0 -g -G0 -mips3 -mgp32 -mfp32`, assembler `asn64`, with the SDK's defines and include paths so
+    that game units include `<ultra64.h>` from `lib/ultralib` and the game's own headers from `include/`;
+  - `libgcc_*`: `-O2 -G0 -mips3 -mgp32 -mfp32 -DL_<function>`, assembler `asn64`, one class per libgcc function;
+  - `ultra_*`: IDO 5.3 (`ido`), `-mips2 -o32 -non_shared -G 0 -Wab,-r4300_mul -DNDEBUG -D_FINALROM`: `-O1` for
+    `os/` and `io/`, `-O3` for `audio/`, `gu/`, `libc/` and `sched/`, with the per-file exceptions the table
+    records (`ll.c`, the assembly sources, `exceptasm`);
+  - `asm`: GNU as, for the entry stub.
+  - `sdk_ucode` (assembler `asset`): the SDK's microcode objects (`asm/sdk/`), which the host's `mips-linux-gnu-as`
+    builds by `.incbin` from `baserom.z64`, a big-endian copy of the ROM the gate writes to the build directory.
+    No source rebuilds them; their bytes are counted apart, as asset bytes.
+- **Assets (the user's ruling).** The repository carries none of the game's creative content: the puzzle table
+  and the names of the puzzle kinds, the credits, the clip masks. Their units keep each definition (name, type,
+  place) and `#include "assets/FILE"` at it; `config/assets.tsv` (start, end, owner, type, file, what) lists the
+  ranges. Before compiling, the gate preprocesses `include/wof.h` with the owners' flag class and runs
+  `datagen -a`, which writes each initialiser from the ROM into `$WOF_BUILD/assets/FILE` (the header of
+  `tools/datagen.c` says what a file holds). Those bytes count as asset bytes, never as bytes from source, and
+  the gate fails when a range does not lie whole in its owner's placed data. Generated files are never
+  committed. New creative content (prose or pictures the player sees) goes the same way; code strings (debug
+  and error messages) and structural tables (camera paths, addresses, menu layouts) stay C.
+- **Include paths.** The 32-bit preprocessors cannot `#include` from the Windows mount. `include/` and `lib/`
+  are copied into the build directory on every run, and the flag rows name them there
+  (`-I $WOF_BUILD/include`, `-I $WOF_BUILD/lib/...`). Sources under `lib/` are compiled from that copy. The
+  `game` class also has `-I $WOF_BUILD`, for the generated `assets/`.
+- **The `asn64` assembler mode.** The game's objects were not assembled by GNU as. `tools/asn64.c` rewrites cc1's
+  assembly into the forms retail shows (no delay-slot filling, `$at` for symbol-plus-register loads, literal-pool
+  float constants, and so on; the file's header lists every rule) and GNU as assembles the result. Each rule was
+  derived from retail and is validated by every unit in the gate. A new rule needs the same evidence: a retail
+  shape that no source change explains, seen in more than one function. Run the full gate after any change to it.
+- **Units** (`config/units.tsv`: unit, address, size, state, flag class, source, optional entry symbol). A unit is
+  one compiled source file placed at one address: by its `.text`, or, for an object without code (a table, a
+  block of uninitialised data), by its first data section. `match` units are in the gate; `open` units are compiled and
+  compared but keep retail's bytes in the linked image. **`open` is the parking mechanism**: an unfinished
+  function stays in its own `open` unit. Each game unit holds one original object as the evidence and the
+  project's rulings read it (see "Unit boundaries").
+- **Functions** (`config/functions.tsv`): the inventory of 773 function ranges, 745 C and 28 assembly. The
+  assembly ranges are the entry stub and libultra's own `.s` sources: `ORIGINAL-ASM`.
+- **Symbols** (`config/symbols.txt`): addresses of names no unit defines yet: the globals named before their data is defined in source. `func_XXXXXXXX` and `D_XXXXXXXX`
+  carry their address in the name and need no entry. A unit that defines a global exports it to every other
+  unit. The gate rejects an undeclared name, a name bound to two addresses, and an address-named function placed
+  anywhere else.
+- **Reference sources.** libultra is the decompals `ultralib` reconstruction under `lib/ultralib`
+  (`PROVENANCE.tsv` lists each file as verbatim or modified). Retail links an IDO-built `libultra_rom` older than
+  2.0I; the version letter is an inference, built as `VERSION_H`, and each pre-2.0I form sits in a
+  `BUILD_VERSION` conditional beside the newer code. Library sources stay verbatim to upstream otherwise: do not
+  edit them to satisfy the rule checker. libgcc (`lib/libgcc`) is a reconstruction of three GCC 2.7.2 functions
+  whose provenance file says what it was written after. The MPEG player (the 82 functions at 0x800887D8..0x800A5074) descends from the
+  Berkeley `mpeg_play` decoder, whose source is published: lineage evidence for its functions, types and macros,
+  adopted only where the bytes agree and marked `guess:` where the binary itself holds no name.
+- **Policies.** Running the game is not needed. A decompiler may be used as a reading aid; its output is never
+  source. Commit messages name the change (`match: reconstruct func_80002348`, `tools: verify relocation
+  targets`).
+- **Tooling language.** Write project tooling in C (see `tools/`). Avoid Python: it is not part of the build, the
+  gate or the rule checker, and new tools must not need it.
+
+## Objective and scores
+
+- The goal is an exact match for every function: identical instructions, constants and *ordered relocation
+  targets*. The gate resolves every relocation, so a matching body that calls the wrong function or names the
+  wrong global fails.
+- Progress is two numbers, both printed by `./wof report`:
+  - **matched under the rules** (the headline): byte-identical at the gate *and* passing every [match] rule;
+  - **bytes matched**: byte-identical at the gate.
+- `MATCH-PENDING` functions (byte-identical, failing a [match] rule) are open work, not progress.
+- The 28 assembly ranges are `ORIGINAL-ASM`: byte-identical at the gate, listed apart (`kind` `asm` in
+  `config/functions.tsv`) and counted neither way.
+
+## Workflow
+
+1. **Pick work.** `MATCH-PENDING` functions, `open` units, a unit close to complete.
+2. **Classify the gap** (`wall-identifier`): referent, then inline/call set, then control flow, then
+   register/schedule. Fix the earliest class that still differs. This is `-O0` code: almost every difference is
+   a source-shape difference (types, statement order, loop form, declaration order), not a scheduling one.
+3. **Reconstruct** with `matcher`; recover hidden helpers with `helper-recovery`.
+4. **Iterate** with `./wof match`. Run `./wof gate` when a change spans units, for example a shared-header edit.
+5. **Gate** before committing or merging. The gate must stay green.
+
+## The byte gate
+
+A function is done when **the whole image, linked with that function compiled from source, still hashes to the
+retail ROM's hash**. `./wof gate` compiles every unit from scratch, resolves relocations, zeroes each claimed
+unit's range in a copy of the ROM, writes the compiled bytes in, and compares the SHA-1.
+
+- The gate has two states, `GATE OK` or `GATE FAILED`. Write "matched" or "banked" only from its printed lines.
+- It is green at 0%: read the coverage it prints (`N units, T text + D data bytes from source, A asset bytes from
+  the cartridge`). Asset bytes are taken from the ROM, by an asset unit or as a range of `config/assets.tsv`
+  inside a game unit, and are never progress.
+- A red gate names the units that differ; `./wof diff UNIT` shows where.
+- A unit's size has to cover all of its object's code: an object that holds code past the unit's size fails
+  the gate, since that code would never reach the image and retail's bytes would stand there unverified.
+- A unit's read-only data (jump tables, float literals) is placed where retail's instructions point and compared
+  too, up to its last item: the alignment fill after it is not source (retail's is stale assembler bytes) and
+  keeps retail's bytes. An IDO object's section is compared whole: IDO's section sizes include their padding.
+  A read-only section that nothing references or declares (an object whose read-only data is only its RCS
+  run) is placed at the first 8-byte boundary after the read-only data of the nearest unit before it in text
+  order, and compared there; any other data section that nothing references or declares has no address and
+  fails.
+- An original object's read-only data opens with the RCS revisions of the system headers it included. Write
+  them as that object's `#ident` lines, in order; `asn64` places them.
+- It is blind to honesty of the source. That is the rule checker's job.
+
+## Code rules
+
+The full catalogue is the user-level `decomp-code-rules` skill (`references/rules.md`). Two laws apply always:
+
+1. **The bytes win.** A change made for style must not change what the compiler emits. When a rule and the bytes
+   disagree, keep the bytes and write `// RULE-EXCEPTION: <rule>, <reason the bytes give>` at the code.
+2. **Identical bytes alone are not a match.** A function counts as matched only when its bytes match *and* it
+   passes every **[match]** rule:
+   - R1: each type declared once, in a shared header;
+   - R2: each global declared once, as `extern` in a header, and defined in its owning unit;
+   - R4: no fixed-offset casts;
+   - R17: no fake code (probes, `volatile` carriers, dummy locals, steering blocks);
+   - R18: no assembly bodies.
+
+   R13 (vtables) does not apply: the game is C.
+
+`./wof rules` implements the rows (`tools/rules.c`). What it flags as [match]:
+
+| rule | row |
+|---|---|
+| R1 | a type name defined in more than one file, with the same body or a different one |
+| R2 | an `extern` of a global in a `.c` file; one global declared with different types |
+| R4 | a constant added to a `(char *)`/`(u8 *)` cast |
+| R17 | a local nothing uses (unless its line carries `NOTE:`, `BUG:`, `guess:` or `RULE-EXCEPTION`); `volatile` in a function body (except a local that only ever receives `IO_READ` of a hardware register); an empty `if`/`else` block (unless a line of the block carries one of those labels); a bare `;`; `do { } while (0)` in a body; self-assignment; `+ 0`; `* 1` (except a named constant times 1); a `pad` member |
+| R18 | `__asm__`, `asm` |
+
+The checker judges only what a unit compiles: the gate leaves each unit's preprocessor output beside its
+object, and an `#if` branch none of whose lines reaches that output is neither judged nor counted. Run
+`./wof gate` (or `./wof report`) before `./wof rules`.
+
+Advisory, not blocking: placeholder names (R7), prototypes in source files (R25), missing header comments (R33),
+dereferenced casts of `expression + constant`.
+
+Project profile:
+
+| item | this project |
+|---|---|
+| compiler dialect (R22) | GNU C 2.7.2: C89 plus GNU extensions. Declarations at the top of a block. The compiler accepts `//` comments; whether the original team wrote them is unknown. No C99 (`for` declarations, `stdint.h`, designated initializers work only as GNU 2.7 allows). |
+| naming style (R8) | **Game code (the user's ruling):** Table 1 of `style-defaults.md`, the C engine style, except for function names (below): `prefix_topic.c` units, `lowerCamel_t` struct and enum types, `lowerCamel` members, locals and parameters, `UPPER_SNAKE` constants and enum values. The style is a default and gives way to evidence (R7, R8). **The binary records some original function names** in its message strings (`AllocProc`, `GetProcBefore`, `CreatProc`, `ProcPostMessage`, `DrawObjs`, `InitMainFlash`, `SwitchImage`, `CheckPercentDone`): those are kept verbatim, misspellings included, and they show the original wrote plain `VerbNoun` function names with no `Prefix_`, the subsystem's noun inside the name (`ProcPostMessage`, `AllocObj`). **Invented function names follow that recorded form (the user's ruling), not the default's `Prefix_VerbNoun`**, and are recorded as invented. **libultra and libgcc: the SDK's and GCC's own names and style, verbatim.** **A struct member no code reads or writes (the user's ruling) is `unusedXX`, by its offset (`unused08`), with `// NOTE: no code reads or writes it` on its line**, and recorded in `config/names.tsv` as invented. Reason: the bytes show such a member exists and where, and nothing else about it; the name says exactly that, which a placeholder does not. Renames cross units: only a naming lane renames, and a placeholder stays a placeholder until the thing's purpose is known. |
+| layout style (R23, R32, R33) | Game code (the user's ruling): K&R braces as `if ( cond ) {`, 4-space indent, 100 columns, C89 declarations at the top of the block, the `/*` `=====` `Name` *description* `=====` `*/` function banner, `// unit.c -- purpose` unit openings. libultra keeps its own. Layout is [checked] here (see the line-information row). |
+| placeholder patterns (R7) | `func_XXXXXXXX`, `D_XXXXXXXX`, `spXX`, `argN`, `unk_XX`, `mXX` members, `padN`, `tempN`, `varN`, `n64dk_*` |
+| evidence for names (R7) | Message strings that start with a function name (`"AllocProc: Out of Procs"`) name the function that prints them, and sometimes its data (`"Reached end of procst."`); `./wof unitmap -v` lists them per function. The 22 RCS `$Revision` strings mark original objects. libultra and libgcc names come from the SDK; the MPEG player's from `mpeg_play`, as `guess:`. Everything else is invented and recorded as invented. |
+| does the binary record source lines? | The ROM has no line table, but **layout is [checked] all the same.** The game was built with `-g`, and under `-g` cc1 2.7.2 writes a placeholder `nop` before a loop that follows a label unless a line-number note separates them. So whether a `for`/`while`/`do` starts on a new source line changes the code. Gate every formatting change. |
+| parking mechanism | the `open` state in `config/units.tsv` |
+| rules tightened or relaxed | **R1 tightened:** an identical duplicate of a type in two files fires, not only a differing one. Reason: the imported sources have no headers at all, and 438 files re-typedef the same scalar types; those copies are the R1 violation in its plainest form. **R2 and R17 relaxed for `lib/ultralib` only (the user's ruling):** an `extern` in a `.c` file and a local nothing uses do not fire there. Reason: that tree is the SDK's source kept verbatim to upstream, and the SDK's own code declares `extern`s inside `.c` files and leaves locals unused; editing it to satisfy the checker would trade a faithful copy for a private fork. One global declared with two types still fires there, and so does every other R17 row. Game code and `lib/libgcc` get no relaxation. **R17's empty-block row relaxed for labelled blocks (the user's ruling):** an empty `if` or `else` block passes when a line of it carries `NOTE:`, `BUG:`, `guess:` or `RULE-EXCEPTION`, as an unused local does. Reason: retail has branches over nothing (code the original build compiled out), which no other spelling reproduces; the label states the evidence instead of hiding the block. An unlabelled empty block still fires. **R17's `* 1` row relaxed for named constants (the user's ruling):** `NAME * 1`, where `NAME` is an `UPPER_SNAKE` constant, does not fire. Reason: code that indexes rows as `DCTSIZE * 0` … `DCTSIZE * 7` spells the second row `DCTSIZE * 1` (the `mpeg_play` source does); a variable or expression times 1 still fires. **R15 relaxed for unsettled positions (the user's ruling):** a position between two game functions that no evidence settles is a join, and where one of several read-only object starts must fall the boundary goes at the candidate the remaining evidence favours, the earliest if none; each such join and boundary is labelled `guess:` (see "Unit boundaries"). Reason: most positions between two functions are not file boundaries, so the join is the likelier reading, and a function left alone in a unit claims a one-function object the evidence does not show. |
+
+## Matching rules that are easy to get wrong
+
+- **Levers are disposable experiments.** Never keep probes, unused declarations, fake locals, padding or
+  distorted source to move a score. A trick that closes a gap is a clue to the real source.
+- **An unused local is a claim.** At `-O0` every local gets a stack slot, so a hole in the frame is evidence of
+  *something*: a local of a nested block, a larger array or struct, a variable the original really never used.
+  `pad0` says none of those. Find which one it is. A local kept as genuinely unused carries a
+  `/* NOTE: unused in the original */` on its line, after the alternatives were tried.
+- **Locals that are really one struct.** Consecutive `spXX` scalars whose address is passed to a function are
+  one struct or array.
+- **Prefer original spellings.** A macro or inline helper is more likely the original spelling than a
+  hand-expanded body.
+- **Keep every exact match, and count it honestly.** A style rule the bytes defeat gets a `RULE-EXCEPTION` and
+  counts. A [match] rule makes the function `MATCH-PENDING`: keep its source and list it as open work.
+
+## Source rules
+
+- **One type, one definition**, in a shared header. No unit-local copies or layout views.
+- **Each function and global lives in its evidence-backed owner** unit and header. No scattered `extern`s.
+- **Access goes through typed members.** A cast is usually a symptom: retype the member or parameter until it
+  disappears. A parameter typed `s32` that is dereferenced is a pointer.
+- **Unclear identity: chase the evidence** (callers, storage, callees, offsets). If it is still unclear, keep
+  the placeholder. Never fabricate.
+- **Use the SDK's real headers** for libultra types and functions instead of hand-rolled declarations.
+- **No fake code**, storage, labels, aliases or padding to improve a score or the final layout.
+
+## Unit boundaries
+
+The imported tree had one function per file. The original did not: retail pads `.text` to 8 bytes between
+objects, and each original object's literals and jump tables sit together in read-only data. A unit is merged
+from its functions on that evidence (R15), and the merged unit must pass the gate with its data section at
+one consistent address. `./wof unitmap` reports the evidence and nothing else.
+
+Where the evidence stops, two readings are accepted, each named where it is used:
+
+- **The RCS premise:** every object from 0x8000BAA8 on opens its read-only data with an RCS run. A position
+  that is a join (or a boundary) in every assignment of the RCS starts that meets it counts as one. Units whose
+  boundaries rest on it say so in their opening comment, and `config/units.tsv` lists them as `# premise:`.
+- **The base rate (the user's ruling, R15 relaxed):** at a position no evidence settles, join, because most
+  positions between two functions are not file boundaries. Where one of several read-only object starts must
+  fall, the boundary goes at the candidate the remaining evidence favours (the call graph, the data, what the
+  functions do; said where it is used), the earliest if nothing favours one, and a certain text gap among the
+  candidates takes the start. Every join or boundary that rests on this is labelled `guess:` in the unit's
+  opening comment and as a `# guess:` line in `config/units.tsv`.
+
+Boundaries that rest on a published source the code descends from (the MPEG player's files, the SDK demos'
+`audiomgr.c`) stay where that source puts them (`# lineage:`, `# open inside:`). A one-function unit stands
+only where the evidence shows text gaps on both sides.
+
+## Data
+
+- A datum gets a real definition in its owning unit once that unit's data range is known. Until then it is an
+  `extern` in a header.
+- Compiler-generated data (jump tables, float literals) belongs to the unit that emits it.
+
+## Tests and verification
+
+- Matching work runs no test suites: the gate is the verification.
+- Tooling changes run the full gate and `./wof rules`; a tooling change that alters either result says so in
+  its commit message.
+- Claim "matched" only from the tools' printed results.
+
+## Repository hygiene
+
+- Tool inputs go in `config/`, generated output in the build directory, history in version control. Docs
+  describe current usage and contracts only: no diaries, score snapshots or campaign logs.
+- Source comments explain the code (R21): `RULE-EXCEPTION`s, quirk labels (R36), banners, why a block exists.
+  No history, scores, dates or campaign notes.
+- Stage only your own unit of work, and never commit build state.
