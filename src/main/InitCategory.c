@@ -18,7 +18,7 @@ void InitCategory(void) {
     s32 n;
     s32 i;
     proc_t *task;
-    obj_t *sp24;
+    obj_t *obj;
 
     len = StrLen(category);
     if (len >= 21) {
@@ -73,5 +73,5 @@ void InitCategory(void) {
         return;
     }
     task = CreatProc(CategoryProc, 0x6040000);
-    sp24 = MakeScreenObj(task, 0, func_80028D3C, 0x5000000);
+    obj = MakeScreenObj(task, 0, func_80028D3C, 0x5000000);
 }

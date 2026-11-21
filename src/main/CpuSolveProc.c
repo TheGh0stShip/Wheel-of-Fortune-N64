@@ -10,16 +10,16 @@ The machine solves.
 =====================
 */
 struct procResult_s CpuSolveProc(proc_t *proc) {
-    struct procResult_s sp10;
+    struct procResult_s result;
     proc_t *task;
     s32 unused;  /* NOTE: unused in the original */
     s32 event;
 
-    sp10.w[1] = 1;
-    sp10.w[0] = 0;
+    result.w[1] = 1;
+    result.w[0] = 0;
     if (proc->data->playerProc.player != curPlayer) {
         ProcClearMessages(proc);
-        return sp10;
+        return result;
     }
     task = FindProc(0x1020000, -1);
     while ((event = ProcGetMessage(proc)) != 0) {
@@ -27,16 +27,16 @@ struct procResult_s CpuSolveProc(proc_t *proc) {
         case 8:
             StartSolvePuzzle();
             SetGameView(3, 1);
-            sp10.w[1] = 2;
-            sp10.w[0] = 5;
-            return sp10;
+            result.w[1] = 2;
+            result.w[0] = 5;
+            return result;
         case 5:
             if (CheckSolve() == 1) {
                 ProcPostMessage(task, 19, 0);
                 ProcPostEvent(24);
                 ProcPostEvent(10);
-                sp10.w[1] = 0;
-                sp10.w[0] = 0;
+                result.w[1] = 0;
+                result.w[0] = 0;
             } else {
                 ProcPostMessage(task, 20, 0);
                 PlaySound(1);
@@ -44,16 +44,16 @@ struct procResult_s CpuSolveProc(proc_t *proc) {
                     ProcPostEvent(10);
                     ProcPostEvent(24);
                 }
-                sp10.w[1] = 0;
-                sp10.w[0] = 0;
-                return sp10;
+                result.w[1] = 0;
+                result.w[0] = 0;
+                return result;
             }
             break;
         case 34:
-            sp10.w[1] = 0;
-            sp10.w[0] = 0;
-            return sp10;
+            result.w[1] = 0;
+            result.w[0] = 0;
+            return result;
         }
     }
-    return sp10;
+    return result;
 }

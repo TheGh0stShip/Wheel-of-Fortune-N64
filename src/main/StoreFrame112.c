@@ -19,9 +19,9 @@ void StoreFrame112(u16 *pixels) {
     s32 n;
     u16 *src;
     s16 *dst;
-    s32 sp2C;
+    s32 base;
 
-    sp2C = 0x2000000;
+    base = 0x2000000;
     size = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_19C00);
     size = size - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     src = pixels;

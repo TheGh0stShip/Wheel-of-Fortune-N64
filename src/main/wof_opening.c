@@ -37,12 +37,12 @@ Takes the SI lock, making it first if need be.
 =====================
 */
 void LockSi(void) {
-    OSMesg sp10;
+    OSMesg msg;
 
     if (siLockMade == 0) {
         InitSiLock();
     }
-    osRecvMesg(&siLockQ, &sp10, 1);
+    osRecvMesg(&siLockQ, &msg, 1);
 }
 
 /*
@@ -89,10 +89,10 @@ Clears the menus, StartGame, then the camera and the movie that open a game.
 */
 struct procResult_s GameStartProc(proc_t *proc) {
     struct procResult_s result;
-    obj_t *sp20;
+    obj_t *obj;
     s32 event;
 
-    sp20 = proc->data->obj;
+    obj = proc->data->obj;
     result.w[1] = 1;
     result.w[0] = 0;
     while ((event = ProcGetMessage(proc)) != 0) {
@@ -518,10 +518,10 @@ Shows the pictures before the opening for 3 seconds, then a movie, then StartOpe
 */
 struct procResult_s LogoProc(proc_t *proc) {
     struct procResult_s result;
-    obj_t *sp20;
+    obj_t *obj;
     s32 event;
 
-    sp20 = proc->data->obj;
+    obj = proc->data->obj;
     result.w[1] = 1;
     result.w[0] = 0;
     while ((event = ProcGetMessage(proc)) != 0) {
@@ -539,11 +539,11 @@ struct procResult_s LogoProc(proc_t *proc) {
             return result;
         }
     }
-    FreeObj(sp20);
-    sp20 = MakeObj(0, 0, DrawLogo, 0x5020000);
-    sp20->x = 64;
-    sp20->y = 110;
-    proc->data->obj = sp20;
+    FreeObj(obj);
+    obj = MakeObj(0, 0, DrawLogo, 0x5020000);
+    obj->x = 64;
+    obj->y = 110;
+    proc->data->obj = obj;
     PlayMovie(23, 16, 104, 20);
     result.w[1] = 2;
     result.w[0] = 16;
@@ -559,13 +559,13 @@ Starts LogoProc; InitGame's choice when a controller is in.
 */
 void StartLogos(void) {
     proc_t *task;
-    obj_t *sp14;
+    obj_t *obj;
 
     gameMode = 1;
     LoadSceneData();
-    sp14 = MakeObj(0, 0, DrawBootScreen, 0x5030000);
+    obj = MakeObj(0, 0, DrawBootScreen, 0x5030000);
     task = CreatProc(LogoProc, 0x8010000);
-    task->data->obj = sp14;
+    task->data->obj = obj;
 }
 
 /*

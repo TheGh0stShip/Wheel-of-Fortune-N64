@@ -13,11 +13,11 @@ struct procResult_s BonusTimerProc(proc_t *proc) {
     s32 event;
     s32 tens;
     s32 ones;
-    struct procResult_s sp20;
+    struct procResult_s result;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    sp20.w[1] = 1;
-    sp20.w[0] = 0;
+    result.w[1] = 1;
+    result.w[0] = 0;
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 33:
@@ -26,12 +26,12 @@ struct procResult_s BonusTimerProc(proc_t *proc) {
             bonusTimerImages[1].texture = bigDigitTextures[0];
             bonusTimerImages[1].width = bigDigitWidths[0];
             ProcPostMessage(proc, 31, 0);
-            sp20.w[0] = 30 / frameRetraces;
-            return sp20;
+            result.w[0] = 30 / frameRetraces;
+            return result;
         case 31:
-            sp20.w[1] = 0;
-            sp20.w[0] = 1;
-            return sp20;
+            result.w[1] = 0;
+            result.w[0] = 1;
+            return result;
         }
     }
     tens = bonusTimeLeft / 10;
@@ -40,5 +40,5 @@ struct procResult_s BonusTimerProc(proc_t *proc) {
     bonusTimerImages[0].width = bigDigitWidths[tens];
     bonusTimerImages[1].texture = bigDigitTextures[ones];
     bonusTimerImages[1].width = bigDigitWidths[ones];
-    return sp20;
+    return result;
 }

@@ -19,9 +19,9 @@ s32 PlayContestantClip(s32 clip, s32 event, s32 player) {
     s32 unused2;  /* NOTE: unused in the original */
     s32 unused3;  /* NOTE: unused in the original */
     s32 unused4;  /* NOTE: unused in the original */
-    s32 sp34;
+    s32 base;
 
-    sp34 = 0x2000000;
+    base = 0x2000000;
     if (players[player].contestant >= 6) {
         func_80009F38("InitContestants: invalid image num");
     }

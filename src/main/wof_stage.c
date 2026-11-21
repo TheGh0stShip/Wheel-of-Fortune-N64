@@ -174,11 +174,11 @@ The wheel has stopped: the sound of the wedge, and the crowd for the high values
 */
 struct procResult_s WheelStopProc(proc_t *proc) {
     struct procResult_s ret;
-    obj_t *sp20;
+    obj_t *obj;
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    sp20 = proc->data->wheelStop.unk_00;
+    obj = proc->data->wheelStop.unk_00;
     ret.w[1] = 1;
     ret.w[0] = 0;
     while ((event = ProcGetMessage(proc)) != 0) {
@@ -268,11 +268,11 @@ The wheel turning after a spin, through TurnWheel.
 */
 struct procResult_s WheelSpinProc(proc_t *proc) {
     struct procResult_s ret;
-    obj_t *sp20;
+    obj_t *obj;
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    sp20 = proc->data->wheelSpin.wheel;
+    obj = proc->data->wheelSpin.wheel;
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
@@ -1511,14 +1511,14 @@ The proc that runs the lights of the board when a puzzle is solved.
 */
 void StartBoardLights(void) {
     proc_t *task;
-    obj_t *sp14;
+    obj_t *obj;
 
-    sp14 = FindObj(0x1010000, -1);
-    if (sp14 != 0) {
+    obj = FindObj(0x1010000, -1);
+    if (obj != 0) {
         task = FindProc(0x1010000, -1);
         if (task == 0) {
             task = CreatProc(func_8000FFE0, 0x1010000);
-            task->data->obj = sp14;
+            task->data->obj = obj;
         }
     }
 }

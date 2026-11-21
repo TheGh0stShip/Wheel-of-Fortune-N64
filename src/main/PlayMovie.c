@@ -11,7 +11,7 @@ Plays a movie at a place on the screen, then posts an event.
 */
 void PlayMovie(s32 movie, s32 event, s32 x, s32 y) {
     proc_t *task;
-    char *sp1C;
+    char *movieData;
 
     if (D_80086D58 != 0) {
         PopMemStack(1);
@@ -25,6 +25,6 @@ void PlayMovie(s32 movie, s32 event, s32 x, s32 y) {
     task->data->moviePlay.event = event;
     movieMemMark = PushMemStack();
     movieDone = 0;
-    sp1C = LoadMovie(movie);
-    func_8009CEC0(sp1C, movies[movie].unk_0C);
+    movieData = LoadMovie(movie);
+    func_8009CEC0(movieData, movies[movie].unk_0C);
 }

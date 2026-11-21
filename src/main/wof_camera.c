@@ -56,9 +56,9 @@ Plays a camera move a frame at a time; event 45 when it ends.
 struct procResult_s CameraPathProc(proc_t *proc) {
     s32 event;
     struct procResult_s result;
-    obj_t *sp28;
+    obj_t *obj;
 
-    sp28 = proc->data->cameraPath.unk_00;
+    obj = proc->data->cameraPath.unk_00;
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
@@ -131,10 +131,10 @@ SetView on the camera obj.
 =====================
 */
 void SetCameraView(s32 view) {
-    obj_t *sp10;
+    obj_t *obj;
 
-    sp10 = FindObj(0x03000000, 0xFF000000);
-    SetView(sp10, view);
+    obj = FindObj(0x03000000, 0xFF000000);
+    SetView(obj, view);
 }
 
 /*
@@ -146,9 +146,9 @@ The proc of the camera obj, which does nothing.
 */
 struct procResult_s CameraProc(proc_t *proc) {
     struct procResult_s result;
-    obj_t *sp20;
+    obj_t *obj;
 
-    sp20 = proc->data->obj;
+    obj = proc->data->obj;
     ProcClearMessages(proc);
     result.w[1] = 1;
     result.w[0] = 0;

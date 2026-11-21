@@ -18,9 +18,9 @@ void InitContestants(void) {
     s32 i;
     s32 j;
     s32 size;
-    s32 sp28;
+    s32 base;
 
-    sp28 = 0x2000000;
+    base = 0x2000000;
     if (gameMode == 3) {
         for (i = 0; i < 3; i++) {
             players[i].contestant = i;

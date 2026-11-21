@@ -928,3 +928,40 @@ speedRange	param	AddConfetti	invented	of its sideways speed, in hundredths
 speedBase	param	AddConfetti	invented	
 turnsRange	param	AddConfetti	invented	of how many turns of its four frames it lasts
 turnsBase	param	AddConfetti	invented	
+msg	local	LockSi	invented	by its type
+obj	local	AddConfetti	invented	by its type
+obj	local	SetCameraView	invented	by its type
+obj	local	SetGameView	invented	by its type
+result	local	AdjustCameraProc	invented	by its type
+result	local	CpuFinalSpinTurnProc	invented	by its type
+result	local	CpuSolveProc	invented	by its type
+result	local	PauseProc	invented	by its type
+task	local	StartStatus	invented	by its type
+obj	local	HideOtherContestants	invented	by its type
+obj	local	StartBoardLights	invented	by its type
+obj	local	StartLogos	invented	by its type
+task	local	StartRoundsMenu	invented	by its type
+movieData	local	DecodeMovie	invented	by its type
+movieData	local	PlayClip	invented	by its type
+result	local	BonusWonProc	invented	by its type
+result	local	SkillMenuProc	invented	by its type
+task	local	HideOtherContestants	invented	by its type
+movieData	local	PlayMovie	invented	by its type
+base	local	InitMenuContestants	invented	the address of segment 2, where the frame is
+obj	local	CameraProc	invented	by its type
+obj	local	GameStartProc	invented	by its type
+obj	local	LogoProc	invented	by its type
+obj	local	WheelSpinProc	invented	by its type
+obj	local	WheelStopProc	invented	by its type
+result	local	BonusTimerProc	invented	by its type
+result	local	ConfettiBurstProc	invented	by its type
+result	local	JackpotRollProc	invented	by its type
+task	local	PauseProc	invented	by its type
+obj	local	InitCategory	invented	by its type
+base	local	InitContestants	invented	the address of segment 2, where the frame is
+obj	local	CameraPathProc	invented	by its type
+base	local	StoreFrame112	invented	the address of segment 2, where the frame is
+base	local	PlayContestantClip	invented	the address of segment 2, where the frame is
+base	local	UpdateClip	invented	the address of segment 2, where the frame is
+base	local	StoreFrame96	invented	the address of segment 2, where the frame is
+obj	local	ConfettiBurstProc	invented	by its type

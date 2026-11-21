@@ -20,9 +20,9 @@ void StoreFrame96(u16 *pixels) {
     s16 *dst;
     s32 unused2;  /* NOTE: unused in the original */
     s32 unused3;  /* NOTE: unused in the original */
-    s32 sp38;
+    s32 base;
 
-    sp38 = 0x2000000;
+    base = 0x2000000;
     sp10 = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_19C00);
     sp10 = sp10 - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     src = pixels;

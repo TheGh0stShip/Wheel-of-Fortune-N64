@@ -12,7 +12,7 @@ Plays a movie as a contestant's picture (ClipProc)
 void PlayClip(s32 movie, s32 *arg1, obj_t *obj, s32 slot, s32 event) {
     s32 unused;  /* NOTE: unused in the original */
     proc_t *task;
-    char *sp18;
+    char *movieData;
 
     if (D_80086D58 != 0) {
         PopMemStack(1);
@@ -30,6 +30,6 @@ void PlayClip(s32 movie, s32 *arg1, obj_t *obj, s32 slot, s32 event) {
     task->data->clipPlay.event = event;
     movieMemMark = PushMemStack();
     movieDone = 0;
-    sp18 = LoadMovie(movie);
-    func_8009CEC0(sp18, movies[movie].unk_0C);
+    movieData = LoadMovie(movie);
+    func_8009CEC0(movieData, movies[movie].unk_0C);
 }

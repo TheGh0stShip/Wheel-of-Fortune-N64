@@ -19,12 +19,12 @@ void UpdateClip(proc_t *proc) {
     s32 unused6;  /* NOTE: unused in the original */
     s32 unused7;  /* NOTE: unused in the original */
     s32 unused8;  /* NOTE: unused in the original */
-    s32 sp34;
+    s32 base;
 
-    sp34 = 0x2000000;
+    base = 0x2000000;
     sp10 = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_0AC00[proc->data->clipPlay.slot]);
     sp10 = sp10 - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
-    proc->data->clipPlay.obj->image = sp34 + sp10;
+    proc->data->clipPlay.obj->image = base + sp10;
     moviePictures = gfxInfo[curGfxInfo].frame.unk_0AC00[proc->data->clipPlay.slot];
     if (movieDone == 0) {
         movieDone = func_8009D244();

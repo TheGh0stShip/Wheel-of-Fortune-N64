@@ -14,11 +14,11 @@ struct procResult_s JackpotRollProc(proc_t *proc) {
     s32 event;
     s32 i;
     s32 count;
-    struct procResult_s sp20;
+    struct procResult_s result;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    sp20.w[1] = 1;
-    sp20.w[0] = 3 / frameRetraces - 1;
+    result.w[1] = 1;
+    result.w[0] = 3 / frameRetraces - 1;
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
@@ -31,9 +31,9 @@ struct procResult_s JackpotRollProc(proc_t *proc) {
         for (i = 0; i < 9; i++) {
             rollingNumberImages[i].texture = 0;
         }
-        sp20.w[1] = 0;
-        sp20.w[0] = 0;
-        return sp20;
+        result.w[1] = 0;
+        result.w[0] = 0;
+        return result;
     }
     i = 0;
     while (i < 9) {
@@ -51,5 +51,5 @@ struct procResult_s JackpotRollProc(proc_t *proc) {
         }
         i++;
     }
-    return sp20;
+    return result;
 }

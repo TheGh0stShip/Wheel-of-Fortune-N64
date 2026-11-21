@@ -11,17 +11,17 @@ The machine's turn in the final spin.
 =====================
 */
 struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
-    struct procResult_s sp10;
+    struct procResult_s result;
     proc_t *task;
     s32 unused;  /* NOTE: unused in the original */
     s32 event;
     f32 ratio;
 
-    sp10.w[1] = 1;
-    sp10.w[0] = 0;
+    result.w[1] = 1;
+    result.w[0] = 0;
     if (proc->data->playerProc.player != curPlayer) {
         ProcClearMessages(proc);
-        return sp10;
+        return result;
     }
     task = FindProc(0x5000000, -1);
     while ((event = ProcGetMessage(proc)) != 0) {
@@ -44,16 +44,16 @@ struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
                 break;
             }
             ProcPostMessage(proc, 5, 0);
-            sp10.w[1] = 1;
-            sp10.w[0] = 60 / frameRetraces;
-            return sp10;
+            result.w[1] = 1;
+            result.w[0] = 60 / frameRetraces;
+            return result;
             break;
         case 5:
             PlaySound(players[curPlayer].letterSounds + (curLetter - 65));
             ProcPostMessage(proc, 44, 0);
-            sp10.w[1] = 1;
-            sp10.w[0] = 30 / frameRetraces;
-            return sp10;
+            result.w[1] = 1;
+            result.w[0] = 30 / frameRetraces;
+            return result;
         case 44:
             task = FindProc(0x5010000, -1);
             ProcPostMessage(task, 23, 0);
@@ -61,18 +61,18 @@ struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
                 ShowLetter(curLetter);
                 task = CreatProc(LightLetterProc, 0x1000000);
                 task->data->lightLetter.letter = curLetter;
-                sp10.w[1] = 2;
-                sp10.w[0] = 6;
-                return sp10;
+                result.w[1] = 2;
+                result.w[0] = 6;
+                return result;
             } else {
                 PlaySound(1);
                 LoseTurn();
                 ProcPostEvent(24);
                 ProcPostEvent(31);
                 ProcPostMessage(task, 31, 0);
-                sp10.w[1] = 0;
-                sp10.w[0] = 0;
-                return sp10;
+                result.w[1] = 0;
+                result.w[0] = 0;
+                return result;
             }
         case 6:
             SetScorePictures(0);
@@ -82,13 +82,13 @@ struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
                 task = CreatProc(CpuSolveProc, proc->data->playerProc.player | 0x2000300);
                 task->data->playerProc.player = proc->data->playerProc.player;
                 task->data->playerProc.skill = proc->data->playerProc.skill;
-                sp10.w[1] = 2;
-                sp10.w[0] = 10;
-                return sp10;
+                result.w[1] = 2;
+                result.w[0] = 10;
+                return result;
             } else {
-                sp10.w[1] = 1;
-                sp10.w[0] = 0;
-                return sp10;
+                result.w[1] = 1;
+                result.w[0] = 0;
+                return result;
             }
         case 33:
             PlaySound(1);
@@ -99,14 +99,14 @@ struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
             ProcPostEvent(24);
             ProcPostEvent(31);
             ProcPostMessage(task, 31, 0);
-            sp10.w[1] = 0;
-            sp10.w[0] = 0;
-            return sp10;
+            result.w[1] = 0;
+            result.w[0] = 0;
+            return result;
         case 34:
-            sp10.w[1] = 0;
-            sp10.w[0] = 0;
-            return sp10;
+            result.w[1] = 0;
+            result.w[0] = 0;
+            return result;
         }
     }
-    return sp10;
+    return result;
 }

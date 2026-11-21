@@ -10,13 +10,13 @@ START pauses and resumes; 30 seconds without a button in a game pause it too.
 =====================
 */
 struct procResult_s PauseProc(proc_t *proc) {
-    struct procResult_s sp10;
-    proc_t *sp20;
+    struct procResult_s result;
+    proc_t *task;
     s32 unused;  /* NOTE: unused in the original */
     s32 sp28;
 
-    sp10.w[1] = 1;
-    sp10.w[0] = 0;
+    result.w[1] = 1;
+    result.w[0] = 0;
     for (;;) {
         sp28 = ProcGetMessage(proc);
         if (sp28 == 0) {
@@ -35,18 +35,18 @@ struct procResult_s PauseProc(proc_t *proc) {
         } else {
             if (((osGetTime() / osClockRate) - lastInputTime) > 30) {
                 PauseGame();
-                return sp10;
+                return result;
             }
         }
     } else {
         if (gameMode == 8) {
             if (((buttonsPressed & 0xB000) & 0xFFFF) != 0) {
-                sp20 = FindProc(0x6060000, -1);
-                if (sp20 != 0) {
-                    ProcPostMessage(sp20, 46, 1);
+                task = FindProc(0x6060000, -1);
+                if (task != 0) {
+                    ProcPostMessage(task, 46, 1);
                 }
             }
-            return sp10;
+            return result;
         }
     }
     if (((buttonsPressed & 0x1000) & 0xFFFF) != 0) {
@@ -60,5 +60,5 @@ struct procResult_s PauseProc(proc_t *proc) {
             lastInputTime = (s32)(osGetTime() / osClockRate);
         }
     }
-    return sp10;
+    return result;
 }

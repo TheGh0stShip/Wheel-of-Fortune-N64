@@ -568,11 +568,11 @@ The menu of the machine's skill; it prints MainMenu1Proc's message.
 */
 struct procResult_s SkillMenuProc(proc_t *proc) {
     s32 event;
-    struct procResult_s sp18;
+    struct procResult_s result;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    sp18.w[1] = 1;
-    sp18.w[0] = 0;
+    result.w[1] = 1;
+    result.w[0] = 0;
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
@@ -580,7 +580,7 @@ struct procResult_s SkillMenuProc(proc_t *proc) {
             proc->data->mainMenu.sel = skillMenu[0].sel;
             InitMainFlash(proc, skillMenuImages, &skillMenu[1], 0);
             InitMainFlash(proc, skillMenuImages, skillMenu, 1);
-            return sp18;
+            return result;
         }
     }
     if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
@@ -592,9 +592,9 @@ struct procResult_s SkillMenuProc(proc_t *proc) {
             break;
         case 1:
             StartMainMenu3();
-            sp18.w[1] = 0;
-            sp18.w[0] = 1;
-            return sp18;
+            result.w[1] = 0;
+            result.w[0] = 1;
+            return result;
         default:
             func_80009F38("MainMenu1 Proc: button press invalid\n");
         }
@@ -602,9 +602,9 @@ struct procResult_s SkillMenuProc(proc_t *proc) {
     if ((buttonsPressed & 0x5000 & 0xFFFF) != 0) {
         PlaySound(42);
         StartMainMenu3();
-        sp18.w[1] = 0;
-        sp18.w[0] = 1;
-        return sp18;
+        result.w[1] = 0;
+        result.w[0] = 1;
+        return result;
     } else if ((buttonsPressed & 2048 & 0xFFFF) != 0) {
         MenuUp(proc, skillMenuImages, skillMenu, 2);
     } else if ((buttonsPressed & 1024 & 0xFFFF) != 0) {
@@ -628,7 +628,7 @@ struct procResult_s SkillMenuProc(proc_t *proc) {
     } else {
         proc->data->mainMenu.delay = proc->data->mainMenu.delay - frameRetraces;
     }
-    return sp18;
+    return result;
 }
 
 /*
@@ -1118,10 +1118,10 @@ Opens the rounds menu.
 */
 void StartRoundsMenu(void) {
     s32 unused;  /* NOTE: unused in the original */
-    proc_t *sp14;
+    proc_t *task;
 
-    sp14 = CreatProc(RoundsMenuProc, 0x05000000);
-    MakeScreenObj(sp14, 0, DrawRoundsMenu, 0x05000000);
+    task = CreatProc(RoundsMenuProc, 0x05000000);
+    MakeScreenObj(task, 0, DrawRoundsMenu, 0x05000000);
     InitMarquee();
 }
 

@@ -14,9 +14,9 @@ void InitMenuContestants(void) {
     s32 unused2;  /* NOTE: unused in the original */
     s32 i;
     s32 size;
-    s32 sp20;
+    s32 base;
 
-    sp20 = 0x2000000;
+    base = 0x2000000;
     contestantMemMark = PushMemStack();
     for (i = 0; i < 6; i++) {
         size = menuClips[i].width * menuClips[i].height * 2;
