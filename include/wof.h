@@ -1387,7 +1387,7 @@ void DrawCreditsTitle( obj_t *obj, frame_t *frame );
 void DrawLetterPick( obj_t *obj, frame_t *frame );
 void DrawBonusPrize( obj_t *obj, frame_t *frame );
 void DrawBonusTimer( obj_t *obj, frame_t *frame );
-void DrawRetraces( s32 arg0, s32 arg1 );
+void DrawRetraces( obj_t *obj, frame_t *frame );
 void DrawPressStart( obj_t *obj, frame_t *frame );
 void DrawBootScreen( obj_t *obj, frame_t *frame );
 void DrawNoController( obj_t *obj, frame_t *frame );

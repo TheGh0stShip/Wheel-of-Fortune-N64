@@ -589,10 +589,10 @@ void DrawBonusTimer(obj_t *obj, frame_t *frame) {
 =====================
 DrawRetraces
 
-The draw function of retraceImages; nothing uses it.
+The draw function of retraceImages, which ShowRetracesProc lays out; no obj is made with it.
 =====================
 */
-void DrawRetraces(s32 arg0, s32 arg1) {
+void DrawRetraces(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */

@@ -1293,3 +1293,5 @@ sfxTblRomWord3	global	0x8006DD1C	invented	the third
 sfxTblRomWord4	global	0x8006DD20	invented	the fourth
 sfxTblRomWord5	global	0x8006DD24	invented	the fifth
 sfxTblRomWord6	global	0x8006DD28	invented	the sixth
+obj	param	DrawRetraces	invented	the objDraw_t parameters its sibling draw functions (DrawBonusTimer, DrawBonusPrize, DrawPressStart) have, whose body it shares; nothing calls it, and the gate shows the types change no byte
+frame	param	DrawRetraces	invented	as obj
