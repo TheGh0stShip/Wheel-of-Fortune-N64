@@ -22,8 +22,10 @@
  *             functions use;
  *   data      .data and .bss addresses that a single function uses, where one function's lie inside
  *             another's: the two functions share an object's contribution;
- *   units     the .data that the units define today lies in link order too: two units whose .data lie in
- *             the opposite order to their text are one object's;
+ *   units     a datum a unit defines is taken to be the object's of the unit's functions that use it, and
+ *             .data lies in link order: a datum below another whose users all come after the other one's
+ *             users is one object's with it; stale fill in .data ends an object, so a boundary lies between
+ *             the users of the data on either side;
  *   calls     a function whose address another names (a proc handler passed to CreatProc), or that only
  *             one other function calls, is taken to sit with its users.  C lets any file call any
  *             function, and the certain positions show how often the habit fails.
@@ -117,6 +119,7 @@ typedef struct {
     int ro_tie;       /* R_*: the read-only items on both sides are one object's */
     u32 tie_addr[2];  /* the two items that tie it */
     int dup_pin;      /* a duplicate string literal needs a boundary here and nowhere else: index into dups, or -1 */
+    int fill_pin;     /* stale .data fill needs a boundary here and nowhere else */
 } Pos;
 
 /* why two read-only items are one object's */
@@ -1274,39 +1277,130 @@ static void analyse_calls(void) {
     printf("\n");
 }
 
+static int data_joined(const Pos *p) { return p->data_cross[0] || p->data_cross[1]; }
+static int data_cross_any(int g) { return data_joined(&pos[g]); }
+
 /*
  * The linker lays out every object's .data in link order, the order of their text, as it does the read-only
- * data.  The units that define data today place it where retail's instructions point (the gate checks it),
- * so two units whose .data lie in the opposite order to their text are one object's, with every function
- * between them.  Counted against the certain positions first.
+ * data.  The units define data today where retail's instructions point (the gate checks it), and a datum a
+ * unit defines is taken to be the object's of the unit's functions that use it.  So when a datum lies below
+ * another although the functions that use the first all come after those that use the second, the two are
+ * one object's, with every function between them.  The symbols come from the last gate's symbols.map, each
+ * with the uses of it by its own unit's functions; counted against the certain positions first.
  */
 static void analyse_data_order(void) {
-    int i, k, g, bad = 0, conf = 0, open = 0, ninv = 0;
+    static struct {
+        u32 addr, size;
+        int lo, hi;
+        char name[96];
+    } s[4096];
+    static u32 all[8192]; /* every .data symbol a game unit defines */
+    char path[600], line[1000];
+    const char *dir = getenv("WOF_BUILD");
+    FILE *f;
+    int n = 0, nall = 0, i, k, g, bad = 0, conf = 0, open = 0, ninv = 0;
     printf("== the units' .data ==\n");
-    printf("units with text that define .data in the last gate: %d\n", ndsecs);
-    for (i = 0; i < ndsecs; i++)
-        for (k = 0; k < ndsecs; k++) {
-            int lo = funcs[dsecs[i].first].game, hi = funcs[dsecs[k].last].game;
-            if (lo < 0 || hi < 0 || funcs[dsecs[i].first].vram >= funcs[dsecs[k].first].vram || dsecs[i].base < dsecs[k].base) continue;
-            ninv++;
-            printf("  %s's .data (0x%08X) lies above %s's (0x%08X), whose text is later\n", funcs[dsecs[i].first].name, dsecs[i].base,
-                   funcs[dsecs[k].first].name, dsecs[k].base);
-            if (tie_crosses(lo, hi)) bad++;
-            for (g = lo; g < hi; g++)
-                if (pos[g].text == T_JOIN) conf++;
+    snprintf(path, sizeof path, "%s/symbols.map", dir ? dir : "build");
+    f = fopen(path, "r");
+    if (!f) {
+        printf("note: %s not found (run ./wof gate first); the test is skipped\n\n", path);
+        return;
+    }
+    while (fgets(line, sizeof line, f) && n < 4096) {
+        char *p = line, *name, *unit, *sec;
+        u32 addr, size;
+        int u, c;
+        chomp(line);
+        name = next_field(&p);
+        addr = strtoul(next_field(&p), NULL, 16);
+        size = strtoul(next_field(&p), NULL, 16);
+        unit = next_field(&p);
+        next_field(&p);
+        sec = next_field(&p);
+        if (!sec || strcmp(sec, ".data") || !size || !in_data(addr)) continue;
+        for (u = 0; u < nunits && strcmp(units[u].name, unit); u++) {}
+        if (u == nunits || strcmp(units[u].cls, "game")) continue;
+        s[n].addr = addr;
+        s[n].size = size;
+        s[n].lo = s[n].hi = -1;
+        snprintf(s[n].name, sizeof s[n].name, "%s", name);
+        for (c = 0; c < nclaims; c++) {
+            const Claim *cl = &claims[c];
+            int gi = funcs[cl->fn].game;
+            if (cl->addr < addr || cl->addr >= addr + size || !is_game_use(cl) || funcs[cl->fn].unit != u) continue;
+            if (s[n].lo < 0 || gi < s[n].lo) s[n].lo = gi;
+            if (gi > s[n].hi) s[n].hi = gi;
         }
-    printf("order: %d pairs of units in the opposite order; %d cross a certain boundary -> %s\n", ninv, bad,
-           bad ? "it decides nothing" : "a tied position counts as joined (likely)");
-    if (!bad)
-        for (i = 0; i < ndsecs; i++)
-            for (k = 0; k < ndsecs; k++) {
-                int lo = funcs[dsecs[i].first].game, hi = funcs[dsecs[k].last].game;
-                if (lo < 0 || hi < 0 || funcs[dsecs[i].first].vram >= funcs[dsecs[k].first].vram || dsecs[i].base < dsecs[k].base) continue;
-                for (g = lo; g < hi; g++)
-                    if (pos[g].text == T_OPEN && !pos[g].ro_tie) open++;
-                tie(lo, hi, R_DATA_ORDER, dsecs[k].base, dsecs[i].base);
+        if (nall < 8192) all[nall++] = addr;
+        if (s[n].lo >= 0) n++;
+    }
+    fclose(f);
+    printf("data the game units define and their own functions use: %d symbols\n", n);
+    for (k = 0; k < 2; k++)
+        for (i = 0; i < n; i++) {
+            int j;
+            for (j = 0; j < n; j++) {
+                int lo = s[j].lo, hi = s[i].hi;
+                if (s[i].addr >= s[j].addr || s[i].lo <= s[j].hi) continue;
+                /* s[i] lies below s[j], but every user of s[i] comes after every user of s[j] */
+                if (!k) {
+                    ninv++;
+                    if (tie_crosses(lo, hi)) bad++;
+                    for (g = lo; g < hi; g++)
+                        if (pos[g].text == T_JOIN) conf++;
+                    if (verbose)
+                        printf("  %s (0x%08X, used by %s) lies below %s (0x%08X, used by %s)\n", s[i].name, s[i].addr, funcs[game[s[i].lo]].name,
+                               s[j].name, s[j].addr, funcs[game[s[j].hi]].name);
+                } else if (!bad) {
+                    for (g = lo; g < hi; g++)
+                        if (pos[g].text == T_OPEN && !pos[g].ro_tie) open++;
+                    tie(lo, hi, R_DATA_ORDER, s[i].addr, s[j].addr);
+                }
             }
-    printf("undetermined positions newly tied: %d (certain joins in the spans: %d)\n\n", open, conf);
+            if (!k && i + 1 == n)
+                printf("order: %d pairs in the opposite order to their users; %d cross a certain boundary -> %s\n", ninv, bad,
+                       bad ? "it decides nothing" : "a tied position counts as joined (likely)");
+        }
+    printf("undetermined positions newly tied: %d (certain joins in the spans: %d)\n", open, conf);
+    /*
+     * Each object's .data starts on an 8-byte boundary, and the original assembler filled the gap after an
+     * object's last datum with stale bytes, never zeros inside an object.  Nonzero bytes between two data the
+     * units define, up to an 8-byte boundary, end an object: the last user of the datum below and the first
+     * user of the one above are two objects' functions, so a boundary lies between them.
+     */
+    {
+        int nfill = 0, ncertain = 0, npin = 0, nnone = 0;
+        for (i = 0; i < n; i++)
+            for (k = 0; k < n; k++) {
+                u32 a, end = s[i].addr + s[i].size;
+                int stale = 0, j, lo = s[i].hi, hi = s[k].lo, cand = 0, certain = 0, at = -1;
+                if (s[k].addr < end || s[k].addr - end >= 8 || (s[k].addr & 7) || s[k].addr == end) continue;
+                for (j = 0; j < nall; j++)
+                    if (all[j] >= end && all[j] < s[k].addr) break;
+                if (j < nall) continue;
+                for (a = end; a < s[k].addr; a++)
+                    if (*rom_at(a)) stale = 1;
+                if (!stale || lo >= hi) continue;
+                nfill++;
+                for (g = lo; g < hi; g++) {
+                    if (pos[g].text == T_GAP || pos[g].text == T_END) certain = 1;
+                    if (pos[g].text == T_OPEN && !pos[g].ro_tie && !pos[g].join_string && !data_cross_any(g)) cand++, at = g;
+                }
+                if (certain) ncertain++;
+                else if (cand == 1) npin++;
+                else if (!cand) nnone++;
+                if (verbose)
+                    printf("  stale fill 0x%08X..0x%08X between %s (%s) and %s (%s): %s\n", end, s[k].addr, s[i].name, funcs[game[lo]].name, s[k].name,
+                           funcs[game[hi]].name, certain ? "a certain boundary lies between" : cand == 1 ? "one position is left" : cand ? "several positions" : "no position is left");
+                if (!certain && cand == 1 && !nnone) pos[at].fill_pin = 1;
+            }
+        printf("stale fill between the data of two units' functions: %d; a certain boundary lies between the users of %d,\n"
+               "  one undetermined position is left for %d, none for %d -> %s\n", nfill, ncertain, npin, nnone,
+               nnone ? "it decides nothing" : npin ? "the position left is a boundary (likely)" : "it settles no position");
+        if (nnone)
+            for (g = 0; g + 1 < ngame; g++) pos[g].fill_pin = 0;
+    }
+    printf("\n");
 }
 
 static int nagree, npinned, nwide, nconflict, nnojoin, norder, nunused, nsingle, nsingle_gap, nsingle_open, nsingle_join;
@@ -1730,13 +1824,12 @@ static void analyse_data(int which, const char *what, int (*in_region)(u32)) {
 
 enum { G_CERTAIN, G_LIKELY, G_UNKNOWN, G_JOIN_LIKELY, G_JOIN, NGRADES };
 
-static int data_joined(const Pos *p) { return p->data_cross[0] || p->data_cross[1]; }
 
 static int grade(const Pos *p) {
     if (p->text == T_GAP || p->text == T_END) return G_CERTAIN;
     if (p->text == T_JOIN) return G_JOIN;
     if (p->join_string || data_joined(p) || p->ro_tie) return G_JOIN_LIKELY;
-    if (p->ro_pin >= 0 || p->dup_pin >= 0) return G_LIKELY;
+    if (p->ro_pin >= 0 || p->dup_pin >= 0 || p->fill_pin) return G_LIKELY;
     return G_UNKNOWN;
 }
 
@@ -1883,6 +1976,7 @@ static void print_result(void) {
         if (p->dup_pin >= 0)
             sprintf(ev + strlen(ev), "; the copies of \"%.24s\" at 0x%08X and 0x%08X need a boundary here and nowhere else",
                     string_at(items[dups[p->dup_pin].a].addr), items[dups[p->dup_pin].a].addr, items[dups[p->dup_pin].b].addr);
+        if (p->fill_pin) strcat(ev, "; stale .data fill between two functions' data falls here and nowhere else");
         if (p->join_addr) sprintf(ev + strlen(ev), "; 0x%08X is used on both sides%s", p->join_addr, p->join_string ? " (one string literal)" : " (not a string: may be a named constant)");
         if (p->ro_tie) sprintf(ev + strlen(ev), "; %s 0x%08X and 0x%08X", tie_why[p->ro_tie], p->tie_addr[0], p->tie_addr[1]);
         for (k = 0; k < 2; k++)
