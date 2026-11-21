@@ -100,6 +100,64 @@ typedef struct {
     /* 0x19C00 */ s16 moviePicture[0x2400];        // each screen lays out its own pictures here
 } frame_t;  // size 0x1E400
 
+// The proc events, by the names procEventNames records ("PRC_EVENT_INIT 8", ...; misspellings and
+// PRC_SELECTION_CHANGED, the one without EVENT_, as the ROM has them). Events and messages are one
+// set of numbers: ProcPostEvent, ProcPostMessage and ProcPostMessageClass take them, ProcGetMessage
+// returns them (PRC_EVENT_NULL: none), and a handler that returns w[1] = 2 waits for event w[0].
+#define PRC_EVENT_NULL                   0
+#define PRC_EVENT_NEXT_PLAYER            1
+#define PRC_EVENT_WHEEL_STOPPED          2
+#define PRC_EVENT_DONE_SPINING           3
+#define PRC_EVENT_WHEEL_ALMOST_STOPPED   4
+#define PRC_EVENT_DONE_SELECTING         5
+#define PRC_EVENT_DONE_REVEALING         6
+#define PRC_EVENT_WHEEL_LONG_SPIN        7
+#define PRC_EVENT_INIT                   8
+#define PRC_EVENT_DONE_VOWEL             9
+#define PRC_EVENT_DONE_SOLVE             10
+#define PRC_EVENT_STATUS_WAKEUP          11
+#define PRC_EVENT_SPIN_SELECTED          12
+#define PRC_EVENT_SVOWEL_SELECTED        13
+#define PRC_EVENT_SOLVE_SELECTED         14
+#define PRC_EVENT_NEXT_ROUND             15
+#define PRC_EVENT_VIDEO_DONE             16
+#define PRC_EVENT_CURSOR_RIGHT           17
+#define PRC_EVENT_CURSOR_LEFT            18
+#define PRC_EVENT_HIGHLIGHT_ALL          19
+#define PRC_EVENT_CLEAR_GUESSED          20
+#define PRC_EVENT_ROUND_OVER             21
+#define PRC_SELECTION_CHANGED            22
+#define PRC_EVENT_COMPUTER_SELECTED      23
+#define PRC_EVENT_COMPUTER_DONE          24
+#define PRC_EVENT_SOLVE_NEXT             25
+#define PRC_EVENT_SOLVE_CHANGED          26
+#define PRC_EVENT_COMPUTER_CHANGED       27
+#define PRC_EVENT_COMPUTER_SELECT        28
+#define PRC_EVENT_PLAYER_SPUN            29
+#define PRC_EVENT_GAME_TIMEOUT           30
+#define PRC_EVENT_DONE_SPEEDUP           31
+#define PRC_EVENT_DONE_FINAL_SPIN        32
+#define PRC_EVENT_SOLVE_TIMEOUT          33
+#define PRC_EVENT_DEMO_TIMEOUT           34
+#define PRC_EVENT_DEMO_RESET             35
+#define PRC_EVENT_START_PRESSED          36
+#define PRC_EVENT_USE_FREE_SPIN          37
+#define PRC_EVENT_FREE_SPIN_USED         38
+#define PRC_EVENT_START_ROUND            39
+#define PRC_EVENT_START_FIRST_ROUND      40
+#define PRC_EVENT_NEXT_SOUND             41
+#define PRC_EVENT_BONUS_ROUND            42
+#define PRC_EVENT_RESET_START_TIME       43
+#define PRC_EVENT_DONE_SAYING            44
+#define PRC_EVENT_DONE_CAMPATH           45
+#define PRC_EVENT_GAME_OVER              46
+#define PRC_EVENT_STOP_FLASHING_PUZZLE   47
+#define PRC_EVENT_FREE_TIMEOUT           48
+#define PRC_EVENT_VANNA_STOPPED          49
+#define PRC_EVENT_UP_EXCITEMENT          50
+#define PRC_EVENT_NOT_ENOUGH             51
+#define PRC_EVENT_NOT_ENOUGH2            52
+
 // What a proc's handler returns to DoProcs: w[1] says what becomes of the proc (0: it ends,
 // 1: it sleeps w[0] frames, 2 and 3: it waits for event w[0]). The third word is not read.
 struct procResult_s {
