@@ -6,37 +6,25 @@
 # holds; '-' for RCS runs and fill; '?' where the evidence gives none), evidence.
 # The game's creative content (puzzles, credits, clip masks) is not mapped here: its units define it, the build takes
 # its initialisers from the cartridge, and config/assets.tsv lists those ranges, which datamap counts as asset bytes.
-0x800004DD	0x800004E0	fill	ReadControllers	-	zero alignment to 4 bytes inside one object: ReadControllers's data follows
 0x800004F0	0x80000502	ident	?ReadControllers..SetLightColor	-	RCS run; zero fill to an 8-byte boundary follows: the run may be all of an object's read-only data (an object between ReadControllers's and SetLightColor's)
 0x80000502	0x80000508	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x8000068C	0x80000690	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800007D2	0x800007D8	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800007DE	0x800007E0	fill	FatalError	-	zero alignment to 4 bytes inside one object: FatalError's data follows
 0x800007EA	0x800007F0	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x80000853	0x80000854	fill	AllocBlock	-	zero alignment to 4 bytes inside one object: AllocBlock's data follows
-0x80000891	0x80000894	fill	DoProcs	-	zero alignment to 4 bytes inside one object: DoProcs's data follows
-0x800008B6	0x800008B8	fill	ProcPostEvent	-	zero alignment to 4 bytes inside one object: ProcPostEvent's data follows
-0x800008F9	0x800008FC	fill	ProcPostMessage	-	zero alignment to 4 bytes inside one object: ProcPostMessage's data follows
-0x8000095F	0x80000960	fill	ProcPostMessageClass	-	zero alignment to 4 bytes inside one object: ProcPostMessageClass's data follows
-0x800009CF	0x800009D0	fill	ProcClearMessages	-	zero alignment to 4 bytes inside one object: ProcClearMessages's data follows
-0x800009EE	0x800009F0	fill	GetObjBefore	-	zero alignment to 4 bytes inside one object: GetObjBefore's data follows
-0x80000A12	0x80000A14	fill	AllocObj	-	zero alignment to 4 bytes inside one object: AllocObj's data follows
-0x80000A51	0x80000A54	fill	CreatObj	-	zero alignment to 4 bytes inside one object: CreatObj's data follows
-0x80000A73	0x80000A74	fill	DrawObjs	-	zero alignment to 4 bytes inside one object: DrawObjs's data follows
+0x800008B6	0x800008B8	fill	?wof_procrun..wof_procevent	-	zero alignment: inside one object if DoProcs and ProcPostEvent are one object's, else fill between objects
+0x8000095F	0x80000960	fill	?wof_procevent..wof_procmessage	-	zero alignment: inside one object if ProcPostMessage and ProcPostMessageClass are one object's, else fill between objects
+0x800009EE	0x800009F0	fill	-	-	zeros to an 8-byte boundary: fill between objects (the text gap after KillProcClass lies between the users of the data on either side)
 0x80000A9A	0x80000AA0	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80000ABD	0x80000AC0	fill	wof_opening	-	zero alignment to 4 bytes inside one object: wof_opening's data follows
 0x80000AFC	0x80000B00	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80000E24	0x80000E28	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800011EC	0x800011F0	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x800012A4	0x800012A8	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80001364	0x80001368	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800014B4	0x800014B8	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x80001555	0x80001558	fill	MakeMovieObj	-	zero alignment to 4 bytes inside one object: MakeMovieObj's data follows
 0x8000155C	0x80001560	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x800016B3	0x800016B8	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80001882	0x80001888	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800018F4	0x800018F8	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x8000191E	0x80001920	fill	RoundTimerProc	-	zero alignment to 4 bytes inside one object: RoundTimerProc's data follows
+0x8000191E	0x80001920	fill	?FinalSpinProc..wof_timers	-	zero alignment: inside one object if FinalSpinProc and RoundTimerProc are one object's, else fill between objects
 0x8000195B	0x80001960	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80001A2F	0x80001A30	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80001A30	0x80001A42	ident	?wof_anim..AddConfetti	-	RCS run; zero fill to an 8-byte boundary follows: the run may be all of an object's read-only data (an object between InitContestants's and AddConfetti's); the boundary after StartPauseProc is certain, but whether these two runs open PauseGame's or PauseProc's or StartPauseProc's object, and ApplauseProc's or a later one's, the text does not say
@@ -62,7 +50,6 @@
 0x80038744	0x80038748	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
 0x8004B7B8	0x8004B830	data	?wof_camera	Lights7	used by wof_camera; 0 pointer words, 11 zero words; the header declares Lights6, but seven lights follow the ambient one (0x78 bytes); perhaps not wof_camera's: wof_camera's object holds views (0x80057F50) too, and one object's data is contiguous
 0x8004B834	0x8004B838	fill	-	-	zeros to an 8-byte boundary after createGfxTask's datum: fill between objects (parse_args' data follows)
-0x8004B848	0x8004B860	data	?wof_roundend	s32[6]	used by RoundOverProc; 0 pointer words, 0 zero words; RoundOverProc is wof_roundend's, whose data is views..playerViews: this one is some other object's, which the evidence does not name
 0x8005716C	0x80057170	fill	-	-	stale bytes (c8870001) to an 8-byte boundary: the puzzle object's data ends here
 0x80057170	0x80057729	data	?wof_puzzle..wof_opening	strings	53 strings "PRC_EVENT_NULL 0".."PRC_EVENT_NOT_ENOUGH2 52": the proc events by name, one char array each; only the table after them points here
 0x80057729	0x8005772C	fill	?wof_puzzle..wof_opening	-	zero alignment to 4 bytes inside one object: the table of names follows
