@@ -20,7 +20,7 @@ struct procResult_s SolveTimerProc(proc_t *proc) {
             break;
         }
     }
-    proc->data->timer.start = proc->data->timer.start + D_800BCA1C;
+    proc->data->timer.start = proc->data->timer.start + pausedTime;
     now = (s32)(osGetTime() / osClockRate);
     if (gameMode == 4) {
         bonusTimeLeft = 20 - (now - proc->data->timer.start);

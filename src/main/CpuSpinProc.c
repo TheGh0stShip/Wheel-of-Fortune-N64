@@ -69,8 +69,8 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
                 if (GetWedgeValue() == -2) {
                     func_80032B80();
                     SetGameView(0, 1);
-                    if (func_80017728() != 0) {
-                        func_80021B04(12, 16);
+                    if (MustLoseTurn() != 0) {
+                        PlayMovieCorner(12, 16);
                         result.w[1] = 2;
                         result.w[0] = 16;
                         return result;
@@ -102,7 +102,7 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
             result.w[0] = 30 / frameRetraces;
             return result;
         case 44:
-            func_8002A014();
+            ShowJackpot();
             task = FindProc(0x5010000, -1);
             ProcPostMessage(task, 23, 0);
             if (CallLetter(curLetter, 0) > 0) {

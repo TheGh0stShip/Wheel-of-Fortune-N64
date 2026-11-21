@@ -1,10 +1,10 @@
 // unit_80021E88.c -- the main menu's procs and the objects they draw
 //
-// The object's text lies between the 4-byte gaps that end func_80021E28 and func_80026FD4; its read-only
+// The object's text lies between the 4-byte gaps that end StopMovie and InitOptions; its read-only
 // data opens with the RCS run at 0x80001560 (the strings "InitMainFlash", "MainMenu1 Proc" and
 // "MainMenu3 Proc" are among it), and the next object's with the run at 0x80001678, which falls on the
-// second gap. The run at 0x80001560 could start at the first gap or after func_8002208C or func_800223A4:
-// that it starts at the gap, so that the functions before func_80022530 belong here, rests on the premise
+// second gap. The run at 0x80001560 could start at the first gap or after DrawContestantMenu or DrawSkillMenu:
+// that it starts at the gap, so that the functions before DrawRoundsMenu belong here, rests on the premise
 // that from 0x8000BAA8 on every object opens its read-only data with an RCS run.
 
 #include "wof.h"
@@ -13,7 +13,7 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
-void func_80021E88(obj_t *obj, frame_t *frame) {
+void DrawMainMenu1(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
@@ -22,22 +22,22 @@ void func_80021E88(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, &D_01021970);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 118; i++) {
-        func_800278A8(&D_80059120[i], 1);
+        DrawImage(&marqueeImages[i], 1);
     }
     i = 0;
     while (i < 20) {
         if (i >= 2 && i < 6) {
             if ((contPattern >> (i - 2)) % 2 != 0) {
-                func_800278A8(&D_80058548[i], 1);
+                DrawImage(&mainMenu1Images[i], 1);
             }
         } else {
-            func_800278A8(&D_80058548[i], 1);
+            DrawImage(&mainMenu1Images[i], 1);
         }
         i++;
     }
 }
 
-void func_8002208C(obj_t *obj, frame_t *frame) {
+void DrawContestantMenu(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
@@ -46,16 +46,16 @@ void func_8002208C(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, &D_01021970);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 118; i++) {
-        func_800278A8(&D_80059120[i], 1);
+        DrawImage(&marqueeImages[i], 1);
     }
     i = 0;
     while (i < 11) {
-        func_800278A8(&D_800588F0[i], 1);
+        DrawImage(&contestantMenuImages[i], 1);
         i++;
     }
 }
 
-void func_80022218(obj_t *obj, frame_t *frame) {
+void DrawMainMenu3(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
@@ -64,19 +64,19 @@ void func_80022218(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, &D_01021970);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 118; i++) {
-        func_800278A8(&D_80059120[i], 1);
+        DrawImage(&marqueeImages[i], 1);
     }
     i = 0;
     for (;;) {
         if (i >= 21) {
             return;
         }
-        func_800278A8(&D_80058B28[i], 1);
+        DrawImage(&mainMenu3Images[i], 1);
         i++;
     }
 }
 
-void func_800223A4(obj_t *obj, frame_t *frame) {
+void DrawSkillMenu(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
@@ -85,16 +85,16 @@ void func_800223A4(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, &D_01021970);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 118; i++) {
-        func_800278A8(&D_80059120[i], 1);
+        DrawImage(&marqueeImages[i], 1);
     }
     i = 0;
     while (i < 7) {
-        func_800278A8(&D_80058EB0[i], 1);
+        DrawImage(&skillMenuImages[i], 1);
         i++;
     }
 }
 
-void func_80022530(obj_t *obj, frame_t *frame) {
+void DrawRoundsMenu(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
@@ -107,7 +107,7 @@ void func_80022530(obj_t *obj, frame_t *frame) {
         if (i >= 118) {
             break;
         }
-        func_800278A8(&D_80059120[i], 1);
+        DrawImage(&marqueeImages[i], 1);
         i++;
     }
     i = 0;
@@ -115,21 +115,21 @@ void func_80022530(obj_t *obj, frame_t *frame) {
         if (i >= 7) {
             return;
         }
-        func_800278A8(&D_80059008[i], 1);
+        DrawImage(&roundsMenuImages[i], 1);
         i++;
     }
 }
 
-void func_800226BC(image_t *images, s32 count, s32 arg2) {
+void SetImageFlash(image_t *images, s32 count, s32 flash) {
     s32 i;
 
     for (i = 0; i < count; i++) {
-        images[i].unk_10 = arg2;
+        images[i].unk_10 = flash;
         images[i].unk_1C = images[i].unk_14;
     }
 }
 
-void func_80022784(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
+void InitMainFlash(proc_t *proc, image_t *images, menuItem_t *item, s32 on) {
     s32 sel;
     s32 i;
 
@@ -137,21 +137,21 @@ void func_80022784(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
     if (sel < 0 || sel >= item->rows) {
         func_80009F38("InitMainFlash: Invalid button");
     }
-    func_800226BC(&images[item->unk_04], item->unk_08, arg3 * 2);
+    SetImageFlash(&images[item->unk_04], item->unk_08, on * 2);
     for (i = 0; i < item->rows * item->cols; i += item->cols) {
-        if (arg3 != 0 && i == sel * item->cols) {
-            func_800226BC(&images[item->unk_0C + i], item->cols, 1);
-        } else if (arg3 == 0 && i == sel * item->cols && item->rows >= 2) {
-            func_800226BC(&images[item->unk_0C + i], item->cols, 2);
+        if (on != 0 && i == sel * item->cols) {
+            SetImageFlash(&images[item->unk_0C + i], item->cols, 1);
+        } else if (on == 0 && i == sel * item->cols && item->rows >= 2) {
+            SetImageFlash(&images[item->unk_0C + i], item->cols, 2);
         } else {
-            func_800226BC(&images[item->unk_0C + i], item->cols, 0);
+            SetImageFlash(&images[item->unk_0C + i], item->cols, 0);
         }
     }
 }
 
-void func_800229D0(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
+void MenuUp(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
     PlaySound(44);
-    func_80022784(proc, images, &items[proc->data->mainMenu.index], 0);
+    InitMainFlash(proc, images, &items[proc->data->mainMenu.index], 0);
     items[proc->data->mainMenu.index].sel = proc->data->mainMenu.sel;
     do {
         proc->data->mainMenu.index--;
@@ -163,13 +163,13 @@ void func_800229D0(proc_t *proc, image_t *images, menuItem_t *items, s32 count) 
     if (items[proc->data->mainMenu.index].callback != 0) {
         items[proc->data->mainMenu.index].callback(proc->data->mainMenu.index);
     }
-    func_80022784(proc, images, &items[proc->data->mainMenu.index], 1);
+    InitMainFlash(proc, images, &items[proc->data->mainMenu.index], 1);
     proc->data->mainMenu.delay = 15;
 }
 
-void func_80022BC8(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
+void MenuDown(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
     PlaySound(44);
-    func_80022784(proc, images, &items[proc->data->mainMenu.index], 0);
+    InitMainFlash(proc, images, &items[proc->data->mainMenu.index], 0);
     items[proc->data->mainMenu.index].sel = proc->data->mainMenu.sel;
     do {
         proc->data->mainMenu.index++;
@@ -181,19 +181,19 @@ void func_80022BC8(proc_t *proc, image_t *images, menuItem_t *items, s32 count) 
     if (items[proc->data->mainMenu.index].callback != 0) {
         items[proc->data->mainMenu.index].callback(proc->data->mainMenu.index);
     }
-    func_80022784(proc, images, &items[proc->data->mainMenu.index], 1);
+    InitMainFlash(proc, images, &items[proc->data->mainMenu.index], 1);
     proc->data->mainMenu.delay = 15;
 }
 
-void func_80022DC0(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
+void MenuLeft(proc_t *proc, image_t *images, menuItem_t *item, s32 skipAbsent) {
     PlaySound(43);
-    func_800226BC(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols],
+    SetImageFlash(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols],
                   item->cols, 0);
     proc->data->mainMenu.sel--;
     if (proc->data->mainMenu.sel < 0) {
         proc->data->mainMenu.sel = item->rows - 1;
     }
-    if (arg3 != 0) {
+    if (skipAbsent != 0) {
         while ((contPattern >> proc->data->mainMenu.sel) % 2 == 0 && proc->data->mainMenu.sel != 4) {
             proc->data->mainMenu.sel--;
             if (proc->data->mainMenu.sel < 0) {
@@ -202,19 +202,19 @@ void func_80022DC0(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
         }
     }
     item->sel = proc->data->mainMenu.sel;
-    func_800226BC(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols],
+    SetImageFlash(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols],
                   item->cols, 1);
     proc->data->mainMenu.delay = 15;
 }
 
-void func_80022FE0(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
+void MenuRight(proc_t *proc, image_t *images, menuItem_t *item, s32 skipAbsent) {
     PlaySound(43);
-    func_800226BC(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols], item->cols, 0);
+    SetImageFlash(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols], item->cols, 0);
     proc->data->mainMenu.sel++;
     if (proc->data->mainMenu.sel >= item->rows) {
         proc->data->mainMenu.sel = 0;
     }
-    if (arg3 != 0) {
+    if (skipAbsent != 0) {
         while ((contPattern >> proc->data->mainMenu.sel) % 2 == 0 && proc->data->mainMenu.sel != 4) {
             proc->data->mainMenu.sel++;
             if (proc->data->mainMenu.sel >= item->rows) {
@@ -223,20 +223,20 @@ void func_80022FE0(proc_t *proc, image_t *images, menuItem_t *item, s32 arg3) {
         }
     }
     item->sel = proc->data->mainMenu.sel;
-    func_800226BC(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols], item->cols, 1);
+    SetImageFlash(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols], item->cols, 1);
     proc->data->mainMenu.delay = 15;
 }
 
-void func_80023200(void) {
+void SetControllers(void) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        players[i].controller = D_800584C8[i].sel;
-        func_80024D60(i);
+        players[i].controller = mainMenu1[i].sel;
+        SetContestantSounds(i);
     }
 }
 
-struct procResult_s func_800232AC(proc_t *proc) {
+struct procResult_s MainMenu1Proc(proc_t *proc) {
     s32 event;
     s32 cursor;
     struct procResult_s result;
@@ -248,11 +248,11 @@ struct procResult_s func_800232AC(proc_t *proc) {
         switch (event) {
         case 8:
             proc->data->mainMenu.index = 0;
-            proc->data->mainMenu.sel = D_800584C8[0].sel;
-            func_80022784(proc, D_80058548, &D_800584C8[1], 0);
-            func_80022784(proc, D_80058548, &D_800584C8[2], 0);
-            func_80022784(proc, D_80058548, &D_800584C8[3], 0);
-            func_80022784(proc, D_80058548, D_800584C8, 1);
+            proc->data->mainMenu.sel = mainMenu1[0].sel;
+            InitMainFlash(proc, mainMenu1Images, &mainMenu1[1], 0);
+            InitMainFlash(proc, mainMenu1Images, &mainMenu1[2], 0);
+            InitMainFlash(proc, mainMenu1Images, &mainMenu1[3], 0);
+            InitMainFlash(proc, mainMenu1Images, mainMenu1, 1);
             return result;
         }
     }
@@ -261,17 +261,17 @@ struct procResult_s func_800232AC(proc_t *proc) {
         PlaySound(42);
         switch (proc->data->mainMenu.index) {
         case 0:
-            func_80022BC8(proc, D_80058548, D_800584C8, 4);
+            MenuDown(proc, mainMenu1Images, mainMenu1, 4);
             break;
         case 1:
-            func_80022BC8(proc, D_80058548, D_800584C8, 4);
+            MenuDown(proc, mainMenu1Images, mainMenu1, 4);
             break;
         case 2:
-            func_80022BC8(proc, D_80058548, D_800584C8, 4);
+            MenuDown(proc, mainMenu1Images, mainMenu1, 4);
             break;
         case 3:
-            func_80023200();
-            func_800263DC();
+            SetControllers();
+            StartContestantMenu();
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
@@ -281,32 +281,32 @@ struct procResult_s func_800232AC(proc_t *proc) {
     }
     if ((buttonsPressed & 0x5000 & 0xFFFF) != 0) {
         PlaySound(42);
-        func_80023200();
-        func_80026800();
+        SetControllers();
+        StartMainMenu3();
         result.w[1] = 0;
         result.w[0] = 1;
         return result;
     } else if ((buttonsPressed & 2048 & 0xFFFF) != 0) {
-        func_800229D0(proc, D_80058548, D_800584C8, 4);
+        MenuUp(proc, mainMenu1Images, mainMenu1, 4);
     } else if ((buttonsPressed & 1024 & 0xFFFF) != 0) {
-        func_80022BC8(proc, D_80058548, D_800584C8, 4);
+        MenuDown(proc, mainMenu1Images, mainMenu1, 4);
     } else if ((buttonsPressed & 512 & 0xFFFF) != 0) {
-        func_80022DC0(proc, D_80058548, &D_800584C8[proc->data->mainMenu.index], 1);
+        MenuLeft(proc, mainMenu1Images, &mainMenu1[proc->data->mainMenu.index], 1);
     } else if ((buttonsPressed & 256 & 0xFFFF) != 0) {
-        func_80022FE0(proc, D_80058548, &D_800584C8[proc->data->mainMenu.index], 1);
+        MenuRight(proc, mainMenu1Images, &mainMenu1[proc->data->mainMenu.index], 1);
     } else if ((buttonsPressed & 0x8000 & 0xFFFF) != 0) {
         return result;
     }
     if (proc->data->mainMenu.delay <= 0) {
         if (playerPad.stick_x >= 41) {
-            func_80022FE0(proc, D_80058548, &D_800584C8[proc->data->mainMenu.index], 1);
+            MenuRight(proc, mainMenu1Images, &mainMenu1[proc->data->mainMenu.index], 1);
         } else if (playerPad.stick_x < -40) {
-            func_80022DC0(proc, D_80058548, &D_800584C8[proc->data->mainMenu.index], 1);
+            MenuLeft(proc, mainMenu1Images, &mainMenu1[proc->data->mainMenu.index], 1);
         }
         if (playerPad.stick_y >= 41) {
-            func_800229D0(proc, D_80058548, D_800584C8, 4);
+            MenuUp(proc, mainMenu1Images, mainMenu1, 4);
         } else if (playerPad.stick_y < -40) {
-            func_80022BC8(proc, D_80058548, D_800584C8, 4);
+            MenuDown(proc, mainMenu1Images, mainMenu1, 4);
         }
     } else {
         proc->data->mainMenu.delay -= frameRetraces;
@@ -315,31 +315,31 @@ struct procResult_s func_800232AC(proc_t *proc) {
     if (cursor < 3) {
         switch (proc->data->mainMenu.sel) {
         case 0:
-            D_80058548[(cursor * 4) + 10].unk_20 = D_01158068;
-            D_80058548[(cursor * 4) + 10].unk_24 = D_0115B868;
+            mainMenu1Images[(cursor * 4) + 10].unk_20 = D_01158068;
+            mainMenu1Images[(cursor * 4) + 10].unk_24 = D_0115B868;
             break;
         case 1:
-            D_80058548[(cursor * 4) + 10].unk_20 = D_01158868;
-            D_80058548[(cursor * 4) + 10].unk_24 = D_0115C068;
+            mainMenu1Images[(cursor * 4) + 10].unk_20 = D_01158868;
+            mainMenu1Images[(cursor * 4) + 10].unk_24 = D_0115C068;
             break;
         case 2:
-            D_80058548[(cursor * 4) + 10].unk_20 = D_01159068;
-            D_80058548[(cursor * 4) + 10].unk_24 = D_0115C868;
+            mainMenu1Images[(cursor * 4) + 10].unk_20 = D_01159068;
+            mainMenu1Images[(cursor * 4) + 10].unk_24 = D_0115C868;
             break;
         case 3:
-            D_80058548[(cursor * 4) + 10].unk_20 = D_01159868;
-            D_80058548[(cursor * 4) + 10].unk_24 = D_0115D068;
+            mainMenu1Images[(cursor * 4) + 10].unk_20 = D_01159868;
+            mainMenu1Images[(cursor * 4) + 10].unk_24 = D_0115D068;
             break;
         case 4:
-            D_80058548[(cursor * 4) + 10].unk_20 = D_01157868;
-            D_80058548[(cursor * 4) + 10].unk_24 = D_0115B068;
+            mainMenu1Images[(cursor * 4) + 10].unk_20 = D_01157868;
+            mainMenu1Images[(cursor * 4) + 10].unk_24 = D_0115B068;
             break;
         }
     }
     return result;
 }
 
-void func_80023B44(void) {
+void SwitchImage(void) {
     s32 i;
     obj_t *obj;
 
@@ -348,7 +348,7 @@ void func_80023B44(void) {
         if (obj == 0) {
             func_80009F38("SwitchImage: could not find contestant");
         }
-        if (i == D_80058868[0].sel) {
+        if (i == contestantMenu[0].sel) {
             obj->x = D_8005A390.unk_00;
             obj->y = D_8005A390.unk_04;
             obj->z = D_8005A390.unk_08;
@@ -360,7 +360,7 @@ void func_80023B44(void) {
     }
 }
 
-struct procResult_s func_80023CA4(proc_t *proc) {
+struct procResult_s ContestantMenuProc(proc_t *proc) {
     s32 event;
     struct procResult_s ret;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
@@ -371,9 +371,9 @@ struct procResult_s func_80023CA4(proc_t *proc) {
         switch (event) {
         case 8:
             proc->data->mainMenu.index = 0;
-            proc->data->mainMenu.sel = D_80058868[0].sel;
-            func_80022784(proc, D_800588F0, &D_80058868[1], 0);
-            func_80022784(proc, D_800588F0, D_80058868, 1);
+            proc->data->mainMenu.sel = contestantMenu[0].sel;
+            InitMainFlash(proc, contestantMenuImages, &contestantMenu[1], 0);
+            InitMainFlash(proc, contestantMenuImages, contestantMenu, 1);
             return ret;
         }
     }
@@ -382,22 +382,22 @@ struct procResult_s func_80023CA4(proc_t *proc) {
         PlaySound(42);
         switch (proc->data->mainMenu.index) {
         case 0:
-            func_80022BC8(proc, D_800588F0, D_80058868, 2);
+            MenuDown(proc, contestantMenuImages, contestantMenu, 2);
             break;
         case 1:
             if (curPlayer >= 2) {
-                players[curPlayer].contestant = D_80058868[0].sel;
+                players[curPlayer].contestant = contestantMenu[0].sel;
                 curPlayer = 0;
                 KillProcClass(0xA000300, -256, 1);
-                func_80026800();
+                StartMainMenu3();
                 ret.w[1] = 0;
                 ret.w[0] = 1;
                 return ret;
             } else {
-                players[curPlayer].contestant = D_80058868[0].sel;
+                players[curPlayer].contestant = contestantMenu[0].sel;
                 curPlayer++;
                 KillProcClass(0xA000300, -256, 1);
-                func_800263DC();
+                StartContestantMenu();
                 ret.w[1] = 0;
                 ret.w[0] = 1;
                 return ret;
@@ -408,44 +408,44 @@ struct procResult_s func_80023CA4(proc_t *proc) {
     }
     if ((buttonsPressed & 0x5000) & 0xFFFF) {
         PlaySound(42);
-        players[curPlayer].contestant = D_80058868[0].sel;
+        players[curPlayer].contestant = contestantMenu[0].sel;
         curPlayer = 0;
         KillProcClass(0xA000300, -256, 1);
-        func_80025FA8();
+        StartMainMenu1();
         ret.w[1] = 0;
         ret.w[0] = 1;
         return ret;
     } else if ((buttonsPressed & 0x800) & 0xFFFF) {
-        func_800229D0(proc, D_800588F0, D_80058868, 2);
+        MenuUp(proc, contestantMenuImages, contestantMenu, 2);
     } else if ((buttonsPressed & 0x400) & 0xFFFF) {
-        func_80022BC8(proc, D_800588F0, D_80058868, 2);
+        MenuDown(proc, contestantMenuImages, contestantMenu, 2);
     } else if ((buttonsPressed & 0x200) & 0xFFFF) {
-        func_80022DC0(proc, D_800588F0, &D_80058868[proc->data->mainMenu.index], 0);
+        MenuLeft(proc, contestantMenuImages, &contestantMenu[proc->data->mainMenu.index], 0);
         if (proc->data->mainMenu.index == 0) {
-            func_80023B44();
+            SwitchImage();
         }
     } else if ((buttonsPressed & 0x100) & 0xFFFF) {
-        func_80022FE0(proc, D_800588F0, &D_80058868[proc->data->mainMenu.index], 0);
+        MenuRight(proc, contestantMenuImages, &contestantMenu[proc->data->mainMenu.index], 0);
         if (proc->data->mainMenu.index == 0) {
-            func_80023B44();
+            SwitchImage();
         }
     }
     if (proc->data->mainMenu.delay <= 0) {
         if (playerPad.stick_x >= 41) {
-            func_80022FE0(proc, D_800588F0, &D_80058868[proc->data->mainMenu.index], 0);
+            MenuRight(proc, contestantMenuImages, &contestantMenu[proc->data->mainMenu.index], 0);
             if (proc->data->mainMenu.index == 0) {
-                func_80023B44();
+                SwitchImage();
             }
         } else if (playerPad.stick_x < -40) {
-            func_80022DC0(proc, D_800588F0, &D_80058868[proc->data->mainMenu.index], 0);
+            MenuLeft(proc, contestantMenuImages, &contestantMenu[proc->data->mainMenu.index], 0);
             if (proc->data->mainMenu.index == 0) {
-                func_80023B44();
+                SwitchImage();
             }
         }
         if (playerPad.stick_y >= 41) {
-            func_800229D0(proc, D_800588F0, D_80058868, 2);
+            MenuUp(proc, contestantMenuImages, contestantMenu, 2);
         } else if (playerPad.stick_y < -40) {
-            func_80022BC8(proc, D_800588F0, D_80058868, 2);
+            MenuDown(proc, contestantMenuImages, contestantMenu, 2);
         }
     } else {
         proc->data->mainMenu.delay = proc->data->mainMenu.delay - frameRetraces;
@@ -453,7 +453,7 @@ struct procResult_s func_80023CA4(proc_t *proc) {
     return ret;
 }
 
-struct procResult_s func_80024370(proc_t *proc) {
+struct procResult_s SkillMenuProc(proc_t *proc) {
     s32 event;
     struct procResult_s sp18;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
@@ -464,9 +464,9 @@ struct procResult_s func_80024370(proc_t *proc) {
         switch (event) {
         case 8:
             proc->data->mainMenu.index = 0;
-            proc->data->mainMenu.sel = D_80058E70[0].sel;
-            func_80022784(proc, D_80058EB0, &D_80058E70[1], 0);
-            func_80022784(proc, D_80058EB0, D_80058E70, 1);
+            proc->data->mainMenu.sel = skillMenu[0].sel;
+            InitMainFlash(proc, skillMenuImages, &skillMenu[1], 0);
+            InitMainFlash(proc, skillMenuImages, skillMenu, 1);
             return sp18;
         }
     }
@@ -475,10 +475,10 @@ struct procResult_s func_80024370(proc_t *proc) {
         PlaySound(42);
         switch (proc->data->mainMenu.index) {
         case 0:
-            func_80022BC8(proc, D_80058EB0, D_80058E70, 2);
+            MenuDown(proc, skillMenuImages, skillMenu, 2);
             break;
         case 1:
-            func_80026800();
+            StartMainMenu3();
             sp18.w[1] = 0;
             sp18.w[0] = 1;
             return sp18;
@@ -488,29 +488,29 @@ struct procResult_s func_80024370(proc_t *proc) {
     }
     if ((buttonsPressed & 0x5000 & 0xFFFF) != 0) {
         PlaySound(42);
-        func_80026800();
+        StartMainMenu3();
         sp18.w[1] = 0;
         sp18.w[0] = 1;
         return sp18;
     } else if ((buttonsPressed & 2048 & 0xFFFF) != 0) {
-        func_800229D0(proc, D_80058EB0, D_80058E70, 2);
+        MenuUp(proc, skillMenuImages, skillMenu, 2);
     } else if ((buttonsPressed & 1024 & 0xFFFF) != 0) {
-        func_80022BC8(proc, D_80058EB0, D_80058E70, 2);
+        MenuDown(proc, skillMenuImages, skillMenu, 2);
     } else if ((buttonsPressed & 512 & 0xFFFF) != 0) {
-        func_80022DC0(proc, D_80058EB0, &D_80058E70[proc->data->mainMenu.index], 0);
+        MenuLeft(proc, skillMenuImages, &skillMenu[proc->data->mainMenu.index], 0);
     } else if ((buttonsPressed & 256 & 0xFFFF) != 0) {
-        func_80022FE0(proc, D_80058EB0, &D_80058E70[proc->data->mainMenu.index], 0);
+        MenuRight(proc, skillMenuImages, &skillMenu[proc->data->mainMenu.index], 0);
     }
     if (proc->data->mainMenu.delay <= 0) {
         if (playerPad.stick_x >= 41) {
-            func_80022FE0(proc, D_80058EB0, &D_80058E70[proc->data->mainMenu.index], 0);
+            MenuRight(proc, skillMenuImages, &skillMenu[proc->data->mainMenu.index], 0);
         } else if (playerPad.stick_x < -40) {
-            func_80022DC0(proc, D_80058EB0, &D_80058E70[proc->data->mainMenu.index], 0);
+            MenuLeft(proc, skillMenuImages, &skillMenu[proc->data->mainMenu.index], 0);
         }
         if (playerPad.stick_y >= 41) {
-            func_800229D0(proc, D_80058EB0, D_80058E70, 2);
+            MenuUp(proc, skillMenuImages, skillMenu, 2);
         } else if (playerPad.stick_y < -40) {
-            func_80022BC8(proc, D_80058EB0, D_80058E70, 2);
+            MenuDown(proc, skillMenuImages, skillMenu, 2);
         }
     } else {
         proc->data->mainMenu.delay = proc->data->mainMenu.delay - frameRetraces;
@@ -518,7 +518,7 @@ struct procResult_s func_80024370(proc_t *proc) {
     return sp18;
 }
 
-struct procResult_s func_80024868(proc_t *proc) {
+struct procResult_s RoundsMenuProc(proc_t *proc) {
     s32 event;
     struct procResult_s result;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
@@ -529,9 +529,9 @@ struct procResult_s func_80024868(proc_t *proc) {
         switch (event) {
         case 8:
             proc->data->mainMenu.index = 0;
-            proc->data->mainMenu.sel = D_80058FC8[0].sel;
-            func_80022784(proc, D_80059008, &D_80058FC8[1], 0);
-            func_80022784(proc, D_80059008, D_80058FC8, 1);
+            proc->data->mainMenu.sel = roundsMenu[0].sel;
+            InitMainFlash(proc, roundsMenuImages, &roundsMenu[1], 0);
+            InitMainFlash(proc, roundsMenuImages, roundsMenu, 1);
             return result;
         }
     }
@@ -540,10 +540,10 @@ struct procResult_s func_80024868(proc_t *proc) {
         PlaySound(42);
         switch (proc->data->mainMenu.index) {
         case 0:
-            func_80022BC8(proc, D_80059008, D_80058FC8, 2);
+            MenuDown(proc, roundsMenuImages, roundsMenu, 2);
             break;
         case 1:
-            func_80026800();
+            StartMainMenu3();
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
@@ -553,29 +553,29 @@ struct procResult_s func_80024868(proc_t *proc) {
     }
     if ((buttonsPressed & 0x5000 & 0xFFFF) != 0) {
         PlaySound(42);
-        func_80026800();
+        StartMainMenu3();
         result.w[1] = 0;
         result.w[0] = 1;
         return result;
     } else if ((buttonsPressed & 2048 & 0xFFFF) != 0) {
-        func_800229D0(proc, D_80059008, D_80058FC8, 2);
+        MenuUp(proc, roundsMenuImages, roundsMenu, 2);
     } else if ((buttonsPressed & 1024 & 0xFFFF) != 0) {
-        func_80022BC8(proc, D_80059008, D_80058FC8, 2);
+        MenuDown(proc, roundsMenuImages, roundsMenu, 2);
     } else if ((buttonsPressed & 512 & 0xFFFF) != 0) {
-        func_80022DC0(proc, D_80059008, &D_80058FC8[proc->data->mainMenu.index], 0);
+        MenuLeft(proc, roundsMenuImages, &roundsMenu[proc->data->mainMenu.index], 0);
     } else if ((buttonsPressed & 256 & 0xFFFF) != 0) {
-        func_80022FE0(proc, D_80059008, &D_80058FC8[proc->data->mainMenu.index], 0);
+        MenuRight(proc, roundsMenuImages, &roundsMenu[proc->data->mainMenu.index], 0);
     }
     if (proc->data->mainMenu.delay <= 0) {
         if (playerPad.stick_x >= 41) {
-            func_80022FE0(proc, D_80059008, &D_80058FC8[proc->data->mainMenu.index], 0);
+            MenuRight(proc, roundsMenuImages, &roundsMenu[proc->data->mainMenu.index], 0);
         } else if (playerPad.stick_x < -40) {
-            func_80022DC0(proc, D_80059008, &D_80058FC8[proc->data->mainMenu.index], 0);
+            MenuLeft(proc, roundsMenuImages, &roundsMenu[proc->data->mainMenu.index], 0);
         }
         if (playerPad.stick_y >= 41) {
-            func_800229D0(proc, D_80059008, D_80058FC8, 2);
+            MenuUp(proc, roundsMenuImages, roundsMenu, 2);
         } else if (playerPad.stick_y < -40) {
-            func_80022BC8(proc, D_80059008, D_80058FC8, 2);
+            MenuDown(proc, roundsMenuImages, roundsMenu, 2);
         }
     } else {
         proc->data->mainMenu.delay -= frameRetraces;
@@ -583,23 +583,23 @@ struct procResult_s func_80024868(proc_t *proc) {
     return result;
 }
 
-void func_80024D60(s32 arg0) {
-    players[arg0].unk_110 = D_8005A3E4[players[arg0].contestant].unk_14;
-    players[arg0].letterSounds = D_8005A3E4[players[arg0].contestant].unk_00;
-    players[arg0].unk_100 = D_8005A3E4[players[arg0].contestant].unk_04;
-    players[arg0].unk_104 = D_8005A3E4[players[arg0].contestant].unk_08;
-    players[arg0].unk_108 = D_8005A3E4[players[arg0].contestant].unk_0C;
-    players[arg0].unk_10C = D_8005A3E4[players[arg0].contestant].unk_10;
+void SetContestantSounds(s32 player) {
+    players[player].unk_110 = voices[players[player].contestant].unk_14;
+    players[player].letterSounds = voices[players[player].contestant].unk_00;
+    players[player].unk_100 = voices[players[player].contestant].unk_04;
+    players[player].unk_104 = voices[players[player].contestant].unk_08;
+    players[player].unk_108 = voices[players[player].contestant].unk_0C;
+    players[player].unk_10C = voices[players[player].contestant].unk_10;
 }
 
-void func_8002500C(void) {
+void ApplyOptions(void) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        D_800BEDD8[i] = players[i].contestant;
+        savedContestants[i] = players[i].contestant;
     }
-    func_80023200();
-    switch (D_80058E70[0].sel) {
+    SetControllers();
+    switch (skillMenu[0].sel) {
     case 0:
         cpuSkill = 0.3f;
         break;
@@ -609,10 +609,10 @@ void func_8002500C(void) {
     case 2:
         cpuSkill = 0.9f;
     }
-    numRounds = D_80058FC8[0].sel + 3;
+    numRounds = roundsMenu[0].sel + 3;
 }
 
-struct procResult_s func_80025150(proc_t *proc) {
+struct procResult_s MainMenu3Proc(proc_t *proc) {
     s32 event;
     struct procResult_s ret;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
@@ -628,16 +628,16 @@ struct procResult_s func_80025150(proc_t *proc) {
         case 8:
             proc->data->mainMenu.index = 0;
             proc->data->mainMenu.sel = 0;
-            func_80022784(proc, D_80058B28, D_80058AA8, 1);
-            func_80022784(proc, D_80058B28, &D_80058AA8[1], 0);
-            func_80022784(proc, D_80058B28, &D_80058AA8[2], 0);
-            func_80022784(proc, D_80058B28, &D_80058AA8[3], 0);
+            InitMainFlash(proc, mainMenu3Images, mainMenu3, 1);
+            InitMainFlash(proc, mainMenu3Images, &mainMenu3[1], 0);
+            InitMainFlash(proc, mainMenu3Images, &mainMenu3[2], 0);
+            InitMainFlash(proc, mainMenu3Images, &mainMenu3[3], 0);
             return ret;
         case 36:
             KillOtherProcs(proc);
             InitObjs();
             PopMemStack(1);
-            func_8000BE6C();
+            BeginGame();
             ret.w[1] = 0;
             ret.w[0] = 0;
             return ret;
@@ -648,7 +648,7 @@ struct procResult_s func_80025150(proc_t *proc) {
         proc->data->mainMenu.delay = 0;
         switch (proc->data->mainMenu.index) {
         case 0:
-            func_8002500C();
+            ApplyOptions();
             PopMemStack(1);
             StopAllSounds();
             ProcPostMessage(proc, 36, 0);
@@ -658,19 +658,19 @@ struct procResult_s func_80025150(proc_t *proc) {
             break;
         case 1:
             KillProcClass(0xA000300, -256, 1);
-            func_80025FA8();
+            StartMainMenu1();
             ret.w[1] = 0;
             ret.w[0] = 1;
             break;
         case 2:
             KillProcClass(0xA000300, -256, 1);
-            func_80026DEC();
+            StartSkillMenu();
             ret.w[1] = 0;
             ret.w[0] = 1;
             break;
         case 3:
             KillProcClass(0xA000300, -256, 1);
-            func_80026E50();
+            StartRoundsMenu();
             ret.w[1] = 0;
             ret.w[0] = 1;
             break;
@@ -680,7 +680,7 @@ struct procResult_s func_80025150(proc_t *proc) {
     }
     if ((buttonsPressed & 0x1000 & 0xFFFF) != 0) {
         PlaySound(42);
-        func_8002500C();
+        ApplyOptions();
         StopAllSounds();
         PopMemStack(1);
         ProcPostMessage(proc, 36, 0);
@@ -688,13 +688,13 @@ struct procResult_s func_80025150(proc_t *proc) {
         ret.w[0] = 2;
         return ret;
     } else if ((buttonsPressed & 0x800 & 0xFFFF) != 0) {
-        func_800229D0(proc, D_80058B28, D_80058AA8, 4);
+        MenuUp(proc, mainMenu3Images, mainMenu3, 4);
     } else if ((buttonsPressed & 0x400 & 0xFFFF) != 0) {
-        func_80022BC8(proc, D_80058B28, D_80058AA8, 4);
+        MenuDown(proc, mainMenu3Images, mainMenu3, 4);
     } else if ((buttonsPressed & 0x200 & 0xFFFF) != 0) {
-        func_80022DC0(proc, D_80058B28, &D_80058AA8[proc->data->mainMenu.index], 0);
+        MenuLeft(proc, mainMenu3Images, &mainMenu3[proc->data->mainMenu.index], 0);
     } else if ((buttonsPressed & 0x100 & 0xFFFF) != 0) {
-        func_80022FE0(proc, D_80058B28, &D_80058AA8[proc->data->mainMenu.index], 0);
+        MenuRight(proc, mainMenu3Images, &mainMenu3[proc->data->mainMenu.index], 0);
     } else if ((buttonsPressed & 0x4 & 0xFFFF) != 0) {
         return ret;
     } else if ((buttonsPressed & 0x8 & 0xFFFF) != 0) {
@@ -704,14 +704,14 @@ struct procResult_s func_80025150(proc_t *proc) {
     }
     if (proc->data->mainMenu.delay <= 0) {
         if (playerPad.stick_x >= 41) {
-            func_80022FE0(proc, D_80058B28, &D_80058AA8[proc->data->mainMenu.index], 0);
+            MenuRight(proc, mainMenu3Images, &mainMenu3[proc->data->mainMenu.index], 0);
         } else if (playerPad.stick_x < -40) {
-            func_80022DC0(proc, D_80058B28, &D_80058AA8[proc->data->mainMenu.index], 0);
+            MenuLeft(proc, mainMenu3Images, &mainMenu3[proc->data->mainMenu.index], 0);
         }
         if (playerPad.stick_y >= 41) {
-            func_800229D0(proc, D_80058B28, D_80058AA8, 4);
+            MenuUp(proc, mainMenu3Images, mainMenu3, 4);
         } else if (playerPad.stick_y < -40) {
-            func_80022BC8(proc, D_80058B28, D_80058AA8, 4);
+            MenuDown(proc, mainMenu3Images, mainMenu3, 4);
         }
     } else {
         proc->data->mainMenu.delay = proc->data->mainMenu.delay - frameRetraces;
@@ -719,7 +719,7 @@ struct procResult_s func_80025150(proc_t *proc) {
     return ret;
 }
 
-void func_800258BC(void) {
+void InitMarquee(void) {
     s32 i;
     s32 k;
     s32 row;
@@ -728,90 +728,90 @@ void func_800258BC(void) {
     flag = 1;
     for (row = 0; row < 2; row++) {
         for (i = 0; i < 17; i++) {
-            D_80059120[row * 35 + i].unk_10 = flag;
-            D_80059120[row * 35 + i].unk_1C = 18 - i % 3 * 6;
-            D_80059120[row * 35 + i].unk_14 = 18;
-            D_80059120[row * 35 + i].unk_18 = 12;
+            marqueeImages[row * 35 + i].unk_10 = flag;
+            marqueeImages[row * 35 + i].unk_1C = 18 - i % 3 * 6;
+            marqueeImages[row * 35 + i].unk_14 = 18;
+            marqueeImages[row * 35 + i].unk_18 = 12;
         }
-        D_80059120[row * 35 + i].unk_10 = flag;
-        D_80059120[row * 35 + i].unk_1C = 18;
-        D_80059120[row * 35 + i].unk_14 = 18;
-        D_80059120[row * 35 + i].unk_18 = 12;
+        marqueeImages[row * 35 + i].unk_10 = flag;
+        marqueeImages[row * 35 + i].unk_1C = 18;
+        marqueeImages[row * 35 + i].unk_14 = 18;
+        marqueeImages[row * 35 + i].unk_18 = 12;
         k = 16;
         for (i = 18; i < 35; i++) {
-            D_80059120[row * 35 + i].unk_10 = flag;
-            D_80059120[row * 35 + i].unk_1C = k % 3 * 6 + 6;
-            D_80059120[row * 35 + i].unk_14 = 18;
-            D_80059120[row * 35 + i].unk_18 = 12;
+            marqueeImages[row * 35 + i].unk_10 = flag;
+            marqueeImages[row * 35 + i].unk_1C = k % 3 * 6 + 6;
+            marqueeImages[row * 35 + i].unk_14 = 18;
+            marqueeImages[row * 35 + i].unk_18 = 12;
             k++;
         }
     }
     row = 70;
     while (row < 118) {
         for (i = 0; i < 12; i++) {
-            D_80059120[i + row].unk_10 = flag;
-            D_80059120[i + row].unk_1C = 18 - i % 3 * 6;
-            D_80059120[i + row].unk_14 = 18;
-            D_80059120[i + row].unk_18 = 12;
+            marqueeImages[i + row].unk_10 = flag;
+            marqueeImages[i + row].unk_1C = 18 - i % 3 * 6;
+            marqueeImages[i + row].unk_14 = 18;
+            marqueeImages[i + row].unk_18 = 12;
         }
         k = 0;
         for (i = 12; i < 24; i++) {
-            D_80059120[i + row].unk_10 = flag;
-            D_80059120[i + row].unk_1C = k % 3 * 6 + 6;
-            D_80059120[i + row].unk_14 = 18;
-            D_80059120[i + row].unk_18 = 12;
+            marqueeImages[i + row].unk_10 = flag;
+            marqueeImages[i + row].unk_1C = k % 3 * 6 + 6;
+            marqueeImages[i + row].unk_14 = 18;
+            marqueeImages[i + row].unk_18 = 12;
             k++;
         }
         row += 24;
     }
 }
 
-void func_80025FA8(void) {
+void StartMainMenu1(void) {
     s32 i;
     s32 j;
     s32 unused;  /* NOTE: unused in the original */
     proc_t *task;
 
-    task = CreatProc(func_800232AC, 0x5000000);
-    func_80027218(task, 0, func_80021E88, 0x5000000);
-    func_800258BC();
+    task = CreatProc(MainMenu1Proc, 0x5000000);
+    MakeScreenObj(task, 0, DrawMainMenu1, 0x5000000);
+    InitMarquee();
     j = 0;
     for (i = 2; i < 6; i++) {
         if ((contPattern >> (i - 2)) % 2 != 0) {
-            D_80058548[i].x = D_800584A0[j][0];
-            D_80058548[i].y = D_800584A0[j][1];
+            mainMenu1Images[i].x = D_800584A0[j][0];
+            mainMenu1Images[i].y = D_800584A0[j][1];
             j++;
         }
     }
-    D_80058548[6].x = D_800584A0[j][0];
-    D_80058548[6].y = D_800584A0[j][1];
+    mainMenu1Images[6].x = D_800584A0[j][0];
+    mainMenu1Images[6].y = D_800584A0[j][1];
     for (i = 0; i < 3; i++) {
-        switch (D_800584C8[i].sel) {
+        switch (mainMenu1[i].sel) {
         case 0:
-            D_80058548[i * 4 + 10].unk_20 = D_01158068;
-            D_80058548[i * 4 + 10].unk_24 = D_0115B868;
+            mainMenu1Images[i * 4 + 10].unk_20 = D_01158068;
+            mainMenu1Images[i * 4 + 10].unk_24 = D_0115B868;
             break;
         case 1:
-            D_80058548[i * 4 + 10].unk_20 = D_01158868;
-            D_80058548[i * 4 + 10].unk_24 = D_0115C068;
+            mainMenu1Images[i * 4 + 10].unk_20 = D_01158868;
+            mainMenu1Images[i * 4 + 10].unk_24 = D_0115C068;
             break;
         case 2:
-            D_80058548[i * 4 + 10].unk_20 = D_01159068;
-            D_80058548[i * 4 + 10].unk_24 = D_0115C868;
+            mainMenu1Images[i * 4 + 10].unk_20 = D_01159068;
+            mainMenu1Images[i * 4 + 10].unk_24 = D_0115C868;
             break;
         case 3:
-            D_80058548[i * 4 + 10].unk_20 = D_01159868;
-            D_80058548[i * 4 + 10].unk_24 = D_0115D068;
+            mainMenu1Images[i * 4 + 10].unk_20 = D_01159868;
+            mainMenu1Images[i * 4 + 10].unk_24 = D_0115D068;
             break;
         case 4:
-            D_80058548[i * 4 + 10].unk_20 = D_01157868;
-            D_80058548[i * 4 + 10].unk_24 = D_0115B068;
+            mainMenu1Images[i * 4 + 10].unk_20 = D_01157868;
+            mainMenu1Images[i * 4 + 10].unk_24 = D_0115B068;
             break;
         }
     }
 }
 
-void func_800263DC(void) {
+void StartContestantMenu(void) {
     s32 i;
     proc_t *task;
 
@@ -820,61 +820,61 @@ void func_800263DC(void) {
         i++;
         if (i >= 3) {
             curPlayer = 0;
-            func_80026800();
+            StartMainMenu3();
             return;
         }
     }
     curPlayer = i;
-    task = CreatProc(func_80023CA4, 0x5000000);
-    func_80027218(task, 0, func_8002208C, 0x5000000);
-    func_800258BC();
-    D_800588F0[0].unk_20 = D_800588A8[i][0][0];
-    D_800588F0[0].unk_24 = D_800588A8[i][0][1];
-    D_800588F0[7].unk_20 = D_800588A8[i][1][0];
-    D_800588F0[7].unk_24 = D_800588A8[i][1][1];
-    D_800588F0[8].unk_20 = D_800588A8[i][2][0];
-    D_800588F0[8].unk_24 = D_800588A8[i][2][1];
-    switch (D_800584C8[i].sel) {
+    task = CreatProc(ContestantMenuProc, 0x5000000);
+    MakeScreenObj(task, 0, DrawContestantMenu, 0x5000000);
+    InitMarquee();
+    contestantMenuImages[0].unk_20 = D_800588A8[i][0][0];
+    contestantMenuImages[0].unk_24 = D_800588A8[i][0][1];
+    contestantMenuImages[7].unk_20 = D_800588A8[i][1][0];
+    contestantMenuImages[7].unk_24 = D_800588A8[i][1][1];
+    contestantMenuImages[8].unk_20 = D_800588A8[i][2][0];
+    contestantMenuImages[8].unk_24 = D_800588A8[i][2][1];
+    switch (mainMenu1[i].sel) {
     case 0:
-        D_800588F0[9].unk_20 = D_01158068;
-        D_800588F0[9].unk_24 = D_0115B868;
+        contestantMenuImages[9].unk_20 = D_01158068;
+        contestantMenuImages[9].unk_24 = D_0115B868;
         break;
     case 1:
-        D_800588F0[9].unk_20 = D_01158868;
-        D_800588F0[9].unk_24 = D_0115C068;
+        contestantMenuImages[9].unk_20 = D_01158868;
+        contestantMenuImages[9].unk_24 = D_0115C068;
         break;
     case 2:
-        D_800588F0[9].unk_20 = D_01159068;
-        D_800588F0[9].unk_24 = D_0115C868;
+        contestantMenuImages[9].unk_20 = D_01159068;
+        contestantMenuImages[9].unk_24 = D_0115C868;
         break;
     case 3:
-        D_800588F0[9].unk_20 = D_01159868;
-        D_800588F0[9].unk_24 = D_01159868;
+        contestantMenuImages[9].unk_20 = D_01159868;
+        contestantMenuImages[9].unk_24 = D_01159868;
         break;
     case 4:
-        D_800588F0[9].unk_20 = D_01157868;
-        D_800588F0[9].unk_24 = D_0115B068;
+        contestantMenuImages[9].unk_20 = D_01157868;
+        contestantMenuImages[9].unk_24 = D_0115B068;
         break;
     }
-    D_80058868[0].sel = players[curPlayer].contestant;
+    contestantMenu[0].sel = players[curPlayer].contestant;
     for (i = 0; i < 6; i++) {
-        if (i == D_80058868[0].sel) {
-            func_800323C4(i, i, D_8005A390.unk_00, D_8005A390.unk_04, D_8005A390.unk_08);
+        if (i == contestantMenu[0].sel) {
+            InitMenuAnim(i, i, D_8005A390.unk_00, D_8005A390.unk_04, D_8005A390.unk_08);
         } else {
-            func_800323C4(i, i, D_8005A39C[i].unk_00, D_8005A39C[i].unk_04, D_8005A39C[i].unk_08);
+            InitMenuAnim(i, i, D_8005A39C[i].unk_00, D_8005A39C[i].unk_04, D_8005A39C[i].unk_08);
         }
     }
 }
 
-void func_80026800(void) {
+void StartMainMenu3(void) {
     s32 i;
     s32 j;
     s32 clashes;
     proc_t *task;
 
-    task = CreatProc(func_80025150, 0x5000000);
-    func_80027218(task, 0, func_80022218, 0x5000000);
-    func_800258BC();
+    task = CreatProc(MainMenu3Proc, 0x5000000);
+    MakeScreenObj(task, 0, DrawMainMenu3, 0x5000000);
+    InitMarquee();
     for (i = 0; i < 3; i++) {
         if (players[i].controller == 4) {
             do {
@@ -897,86 +897,86 @@ void func_80026800(void) {
     }
     i = 0;
     while (i < 3) {
-        func_800323C4(players[i].contestant, i, D_8005A474[i].unk_00, D_8005A474[i].unk_04, D_8005A474[i].unk_08);
-        switch (D_800584C8[i].sel) {
+        InitMenuAnim(players[i].contestant, i, D_8005A474[i].unk_00, D_8005A474[i].unk_04, D_8005A474[i].unk_08);
+        switch (mainMenu1[i].sel) {
         case 0:
-            D_80058B28[i * 3 + 2].unk_20 = D_01158068;
-            D_80058B28[i * 3 + 2].unk_24 = D_01158068;
+            mainMenu3Images[i * 3 + 2].unk_20 = D_01158068;
+            mainMenu3Images[i * 3 + 2].unk_24 = D_01158068;
             break;
         case 1:
-            D_80058B28[i * 3 + 2].unk_20 = D_01158868;
-            D_80058B28[i * 3 + 2].unk_24 = D_01158868;
+            mainMenu3Images[i * 3 + 2].unk_20 = D_01158868;
+            mainMenu3Images[i * 3 + 2].unk_24 = D_01158868;
             break;
         case 2:
-            D_80058B28[i * 3 + 2].unk_20 = D_01159068;
-            D_80058B28[i * 3 + 2].unk_24 = D_01159068;
+            mainMenu3Images[i * 3 + 2].unk_20 = D_01159068;
+            mainMenu3Images[i * 3 + 2].unk_24 = D_01159068;
             break;
         case 3:
-            D_80058B28[i * 3 + 2].unk_20 = D_01159868;
-            D_80058B28[i * 3 + 2].unk_24 = D_01159868;
+            mainMenu3Images[i * 3 + 2].unk_20 = D_01159868;
+            mainMenu3Images[i * 3 + 2].unk_24 = D_01159868;
             break;
         case 4:
-            D_80058B28[i * 3 + 2].unk_20 = D_01157868;
-            D_80058B28[i * 3 + 2].unk_24 = D_01157868;
+            mainMenu3Images[i * 3 + 2].unk_20 = D_01157868;
+            mainMenu3Images[i * 3 + 2].unk_24 = D_01157868;
             break;
         }
         i++;
     }
 }
 
-void func_80026DEC(void) {
+void StartSkillMenu(void) {
     s32 unused;  /* NOTE: unused in the original */
     proc_t *task;
 
-    task = CreatProc(func_80024370, 0x05000000);
-    func_80027218(task, 0, func_800223A4, 0x05000000);
-    func_800258BC();
+    task = CreatProc(SkillMenuProc, 0x05000000);
+    MakeScreenObj(task, 0, DrawSkillMenu, 0x05000000);
+    InitMarquee();
 }
 
-void func_80026E50(void) {
+void StartRoundsMenu(void) {
     s32 unused;  /* NOTE: unused in the original */
     proc_t *sp14;
 
-    sp14 = CreatProc(func_80024868, 0x05000000);
-    func_80027218(sp14, 0, func_80022530, 0x05000000);
-    func_800258BC();
+    sp14 = CreatProc(RoundsMenuProc, 0x05000000);
+    MakeScreenObj(sp14, 0, DrawRoundsMenu, 0x05000000);
+    InitMarquee();
 }
 
-void func_80026EB4(void) {
+void StartMenus(void) {
     s32 i;
 
     do {
     } while (pendingGfx != 0 && retraceCount < 100);
-    func_80005700();
+    LoadSceneData();
     gameMode = 7;
     for (i = 0; i < 3; i++) {
-        players[i].contestant = D_800BEDD8[i];
+        players[i].contestant = savedContestants[i];
     }
     CreateCamera();
     SetCameraView(19);
-    func_80033334();
+    InitMenuContestants();
     curPlayer = 0;
-    func_80026800();
+    StartMainMenu3();
 }
 
-void func_80026FD4(void) {
+void InitOptions(void) {
     s32 i;
     s32 count;
 
     cpuSkill = 0.65f;
     numRounds = 6;
     for (i = 0; i < 3; i++) {
-        D_800584C8[i].sel = 4;
+        mainMenu1[i].sel = 4;
         players[i].controller = 4;
         players[i].contestant = i;
-        D_800BEDD8[i] = i;
-        StrCopy(players[i].unk_01C, D_8005A498[i]);
+        savedContestants[i] = i;
+        StrCopy(players[i].unk_01C, defaultNames[i]);
     }
     count = 0;
     i = 0;
     while (i < 4) {
         if ((contPattern >> i) % 2 != 0) {
-            D_800584C8[count].sel = i;
+            mainMenu1[count].sel = i;
             players[count].controller = i;
             count++;
         }
@@ -985,6 +985,6 @@ void func_80026FD4(void) {
         }
         i++;
     }
-    D_80058E70[0].sel = 1;
-    D_80058FC8[0].sel = 3;
+    skillMenu[0].sel = 1;
+    roundsMenu[0].sel = 3;
 }

@@ -25,9 +25,9 @@ void mainproc(void *arg) {
             break;
         case OS_SC_DONE_MSG:
             pendingGfx--;
-            if (D_800B8294 != 0) {
-                D_800BCA20 = PlaySound(D_800B8294);
-                D_800B8294 = 0;
+            if (movieSound != 0) {
+                movieSoundSlot = PlaySound(movieSound);
+                movieSound = 0;
             }
             break;
         case OS_SC_PRE_NMI_MSG:

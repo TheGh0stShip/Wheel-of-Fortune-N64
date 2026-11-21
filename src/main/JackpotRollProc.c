@@ -1,0 +1,46 @@
+#include "wof.h"
+
+
+struct procResult_s JackpotRollProc(proc_t *proc) {
+    s32 event;
+    s32 i;
+    s32 count;
+    struct procResult_s sp20;
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
+
+    sp20.w[1] = 1;
+    sp20.w[0] = 3 / frameRetraces - 1;
+    while ((event = ProcGetMessage(proc)) != 0) {
+        switch (event) {
+        case 8:
+            proc->data->data80029C98.unk_10 = 0;
+        }
+    }
+    proc->data->data80029C98.unk_10 = proc->data->data80029C98.unk_10 + 1;
+    count = proc->data->data80029C98.unk_10;
+    if (count >= 17) {
+        for (i = 0; i < 9; i++) {
+            D_8005B360[i].unk_20 = 0;
+        }
+        sp20.w[1] = 0;
+        sp20.w[0] = 0;
+        return sp20;
+    }
+    i = 0;
+    while (i < 9) {
+        if (D_8005B360[i].unk_20 != 0) {
+            D_8005B360[i].unk_20 = D_8005B360[i].unk_20 + D_8005B360[i].width;
+            D_8005B360[i].height = 15 - count;
+            if (D_8005B360[i].height <= 0) {
+                D_8005B360[i].unk_20 = 0;
+            }
+        }
+        D_8005B4C8[i].y = 61 - count;
+        D_8005B4C8[i].height = count;
+        if (count >= 16) {
+            D_8005B4C8[i].height = 15;
+        }
+        i++;
+    }
+    return sp20;
+}

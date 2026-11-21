@@ -16,11 +16,11 @@ struct procResult_s LetterPickProc(proc_t *proc) {
         switch (event) {
         case 8:
             InitLetterCursor(proc);
-            D_8005A998[proc->data->cursor.index].unk_10 = 1;
+            letterImages[proc->data->cursor.index].unk_10 = 1;
             proc->data->cursor.unk_0C = 0;
             return result;
         case 23:
-            D_8005A998[proc->data->cursor.index].unk_10 = 0;
+            letterImages[proc->data->cursor.index].unk_10 = 0;
             ProcPostEvent(5);
             result.w[1] = 0;
             result.w[0] = 0;
@@ -37,13 +37,13 @@ struct procResult_s LetterPickProc(proc_t *proc) {
         }
     }
     curLetter = proc->data->cursor.index + 65;
-    D_8005A998[proc->data->cursor.index].unk_10 = 0;
+    letterImages[proc->data->cursor.index].unk_10 = 0;
     if (players[curPlayer].controller == 4) {
-        D_8005A998[proc->data->cursor.index].unk_10 = 1;
+        letterImages[proc->data->cursor.index].unk_10 = 1;
         return result;
     }
     if ((buttonsPressed & 0xA000) != 0) {
-        D_800BED88++;
+        inputCount++;
         if (uncalled[proc->data->cursor.index] != ' ') {
             curLetter = proc->data->cursor.index + 65;
             ProcPostEvent(5);
@@ -94,6 +94,6 @@ struct procResult_s LetterPickProc(proc_t *proc) {
     } else if (proc->data->cursor.index >= 26) {
         proc->data->cursor.index = 0;
     }
-    D_8005A998[proc->data->cursor.index].unk_10 = 1;
+    letterImages[proc->data->cursor.index].unk_10 = 1;
     return result;
 }

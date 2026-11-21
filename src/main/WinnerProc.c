@@ -14,8 +14,8 @@ struct procResult_s WinnerProc(proc_t *proc) {
         case 8:
             SetGameView(17, 0);
             func_80032B10();
-            func_800334E4();
-            D_800B96A8 += 3;
+            HideOtherContestants();
+            applause += 3;
             if (players[curPlayer].unk_110 > 0) {
                 PlaySound(players[curPlayer].unk_110);
             }
@@ -25,9 +25,9 @@ struct procResult_s WinnerProc(proc_t *proc) {
         }
     }
     if (curPlayer == 0) {
-        func_800219B8(11, 42, 185, 20);
+        PlayMovie(11, 42, 185, 20);
     } else {
-        func_80021B04(11, 42);
+        PlayMovieCorner(11, 42);
     }
     ret.w[1] = 0;
     ret.w[0] = 0;

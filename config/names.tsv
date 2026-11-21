@@ -569,3 +569,169 @@ frame	member	cameraPath_t	invented	the frame of the move it is at
 count	member	cameraPath_t	invented	how many frames the move has
 player	member	adjustCamera_t	invented	the player whose turn made the proc
 skill	member	playerProc_t	invented	the machine's chance of a right letter; 0 for a person
+StartGame	function	0x8000BBA8	invented	waits for the graphics, sets gameMode 2 and makes the procs and objs of a game
+GameStartProc	function	0x8000BC64	invented	clears the menus, StartGame, then the camera and the movie that open a game
+BeginGame	function	0x8000BE6C	invented	creates GameStartProc, when the main menu starts a game
+OpeningProc	function	0x8000BEA8	invented	runs the opening: on START the menus, at its end the demo
+StartMenus	function	0x80026EB4	invented	sets gameMode 7 and opens the main menu with the camera and the contestants
+InitOptions	function	0x80026FD4	invented	the options before any menu: the machine's skill, 6 rounds, a controller for each player present
+LoadSceneData	function	0x80005700	invented	waits for the graphics, saves the memory stack and reads a block from the cartridge; each screen starts with it
+InitMainFlash	function	0x80022784	rom-string	"InitMainFlash: Invalid button"
+on	param	InitMainFlash	invented	not 0: the line the cursor is on
+SetImageFlash	function	0x800226BC	invented	sets how a run of pictures flashes
+flash	param	SetImageFlash	invented	0 lit, 1 flashing, 2 dim
+MenuUp	function	0x800229D0	invented	moves a menu's cursor to the line above that it can stop on
+MenuDown	function	0x80022BC8	invented	moves a menu's cursor to the line below that it can stop on
+MenuLeft	function	0x80022DC0	invented	chooses the option before on a menu's line
+MenuRight	function	0x80022FE0	invented	chooses the option after on a menu's line
+skipAbsent	param	MenuLeft	invented	not 0: skip the controllers that are not plugged in
+skipAbsent	param	MenuRight	invented	not 0: skip the controllers that are not plugged in
+SetControllers	function	0x80023200	invented	gives each player the controller the players menu chose, and its contestant's sounds
+MainMenu1Proc	function	0x800232AC	rom-string	"MainMenu1 Proc: button press invalid": the players menu, the first that prints it
+SwitchImage	function	0x80023B44	rom-string	"SwitchImage: could not find contestant"
+ContestantMenuProc	function	0x80023CA4	invented	the menu where each person picks a contestant; it prints MainMenu1Proc's message
+SkillMenuProc	function	0x80024370	invented	the menu of the machine's skill; it prints MainMenu1Proc's message
+RoundsMenuProc	function	0x80024868	invented	the menu of the number of rounds; it prints MainMenu1Proc's message
+SetContestantSounds	function	0x80024D60	invented	copies the sounds of a player's contestant into the player
+player	param	SetContestantSounds	invented	
+ApplyOptions	function	0x8002500C	invented	keeps the contestants and sets the controllers, the machine's skill and the rounds the menus chose
+MainMenu3Proc	function	0x80025150	rom-string	"MainMenu3 Proc: button press invalid": the main menu, which starts a game or opens the others
+InitMarquee	function	0x800258BC	invented	sets the lights around the menus flashing in a running pattern
+StartMainMenu1	function	0x80025FA8	invented	opens the players menu (MainMenu1Proc)
+StartContestantMenu	function	0x800263DC	invented	opens the contestant menu for the next person
+StartMainMenu3	function	0x80026800	invented	opens the main menu (MainMenu3Proc)
+StartSkillMenu	function	0x80026DEC	invented	opens the skill menu
+StartRoundsMenu	function	0x80026E50	invented	opens the rounds menu
+DrawMainMenu1	function	0x80021E88	invented	the draw function of the players menu
+DrawContestantMenu	function	0x8002208C	invented	the draw function of the contestant menu
+DrawMainMenu3	function	0x80022218	invented	the draw function of the main menu
+DrawSkillMenu	function	0x800223A4	invented	the draw function of the skill menu
+DrawRoundsMenu	function	0x80022530	invented	the draw function of the rounds menu
+mainMenu1	global	0x800584C8	invented	the lines of the players menu: a controller for each player, and OK
+mainMenu1Images	global	0x80058548	invented	the pictures of the players menu
+contestantMenu	global	0x80058868	invented	the lines of the contestant menu
+contestantMenuImages	global	0x800588F0	invented	the pictures of the contestant menu
+mainMenu3	global	0x80058AA8	invented	the lines of the main menu
+mainMenu3Images	global	0x80058B28	invented	the pictures of the main menu
+skillMenu	global	0x80058E70	invented	the lines of the skill menu
+skillMenuImages	global	0x80058EB0	invented	the pictures of the skill menu
+roundsMenu	global	0x80058FC8	invented	the lines of the rounds menu
+roundsMenuImages	global	0x80059008	invented	the pictures of the rounds menu
+marqueeImages	global	0x80059120	invented	the 118 lights around the menus
+savedContestants	global	0x800BEDD8	invented	the contestants the menus chose, which StartMenus puts back
+voices	global	0x8005A3E4	invented	the sounds of each of the six contestants
+defaultNames	global	0x8005A498	invented	the names InitOptions gives the players
+MakeScreenObj	function	0x80027218	invented	MakeObj for a picture on the screen: placed in front of the camera
+dl	param	MakeScreenObj	invented	
+cls	param	MakeScreenObj	invented	
+GetImageTexture	function	0x8002731C	invented	which of a picture's two textures to draw this frame, by how it flashes
+lit	param	GetImageTexture	invented	not 0: the lit texture, where it is not dimmed
+DrawImageAt	function	0x8002741C	invented	draws a picture moved by an offset
+lit	param	DrawImageAt	invented	
+dx	param	DrawImageAt	invented	
+dy	param	DrawImageAt	invented	
+DrawImage	function	0x800278A8	invented	draws a picture where it is
+lit	param	DrawImage	invented	
+DrawLetterPick	function	0x80028194	invented	the draw function of the letters to call, the category and the bonus letters
+DrawMovie	function	0x80020150	invented	the draw function of a movie, by its size
+DrawMovie64	function	0x8001D440	invented	draws a movie 64 pixels wide
+DrawMovie96	function	0x8001DAF0	invented	draws a movie 96 pixels wide
+DrawMovie112	function	0x8001EFF0	invented	draws a movie 112 pixels wide
+StoreFrame112	function	0x800202A0	invented	copies a decoded frame 112 pixels wide into the frame's picture memory, in the tiles DrawMovie112 loads
+StoreFrame96	function	0x8001ED48	invented	the same for a movie 96 pixels wide
+StoreFrame64x64	function	0x800206C8	invented	the same for a movie of 64 by 64
+StoreFrame64x96	function	0x80020C98	invented	the same for a movie of 64 by 96
+MakeMovieObj	function	0x800211E4	invented	the obj a movie is drawn by
+UpdateMovie	function	0x800212C0	invented	points the movie obj at this frame's picture and decodes the next
+UpdateClip	function	0x800213CC	invented	points a contestant's obj at its picture and decodes the next
+MovieProc	function	0x80021548	invented	plays a movie on the screen; at its end, its event
+ClipProc	function	0x80021744	invented	plays a movie as a contestant's picture; at its end, its event
+LoadMovie	function	0x80021908	invented	reads a movie from the cartridge into the memory stack
+movie	param	LoadMovie	invented	its number in movies
+PlayMovie	function	0x800219B8	invented	plays a movie at a place on the screen, then posts an event
+movie	param	PlayMovie	invented	
+event	param	PlayMovie	invented	
+x	param	PlayMovie	invented	
+y	param	PlayMovie	invented	
+PlayMovieCorner	function	0x80021B04	invented	PlayMovie at (25, 20), the top left
+movie	param	PlayMovieCorner	invented	
+event	param	PlayMovieCorner	invented	
+DecodeMovie	function	0x80021B4C	invented	decodes a number of frames of a movie into memory at once
+movie	param	DecodeMovie	invented	
+count	param	DecodeMovie	invented	
+PlayClip	function	0x80021C8C	invented	plays a movie as a contestant's picture (ClipProc)
+StopMovie	function	0x80021E28	invented	ends the movie in play and frees its memory
+movies	global	0x80058228	invented	the MPEG movies on the cartridge
+curMovie	global	0x800BCA28	invented	the movie in play
+movieDone	global	0x800B40C4	invented	what the MPEG player's frame call returned at the movie's end; 0 while it plays
+movieToMemory	global	0x800B96A4	invented	set while a movie is decoded into memory rather than shown
+movieMemMark	global	0x800BCA0C	invented	what PushMemStack returned before the movie was loaded
+movieSound	global	0x800B8294	invented	a sound mainproc plays when the next graphics task is done
+movieSoundSlot	global	0x800BCA20	invented	the slot of movieSound
+InitCategory	function	0x80029440	rom-string	"InitCategory: category strlen > 20"
+CategoryProc	function	0x80029098	invented	shows the category a letter at a time
+SetScorePictures	function	0x80029974	invented	lays out the digit pictures of each player's score on the screen, and on the stage
+total	param	SetScorePictures	invented	
+FlashScore	function	0x80029BFC	invented	makes a player's score on the screen flash
+player	param	FlashScore	invented	
+ShowJackpot	function	0x8002A014	invented	lays out the jackpot on the screen in the jackpot round, rolling it when it changes
+JackpotRollProc	function	0x80029C98	invented	rolls the old jackpot off and the new one on
+ShowTotal	function	0x8002A538	invented	lays out the player's total in the middle of the screen
+ShowTotalProc	function	0x8002B094	invented	shows the winner's total and a movie, then the opening again
+ShowWinTotalProc	function	0x8002B730	invented	shows the total of a bonus round won and a movie, then the credits
+CreditsProc	function	0x8002B318	invented	shows the credits as puzzles on the board, one after another
+BonusLostProc	function	0x8002B904	invented	the bonus puzzle was not solved: the camera, then ShowTotalProc
+BonusTimerProc	function	0x8002BA44	invented	shows the seconds left to solve the bonus puzzle
+ShowRetracesProc	function	0x8002BCF4	invented	shows frameRetraces as two digits
+BonusWonProc	function	0x8002BE84	invented	the bonus puzzle was solved: 25000, the lights and the celebration
+BonusRoundProc	function	0x8002C094	invented	the bonus round: the given letters, three consonants and a vowel, then the solve
+FlashPlayerStatus	function	0x8002CAB4	invented	makes the status pictures of the player whose turn it is flash
+InitActionCursor	function	0x80028C4C	invented	puts the cursor of StatusProc on the first action the player can take
+UnflashActions	function	0x8002AFDC	invented	stops the four action pictures flashing
+creditsText	global	0x8005C1E8	invented	the credits, as the text of 22 puzzles
+creditsTitles	global	0x8005C33C	invented	the category shown over each puzzle of the credits, or 0
+givenLetters	global	0x8005C394	invented	the letters the bonus round gives
+bonusConsonants	global	0x800BEE28	invented	the consonants called in the bonus round
+bonusVowels	global	0x800BEE4C	invented	the vowels called in the bonus round
+bonusMusicSlot	global	0x800BEE20	invented	the slot of the sound that plays while the bonus puzzle is solved
+shownJackpot	global	0x800B9CEC	invented	the jackpot ShowJackpot last laid out
+letterImages	global	0x8005A998	invented	the 26 letters to call on the screen
+actionImages	global	0x8005A828	invented	the actions on the screen: spin, buy a vowel, solve
+categoryImages	global	0x8005B710	invented	the letters of the category on the screen
+InitAnim	function	0x800325D0	rom-string	"InitAnim: invalid animation number", "...invalid contestant number", "...cannot find contestant obj": the one of the two that prints all three
+InitMenuAnim	function	0x800323C4	invented	InitAnim for a contestant shown in the menus, with its obj; prints InitAnim's first message
+InitVannaAnim	function	0x8003288C	rom-string	"InitVannaAnim: invalid animation number"
+InitContestants	function	0x80032BF0	rom-string	"InitContestants: invalid image num"
+PlayContestantClip	function	0x80033150	invented	plays a movie as a player's picture, if the contestant has one; prints InitContestants' and InitAnim's messages
+SetVannaAnim	function	0x80032AD4	invented	InitVannaAnim in place of the animation playing
+anim	param	SetVannaAnim	invented	
+SetPicture	function	0x80031340	invented	copies a picture into a picture slot of both frames
+SetVannaPicture	function	0x8003143C	invented	copies Vanna's picture into this frame, mirrored for -1
+DrawContestant	function	0x8002FEB0	invented	the draw function of a player's contestant
+DrawMenuContestant	function	0x80030490	invented	the draw function of a contestant in the menus
+DrawVanna	function	0x80030B5C	invented	the draw function of Vanna
+AnimProc	function	0x800315FC	invented	plays a contestant's animation
+VannaAnimProc	function	0x80031A54	invented	plays Vanna's animation
+InitMenuContestants	function	0x80033334	invented	decodes the movies of the six contestants of the menus
+HideOtherContestants	function	0x800334E4	invented	frees the pictures of every player but the one whose turn it is
+contestantClips	global	0x8005C3B8	invented	the two animations of each contestant
+contestantMovies	global	0x8005C568	invented	the movies PlayContestantClip plays for each contestant
+menuClips	global	0x8005C718	invented	the animation of each contestant in the menus
+vannaClips	global	0x8005C7F0	invented	Vanna's animations
+PauseGame	function	0x800335D0	invented	pauses: gameMode 6, the sounds paused, the pause picture shown
+PauseProc	function	0x80033688	invented	START pauses and resumes; 30 seconds without a button in a game pause it too
+StartPauseProc	function	0x800339E8	invented	creates PauseProc
+ApplauseProc	function	0x80033A28	invented	plays the crowd's applause, as loud as applause asks
+StartApplause	function	0x80033CBC	invented	creates ApplauseProc
+ConfettiProc	function	0x80034028	invented	a piece of confetti falling across the screen
+AddConfetti	function	0x800343F8	invented	a piece of confetti at a random place, speed and count of turns
+ConfettiBurstProc	function	0x800345E8	invented	throws confetti for a while
+StartCelebration	function	0x80034950	invented	the movie and the confetti of a win
+DrawConfetti	function	0x80033CF8	invented	the draw function of a piece of confetti
+MustLoseTurn	function	0x80017728	invented	0 when the player holds a free spin outside the final spin
+applause	global	0x800B96A8	invented	how much applause the crowd owes; ApplauseProc plays it down
+pauseStart	global	0x800BA2C0	invented	the second the pause began
+pausedMode	global	0x800BED98	invented	the gameMode the pause interrupted
+pausedTime	global	0x800BCA1C	invented	the seconds the last pause lasted, which the timers add to their start
+lastInputTime	global	0x800BEE48	invented	the second a button was last used
+inputCount	global	0x800BED88	invented	cursor moves since PauseProc last looked

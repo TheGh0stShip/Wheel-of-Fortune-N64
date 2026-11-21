@@ -40,7 +40,7 @@ s32 CheckSolved(s32 bank) {
     }
     if (bank != 0) {
         if (jackpotWon != 0) {
-            func_80034950();
+            StartCelebration();
             players[curPlayer].score += jackpot;
         }
         if (players[curPlayer].score < 500) {

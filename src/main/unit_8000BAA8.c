@@ -34,24 +34,24 @@ void UnlockSi(void) {
     osSendMesg(&siLockQ, 0, 0);
 }
 
-void func_8000BBA8(void) {
+void StartGame(void) {
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     do {
     } while (pendingGfx != 0 && retraceCount < 100);
     gameMode = 2;
-    func_800339E8();
+    StartPauseProc();
     CreateCamera();
     StartRoundTimer();
     NewGame();
     InitStage();
-    func_80032BF0();
+    InitContestants();
     InitPlayers();
     StartStatus();
-    func_80033CBC();
+    StartApplause();
 }
 
-struct procResult_s func_8000BC64(proc_t *proc) {
+struct procResult_s GameStartProc(proc_t *proc) {
     struct procResult_s result;
     obj_t *sp20;
     s32 event;
@@ -71,14 +71,14 @@ struct procResult_s func_8000BC64(proc_t *proc) {
             KillOtherProcs(proc);
             InitObjs();
             PopMemStack(1);
-            func_8000BBA8();
+            StartGame();
             SetCameraView(12);
             result.w[1] = 2;
             result.w[0] = 45;
             return result;
         case 45:
             SetCameraView(3);
-            func_800219B8(5, 40, 180, 20);
+            PlayMovie(5, 40, 180, 20);
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
@@ -87,11 +87,11 @@ struct procResult_s func_8000BC64(proc_t *proc) {
     return result;
 }
 
-void func_8000BE6C(void) {
-    CreatProc(func_8000BC64, 0);
+void BeginGame(void) {
+    CreatProc(GameStartProc, 0);
 }
 
-struct procResult_s func_8000BEA8(proc_t *proc) {
+struct procResult_s OpeningProc(proc_t *proc) {
     f32 mtx[4][4];
     f32 rot[4][4];
     struct procResult_s result;
@@ -115,7 +115,7 @@ struct procResult_s func_8000BEA8(proc_t *proc) {
             KillOtherProcs(proc);
             InitObjs();
             PopMemStack(1);
-            func_80026EB4();
+            StartMenus();
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
@@ -480,7 +480,7 @@ struct procResult_s LogoProc(proc_t *proc) {
     sp20->x = 64;
     sp20->y = 110;
     proc->data->obj = sp20;
-    func_800219B8(23, 16, 104, 20);
+    PlayMovie(23, 16, 104, 20);
     result.w[1] = 2;
     result.w[0] = 16;
     return result;
@@ -491,7 +491,7 @@ void StartLogos(void) {
     obj_t *sp14;
 
     gameMode = 1;
-    func_80005700();
+    LoadSceneData();
     sp14 = MakeObj(0, 0, func_800288CC, 0x5030000);
     task = CreatProc(LogoProc, 0x8010000);
     task->data->obj = sp14;
@@ -502,12 +502,12 @@ void func_8000E738(void) {
     obj_t *result;
 
     gameMode = 1;
-    func_80005700();
+    LoadSceneData();
     result = MakeObj(0, 0, func_800289F4, 0x5030000);
 }
 
 void RestartOpening(void) {
-    func_80005700();
+    LoadSceneData();
     StartOpening();
     func_8002EDC0();
 }
@@ -534,7 +534,7 @@ void StartOpening(void) {
     task = CreatProc(func_8000C310, 0x8010000);
     obj = MakeObj(task, D_011356C0, func_8000D8B8, 0x8010000);
     obj->y = -20;
-    task = CreatProc(func_8000BEA8, 0x8000000);
+    task = CreatProc(OpeningProc, 0x8000000);
     obj = MakeObj(task, D_01197D78, func_8000D400, 0x8010000);
     task->data->data8000BEA8.unk_0C = -272.0f;
     task->data->data8000BEA8.unk_10 = 306.0f;

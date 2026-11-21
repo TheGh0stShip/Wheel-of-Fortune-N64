@@ -172,23 +172,23 @@ struct procResult_s WheelStopProc(proc_t *proc) {
                 PlaySound(1);
                 break;
             case 2500:
-                D_800B96A8++;
+                applause++;
                 break;
             case 3500:
                 proc->data->wheelStop.unk_04 = 1;
-                D_800B96A8++;
+                applause++;
                 ProcPostMessage(proc, 41, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 10 / frameRetraces;
                 return ret;
             case 5000:
-                D_800B96A8++;
+                applause++;
                 ProcPostMessage(proc, 41, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 10 / frameRetraces;
                 return ret;
             case 10000:
-                D_800B96A8 = D_800B96A8 + 3;
+                applause = applause + 3;
                 ProcPostMessage(proc, 41, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 10 / frameRetraces;
@@ -242,13 +242,13 @@ struct procResult_s WheelSpinProc(proc_t *proc) {
         case 8:
             func_80016098();
             func_80032B10();
-            func_80032AD4(1);
+            SetVannaAnim(1);
             proc->data->wheelSpin.unk_04 = 0;
-            D_800B96A8++;
+            applause++;
             ProcPostMessage(proc, 41, 0);
             return TurnWheel(proc);
         case 41:
-            D_800B96A8 += players[curPlayer].score / 5000;
+            applause += players[curPlayer].score / 5000;
             return TurnWheel(proc);
         case 34:
             ret.w[1] = 0;
@@ -394,7 +394,7 @@ struct procResult_s LightLetterProc(proc_t *proc) {
             } else {
                 proc->data->lightLetter.col = 13;
             }
-            D_800B96A8 = D_800B96A8 + 2;
+            applause = applause + 2;
             ret.w[1] = 1;
             ret.w[0] = 0;
             return ret;
@@ -416,12 +416,12 @@ struct procResult_s LightLetterProc(proc_t *proc) {
     if (proc->data->lightLetter.unk_0C == 0) {
         if (lightDir == 1) {
             if (col >= 7) {
-                func_80032AD4(0);
+                SetVannaAnim(0);
                 proc->data->lightLetter.unk_0C = 1;
             }
         } else {
             if (col < 7) {
-                func_80032AD4(0);
+                SetVannaAnim(0);
                 proc->data->lightLetter.unk_0C = 1;
             }
         }
@@ -461,7 +461,7 @@ struct procResult_s LightLetterProc(proc_t *proc) {
         col = col + lightDir;
     }
     if (proc->data->lightLetter.unk_0C == 0) {
-        func_80032AD4(0);
+        SetVannaAnim(0);
         proc->data->lightLetter.unk_0C = 1;
     }
     ret.w[1] = 2;
@@ -523,7 +523,7 @@ struct procResult_s LightTextProc(proc_t *proc) {
     }
     c = *proc->data->lightText.text;
     if (c == 0) {
-        func_80032AD4(0);
+        SetVannaAnim(0);
         result.w[1] = 2;
         result.w[0] = 49;
         return result;

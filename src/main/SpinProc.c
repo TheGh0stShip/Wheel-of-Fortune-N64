@@ -69,14 +69,14 @@ struct procResult_s SpinProc(proc_t *proc) {
                 SetGameView(0, 0);
                 func_80032B80();
                 StartRumble(players[curPlayer].controller, 30, 0.8f);
-                if (func_80017728() != 0) {
+                if (MustLoseTurn() != 0) {
                     if (GetWedgeValue() == -2) {
-                        func_80021B04(12, 16);
+                        PlayMovieCorner(12, 16);
                         result.w[1] = 2;
                         result.w[0] = 16;
                         return result;
                     } else {
-                        if (func_80033150(1, 16, curPlayer) != 0) {
+                        if (PlayContestantClip(1, 16, curPlayer) != 0) {
                             result.w[1] = 2;
                             result.w[0] = 16;
                         } else {
@@ -111,7 +111,7 @@ struct procResult_s SpinProc(proc_t *proc) {
             result.w[0] = 30 / frameRetraces;
             return result;
         case 44:
-            func_8002A014();
+            ShowJackpot();
             if (CallLetter(curLetter, 0) > 0) {
                 ShowLetter(curLetter);
                 task = CreatProc(LightLetterProc, 0x1000000);

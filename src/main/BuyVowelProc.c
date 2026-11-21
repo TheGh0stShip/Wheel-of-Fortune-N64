@@ -29,7 +29,7 @@ struct procResult_s BuyVowelProc(proc_t *proc) {
                 return ret;
             } else {
                 if (GetUncalledKinds() == 3) {
-                    func_80021B04(1, 16);
+                    PlayMovieCorner(1, 16);
                     ret.w[1] = 2;
                     ret.w[0] = 16;
                     return ret;

@@ -24,13 +24,13 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
                 ProcPostMessage(proc, 25, 0);
             }
             ProcPostMessage(task, 22, 0);
-            D_8005A998[proc->data->cursor.index].unk_10 = 1;
+            letterImages[proc->data->cursor.index].unk_10 = 1;
             proc->data->cursor.unk_0C = 0;
             result.w[0] = 45 / frameRetraces;
             return result;
         case 25:
             ResetSolveTimer();
-            D_8005A998[proc->data->cursor.index].unk_10 = 0;
+            letterImages[proc->data->cursor.index].unk_10 = 0;
             curLetter = proc->data->cursor.index + 32;
             if (CountSolveBlanks() != 0) {
                 ProcPostMessage(proc, 26, 0);
@@ -43,18 +43,18 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
             }
             return result;
         case 26:
-            D_8005A998[proc->data->cursor.index].unk_10 = 0;
-            D_8005A998[proc->data->cursor.index].unk_1C = D_8005A998[proc->data->cursor.index].unk_14;
+            letterImages[proc->data->cursor.index].unk_10 = 0;
+            letterImages[proc->data->cursor.index].unk_1C = letterImages[proc->data->cursor.index].unk_14;
             proc->data->cursor.index = puzzleText[solveRow][solveCol] - 65;
             curLetter = proc->data->cursor.index + 65;
             result.w[0] = 45 / frameRetraces;
             ProcPostMessage(proc, 25, 0);
             task = GetCursorProc();
             ProcPostMessage(task, 22, 0);
-            D_8005A998[proc->data->cursor.index].unk_10 = 1;
+            letterImages[proc->data->cursor.index].unk_10 = 1;
             return result;
         case 33:
-            D_8005A998[proc->data->cursor.index].unk_10 = 0;
+            letterImages[proc->data->cursor.index].unk_10 = 0;
             if (round == 6) {
                 task = FindProc(0x5050000, -1);
                 ProcPostMessage(task, 33, 1);
@@ -70,9 +70,9 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
             return result;
         }
     }
-    D_8005A998[proc->data->cursor.index].unk_10 = 0;
+    letterImages[proc->data->cursor.index].unk_10 = 0;
     if (players[curPlayer].controller == 4) {
-        D_8005A998[proc->data->cursor.index].unk_10 = 1;
+        letterImages[proc->data->cursor.index].unk_10 = 1;
         return result;
     }
     task = GetCursorProc();
@@ -136,6 +136,6 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
     } else if (proc->data->cursor.index >= 26) {
         proc->data->cursor.index = 0;
     }
-    D_8005A998[proc->data->cursor.index].unk_10 = 1;
+    letterImages[proc->data->cursor.index].unk_10 = 1;
     return result;
 }

@@ -38,7 +38,7 @@ struct procResult_s PlayerTurnProc(proc_t *proc) {
                 task = FindProc(0x5000000, -1);
                 ProcPostMessage(task, 21, 0);
                 StartBoardLights();
-                D_800B96A8 += 3;
+                applause += 3;
                 PlaySound(5);
                 task = CreatProc(RoundOverProc, proc->data->playerProc.player | 0x2000500);
                 task->data->playerProc.player = proc->data->playerProc.player;

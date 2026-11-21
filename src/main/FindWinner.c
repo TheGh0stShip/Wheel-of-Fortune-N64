@@ -14,5 +14,5 @@ void FindWinner(void) {
         }
     }
     UnlightPlayers();
-    func_80029BFC(curPlayer);
+    FlashScore(curPlayer);
 }

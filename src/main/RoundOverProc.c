@@ -17,10 +17,10 @@ struct procResult_s RoundOverProc(proc_t *proc) {
         switch (event) {
         case 8:
             SetGameView(3, 0);
-            func_80032AD4(1);
+            SetVannaAnim(1);
             func_80032B10();
             if (round != 2) {
-                func_80033150(0, 0, curPlayer);
+                PlayContestantClip(0, 0, curPlayer);
             }
             result.w[1] = 1;
             result.w[0] = 320 / frameRetraces;
@@ -30,9 +30,9 @@ struct procResult_s RoundOverProc(proc_t *proc) {
             ResetBoard();
             ProcPostEvent(47);
             if (round == 2) {
-                func_800219B8(7, 39, 180, 20);
+                PlayMovie(7, 39, 180, 20);
             } else {
-                func_800219B8(6, 39, 180, 20);
+                PlayMovie(6, 39, 180, 20);
             }
             result.w[1] = 0;
             result.w[0] = 0;
@@ -45,9 +45,9 @@ struct procResult_s RoundOverProc(proc_t *proc) {
     if (gameOver == 0 && round < numRounds) {
         SetCameraView(13);
         if (round == 2) {
-            D_800B9CEC = 0;
+            shownJackpot = 0;
             jackpot = 5000;
-            func_8002A014();
+            ShowJackpot();
         }
         obj = FindObj(0x4010000, -1);
         obj->pitch = D_8004B848[round] - D_800581F4;

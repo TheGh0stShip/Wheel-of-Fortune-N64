@@ -48,7 +48,7 @@ struct procResult_s FinalSpinTurnProc(proc_t *proc) {
             }
             break;
         case 6:
-            func_80029974(0);
+            SetScorePictures(0);
             StartSolveTimer();
             task = CreatProc(SolveProc, proc->data->playerProc.player | 0x2000300);
             task->data->playerProc.player = proc->data->playerProc.player;

@@ -13,7 +13,7 @@ void func_800278F0(obj_t *obj, frame_t *frame) {
     while (i >= 0) {
         j = 0;
         while (j < 2) {
-            func_800278A8(&D_8005A4B8[i][j], 1);
+            DrawImage(&D_8005A4B8[i][j], 1);
             j++;
         }
         i--;
@@ -22,24 +22,24 @@ void func_800278F0(obj_t *obj, frame_t *frame) {
     while (i < 3) {
         j = 0;
         while (j < 7) {
-            func_800278A8(&D_8005ADD0[i][j], 1);
+            DrawImage(&D_8005ADD0[i][j], 1);
             j++;
         }
         i++;
     }
-    if (round == 2 && (D_800B40C4 != 0 || D_800BCA28 == 22)) {
+    if (round == 2 && (movieDone != 0 || curMovie == 22)) {
         switch (curView) {
         case 3:
         case 18:
             j = 0;
             while (j < 3) {
-                func_800278A8(&D_8005B630[j], 1);
+                DrawImage(&D_8005B630[j], 1);
                 j++;
             }
             j = 0;
             while (j < 9) {
-                func_800278A8(&D_8005B4C8[j], 1);
-                func_800278A8(&D_8005B360[j], 1);
+                DrawImage(&D_8005B4C8[j], 1);
+                DrawImage(&D_8005B360[j], 1);
                 j++;
             }
         }
@@ -47,31 +47,31 @@ void func_800278F0(obj_t *obj, frame_t *frame) {
     i = 0;
     while (i < 26) {
         if (uncalled[i] == ' ') {
-            D_8005A998[i].unk_20 = D_8005A8C8[i];
+            letterImages[i].unk_20 = D_8005A8C8[i];
         } else {
-            D_8005A998[i].unk_20 = D_8005A930[i];
+            letterImages[i].unk_20 = D_8005A930[i];
         }
-        func_800278A8(&D_8005A998[i], 1);
+        DrawImage(&letterImages[i], 1);
         i++;
     }
     i = 0;
     while (i < 4) {
-        func_800278A8(&D_8005A828[i], 1);
+        DrawImage(&actionImages[i], 1);
         i++;
     }
     i = 0;
     while (i < 3) {
         if (players[i].freeSpin != 0) {
-            func_800278A8(&D_8005A7B0[i], 1);
+            DrawImage(&D_8005A7B0[i], 1);
         }
         if (players[i].hasPrize != 0) {
-            func_800278A8(&D_8005A5A8[i], 1);
+            DrawImage(&D_8005A5A8[i], 1);
         }
         i++;
     }
     i = 0;
     while (i < 22) {
-        func_800278A8(&D_8005B710[i], 1);
+        DrawImage(&categoryImages[i], 1);
         i++;
     }
 }

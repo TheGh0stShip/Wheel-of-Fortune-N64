@@ -39,7 +39,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
             if (CheckSolved(1) == 1) {
                 ProcPostMessage(task, 21, 0);
                 StartBoardLights();
-                D_800B96A8 += 3;
+                applause += 3;
                 PlaySound(5);
                 task = CreatProc(RoundOverProc, proc->data->playerProc.player | 0x2000500);
                 task->data->playerProc.player = proc->data->playerProc.player;
@@ -86,7 +86,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
             ret.w[1] = 1;
             ret.w[0] = 30 / frameRetraces;
             SetGameView(3, 1);
-            D_800B96A8++;
+            applause++;
             return ret;
         case 15:
             ProcPostEvent(24);

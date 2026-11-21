@@ -1,0 +1,13 @@
+#include "wof.h"
+
+void PauseGame(void) {
+    if (movieDone == 0) {
+        return;
+    }
+    ResetMotors();
+    pauseStart = (s32)(osGetTime() / osClockRate);
+    pausedMode = gameMode;
+    gameMode = 6;
+    MakeObj(0, 0, func_80028B1C, 0x5020000);
+    PauseSounds();
+}

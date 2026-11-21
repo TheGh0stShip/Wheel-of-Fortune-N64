@@ -66,7 +66,7 @@ struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
                 return sp10;
             }
         case 6:
-            func_80029974(0);
+            SetScorePictures(0);
             StartSolveTimer();
             ratio = CheckPercentDone();
             if (ratio > 0.7) {

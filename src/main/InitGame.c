@@ -20,7 +20,7 @@ void InitGame(void) {
     }
     retraceTime = 0;
     minRetraces = 0;
-    D_800B8294 = 0;
+    movieSound = 0;
     retraceCount = 0;
     frameRetraces = 0;
     D_800BCD50 = 0;
@@ -29,7 +29,7 @@ void InitGame(void) {
     InitAudio();
     InitGraphics();
     D_800BC6FC = 37;
-    D_800B40C4 = 1;
+    movieDone = 1;
     InitProcs();
     InitObjs();
     if (contPattern != 0) {
@@ -37,5 +37,5 @@ void InitGame(void) {
     } else {
         func_8000E738();
     }
-    func_80026FD4();
+    InitOptions();
 }

@@ -12,60 +12,60 @@ struct procResult_s StatusProc(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 27:
-            D_800BED88++;
-            func_8002AFDC();
+            inputCount++;
+            UnflashActions();
             proc->data->cursor.index = curLetter - 48;
-            D_8005A828[proc->data->cursor.index].unk_1C = D_8005A828[proc->data->cursor.index].unk_14;
+            actionImages[proc->data->cursor.index].unk_1C = actionImages[proc->data->cursor.index].unk_14;
             break;
         case 8:
-            func_8002AFDC();
+            UnflashActions();
             func_80028CC4();
-            D_800B9CEC = 0;
-            func_8002A014();
-            func_80029974(0);
+            shownJackpot = 0;
+            ShowJackpot();
+            SetScorePictures(0);
             for (i = 0; i < 26; i++) {
-                D_8005A998[i].unk_10 = 0;
+                letterImages[i].unk_10 = 0;
             }
             result.w[1] = 2;
             result.w[0] = 40;
             return result;
         case 40:
-            func_80029440();
-            func_8002CAB4();
+            InitCategory();
+            FlashPlayerStatus();
         case 3:
         case 9:
         case 10:
         case 11:
         case 24:
         case 31:
-            D_800BED88++;
-            func_8002AFDC();
-            func_80029974(0);
-            func_80028C4C(proc);
-            D_8005A828[proc->data->cursor.index].unk_10 = 1;
+            inputCount++;
+            UnflashActions();
+            SetScorePictures(0);
+            InitActionCursor(proc);
+            actionImages[proc->data->cursor.index].unk_10 = 1;
             proc->data->cursor.unk_0C = 0;
             return result;
         case 15:
-            D_800BED88++;
-            func_8002AFDC();
-            func_80028C4C(proc);
-            func_80029440();
-            D_800B9CEC = 0;
-            func_8002A014();
-            D_8005A828[proc->data->cursor.index].unk_10 = 1;
+            inputCount++;
+            UnflashActions();
+            InitActionCursor(proc);
+            InitCategory();
+            shownJackpot = 0;
+            ShowJackpot();
+            actionImages[proc->data->cursor.index].unk_10 = 1;
             proc->data->cursor.unk_0C = 0;
-            func_80029974(0);
+            SetScorePictures(0);
         case 1:
-            D_800BED88++;
-            func_80028C4C(proc);
-            func_8002CAB4();
+            inputCount++;
+            InitActionCursor(proc);
+            FlashPlayerStatus();
             return result;
         case 21:
-            D_800BED88++;
-            func_8002AFDC();
-            func_80028C4C(proc);
+            inputCount++;
+            UnflashActions();
+            InitActionCursor(proc);
             func_80028CC4();
-            func_80029974(1);
+            SetScorePictures(1);
             for (i = 0; i < 3; i++) {
                 D_8005A4B8[i][0].unk_10 = 0;
                 D_8005A4B8[i][0].unk_1C = D_8005A4B8[i][0].unk_14;
@@ -80,45 +80,45 @@ struct procResult_s StatusProc(proc_t *proc) {
             }
             return result;
         case 23:
-            D_800BED88++;
-            func_8002AFDC();
+            inputCount++;
+            UnflashActions();
             result.w[1] = 2;
             result.w[0] = 24;
             return result;
         case 30:
-            func_8002AFDC();
+            UnflashActions();
             result.w[1] = 2;
             result.w[0] = 32;
             finalSpin = 1;
             return result;
         case 42:
-            D_800BED88++;
+            inputCount++;
             StartBonusRound();
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
         case 34:
-            func_8002AFDC();
+            UnflashActions();
             result.w[1] = 0;
             result.w[0] = 1;
             return result;
         }
     }
-    func_8002AFDC();
+    UnflashActions();
     handle = FindProc(curPlayer | 0x2000000, 0xFF0000FF);
     if (handle == 0) {
         func_80009F38("Status Proc: player proc does not exist\n");
     }
     if (finalSpin == 1) {
-        D_8005A828[proc->data->cursor.index].unk_10 = 0;
+        actionImages[proc->data->cursor.index].unk_10 = 0;
         return result;
     }
     if (players[curPlayer].controller == 4) {
-        D_8005A828[proc->data->cursor.index].unk_10 = 1;
+        actionImages[proc->data->cursor.index].unk_10 = 1;
         return result;
     }
     if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
-        D_800BED88++;
+        inputCount++;
         proc->data->cursor.unk_0C = 0;
         switch (proc->data->cursor.index) {
         case 0:
@@ -189,6 +189,6 @@ struct procResult_s StatusProc(proc_t *proc) {
     } else if (proc->data->cursor.index >= 4) {
         proc->data->cursor.index = 0;
     }
-    D_8005A828[proc->data->cursor.index].unk_10 = 1;
+    actionImages[proc->data->cursor.index].unk_10 = 1;
     return result;
 }

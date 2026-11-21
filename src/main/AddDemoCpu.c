@@ -10,5 +10,5 @@ void AddDemoCpu(s32 player) {
     task->data->playerProc.player = player;
     task->data->playerProc.skill = 0.65f;
     players[player].controller = 4;
-    func_80024D60(player);
+    SetContestantSounds(player);
 }

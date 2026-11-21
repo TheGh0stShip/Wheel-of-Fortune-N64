@@ -15,7 +15,7 @@ void StartStatus(void) {
     }
     func_8002EDC0();
     sp10 = CreatProc(StatusProc, 0x5000000);
-    func_80027218(sp10, 0, func_800278F0, 0x5000000);
+    MakeScreenObj(sp10, 0, func_800278F0, 0x5000000);
     D_800BCA14 = 0;
     D_800B9974 = 0;
 }

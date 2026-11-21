@@ -35,7 +35,7 @@ struct procResult_s RoundTimerProc(proc_t *proc) {
             break;
         }
     }
-    roundTime = roundTime + D_800BCA1C;
+    roundTime = roundTime + pausedTime;
     now = (s32)(osGetTime() / osClockRate);
     if ((now - proc->data->timer.start) >= roundTime) {
         if (FindProc(0x5010000, -1) != 0) {

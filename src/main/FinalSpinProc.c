@@ -17,7 +17,7 @@ struct procResult_s FinalSpinProc(proc_t *proc) {
             result.w[0] = 180 / frameRetraces;
             return result;
         case 41:
-            func_80021B04(8, 44);
+            PlayMovieCorner(8, 44);
             result.w[1] = 2;
             result.w[0] = 44;
             return result;

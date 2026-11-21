@@ -6,18 +6,18 @@
 void func_80021090(void *arg0) {
     switch (D_80107884->h_size) {
     case 112:
-        func_800202A0(arg0);
+        StoreFrame112(arg0);
         return;
     case 96:
-        func_8001ED48(arg0);
+        StoreFrame96(arg0);
         return;
     case 64:
         switch (D_80107884->v_size) {
         case 64:
-            func_800206C8(arg0);
+            StoreFrame64x64(arg0);
             break;
         case 96:
-            func_80020C98(arg0);
+            StoreFrame64x96(arg0);
             break;
         }
         return;

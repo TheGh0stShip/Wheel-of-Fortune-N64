@@ -25,7 +25,7 @@ struct procResult_s SolveProc(proc_t *proc) {
             return ret;
         case 5:
             if (CheckSolve() == 1) {
-                D_800B96A8 = D_800B96A8 + 2;
+                applause = applause + 2;
                 ProcPostMessage(task, 19, 0);
                 ProcPostEvent(10);
                 ret.w[1] = 0;

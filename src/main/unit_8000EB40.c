@@ -23,11 +23,11 @@ struct procResult_s DemoProc(proc_t *proc) {
         switch (event) {
         case 8:
             ProcPostMessage(proc, 15, 0);
-            D_800B96A8 += 2;
+            applause += 2;
             result.w[0] = 30 / frameRetraces;
             return result;
         case 15:
-            func_800219B8(7, 40, 180, 20);
+            PlayMovie(7, 40, 180, 20);
             SetCameraView(3);
             return result;
         case 34:
@@ -46,7 +46,7 @@ struct procResult_s DemoProc(proc_t *proc) {
         case 35:
             KillOtherProcs(proc);
             InitObjs();
-            func_80021E28();
+            StopMovie();
             PopMemStack(1);
             RestartOpening();
             result.w[1] = 0;
@@ -55,8 +55,8 @@ struct procResult_s DemoProc(proc_t *proc) {
         case 36:
             KillOtherProcs(proc);
             InitObjs();
-            func_80021E28();
-            func_80026EB4();
+            StopMovie();
+            StartMenus();
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -79,10 +79,10 @@ void StartDemo(void) {
     StartDemoTimer();
     NewGame();
     InitStage();
-    func_80032BF0();
+    InitContestants();
     InitPlayers();
     StartStatus();
     CreatProc(DemoProc, 0x9000000);
     MakeObj(0, 0, func_800287A4, 0x5000000);
-    func_80033CBC();
+    StartApplause();
 }

@@ -16,15 +16,15 @@ void StartBonusRound(void) {
     }
     if (players[curPlayer].controller == 4) {
         ProcPostMessageClass(42, 0, 0, 1);
-        CreatProc(func_8002B094, 0x6000000);
+        CreatProc(ShowTotalProc, 0x6000000);
         return;
     }
     ResetMotors();
     SetGameView(3, 0);
     StartRound();
     ProcPostMessageClass(42, 0, 0, 1);
-    handle = CreatProc(func_8002C094, 0x5050000);
-    func_80027218(handle, 0, func_80028194, 0x5050000);
+    handle = CreatProc(BonusRoundProc, 0x5050000);
+    MakeScreenObj(handle, 0, DrawLetterPick, 0x5050000);
     InitBoard();
     InitCpuLetters();
     func_8002EDC0();
