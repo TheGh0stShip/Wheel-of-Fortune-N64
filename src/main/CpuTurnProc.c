@@ -77,7 +77,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
             if (finalSpin == 1) {
                 task = CreatProc(CpuFinalSpinTurnProc, proc->data->playerProc.player | 0x2030400);
                 task->data->playerProc.player = proc->data->playerProc.player;
-                task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
+                task->data->playerProc.skill = proc->data->playerProc.skill;
                 ret.w[1] = 2;
                 ret.w[0] = 31;
                 return ret;
@@ -93,7 +93,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
             if (finalSpin == 1) {
                 task = CreatProc(CpuFinalSpinTurnProc, proc->data->playerProc.player | 0x2030400);
                 task->data->playerProc.player = proc->data->playerProc.player;
-                task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
+                task->data->playerProc.skill = proc->data->playerProc.skill;
                 ret.w[1] = 2;
                 ret.w[0] = 31;
                 return ret;
@@ -107,7 +107,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
             if (finalSpin == 1) {
                 task = CreatProc(CpuFinalSpinTurnProc, proc->data->playerProc.player | 0x2030400);
                 task->data->playerProc.player = proc->data->playerProc.player;
-                task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
+                task->data->playerProc.skill = proc->data->playerProc.skill;
                 ret.w[1] = 2;
                 ret.w[0] = 31;
                 return ret;
@@ -125,7 +125,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
             ProcPostMessage(task, 23, 0);
             task = CreatProc(CpuSpinProc, proc->data->playerProc.player | 0x2000100);
             task->data->playerProc.player = proc->data->playerProc.player;
-            task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
+            task->data->playerProc.skill = proc->data->playerProc.skill;
             ret.w[1] = 2;
             ret.w[0] = 3;
             return ret;
@@ -136,7 +136,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
             ProcPostMessage(task, 23, 0);
             task = CreatProc(CpuBuyVowelProc, proc->data->playerProc.player | 0x2000200);
             task->data->playerProc.player = proc->data->playerProc.player;
-            task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
+            task->data->playerProc.skill = proc->data->playerProc.skill;
             ret.w[1] = 2;
             ret.w[0] = 9;
             return ret;
@@ -146,7 +146,7 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
             ProcPostMessage(task, 23, 0);
             task = CreatProc(CpuSolveProc, proc->data->playerProc.player | 0x2000300);
             task->data->playerProc.player = proc->data->playerProc.player;
-            task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
+            task->data->playerProc.skill = proc->data->playerProc.skill;
             ret.w[1] = 2;
             ret.w[0] = 10;
             return ret;

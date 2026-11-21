@@ -26,13 +26,13 @@ struct procResult_s SpinProc(proc_t *proc) {
             SetGameView(0, 0);
             task = CreatProc(WheelSpinProc, 0x4030000);
             node = FindObj(0x4010000, 0xFFFF0000);
-            task->data->wheelSpin.unk_00 = node;
+            task->data->wheelSpin.wheel = node;
             if (wheelSpeed > 50.0f) {
-                task->data->wheelSpin.unk_0C = wheelSpeed + guRandom() % 10;
+                task->data->wheelSpin.speed = wheelSpeed + guRandom() % 10;
             } else {
-                task->data->wheelSpin.unk_0C = (f32)(guRandom() % 10 + 50) + wheelSpeed;
+                task->data->wheelSpin.speed = (f32)(guRandom() % 10 + 50) + wheelSpeed;
             }
-            if (task->data->wheelSpin.unk_0C > 80.0) {
+            if (task->data->wheelSpin.speed > 80.0) {
                 ProcPostMessage(proc, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 40 / frameRetraces;
@@ -45,7 +45,7 @@ struct procResult_s SpinProc(proc_t *proc) {
             break;
         case 7:
             task = FindProc(0x4030000, -1);
-            if (task->data->wheelSpin.unk_0C >= 110.0) {
+            if (task->data->wheelSpin.speed >= 110.0) {
                 if (guRandom() % 100 >= 51) {
                     SetGameView(11, 0);
                 } else {

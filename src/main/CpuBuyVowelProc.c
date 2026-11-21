@@ -27,7 +27,7 @@ struct procResult_s CpuBuyVowelProc(proc_t *proc) {
                 return ret;
             } else {
                 SetGameView(3, 1);
-                StartCpuLetterPick(CpuPickVowel(proc->data->playerProc.unk_0C) & 255);
+                StartCpuLetterPick(CpuPickVowel(proc->data->playerProc.skill) & 255);
                 ProcPostMessage(proc, 5, 0);
                 ret.w[1] = 1;
                 ret.w[0] = 60 / frameRetraces;

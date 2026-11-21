@@ -34,7 +34,7 @@ struct procResult_s WheelPullProc(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            proc->data->wheelPull.unk_0C = obj->pitch;
+            proc->data->wheelPull.restPitch = obj->pitch;
             break;
         case 34:
             ret.w[1] = 0;
@@ -42,7 +42,7 @@ struct procResult_s WheelPullProc(proc_t *proc) {
             return ret;
         }
     }
-    delta = proc->data->wheelPull.unk_0C - playerPad.stick_x / D_80057F44;
+    delta = proc->data->wheelPull.restPitch - playerPad.stick_x / D_80057F44;
     if (delta > 0.0f) {
         delta = delta * -1.0f;
     }
@@ -115,7 +115,7 @@ struct procResult_s PointerProc(proc_t *proc) {
         }
         if ((proc->cls & 255) == curPlayer) {
             if (sp2C - actor->pitch < 0.0f) {
-                if (proc->data->pointer.unk_08 > 0) {
+                if (proc->data->pointer.swing > 0) {
                     PlaySound(Random(2) + 25);
                     if (players[curPlayer].controller < 4) {
                         // RULE-EXCEPTION: R25, as above
@@ -126,9 +126,9 @@ struct procResult_s PointerProc(proc_t *proc) {
         }
     }
     if ((proc->cls & 255) == curPlayer) {
-        SetWedge(target->pitch + (f32)D_800581F0[curPlayer] - sp28 + proc->data->pointer.unk_04);
+        SetWedge(target->pitch + (f32)D_800581F0[curPlayer] - sp28 + proc->data->pointer.offset);
     }
-    proc->data->pointer.unk_08 = (s32)(sp2C - actor->pitch);
+    proc->data->pointer.swing = (s32)(sp2C - actor->pitch);
     actor->pitch = sp2C;
     return result;
 }
@@ -209,24 +209,24 @@ struct procResult_s TurnWheel(proc_t *proc) {
     struct procResult_s ret;
     obj_t *obj;
 
-    obj = proc->data->wheelSpin.unk_00;
+    obj = proc->data->wheelSpin.wheel;
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (proc->data->wheelSpin.unk_0C <= 0.0f) {
+    if (proc->data->wheelSpin.speed <= 0.0f) {
         CreatProc(WheelStopProc, 0x4000000);
         ret.w[1] = 0;
         ret.w[0] = 0;
     } else {
-        obj->pitch = obj->pitch - proc->data->wheelSpin.unk_0C / 60.0f * frameRetraces;
-        proc->data->wheelSpin.unk_0C = proc->data->wheelSpin.unk_0C - frameRetraces * 0.5;
+        obj->pitch = obj->pitch - proc->data->wheelSpin.speed / 60.0f * frameRetraces;
+        proc->data->wheelSpin.speed = proc->data->wheelSpin.speed - frameRetraces * 0.5;
     }
-    if (proc->data->wheelSpin.unk_0C <= 50.0f) {
-        if (proc->data->wheelSpin.unk_10 > 50.0f) {
+    if (proc->data->wheelSpin.speed <= 50.0f) {
+        if (proc->data->wheelSpin.lastSpeed > 50.0f) {
             ProcPostEvent(4);
         }
     }
-    wheelSpeed = proc->data->wheelSpin.unk_0C;
-    proc->data->wheelSpin.unk_10 = proc->data->wheelSpin.unk_0C;
+    wheelSpeed = proc->data->wheelSpin.speed;
+    proc->data->wheelSpin.lastSpeed = proc->data->wheelSpin.speed;
     return ret;
 }
 
@@ -236,7 +236,7 @@ struct procResult_s WheelSpinProc(proc_t *proc) {
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    sp20 = proc->data->wheelSpin.unk_00;
+    sp20 = proc->data->wheelSpin.wheel;
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
@@ -938,31 +938,31 @@ void LightPlayer(s32 player) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        D_80057BB0[i].unk_04 = 0;
+        D_80057BB0[i].blink = 0;
     }
-    D_80057BB0[player].unk_04 = 1;
-    D_80057BB0[player].unk_0C = D_80057BB0[player].unk_08;
+    D_80057BB0[player].blink = 1;
+    D_80057BB0[player].blinkLeft = D_80057BB0[player].blinkFrames;
 }
 
 void UnlightPlayers(void) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        D_80057BB0[i].unk_04 = 0;
+        D_80057BB0[i].blink = 0;
     }
 }
 
 s32 GetLayerColor(layer_t *layer) {
     s32 result;
 
-    result = layer->unk_10;
-    if (layer->unk_04 != 0) {
-        if (layer->unk_0C > layer->unk_08 / 2) {
-            result = layer->unk_14;
+    result = layer->color;
+    if (layer->blink != 0) {
+        if (layer->blinkLeft > layer->blinkFrames / 2) {
+            result = layer->blinkColor;
         }
-        layer->unk_0C = layer->unk_0C - frameRetraces;
-        if (layer->unk_0C < 0) {
-            layer->unk_0C = layer->unk_08;
+        layer->blinkLeft = layer->blinkLeft - frameRetraces;
+        if (layer->blinkLeft < 0) {
+            layer->blinkLeft = layer->blinkFrames;
         }
     }
     return result;
@@ -1017,7 +1017,7 @@ void DrawScores(obj_t *obj, frame_t *frame) {
             gSPLightColor(glistp++, LIGHT_3, color);
             gSPLightColor(glistp++, LIGHT_4, color);
             gSPLightColor(glistp++, LIGHT_5, color);
-            gSPDisplayList(glistp++, D_80057BB0[i].unk_00);
+            gSPDisplayList(glistp++, D_80057BB0[i].dl);
         }
         SetLightColor(1);
         SetLightColor(3);
@@ -1363,20 +1363,20 @@ void InitStage(void) {
     MakeObj(0, D_010A6098, func_80014208, 0xA000000);
     MakeObj(0, D_010E4260, func_800153C4, 0xA000000);
     task = CreatProc(PointerProc, 0x4020000);
-    task->data->pointer.unk_04 = -2.0f;
-    task->data->pointer.unk_08 = 0;
+    task->data->pointer.offset = -2.0f;
+    task->data->pointer.swing = 0;
     obj = MakeObj(task, D_01037090, DrawPointer, 0x4020000);
     obj->mtx = &D_01037EF0;
     LightPlayer(0);
     obj = MakeObj(0, 0, DrawScores, 0xA000000);
     task = CreatProc(PointerProc, 0x4020001);
-    task->data->pointer.unk_04 = -2.0f;
-    task->data->pointer.unk_08 = 0;
+    task->data->pointer.offset = -2.0f;
+    task->data->pointer.swing = 0;
     obj = MakeObj(task, D_01036FA8, DrawPointer, 0x4020001);
     obj->mtx = &D_01037EB0;
     task = CreatProc(PointerProc, 0x4020002);
-    task->data->pointer.unk_04 = -2.0f;
-    task->data->pointer.unk_08 = 0;
+    task->data->pointer.offset = -2.0f;
+    task->data->pointer.swing = 0;
     obj = MakeObj(task, D_01037178, DrawPointer, 0x4020002);
     obj->mtx = &D_01037E70;
 }

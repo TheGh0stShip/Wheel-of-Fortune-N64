@@ -532,3 +532,40 @@ cameraPath_t	type	wof.h	invented	the data of CameraPathProc
 cameraPath	member	procData_t	invented	the data of CameraPathProc
 adjustCamera_t	type	wof.h	invented	the data of AdjustCameraProc
 adjustCamera	member	procData_t	invented	the data of AdjustCameraProc
+score	member	player_t	invented	the money of the round, which CallLetter adds to and BANKRUPT clears
+total	member	player_t	invented	the money of the game: CheckSolved adds the round's score and prize to it
+freeSpin	member	player_t	invented	set when the wheel stops on FREE SPIN; LoseTurn lets the player keep the turn
+hasPrize	member	player_t	invented	set when the player takes the 10000 wedge; BANKRUPT and the end of the round clear it
+controller	member	player_t	invented	the controller that plays the contestant; 4 for the machine
+contestant	member	player_t	invented	which of the six contestants the player is
+prize	member	player_t	invented	the money of the 10000 wedge, banked with the round's score
+letterSounds	member	player_t	invented	the first of the contestant's 26 sounds that call the letters
+value	member	wedge_t	invented	its money, or -1 BANKRUPT, -2 LOSE TURN, -3 JACKPOT, -10000 the 10000 wedge, below -4 FREE SPIN
+claimed	member	wedge_t	invented	set once ClaimWedge took its prize; the wheel then draws it differently
+rom	member	puzzle_t	invented	where the puzzle's text is on the cartridge; LoadPuzzle reads 101 bytes
+category	member	puzzle_t	invented	its category, which LoadPuzzle copies
+used	member	puzzle_t	invented	counts the games it was played in; StartRound skips a used one
+dl	member	tile_t	invented	the square's display list
+image	member	tile_t	invented	the picture the square shows
+letterImage	member	tile_t	invented	the picture of its letter, shown once the square is turned
+blink	member	tile_t	invented	not 0: the square blinks
+blinkFrames	member	tile_t	invented	the frames one blink takes
+blinkLeft	member	tile_t	invented	the frames left of this blink
+color	member	tile_t	invented	the square's colour
+dl	member	layer_t	invented	its display list
+blink	member	layer_t	invented	not 0: it blinks
+blinkFrames	member	layer_t	invented	the frames one blink takes
+blinkLeft	member	layer_t	invented	the frames left of this blink
+color	member	layer_t	invented	the colour it is drawn in
+blinkColor	member	layer_t	invented	the colour of the first half of each blink
+restPitch	member	wheelPull_t	invented	the wheel's angle when the pull started; the stick pulls it back from there
+offset	member	pointer_t	invented	added to the wheel's angle when PointerProc sets the wedge
+swing	member	pointer_t	invented	how far the pointer moved last frame; a backward swing clicks
+wheel	member	wheelSpin_t	invented	the wheel obj
+speed	member	wheelSpin_t	invented	how fast the wheel turns, in degrees a second; TurnWheel slows it
+lastSpeed	member	wheelSpin_t	invented	speed a frame earlier, to see it fall below 50
+path	member	cameraPath_t	invented	the camera move it plays
+frame	member	cameraPath_t	invented	the frame of the move it is at
+count	member	cameraPath_t	invented	how many frames the move has
+player	member	adjustCamera_t	invented	the player whose turn made the proc
+skill	member	playerProc_t	invented	the machine's chance of a right letter; 0 for a person

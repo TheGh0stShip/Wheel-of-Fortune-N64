@@ -7,5 +7,5 @@ void AddCpu(s32 player) {
 
     task = CreatProc(CpuTurnProc, player | 0x2030000);
     task->data->playerProc.player = player;
-    task->data->playerProc.unk_0C = cpuSkill;
+    task->data->playerProc.skill = cpuSkill;
 }

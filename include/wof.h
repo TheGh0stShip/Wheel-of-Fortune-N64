@@ -348,7 +348,7 @@ typedef struct {
 // round.
 typedef struct {
     /* 0x00 */ Gfx *unk_00;
-    /* 0x04 */ Gfx *unk_04;     // if not 0, drawn in its place once the wedge has unk_1C set
+    /* 0x04 */ Gfx *unk_04;     // if not 0, drawn in its place once the wedge is claimed
 } wedgeDl_t;    // size 0x8
 
 // One puzzle of the built-in list: puzzles[].
@@ -366,15 +366,15 @@ typedef struct {
     /* 0x08 */ f32 unk_08;
 } data80057808_t;    // size 0xC
 
-// The entries of D_80057BB0[]. GetLayerColor gives the colour an entry is drawn in: unk_10, or
-// unk_14 for the first half of each blink while unk_04 is set.
+// The entries of D_80057BB0[]. GetLayerColor gives the colour an entry is drawn in: color, or
+// blinkColor for the first half of each blink while blink is set.
 typedef struct {
-    /* 0x00 */ Gfx *unk_00;     // its display list
-    /* 0x04 */ s32 unk_04;      // not 0: it blinks
-    /* 0x08 */ s32 unk_08;      // the frames one blink takes
-    /* 0x0C */ s32 unk_0C;      // the frames left of this blink
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
+    /* 0x00 */ Gfx *dl;     // its display list
+    /* 0x04 */ s32 blink;      // not 0: it blinks
+    /* 0x08 */ s32 blinkFrames;      // the frames one blink takes
+    /* 0x0C */ s32 blinkLeft;      // the frames left of this blink
+    /* 0x10 */ s32 color;
+    /* 0x14 */ s32 blinkColor;
 } layer_t;    // size 0x18
 
 // One square of the puzzle board. The four rows are D_800B9D08[12], D_800B9E58[14],
@@ -426,14 +426,14 @@ typedef struct {
 // the data of the proc whose handler is WheelPullProc
 typedef struct {
     /* 0x00 */ u8 unk_00[0xC];
-    /* 0x0C */ f32 unk_0C;
+    /* 0x0C */ f32 restPitch;
 } wheelPull_t;    // size 0x10
 
 // the data of the proc whose handler is PointerProc, created by InitStage 
 typedef struct {
     /* 0x00 */ obj_t *actor;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ s32 unk_08;
+    /* 0x04 */ f32 offset;
+    /* 0x08 */ s32 swing;
 } pointer_t;    // size 0xC
 
 // the data of the proc whose handler is WheelStopProc, created by TurnWheel
@@ -446,11 +446,11 @@ typedef struct {
 // on the same data. SpinProc, CpuSpinProc and FinalSpinProc create it and put the obj
 // of class 0x401 in unk_00.
 typedef struct {
-    /* 0x00 */ obj_t *unk_00;
+    /* 0x00 */ obj_t *wheel;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ u8 unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ f32 unk_10;
+    /* 0x0C */ f32 speed;
+    /* 0x10 */ f32 lastSpeed;
 } wheelSpin_t;    // size 0x14
 
 // the data of the proc whose handler is func_8000FFE0
@@ -496,15 +496,15 @@ typedef struct {
 typedef struct {
     /* 0x00 */ obj_t *unk_00;   // NOTE: no obj is made for this proc; the handler reads it all the same
     /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ camera_t *unk_08;    // the move it plays
-    /* 0x0C */ s32 unk_0C;          // the frame it is at
-    /* 0x10 */ s32 unk_10;          // how many frames the move has
+    /* 0x08 */ camera_t *path;    // the move it plays
+    /* 0x0C */ s32 frame;          // the frame it is at
+    /* 0x10 */ s32 count;          // how many frames the move has
 } cameraPath_t;    // size 0x14
 
 // the data of the proc whose handler is AdjustCameraProc, created by SetGameView
 typedef struct {
     /* 0x00 */ u8  unk_00[0x4];
-    /* 0x04 */ s32 unk_04;      // the player whose turn it was made in
+    /* 0x04 */ s32 player;      // the player whose turn it was made in
 } adjustCamera_t;    // size 0x8
 
 // The data of a player proc: the proc of a turn, whose handler is PlayerTurnProc for a person
@@ -518,7 +518,7 @@ typedef struct {
     /* 0x00 */ u8  unk_00[0x4];
     /* 0x04 */ s32 player;      // the contestant: 0, 1 or 2
     /* 0x08 */ u8  unk_08[0x4];
-    /* 0x0C */ f32 unk_0C;
+    /* 0x0C */ f32 skill;
 } playerProc_t;    // size 0x10
 
 // the data of the proc whose handler is func_80021744, created by func_80021C8C 

@@ -61,19 +61,19 @@ struct procResult_s CameraPathProc(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            curCamera = &proc->data->cameraPath.unk_08[proc->data->cameraPath.unk_0C];
+            curCamera = &proc->data->cameraPath.path[proc->data->cameraPath.frame];
             return result;
         }
     }
-    proc->data->cameraPath.unk_0C += frameRetraces;
-    if (proc->data->cameraPath.unk_0C >= proc->data->cameraPath.unk_10) {
-        curCamera = proc->data->cameraPath.unk_08 - 1 + proc->data->cameraPath.unk_10;
+    proc->data->cameraPath.frame += frameRetraces;
+    if (proc->data->cameraPath.frame >= proc->data->cameraPath.count) {
+        curCamera = proc->data->cameraPath.path - 1 + proc->data->cameraPath.count;
         ProcPostEvent(45);
         result.w[1] = 0;
         result.w[0] = 0;
         return result;
     }
-    curCamera = &proc->data->cameraPath.unk_08[proc->data->cameraPath.unk_0C];
+    curCamera = &proc->data->cameraPath.path[proc->data->cameraPath.frame];
     return result;
 }
 
@@ -95,9 +95,9 @@ void SetView(obj_t *obj, s32 view) {
     }
     if (views[view].path != 0) {
         task = CreatProc(CameraPathProc, 0x3010000);
-        task->data->cameraPath.unk_08 = views[view].path;
-        task->data->cameraPath.unk_0C = 0;
-        task->data->cameraPath.unk_10 = views[view].count;
+        task->data->cameraPath.path = views[view].path;
+        task->data->cameraPath.frame = 0;
+        task->data->cameraPath.count = views[view].count;
         cameraUpX = views[view].roll;
         cameraUpY = views[view].pitch;
         cameraUpZ = views[view].heading;

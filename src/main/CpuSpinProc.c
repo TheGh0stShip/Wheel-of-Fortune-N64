@@ -23,9 +23,9 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
             SetGameView(0, 1);
             task = CreatProc(WheelSpinProc, 0x4000000);
             target = FindObj(0x4010000, 0xFFFF0000);
-            task->data->wheelSpin.unk_00 = target;
-            task->data->wheelSpin.unk_0C = (f32)(guRandom() % 50 + 100);
-            if ((f64)task->data->wheelSpin.unk_0C > 80.0) {
+            task->data->wheelSpin.wheel = target;
+            task->data->wheelSpin.speed = (f32)(guRandom() % 50 + 100);
+            if ((f64)task->data->wheelSpin.speed > 80.0) {
                 ProcPostMessage(proc, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 30 / frameRetraces;
@@ -83,7 +83,7 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
             }
             func_80032B10();
             SetGameView(3, 1);
-            StartCpuLetterPick(CpuPickConsonant(proc->data->playerProc.unk_0C, proc) & 255);
+            StartCpuLetterPick(CpuPickConsonant(proc->data->playerProc.skill, proc) & 255);
             ProcPostMessage(proc, 5, 0);
             result.w[1] = 1;
             result.w[0] = 60 / frameRetraces;

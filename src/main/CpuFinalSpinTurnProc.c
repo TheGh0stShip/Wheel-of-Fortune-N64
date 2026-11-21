@@ -22,16 +22,16 @@ struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
             switch (GetHiddenKinds()) {
             case 4:
                 if (Random(100) >= 11) {
-                    StartCpuLetterPick(CpuPickConsonant(proc->data->playerProc.unk_0C, proc) & 255);
+                    StartCpuLetterPick(CpuPickConsonant(proc->data->playerProc.skill, proc) & 255);
                 } else {
-                    StartCpuLetterPick(CpuPickVowel(proc->data->playerProc.unk_0C) & 255);
+                    StartCpuLetterPick(CpuPickVowel(proc->data->playerProc.skill) & 255);
                 }
                 break;
             case 2:
-                StartCpuLetterPick(CpuPickVowel(proc->data->playerProc.unk_0C) & 255);
+                StartCpuLetterPick(CpuPickVowel(proc->data->playerProc.skill) & 255);
                 break;
             case 3:
-                StartCpuLetterPick(CpuPickConsonant(proc->data->playerProc.unk_0C, proc) & 255);
+                StartCpuLetterPick(CpuPickConsonant(proc->data->playerProc.skill, proc) & 255);
                 break;
             }
             ProcPostMessage(proc, 5, 0);
@@ -72,7 +72,7 @@ struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
             if (ratio > 0.7) {
                 task = CreatProc(CpuSolveProc, proc->data->playerProc.player | 0x2000300);
                 task->data->playerProc.player = proc->data->playerProc.player;
-                task->data->playerProc.unk_0C = proc->data->playerProc.unk_0C;
+                task->data->playerProc.skill = proc->data->playerProc.skill;
                 sp10.w[1] = 2;
                 sp10.w[0] = 10;
                 return sp10;
