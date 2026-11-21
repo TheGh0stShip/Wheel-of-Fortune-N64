@@ -1,3 +1,6 @@
+// GetProcBefore.c -- the proc before one in the list of live procs; the list's head if it is the
+// first
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,5 @@
+// SetWedge.c -- the wedge the wheel stopped on, from its angle (or a random one for -1)
+
 #include "wof.h"
 
 

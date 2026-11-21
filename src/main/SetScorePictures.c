@@ -1,3 +1,6 @@
+// SetScorePictures.c -- lays out the digit pictures of each player's score on the screen, and on
+// the stage
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,5 @@
+// StartMotor.c -- asks the rumble thread to start a pak's motor
+
 #include "wof.h"
 
 /*

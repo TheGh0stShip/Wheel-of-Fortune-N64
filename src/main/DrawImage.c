@@ -1,3 +1,5 @@
+// DrawImage.c -- draws a picture where it is
+
 #include "wof.h"
 
 /*

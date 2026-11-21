@@ -1,3 +1,5 @@
+// ShowLetter.c -- puts a letter on the board wherever the puzzle has it
+
 #include "wof.h"
 
 

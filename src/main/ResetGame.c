@@ -1,3 +1,6 @@
+// ResetGame.c -- sets the round and the player to the first, clears the scores and starts the first
+// round
+
 #include "wof.h"
 
 

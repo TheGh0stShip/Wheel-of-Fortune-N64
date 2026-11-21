@@ -1,3 +1,5 @@
+// FindWinner.c -- the player with the most money takes the turn and is shown
+
 #include "wof.h"
 
 

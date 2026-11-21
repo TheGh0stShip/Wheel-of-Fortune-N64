@@ -1,3 +1,5 @@
+// SolveProc.c -- a person solves the puzzle
+
 #include "wof.h"
 #include "rumble.h"
 

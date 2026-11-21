@@ -1,3 +1,5 @@
+// IntToStr.c -- writes a number in decimal
+
 #include "wof.h"
 
 

@@ -1,3 +1,5 @@
+// BonusWonProc.c -- the bonus puzzle was solved: 25000, the lights and the celebration
+
 #include "wof.h"
 
 

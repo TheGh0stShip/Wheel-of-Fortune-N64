@@ -1,3 +1,5 @@
+// CpuPickVowel.c -- the machine's vowel: a right one with the chance of its skill
+
 #include "wof.h"
 
 

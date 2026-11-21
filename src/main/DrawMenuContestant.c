@@ -1,3 +1,5 @@
+// DrawMenuContestant.c -- the draw function of a contestant in the menus
+
 #include "wof.h"
 
 /*

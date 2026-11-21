@@ -1,3 +1,5 @@
+// KillProcClass.c -- kills every proc of a class
+
 #include "wof.h"
 
 /*

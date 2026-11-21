@@ -1,3 +1,5 @@
+// CpuBuyVowelProc.c -- the machine buys a vowel
+
 #include "wof.h"
 
 /*

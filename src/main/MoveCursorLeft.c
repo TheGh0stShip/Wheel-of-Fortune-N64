@@ -1,3 +1,5 @@
+// MoveCursorLeft.c -- moves a cursor left over the letters or the choices
+
 #include "wof.h"
 
 

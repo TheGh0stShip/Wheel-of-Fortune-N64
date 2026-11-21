@@ -1,3 +1,5 @@
+// MustLoseTurn.c -- 0 when the player holds a free spin outside the final spin
+
 #include "wof.h"
 
 

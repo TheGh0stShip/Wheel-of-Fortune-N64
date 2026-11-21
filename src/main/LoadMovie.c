@@ -1,3 +1,5 @@
+// LoadMovie.c -- reads a movie from the cartridge into the memory stack
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,5 @@
+// StartCelebration.c -- the movie and the confetti of a win
+
 #include "wof.h"
 
 /*

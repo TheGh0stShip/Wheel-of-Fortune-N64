@@ -1,4 +1,4 @@
-// unit_80021E88.c -- the main menu's procs and the objects they draw
+// wof_menu.c -- the menus: their procs, their draw functions and the options they set
 //
 // The object's text lies between the 4-byte gaps that end StopMovie and InitOptions; its read-only
 // data opens with the RCS run at 0x80001560 (the strings "InitMainFlash", "MainMenu1 Proc" and

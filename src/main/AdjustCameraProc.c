@@ -1,3 +1,5 @@
+// AdjustCameraProc.c -- the C buttons turn the camera for the player whose turn it is
+
 #include "wof.h"
 
 /*

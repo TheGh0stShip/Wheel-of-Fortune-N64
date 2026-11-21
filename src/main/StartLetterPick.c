@@ -1,3 +1,5 @@
+// StartLetterPick.c -- letterPickProc for a person
+
 #include "wof.h"
 
 /*

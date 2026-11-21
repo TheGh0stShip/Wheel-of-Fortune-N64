@@ -1,3 +1,6 @@
+// ProcPostEvent.c -- gives an event to every proc that waits for it, or for any, as a message, and
+// wakes it
+
 #include "wof.h"
 
 /*

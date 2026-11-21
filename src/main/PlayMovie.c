@@ -1,3 +1,5 @@
+// PlayMovie.c -- plays a movie at a place on the screen, then posts an event
+
 #include "wof.h"
 
 /*

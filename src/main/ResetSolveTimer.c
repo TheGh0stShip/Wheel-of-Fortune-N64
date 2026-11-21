@@ -1,3 +1,5 @@
+// ResetSolveTimer.c -- starts the solve timer over, in the final spin
+
 #include "wof.h"
 
 

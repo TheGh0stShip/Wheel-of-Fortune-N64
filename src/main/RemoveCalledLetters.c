@@ -1,3 +1,5 @@
+// RemoveCalledLetters.c -- drops from a string the letters already called
+
 #include "wof.h"
 
 

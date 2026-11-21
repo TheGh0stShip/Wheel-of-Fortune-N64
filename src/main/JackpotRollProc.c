@@ -1,3 +1,5 @@
+// JackpotRollProc.c -- rolls the old jackpot off and the new one on
+
 #include "wof.h"
 
 

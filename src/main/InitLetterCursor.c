@@ -1,3 +1,5 @@
+// InitLetterCursor.c -- moves the letter cursor off a called letter
+
 #include "wof.h"
 
 

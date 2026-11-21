@@ -1,3 +1,5 @@
+// StrCopy.c -- copies a string
+
 #include "wof.h"
 
 /*

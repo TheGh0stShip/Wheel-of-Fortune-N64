@@ -1,3 +1,6 @@
+// CreatObj.c -- makes an obj with a draw function and a class for a proc and links it at the end of
+// the list
+
 #include "wof.h"
 
 

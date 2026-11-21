@@ -1,3 +1,5 @@
+// ConfettiBurstProc.c -- throws confetti for a while
+
 #include "wof.h"
 
 

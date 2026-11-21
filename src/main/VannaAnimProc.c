@@ -1,3 +1,5 @@
+// VannaAnimProc.c -- plays Vanna's animation
+
 #include "wof.h"
 
 /*

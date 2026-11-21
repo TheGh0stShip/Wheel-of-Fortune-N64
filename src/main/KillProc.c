@@ -1,3 +1,5 @@
+// KillProc.c -- unlinks a proc and frees its blocks, and its objs if asked
+
 #include "wof.h"
 
 /*

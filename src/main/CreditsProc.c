@@ -1,3 +1,5 @@
+// CreditsProc.c -- shows the credits as puzzles on the board, one after another
+
 #include "wof.h"
 
 

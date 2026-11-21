@@ -1,3 +1,5 @@
+// AllocBlock.c -- a free data block of 0x50 bytes for a proc, which it then owns
+
 #include "wof.h"
 
 /*

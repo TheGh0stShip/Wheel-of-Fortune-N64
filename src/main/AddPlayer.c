@@ -1,3 +1,5 @@
+// AddPlayer.c -- the turn proc of a person
+
 #include "wof.h"
 
 /*

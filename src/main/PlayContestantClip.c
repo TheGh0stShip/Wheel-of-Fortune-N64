@@ -1,3 +1,6 @@
+// PlayContestantClip.c -- plays a movie as a player's picture, if the contestant has one; prints
+// InitContestants' and InitAnim's messages
+
 #include "wof.h"
 
 /*

@@ -800,3 +800,9 @@ selectable	member	menuItem_t	invented	0: the cursor passes the line by
 label	member	menuItem_t	invented	the first picture of the label
 labelCount	member	menuItem_t	invented	how many pictures the label has
 options	member	menuItem_t	invented	the first picture of the first option
+wof_audio	unit	0x80002348	invented	the game's sound layer: the audio heap, the sequence players, the sound player and the sound effects
+wof_opening	unit	0x8000BAA8	invented	the SI lock, the start of a game, the logos and the opening with its procs and draw functions
+wof_demo	unit	0x8000EB40	invented	the demo the machine plays: DemoProc and StartDemo
+wof_stage	unit	0x8000EF68	invented	the studio: the wheel and its pointers, the board and its squares, the scores, and InitStage
+wof_camera	unit	0x80016638	invented	the camera: its views, its moves and its draw function
+wof_menu	unit	0x80021E88	invented	the menus: their procs, their draw functions and the options they set

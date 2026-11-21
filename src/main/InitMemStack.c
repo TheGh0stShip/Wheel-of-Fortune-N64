@@ -1,3 +1,5 @@
+// InitMemStack.c -- sets the memory stack to the free memory; named after mem_stack
+
 #include "wof.h"
 
 /*

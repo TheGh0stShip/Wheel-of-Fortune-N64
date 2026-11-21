@@ -1,3 +1,5 @@
+// ShowWinTotalProc.c -- shows the total of a bonus round won and a movie, then the credits
+
 #include "wof.h"
 
 /*

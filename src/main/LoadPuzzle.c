@@ -1,3 +1,6 @@
+// LoadPuzzle.c -- reads a puzzle (or takes the text given) and lays it out on the four rows of the
+// board
+
 #include "wof.h"
 
 /*

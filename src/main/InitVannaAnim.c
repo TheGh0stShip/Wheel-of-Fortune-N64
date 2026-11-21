@@ -1,3 +1,6 @@
+// InitVannaAnim.c -- starts Vanna playing an animation; animation 80 is animation 2 of the bonus
+// round
+
 #include "wof.h"
 
 /*

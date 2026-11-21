@@ -1,3 +1,5 @@
+// StartDemoTimer.c -- creates DemoTimerProc
+
 #include "wof.h"
 
 /*

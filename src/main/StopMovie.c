@@ -1,3 +1,5 @@
+// StopMovie.c -- ends the movie in play and frees its memory
+
 #include "wof.h"
 
 /*

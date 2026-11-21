@@ -1,3 +1,5 @@
+// BuyVowelProc.c -- a person buys a vowel for 250
+
 #include "wof.h"
 #include "rumble.h"
 

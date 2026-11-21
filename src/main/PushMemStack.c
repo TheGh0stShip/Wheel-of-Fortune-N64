@@ -1,3 +1,5 @@
+// PushMemStack.c -- saves the top of the memory stack, up to 10 deep
+
 #include "wof.h"
 
 /*

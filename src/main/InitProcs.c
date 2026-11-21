@@ -1,3 +1,5 @@
+// InitProcs.c -- clears procst and the data block owners
+
 #include "wof.h"
 
 /*

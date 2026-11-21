@@ -1,3 +1,5 @@
+// KillOtherProcs.c -- kills every proc but one
+
 #include "wof.h"
 
 /*

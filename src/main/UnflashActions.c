@@ -1,3 +1,5 @@
+// UnflashActions.c -- stops the four action pictures flashing
+
 #include "wof.h"
 
 

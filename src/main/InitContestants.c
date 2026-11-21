@@ -1,3 +1,6 @@
+// InitContestants.c -- decodes the animations of the three contestants and of Vanna into memory and
+// makes the contestants' objs
+
 #include "wof.h"
 
 /*

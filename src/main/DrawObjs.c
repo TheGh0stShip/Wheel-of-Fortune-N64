@@ -1,3 +1,6 @@
+// DrawObjs.c -- calls the draw function of every live obj but those of class 5, which DrawTopObjs
+// draws after
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,5 @@
+// DrawMovie64.c -- draws a movie 64 pixels wide
+
 #include "wof.h"
 
 /*

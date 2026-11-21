@@ -1,3 +1,6 @@
+// ClaimWedge.c -- takes the prize off the wedge the wheel stopped on: the 10000 becomes BANKRUPT, a
+// free spin its value
+
 #include "wof.h"
 
 /*

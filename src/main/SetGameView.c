@@ -1,3 +1,5 @@
+// SetGameView.c -- setView for a step of a turn
+
 #include "wof.h"
 
 /*

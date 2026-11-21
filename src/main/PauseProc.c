@@ -1,3 +1,5 @@
+// PauseProc.c -- sTART pauses and resumes; 30 seconds without a button in a game pause it too
+
 #include "wof.h"
 
 /*

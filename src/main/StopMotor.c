@@ -1,3 +1,5 @@
+// StopMotor.c -- asks the rumble thread to stop a pak's motor
+
 #include "wof.h"
 
 /*

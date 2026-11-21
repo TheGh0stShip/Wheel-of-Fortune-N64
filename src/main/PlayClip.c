@@ -1,3 +1,5 @@
+// PlayClip.c -- plays a movie as a contestant's picture (ClipProc)
+
 #include "wof.h"
 
 /*

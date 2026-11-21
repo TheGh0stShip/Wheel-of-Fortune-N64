@@ -1,3 +1,5 @@
+// ProcPostMessageClass.c -- procPostMessage to every proc of a class
+
 #include "wof.h"
 
 

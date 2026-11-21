@@ -1,3 +1,5 @@
+// CpuSolveProc.c -- the machine solves
+
 #include "wof.h"
 
 /*

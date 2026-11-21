@@ -1,3 +1,5 @@
+// InitWheel.c -- sets the 24 wedges of the wheel for the round
+
 #include "wof.h"
 
 /*

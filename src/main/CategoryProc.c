@@ -1,3 +1,5 @@
+// CategoryProc.c -- shows the category a letter at a time
+
 #include "wof.h"
 
 

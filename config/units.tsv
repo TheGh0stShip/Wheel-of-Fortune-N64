@@ -1,5 +1,5 @@
 func_80000400	0x80000400	0x40	match	asm	asm/func_80000400.s
-unit_80002348	0x80002348	0xF5C	match	game	src/main/unit_80002348.c
+wof_audio	0x80002348	0xF5C	match	game	src/main/wof_audio.c
 amCreateAudioMgr	0x800032A8	0x4F8	match	game	src/main/amCreateAudioMgr.c
 __amMain	0x800037A0	0x1A4	match	game	src/main/__amMain.c
 __amHandleFrameMsg	0x80003944	0x324	match	game	src/main/__amHandleFrameMsg.c
@@ -98,10 +98,10 @@ AlignMemStack	0x8000B89C	0x88	match	game	src/main/AlignMemStack.c
 func_8000B924	0x8000B924	0x54	match	game	src/main/func_8000B924.c
 PushMemStack	0x8000B978	0x84	match	game	src/main/PushMemStack.c
 PopMemStack	0x8000B9FC	0xA8	match	game	src/main/PopMemStack.c
-unit_8000BAA8	0x8000BAA8	0x3098	match	game	src/main/unit_8000BAA8.c
-unit_8000EB40	0x8000EB40	0x428	match	game	src/main/unit_8000EB40.c
-unit_8000EF68	0x8000EF68	0x76CC	match	game	src/main/unit_8000EF68.c
-unit_80016638	0x80016638	0xF0C	match	game	src/main/unit_80016638.c
+wof_opening	0x8000BAA8	0x3098	match	game	src/main/wof_opening.c
+wof_demo	0x8000EB40	0x428	match	game	src/main/wof_demo.c
+wof_stage	0x8000EF68	0x76CC	match	game	src/main/wof_stage.c
+wof_camera	0x80016638	0xF0C	match	game	src/main/wof_camera.c
 LoseTurn	0x80017548	0x130	match	game	src/main/LoseTurn.c
 NextTurn	0x80017678	0xB0	match	game	src/main/NextTurn.c
 MustLoseTurn	0x80017728	0x7C	match	game	src/main/MustLoseTurn.c
@@ -152,7 +152,7 @@ PlayMovieCorner	0x80021B04	0x48	match	game	src/main/PlayMovieCorner.c
 DecodeMovie	0x80021B4C	0x140	match	game	src/main/DecodeMovie.c
 PlayClip	0x80021C8C	0x19C	match	game	src/main/PlayClip.c
 StopMovie	0x80021E28	0x5C	match	game	src/main/StopMovie.c
-unit_80021E88	0x80021E88	0x538C	match	game	src/main/unit_80021E88.c
+wof_menu	0x80021E88	0x538C	match	game	src/main/wof_menu.c
 MakeScreenObj	0x80027218	0x104	match	game	src/main/MakeScreenObj.c
 GetImageTexture	0x8002731C	0x100	match	game	src/main/GetImageTexture.c
 DrawImageAt	0x8002741C	0x48C	match	game	src/main/DrawImageAt.c

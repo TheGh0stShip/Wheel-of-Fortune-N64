@@ -1,3 +1,6 @@
+// InitMenuAnim.c -- initAnim for a contestant shown in the menus, with its obj; prints InitAnim's
+// first message
+
 #include "wof.h"
 
 /*

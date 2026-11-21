@@ -1,3 +1,5 @@
+// ProcClearMessages.c -- drops every message queued for a proc
+
 #include "wof.h"
 
 

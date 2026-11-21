@@ -1,3 +1,6 @@
+// StatusProc.c -- the proc of the status screen of a turn: the player chooses to spin, buy a vowel
+// or solve, and the player proc of the turn is told
+
 #include "wof.h"
 
 

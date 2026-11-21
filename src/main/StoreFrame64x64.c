@@ -1,3 +1,5 @@
+// StoreFrame64x64.c -- the same for a movie of 64 by 64
+
 #include "wof.h"
 
 /*

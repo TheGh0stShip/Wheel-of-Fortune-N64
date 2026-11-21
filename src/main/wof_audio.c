@@ -1,4 +1,4 @@
-// unit_80002348.c -- the audio: its heap, the sequence players and the sound player, and the sound effects
+// wof_audio.c -- the audio: its heap, the sequence players, the sound player and the sound effects
 //
 // The game's first object: its text runs from the start of the game's text to the 4-byte gap after
 // GetSeqCount, where the next object's read-only data, opened by the RCS run at 0x80000498, starts. Its

@@ -1,3 +1,5 @@
+// ShowTotal.c -- lays out the player's total in the middle of the screen
+
 #include "wof.h"
 
 

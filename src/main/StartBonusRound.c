@@ -1,3 +1,5 @@
+// StartBonusRound.c -- sets the bonus round (gameMode 4) for the player with the most money
+
 #include "wof.h"
 
 

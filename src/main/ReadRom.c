@@ -1,3 +1,5 @@
+// ReadRom.c -- reads bytes from the cartridge by PI DMA and waits for them
+
 #include "wof.h"
 
 /*

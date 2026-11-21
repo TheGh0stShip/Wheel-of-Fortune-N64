@@ -1,3 +1,5 @@
+// NextPlayer.c -- passes the turn to the next player, or for a new round to the round's first
+
 #include "wof.h"
 
 /*

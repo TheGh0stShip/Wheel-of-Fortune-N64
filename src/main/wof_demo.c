@@ -1,4 +1,4 @@
-// unit_8000EB40.c -- a proc handler, an empty function, and the setup that starts the proc
+// wof_demo.c -- the demo the machine plays
 //
 // The object's read-only data opens with the RCS run at 0x80000B00, the next object's with the one at
 // 0x80000B90: the functions whose data lie between the two are this object's.

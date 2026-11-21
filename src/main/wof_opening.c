@@ -1,4 +1,4 @@
-// unit_8000BAA8.c -- procs and object draw functions, with their setup
+// wof_opening.c -- the SI lock, the start of a game, the logos and the opening
 //
 // The object's text starts after the 4-byte gap that ends PopMemStack; its read-only data opens with the
 // RCS run at 0x80000AC0, and the next object's with the one at 0x80000B00, which only the position after

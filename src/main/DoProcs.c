@@ -1,3 +1,6 @@
+// DoProcs.c -- runs each live proc's handler once a frame, unless it sleeps or waits, and acts on
+// what the handler returns. While the game is paused only the pause proc runs
+
 #include "wof.h"
 
 /*

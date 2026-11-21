@@ -1,3 +1,5 @@
+// DrawLetterPick.c -- the draw function of the letters to call, the category and the bonus letters
+
 #include "wof.h"
 
 

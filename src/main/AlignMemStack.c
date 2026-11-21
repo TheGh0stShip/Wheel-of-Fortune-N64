@@ -1,3 +1,5 @@
+// AlignMemStack.c -- rounds the top of the memory stack up to a power of two
+
 #include "wof.h"
 
 /*

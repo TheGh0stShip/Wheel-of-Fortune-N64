@@ -1,3 +1,5 @@
+// InitAnim.c -- starts a player's contestant playing one of its two animations
+
 #include "wof.h"
 
 /*

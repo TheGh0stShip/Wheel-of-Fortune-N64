@@ -1,3 +1,5 @@
+// LetterPickProc.c -- the cursor over the letters as a letter is called
+
 #include "wof.h"
 
 

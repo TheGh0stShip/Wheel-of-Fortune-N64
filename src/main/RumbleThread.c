@@ -1,3 +1,5 @@
+// RumbleThread.c -- the rumble thread: carries out the motor messages
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,5 @@
+// ResetMotor.c -- asks the rumble thread to start a pak over (osMotorInit, then stop)
+
 #include "wof.h"
 
 /*

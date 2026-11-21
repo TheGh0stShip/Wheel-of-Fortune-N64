@@ -1,3 +1,5 @@
+// StrChr.c -- finds a character in a string, or 0
+
 #include "wof.h"
 
 /*

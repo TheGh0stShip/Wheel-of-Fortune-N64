@@ -1,3 +1,5 @@
+// ResetScissor.c -- sets the scissor back to the whole screen between the two DrawObjs passes
+
 #include "wof.h"
 
 /*

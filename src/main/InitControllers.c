@@ -1,3 +1,6 @@
+// InitControllers.c -- starts the rumble and controller threads and the controllers, and the motor
+// of each rumble pak found; "Failure initing controllers" if osContInit fails
+
 #include "wof.h"
 
 

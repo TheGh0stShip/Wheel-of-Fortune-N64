@@ -1,3 +1,5 @@
+// ProcGetMessage.c -- takes the last message queued for a proc, or 0 if none
+
 #include "wof.h"
 
 

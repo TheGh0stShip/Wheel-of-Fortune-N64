@@ -1,3 +1,5 @@
+// PrintStr.c -- the debug print, which in retail only measures its string
+
 #include "wof.h"
 
 /*

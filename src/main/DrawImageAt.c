@@ -1,3 +1,5 @@
+// DrawImageAt.c -- draws a picture moved by an offset
+
 #include "wof.h"
 
 /*

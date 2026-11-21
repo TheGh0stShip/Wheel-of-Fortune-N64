@@ -1,3 +1,6 @@
+// DrawTopObjs.c -- the second pass over the objs, those of class 5 that DrawObjs skips; its message
+// is DrawObjs's
+
 #include "wof.h"
 
 

@@ -1,3 +1,6 @@
+// CreatProc.c -- makes a proc with a handler and a class, links it at the end of the list, gives it
+// a data block and the start message (8)
+
 #include "wof.h"
 
 

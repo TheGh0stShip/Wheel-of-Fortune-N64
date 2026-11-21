@@ -1,3 +1,5 @@
+// FindProc.c -- the first proc whose class under a mask is a value
+
 #include "wof.h"
 
 /*

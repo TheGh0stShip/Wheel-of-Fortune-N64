@@ -1,3 +1,5 @@
+// mem_stack.c -- takes bytes from the top of the memory stack; there is no freeing but PopMemStack
+
 #include "wof.h"
 
 

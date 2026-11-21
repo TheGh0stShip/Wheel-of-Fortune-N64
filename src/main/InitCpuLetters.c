@@ -1,3 +1,5 @@
+// InitCpuLetters.c -- the orders in which the machine calls letters
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,5 @@
+// FreeObjClass.c -- frees every obj of a class
+
 #include "wof.h"
 
 /*

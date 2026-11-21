@@ -1,3 +1,5 @@
+// ResetMotors.c -- resetMotor on each controller that has a rumble pak
+
 #include "wof.h"
 
 /*

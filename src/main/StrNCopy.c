@@ -1,3 +1,5 @@
+// StrNCopy.c -- copies n characters, repeating the source's end once it is reached
+
 #include "wof.h"
 
 /*

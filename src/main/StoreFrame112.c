@@ -1,3 +1,6 @@
+// StoreFrame112.c -- copies a decoded frame 112 pixels wide into the frame's picture memory, in the
+// tiles DrawMovie112 loads
+
 #include "wof.h"
 
 /*

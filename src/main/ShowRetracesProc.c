@@ -1,3 +1,5 @@
+// ShowRetracesProc.c -- shows frameRetraces as two digits
+
 #include "wof.h"
 
 /*

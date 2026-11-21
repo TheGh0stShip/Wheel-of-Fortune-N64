@@ -1,3 +1,6 @@
+// GetUncalledKinds.c -- which kinds of letters are still uncalled: 4 both, 3 consonants, 2 vowels,
+// 0 none
+
 #include "wof.h"
 
 

@@ -1,3 +1,5 @@
+// AddCpu.c -- a machine turn proc of the skill chosen
+
 #include "wof.h"
 
 /*

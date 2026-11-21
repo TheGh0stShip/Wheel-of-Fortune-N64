@@ -1,3 +1,5 @@
+// MovieProc.c -- plays a movie on the screen; at its end, its event
+
 #include "wof.h"
 
 /*

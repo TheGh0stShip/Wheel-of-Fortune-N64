@@ -1,3 +1,5 @@
+// AllocProc.c -- a free entry of procst, or 0 when none is left
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,5 @@
+// StrLen.c -- the length of a string
+
 #include "wof.h"
 
 /*

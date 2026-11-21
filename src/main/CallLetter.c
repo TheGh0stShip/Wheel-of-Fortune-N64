@@ -1,3 +1,6 @@
+// CallLetter.c -- calls a letter for the player: scores it by the wedge and returns how often it is
+// in the puzzle
+
 #include "wof.h"
 
 

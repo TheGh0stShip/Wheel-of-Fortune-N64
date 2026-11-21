@@ -1,3 +1,5 @@
+// StrCat.c -- appends a string
+
 #include "wof.h"
 
 /*

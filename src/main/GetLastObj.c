@@ -1,3 +1,5 @@
+// GetLastObj.c -- the last obj of the list; named after GetObjBefore
+
 #include "wof.h"
 
 /*

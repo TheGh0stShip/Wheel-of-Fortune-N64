@@ -1,3 +1,5 @@
+// InitObjs.c -- clears objst
+
 #include "wof.h"
 
 /*

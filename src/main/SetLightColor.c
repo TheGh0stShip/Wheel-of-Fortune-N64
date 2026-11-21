@@ -1,3 +1,5 @@
+// SetLightColor.c -- gSPLightColor on one of the six lights
+
 #include "wof.h"
 
 /*

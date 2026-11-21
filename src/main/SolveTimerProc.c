@@ -1,3 +1,6 @@
+// SolveTimerProc.c -- the time to solve: 8 seconds, or 20 in the bonus round; then it posts message
+// 33
+
 #include "wof.h"
 
 

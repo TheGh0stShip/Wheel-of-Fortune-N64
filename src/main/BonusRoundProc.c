@@ -1,3 +1,6 @@
+// BonusRoundProc.c -- the bonus round: the given letters, three consonants and a vowel, then the
+// solve
+
 #include "wof.h"
 
 /*

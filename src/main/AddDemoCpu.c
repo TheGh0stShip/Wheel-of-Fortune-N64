@@ -1,3 +1,5 @@
+// AddDemoCpu.c -- a machine turn proc for the demo, of skill 0.65
+
 #include "wof.h"
 
 

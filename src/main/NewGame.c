@@ -1,3 +1,5 @@
+// NewGame.c -- starts a game: ResetGame
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,5 @@
+// PrintNum.c -- writes a number in decimal and prints it with PrintStr
+
 #include "wof.h"
 
 /*

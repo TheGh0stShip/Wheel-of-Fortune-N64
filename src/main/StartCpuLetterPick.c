@@ -1,3 +1,5 @@
+// StartCpuLetterPick.c -- letterPickProc on the letter the machine chose
+
 #include "wof.h"
 
 /*

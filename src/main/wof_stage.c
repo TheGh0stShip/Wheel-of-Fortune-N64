@@ -1,4 +1,4 @@
-// unit_8000EF68.c -- procs, the objects they draw, and the tiles and layers those draw with
+// wof_stage.c -- the studio: the wheel and its pointers, the board, the scores
 //
 // The object's read-only data opens with the RCS run at 0x80000B90, which only the position after
 // StartDemo can take, and its text ends at the 4-byte gap after InitStage. That no object without

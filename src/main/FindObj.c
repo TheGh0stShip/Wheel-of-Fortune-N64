@@ -1,3 +1,5 @@
+// FindObj.c -- the first obj whose class under a mask is a value
+
 #include "wof.h"
 
 /*

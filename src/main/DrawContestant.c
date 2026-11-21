@@ -1,3 +1,5 @@
+// DrawContestant.c -- the draw function of a player's contestant
+
 #include "wof.h"
 
 /*

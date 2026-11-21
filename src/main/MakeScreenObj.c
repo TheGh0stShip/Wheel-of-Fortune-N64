@@ -1,3 +1,5 @@
+// MakeScreenObj.c -- makeObj for a picture on the screen: placed in front of the camera
+
 #include "wof.h"
 
 

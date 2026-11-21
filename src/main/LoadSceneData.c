@@ -1,3 +1,6 @@
+// LoadSceneData.c -- waits for the graphics, saves the memory stack and reads a block from the
+// cartridge; each screen starts with it
+
 #include "wof.h"
 
 /*

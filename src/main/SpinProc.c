@@ -1,3 +1,5 @@
+// SpinProc.c -- a person spins: the wheel, the wedge, then a consonant
+
 #include "wof.h"
 #include "rumble.h"
 

@@ -1,3 +1,6 @@
+// GetHiddenKinds.c -- which kinds of letters the board still hides: 4 both, 3 consonants, 2 vowels,
+// 1 none
+
 #include "wof.h"
 
 

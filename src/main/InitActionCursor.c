@@ -1,3 +1,5 @@
+// InitActionCursor.c -- puts the cursor of StatusProc on the first action the player can take
+
 #include "wof.h"
 
 /*

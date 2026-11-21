@@ -1,3 +1,5 @@
+// MakeMovieObj.c -- the obj a movie is drawn by
+
 #include "wof.h"
 
 

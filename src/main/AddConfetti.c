@@ -1,3 +1,5 @@
+// AddConfetti.c -- a piece of confetti at a random place, speed and count of turns
+
 #include "wof.h"
 
 

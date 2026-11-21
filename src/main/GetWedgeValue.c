@@ -1,3 +1,6 @@
+// GetWedgeValue.c -- the value of curWedge; the 10000 wedge is 10000 only in its middle third, else
+// BANKRUPT
+
 #include "wof.h"
 
 /*

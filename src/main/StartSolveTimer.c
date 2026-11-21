@@ -1,3 +1,5 @@
+// StartSolveTimer.c -- creates SolveTimerProc
+
 #include "wof.h"
 
 /*

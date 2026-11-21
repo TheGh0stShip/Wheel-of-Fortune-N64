@@ -1,3 +1,5 @@
+// InitPlayers.c -- a turn proc for each contestant, a person's or the machine's
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,5 @@
+// AllocObj.c -- a free entry of objst, or 0 when none is left
+
 #include "wof.h"
 
 /*

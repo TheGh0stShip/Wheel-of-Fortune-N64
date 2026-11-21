@@ -1,3 +1,5 @@
+// GameThread.c -- the game thread: runs RunFrame forever
+
 #include "wof.h"
 
 /*

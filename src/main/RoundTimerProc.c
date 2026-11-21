@@ -1,3 +1,6 @@
+// RoundTimerProc.c -- the time of a round, 300 seconds a person and 240 the machine; then the final
+// spin or the end
+
 #include "wof.h"
 
 

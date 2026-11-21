@@ -1,3 +1,5 @@
+// GetImageTexture.c -- which of a picture's two textures to draw this frame, by how it flashes
+
 #include "wof.h"
 
 /*

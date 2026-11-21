@@ -1,3 +1,5 @@
+// SetVannaAnim.c -- initVannaAnim in place of the animation playing
+
 #include "wof.h"
 
 /*

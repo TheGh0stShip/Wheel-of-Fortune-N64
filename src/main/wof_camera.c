@@ -1,4 +1,4 @@
-// unit_80016638.c -- procs and the objects they draw, with their setup
+// wof_camera.c -- the camera: its views, its moves and its draw function
 //
 // The object's text lies between the 4-byte gaps that end InitStage and CreateCamera; its read-only
 // data opens with the RCS run at 0x80000E28. The run could start after InitStage or after

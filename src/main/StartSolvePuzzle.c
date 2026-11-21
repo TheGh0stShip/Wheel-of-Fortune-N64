@@ -1,3 +1,5 @@
+// StartSolvePuzzle.c -- startSolve, the cursor proc and SolvePuzzleProc
+
 #include "wof.h"
 
 /*

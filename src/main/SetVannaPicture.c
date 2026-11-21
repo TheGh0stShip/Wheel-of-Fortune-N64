@@ -1,3 +1,5 @@
+// SetVannaPicture.c -- copies Vanna's picture into this frame, mirrored for -1
+
 #include "wof.h"
 
 /*

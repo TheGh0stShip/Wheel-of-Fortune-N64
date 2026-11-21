@@ -1,3 +1,5 @@
+// Random.c -- guRandom() modulo its argument
+
 #include "wof.h"
 
 /*

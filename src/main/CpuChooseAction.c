@@ -1,3 +1,5 @@
+// CpuChooseAction.c -- the machine decides to solve, spin or buy a vowel
+
 #include "wof.h"
 
 /*

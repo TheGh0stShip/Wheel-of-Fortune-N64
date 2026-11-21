@@ -1,3 +1,6 @@
+// SolvePuzzleProc.c -- the proc of the letters as a puzzle is solved: the player picks a letter for
+// each hidden square the cursor proc stands on
+
 #include "wof.h"
 
 

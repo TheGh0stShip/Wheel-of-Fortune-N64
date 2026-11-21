@@ -1,3 +1,6 @@
+// InitCategory.c -- lays out the category's letters on the screen and starts CategoryProc, which
+// shows them one at a time
+
 #include "wof.h"
 
 

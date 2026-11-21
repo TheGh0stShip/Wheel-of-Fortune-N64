@@ -1,3 +1,5 @@
+// ApplauseProc.c -- plays the crowd's applause, as loud as applause asks
+
 #include "wof.h"
 
 /*

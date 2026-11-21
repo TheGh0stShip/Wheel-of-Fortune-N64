@@ -1,3 +1,5 @@
+// ConfettiProc.c -- a piece of confetti falling across the screen
+
 #include "wof.h"
 
 /*

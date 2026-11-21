@@ -1,3 +1,6 @@
+// PlayerTurnProc.c -- the turn of a person: makes the procs of its steps; named after the ROM's
+// "player proc"
+
 #include "wof.h"
 #include "rumble.h"
 

@@ -1,3 +1,5 @@
+// BonusTimerProc.c -- shows the seconds left to solve the bonus puzzle
+
 #include "wof.h"
 
 /*

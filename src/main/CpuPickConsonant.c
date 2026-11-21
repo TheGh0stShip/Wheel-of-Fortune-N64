@@ -1,3 +1,5 @@
+// CpuPickConsonant.c -- the machine's consonant: a right one with the chance of its skill
+
 #include "wof.h"
 
 

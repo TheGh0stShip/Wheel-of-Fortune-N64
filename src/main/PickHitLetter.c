@@ -1,3 +1,5 @@
+// PickHitLetter.c -- the last letter of a string that is in the puzzle, or else PickMissLetter's
+
 #include "wof.h"
 
 /*

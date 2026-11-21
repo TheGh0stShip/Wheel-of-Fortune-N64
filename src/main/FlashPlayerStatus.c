@@ -1,3 +1,5 @@
+// FlashPlayerStatus.c -- makes the status pictures of the player whose turn it is flash
+
 #include "wof.h"
 
 

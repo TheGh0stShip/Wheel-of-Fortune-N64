@@ -1,3 +1,5 @@
+// PauseGame.c -- pauses: gameMode 6, the sounds paused, the pause picture shown
+
 #include "wof.h"
 
 /*

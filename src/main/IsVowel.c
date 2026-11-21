@@ -1,3 +1,5 @@
+// IsVowel.c -- 1 if a letter is in vowels
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,5 @@
+// InitMenuContestants.c -- decodes the movies of the six contestants of the menus
+
 #include "wof.h"
 
 /*

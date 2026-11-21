@@ -1,3 +1,5 @@
+// GetObjBefore.c -- the obj before one in the list of live objs; the list's head if it is the first
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,6 @@
+// ControllerThread.c -- the controller thread: on each SI event of a read it started,
+// ReadControllers
+
 #include "wof.h"
 
 /*

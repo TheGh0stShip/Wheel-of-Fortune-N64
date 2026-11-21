@@ -1,3 +1,5 @@
+// DecodeMovie.c -- decodes a number of frames of a movie into memory at once
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,5 @@
+// StartApplause.c -- creates ApplauseProc
+
 #include "wof.h"
 
 /*

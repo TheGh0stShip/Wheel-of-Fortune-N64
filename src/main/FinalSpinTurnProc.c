@@ -1,3 +1,5 @@
+// FinalSpinTurnProc.c -- a person's turn in the final spin: a letter, then the solve
+
 #include "wof.h"
 #include "rumble.h"
 

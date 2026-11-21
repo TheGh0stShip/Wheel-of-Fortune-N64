@@ -1,3 +1,5 @@
+// boot.c -- guess: boot of the SDK demos. Starts the OS and the idle thread
+
 #include "wof.h"
 
 /*

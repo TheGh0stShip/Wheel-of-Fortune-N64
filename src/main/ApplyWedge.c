@@ -1,3 +1,6 @@
+// ApplyWedge.c -- acts on curWedge: a final spin keeps its value, BANKRUPT clears the round's
+// score, the jackpot round adds to the jackpot
+
 #include "wof.h"
 
 /*

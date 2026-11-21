@@ -1,3 +1,5 @@
+// WinnerProc.c -- shows the winner of the game
+
 #include "wof.h"
 
 

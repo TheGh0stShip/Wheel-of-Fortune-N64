@@ -1,3 +1,5 @@
+// InitGraphics.c -- loads segment 1 from the cartridge and gives each gfxInfo its framebuffer
+
 #include "wof.h"
 
 /*

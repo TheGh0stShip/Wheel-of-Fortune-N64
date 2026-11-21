@@ -1,3 +1,5 @@
+// CpuSpinProc.c -- the machine spins
+
 #include "wof.h"
 
 

@@ -1,3 +1,5 @@
+// StartPauseProc.c -- creates PauseProc
+
 #include "wof.h"
 
 /*

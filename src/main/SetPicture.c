@@ -1,3 +1,5 @@
+// SetPicture.c -- copies a picture into a picture slot of both frames
+
 #include "wof.h"
 
 /*

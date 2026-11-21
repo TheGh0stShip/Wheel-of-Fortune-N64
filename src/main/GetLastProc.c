@@ -1,3 +1,6 @@
+// GetLastProc.c -- the last proc of the list, after which CreatProc links a new one; named after
+// GetProcBefore
+
 #include "wof.h"
 
 /*

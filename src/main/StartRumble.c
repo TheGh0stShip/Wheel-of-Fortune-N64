@@ -1,3 +1,5 @@
+// StartRumble.c -- rumbles a controller's pak for some frames at some strength
+
 #include "wof.h"
 #include "rumble.h"
 

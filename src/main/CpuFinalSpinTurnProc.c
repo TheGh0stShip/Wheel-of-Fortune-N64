@@ -1,3 +1,5 @@
+// CpuFinalSpinTurnProc.c -- the machine's turn in the final spin
+
 #include "wof.h"
 
 

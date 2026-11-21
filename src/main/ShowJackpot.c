@@ -1,3 +1,6 @@
+// ShowJackpot.c -- lays out the jackpot on the screen in the jackpot round, rolling it when it
+// changes
+
 #include "wof.h"
 
 /*

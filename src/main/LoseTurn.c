@@ -1,3 +1,6 @@
+// LoseTurn.c -- the turn passes, unless the player holds a free spin, who is asked (message 37) and
+// keeps it
+
 #include "wof.h"
 
 

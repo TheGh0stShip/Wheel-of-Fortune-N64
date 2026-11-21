@@ -1,3 +1,5 @@
+// UpdateMovie.c -- points the movie obj at this frame's picture and decodes the next
+
 #include "wof.h"
 
 /*

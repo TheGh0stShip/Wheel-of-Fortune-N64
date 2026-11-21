@@ -1,3 +1,5 @@
+// CheckPercentDone.c -- the share of the puzzle's letters that are turned, from 0 to 1
+
 #include "wof.h"
 
 

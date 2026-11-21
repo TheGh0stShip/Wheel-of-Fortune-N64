@@ -1,3 +1,5 @@
+// FinalSpinProc.c -- the host's final spin when the time runs out: "Final spin is "
+
 #include "wof.h"
 
 

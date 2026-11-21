@@ -1,3 +1,5 @@
+// ClipProc.c -- plays a movie as a contestant's picture; at its end, its event
+
 #include "wof.h"
 
 

@@ -1,3 +1,5 @@
+// CpuTurnProc.c -- the turn of the machine: makes the procs of its steps
+
 #include "wof.h"
 
 

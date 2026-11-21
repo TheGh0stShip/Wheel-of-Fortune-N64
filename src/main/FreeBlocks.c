@@ -1,3 +1,5 @@
+// FreeBlocks.c -- frees the data blocks a proc owns
+
 #include "wof.h"
 
 /*

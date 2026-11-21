@@ -1,3 +1,5 @@
+// PlayMovieCorner.c -- playMovie at (25, 20), the top left
+
 #include "wof.h"
 
 /*

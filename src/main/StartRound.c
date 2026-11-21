@@ -1,3 +1,6 @@
+// StartRound.c -- sets the round's jackpot and wheel and loads a puzzle of the round's kind not
+// used before
+
 #include "wof.h"
 
 

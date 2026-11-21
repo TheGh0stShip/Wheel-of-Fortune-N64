@@ -1,3 +1,5 @@
+// DrawMovie.c -- the draw function of a movie, by its size
+
 #include "wof.h"
 #include "mpeg/proto.h"
 

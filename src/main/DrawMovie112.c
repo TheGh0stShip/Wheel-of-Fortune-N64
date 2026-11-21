@@ -1,3 +1,5 @@
+// DrawMovie112.c -- draws a movie 112 pixels wide
+
 #include "wof.h"
 
 /*

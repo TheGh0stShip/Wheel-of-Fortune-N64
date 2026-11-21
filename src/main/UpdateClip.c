@@ -1,3 +1,5 @@
+// UpdateClip.c -- points a contestant's obj at its picture and decodes the next
+
 #include "wof.h"
 
 /*

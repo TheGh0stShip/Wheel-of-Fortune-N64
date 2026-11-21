@@ -1,3 +1,5 @@
+// MoveCursorDown.c -- moves the letter cursor down a row, if that row has an uncalled letter
+
 #include "wof.h"
 
 

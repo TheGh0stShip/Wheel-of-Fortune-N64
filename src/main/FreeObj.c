@@ -1,3 +1,5 @@
+// FreeObj.c -- unlinks an obj and marks it free
+
 #include "wof.h"
 
 /*

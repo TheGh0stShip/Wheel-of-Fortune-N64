@@ -1,3 +1,5 @@
+// ClearScores.c -- sets every player's scores to 0
+
 #include "wof.h"
 
 

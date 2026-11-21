@@ -1,3 +1,5 @@
+// BonusLostProc.c -- the bonus puzzle was not solved: the camera, then ShowTotalProc
+
 #include "wof.h"
 
 /*

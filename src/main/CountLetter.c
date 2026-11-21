@@ -1,3 +1,5 @@
+// CountLetter.c -- how often a letter is in the puzzle; -1 if it was called already
+
 #include "wof.h"
 
 /*

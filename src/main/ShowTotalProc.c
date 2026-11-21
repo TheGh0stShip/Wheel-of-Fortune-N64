@@ -1,3 +1,5 @@
+// ShowTotalProc.c -- shows the winner's total and a movie, then the opening again
+
 #include "wof.h"
 
 /*

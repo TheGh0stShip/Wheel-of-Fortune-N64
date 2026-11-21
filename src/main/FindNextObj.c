@@ -1,3 +1,5 @@
+// FindNextObj.c -- the next such obj after one
+
 #include "wof.h"
 
 /*

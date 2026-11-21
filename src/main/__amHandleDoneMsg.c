@@ -1,3 +1,6 @@
+// __amHandleDoneMsg.c -- guess: __amHandleDoneMsg of the audiomgr.c of the SDK demos. Notes when
+// the audio interface ran out of samples; the note is compiled out
+
 #include "wof.h"
 
 /*

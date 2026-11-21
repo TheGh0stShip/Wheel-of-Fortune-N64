@@ -1,3 +1,6 @@
+// InitGame.c -- creates the queues and the scheduler and starts memory, controllers, audio,
+// graphics, procs and objs
+
 #include "wof.h"
 
 /*

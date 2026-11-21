@@ -1,3 +1,5 @@
+// DrawConfetti.c -- the draw function of a piece of confetti
+
 #include "wof.h"
 
 /*

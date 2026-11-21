@@ -1,3 +1,5 @@
+// StartStatus.c -- statusProc and its obj
+
 #include "wof.h"
 
 

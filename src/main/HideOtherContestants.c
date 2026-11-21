@@ -1,3 +1,5 @@
+// HideOtherContestants.c -- frees the pictures of every player but the one whose turn it is
+
 #include "wof.h"
 
 /*

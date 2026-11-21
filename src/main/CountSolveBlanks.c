@@ -1,3 +1,5 @@
+// CountSolveBlanks.c -- the squares of solveBoard still blank
+
 #include "wof.h"
 
 

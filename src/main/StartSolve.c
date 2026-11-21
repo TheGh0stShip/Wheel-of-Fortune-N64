@@ -1,3 +1,5 @@
+// StartSolve.c -- copies the board into solveBoard, which the player fills in
+
 #include "wof.h"
 
 

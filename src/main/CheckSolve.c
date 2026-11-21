@@ -1,3 +1,5 @@
+// CheckSolve.c -- 1 and the whole puzzle shown if solveBoard is the puzzle
+
 #include "wof.h"
 
 

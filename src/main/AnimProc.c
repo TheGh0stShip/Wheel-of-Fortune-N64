@@ -1,3 +1,5 @@
+// AnimProc.c -- plays a contestant's animation
+
 #include "wof.h"
 
 /*

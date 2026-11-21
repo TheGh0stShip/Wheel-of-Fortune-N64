@@ -1,3 +1,5 @@
+// FreeProcObjs.c -- frees the objs a proc owns
+
 #include "wof.h"
 
 /*

@@ -1,3 +1,5 @@
+// FlashScore.c -- makes a player's score on the screen flash
+
 #include "wof.h"
 
 

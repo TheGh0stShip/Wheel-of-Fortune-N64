@@ -1,3 +1,5 @@
+// DemoTimerProc.c -- ends the demo after 30 seconds or on START
+
 #include "wof.h"
 
 

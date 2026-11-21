@@ -1,3 +1,6 @@
+// RoundOverProc.c -- the puzzle is solved: the camera, the movie, then the next round or the end of
+// the game
+
 #include "wof.h"
 
 

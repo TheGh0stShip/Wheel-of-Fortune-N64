@@ -1,3 +1,6 @@
+// parse_args.c -- guess: parse_args of the SDK demos. Splits the argument string into words and
+// sets a flag for each switch (-d, -v, -s, -l). Nothing calls it
+
 #include "wof.h"
 
 /*

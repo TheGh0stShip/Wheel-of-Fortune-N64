@@ -1,3 +1,6 @@
+// idle.c -- guess: idle of the SDK demos. Starts the PI manager and the main and game threads, then
+// idles at the lowest priority
+
 #include "wof.h"
 
 /*
