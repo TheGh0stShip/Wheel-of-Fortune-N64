@@ -256,8 +256,9 @@ static void load_flags(void) {
         snprintf(flagcls[nflagcls], 32, "%s", next_field(&p));
         snprintf(flagmode[nflagcls], 16, "%s", next_field(&p));
         snprintf(flagstr[nflagcls], 600, "%s", next_field(&p));
-        if (strcmp(flagmode[nflagcls], "gas") && strcmp(flagmode[nflagcls], "asn64") && strcmp(flagmode[nflagcls], "ido"))
-            die("flag class %s: assembler must be gas, asn64 or ido", flagcls[nflagcls]);
+        if (strcmp(flagmode[nflagcls], "gas") && strcmp(flagmode[nflagcls], "asn64") && strcmp(flagmode[nflagcls], "ido") &&
+            strcmp(flagmode[nflagcls], "asset"))
+            die("flag class %s: assembler must be gas, asn64, ido or asset", flagcls[nflagcls]);
         nflagcls++;
     }
     fclose(f);
@@ -402,6 +403,9 @@ static void mirror_lib(void) {
  * gas:   gcc -c, assembled by GNU as as cc1 wrote it.
  * asn64: gcc -S, then tools/asn64.c, then GNU as: the game's own objects came from a different assembler.
  * ido:   the IDO driver, which compiles C and assembles .s with its own passes (the SDK library).
+ * asset: the host's mips-linux-gnu-as (GNU as 2.6 has no .incbin) on a source that .incbin's bytes of
+ *        baserom.z64 (the SDK's microcode objects): what no source can rebuild, taken from the cartridge
+ *        and counted apart from the bytes from source.
  */
 static pid_t spawn_compile(const Unit *u) {
     char obj[400], log[400], src[400], cmd[3000];
@@ -419,6 +423,8 @@ static pid_t spawn_compile(const Unit *u) {
                  "'%s/as' -G0 -mips3 -o '%s' '%s/obj/%s.as.s'",
                  toolchain, flagstr[ci], build_dir, u->name, src, build_dir, build_dir, u->name, build_dir, u->name, toolchain,
                  obj, build_dir, u->name);
+    else if (!strcmp(flagmode[ci], "asset"))
+        snprintf(cmd, sizeof cmd, "mips-linux-gnu-as -EB %s -o '%s' '%s'", flagstr[ci], obj, src);
     else if (!strcmp(flagmode[ci], "ido"))
         snprintf(cmd, sizeof cmd, "'%s/cc' -c %s -o '%s' '%s'", ido, flagstr[ci], obj, src);
     else
@@ -438,12 +444,30 @@ static pid_t spawn_compile(const Unit *u) {
     _exit(127);
 }
 
+/*
+ * The units of the asset class take their bytes from the cartridge: a big-endian copy of the ROM in the build
+ * directory, which their sources .incbin by offset.  It is written only when such a unit is compiled.
+ */
+static void write_baserom(void) {
+    char path[400];
+    FILE *f;
+    snprintf(path, sizeof path, "%s/baserom.z64", build_dir);
+    f = fopen(path, "wb");
+    if (!f || fwrite(rom, 1, rom_size, f) != rom_size) die("cannot write %s", path);
+    fclose(f);
+}
+
 static void compile_selected(void) {
     int jobs = getenv("WOF_JOBS") ? atoi(getenv("WOF_JOBS")) : (int)sysconf(_SC_NPROCESSORS_ONLN);
     int running = 0, i, st;
     if (jobs < 1) jobs = 1;
     mkdirs();
     mirror_lib();
+    for (i = 0; i < nunits; i++)
+        if (units[i].selected && !strcmp(flagmode[class_index(units[i].cls)], "asset")) {
+            write_baserom();
+            break;
+        }
     for (i = 0; i < nunits; i++) {
         char cc[500];
         if (!units[i].selected || strcmp(flagmode[class_index(units[i].cls)], "ido")) continue;
@@ -649,7 +673,8 @@ static void place_text(Unit *u) {
         }
         if (s->shndx != u->text || (s->bind != 1 && s->bind != 2) || !s->name[0]) continue;
         addr = t->base + s->value;
-        if (addr < u->vram || addr >= u->vram + u->size) continue; /* not owned by this unit */
+        /* not owned by this unit; a label at its very end (an SDK object's TextEnd) is its own */
+        if (addr < u->vram || addr > u->vram + u->size || (addr == u->vram + u->size && s->type == 2)) continue;
         if (addr_from_name(s->name, &named)) {
             if (named != addr) fail(u, ST_ERR, "%s is placed at 0x%08X", s->name, addr);
             continue;
@@ -928,10 +953,11 @@ static void verify(Unit *u) {
         int y;
         if (!d->placed || k == u->text || !d->buf) continue;
         len = d->size;
-        if (!d->marked && strcmp(flagmode[class_index(u->cls)], "ido")) {
+        if (!d->marked && strcmp(flagmode[class_index(u->cls)], "ido") && strcmp(flagmode[class_index(u->cls)], "asset")) {
             /* GNU as pads a section to its alignment, and the original assembler's fill there is stale
                bytes, so trailing zeros belong to nobody; a section asn64 marked ends at its last item, zero
-               or not.  IDO's own section sizes include the padding: an IDO object owns all of it. */
+               or not.  IDO's own section sizes include the padding: an IDO object owns all of it.  An asset
+               section is the bytes it .incbin's, no more. */
             while (len && !d->buf[len - 1]) len--;
             len = (len + 3) & ~3u;
             /* but a datum the object sizes is its own, zero or not (a global initialised to 0 at the end) */
@@ -1051,7 +1077,7 @@ static int cmd_gate(void) {
     u8 *img;
     char digest[41], path[400];
     int i, k, nok = 0, ndiff = 0, nerr = 0, npartial = 0, nopen = 0, bad = 0, nfn = 0, nfnc = 0;
-    u32 text_bytes = 0, data_bytes = 0, fn_bytes = 0, fn_total = 0;
+    u32 text_bytes = 0, data_bytes = 0, asset_bytes = 0, fn_bytes = 0, fn_total = 0;
     size_t differing = 0, j;
     FILE *f;
     for (i = 0; i < nunits; i++) units[i].selected = 1;
@@ -1095,13 +1121,15 @@ static int cmd_gate(void) {
             continue;
         }
         memcpy(img + (u->vram - IMAGE_VRAM) + IMAGE_ROM, u->sec[u->text].buf + u->entry_off, u->size);
-        if (u->data_only) data_bytes += u->size;
+        if (!strcmp(flagmode[class_index(u->cls)], "asset")) asset_bytes += u->size;
+        else if (u->data_only) data_bytes += u->size;
         else text_bytes += u->size;
         for (k = 0; k < u->nsec; k++) {
             Sec *d = &u->sec[k];
             if (!d->placed || k == u->text || !d->buf) continue;
             memcpy(img + (d->base - IMAGE_VRAM) + IMAGE_ROM, d->buf, d->size);
-            data_bytes += d->size;
+            if (!strcmp(flagmode[class_index(u->cls)], "asset")) asset_bytes += d->size;
+            else data_bytes += d->size;
         }
     }
     if (f) fclose(f);
@@ -1144,8 +1172,9 @@ static int cmd_gate(void) {
                differing, digest);
         return 1;
     }
-    printf("GATE OK: linked image sha1 %s is the retail ROM; %d units, %u text + %u data bytes from source\n", digest,
-           nunits - nopen, text_bytes, data_bytes);
+    printf("GATE OK: linked image sha1 %s is the retail ROM; %d units, %u text + %u data bytes from source, %u asset bytes "
+           "from the cartridge\n",
+           digest, nunits - nopen, text_bytes, data_bytes, asset_bytes);
     return 0;
 }
 

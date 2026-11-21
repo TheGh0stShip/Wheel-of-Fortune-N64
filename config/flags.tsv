@@ -9,3 +9,4 @@ asm	gas	-G0 -mips3
 libgcc_udivdi3	asn64	-O2 -G0 -mips3 -mgp32 -mfp32 -DL_udivdi3 -DBITS_PER_UNIT=8 -DLIBGCC2_WORDS_BIG_ENDIAN=1 -DLONG_DOUBLE_TYPE_SIZE=64 -I $WOF_BUILD/lib/libgcc
 libgcc_udivmoddi4	asn64	-O2 -G0 -mips3 -mgp32 -mfp32 -DL_udivmoddi4 -DBITS_PER_UNIT=8 -DLIBGCC2_WORDS_BIG_ENDIAN=1 -DLONG_DOUBLE_TYPE_SIZE=64 -I $WOF_BUILD/lib/libgcc
 libgcc_umoddi3	asn64	-O2 -G0 -mips3 -mgp32 -mfp32 -DL_umoddi3 -DBITS_PER_UNIT=8 -DLIBGCC2_WORDS_BIG_ENDIAN=1 -DLONG_DOUBLE_TYPE_SIZE=64 -I $WOF_BUILD/lib/libgcc
+sdk_ucode	asset	-mips3 -I $WOF_BUILD

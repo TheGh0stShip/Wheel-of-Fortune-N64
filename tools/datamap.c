@@ -54,7 +54,7 @@ typedef uint32_t u32;
 #define RCS_MARK "$Revision: "
 
 /* byte classes */
-enum { C_NONE, C_CODE, C_SOURCE, C_MAPPED };
+enum { C_NONE, C_CODE, C_SOURCE, C_MAPPED, C_ASSET };
 
 static const char *const kinds[] = { "ident", "fill", "rodata", "data", "ucode" };
 #define NKINDS (int)(sizeof kinds / sizeof kinds[0])
@@ -267,6 +267,25 @@ static void load_units(void) {
     fclose(f);
 }
 
+static const Unit *find_unit(const char *name);
+
+/* is the unit's flag class one of config/flags.tsv's asset classes: bytes taken from the cartridge */
+static int is_asset_unit(const char *name) {
+    const Unit *u = find_unit(name);
+    FILE *f;
+    char line[1200];
+    int asset = 0;
+    if (!u || !(f = fopen("config/flags.tsv", "r"))) return 0;
+    while (fgets(line, sizeof line, f)) {
+        char *p = line, *c, *mode;
+        c = next_field(&p);
+        mode = next_field(&p);
+        if (!strcmp(c, u->cls) && !strcmp(mode, "asset")) asset = 1;
+    }
+    fclose(f);
+    return asset;
+}
+
 static const Unit *find_unit(const char *name) {
     int i;
     for (i = 0; i < nunits; i++)
@@ -361,6 +380,7 @@ static void load_gate(void) {
     have_gate = 1;
     while (fgets(line, sizeof line, f)) {
         char *p = line, *status, *state, *tok, *name;
+        int whole;
         u32 vram, size, a;
         chomp(line);
         status = next_field(&p);
@@ -370,8 +390,9 @@ static void load_gate(void) {
         state = next_field(&p);
         next_field(&p);
         if (strcmp(status, "OK") || strcmp(state, "match")) continue;
+        whole = is_asset_unit(name) ? C_ASSET : C_SOURCE;
         for (a = vram; a < vram + size; a++)
-            if (in_image(a) && cls[a - IMAGE_VRAM] == C_NONE) cls[a - IMAGE_VRAM] = C_SOURCE;
+            if (in_image(a) && cls[a - IMAGE_VRAM] == C_NONE) cls[a - IMAGE_VRAM] = whole;
         for (tok = p ? strtok(p, " ") : NULL; tok; tok = strtok(NULL, " ")) {
             char *atp = strchr(tok, '@'), *plus = atp ? strchr(atp, '+') : NULL;
             u32 base, len;
@@ -384,7 +405,7 @@ static void load_gate(void) {
                 snprintf(placed[nplaced++].unit, sizeof placed[0].unit, "%s", name);
             }
             for (a = base; a < base + len; a++)
-                if (in_image(a) && cls[a - IMAGE_VRAM] == C_NONE) cls[a - IMAGE_VRAM] = C_SOURCE;
+                if (in_image(a) && cls[a - IMAGE_VRAM] == C_NONE) cls[a - IMAGE_VRAM] = whole;
         }
     }
     fclose(f);
@@ -560,7 +581,7 @@ static const char *owner_class(const char *o) {
 }
 
 static int cmd_report(int verbose) {
-    u32 n[4] = { 0 }, bykind[NKINDS][2], o;
+    u32 n[5] = { 0 }, bykind[NKINDS][2], o;
     int i, k, npending = 0, nsource = 0, npartial = 0;
     static const char *classes[] = { "no object (fill)", "units of config/units.tsv", "a unit among several",
                                      "objects no unit holds yet", "SDK objects linked whole" };
@@ -569,12 +590,12 @@ static int cmd_report(int verbose) {
     for (o = 0; o < IMAGE_SIZE; o++) {
         n[cls[o]]++;
         if (kindof[o] >= 0 && cls[o] == C_MAPPED) bykind[(int)kindof[o]][0]++;
-        if (kindof[o] >= 0 && cls[o] == C_SOURCE) bykind[(int)kindof[o]][1]++;
+        if (kindof[o] >= 0 && (cls[o] == C_SOURCE || cls[o] == C_ASSET)) bykind[(int)kindof[o]][1]++;
     }
     for (i = 0; i < nrows; i++) {
         u32 src = 0, a;
         const char *oc = owner_class(rows[i].owner);
-        for (a = rows[i].start; a < rows[i].end && a < IMAGE_END; a++) src += cls[a - IMAGE_VRAM] == C_SOURCE;
+        for (a = rows[i].start; a < rows[i].end && a < IMAGE_END; a++) src += cls[a - IMAGE_VRAM] == C_SOURCE || cls[a - IMAGE_VRAM] == C_ASSET;
         if (!src) npending++;
         else if (src == rows[i].end - rows[i].start) nsource++;
         else npartial++;
@@ -583,11 +604,12 @@ static int cmd_report(int verbose) {
         if (verbose)
             printf("  0x%08X..0x%08X %6X %-6s %-30.30s %-24.24s %s\n", rows[i].start, rows[i].end, rows[i].end - rows[i].start,
                    rows[i].kind >= 0 ? kinds[rows[i].kind] : "?", rows[i].owner, rows[i].type,
-                   !src ? "" : src == rows[i].end - rows[i].start ? "from source" : "partly from source");
+                   !src ? "" : src == rows[i].end - rows[i].start ? "built" : "partly built");
     }
     printf("image 0x%08X..0x%08X: %u bytes\n", IMAGE_VRAM, IMAGE_END, IMAGE_SIZE);
     printf("  %7u code from source\n", n[C_CODE]);
     printf("  %7u data from source (the units' placed sections, last gate)\n", n[C_SOURCE]);
+    printf("  %7u asset bytes from the cartridge (units of an asset class, last gate)\n", n[C_ASSET]);
     printf("  %7u mapped in config/data.tsv, retail's bytes still\n", n[C_MAPPED]);
     for (k = 0; k < NKINDS; k++)
         if (bykind[k][0]) printf("          %7u %s\n", bykind[k][0], kinds[k]);
@@ -595,9 +617,9 @@ static int cmd_report(int verbose) {
     printf("mapped bytes not yet from source, by owner:\n");
     for (k = 0; k < 5; k++)
         if (byowner[k]) printf("  %7u %s\n", byowner[k], classes[k]);
-    printf("rows: %d (%d pending, %d from source, %d partly from source)\n", nrows, npending, nsource, npartial);
+    printf("rows: %d (%d pending, %d built, %d partly built)\n", nrows, npending, nsource, npartial);
     for (k = 0; k < NKINDS; k++)
-        if (bykind[k][1]) printf("  %u bytes of %s rows now come from source: the rows can go\n", bykind[k][1], kinds[k]);
+        if (bykind[k][1]) printf("  %u bytes of %s rows now come from source or an asset unit: the rows can go\n", bykind[k][1], kinds[k]);
     for (o = 0; o < IMAGE_SIZE;) {
         u32 e;
         if (cls[o] != C_NONE) {

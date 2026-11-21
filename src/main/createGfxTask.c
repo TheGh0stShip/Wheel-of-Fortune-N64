@@ -66,8 +66,8 @@ void createGfxTask(gfxInfo_t *info) {
     t->list.t.data_size = (s32)(glistp - frame->glist) * sizeof(Gfx);
     t->list.t.type = M_GFXTASK;
     t->list.t.flags = 0x0;
-    t->list.t.ucode_boot = (u64 *)D_800349B8;
-    t->list.t.ucode_boot_size = (s32)D_80034A88 - (s32)D_800349B8;
+    t->list.t.ucode_boot = (u64 *)rspbootTextStart;
+    t->list.t.ucode_boot_size = (s32)rspbootTextEnd - (s32)rspbootTextStart;
     t->list.t.ucode = (u64 *)D_80034A88;
     t->list.t.ucode_data = (u64 *)D_80082BC8;
     t->list.t.ucode_data_size = SP_UCODE_DATA_SIZE;

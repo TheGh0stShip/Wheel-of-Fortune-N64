@@ -244,6 +244,10 @@ ConfettiProc	0x80034028	0x3D0	match	game	src/main/ConfettiProc.c
 AddConfetti	0x800343F8	0x1F0	match	game	src/main/AddConfetti.c
 ConfettiBurstProc	0x800345E8	0x368	match	game	src/main/ConfettiBurstProc.c
 StartCelebration	0x80034950	0x64	match	game	src/main/StartCelebration.c
+rspboot	0x800349B8	0xD0	match	sdk_ucode	asm/sdk/rspboot.s
+ucode_80034A88	0x80034A88	0x1400	match	sdk_ucode	asm/sdk/ucode_80034A88.s
+ucode_80035E88	0x80035E88	0x1410	match	sdk_ucode	asm/sdk/ucode_80035E88.s
+aspMain	0x80037298	0xE20	match	sdk_ucode	asm/sdk/aspMain.s
 _udivdi3	0x800380B8	0x20	match	libgcc_udivdi3	lib/libgcc/libgcc2.c	__udivdi3
 _udivmoddi4	0x800380D8	0x63C	match	libgcc_udivmoddi4	lib/libgcc/libgcc2.c	__udivmoddi4
 _umoddi3	0x80038718	0x2C	match	libgcc_umoddi3	lib/libgcc/libgcc2.c	__umoddi3

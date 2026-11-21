@@ -50,6 +50,9 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
     `os/` and `io/`, `-O3` for `audio/`, `gu/`, `libc/` and `sched/`, with the per-file exceptions the table
     records (`ll.c`, the assembly sources, `exceptasm`);
   - `asm`: GNU as, for the entry stub.
+  - `sdk_ucode` (assembler `asset`): the SDK's microcode objects (`asm/sdk/`), which the host's `mips-linux-gnu-as`
+    builds by `.incbin` from `baserom.z64`, a big-endian copy of the ROM the gate writes to the build directory.
+    No source rebuilds them; their bytes are counted apart, as asset bytes.
 - **Include paths.** The 32-bit preprocessors cannot `#include` from the Windows mount. `include/` and `lib/`
   are copied into the build directory on every run, and the flag rows name them there
   (`-I $WOF_BUILD/include`, `-I $WOF_BUILD/lib/...`). Sources under `lib/` are compiled from that copy.
@@ -113,7 +116,8 @@ retail ROM's hash**. `./wof gate` compiles every unit from scratch, resolves rel
 unit's range in a copy of the ROM, writes the compiled bytes in, and compares the SHA-1.
 
 - The gate has two states, `GATE OK` or `GATE FAILED`. Write "matched" or "banked" only from its printed lines.
-- It is green at 0%: read the coverage it prints (`N units, T text + D data bytes from source`).
+- It is green at 0%: read the coverage it prints (`N units, T text + D data bytes from source, A asset bytes from
+  the cartridge`). Asset bytes are copied from the ROM by an asset unit and are never progress.
 - A red gate names the units that differ; `./wof diff UNIT` shows where.
 - A unit's read-only data (jump tables, float literals) is placed where retail's instructions point and compared
   too, up to its last item: the alignment fill after it is not source (retail's is stale assembler bytes) and

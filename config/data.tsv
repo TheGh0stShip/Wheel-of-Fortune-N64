@@ -74,10 +74,6 @@
 0x8002FEAC	0x8002FEB0	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80033A24	0x80033A28	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800349B4	0x800349B8	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x800349B8	0x80034A88	ucode	sdk:rspboot	bin	RSP boot microcode text: every task's ucode_boot (__amHandleFrameMsg, createGfxTask load D_800349B8 and size it to D_80034A88); first in .text after the game's objects, before libgcc and libultra
-0x80034A88	0x80035E88	ucode	sdk:gfx_80034A88	bin	graphics microcode text, Fast3D family ("RSP SW Version: 2.0H, 02-12-97" in its data; yield size 0x900): createGfxTask's ucode; ends in the 2400beef word as the next one does
-0x80035E88	0x80037298	ucode	sdk:gfx_80035E88	bin	a second graphics microcode text of the same family (2659 of its first 0x1400 bytes differ from the first's; ends in 2400beef): nothing in the code names it, linked but unused
-0x80037298	0x800380B8	ucode	sdk:aspMain	bin	audio microcode text: __amHandleFrameMsg's ucode (D_80037298), the SDK's aspMain; 8 zero bytes close its section before libgcc's text at 0x800380B8
 0x80038714	0x80038718	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
 0x80038744	0x80038748	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
 0x8004B718	0x8004B71C	data	wof_audio	ALSndPlayer *	used by wof_audio; 1 pointer words, 0 zero words
@@ -257,9 +253,6 @@
 0x800821C4	0x800829C4	data	new:data_8006DCD8	u8[0x800]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
 0x800829C4	0x80082BC4	data	new:data_8006DCD8	u8[0x200]	the mask of a clip's pictures (1 bit a pixel, 64 pixels a row: 8 bytes), D_800B81E4 while the clip is decoded; a clip_t.unk_20 in contestantClips..vannaClips points here; at 4 mod 8, so inside data_8006DCD8's object
 0x80082BC4	0x80082BC8	fill	-	-	stale bytes (323b092e) to an 8-byte boundary: data_8006DCD8's object ends; the microcode data follows
-0x80082BC8	0x800833C8	ucode	sdk:gfx_80034A88	bin	the data of the graphics microcode at 0x80034A88: createGfxTask's ucode_data (D_80082BC8), SP_UCODE_DATA_SIZE bytes; holds "RSP SW Version: 2.0H, 02-12-97"; first in .data after the game's objects, in the order of the texts
-0x800833C8	0x80083BC8	ucode	sdk:gfx_80035E88	bin	the data of the second graphics microcode: 0x800 bytes, 34 of them differ from the first's; nothing names it
-0x80083BC8	0x80083E88	ucode	sdk:aspMain	bin	aspMain's data: __amHandleFrameMsg's ucode_data (D_80083BC8); libultra's .data (aisetnextbuf) follows at 0x80083E88
 0x80086D14	0x80086D18	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
 0x80086D5C	0x80086D60	fill	-	-	stale bytes to an 8-byte boundary: fill between objects
 0x80087960	0x800879DB	ident	mpeg_util	-	RCS run; mpeg_util's read-only data follows at the next 4-byte boundary: one object

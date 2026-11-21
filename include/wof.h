@@ -749,9 +749,7 @@ extern char D_800019BC[];   // "InitAnim: cannot find contestant obj", in PlayCo
 //
 // globals, in address order
 //
-extern long long int D_800349B8[];  // rspbootTextStart
-extern long long int D_80034A88[];  // rspbootTextEnd, and the start of the graphics microcode
-extern long long int D_80037298[];  // aspMainTextStart
+extern long long int D_80034A88[];  // the text of the graphics microcode (asm/sdk/ucode_80034A88.s)
 extern ALSndPlayer *sndPlayer;
 extern s32 reverbParams[];            // the parameters of the custom reverb
 extern u32 audFrameCt;              // audFrameCt
@@ -873,8 +871,7 @@ extern s32 sfxCtlRom;
 extern s32 sfxCtlRomEnd;
 extern s32 sfxTblRom;
 extern s32 D_8006DDC4;
-extern long long int D_80082BC8[];  // the data of the graphics microcode at D_80034A88
-extern long long int D_80083BC8[];  // aspMainDataStart
+extern long long int D_80082BC8[];  // its data
 extern s32 D_80086D58;
 extern ALCSeq *seqs[];
 extern ALSndpConfig sndpConfig;
