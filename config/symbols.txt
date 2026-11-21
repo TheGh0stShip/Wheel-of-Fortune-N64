@@ -175,7 +175,6 @@ retraceMsgQ = 0x800B9CD0;
 retraceMsgBuf = 0x800BEE00;
 bonusSlotLetters = 0x800B61AA;
 hubAngle = 0x800B61AC;
-bonusPicks = 0x800B61B0;
 curMask = 0x800B81E4;
 puzzleTail = 0x800B9655;
 bootArg = 0x800BA5D4;

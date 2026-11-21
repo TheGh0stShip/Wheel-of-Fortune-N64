@@ -780,16 +780,16 @@ extern titleLetter_t titleLetters[];
 extern Gfx *openingWedgeDls[];
 extern Mtx *openingWedgeMtxs[];
 extern s32 logoTiles[][3];
-extern Gfx *letterBoardDls[];       // [26] the letter board's letters, A to Z (see letterPictures)
-extern u8 *letterPictures[];           // the pictures of the letters, by character
+extern Gfx *letterBoardDls[];       // [26] the letter board's letters, A to Z
 extern Gfx *topRowDls[];           // topRowDls to bottomRowDls: the display lists of the squares of each row
 extern Gfx *secondRowDls[];
 extern Gfx *thirdRowDls[];
-extern u16 *scoreDigitPictures[];
 extern Gfx *bottomRowDls[];
+extern u8 *squareLetterTextures[];  // [26] the squares' letters, A to Z
+extern u16 *scoreDigitTextures[];   // [10] the digits of the stage scores, 0 to 9
 extern Gfx *scorePanelDigitDls[][8]; // [3], the 8 digit quads of each score on stage
 extern layer_t scorePanels[];
-extern s32 D_80057BF8[];          // four segment addresses no instruction names
+extern s32 boardClasses[];          // guess: four proc classes of the board; nothing reads it
 extern wedgeDl_t firstRoundWedgeDls[]; // the wedges of each kind of round, as wedgeDls takes them
 extern wedgeDl_t secondRoundWedgeDls[];
 extern wedgeDl_t jackpotRoundWedgeDls[];
@@ -837,8 +837,6 @@ extern u16 *statusDigitTextures[];
 extern image_t statusScoreImages[][7];
 extern u16 *bigDigitTextures[];
 extern s32 bigDigitAdvances[];
-extern s32 dollarAdvance;           // read as bigDigitAdvances[10], the $ glyph's
-extern s32 commaAdvance;            // bigDigitAdvances[11]: the advance of the , glyph
 extern s32 bigDigitWidths[];
 extern image_t bonusPrizeImages[];  // [7] $25,000 in big digits
 extern image_t bonusTimerImages[];
@@ -861,9 +859,8 @@ extern clip_t contestantMovies[][2];
 extern clip_t menuClips[];
 extern clip_t vannaClips[];
 extern s32 vannaWalkOffsets[];      // x offsets of animation 0, by picture
-extern s32 vannaTurnOffsets[];      // x of animation 3, by picture: 4 with the next
-extern s32 columnLeftEdges[];       // read as [i] = columnRightEdges[i - 1]
-extern s32 columnRightEdges[];      // [15] the right edges of the board's columns in vannaX, from 0
+extern s32 vannaTurnOffsets[];      // [4] x of animation 3, by picture
+extern s32 columnEdges[];           // [15] column c of the board spans [c] to [c + 1] of vannaX
 extern s32 confettiTextures[];
 extern f32 confettiGravity;
 extern f32 confettiDrag;
@@ -964,9 +961,8 @@ extern s32 round;
 extern s32 curGfxInfo;
 extern s32 initProcsZero;           // InitProcs sets it to 0; nothing reads it
 extern s32 lightDir;
-extern s8 bonusSlotLetters[];       // by bonusLetterSlots; 6 to 9 are bonusPicks
+extern s8 bonusSlotLetters[];       // by bonusLetterSlots; 6 to 9, the picks, read as a string
 extern f32 hubAngle;                // the turn of the opening's hub, less a degree each retrace
-extern s8 bonusPicks[];             // the bonus round's 3 consonants and vowel
 extern u8 curLetter;
 extern s32 solveRow;
 extern u8 cpuConsonants[];          // InitCpuLetters copies consonantOrder here

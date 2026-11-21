@@ -245,9 +245,7 @@ u16 *bigDigitTextures[12] = {
     (u16 *)0x01014748, (u16 *)0x010148B0, (u16 *)0x01014A18, (u16 *)0x01014B80, (u16 *)0x01014CE8,
     (u16 *)0x01013E60, (u16 *)0x01013FC8
 };
-s32 bigDigitAdvances[10] = { 10, 8, 10, 10, 11, 10, 10, 10, 10, 10 };
-s32 dollarAdvance = 10;
-s32 commaAdvance = 5;
+s32 bigDigitAdvances[12] = { 10, 8, 10, 10, 11, 10, 10, 10, 10, 10, 10, 5 };
 s32 bigDigitWidths[12] = { 12, 8, 12, 12, 12, 12, 12, 12, 12, 12, 12, 8 };
 image_t bonusPrizeImages[7] = {
     { 128, 100, 12, 15, 1, 32, 16, 0, (u16 *)0x01013E60, NULL },
@@ -1015,8 +1013,8 @@ void ShowJackpot(void) {
         for (i = 0; i < len; i++) {
             x = x + bigDigitAdvances[buf[i] - '0'];
         }
-        x = x + dollarAdvance;
-        x = x + commaAdvance;
+        x = x + bigDigitAdvances[10];
+        x = x + bigDigitAdvances[11];
         x = x / 2;
         x = 58 - x;
         pos = 0;
@@ -1078,8 +1076,8 @@ void ShowTotal(void) {
     for (i = 0; i < len; i++) {
         x = x + bigDigitAdvances[buf[i] - '0'];
     }
-    x = x + dollarAdvance;
-    x = x + commaAdvance;
+    x = x + bigDigitAdvances[10];
+    x = x + bigDigitAdvances[11];
     x = x / 2;
     x = 160 - x;
     pos = 0;
@@ -1596,7 +1594,7 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
         case 8:
             bonusMusicSlot = -1;
             for (i = 0; i < 5; i++) {
-                bonusPicks[i] = 0;
+                bonusSlotLetters[i + 6] = 0;
             }
             bonusConsonants = 0;
             bonusVowels = 0;
@@ -1686,11 +1684,11 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
             bonusLetterSlots[i].height = bonusLetterImages[curLetter - 65].height;
             ShowLetter(curLetter);
             bonusSlotLetters[i] = curLetter;
-            if (StrLen(bonusPicks) == 4) {
+            if (StrLen(&bonusSlotLetters[6]) == 4) {
                 task = CreatProc(LightTextProc, 0x1000000);
                 task->data->lightText.row = 0;
                 task->data->lightText.col = 0;
-                task->data->lightText.text = bonusPicks;
+                task->data->lightText.text = &bonusSlotLetters[6];
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {

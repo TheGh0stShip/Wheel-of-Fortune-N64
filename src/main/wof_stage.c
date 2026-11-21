@@ -11,15 +11,13 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
-Gfx *letterBoardDls[13] = {
+Gfx *letterBoardDls[26] = {
     (Gfx *)0x010A4D30, (Gfx *)0x010A4CD8, (Gfx *)0x010A4C80, (Gfx *)0x010A4C28, (Gfx *)0x010A4BD0,
     (Gfx *)0x010A4B78, (Gfx *)0x010A4B20, (Gfx *)0x010A4AC8, (Gfx *)0x010A4A70, (Gfx *)0x010A4A18,
-    (Gfx *)0x010A49C0, (Gfx *)0x010A4968, (Gfx *)0x010A4910
-};
-u8 *letterPictures[13] = {
-    (u8 *)0x010A48B8, (u8 *)0x010A4860, (u8 *)0x010A4808, (u8 *)0x010A47B0, (u8 *)0x010A4758,
-    (u8 *)0x010A4700, (u8 *)0x010A46A8, (u8 *)0x010A4650, (u8 *)0x010A45F8, (u8 *)0x010A45A0,
-    (u8 *)0x010A4548, (u8 *)0x010A44F0, (u8 *)0x010A4498
+    (Gfx *)0x010A49C0, (Gfx *)0x010A4968, (Gfx *)0x010A4910, (Gfx *)0x010A48B8, (Gfx *)0x010A4860,
+    (Gfx *)0x010A4808, (Gfx *)0x010A47B0, (Gfx *)0x010A4758, (Gfx *)0x010A4700, (Gfx *)0x010A46A8,
+    (Gfx *)0x010A4650, (Gfx *)0x010A45F8, (Gfx *)0x010A45A0, (Gfx *)0x010A4548, (Gfx *)0x010A44F0,
+    (Gfx *)0x010A4498
 };
 Gfx *topRowDls[12] = {
     (Gfx *)0x01093D10, (Gfx *)0x01093CF0, (Gfx *)0x01093CD0, (Gfx *)0x01093CB0, (Gfx *)0x01093C90,
@@ -31,24 +29,29 @@ Gfx *secondRowDls[14] = {
     (Gfx *)0x01093AF0, (Gfx *)0x01093AD0, (Gfx *)0x01093AB0, (Gfx *)0x01093A90, (Gfx *)0x01093A70,
     (Gfx *)0x01093A50, (Gfx *)0x01093A30, (Gfx *)0x01093A10, (Gfx *)0x010939F0
 };
-Gfx *thirdRowDls[4] = {
-    (Gfx *)0x010939D0, (Gfx *)0x010939B0, (Gfx *)0x01093990, (Gfx *)0x01093970
+Gfx *thirdRowDls[14] = {
+    (Gfx *)0x010939D0, (Gfx *)0x010939B0, (Gfx *)0x01093990, (Gfx *)0x01093970, (Gfx *)0x01093950,
+    (Gfx *)0x01093930, (Gfx *)0x01093910, (Gfx *)0x010938F0, (Gfx *)0x010938D0, (Gfx *)0x010938B0,
+    (Gfx *)0x01093890, (Gfx *)0x01093870, (Gfx *)0x01093850, (Gfx *)0x01093830
 };
-u16 *scoreDigitPictures[10] = {
-    (u16 *)0x01093950, (u16 *)0x01093930, (u16 *)0x01093910, (u16 *)0x010938F0, (u16 *)0x010938D0,
-    (u16 *)0x010938B0, (u16 *)0x01093890, (u16 *)0x01093870, (u16 *)0x01093850, (u16 *)0x01093830
-};
-Gfx *bottomRowDls[48] = {
+Gfx *bottomRowDls[12] = {
     (Gfx *)0x01093810, (Gfx *)0x010937F0, (Gfx *)0x010937D0, (Gfx *)0x010937B0, (Gfx *)0x01093790,
     (Gfx *)0x01093770, (Gfx *)0x01093750, (Gfx *)0x01093730, (Gfx *)0x01093710, (Gfx *)0x010936F0,
-    (Gfx *)0x010936D0, (Gfx *)0x010936B0, (Gfx *)0x0109B388, (Gfx *)0x0109B788, (Gfx *)0x0109BB88,
-    (Gfx *)0x0109BF88, (Gfx *)0x0109C388, (Gfx *)0x0109C788, (Gfx *)0x0109CB88, (Gfx *)0x0109CF88,
-    (Gfx *)0x0109D388, (Gfx *)0x0109D788, (Gfx *)0x0109DB88, (Gfx *)0x0109DF88, (Gfx *)0x0109E388,
-    (Gfx *)0x0109E788, (Gfx *)0x0109EB88, (Gfx *)0x0109EF88, (Gfx *)0x0109F388, (Gfx *)0x0109F788,
-    (Gfx *)0x0109FB88, (Gfx *)0x0109FF88, (Gfx *)0x010A0388, (Gfx *)0x010A0788, (Gfx *)0x010A0B88,
-    (Gfx *)0x010A0F88, (Gfx *)0x010A1388, (Gfx *)0x010A1788, (Gfx *)0x01030FA8, (Gfx *)0x010317A8,
-    (Gfx *)0x01031FA8, (Gfx *)0x010327A8, (Gfx *)0x01032FA8, (Gfx *)0x010337A8, (Gfx *)0x01033FA8,
-    (Gfx *)0x010347A8, (Gfx *)0x01034FA8, (Gfx *)0x010357A8
+    (Gfx *)0x010936D0, (Gfx *)0x010936B0
+};
+// the pictures of the letters on the squares, A to Z
+u8 *squareLetterTextures[26] = {
+    (u8 *)0x0109B388, (u8 *)0x0109B788, (u8 *)0x0109BB88, (u8 *)0x0109BF88, (u8 *)0x0109C388,
+    (u8 *)0x0109C788, (u8 *)0x0109CB88, (u8 *)0x0109CF88, (u8 *)0x0109D388, (u8 *)0x0109D788,
+    (u8 *)0x0109DB88, (u8 *)0x0109DF88, (u8 *)0x0109E388, (u8 *)0x0109E788, (u8 *)0x0109EB88,
+    (u8 *)0x0109EF88, (u8 *)0x0109F388, (u8 *)0x0109F788, (u8 *)0x0109FB88, (u8 *)0x0109FF88,
+    (u8 *)0x010A0388, (u8 *)0x010A0788, (u8 *)0x010A0B88, (u8 *)0x010A0F88, (u8 *)0x010A1388,
+    (u8 *)0x010A1788
+};
+// the digits of the scores on the stage, 0 to 9
+u16 *scoreDigitTextures[10] = {
+    (u16 *)0x01030FA8, (u16 *)0x010317A8, (u16 *)0x01031FA8, (u16 *)0x010327A8, (u16 *)0x01032FA8,
+    (u16 *)0x010337A8, (u16 *)0x01033FA8, (u16 *)0x010347A8, (u16 *)0x01034FA8, (u16 *)0x010357A8
 };
 Gfx *scorePanelDigitDls[3][8] = {
     {
@@ -69,7 +72,7 @@ layer_t scorePanels[3] = {
     { (Gfx *)0x01037260, 0, 32, 0, 0xBBBB00FF, -57089 },
     { (Gfx *)0x01037698, 0, 32, 0, 27647, 0x2020FFFF }
 };
-s32 D_80057BF8[4] = { 0x01010100, 0x01010200, 0x01010300, 0x01010400 };
+s32 boardClasses[4] = { 0x01010100, 0x01010200, 0x01010300, 0x01010400 };
 wedgeDl_t firstRoundWedgeDls[24] = {
     { (Gfx *)0x010FB308, NULL },
     { (Gfx *)0x010FB1B8, NULL },
@@ -893,16 +896,16 @@ void SetSquareLetter(s32 row, s32 col, u8 letter) {
     solveBoard[row][col] = curLetter;
     switch (row) {
     case 0:
-        topRow[col].image = letterPictures[letter];
+        topRow[col].image = squareLetterTextures[letter - 'A'];
         return;
     case 1:
-        secondRow[col].image = letterPictures[letter];
+        secondRow[col].image = squareLetterTextures[letter - 'A'];
         return;
     case 2:
-        thirdRow[col].image = letterPictures[letter];
+        thirdRow[col].image = squareLetterTextures[letter - 'A'];
         return;
     case 3:
-        bottomRow[col].image = letterPictures[letter];
+        bottomRow[col].image = squareLetterTextures[letter - 'A'];
         return;
     }
 }
@@ -1011,7 +1014,7 @@ void RevealPuzzle(void) {
     for (i = 0; i < 12; i++) {
         if (puzzleText[0][i] >= 65) {
             if (puzzleText[0][i] < 91) {
-                topRow[i].image = letterPictures[puzzleText[0][i]];
+                topRow[i].image = squareLetterTextures[puzzleText[0][i] - 'A'];
                 topRow[i].color = -1;
                 topRow[i].blink = 0;
             }
@@ -1021,7 +1024,7 @@ void RevealPuzzle(void) {
     while (i < 14) {
         if (puzzleText[1][i] >= 65) {
             if (puzzleText[1][i] < 91) {
-                secondRow[i].image = letterPictures[puzzleText[1][i]];
+                secondRow[i].image = squareLetterTextures[puzzleText[1][i] - 'A'];
                 secondRow[i].color = -1;
                 secondRow[i].blink = 0;
             }
@@ -1032,7 +1035,7 @@ void RevealPuzzle(void) {
     while (i < 14) {
         if (puzzleText[2][i] >= 65) {
             if (puzzleText[2][i] < 91) {
-                thirdRow[i].image = letterPictures[puzzleText[2][i]];
+                thirdRow[i].image = squareLetterTextures[puzzleText[2][i] - 'A'];
                 thirdRow[i].color = -1;
                 thirdRow[i].blink = 0;
             }
@@ -1043,7 +1046,7 @@ void RevealPuzzle(void) {
     while (i < 12) {
         if (puzzleText[3][i] >= 65) {
             if (puzzleText[3][i] < 91) {
-                bottomRow[i].image = letterPictures[puzzleText[3][i]];
+                bottomRow[i].image = squareLetterTextures[puzzleText[3][i] - 'A'];
                 bottomRow[i].color = -1;
                 bottomRow[i].blink = 0;
             }
@@ -1374,7 +1377,7 @@ void SetScoreDigits(s32 total) {
         }
         scoreDigits[i][7 - len] = scoreDollarTexture;
         for (j = 0; j < len; j++) {
-            scoreDigits[i][j + 8 - len] = scoreDigitPictures[digits[j]];
+            scoreDigits[i][j + 8 - len] = scoreDigitTextures[digits[j] - '0'];
         }
     }
 }
@@ -1689,7 +1692,7 @@ void InitSquares(Gfx **dls, tile_t *tiles, s32 row, s32 count) {
             break;
         default:
             tiles[i].image = letterSquareTexture;
-            tiles[i].letterImage = letterPictures[puzzleText[row][i]];
+            tiles[i].letterImage = squareLetterTextures[puzzleText[row][i] - 'A'];
             tiles[i].color = 0x88888888;
         }
     }

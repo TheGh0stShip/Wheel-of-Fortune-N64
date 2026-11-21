@@ -824,7 +824,6 @@ DrawNoController	function	0x800289F4	invented	the draw function of the screen sh
 ShowNoController	function	0x8000E738	invented	InitGame's choice when no controller is in: a screen and nothing more
 bootScreenImages	global	0x8005A620	invented	the pictures of DrawBootScreen
 noControllerImages	global	0x8005A760	invented	the pictures of DrawNoController
-letterPictures	global	0x800579BC	invented	the picture of each letter on a square of the board, by character
 topRowDls	global	0x800579F0	invented	the display lists of the squares of the board's top row
 secondRowDls	global	0x80057A20	invented	the display lists of the squares of the second row
 thirdRowDls	global	0x80057A58	invented	the display lists of the squares of the third row
@@ -833,7 +832,6 @@ topRow	global	0x800B9D08	invented	the 12 squares of the board's top row
 secondRow	global	0x800B9E58	invented	the 14 squares of the second row
 thirdRow	global	0x800B9FE0	invented	the 14 squares of the third row
 bottomRow	global	0x800BA168	invented	the 12 squares of the bottom row
-scoreDigitPictures	global	0x80057A68	invented	the picture of each digit of the scores on the stage, by character
 scoreDigits	global	0x800BEEA8	invented	the pictures of the 8 places of each player's score on the stage
 scorePanels	global	0x80057BB0	invented	the panels of the three scores on the stage, which LightPlayer makes blink
 wedgeDls	global	0x80057F08	invented	the display lists of the wedges, for each kind of round
@@ -855,7 +853,7 @@ calledLetterTextures	global	0x8005A8C8	invented	the texture of each letter once 
 letterTextures	global	0x8005A930	invented	the texture of each letter not yet called
 bigDigitTextures	global	0x8005B118	invented	the textures of the large digits and the two signs around them
 bigDigitWidths	global	0x8005B178	invented	the width of each of them
-bigDigitAdvances	global	0x8005B148	invented	how far each of them moves the next
+bigDigitAdvances	global	0x8005B148	invented	how far each of them moves the next; [10] and [11] are those of the $ and the , that ShowJackpot and ShowTotal add
 bigNumberImages	global	0x8005B4C8	invented	the places of the large number: the jackpot, or a total
 rollingNumberImages	global	0x8005B360	invented	the old jackpot as JackpotRollProc rolls it off
 bonusTimerImages	global	0x8005B2C0	invented	the two digits of BonusTimerProc
@@ -1091,7 +1089,7 @@ firstframe	global	0x8004B830	lineage	guess: the SDK demos' gfx.c: 1 at first, an
 vFlag	global	0x8004B838	invented	parse_args sets it for the -v switch; nothing reads it
 sFlag	global	0x8004B840	invented	parse_args sets it for the -s switch; nothing reads it
 lFlag	global	0x8004B844	invented	parse_args sets it for the -l switch; nothing reads it
-letterBoardDls	global	0x80057988	invented	DrawLetterBoard draws 26 entries from here, each one quad with one letter's texture (the first is A's): the letters of the letter board
+letterBoardDls	global	0x80057988	invented	DrawLetterBoard draws its 26 entries, each one quad with one letter's texture (the first is A's): the letters of the letter board
 scorePanelDigitDls	global	0x80057B50	invented	[3][8] quads DrawScores draws with each digit texture of scoreDigits: the digits of the scores on the stage
 firstRoundWedgeDls	global	0x80057C08	invented	wedgeDls[0], used when round is 0, as firstRoundWedges is
 secondRoundWedgeDls	global	0x80057CC8	invented	wedgeDls[1], used when round is 1, as secondRoundWedges is
@@ -1101,16 +1099,13 @@ controllerLabelPos	global	0x800584A0	invented	StartMainMenu1 puts pictures 2 to 
 playerMenuTextures	global	0x800588A8	invented	for each player the textures StartContestantMenu gives pictures 0, 7 and 8 of contestantMenuImages: the player's label and status pictures
 prizeImages	global	0x8005A5A8	invented	DrawStatus draws entry i while players[i].hasPrize: the prize token
 freeSpinImages	global	0x8005A7B0	invented	DrawStatus draws entry i while players[i].freeSpin: the free spin token
-dollarAdvance	global	0x8005B170	invented	ShowJackpot and ShowTotal add it as the advance of the $ glyph, and read it as bigDigitAdvances[10]
-commaAdvance	global	0x8005B174	invented	the same for the , glyph, bigDigitAdvances[11]
 bonusPrizeImages	global	0x8005B1A8	invented	seven big-digit glyphs, $ 2 5 , 0 0 0, which DrawBonusPrize shows
 jackpotSignImages	global	0x8005B630	invented	three pictures that read JACKPOT on a sign; DrawStatus shows them in round 2
 categoryWheelFrames	global	0x8005BA80	invented	16 pictures of 24 by 24 of a small wheel turning; CategoryProc shows them in turn
 pressStartImages	global	0x8005BAC0	invented	13 category glyphs: the plate's caps around P R E S S, a space, S T A R T
 vannaWalkOffsets	global	0x8005C8C8	invented	added, times 4 times lightDir, to vannaX for each picture of animation 0, the walk along the board
-vannaTurnOffsets	global	0x8005C8FC	invented	the same for animation 3, after which lightDir turns
-columnLeftEdges	global	0x8005C908	invented	VannaAnimProc reads [i] as the left edge of board column i - 1 (the entry before columnRightEdges[i]); defined as one entry
-columnRightEdges	global	0x8005C90C	invented	VannaAnimProc turns the squares of column i - 1 while vannaX lies below [i] and above the entry before it: steps of 71 from 0
+vannaTurnOffsets	global	0x8005C8FC	invented	added, times 4 times lightDir, to vannaX for each of the 4 pictures of animation 3, after which lightDir turns
+columnEdges	global	0x8005C90C	invented	VannaAnimProc turns the squares of column i - 1 while vannaX lies between [i - 1] and [i]: steps of 71 from 0, the edges of the 14 columns
 fastSpinPath1	global	0x800650B0	invented	the move of view 11, which SpinProc picks at random with view 15 for a spin of 110 or more
 fastSpinPath2	global	0x8005C960	invented	the move of view 15, the other of the two
 gameStartPath	global	0x80069908	invented	the move of view 12, which GameStartProc sets when a game starts
@@ -1147,9 +1142,8 @@ contestant5ClipMask0	global	0x800821C4	invented	the mask of contestantMovies[5][
 retraceClient	global	0x800B3988	invented	the second client InitGame adds to the scheduler, which sends its clients the retraces; nothing reads its queue
 retraceMsgQ	global	0x800B9CD0	invented	that client's queue
 retraceMsgBuf	global	0x800BEE00	invented	the 8 messages of retraceMsgQ
-bonusSlotLetters	global	0x800B61AA	invented	BonusRoundProc stores the letter of bonusLetterSlots[i] at [i]; i is 6 to 9 there, which are bonusPicks
+bonusSlotLetters	global	0x800B61AA	invented	BonusRoundProc stores the letter of bonusLetterSlots[i] at [i]; the picks, slots 6 to 9, are cleared at the round's start and read from [6] as a string, which LightTextProc lights once it holds 4 letters
 hubAngle	global	0x800B61AC	invented	StartOpening zeroes it, OpeningProc takes a degree off each retrace, DrawOpeningHub turns the hub by it
-bonusPicks	global	0x800B61B0	invented	cleared at the start of the bonus round; holds the picked consonants and vowel as a string, which LightTextProc lights once it has 4 letters
 curMask	global	0x800B81E4	invented	the clip mask StoreFrame64x64 and StoreFrame64x96 store frames through; PlayClip, DecodeMovie and StartCelebration set it
 puzzleTail	global	0x800B9655	invented	LoadPuzzle copies the text after the fourth tab of the puzzle's line, up to the newline, here; nothing reads it
 bootArg	global	0x800BA5D4	invented	boot passes it to the idle thread, which passes it to mainproc and GameThread
@@ -1295,3 +1289,6 @@ sfxTblRomWord5	global	0x8006DD24	invented	the fifth
 sfxTblRomWord6	global	0x8006DD28	invented	the sixth
 obj	param	DrawRetraces	invented	the objDraw_t parameters its sibling draw functions (DrawBonusTimer, DrawBonusPrize, DrawPressStart) have, whose body it shares; nothing calls it, and the gate shows the types change no byte
 frame	param	DrawRetraces	invented	as obj
+squareLetterTextures	global	0x80057AC0	invented	the 26 I8 pictures of the letters A to Z that InitSquares, SetSquareLetter and RevealPuzzle put on the squares, read as [c - 'A']; the old split made them entries 12 to 37 of bottomRowDls, read through letterPictures[c]
+scoreDigitTextures	global	0x80057B28	invented	the 10 pictures of the digits 0 to 9 that SetScoreDigits puts on the stage scores, read as [ch - '0']; the old split made them entries 38 to 47 of bottomRowDls, read through scoreDigitPictures[ch]
+boardClasses	global	0x80057BF8	invented	guess: its words 0x1010100 to 0x1010400 have the form of the board family's proc and obj classes (the board is 0x1010000, and ResetBoard kills procs of 0x1010100 and 0x1010200); as segment addresses two would fall inside the free spin picture; nothing reads it

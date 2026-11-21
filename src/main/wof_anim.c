@@ -209,9 +209,8 @@ clip_t vannaClips[6] = {
     { 64, 96, 5, 6, 2, 1, NULL, 33, vannaAnim5Mask }
 };
 s32 vannaWalkOffsets[13] = { 0, -5, -1, 3, -2, -6, -4, 1, -1, 0, 2, 8, 9 };
-s32 vannaTurnOffsets[3] = { 0, 2, 8 };
-s32 columnLeftEdges[1] = { 9 };
-s32 columnRightEdges[15] = {
+s32 vannaTurnOffsets[4] = { 0, 2, 8, 9 };
+s32 columnEdges[15] = {
     0, 71, 142, 213, 284, 355, 426, 497, 568, 639, 710, 781, 852, 923, 994
 };
 
@@ -455,8 +454,8 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
         }
         i = 1;
         while (i < 15) {
-            if (vannaX < columnRightEdges[i]) {
-                if (vannaX > columnLeftEdges[i]) {
+            if (vannaX < columnEdges[i]) {
+                if (vannaX > columnEdges[i - 1]) {
                     TurnSquares(i - 1);
                 }
             }
