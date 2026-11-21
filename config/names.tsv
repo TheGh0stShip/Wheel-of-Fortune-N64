@@ -993,3 +993,19 @@ DrawBonusTimer	function	0x80028554	invented	the draw function of bonusTimerImage
 DrawPause	function	0x80028B1C	invented	the draw function of the pause screen
 ClearCategory	function	0x80028CC4	invented	takes the letters of the category off the screen
 ClearBonusLetters	function	0x8002B054	invented	takes the four letters chosen in the bonus round off the screen
+openingWheel_t	type	wof.h	invented	the data of OpeningWheelProc
+openingWheel	member	procData_t	invented	the data of OpeningWheelProc
+openingWedge_t	type	wof.h	invented	the data of OpeningWedgeProc
+openingWedge	member	procData_t	invented	the data of OpeningWedgeProc
+titleLetterProc_t	type	wof.h	invented	the data of TitleLetterProc
+titleLetterProc	member	procData_t	invented	the data of TitleLetterProc
+debugCamera_t	type	wof.h	invented	the data of DebugCameraProc
+debugCamera	member	procData_t	invented	the data of DebugCameraProc
+boardLights_t	type	wof.h	invented	the data of BoardLightsProc
+boardLights	member	procData_t	invented	the data of BoardLightsProc
+obj	member	openingWheel_t	invented	the wheel obj
+obj	member	openingWedge_t	invented	the wedge's obj
+index	member	openingWedge_t	invented	which of the 24 wedges
+index	member	titleLetterProc_t	invented	which of the 14 letters
+obj	member	boardLights_t	invented	the board obj
+frames	member	boardLights_t	invented	frames since the lights last changed

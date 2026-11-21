@@ -401,27 +401,27 @@ typedef struct {
 
 // the data of the proc whose handler is OpeningWheelProc
 typedef struct {
-    /* 0x00 */ obj_t *unk_00;
-} data8000C310_t;    // size 0x4
+    /* 0x00 */ obj_t *obj;
+} openingWheel_t;    // size 0x4
 
 // the data of the proc whose handler is OpeningWedgeProc
 typedef struct {
-    /* 0x00 */ obj_t *unk_00;
+    /* 0x00 */ obj_t *obj;
     /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-} data8000C50C_t;    // size 0xC
+    /* 0x08 */ s32 index;
+} openingWedge_t;    // size 0xC
 
 // the data of the proc whose handler is TitleLetterProc
 typedef struct {
     /* 0x00 */ obj_t *pos;
     /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-} data8000C6C4_t;    // size 0xC
+    /* 0x08 */ s32 index;
+} titleLetterProc_t;    // size 0xC
 
 // the data of the proc whose handler is DebugCameraProc
 typedef struct {
     /* 0x00 */ obj_t *cam;
-} data8000C8A8_t;    // size 0x4
+} debugCamera_t;    // size 0x4
 
 // the data of the proc whose handler is WheelPullProc
 typedef struct {
@@ -455,10 +455,10 @@ typedef struct {
 
 // the data of the proc whose handler is BoardLightsProc
 typedef struct {
-    /* 0x00 */ obj_t *unk_00;
+    /* 0x00 */ obj_t *obj;
     /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ s32 unk_08;
-} data8000FFE0_t;    // size 0xC
+    /* 0x08 */ s32 frames;
+} boardLights_t;    // size 0xC
 
 // the data of the proc whose handler is func_800101F4
 typedef struct {
@@ -627,15 +627,15 @@ typedef union procData_u {
     vannaAnim_t     vannaAnim;
     mainMenu_t      mainMenu;
     opening_t  opening;
-    data8000C310_t  data8000C310;
-    data8000C50C_t  data8000C50C;
-    data8000C6C4_t  data8000C6C4;
-    data8000C8A8_t  data8000C8A8;
+    openingWheel_t  openingWheel;
+    openingWedge_t  openingWedge;
+    titleLetterProc_t  titleLetterProc;
+    debugCamera_t  debugCamera;
     wheelPull_t  wheelPull;
     pointer_t  pointer;
     wheelStop_t  wheelStop;
     wheelSpin_t  wheelSpin;
-    data8000FFE0_t  data8000FFE0;
+    boardLights_t  boardLights;
     data800101F4_t  data800101F4;
     data800103B4_t  data800103B4;
     lightLetter_t  lightLetter;

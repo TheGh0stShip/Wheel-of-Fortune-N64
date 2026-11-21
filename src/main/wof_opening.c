@@ -226,7 +226,7 @@ struct procResult_s OpeningWheelProc(proc_t *proc) {
     obj_t *obj;
     s32 event;
 
-    obj = proc->data->data8000C310.unk_00;
+    obj = proc->data->openingWheel.obj;
     for (;;) {
         event = ProcGetMessage(proc);
         if (event == 0) {
@@ -277,7 +277,7 @@ struct procResult_s OpeningWedgeProc(proc_t *proc) {
     s32 event;
     s32 unused;  /* NOTE: unused in the original; TitleLetterProc keeps an index here */
 
-    pos = proc->data->data8000C50C.unk_00;
+    pos = proc->data->openingWedge.obj;
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 34:
@@ -288,7 +288,7 @@ struct procResult_s OpeningWedgeProc(proc_t *proc) {
         }
     }
     guTranslateF(mtxA, 0, 0, D_800BEE24);
-    guRotateRPYF(mtxB, 0, proc->data->data8000C50C.unk_08 * 15, 0);
+    guRotateRPYF(mtxB, 0, proc->data->openingWedge.index * 15, 0);
     guMtxCatF(mtxA, mtxB, mtxA);
     pos->x = mtxA[3][0];
     pos->y = mtxA[3][1];
@@ -313,7 +313,7 @@ struct procResult_s TitleLetterProc(proc_t *proc) {
     s32 event;
     s32 index;
 
-    pos = proc->data->data8000C6C4.pos;
+    pos = proc->data->titleLetterProc.pos;
     for (;;) {
         event = ProcGetMessage(proc);
         if (event == 0) {
@@ -327,7 +327,7 @@ struct procResult_s TitleLetterProc(proc_t *proc) {
             return ret;
         }
     }
-    index = proc->data->data8000C6C4.unk_08;
+    index = proc->data->titleLetterProc.index;
     guTranslateF(mtx, (f32)D_800BEE24 * titleLetters[index].spread, (f32)D_800BEE24, 0);
     guRotateRPYF(rot, -61.317f, 58.385f, -9.848f);
     guMtxCatF(mtx, rot, mtx);
@@ -351,7 +351,7 @@ struct procResult_s DebugCameraProc(proc_t *proc) {
     obj_t *cam;
     s32 event;
 
-    cam = proc->data->data8000C8A8.cam;
+    cam = proc->data->debugCamera.cam;
     ret.w[1] = 1;
     ret.w[0] = 0;
     for (;;) {
@@ -661,7 +661,7 @@ void StartOpening(void) {
     MakeObj(0, 0, func_8000DCA0, 0x8000000);
     for (i = 0; i < 14; i++) {
         task = CreatProc(TitleLetterProc, 0x8010000);
-        task->data->data8000C6C4.unk_08 = i;
+        task->data->titleLetterProc.index = i;
         obj = MakeObj(task, titleLetters[i].dl, DrawOpeningPiece, 0x8010000);
         obj->mtx = titleLetters[i].mtx;
     }
@@ -683,7 +683,7 @@ void StartOpening(void) {
     task->data->opening.music = PlaySound(15);
     for (i = 0; i < 24; i++) {
         task = CreatProc(OpeningWedgeProc, 0x8010000);
-        task->data->data8000C50C.unk_08 = i;
+        task->data->openingWedge.index = i;
         obj = MakeObj(task, openingWedgeDls[i], DrawOpeningPiece, 0x8010000);
         obj->mtx = openingWedgeMtxs[i];
     }

@@ -315,7 +315,7 @@ struct procResult_s BoardLightsProc(proc_t *proc) {
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    obj = proc->data->data8000FFE0.unk_00;
+    obj = proc->data->boardLights.obj;
     for (;;) {
         event = ProcGetMessage(proc);
         if (event == 0) {
@@ -323,7 +323,7 @@ struct procResult_s BoardLightsProc(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            proc->data->data8000FFE0.unk_08 = 0;
+            proc->data->boardLights.frames = 0;
             obj->dl = D_010920D8;
             break;
         case 15:
@@ -337,9 +337,9 @@ struct procResult_s BoardLightsProc(proc_t *proc) {
             return result;
         }
     }
-    proc->data->data8000FFE0.unk_08 = proc->data->data8000FFE0.unk_08 + frameRetraces;
-    if (proc->data->data8000FFE0.unk_08 >= 5) {
-        proc->data->data8000FFE0.unk_08 = 0;
+    proc->data->boardLights.frames = proc->data->boardLights.frames + frameRetraces;
+    if (proc->data->boardLights.frames >= 5) {
+        proc->data->boardLights.frames = 0;
         if (obj->dl == D_01092168) {
             obj->dl = D_010920D8;
         } else if (obj->dl == D_01092120) {
