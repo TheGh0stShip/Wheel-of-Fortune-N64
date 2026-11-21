@@ -22,7 +22,7 @@ void StartStatus(void) {
             statusScoreImages[i][j].flash = 0;
         }
     }
-    func_8002EDC0();
+    StatusStub();
     task = CreatProc(StatusProc, 0x5000000);
     MakeScreenObj(task, 0, DrawStatus, 0x5000000);
     D_800BCA14 = 0;

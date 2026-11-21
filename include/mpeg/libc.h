@@ -38,7 +38,7 @@ struct timeval {
     /* 0x04 */ long tv_usec;
 };
 
-// libc.c. fclose is func_800A4E58, declared in wof.h.
+// libc.c. fclose is declared in wof.h, because game code calls it.
 unsigned int fread( void *ptr, unsigned int size, unsigned int nitems, FILE *stream );
 int fgetc( FILE *stream );
 void *memcpy( void *s1, const void *s2, unsigned int n );

@@ -2,7 +2,7 @@
 //
 // The object's text lies between the 4-byte gaps that end InitStage and CreateCamera; its read-only
 // data opens with the RCS run at 0x80000E28. The run could start after InitStage or after
-// func_80016638: that it starts at the gap, so that func_80016638 belongs here, rests on the premise that
+// IsBoardView: that it starts at the gap, so that IsBoardView belongs here, rests on the premise that
 // from 0x8000BAA8 on every object opens its read-only data with an RCS run.
 
 #include "wof.h"
@@ -11,7 +11,15 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
-s32 func_80016638(void) {
+/*
+=====================
+IsBoardView
+
+Whether the camera is at a view of the board (3, 18 or 20), where the wheel, the pointers and the
+contestants are not drawn.
+=====================
+*/
+s32 IsBoardView(void) {
     s32 result;
 
     switch (curView) {
@@ -26,7 +34,15 @@ s32 func_80016638(void) {
     return result;
 }
 
-s32 func_800166C0(void) {
+/*
+=====================
+IsBoardHidden
+
+Whether the board is out of view: 0 for the board views and the camera moves (3, 11 to 15, 18 and
+20), the views DrawBoard draws it in.
+=====================
+*/
+s32 IsBoardHidden(void) {
     s32 result;
 
     switch (curView) {

@@ -6,7 +6,7 @@
 // The object starts after the 4-byte gap that ends InitOptions, where the RCS run at 0x80001678 opens
 // its read-only data. From MakeScreenObj to SolvePuzzleProc every function but the ones the data ties
 // in ends off an 8-byte boundary with the next right after, which happens only inside an object; the
-// data ties in func_80028D3C, CategoryProc, FlashScore, ShowJackpot, ShowTotal, MoveCursorLeft to
+// data ties in DrawCategoryWheel, CategoryProc, FlashScore, ShowJackpot, ShowTotal, MoveCursorLeft to
 // MoveCursorUp, ShowTotalProc and CreditsProc (each one's data lies among the others'). The joins after
 // DrawImageAt, DrawImage, StatusProc, InitLetterCursor, LetterPickProc and GetCursorProc rest on the RCS
 // premise (every object from 0x8000BAA8 on opens its read-only data with an RCS run, which the project
@@ -487,7 +487,15 @@ void DrawBigNumber(obj_t *obj, frame_t *frame) {
     }
 }
 
-void func_80028064(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawCreditsTitle
+
+The draw function of the title of a credits page, in the category's letters, 10 right of and 20
+below where the category goes.
+=====================
+*/
+void DrawCreditsTitle(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
@@ -537,7 +545,14 @@ void DrawLetterPick(obj_t *obj, frame_t *frame) {
     }
 }
 
-void func_8002842C(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawBonusPrize
+
+The draw function of the $25,000 shown when the bonus round is won.
+=====================
+*/
+void DrawBonusPrize(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
@@ -570,7 +585,14 @@ void DrawBonusTimer(obj_t *obj, frame_t *frame) {
     }
 }
 
-void func_8002867C(s32 arg0, s32 arg1) {
+/*
+=====================
+DrawRetraces
+
+The draw function of retraceImages; nothing uses it.
+=====================
+*/
+void DrawRetraces(s32 arg0, s32 arg1) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
@@ -583,7 +605,14 @@ void func_8002867C(s32 arg0, s32 arg1) {
     }
 }
 
-void func_800287A4(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawPressStart
+
+The draw function of PRESS START, over the opening and the demo.
+=====================
+*/
+void DrawPressStart(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
     s32 unused2;  /* NOTE: unused in the original */
@@ -685,7 +714,15 @@ void ClearCategory(void) {
     }
 }
 
-void func_80028D3C(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawCategoryWheel
+
+The draw function of the little turning wheel that CategoryProc puts on each letter of the category
+as it shows it.
+=====================
+*/
+void DrawCategoryWheel(obj_t *obj, frame_t *frame) {
     s32 unused[4];  /* NOTE: unused in the original; guess: its type, the frame shows at most 16 bytes */
 
     gDPPipeSync(glistp++);
@@ -724,7 +761,7 @@ struct procResult_s CategoryProc(proc_t *proc) {
         switch (event) {
         case 8:
             if (round < numRounds) {
-                func_80032B80();
+                SetContestantsStill();
             }
             SetVannaAnim(2);
             proc->data->categoryShow.index = 0;
@@ -831,7 +868,7 @@ void InitCategory(void) {
         return;
     }
     task = CreatProc(CategoryProc, 0x6040000);
-    obj = MakeScreenObj(task, 0, func_80028D3C, 0x5000000);
+    obj = MakeScreenObj(task, 0, DrawCategoryWheel, 0x5000000);
 }
 
 /*
@@ -1320,7 +1357,7 @@ struct procResult_s CreditsProc(proc_t *proc) {
                 i++;
             }
             ResetMotors();
-            MakeScreenObj(0, 0, func_80028064, 0x5050000);
+            MakeScreenObj(0, 0, DrawCreditsTitle, 0x5050000);
             proc->data->credits.step = 0;
             gameMode = 8;
             FreeObjClass(0x5050100, -1);
@@ -1523,7 +1560,7 @@ struct procResult_s BonusWonProc(proc_t *proc) {
             KillProcClass(0x5050200, -1, 1);
             players[curPlayer].total = players[curPlayer].total + 0x61A8;
             PlaySound(5);
-            MakeScreenObj(proc, 0, func_8002842C, 0x5050000);
+            MakeScreenObj(proc, 0, DrawBonusPrize, 0x5050000);
             result.w[0] = 320 / frameRetraces;
             return result;
         }
@@ -1884,7 +1921,7 @@ struct procResult_s StatusProc(proc_t *proc) {
             break;
         case 3:
             ProcPostEvent(38);
-            func_8002FD14();
+            StopFreeSpinTimer();
             return result;
         default:
             FatalError("Status Proc: button press invalid\n");

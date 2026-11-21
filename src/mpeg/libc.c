@@ -174,11 +174,11 @@ Opens the one stream there is on the movie at `filename`, which is its address i
 =====================
 */
 FILE *fopen( char *filename ) {
-    if ( D_80086D58 != 0 ) {
+    if ( streamOpen != 0 ) {
         FatalError( "fopen: File already open. (MPEG)" );
         return 0;
     }
-    D_80086D58 = 1;
+    streamOpen = 1;
     D_80107888.data = filename;
     D_80107888.pos = 0;
     return &D_80107888;
@@ -186,14 +186,14 @@ FILE *fopen( char *filename ) {
 
 /*
 =====================
-func_800A4E58
+fclose
 
-fclose: the stream can be opened again. The name stays a placeholder because game code outside the
-player calls the function.
+The stream can be opened again. guess: the C library's fclose, which the decoder calls when the
+film has ended; game code outside the player calls it too.
 =====================
 */
-void func_800A4E58( void *stream ) {
-    D_80086D58 = 0;
+void fclose( void *stream ) {
+    streamOpen = 0;
 }
 
 /*

@@ -72,7 +72,14 @@ struct procResult_s DemoProc(proc_t *proc) {
     return result;
 }
 
-void func_8000EE50(s32 arg0, s32 arg1) {
+/*
+=====================
+DemoStub
+
+Empty, and nothing calls it; it lies between DemoProc and StartDemo.
+=====================
+*/
+void DemoStub(s32 arg0, s32 arg1) {
 }
 
 /*
@@ -97,6 +104,6 @@ void StartDemo(void) {
     InitPlayers();
     StartStatus();
     CreatProc(DemoProc, 0x9000000);
-    MakeObj(0, 0, func_800287A4, 0x5000000);
+    MakeObj(0, 0, DrawPressStart, 0x5000000);
     StartApplause();
 }

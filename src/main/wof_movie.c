@@ -349,7 +349,7 @@ void UpdateMovie(proc_t *proc) {
     diff = diff - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     proc->data->moviePlay.obj->image = base + diff;
     if (movieDone == 0) {
-        movieDone = func_8009D244();
+        movieDone = mpegNextFrame();
     }
 }
 
@@ -378,7 +378,7 @@ void UpdateClip(proc_t *proc) {
     proc->data->clipPlay.obj->image = base + offset;
     moviePictures = gfxInfo[curGfxInfo].frame.unk_0AC00[proc->data->clipPlay.slot];
     if (movieDone == 0) {
-        movieDone = func_8009D244();
+        movieDone = mpegNextFrame();
     }
 }
 
@@ -421,7 +421,7 @@ struct procResult_s MovieProc(proc_t *proc) {
         ret.w[1] = 0;
         ret.w[0] = 1;
         if (movieDone == 2) {
-            func_800A4E58(0);
+            fclose(0);
             PlayMovie(curMovie, proc->data->moviePlay.event, proc->data->moviePlay.obj->x, proc->data->moviePlay.obj->y);
         } else if (proc->data->moviePlay.event != 0) {
             ProcPostEvent(proc->data->moviePlay.event);
@@ -545,9 +545,9 @@ void PlayMovie(s32 movie, s32 event, s32 x, s32 y) {
     proc_t *task;
     char *movieData;
 
-    if (D_80086D58 != 0) {
+    if (streamOpen != 0) {
         PopMemStack(1);
-        func_800A4E58(0);
+        fclose(0);
     }
     curMovie = movie;
     movieToMemory = 0;
@@ -558,7 +558,7 @@ void PlayMovie(s32 movie, s32 event, s32 x, s32 y) {
     movieMemMark = PushMemStack();
     movieDone = 0;
     movieData = LoadMovie(movie);
-    func_8009CEC0(movieData, movies[movie].unk_0C);
+    mpegStart(movieData, movies[movie].unk_0C);
 }
 
 /*
@@ -579,27 +579,27 @@ DecodeMovie
 Decodes a number of frames of a movie into memory at once.
 =====================
 */
-void DecodeMovie(s32 movie, s32 count, s16 *pictures, s32 *arg3) {
+void DecodeMovie(s32 movie, s32 count, s16 *pictures, s32 *mask) {
     s32 i;
     s32 unused;  /* NOTE: unused in the original */
     char *movieData;
 
-    if (D_80086D58 != 0) {
+    if (streamOpen != 0) {
         PopMemStack(1);
-        func_800A4E58(0);
+        fclose(0);
     }
     movieToMemory = 1;
     moviePictures = pictures;
-    D_800B81E4 = arg3;
+    D_800B81E4 = mask;
     curMovie = movie;
     movieMemMark = PushMemStack();
     movieDone = 0;
     movieData = LoadMovie(movie);
-    func_8009CEC0(movieData, movies[movie].unk_0C);
+    mpegStart(movieData, movies[movie].unk_0C);
     for (i = 1; i < count; i++) {
-        func_8009D244();
+        mpegNextFrame();
     }
-    func_800A4E58(0);
+    fclose(0);
     PopMemStack(1);
     movieToMemory = 0;
 }
@@ -611,17 +611,17 @@ PlayClip
 Plays a movie as a contestant's picture (ClipProc)
 =====================
 */
-void PlayClip(s32 movie, s32 *arg1, obj_t *obj, s32 slot, s32 event) {
+void PlayClip(s32 movie, s32 *mask, obj_t *obj, s32 slot, s32 event) {
     s32 unused;  /* NOTE: unused in the original */
     proc_t *task;
     char *movieData;
 
-    if (D_80086D58 != 0) {
+    if (streamOpen != 0) {
         PopMemStack(1);
-        func_800A4E58(0);
+        fclose(0);
     }
     movieToMemory = 1;
-    D_800B81E4 = arg1;
+    D_800B81E4 = mask;
     curMovie = movie;
     moviePictures = gfxInfo[curGfxInfo].frame.unk_0AC00[slot];
     SetCameraView(17);
@@ -633,7 +633,7 @@ void PlayClip(s32 movie, s32 *arg1, obj_t *obj, s32 slot, s32 event) {
     movieMemMark = PushMemStack();
     movieDone = 0;
     movieData = LoadMovie(movie);
-    func_8009CEC0(movieData, movies[movie].unk_0C);
+    mpegStart(movieData, movies[movie].unk_0C);
 }
 
 /*
@@ -644,9 +644,9 @@ Ends the movie in play and frees its memory.
 =====================
 */
 void StopMovie(void) {
-    if (D_80086D58 != 0) {
+    if (streamOpen != 0) {
         PopMemStack(1);
-        func_800A4E58(0);
+        fclose(0);
     }
     PopMemStack(1);
 }

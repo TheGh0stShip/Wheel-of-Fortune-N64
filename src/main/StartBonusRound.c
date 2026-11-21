@@ -36,5 +36,5 @@ void StartBonusRound(void) {
     MakeScreenObj(handle, 0, DrawLetterPick, 0x5050000);
     InitBoard();
     InitCpuLetters();
-    func_8002EDC0();
+    StatusStub();
 }

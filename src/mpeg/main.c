@@ -1,10 +1,12 @@
 // main.c -- starting a movie and playing it frame by frame
 //
-// guess: the file is what the player keeps of main.c of the Berkeley mpeg_play decoder. func_8009CEC0
-// is its main with the command line taken out and one movie instead of fifteen; func_8009D244 is the
+// guess: the file is what the player keeps of main.c of the Berkeley mpeg_play decoder. mpegStart
+// is its main with the command line taken out and one movie instead of fifteen; mpegNextFrame is the
 // body of the loop main ended with, once round; DoDitherImage is the decoder's. The flags are the ones
-// its command line set. The two functions and D_80086D58 keep placeholder names because game code
-// outside the player uses them, and D_80107884, the decoder's curVidStream, for the same reason.
+// its command line set. The program starts at boot, and the decoder's main, cut down, is what the
+// game calls to start each movie; the loop had no name. The two names are invented for those roles:
+// starting a movie and getting its next frame. D_80107884, the decoder's curVidStream, keeps its
+// placeholder because game code outside the player uses it.
 
 #include "wof.h"
 #include "mpeg/proto.h"
@@ -57,8 +59,8 @@ int qualityFlag = 1;
 
 static BOOLEAN exiting = FALSE;     /* NOTE: unused in the original: its users, the signal handlers, are gone */
 
-// set while a movie is open
-s32 D_80086D58 = 0;
+// set while the stream is open: fopen sets it, fclose clears it
+s32 streamOpen = 0;
 
 // the stream being decoded
 VidStream *D_80107884;
@@ -68,13 +70,13 @@ XInfo xinfo;
 
 /*
 =====================
-func_8009CEC0
+mpegStart
 
 Opens the movie at movie, sets the player up for it, parses its sequence header and decodes its
 first frame. gamma chooses the luminance table.
 =====================
 */
-void func_8009CEC0( char *movie, s32 gamma ) {
+void mpegStart( char *movie, s32 gamma ) {
     char             *name;
     static VidStream *theStream;
     int              mark;
@@ -163,17 +165,17 @@ void func_8009CEC0( char *movie, s32 gamma ) {
         theStream->realTimeStart = ReadSysClock();
     }
 
-    func_8009D244();
+    mpegNextFrame();
 }
 
 /*
 =====================
-func_8009D244
+mpegNextFrame
 
 Decodes until one more frame has been shown. Returns 1, and closes the movie, when the film has ended.
 =====================
 */
-s32 func_8009D244( void ) {
+s32 mpegNextFrame( void ) {
     int mark;
 
     mark = D_80107884->totNumFrames;
@@ -182,7 +184,7 @@ s32 func_8009D244( void ) {
     }
 
     if ( D_80107884->film_has_ended ) {
-        func_800A4E58( input );
+        fclose( input );
         return 1;
     }
 

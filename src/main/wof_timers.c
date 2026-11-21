@@ -1,10 +1,10 @@
 // wof_timers.c -- the host's final spin when the time runs out, and the timers: of a round, of the
 // demo, of a solve, and a five-second one, with the functions that start them
 //
-// RoundTimerProc, DemoTimerProc, func_8002FCD8, StartSolveTimer and ResetSolveTimer each end off an
+// RoundTimerProc, DemoTimerProc, StartFreeSpinTimer, StartSolveTimer and ResetSolveTimer each end off an
 // 8-byte boundary with the next function right after, which happens only inside an object; a 4-byte gap
-// ends the text after StartDemoTimer. The joins after FinalSpinProc, SolveTimerProc, func_8002FB60,
-// func_8002FD14 and StartRoundTimer rest on the RCS premise (every object from 0x8000BAA8 on opens its
+// ends the text after StartDemoTimer. The joins after FinalSpinProc, SolveTimerProc, FreeSpinTimerProc,
+// StopFreeSpinTimer and StartRoundTimer rest on the RCS premise (every object from 0x8000BAA8 on opens its
 // read-only data with an RCS run, which the project accepts): no run lies where an object starting
 // there would need one. Its read-only data opens with the RCS run at 0x800018F8, which could open an
 // object starting after any of SolvePuzzleProc to StartBonusRound; where it starts the text does not
@@ -227,7 +227,14 @@ struct procResult_s SolveTimerProc(proc_t *proc) {
     return result;
 }
 
-struct procResult_s func_8002FB60(proc_t *proc) {
+/*
+=====================
+FreeSpinTimerProc
+
+Gives a player who may use a free spin 5 seconds to choose; then event 48, and the turn is lost.
+=====================
+*/
+struct procResult_s FreeSpinTimerProc(proc_t *proc) {
     struct procResult_s result;
     OSTime time; /* NOTE: unused in the original. Eight bytes nothing touches; guess: an OSTime */
     s32 event;
@@ -255,11 +262,25 @@ struct procResult_s func_8002FB60(proc_t *proc) {
     return result;
 }
 
-void func_8002FCD8(void) {
-    CreatProc(func_8002FB60, 0x07050000);
+/*
+=====================
+StartFreeSpinTimer
+
+Starts FreeSpinTimerProc, when a player may use a free spin instead of losing the turn.
+=====================
+*/
+void StartFreeSpinTimer(void) {
+    CreatProc(FreeSpinTimerProc, 0x07050000);
 }
 
-void func_8002FD14(void) {
+/*
+=====================
+StopFreeSpinTimer
+
+Stops FreeSpinTimerProc, when the player chooses to use the free spin.
+=====================
+*/
+void StopFreeSpinTimer(void) {
     KillProcClass(0x07050000, -1, 0);
 }
 

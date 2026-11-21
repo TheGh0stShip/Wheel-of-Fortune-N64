@@ -366,8 +366,8 @@ struct procResult_s WheelStopProc(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            func_80032858();
-            func_80032B80();
+            SetVannaStill();
+            SetContestantsStill();
             switch (GetWedgeValue()) {
             case -1:
                 PlaySound(0);
@@ -458,8 +458,8 @@ struct procResult_s WheelSpinProc(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            func_80016098();
-            func_80032B10();
+            StartWheelLights();
+            PlayContestantAnims();
             SetVannaAnim(1);
             proc->data->wheelSpin.unk_04 = 0;
             applause++;
@@ -528,13 +528,21 @@ struct procResult_s BoardLightsProc(proc_t *proc) {
     return result;
 }
 
-struct procResult_s func_800101F4(proc_t *proc) {
+/*
+=====================
+WheelLightsProc
+
+Flashes the bulbs of the ring under the wheel while the wheel turns, and puts them out at event 2,
+when it stops.
+=====================
+*/
+struct procResult_s WheelLightsProc(proc_t *proc) {
     struct procResult_s result;
     obj_t *obj;
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    obj = proc->data->data800101F4.unk_00;
+    obj = proc->data->wheelLights.unk_00;
     for (;;) {
         event = ProcGetMessage(proc);
         if (event == 0) {
@@ -542,7 +550,7 @@ struct procResult_s func_800101F4(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            proc->data->data800101F4.unk_08 = 0;
+            proc->data->wheelLights.unk_08 = 0;
             obj->dl = D_011358C0;
             break;
         case 2:
@@ -552,9 +560,9 @@ struct procResult_s func_800101F4(proc_t *proc) {
             return result;
         }
     }
-    proc->data->data800101F4.unk_08 = proc->data->data800101F4.unk_08 + frameRetraces;
-    if (proc->data->data800101F4.unk_08 >= 6) {
-        proc->data->data800101F4.unk_08 = 0;
+    proc->data->wheelLights.unk_08 = proc->data->wheelLights.unk_08 + frameRetraces;
+    if (proc->data->wheelLights.unk_08 >= 6) {
+        proc->data->wheelLights.unk_08 = 0;
         if (obj->dl == D_011358C0) {
             obj->dl = D_01135908;
         } else {
@@ -566,38 +574,46 @@ struct procResult_s func_800101F4(proc_t *proc) {
     return result;
 }
 
-struct procResult_s func_800103B4(proc_t *proc) {
-    struct procResult_s sp10;
+/*
+=====================
+BaseLightsProc
+
+Flashes the bulbs of the wide ring at the foot of the wheel while the wheel turns, and puts them out
+at event 2.
+=====================
+*/
+struct procResult_s BaseLightsProc(proc_t *proc) {
+    struct procResult_s result;
     obj_t *sprite;
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    sprite = proc->data->data800103B4.unk_00;
+    sprite = proc->data->baseLights.unk_00;
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            proc->data->data800103B4.unk_08 = 0;
+            proc->data->baseLights.unk_08 = 0;
             sprite->dl = D_01136108;
             break;
         case 2:
             sprite->dl = D_01135FF8;
-            sp10.w[1] = 0;
-            sp10.w[0] = 0;
-            return sp10;
+            result.w[1] = 0;
+            result.w[0] = 0;
+            return result;
         }
     }
-    proc->data->data800103B4.unk_08 = proc->data->data800103B4.unk_08 + frameRetraces;
-    if (proc->data->data800103B4.unk_08 >= 6) {
-        proc->data->data800103B4.unk_08 = 0;
+    proc->data->baseLights.unk_08 = proc->data->baseLights.unk_08 + frameRetraces;
+    if (proc->data->baseLights.unk_08 >= 6) {
+        proc->data->baseLights.unk_08 = 0;
         if (sprite->dl == D_01136080) {
             sprite->dl = D_01136108;
         } else {
             sprite->dl = D_01136080;
         }
     }
-    sp10.w[1] = 3;
-    sp10.w[0] = -1;
-    return sp10;
+    result.w[1] = 3;
+    result.w[0] = -1;
+    return result;
 }
 
 /*
@@ -1156,7 +1172,7 @@ The draw function of a player's pointer.
 =====================
 */
 void DrawPointer(obj_t *obj, frame_t *frame) {
-    switch (func_80016638()) {
+    switch (IsBoardView()) {
     case 0:
         guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
         guRotateRPY(&frame->rotate[obj->index], obj->roll, obj->pitch, obj->heading);
@@ -1240,7 +1256,7 @@ The draw function of the board.
 =====================
 */
 void DrawBoard(obj_t *obj, frame_t *frame) {
-    switch (func_800166C0()) {
+    switch (IsBoardHidden()) {
     case 0:
         guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
         guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
@@ -1375,7 +1391,7 @@ void DrawScores(obj_t *obj, frame_t *frame) {
     s32 j;
     s32 color;
 
-    switch (func_80016638()) {
+    switch (IsBoardView()) {
     case 0:
         guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
         guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
@@ -1427,7 +1443,15 @@ void DrawScores(obj_t *obj, frame_t *frame) {
     }
 }
 
-void func_80014208(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawLetterBoard
+
+The draw function of the board at the side of the studio that shows the 26 letters and the three
+players.
+=====================
+*/
+void DrawLetterBoard(obj_t *obj, frame_t *frame) {
     s32 i;
 
     guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
@@ -1444,7 +1468,15 @@ void func_80014208(obj_t *obj, frame_t *frame) {
     SetLightColor(1);
 }
 
-void func_800144F0(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawSetPiece
+
+The draw function of a piece of the studio that is drawn in every view: its display list under the
+scene's lights.
+=====================
+*/
+void DrawSetPiece(obj_t *obj, frame_t *frame) {
     guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
     guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
     guRotateRPY(&frame->rotate[obj->index], obj->roll, obj->pitch, obj->heading);
@@ -1457,8 +1489,16 @@ void func_800144F0(obj_t *obj, frame_t *frame) {
     SetLightColor(1);
 }
 
-void func_80014768(obj_t *obj, frame_t *frame) {
-    switch (func_80016638()) {
+/*
+=====================
+DrawWheelLights
+
+The draw function of the two bulb rings of the wheel, under a white light, unless the view is the
+board's.
+=====================
+*/
+void DrawWheelLights(obj_t *obj, frame_t *frame) {
+    switch (IsBoardView()) {
     case 0:
         guTranslate(&frame->translate[obj->index], obj->x,
                       obj->y, obj->z);
@@ -1476,7 +1516,14 @@ void func_80014768(obj_t *obj, frame_t *frame) {
     }
 }
 
-void func_80014A5C(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawBackdrop
+
+The draw function of the backdrop of the studio, dimly lit, and of its overlay if it has one.
+=====================
+*/
+void DrawBackdrop(obj_t *obj, frame_t *frame) {
     guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
     guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
     guRotateRPY(&frame->rotate[obj->index], obj->roll, obj->pitch, obj->heading);
@@ -1510,7 +1557,7 @@ The draw function of the wheel and its 24 wedges.
 void DrawWheel(obj_t *obj, frame_t *frame) {
     s32 i;
 
-    switch (func_80016638()) {
+    switch (IsBoardView()) {
     case 0:
         guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
         guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
@@ -1536,7 +1583,14 @@ void DrawWheel(obj_t *obj, frame_t *frame) {
     }
 }
 
-void func_800153C4(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawCeiling
+
+The draw function of the lighting grid over the studio, dimly lit, and of its trim.
+=====================
+*/
+void DrawCeiling(obj_t *obj, frame_t *frame) {
     s32 unused;  /* NOTE: unused in the original */
 
     guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
@@ -1712,24 +1766,32 @@ void StartBoardLights(void) {
     }
 }
 
-void func_80016098(void) {
-    proc_t *task;
-    obj_t *sp14;
+/*
+=====================
+StartWheelLights
 
-    sp14 = FindObj(0xA010100, -1);
-    if (sp14 != 0) {
+Starts the procs that flash the two bulb rings of the wheel, if their objs exist and the procs do
+not.
+=====================
+*/
+void StartWheelLights(void) {
+    proc_t *task;
+    obj_t *obj;
+
+    obj = FindObj(0xA010100, -1);
+    if (obj != 0) {
         task = FindProc(0xA010100, -1);
         if (task == 0) {
-            task = CreatProc(func_800101F4, 0xA010100);
-            task->data->obj = sp14;
+            task = CreatProc(WheelLightsProc, 0xA010100);
+            task->data->obj = obj;
         }
     }
-    sp14 = FindObj(0xA010200, -1);
-    if (sp14 != 0) {
+    obj = FindObj(0xA010200, -1);
+    if (obj != 0) {
         task = FindProc(0xA010200, -1);
         if (task == 0) {
-            task = CreatProc(func_800103B4, 0xA010200);
-            task->data->obj = sp14;
+            task = CreatProc(BaseLightsProc, 0xA010200);
+            task->data->obj = obj;
         }
     }
 }
@@ -1782,15 +1844,15 @@ void InitStage(void) {
     obj->pitch = -360.0f;
     ResetBoard();
     wheelSpeed = 0;
-    MakeObj(0, D_01024368, func_800144F0, 0xA000000);
-    MakeObj(0, D_01135878, func_80014768, 0xA010100);
-    MakeObj(0, D_01135FF8, func_80014768, 0xA010200);
+    MakeObj(0, D_01024368, DrawSetPiece, 0xA000000);
+    MakeObj(0, D_01135878, DrawWheelLights, 0xA010100);
+    MakeObj(0, D_01135FF8, DrawWheelLights, 0xA010200);
     backdrop = Random(4);
-    MakeObj(0, backdropDls[backdrop], func_80014A5C, 0xA000000);
-    MakeObj(0, D_0112BBA8, func_800144F0, 0xA000000);
-    MakeObj(0, D_010B3728, func_800144F0, 0xA000000);
-    MakeObj(0, D_010A6098, func_80014208, 0xA000000);
-    MakeObj(0, D_010E4260, func_800153C4, 0xA000000);
+    MakeObj(0, backdropDls[backdrop], DrawBackdrop, 0xA000000);
+    MakeObj(0, D_0112BBA8, DrawSetPiece, 0xA000000);
+    MakeObj(0, D_010B3728, DrawSetPiece, 0xA000000);
+    MakeObj(0, D_010A6098, DrawLetterBoard, 0xA000000);
+    MakeObj(0, D_010E4260, DrawCeiling, 0xA000000);
     task = CreatProc(PointerProc, 0x4020000);
     task->data->pointer.offset = -2.0f;
     task->data->pointer.swing = 0;

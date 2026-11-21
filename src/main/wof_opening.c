@@ -435,7 +435,15 @@ struct procResult_s DebugCameraProc(proc_t *proc) {
     return ret;
 }
 
-void func_8000CB58(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawOpeningStudio
+
+The draw function of the studio in the opening: from frame 318 the set with its plants and lamps,
+before it the blue panels behind the flying logo.
+=====================
+*/
+void DrawOpeningStudio(obj_t *obj, frame_t *frame) {
     s32 unused;  /* NOTE: unused in the original */
 
     if (openingFrame >= 318) {
@@ -469,7 +477,14 @@ void func_8000CB58(obj_t *obj, frame_t *frame) {
     }
 }
 
-void func_8000D400(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawOpeningHub
+
+The draw function of the hub of the opening's logo, turned by hubAngle, before frame 318.
+=====================
+*/
+void DrawOpeningHub(obj_t *obj, frame_t *frame) {
     if (openingFrame >= 318) {
         return;
     }
@@ -537,7 +552,15 @@ void DrawOpeningWheel(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, obj->dl);
 }
 
-void func_8000DCA0(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawSearchlights
+
+The draw function of the two searchlight beams of the opening from frame 318, which turn a little
+each frame.
+=====================
+*/
+void DrawSearchlights(obj_t *obj, frame_t *frame) {
     if (openingFrame < 318) {
         return;
     }
@@ -671,7 +694,7 @@ Starts the opening again after the demo.
 void RestartOpening(void) {
     LoadSceneData();
     StartOpening();
-    func_8002EDC0();
+    StatusStub();
 }
 
 /*
@@ -692,8 +715,8 @@ void StartOpening(void) {
     CreateCamera();
     SetCameraView(6);
     openingFrame = 0;
-    MakeObj(0, 0, func_8000CB58, 0x8000000);
-    MakeObj(0, 0, func_8000DCA0, 0x8000000);
+    MakeObj(0, 0, DrawOpeningStudio, 0x8000000);
+    MakeObj(0, 0, DrawSearchlights, 0x8000000);
     for (i = 0; i < 14; i++) {
         task = CreatProc(TitleLetterProc, 0x8010000);
         task->data->titleLetterProc.index = i;
@@ -704,7 +727,7 @@ void StartOpening(void) {
     obj = MakeObj(task, D_011356C0, DrawOpeningWheel, 0x8010000);
     obj->y = -20;
     task = CreatProc(OpeningProc, 0x8000000);
-    obj = MakeObj(task, D_01197D78, func_8000D400, 0x8010000);
+    obj = MakeObj(task, D_01197D78, DrawOpeningHub, 0x8010000);
     task->data->opening.x = -272.0f;
     task->data->opening.y = 306.0f;
     task->data->opening.z = -411.0f;
@@ -722,7 +745,7 @@ void StartOpening(void) {
         obj = MakeObj(task, openingWedgeDls[i], DrawOpeningPiece, 0x8010000);
         obj->mtx = openingWedgeMtxs[i];
     }
-    MakeObj(0, 0, func_800287A4, 0x5000000);
+    MakeObj(0, 0, DrawPressStart, 0x5000000);
     openingFrames = 721;
     D_800BEE24 = 0;
 }

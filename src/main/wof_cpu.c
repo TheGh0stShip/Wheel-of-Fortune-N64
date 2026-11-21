@@ -226,7 +226,7 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
             target = FindObj(0x4010000, 0xFFFF0000);
             ApplyWedge(0);
             if (GetWedgeValue() == -1) {
-                func_80032B80();
+                SetContestantsStill();
                 SetGameView(0, 1);
                 if (LoseTurn() != 0) {
                     ProcPostEvent(3);
@@ -237,7 +237,7 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
                 return result;
             } else {
                 if (GetWedgeValue() == -2) {
-                    func_80032B80();
+                    SetContestantsStill();
                     SetGameView(0, 1);
                     if (MustLoseTurn() != 0) {
                         PlayMovieCorner(12, 16);
@@ -251,7 +251,7 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
                     return result;
                 }
             }
-            func_80032B10();
+            PlayContestantAnims();
             SetGameView(3, 1);
             StartCpuLetterPick(CpuPickConsonant(proc->data->playerProc.skill, proc) & 255);
             ProcPostMessage(proc, 5, 0);

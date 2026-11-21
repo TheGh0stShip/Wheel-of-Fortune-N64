@@ -193,7 +193,7 @@ typedef struct {
     /* 0x00 */ s32 rom;         // where it is on the cartridge
     /* 0x04 */ s32 unk_04;      // if above 0, the proc that plays the movie puts it in movieSound
     /* 0x08 */ s32 *size;       // points at its size in bytes, less one
-    /* 0x0C */ s32 unk_0C;      // 1, 2 or 3: what func_8009CEC0 is told about it
+    /* 0x0C */ s32 unk_0C;      // 1, 2 or 3: what mpegStart is told about it
 } movie_t;    // size 0x10
 
 // One line of a menu: a label, and options of which one is chosen. A line holds numbers of
@@ -460,19 +460,19 @@ typedef struct {
     /* 0x08 */ s32 frames;
 } boardLights_t;    // size 0xC
 
-// the data of the proc whose handler is func_800101F4
+// the data of the proc whose handler is WheelLightsProc
 typedef struct {
     /* 0x00 */ obj_t *unk_00;
     /* 0x04 */ u8 unk_04[0x4];
     /* 0x08 */ s32 unk_08;
-} data800101F4_t;    // size 0xC
+} wheelLights_t;    // size 0xC
 
-// the data of the proc whose handler is func_800103B4
+// the data of the proc whose handler is BaseLightsProc
 typedef struct {
     /* 0x00 */ obj_t *unk_00;
     /* 0x04 */ u8 unk_04[0x4];
     /* 0x08 */ s32 unk_08;
-} data800103B4_t;    // size 0xC
+} baseLights_t;    // size 0xC
 
 // the data of the proc whose handler is LightLetterProc
 typedef struct {
@@ -551,7 +551,7 @@ typedef struct {
 
 
 // The data of the procs that time something out: handlers RoundTimerProc, DemoTimerProc,
-// SolveTimerProc and func_8002FB60. The four are procs of one class (0x07) that keep the same
+// SolveTimerProc and FreeSpinTimerProc. The four are procs of one class (0x07) that keep the same
 // thing in the same place and share no helper; the ROM calls the third the "Solve Timer Proc"
 // (in ResetSolveTimer), which is where the name is from.
 typedef struct {
@@ -636,8 +636,8 @@ typedef union procData_u {
     wheelStop_t  wheelStop;
     wheelSpin_t  wheelSpin;
     boardLights_t  boardLights;
-    data800101F4_t  data800101F4;
-    data800103B4_t  data800103B4;
+    wheelLights_t  wheelLights;
+    baseLights_t  baseLights;
     lightLetter_t  lightLetter;
     lightText_t  lightText;
     cameraPath_t  cameraPath;
@@ -918,7 +918,7 @@ extern s32 D_800813C4[];  // a mask
 extern s32 D_800821C4[];  // a mask
 extern s32 D_800829C4[];  // a mask
 extern long long int D_80082BC8[];  // its data
-extern s32 D_80086D58;
+extern s32 streamOpen;
 extern ALCSeq *seqs[];
 extern ALSndpConfig sndpConfig;
 extern ALInstrument *sfxInst;    // the first instrument of the bank: its sounds are the sound effects
@@ -1176,7 +1176,7 @@ u8 *StrChr( u8 *str, s32 c );
 s32 StrLen( u8 *str );
 void IntToStr( u8 *dst, s32 value );
 s32 Random( s32 range );
-void func_80009D08( s32 arg0 );
+void SeedRandom( s32 seed );
 s32 Abs( s32 value );
 void PrintNum( s32 num );
 void FatalError( char *msg );
@@ -1228,11 +1228,11 @@ struct procResult_s OpeningWheelProc( proc_t *proc );
 struct procResult_s OpeningWedgeProc( proc_t *proc );
 struct procResult_s TitleLetterProc( proc_t *proc );
 struct procResult_s DebugCameraProc( proc_t *proc );
-void func_8000CB58( obj_t *obj, frame_t *frame );
-void func_8000D400( obj_t *obj, frame_t *frame );
+void DrawOpeningStudio( obj_t *obj, frame_t *frame );
+void DrawOpeningHub( obj_t *obj, frame_t *frame );
 void DrawOpeningPiece( obj_t *obj, frame_t *frame );
 void DrawOpeningWheel( obj_t *obj, frame_t *frame );
-void func_8000DCA0( obj_t *obj, frame_t *frame );
+void DrawSearchlights( obj_t *obj, frame_t *frame );
 void DrawLogo( obj_t *obj, frame_t *frame );
 struct procResult_s LogoProc( proc_t *proc );
 void StartLogos( void );
@@ -1240,7 +1240,7 @@ void ShowNoController( void );
 void RestartOpening( void );
 void StartOpening( void );
 struct procResult_s DemoProc( proc_t *proc );
-void func_8000EE50( s32 arg0, s32 arg1 );
+void DemoStub( s32 arg0, s32 arg1 );
 void StartDemo( void );
 struct procResult_s WheelPullProc( proc_t *proc );
 struct procResult_s PointerProc( proc_t *proc );
@@ -1249,8 +1249,8 @@ struct procResult_s WheelStopProc( proc_t *proc );
 struct procResult_s TurnWheel( proc_t *proc );
 struct procResult_s WheelSpinProc( proc_t *proc );
 struct procResult_s BoardLightsProc( proc_t *proc );
-struct procResult_s func_800101F4( proc_t *proc );
-struct procResult_s func_800103B4( proc_t *proc );
+struct procResult_s WheelLightsProc( proc_t *proc );
+struct procResult_s BaseLightsProc( proc_t *proc );
 struct procResult_s LightLetterProc( proc_t *proc );
 void TurnSquares( s32 col );
 struct procResult_s LightTextProc( proc_t *proc );
@@ -1272,22 +1272,22 @@ void UnlightPlayers( void );
 s32 GetLayerColor( layer_t *layer );
 void SetScoreDigits( s32 total );
 void DrawScores( obj_t *obj, frame_t *frame );
-void func_80014208( obj_t *obj, frame_t *frame );
-void func_800144F0( obj_t *obj, frame_t *frame );
-void func_80014768( obj_t *obj, frame_t *frame );
-void func_80014A5C( obj_t *obj, frame_t *frame );
+void DrawLetterBoard( obj_t *obj, frame_t *frame );
+void DrawSetPiece( obj_t *obj, frame_t *frame );
+void DrawWheelLights( obj_t *obj, frame_t *frame );
+void DrawBackdrop( obj_t *obj, frame_t *frame );
 void DrawWheel( obj_t *obj, frame_t *frame );
-void func_800153C4( obj_t *obj, frame_t *frame );
+void DrawCeiling( obj_t *obj, frame_t *frame );
 obj_t *MakeObj( proc_t *proc, Gfx *dl, objDraw_t draw, s32 cls );
 void InitSquares( Gfx **dls, tile_t *tiles, s32 row, s32 count );
 void InitBoard( void );
 void ClearSquares( Gfx **dls, tile_t *tiles, s32 row, s32 count );
 void StartBoardLights( void );
-void func_80016098( void );
+void StartWheelLights( void );
 void ResetBoard( void );
 void InitStage( void );
-s32 func_80016638( void );
-s32 func_800166C0( void );
+s32 IsBoardView( void );
+s32 IsBoardHidden( void );
 struct procResult_s CameraPathProc( proc_t *proc );
 void SetView( obj_t *obj, s32 view );
 void SetCameraView( s32 view );
@@ -1342,8 +1342,8 @@ struct procResult_s ClipProc( proc_t *proc );
 char *LoadMovie( s32 movie );
 void PlayMovie( s32 movie, s32 event, s32 x, s32 y );
 void PlayMovieCorner( s32 movie, s32 event );
-void DecodeMovie( s32 movie, s32 count, s16 *pictures, s32 *arg3 );
-void PlayClip( s32 movie, s32 *arg1, obj_t *obj, s32 slot, s32 event );
+void DecodeMovie( s32 movie, s32 count, s16 *pictures, s32 *mask );
+void PlayClip( s32 movie, s32 *mask, obj_t *obj, s32 slot, s32 event );
 void StopMovie( void );
 void DrawMainMenu1( obj_t *obj, frame_t *frame );
 void DrawContestantMenu( obj_t *obj, frame_t *frame );
@@ -1379,18 +1379,18 @@ void DrawImageAt( image_t *image, s32 lit, s32 dx, s32 dy );
 void DrawImage( image_t *image, s32 lit );
 void DrawStatus( obj_t *obj, frame_t *frame );
 void DrawBigNumber( obj_t *obj, frame_t *frame );
-void func_80028064( obj_t *obj, frame_t *frame );
+void DrawCreditsTitle( obj_t *obj, frame_t *frame );
 void DrawLetterPick( obj_t *obj, frame_t *frame );
-void func_8002842C( obj_t *obj, frame_t *frame );
+void DrawBonusPrize( obj_t *obj, frame_t *frame );
 void DrawBonusTimer( obj_t *obj, frame_t *frame );
-void func_8002867C( s32 arg0, s32 arg1 );
-void func_800287A4( obj_t *obj, frame_t *frame );
+void DrawRetraces( s32 arg0, s32 arg1 );
+void DrawPressStart( obj_t *obj, frame_t *frame );
 void DrawBootScreen( obj_t *obj, frame_t *frame );
 void DrawNoController( obj_t *obj, frame_t *frame );
 void DrawPause( obj_t *obj, frame_t *frame );
 void InitActionCursor( proc_t *proc );
 void ClearCategory( void );
-void func_80028D3C( obj_t *obj, frame_t *frame );
+void DrawCategoryWheel( obj_t *obj, frame_t *frame );
 struct procResult_s CategoryProc( proc_t *proc );
 void InitCategory( void );
 void SetScorePictures( s32 total );
@@ -1423,15 +1423,15 @@ void StartLetterPick( void );
 void StartCpuLetterPick( s32 letter );
 void StartSolvePuzzle( void );
 void StartStatus( void );
-void func_8002EDC0( void );
+void StatusStub( void );
 void StartBonusRound( void );
 struct procResult_s FinalSpinProc( proc_t *proc );
 struct procResult_s RoundTimerProc( proc_t *proc );
 struct procResult_s DemoTimerProc( proc_t *proc );
 struct procResult_s SolveTimerProc( proc_t *proc );
-struct procResult_s func_8002FB60( proc_t *proc );
-void func_8002FCD8( void );
-void func_8002FD14( void );
+struct procResult_s FreeSpinTimerProc( proc_t *proc );
+void StartFreeSpinTimer( void );
+void StopFreeSpinTimer( void );
 void StartSolveTimer( void );
 void ResetSolveTimer( void );
 void StartRoundTimer( void );
@@ -1445,11 +1445,11 @@ struct procResult_s AnimProc( proc_t *proc );
 struct procResult_s VannaAnimProc( proc_t *proc );
 void InitMenuAnim( s32 contestant, s32 slot, s32 x, s32 y, s32 z );
 void InitAnim( s32 anim, s32 player );
-void func_80032858( void );
+void SetVannaStill( void );
 proc_t *InitVannaAnim( s32 anim, s32 replace );
 void SetVannaAnim( s32 anim );
-void func_80032B10( void );
-void func_80032B80( void );
+void PlayContestantAnims( void );
+void SetContestantsStill( void );
 void InitContestants( void );
 s32 PlayContestantClip( s32 clip, s32 event, s32 player );
 void InitMenuContestants( void );
@@ -1466,8 +1466,8 @@ void AddConfetti( s32 x, s32 xRange, s32 y, s32 yRange, s32 speedRange, s32 spee
 struct procResult_s ConfettiBurstProc( proc_t *proc );
 
 void StartCelebration( void );
-void func_8009CEC0( char *movie, s32 gamma );
-s32 func_8009D244( void );
-void func_800A4E58( void *stream );
+void mpegStart( char *movie, s32 gamma );
+s32 mpegNextFrame( void );
+void fclose( void *stream );
 
 #endif // WOF_H

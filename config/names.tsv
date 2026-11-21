@@ -1044,3 +1044,43 @@ wof_silock	unit	0x80057800	invented	siLockMade: an object of data alone, closed 
 wof_turns	unit	0x80017548	invented	the turns: losing one, the next turn and round, the winner, the camera of a turn, the end of a round, a person's steps and the players' turn procs (LoseTurn to InitPlayers)
 wof_cpu	unit	0x8001A7A8	invented	the machine's turn: its letters, its choice, its steps and its turn procs (PickHitLetter to AddCpu)
 wof_confetti	unit	0x800343F8	invented	confetti: a piece, a burst and the celebration (AddConfetti to StartCelebration)
+SeedRandom	function	0x80009D08	invented	guess: empty, one s32 argument, nothing calls it; it follows Random, which draws from guRandom's own sequence, so a seed function would have nothing to do
+DrawOpeningStudio	function	0x8000CB58	invented	the draw function StartOpening makes: from frame 318 the studio set (sky panels, floor) and its plants and lamps, before it the blue panels behind the logo; read from renders of the display lists
+DrawOpeningHub	function	0x8000D400	invented	draws OpeningProc's obj, the wheel's hub (the same disc as wheelHubDl), turned by hubAngle, before frame 318
+DrawSearchlights	function	0x8000DCA0	invented	draws two thin beam meshes at two fixed matrices and turns them by two degrees a frame, from frame 318 of the opening
+DemoStub	function	0x8000EE50	invented	empty, two s32 arguments, nothing calls it or holds its address; it lies between DemoProc and StartDemo in the demo's object
+WheelLightsProc	function	0x800101F4	invented	swaps the obj of class 0xA010100 between the two lit-bulb display lists of the ring under the wheel every 6 frames, from the spin to event 2 (WheelStopProc), then the unlit one; the textures are bulbs, lit and unlit
+BaseLightsProc	function	0x800103B4	invented	the same for the obj of class 0xA010200, the wider ring of bulbs at the foot of the wheel
+DrawLetterBoard	function	0x80014208	invented	draws letterBoardDl and the 26 one-letter quads of letterBoardDls: the render shows a board with A to Z and Player 1 to 3
+DrawSetPiece	function	0x800144F0	invented	the draw function InitStage gives the podium, the logo screen and the floor: their display list under the scene's lights, in every view
+DrawWheelLights	function	0x80014768	invented	the draw function of the two bulb rings (classes 0xA010100 and 0xA010200), under a white light, unless IsBoardView
+DrawBackdrop	function	0x80014A5C	invented	the draw function of the obj InitStage makes from backdropDls[backdrop], dimly lit, then backdropOverlays[backdrop]
+DrawCeiling	function	0x800153C4	invented	the draw function of ceilingDl, a grid at the studio's top (y 1155) across the whole set, then its trim ceilingTrimDl
+StartWheelLights	function	0x80016098	invented	creates WheelLightsProc and BaseLightsProc for the two bulb-ring objs; WheelSpinProc calls it when the wheel starts turning
+IsBoardView	function	0x80016638	invented	1 for curView 3, 18 and 20, views straight down -z at the board's x (-269); DrawWheel, DrawPointer, DrawScores, DrawContestant and AnimProc draw or animate nothing then
+IsBoardHidden	function	0x800166C0	invented	0 for curView 3, 11 to 15, 18 and 20 (the board views and the camera moves), 1 otherwise; DrawBoard draws only when it is 0
+DrawCreditsTitle	function	0x80028064	invented	the draw function CreditsProc makes: categoryImages, which hold the title of each credits page, 10 right and 20 down
+DrawBonusPrize	function	0x8002842C	invented	draws bonusPrizeImages, the glyphs $ 2 5 , 0 0 0, which BonusWonProc shows as it adds 25000 to the total
+DrawRetraces	function	0x8002867C	invented	draws retraceImages like the draw functions around it; nothing refers to it
+DrawPressStart	function	0x800287A4	invented	draws pressStartImages (category glyphs spelling PRESS START between the plate's caps); StartOpening and StartDemo make its obj
+DrawCategoryWheel	function	0x80028D3C	invented	draws one 24x24 picture of categoryWheelFrames, a small wheel in 16 turning frames, at the letter CategoryProc is showing
+StatusStub	function	0x8002EDC0	invented	empty; StartStatus, StartBonusRound and RestartOpening call it, and it lies after StartStatus in the status object
+FreeSpinTimerProc	function	0x8002FB60	invented	after 5 seconds posts event 48, on which PlayerTurnProc loses the turn; started where LoseTurn offers a free spin (message 37) and stopped when the player picks the free spin action
+StartFreeSpinTimer	function	0x8002FCD8	invented	creates FreeSpinTimerProc; PlayerTurnProc calls it on message 37, the offer of a free spin
+StopFreeSpinTimer	function	0x8002FD14	invented	kills the procs of FreeSpinTimerProc's class; StatusProc calls it when the free spin action is picked (event 38)
+SetVannaStill	function	0x80032858	invented	SetVannaAnim(4): vannaClips[4] is one picture of movie 24, the movie of animation 1
+PlayContestantAnims	function	0x80032B10	invented	InitAnim(0) for each player: contestantClips[c][0], the clip of several pictures
+SetContestantsStill	function	0x80032B80	invented	InitAnim(1) for each player: contestantClips[c][1], one picture (the one menuClips shows)
+wheelLights_t	type	wof.h	invented	the data of WheelLightsProc
+baseLights_t	type	wof.h	invented	the data of BaseLightsProc
+wheelLights	member	procData_t	invented	the data of WheelLightsProc
+baseLights	member	procData_t	invented	the data of BaseLightsProc
+seed	param	SeedRandom	invented	guess: as the function's name
+result	local	BaseLightsProc	invented	the procResult_s it returns, as in WheelLightsProc
+obj	local	StartWheelLights	invented	the bulb-ring obj found for each proc
+mask	param	DecodeMovie	invented	becomes curMask, the clip mask the frames are stored through
+mask	param	PlayClip	invented	becomes curMask, the clip mask the frames are stored through
+mpegStart	function	0x8009CEC0	invented	the decoder's main (guess: mpeg_play's main.c, cut down to one movie), which the game calls to open a movie and decode its first frame; the program starts at boot, and main is no name for a function called once a movie
+mpegNextFrame	function	0x8009D244	invented	the body of the loop mpeg_play's main ended with, which had no name: decodes until one more frame is shown, and returns 1 at the film's end
+fclose	function	0x800A4E58	lineage	guess: the C library's fclose, which mpeg_play calls on its input when the film ends; include/mpeg/libc.h said so, and the stand-in only marks the one stream closed
+streamOpen	global	0x80086D58	invented	fopen sets it and refuses while it is set; fclose clears it; the game's movie functions call fclose first while it is set

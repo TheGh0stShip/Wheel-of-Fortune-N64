@@ -2,8 +2,8 @@
 //
 // guess: the file is proto.h of the Berkeley mpeg_play decoder, with the globals that decoder declares in
 // video.h. Three functions of the module are declared in wof.h instead, because game code outside the
-// player calls them: func_8009CEC0 and func_8009D244 of main.c and func_800A4E58 of libc.c, and with
-// them the flag D_80086D58. The functions of the C library are in libc.h.
+// player calls them: mpegStart and mpegNextFrame of main.c and fclose of libc.c, and with
+// them the flag streamOpen. The functions of the C library are in libc.h.
 
 #ifndef MPEG_PROTO_H
 #define MPEG_PROTO_H

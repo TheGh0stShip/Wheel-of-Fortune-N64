@@ -89,7 +89,7 @@ wof_memstack	0x8000B780	0x324	match	game	src/main/wof_memstack.c
 wof_opening	0x8000BAA8	0x3098	match	game	src/main/wof_opening.c
 wof_demo	0x8000EB40	0x428	match	game	src/main/wof_demo.c
 wof_stage	0x8000EF68	0x76CC	match	game	src/main/wof_stage.c
-# premise: joined after func_80016638
+# premise: joined after IsBoardView
 wof_camera	0x80016638	0xF0C	match	game	src/main/wof_camera.c
 # premise: joined after LoseTurn, NextTurn, NextRound, FindWinner, WinnerProc, SpinProc, SolveProc
 wof_turns	0x80017548	0x3088	match	game	src/main/wof_turns.c
@@ -121,11 +121,11 @@ StartLetterPick	0x8002EB40	0x50	match	game	src/main/StartLetterPick.c
 wof_startpick	0x8002EB90	0xD0	match	game	src/main/wof_startpick.c
 # open: after StartSolvePuzzle, between wof_startpick and StartStatus: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
 StartStatus	0x8002EC60	0x160	match	game	src/main/StartStatus.c
-# open: after StartStatus, between StartStatus and func_8002EDC0: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
-func_8002EDC0	0x8002EDC0	0x20	match	game	src/main/func_8002EDC0.c
-# open: after func_8002EDC0, between func_8002EDC0 and StartBonusRound: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
+# open: after StartStatus, between StartStatus and StatusStub: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
+StatusStub	0x8002EDC0	0x20	match	game	src/main/StatusStub.c
+# open: after StatusStub, between StatusStub and StartBonusRound: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
 StartBonusRound	0x8002EDE0	0x1E0	match	game	src/main/StartBonusRound.c
-# premise: joined after FinalSpinProc, SolveTimerProc, func_8002FB60, func_8002FD14, StartRoundTimer
+# premise: joined after FinalSpinProc, SolveTimerProc, FreeSpinTimerProc, StopFreeSpinTimer, StartRoundTimer
 # open: after StartBonusRound, between StartBonusRound and wof_timers: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
 wof_timers	0x8002EFC0	0xEEC	match	game	src/main/wof_timers.c
 # premise: joined after DrawContestant, DrawVanna
@@ -336,7 +336,7 @@ mpeg_floatdct	0x8009C600	0x480	match	game	src/mpeg/floatdct.c
 # open: after func_8009C754, between mpeg_floatdct and mpeg_gdith: nothing in the image decides it
 # open inside: after func_8009CA80: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 mpeg_gdith	0x8009CA80	0x43C	match	game	src/mpeg/gdith.c
-# open inside: after func_8009D244: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after mpegNextFrame: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 mpeg_main	0x8009CEC0	0x514	match	game	src/mpeg/main.c
 # open inside: after func_8009D3D8: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 mpeg_jrevdct	0x8009D3D8	0x45FC	match	game	src/mpeg/jrevdct.c

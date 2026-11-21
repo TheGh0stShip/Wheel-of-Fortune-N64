@@ -246,7 +246,7 @@ struct procResult_s RoundOverProc(proc_t *proc) {
         case 8:
             SetGameView(3, 0);
             SetVannaAnim(1);
-            func_80032B10();
+            PlayContestantAnims();
             if (round != 2) {
                 PlayContestantClip(0, 0, curPlayer);
             }
@@ -267,8 +267,8 @@ struct procResult_s RoundOverProc(proc_t *proc) {
             return result;
         }
     }
-    func_80032858();
-    func_80032B10();
+    SetVannaStill();
+    PlayContestantAnims();
     round++;
     if (gameOver == 0 && round < numRounds) {
         SetCameraView(13);
@@ -315,7 +315,7 @@ struct procResult_s WinnerProc(proc_t *proc) {
         switch (event) {
         case 8:
             SetGameView(17, 0);
-            func_80032B10();
+            PlayContestantAnims();
             HideOtherContestants();
             applause += 3;
             if (players[curPlayer].winSound > 0) {
@@ -408,7 +408,7 @@ struct procResult_s SpinProc(proc_t *proc) {
             ApplyWedge(0);
             if (GetWedgeValue() == -2 || GetWedgeValue() == -1) {
                 SetGameView(0, 0);
-                func_80032B80();
+                SetContestantsStill();
                 StartRumble(players[curPlayer].controller, 30, 0.8f);
                 if (MustLoseTurn() != 0) {
                     if (GetWedgeValue() == -2) {
@@ -434,7 +434,7 @@ struct procResult_s SpinProc(proc_t *proc) {
                 return result;
             }
             SetGameView(3, 0);
-            func_80032B10();
+            PlayContestantAnims();
             StartLetterPick();
             result.w[1] = 2;
             result.w[0] = 5;
@@ -841,7 +841,7 @@ struct procResult_s PlayerTurnProc(proc_t *proc) {
             task = FindProc(0x5000000, -1);
             curLetter = '3';
             ProcPostMessage(task, 27, 1);
-            func_8002FCD8();
+            StartFreeSpinTimer();
             ret.w[1] = 2;
             ret.w[0] = -1;
             return ret;

@@ -6,7 +6,7 @@
 // that it opens at the gap, so that DrawContestant to DrawVanna are this object's, rests on the RCS
 // premise (every object from 0x8000BAA8 on opens its read-only data with an RCS run, which the project
 // accepts). Inside, DrawMenuContestant, SetPicture, SetVannaPicture, AnimProc, VannaAnimProc,
-// func_80032858, InitVannaAnim, PlayContestantClip and InitMenuContestants end off an 8-byte boundary
+// SetVannaStill, InitVannaAnim, PlayContestantClip and InitMenuContestants end off an 8-byte boundary
 // with the next function right after, which happens only inside an object; InitMenuAnim, InitAnim and
 // the functions to InitContestants share string literals or lie among each other's read-only items and
 // data. Where it ends after HideOtherContestants the text does not say: the RCS runs at 0x80001A30,
@@ -31,7 +31,7 @@ void DrawContestant(obj_t *obj, frame_t *frame) {
     if (obj->image == 0) {
         return;
     }
-    switch (func_80016638()) {
+    switch (IsBoardView()) {
     case 0:
         gSPLightColor(glistp++, LIGHT_3, 0xCCCCCCCC);
         gSPLightColor(glistp++, LIGHT_4, 0xCCCCCCCC);
@@ -302,7 +302,7 @@ struct procResult_s AnimProc(proc_t *proc) {
             break;
         }
     }
-    if (func_80016638() != 0 && gameMode != 7) {
+    if (IsBoardView() != 0 && gameMode != 7) {
         result.w[1] = 1;
         result.w[0] = 0;
         return result;
@@ -565,7 +565,14 @@ void InitAnim(s32 anim, s32 player) {
     task->data->anim.obj = obj;
 }
 
-void func_80032858(void) {
+/*
+=====================
+SetVannaStill
+
+Shows Vanna standing still: animation 4, one picture.
+=====================
+*/
+void SetVannaStill(void) {
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     SetVannaAnim(4);
@@ -623,7 +630,14 @@ void SetVannaAnim(s32 anim) {
     InitVannaAnim(anim, 1);
 }
 
-void func_80032B10(void) {
+/*
+=====================
+PlayContestantAnims
+
+Plays animation 0 of each of the three contestants.
+=====================
+*/
+void PlayContestantAnims(void) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
@@ -631,7 +645,14 @@ void func_80032B10(void) {
     }
 }
 
-void func_80032B80(void) {
+/*
+=====================
+SetContestantsStill
+
+Shows each of the three contestants still: animation 1, one picture.
+=====================
+*/
+void SetContestantsStill(void) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
@@ -692,7 +713,7 @@ void InitContestants(void) {
         obj->secondDl = contestantDls[i][1];
         obj->image = 0;
     }
-    func_80032B10();
+    PlayContestantAnims();
     SetVannaAnim(4);
     retraceCount = 0;
 }
