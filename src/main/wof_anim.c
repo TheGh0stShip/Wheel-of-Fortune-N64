@@ -72,7 +72,7 @@ void DrawMenuContestant(obj_t *obj, frame_t *frame) {
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPDisplayList(glistp++, D_010219C8);
+    gSPDisplayList(glistp++, litSetupDl);
     gSPTexture(glistp++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
     gDPPipeSync(glistp++);
     gDPSetRenderMode(glistp++, G_RM_AA_ZB_TEX_EDGE, G_RM_AA_ZB_TEX_EDGE2);
@@ -111,7 +111,7 @@ void DrawVanna(obj_t *obj, frame_t *frame) {
             SetVannaPicture(pixels, actor->data->vannaAnim.mirror * lightDir);
         }
     }
-    gSPMatrix(glistp++, &D_0113AE28, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &vannaMtx, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPTexture(glistp++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
@@ -122,15 +122,15 @@ void DrawVanna(obj_t *obj, frame_t *frame) {
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                         6, 5, G_TX_NOLOD, G_TX_NOLOD);
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, D_0113AD08);
+    gSPDisplayList(glistp++, vannaLowerDl);
     gDPLoadTextureBlock(glistp++, obj->image + 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                         6, 5, G_TX_NOLOD, G_TX_NOLOD);
-    gSPDisplayList(glistp++, D_0113AD28);
+    gSPDisplayList(glistp++, vannaMiddleDl);
     gDPLoadTextureBlock(glistp++, obj->image + 0x2000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                         6, 5, G_TX_NOLOD, G_TX_NOLOD);
-    gSPDisplayList(glistp++, D_0113AD48);
+    gSPDisplayList(glistp++, vannaUpperDl);
     gDPPipeSync(glistp++);
     gDPSetRenderMode(glistp++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
 }
@@ -512,8 +512,8 @@ void InitMenuAnim(s32 contestant, s32 slot, s32 x, s32 y, s32 z) {
         KillProc(task, 0);
     }
     task = CreatProc(AnimProc, slot | 0xA000300);
-    obj = MakeObj(task, D_0113A9B0, DrawMenuContestant, slot | 0xA020000);
-    obj->secondDl = D_0113A9D0;
+    obj = MakeObj(task, menuContestantDl, DrawMenuContestant, slot | 0xA020000);
+    obj->secondDl = menuContestantSecondDl;
     obj->x = x;
     obj->y = y;
     obj->z = z;

@@ -15,7 +15,7 @@ void DrawMovie96(obj_t *obj, frame_t *frame) {
     gDPSetCycleType(glistp++, G_CYC_FILL);
     gDPSetFillColor(glistp++, 0x39CF39CF);
     gDPFillRectangle(glistp++, obj->x, obj->y, obj->x + 102, obj->y + 102);
-    gSPDisplayList(glistp++, D_01021970);
+    gSPDisplayList(glistp++, imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     gDPLoadTextureBlock(glistp++, obj->image, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 32, 0,
                         G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,

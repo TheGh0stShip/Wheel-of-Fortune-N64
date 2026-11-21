@@ -288,10 +288,10 @@ struct procResult_s OpeningWheelProc(proc_t *proc) {
         obj->y = 40;
     }
     if (openingFrame % 2 == 1) {
-        if (obj->dl == D_011358C0) {
-            obj->dl = D_01135908;
+        if (obj->dl == wheelLightsOnDl) {
+            obj->dl = wheelLightsOn2Dl;
         } else {
-            obj->dl = D_011358C0;
+            obj->dl = wheelLightsOnDl;
         }
     }
     return result;
@@ -453,26 +453,26 @@ void DrawOpeningStudio(obj_t *obj, frame_t *frame) {
         gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPDisplayList(glistp++, &D_010219C8);
+        gSPDisplayList(glistp++, &litSetupDl);
         gSPLightColor(glistp++, LIGHT_1, 0x111111FF);
         gSPLightColor(glistp++, LIGHT_2, 0);
         gSPLightColor(glistp++, LIGHT_3, 0x888888FF);
         gSPLightColor(glistp++, LIGHT_4, 0x222222FF);
         gSPLightColor(glistp++, LIGHT_5, 0x222222FF);
-        gSPDisplayList(glistp++, &D_0116C028);
-        gSPDisplayList(glistp++, &D_01166BF8);
+        gSPDisplayList(glistp++, &openingStudioDl);
+        gSPDisplayList(glistp++, &openingPropsDl);
     }
     if (openingFrame < 318) {
-        gSPMatrix(glistp++, &D_01176D08, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+        gSPMatrix(glistp++, &openingPanelsMtx, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
         guTranslate(&frame->translate[obj->index], (f32)(obj->x + 30), (f32)(obj->y - 50), (f32)(obj->z + 60));
         gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPDisplayList(glistp++, &D_010219C8);
+        gSPDisplayList(glistp++, &litSetupDl);
         gSPLightColor(glistp++, LIGHT_1, 0);
         gSPLightColor(glistp++, LIGHT_2, 0);
         gSPLightColor(glistp++, LIGHT_3, 0);
         gSPLightColor(glistp++, LIGHT_4, 0x3C3C3CFF);
         gSPLightColor(glistp++, LIGHT_5, 0x3C3C3CFF);
-        gSPDisplayList(glistp++, &D_011696A0);
+        gSPDisplayList(glistp++, &openingPanelsDl);
         gSPLightColor(glistp++, LIGHT_1, 0xC8C8C8FF);
     }
 }
@@ -496,7 +496,7 @@ void DrawOpeningHub(obj_t *obj, frame_t *frame) {
     gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->hubRotate, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPDisplayList(glistp++, D_010219C8);
+    gSPDisplayList(glistp++, litSetupDl);
     gSPDisplayList(glistp++, obj->dl);
 }
 
@@ -542,8 +542,8 @@ void DrawOpeningWheel(obj_t *obj, frame_t *frame) {
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPDisplayList(glistp++, D_010219C8);
-    gSPDisplayList(glistp++, D_010FA038);
+    gSPDisplayList(glistp++, litSetupDl);
+    gSPDisplayList(glistp++, wheelHubDl);
     gSPLightColor(glistp++, LIGHT_1, 0xC8C8C8FF);
     for (i = 0; i < 24; i++) {
         gSPDisplayList(glistp++, wedgeDls[0][i].dl);
@@ -567,12 +567,12 @@ void DrawSearchlights(obj_t *obj, frame_t *frame) {
     obj->pitch += (f32)(frameRetraces * 2);
     guRotateRPY(&frame->rotate[obj->index], obj->roll,
                   obj->pitch, obj->heading);
-    gSPMatrix(glistp++, &D_01176C88, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+    gSPMatrix(glistp++, &searchlight1Mtx, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPDisplayList(glistp++, D_01166928);
-    gSPMatrix(glistp++, &D_01176CC8, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+    gSPDisplayList(glistp++, searchlight1Dl);
+    gSPMatrix(glistp++, &searchlight2Mtx, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPDisplayList(glistp++, D_01166598);
+    gSPDisplayList(glistp++, searchlight2Dl);
     gDPPipeSync(glistp++);
     gDPSetRenderMode(glistp++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
 }
@@ -589,10 +589,10 @@ void DrawLogo(obj_t *obj, frame_t *frame) {
     s32 row;
     s32 col;
 
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     gDPSetTextureLUT(glistp++, G_TT_RGBA16);
-    gDPLoadTLUT_pal16(glistp++, 0, &D_01146E68);
+    gDPLoadTLUT_pal16(glistp++, 0, &logoPalette);
     gDPPipeSync(glistp++);
     for (row = 0; row < 2; row++) {
         for (col = 0; col < 3; col++) {
@@ -724,10 +724,10 @@ void StartOpening(void) {
         obj->mtx = titleLetters[i].mtx;
     }
     task = CreatProc(OpeningWheelProc, 0x8010000);
-    obj = MakeObj(task, D_011356C0, DrawOpeningWheel, 0x8010000);
+    obj = MakeObj(task, wheelLightsDl, DrawOpeningWheel, 0x8010000);
     obj->y = -20;
     task = CreatProc(OpeningProc, 0x8000000);
-    obj = MakeObj(task, D_01197D78, DrawOpeningHub, 0x8010000);
+    obj = MakeObj(task, openingHubDl, DrawOpeningHub, 0x8010000);
     task->data->opening.x = -272.0f;
     task->data->opening.y = 306.0f;
     task->data->opening.z = -411.0f;

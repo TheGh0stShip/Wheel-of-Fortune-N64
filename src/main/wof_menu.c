@@ -298,7 +298,7 @@ void DrawMainMenu1(obj_t *obj, frame_t *frame) {
     s32 unused2;  /* NOTE: unused in the original */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 118; i++) {
         DrawImage(&marqueeImages[i], 1);
@@ -329,7 +329,7 @@ void DrawContestantMenu(obj_t *obj, frame_t *frame) {
     s32 unused2;  /* NOTE: unused in the original */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 118; i++) {
         DrawImage(&marqueeImages[i], 1);
@@ -354,7 +354,7 @@ void DrawMainMenu3(obj_t *obj, frame_t *frame) {
     s32 unused2;  /* NOTE: unused in the original */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 118; i++) {
         DrawImage(&marqueeImages[i], 1);
@@ -382,7 +382,7 @@ void DrawSkillMenu(obj_t *obj, frame_t *frame) {
     s32 unused2;  /* NOTE: unused in the original */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 118; i++) {
         DrawImage(&marqueeImages[i], 1);
@@ -407,7 +407,7 @@ void DrawRoundsMenu(obj_t *obj, frame_t *frame) {
     s32 unused2;  /* NOTE: unused in the original */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     i = 0;
     for (;;) {
@@ -679,24 +679,24 @@ struct procResult_s MainMenu1Proc(proc_t *proc) {
     if (cursor < 3) {
         switch (proc->data->mainMenu.sel) {
         case 0:
-            mainMenu1Images[(cursor * 4) + 10].texture = D_01158068;
-            mainMenu1Images[(cursor * 4) + 10].dimTexture = D_0115B868;
+            mainMenu1Images[(cursor * 4) + 10].texture = controller1Texture;
+            mainMenu1Images[(cursor * 4) + 10].dimTexture = controller1DimTexture;
             break;
         case 1:
-            mainMenu1Images[(cursor * 4) + 10].texture = D_01158868;
-            mainMenu1Images[(cursor * 4) + 10].dimTexture = D_0115C068;
+            mainMenu1Images[(cursor * 4) + 10].texture = controller2Texture;
+            mainMenu1Images[(cursor * 4) + 10].dimTexture = controller2DimTexture;
             break;
         case 2:
-            mainMenu1Images[(cursor * 4) + 10].texture = D_01159068;
-            mainMenu1Images[(cursor * 4) + 10].dimTexture = D_0115C868;
+            mainMenu1Images[(cursor * 4) + 10].texture = controller3Texture;
+            mainMenu1Images[(cursor * 4) + 10].dimTexture = controller3DimTexture;
             break;
         case 3:
-            mainMenu1Images[(cursor * 4) + 10].texture = D_01159868;
-            mainMenu1Images[(cursor * 4) + 10].dimTexture = D_0115D068;
+            mainMenu1Images[(cursor * 4) + 10].texture = controller4Texture;
+            mainMenu1Images[(cursor * 4) + 10].dimTexture = controller4DimTexture;
             break;
         case 4:
-            mainMenu1Images[(cursor * 4) + 10].texture = D_01157868;
-            mainMenu1Images[(cursor * 4) + 10].dimTexture = D_0115B068;
+            mainMenu1Images[(cursor * 4) + 10].texture = computerTexture;
+            mainMenu1Images[(cursor * 4) + 10].dimTexture = computerDimTexture;
             break;
         }
     }
@@ -1215,24 +1215,24 @@ void StartMainMenu1(void) {
     for (i = 0; i < 3; i++) {
         switch (mainMenu1[i].sel) {
         case 0:
-            mainMenu1Images[i * 4 + 10].texture = D_01158068;
-            mainMenu1Images[i * 4 + 10].dimTexture = D_0115B868;
+            mainMenu1Images[i * 4 + 10].texture = controller1Texture;
+            mainMenu1Images[i * 4 + 10].dimTexture = controller1DimTexture;
             break;
         case 1:
-            mainMenu1Images[i * 4 + 10].texture = D_01158868;
-            mainMenu1Images[i * 4 + 10].dimTexture = D_0115C068;
+            mainMenu1Images[i * 4 + 10].texture = controller2Texture;
+            mainMenu1Images[i * 4 + 10].dimTexture = controller2DimTexture;
             break;
         case 2:
-            mainMenu1Images[i * 4 + 10].texture = D_01159068;
-            mainMenu1Images[i * 4 + 10].dimTexture = D_0115C868;
+            mainMenu1Images[i * 4 + 10].texture = controller3Texture;
+            mainMenu1Images[i * 4 + 10].dimTexture = controller3DimTexture;
             break;
         case 3:
-            mainMenu1Images[i * 4 + 10].texture = D_01159868;
-            mainMenu1Images[i * 4 + 10].dimTexture = D_0115D068;
+            mainMenu1Images[i * 4 + 10].texture = controller4Texture;
+            mainMenu1Images[i * 4 + 10].dimTexture = controller4DimTexture;
             break;
         case 4:
-            mainMenu1Images[i * 4 + 10].texture = D_01157868;
-            mainMenu1Images[i * 4 + 10].dimTexture = D_0115B068;
+            mainMenu1Images[i * 4 + 10].texture = computerTexture;
+            mainMenu1Images[i * 4 + 10].dimTexture = computerDimTexture;
             break;
         }
     }
@@ -1270,24 +1270,24 @@ void StartContestantMenu(void) {
     contestantMenuImages[8].dimTexture = playerMenuTextures[i][2][1];
     switch (mainMenu1[i].sel) {
     case 0:
-        contestantMenuImages[9].texture = D_01158068;
-        contestantMenuImages[9].dimTexture = D_0115B868;
+        contestantMenuImages[9].texture = controller1Texture;
+        contestantMenuImages[9].dimTexture = controller1DimTexture;
         break;
     case 1:
-        contestantMenuImages[9].texture = D_01158868;
-        contestantMenuImages[9].dimTexture = D_0115C068;
+        contestantMenuImages[9].texture = controller2Texture;
+        contestantMenuImages[9].dimTexture = controller2DimTexture;
         break;
     case 2:
-        contestantMenuImages[9].texture = D_01159068;
-        contestantMenuImages[9].dimTexture = D_0115C868;
+        contestantMenuImages[9].texture = controller3Texture;
+        contestantMenuImages[9].dimTexture = controller3DimTexture;
         break;
     case 3:
-        contestantMenuImages[9].texture = D_01159868;
-        contestantMenuImages[9].dimTexture = D_01159868;
+        contestantMenuImages[9].texture = controller4Texture;
+        contestantMenuImages[9].dimTexture = controller4Texture;
         break;
     case 4:
-        contestantMenuImages[9].texture = D_01157868;
-        contestantMenuImages[9].dimTexture = D_0115B068;
+        contestantMenuImages[9].texture = computerTexture;
+        contestantMenuImages[9].dimTexture = computerDimTexture;
         break;
     }
     contestantMenu[0].sel = players[curPlayer].contestant;
@@ -1341,24 +1341,24 @@ void StartMainMenu3(void) {
         InitMenuAnim(players[i].contestant, i, playerPos[i].x, playerPos[i].y, playerPos[i].z);
         switch (mainMenu1[i].sel) {
         case 0:
-            mainMenu3Images[i * 3 + 2].texture = D_01158068;
-            mainMenu3Images[i * 3 + 2].dimTexture = D_01158068;
+            mainMenu3Images[i * 3 + 2].texture = controller1Texture;
+            mainMenu3Images[i * 3 + 2].dimTexture = controller1Texture;
             break;
         case 1:
-            mainMenu3Images[i * 3 + 2].texture = D_01158868;
-            mainMenu3Images[i * 3 + 2].dimTexture = D_01158868;
+            mainMenu3Images[i * 3 + 2].texture = controller2Texture;
+            mainMenu3Images[i * 3 + 2].dimTexture = controller2Texture;
             break;
         case 2:
-            mainMenu3Images[i * 3 + 2].texture = D_01159068;
-            mainMenu3Images[i * 3 + 2].dimTexture = D_01159068;
+            mainMenu3Images[i * 3 + 2].texture = controller3Texture;
+            mainMenu3Images[i * 3 + 2].dimTexture = controller3Texture;
             break;
         case 3:
-            mainMenu3Images[i * 3 + 2].texture = D_01159868;
-            mainMenu3Images[i * 3 + 2].dimTexture = D_01159868;
+            mainMenu3Images[i * 3 + 2].texture = controller4Texture;
+            mainMenu3Images[i * 3 + 2].dimTexture = controller4Texture;
             break;
         case 4:
-            mainMenu3Images[i * 3 + 2].texture = D_01157868;
-            mainMenu3Images[i * 3 + 2].dimTexture = D_01157868;
+            mainMenu3Images[i * 3 + 2].texture = computerTexture;
+            mainMenu3Images[i * 3 + 2].dimTexture = computerTexture;
             break;
         }
         i++;

@@ -12,7 +12,7 @@ Draws a movie 112 pixels wide.
 void DrawMovie112(obj_t *obj, frame_t *frame) {
     gDPPipeSync(glistp++);
     gDPSetRenderMode(glistp++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
-    gSPDisplayList(glistp++, D_01021970);
+    gSPDisplayList(glistp++, imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     gDPLoadTextureBlock(glistp++, obj->image, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,

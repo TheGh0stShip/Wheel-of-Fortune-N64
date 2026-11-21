@@ -1200,3 +1200,80 @@ slot	local	VannaAnimProc	invented	holds vannaAnim.slot, as AnimProc's index hold
 zero	local	CpuChooseAction	invented	named for what is stored: set to 0 at the start and never read
 zero	local	GameThread	invented	named for what is stored: set to 0 before the loop and never read
 one	local	ReadControllers	invented	named for what is stored: set to 1 at the start and never read
+statusDollarTexture	global	0x01010FA0	invented	SetScorePictures puts it before the digits of each score on the status screen: the $
+categoryLeftTexture	global	0x01017550	invented	InitCategory puts it before the category's letters: the picture is the rounded left cap of the plate
+categoryRightTexture	global	0x01017650	invented	InitCategory puts it after the letters: the right cap
+categoryAmpersandTexture	global	0x01017750	invented	InitCategory's picture for & in a category
+categoryDashTexture	global	0x010178D0	invented	InitCategory's picture for -
+categorySlashTexture	global	0x01017A50	invented	InitCategory's picture for /
+categorySpaceTexture	global	0x01017BD0	invented	InitCategory's picture for a space; pressStartImages uses it too
+rdpstateinit_dl	global	0x010217E0	lineage	guess: the SDK demos' rdpstateinit_dl: it zeroes the env, prim, blend, fog and fill colours and the eight tiles, and createGfxTask sends it on the first frame only
+setup_rdpstate	global	0x010218C8	lineage	guess: the SDK demos' setup_rdpstate: cycle type, scissor, texture and render modes, sent each frame after setup_rspstate
+setup_rspstate	global	0x01021948	lineage	guess: the SDK demos' setup_rspstate: viewport, then clear and set the geometry mode (z-buffer, shade, smooth, cull back) and texture off, the first thing each frame
+imageSetupDl	global	0x01021970	invented	the state every draw function of 2D pictures sends before switching to copy mode: texture on, MODULATERGBA, point sampling
+litSetupDl	global	0x010219C8	invented	the state of the lit 3D draw functions: texture on, MODULATERGB, bilinear, lighting, z-buffer, back faces culled
+alphaSetupDl	global	0x01021A20	invented	texture on, MODULATERGBA, average filter, no geometry mode: DrawBoard sends it before drawing the squares a second time
+alphaLitSetupDl	global	0x01021A70	invented	alphaSetupDl's state plus lighting, z-buffer and culling; DrawLetterBoard sends it before the letters
+shadeSetupDl	global	0x01021AC8	invented	texture off and G_CC_SHADE; DrawScores sends it before the score panels
+wheelRimDl	global	0x01024340	invented	the wheel obj's display list, drawn after the hub and the wedges: the render is the rim and its pegs
+podiumDl	global	0x01024368	invented	drawn by DrawSetPiece: the render is a curved top on wooden posts beside the wheel, radius about 320
+scoreWoodDl	global	0x010308D0	invented	the last thing DrawScores draws: six triangles with a wood texture before the score panels
+scoreDollarTexture	global	0x01035FA8	invented	SetScoreDigits puts it before the digits of each score on the stage: the $
+scoreBlankTexture	global	0x010367A8	invented	the texture of a digit of a stage score that shows nothing; DrawScores loads it once for all of them
+pointer0Dl	global	0x01037090	invented	the display list of player 0's pointer (class 0x4020000); the render is a pointer
+pointer1Dl	global	0x01036FA8	invented	the display list of player 1's pointer
+pointer2Dl	global	0x01037178	invented	the display list of player 2's pointer
+pointer0Mtx	global	0x01037EF0	invented	the matrix that places player 0's pointer (its obj's mtx)
+pointer1Mtx	global	0x01037EB0	invented	the matrix that places player 1's pointer
+pointer2Mtx	global	0x01037E70	invented	the matrix that places player 2's pointer
+boardLightsOffDl	global	0x01092090	invented	the board obj's display list when BoardLightsProc is not running: the render is the chain of lights around the board
+boardLights1Dl	global	0x010920D8	invented	the first of the three display lists BoardLightsProc cycles through every 5 retraces
+boardLights2Dl	global	0x01092120	invented	the second
+boardLights3Dl	global	0x01092168	invented	the third
+boardFrameDl	global	0x01093D50	invented	drawn by DrawBoard after the board obj's lights and before the squares: the render is the board's frame and grid
+dashSquareTexture	global	0x010A1B88	invented	InitSquares' picture for - in the puzzle; it shows a dash
+ampersandSquareTexture	global	0x010A1F88	invented	InitSquares' picture for &
+apostropheSquareTexture	global	0x010A2388	invented	InitSquares' picture for '
+questionSquareTexture	global	0x010A2788	invented	InitSquares' picture for ?
+blankSquareTexture	global	0x010A2B88	invented	InitSquares' picture for a space, / or the end of a line, and ClearSquares' for every square
+letterSquareTexture	global	0x010A3388	invented	InitSquares' picture for a square that holds a letter; it is plain white
+periodSquareTexture	global	0x010A3788	invented	InitSquares' picture for .
+letterBoardDl	global	0x010A6098	invented	the obj DrawLetterBoard draws: the render is a board with the letters A to Z and the panels Player 1 to 3
+floorDl	global	0x010B3728	invented	drawn by DrawSetPiece: a flat dark plane at y -155 under the whole set
+ceilingTrimDl	global	0x010E3748	invented	drawn after ceilingDl: thin strips 84 high along the ceiling's edge
+ceilingDl	global	0x010E4260	invented	drawn by DrawCeiling: a lighting grid at y 1155 over the whole set
+wheelHubDl	global	0x010FA038	invented	drawn by DrawWheel and DrawOpeningWheel before the wedges: a teal disc of radius 76 at the centre
+logoScreenDl	global	0x0112BBA8	invented	drawn by DrawSetPiece: a framed panel on a wall whose 16 tiles make the WHEEL OF FORTUNE logo
+wheelLightsDl	global	0x011356C0	invented	the band of bulbs under the wheel (radius 204), with no texture of its own; the three below load a bulb texture and call it
+wheelLightsOffDl	global	0x01135878	invented	the band with unlit bulbs: its texture is bulbs off
+wheelLightsOnDl	global	0x011358C0	invented	the band with lit bulbs, the first of the two WheelLightsProc and OpeningWheelProc swap
+wheelLightsOn2Dl	global	0x01135908	invented	the band with lit bulbs, the second
+baseLightsOffDl	global	0x01135FF8	invented	the wider ring of bulbs at the wheel's foot (radius 320) with unlit bulbs
+baseLightsOnDl	global	0x01136080	invented	that ring lit, the first of the two BaseLightsProc swaps
+baseLightsOn2Dl	global	0x01136108	invented	that ring lit, the second
+menuContestantDl	global	0x0113A9B0	invented	the dl InitMenuAnim gives a contestant's obj in the menus: a quad for the first half of the picture
+menuContestantSecondDl	global	0x0113A9D0	invented	its secondDl: the quad for the second half
+vannaLowerDl	global	0x0113AD08	invented	the lowest of the three quads DrawVanna draws her picture on (y 0 to 131), with its first 32 rows
+vannaMiddleDl	global	0x0113AD28	invented	the middle quad (y 131 to 263)
+vannaUpperDl	global	0x0113AD48	invented	the highest quad (y 263 to 394)
+vannaMtx	global	0x0113AE28	invented	the matrix DrawVanna loads before her position
+logoPalette	global	0x01146E68	invented	the palette DrawLogo loads for the six 4-bit tiles of logoTiles
+controller1Texture	global	0x01158068	invented	the texture of the label Controller 1 in the menus; the picture says Controller 1
+controller2Texture	global	0x01158868	invented	Controller 2
+controller3Texture	global	0x01159068	invented	Controller 3
+controller4Texture	global	0x01159868	invented	Controller 4
+computerTexture	global	0x01157868	invented	the texture of the label Computer; the picture says Computer
+controller1DimTexture	global	0x0115B868	invented	the dimTexture that goes with controller1Texture (the picture is the brighter one)
+controller2DimTexture	global	0x0115C068	invented	the dimTexture of Controller 2
+controller3DimTexture	global	0x0115C868	invented	the dimTexture of Controller 3
+controller4DimTexture	global	0x0115D068	invented	the dimTexture of Controller 4
+computerDimTexture	global	0x0115B068	invented	the dimTexture of Computer
+searchlight1Dl	global	0x01166928	invented	the first beam DrawSearchlights draws: a thin tall cone (y 0 to 313)
+searchlight2Dl	global	0x01166598	invented	the second beam
+openingPropsDl	global	0x01166BF8	invented	drawn by DrawOpeningStudio from frame 318: textured quads of a shrub, ivy and a hanging lamp
+openingPanelsDl	global	0x011696A0	invented	drawn by DrawOpeningStudio before frame 318: three dark blue panels behind the logo
+openingStudioDl	global	0x0116C028	invented	drawn by DrawOpeningStudio from frame 318: the set, with panels of clouds, a floor and plants
+searchlight1Mtx	global	0x01176C88	invented	the matrix that places searchlight1Dl
+searchlight2Mtx	global	0x01176CC8	invented	the matrix that places searchlight2Dl
+openingPanelsMtx	global	0x01176D08	invented	the matrix DrawOpeningStudio loads before openingPanelsDl
+openingHubDl	global	0x01197D78	invented	OpeningProc's obj's display list: the same disc as wheelHubDl with a texture, the hub of the opening's logo

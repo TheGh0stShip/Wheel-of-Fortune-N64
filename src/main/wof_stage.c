@@ -499,14 +499,14 @@ struct procResult_s BoardLightsProc(proc_t *proc) {
         switch (event) {
         case 8:
             proc->data->boardLights.frames = 0;
-            obj->dl = D_010920D8;
+            obj->dl = boardLights1Dl;
             break;
         case 15:
         case 34:
         case 39:
         case 42:
         case 47:
-            obj->dl = D_01092090;
+            obj->dl = boardLightsOffDl;
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -515,12 +515,12 @@ struct procResult_s BoardLightsProc(proc_t *proc) {
     proc->data->boardLights.frames = proc->data->boardLights.frames + frameRetraces;
     if (proc->data->boardLights.frames >= 5) {
         proc->data->boardLights.frames = 0;
-        if (obj->dl == D_01092168) {
-            obj->dl = D_010920D8;
-        } else if (obj->dl == D_01092120) {
-            obj->dl = D_01092168;
-        } else if (obj->dl == D_010920D8) {
-            obj->dl = D_01092120;
+        if (obj->dl == boardLights3Dl) {
+            obj->dl = boardLights1Dl;
+        } else if (obj->dl == boardLights2Dl) {
+            obj->dl = boardLights3Dl;
+        } else if (obj->dl == boardLights1Dl) {
+            obj->dl = boardLights2Dl;
         }
     }
     result.w[1] = 3;
@@ -551,10 +551,10 @@ struct procResult_s WheelLightsProc(proc_t *proc) {
         switch (event) {
         case 8:
             proc->data->wheelLights.frames = 0;
-            obj->dl = D_011358C0;
+            obj->dl = wheelLightsOnDl;
             break;
         case 2:
-            obj->dl = D_01135878;
+            obj->dl = wheelLightsOffDl;
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -563,10 +563,10 @@ struct procResult_s WheelLightsProc(proc_t *proc) {
     proc->data->wheelLights.frames = proc->data->wheelLights.frames + frameRetraces;
     if (proc->data->wheelLights.frames >= 6) {
         proc->data->wheelLights.frames = 0;
-        if (obj->dl == D_011358C0) {
-            obj->dl = D_01135908;
+        if (obj->dl == wheelLightsOnDl) {
+            obj->dl = wheelLightsOn2Dl;
         } else {
-            obj->dl = D_011358C0;
+            obj->dl = wheelLightsOnDl;
         }
     }
     result.w[1] = 3;
@@ -593,10 +593,10 @@ struct procResult_s BaseLightsProc(proc_t *proc) {
         switch (event) {
         case 8:
             proc->data->baseLights.frames = 0;
-            sprite->dl = D_01136108;
+            sprite->dl = baseLightsOn2Dl;
             break;
         case 2:
-            sprite->dl = D_01135FF8;
+            sprite->dl = baseLightsOffDl;
             result.w[1] = 0;
             result.w[0] = 0;
             return result;
@@ -605,10 +605,10 @@ struct procResult_s BaseLightsProc(proc_t *proc) {
     proc->data->baseLights.frames = proc->data->baseLights.frames + frameRetraces;
     if (proc->data->baseLights.frames >= 6) {
         proc->data->baseLights.frames = 0;
-        if (sprite->dl == D_01136080) {
-            sprite->dl = D_01136108;
+        if (sprite->dl == baseLightsOnDl) {
+            sprite->dl = baseLightsOn2Dl;
         } else {
-            sprite->dl = D_01136080;
+            sprite->dl = baseLightsOnDl;
         }
     }
     result.w[1] = 3;
@@ -1064,7 +1064,7 @@ void GreyHiddenSquares(void) {
 
     for (i = 0; i < 12; i++) {
         if (board[0][i] == '+') {
-            topRow[i].image = D_010A3388;
+            topRow[i].image = letterSquareTexture;
             topRow[i].color = 0x88888888;
             topRow[i].blink = 0;
         }
@@ -1072,7 +1072,7 @@ void GreyHiddenSquares(void) {
     i = 0;
     while (i < 14) {
         if (board[1][i] == '+') {
-            secondRow[i].image = D_010A3388;
+            secondRow[i].image = letterSquareTexture;
             secondRow[i].color = 0x88888888;
             secondRow[i].blink = 0;
         }
@@ -1081,7 +1081,7 @@ void GreyHiddenSquares(void) {
     i = 0;
     while (i < 14) {
         if (board[2][i] == '+') {
-            thirdRow[i].image = D_010A3388;
+            thirdRow[i].image = letterSquareTexture;
             thirdRow[i].color = 0x88888888;
             thirdRow[i].blink = 0;
         }
@@ -1090,7 +1090,7 @@ void GreyHiddenSquares(void) {
     i = 0;
     while (i < 12) {
         if (board[3][i] == '+') {
-            bottomRow[i].image = D_010A3388;
+            bottomRow[i].image = letterSquareTexture;
             bottomRow[i].color = 0x88888888;
             bottomRow[i].blink = 0;
         }
@@ -1180,7 +1180,7 @@ void DrawPointer(obj_t *obj, frame_t *frame) {
         gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
         gSPLightColor(glistp++, LIGHT_1, 0xFFFEFFFF);
-        gSPDisplayList(glistp++, D_010219C8);
+        gSPDisplayList(glistp++, litSetupDl);
         gSPDisplayList(glistp++, obj->dl);
         SetLightColor(1);
     }
@@ -1222,12 +1222,12 @@ void DrawSquares(tile_t *tiles, s32 count, s32 blanks) {
     if (gameMode != 6) {
         for (i = 0; i < count; i++) {
             if (blanks != 0) {
-                if (tiles[i].image == D_010A2B88) {
+                if (tiles[i].image == blankSquareTexture) {
                     SetLightColor(2);
                     gDPPipeSync(glistp++);
                     gSPDisplayList(glistp++, tiles[i].dl);
                 }
-            } else if (tiles[i].image != D_010A2B88) {
+            } else if (tiles[i].image != blankSquareTexture) {
                 gSPLightColor(glistp++, LIGHT_2, GetSquareColor(&tiles[i]));
                 gDPPipeSync(glistp++);
                 gDPLoadTextureBlock(glistp++, tiles[i].image, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
@@ -1264,10 +1264,10 @@ void DrawBoard(obj_t *obj, frame_t *frame) {
         gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPDisplayList(glistp++, D_010219C8);
+        gSPDisplayList(glistp++, litSetupDl);
         gSPDisplayList(glistp++, obj->dl);
-        gSPDisplayList(glistp++, D_01093D50);
-        gDPLoadTextureBlock(glistp++, D_010A2B88, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
+        gSPDisplayList(glistp++, boardFrameDl);
+        gDPLoadTextureBlock(glistp++, blankSquareTexture, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                             5, 5, G_TX_NOLOD, G_TX_NOLOD);
         gSPSetGeometryMode(glistp++, G_LIGHTING | G_CULL_BACK | G_SHADING_SMOOTH);
@@ -1277,7 +1277,7 @@ void DrawBoard(obj_t *obj, frame_t *frame) {
         DrawSquares(thirdRow, 14, 1);
         DrawSquares(bottomRow, 12, 1);
         if (gameMode != 6) {
-            gSPDisplayList(glistp++, D_01021A20);
+            gSPDisplayList(glistp++, alphaSetupDl);
             DrawSquares(topRow, 12, 0);
             DrawSquares(secondRow, 14, 0);
             DrawSquares(thirdRow, 14, 0);
@@ -1360,7 +1360,7 @@ void SetScoreDigits(s32 total) {
 
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 8; j++) {
-            scoreDigits[i][j] = D_010367A8;
+            scoreDigits[i][j] = scoreBlankTexture;
         }
         if (total != 0) {
             value = players[i].total;
@@ -1372,7 +1372,7 @@ void SetScoreDigits(s32 total) {
         if (len >= 8) {
             len = 7;
         }
-        scoreDigits[i][7 - len] = D_01035FA8;
+        scoreDigits[i][7 - len] = scoreDollarTexture;
         for (j = 0; j < len; j++) {
             scoreDigits[i][j + 8 - len] = scoreDigitPictures[digits[j]];
         }
@@ -1399,7 +1399,7 @@ void DrawScores(obj_t *obj, frame_t *frame) {
         gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPDisplayList(glistp++, D_01021AC8);
+        gSPDisplayList(glistp++, shadeSetupDl);
         for (i = 0; i < 3; i++) {
             color = GetLayerColor(&scorePanels[i]);
             gSPLightColor(glistp++, LIGHT_1, color);
@@ -1413,15 +1413,15 @@ void DrawScores(obj_t *obj, frame_t *frame) {
         SetLightColor(4);
         SetLightColor(5);
         gDPPipeSync(glistp++);
-        gSPDisplayList(glistp++, D_010219C8);
+        gSPDisplayList(glistp++, litSetupDl);
         gSPSetGeometryMode(glistp++, G_LIGHTING | G_CULL_BACK | G_SHADING_SMOOTH);
-        gDPLoadTextureBlock(glistp++, D_010367A8, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
+        gDPLoadTextureBlock(glistp++, scoreBlankTexture, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                             5, 5, G_TX_NOLOD, G_TX_NOLOD);
         gDPPipeSync(glistp++);
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 8; j++) {
-                if (scoreDigits[i][j] == D_010367A8) {
+                if (scoreDigits[i][j] == scoreBlankTexture) {
                     gSPDisplayList(glistp++, scorePanelDigitDls[i][j]);
                 }
             }
@@ -1429,7 +1429,7 @@ void DrawScores(obj_t *obj, frame_t *frame) {
         i = 0;
         while (i < 3) {
             for (j = 0; j < 8; j++) {
-                if (scoreDigits[i][j] != D_010367A8) {
+                if (scoreDigits[i][j] != scoreBlankTexture) {
                     gDPLoadTextureBlock(glistp++, scoreDigits[i][j], G_IM_FMT_RGBA, G_IM_SIZ_16b,
                                         32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                                         G_TX_NOMIRROR | G_TX_CLAMP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
@@ -1439,7 +1439,7 @@ void DrawScores(obj_t *obj, frame_t *frame) {
             }
             i++;
         }
-        gSPDisplayList(glistp++, D_010308D0);
+        gSPDisplayList(glistp++, scoreWoodDl);
     }
 }
 
@@ -1461,7 +1461,7 @@ void DrawLetterBoard(obj_t *obj, frame_t *frame) {
     gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPDisplayList(glistp++, obj->dl);
-    gSPDisplayList(glistp++, D_01021A70);
+    gSPDisplayList(glistp++, alphaLitSetupDl);
     for (i = 0; i < 26; i++) {
         gSPDisplayList(glistp++, letterBoardDls[i]);
     }
@@ -1483,7 +1483,7 @@ void DrawSetPiece(obj_t *obj, frame_t *frame) {
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPDisplayList(glistp++, D_010219C8);
+    gSPDisplayList(glistp++, litSetupDl);
     SetLightColor(1);
     gSPDisplayList(glistp++, obj->dl);
     SetLightColor(1);
@@ -1509,7 +1509,7 @@ void DrawWheelLights(obj_t *obj, frame_t *frame) {
         gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPDisplayList(glistp++, D_010219C8);
+        gSPDisplayList(glistp++, litSetupDl);
         gSPLightColor(glistp++, LIGHT_1, 0xC8C8C8FF);
         gSPDisplayList(glistp++, obj->dl);
         SetLightColor(1);
@@ -1530,7 +1530,7 @@ void DrawBackdrop(obj_t *obj, frame_t *frame) {
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPDisplayList(glistp++, D_010219C8);
+    gSPDisplayList(glistp++, litSetupDl);
     SetLightColor(1);
     gSPLightColor(glistp++, LIGHT_2, 0x55555555);
     gSPLightColor(glistp++, LIGHT_3, 0x55555555);
@@ -1565,8 +1565,8 @@ void DrawWheel(obj_t *obj, frame_t *frame) {
         gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
         gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-        gSPDisplayList(glistp++, D_010219C8);
-        gSPDisplayList(glistp++, D_010FA038);
+        gSPDisplayList(glistp++, litSetupDl);
+        gSPDisplayList(glistp++, wheelHubDl);
         gSPLightColor(glistp++, LIGHT_1, 0xC8C8C8FF);
         i = 0;
         while (i < 24) {
@@ -1599,7 +1599,7 @@ void DrawCeiling(obj_t *obj, frame_t *frame) {
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPDisplayList(glistp++, &D_010219C8);
+    gSPDisplayList(glistp++, &litSetupDl);
     gSPLightColor(glistp++, LIGHT_1, 0x141414FF);
     gSPLightColor(glistp++, LIGHT_2, 0xA0A0AFF);
     gSPLightColor(glistp++, LIGHT_3, 0xA0A0AFF);
@@ -1609,7 +1609,7 @@ void DrawCeiling(obj_t *obj, frame_t *frame) {
     SetLightColor(2);
     SetLightColor(3);
     SetLightColor(5);
-    gSPDisplayList(glistp++, &D_010E3748);
+    gSPDisplayList(glistp++, &ceilingTrimDl);
 }
 
 /*
@@ -1664,31 +1664,31 @@ void InitSquares(Gfx **dls, tile_t *tiles, s32 row, s32 count) {
         case 0:
         case 32:
         case 47:
-            tiles[i].image = D_010A2B88;
+            tiles[i].image = blankSquareTexture;
             tiles[i].color = -1;
             break;
         case 38:
-            tiles[i].image = D_010A1F88;
+            tiles[i].image = ampersandSquareTexture;
             tiles[i].color = -1;
             break;
         case 46:
-            tiles[i].image = D_010A3788;
+            tiles[i].image = periodSquareTexture;
             tiles[i].color = -1;
             break;
         case 39:
-            tiles[i].image = D_010A2388;
+            tiles[i].image = apostropheSquareTexture;
             tiles[i].color = -1;
             break;
         case 45:
-            tiles[i].image = D_010A1B88;
+            tiles[i].image = dashSquareTexture;
             tiles[i].color = -1;
             break;
         case 63:
-            tiles[i].image = D_010A2788;
+            tiles[i].image = questionSquareTexture;
             tiles[i].color = -1;
             break;
         default:
-            tiles[i].image = D_010A3388;
+            tiles[i].image = letterSquareTexture;
             tiles[i].letterImage = letterPictures[puzzleText[row][i]];
             tiles[i].color = 0x88888888;
         }
@@ -1741,7 +1741,7 @@ void ClearSquares(Gfx **dls, tile_t *tiles, s32 row, s32 count) {
         tiles[i].blink = 0;
         tiles[i].blinkFrames = 32;
         tiles[i].blinkLeft = 0;
-        tiles[i].image = D_010A2B88;
+        tiles[i].image = blankSquareTexture;
     }
 }
 
@@ -1820,7 +1820,7 @@ void ResetBoard(void) {
             KillProc(child, 0);
         }
     }
-    obj->dl = D_01092090;
+    obj->dl = boardLightsOffDl;
     ClearSquares(topRowDls, topRow, 0, 12);
     ClearSquares(secondRowDls, secondRow, 1, 14);
     ClearSquares(thirdRowDls, thirdRow, 2, 14);
@@ -1840,34 +1840,34 @@ void InitStage(void) {
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
     task = 0;
-    obj = MakeObj(task, D_01024340, DrawWheel, 0x4010000);
+    obj = MakeObj(task, wheelRimDl, DrawWheel, 0x4010000);
     obj->pitch = -360.0f;
     ResetBoard();
     wheelSpeed = 0;
-    MakeObj(0, D_01024368, DrawSetPiece, 0xA000000);
-    MakeObj(0, D_01135878, DrawWheelLights, 0xA010100);
-    MakeObj(0, D_01135FF8, DrawWheelLights, 0xA010200);
+    MakeObj(0, podiumDl, DrawSetPiece, 0xA000000);
+    MakeObj(0, wheelLightsOffDl, DrawWheelLights, 0xA010100);
+    MakeObj(0, baseLightsOffDl, DrawWheelLights, 0xA010200);
     backdrop = Random(4);
     MakeObj(0, backdropDls[backdrop], DrawBackdrop, 0xA000000);
-    MakeObj(0, D_0112BBA8, DrawSetPiece, 0xA000000);
-    MakeObj(0, D_010B3728, DrawSetPiece, 0xA000000);
-    MakeObj(0, D_010A6098, DrawLetterBoard, 0xA000000);
-    MakeObj(0, D_010E4260, DrawCeiling, 0xA000000);
+    MakeObj(0, logoScreenDl, DrawSetPiece, 0xA000000);
+    MakeObj(0, floorDl, DrawSetPiece, 0xA000000);
+    MakeObj(0, letterBoardDl, DrawLetterBoard, 0xA000000);
+    MakeObj(0, ceilingDl, DrawCeiling, 0xA000000);
     task = CreatProc(PointerProc, 0x4020000);
     task->data->pointer.offset = -2.0f;
     task->data->pointer.swing = 0;
-    obj = MakeObj(task, D_01037090, DrawPointer, 0x4020000);
-    obj->mtx = &D_01037EF0;
+    obj = MakeObj(task, pointer0Dl, DrawPointer, 0x4020000);
+    obj->mtx = &pointer0Mtx;
     LightPlayer(0);
     obj = MakeObj(0, 0, DrawScores, 0xA000000);
     task = CreatProc(PointerProc, 0x4020001);
     task->data->pointer.offset = -2.0f;
     task->data->pointer.swing = 0;
-    obj = MakeObj(task, D_01036FA8, DrawPointer, 0x4020001);
-    obj->mtx = &D_01037EB0;
+    obj = MakeObj(task, pointer1Dl, DrawPointer, 0x4020001);
+    obj->mtx = &pointer1Mtx;
     task = CreatProc(PointerProc, 0x4020002);
     task->data->pointer.offset = -2.0f;
     task->data->pointer.swing = 0;
-    obj = MakeObj(task, D_01037178, DrawPointer, 0x4020002);
-    obj->mtx = &D_01037E70;
+    obj = MakeObj(task, pointer2Dl, DrawPointer, 0x4020002);
+    obj->mtx = &pointer2Mtx;
 }

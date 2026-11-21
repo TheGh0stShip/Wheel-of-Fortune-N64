@@ -398,7 +398,7 @@ void DrawStatus(obj_t *obj, frame_t *frame) {
     s32 j;
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     i = 2;
     while (i >= 0) {
@@ -480,7 +480,7 @@ void DrawBigNumber(obj_t *obj, frame_t *frame) {
     s32 i;
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 9; i++) {
         DrawImage(&bigNumberImages[i], 1);
@@ -501,7 +501,7 @@ void DrawCreditsTitle(obj_t *obj, frame_t *frame) {
     s32 unused2;  /* NOTE: unused in the original */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 22; i++) {
         DrawImageAt(&categoryImages[i], 1, 10, 20);
@@ -521,7 +521,7 @@ void DrawLetterPick(obj_t *obj, frame_t *frame) {
     s32 unused2;  /* NOTE: unused in the original */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     i = 0;
     while (i < 26) {
@@ -558,7 +558,7 @@ void DrawBonusPrize(obj_t *obj, frame_t *frame) {
     s32 unused2;  /* NOTE: unused in the original */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 7; i++) {
         DrawImage(&bonusPrizeImages[i], 1);
@@ -578,7 +578,7 @@ void DrawBonusTimer(obj_t *obj, frame_t *frame) {
     s32 unused2;  /* NOTE: unused in the original */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 2; i++) {
         DrawImage(&bonusTimerImages[i], 1);
@@ -598,7 +598,7 @@ void DrawRetraces(s32 arg0, s32 arg1) {
     s32 unused2;  /* NOTE: unused in the original */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 2; i++) {
         DrawImage(&retraceImages[i], 1);
@@ -618,7 +618,7 @@ void DrawPressStart(obj_t *obj, frame_t *frame) {
     s32 unused2;  /* NOTE: unused in the original */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 13; i++) {
         DrawImage(&pressStartImages[i], 1);
@@ -636,7 +636,7 @@ void DrawBootScreen(obj_t *obj, frame_t *frame) {
     s32 i;
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, D_01021970);
+    gSPDisplayList(glistp++, imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 8; i++) {
         DrawImage(&bootScreenImages[i], 1);
@@ -654,7 +654,7 @@ void DrawNoController(obj_t *obj, frame_t *frame) {
     s32 i;
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, D_01021970);
+    gSPDisplayList(glistp++, imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 2; i++) {
         DrawImage(&noControllerImages[i], 1);
@@ -674,7 +674,7 @@ void DrawPause(obj_t *obj, frame_t *frame) {
     s32 unused2;  /* NOTE: unused in the original */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 13; i++) {
         DrawImageAt(&pressStartImages[i], 1, 0, -114);
@@ -726,7 +726,7 @@ void DrawCategoryWheel(obj_t *obj, frame_t *frame) {
     s32 unused[4];  /* NOTE: unused in the original; guess: its type, the frame shows at most 16 bytes */
 
     gDPPipeSync(glistp++);
-    gSPDisplayList(glistp++, &D_01021970);
+    gSPDisplayList(glistp++, &imageSetupDl);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     gDPLoadTextureBlock(glistp++, obj->image, G_IM_FMT_RGBA, G_IM_SIZ_16b, 24, 24, 0,
                         G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 6, 6, G_TX_NOLOD, G_TX_NOLOD);
@@ -827,7 +827,7 @@ void InitCategory(void) {
     }
     x = 152 - len * 6;
     n = 0;
-    categoryImages[n].dimTexture = D_01017550;
+    categoryImages[n].dimTexture = categoryLeftTexture;
     categoryImages[n].x = x;
     categoryImages[n].width = 8;
     if (gameMode == 8) {
@@ -838,16 +838,16 @@ void InitCategory(void) {
     for (i = 0; i < len; i++) {
         switch (category[i]) {
         case '&':
-            categoryImages[n].dimTexture = D_01017750;
+            categoryImages[n].dimTexture = categoryAmpersandTexture;
             break;
         case '-':
-            categoryImages[n].dimTexture = D_010178D0;
+            categoryImages[n].dimTexture = categoryDashTexture;
             break;
         case ' ':
-            categoryImages[n].dimTexture = D_01017BD0;
+            categoryImages[n].dimTexture = categorySpaceTexture;
             break;
         case '/':
-            categoryImages[n].dimTexture = D_01017A50;
+            categoryImages[n].dimTexture = categorySlashTexture;
             break;
         default:
             categoryImages[n].dimTexture = categoryLetterTextures[category[i] - 'A'];
@@ -860,7 +860,7 @@ void InitCategory(void) {
         n++;
         x = x + 12;
     }
-    categoryImages[n].dimTexture = D_01017650;
+    categoryImages[n].dimTexture = categoryRightTexture;
     categoryImages[n].x = x;
     categoryImages[n].width = 8;
     if (gameMode == 8) {
@@ -900,7 +900,7 @@ void SetScorePictures(s32 total) {
         if (len >= 7) {
             len = 6;
         }
-        statusScoreImages[i][6 - len].texture = D_01010FA0;
+        statusScoreImages[i][6 - len].texture = statusDollarTexture;
         for (j = 0; j < len; j++) {
             statusScoreImages[i][j + 7 - len].texture = statusDigitTextures[buf[j] - '0'];
         }

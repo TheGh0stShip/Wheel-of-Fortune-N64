@@ -39,12 +39,12 @@ void createGfxTask(gfxInfo_t *info) {
     gSPSegment(glistp++, 0, 0x0);
     gSPSegment(glistp++, 1, osVirtualToPhysical(staticSegment));
     gSPSegment(glistp++, 2, osVirtualToPhysical(frame));
-    gSPDisplayList(glistp++, D_01021948);
+    gSPDisplayList(glistp++, setup_rspstate);
     if (firstframe != 0) {
-        gSPDisplayList(glistp++, D_010217E0);
+        gSPDisplayList(glistp++, rdpstateinit_dl);
         firstframe = 0;
     }
-    gSPDisplayList(glistp++, D_010218C8);
+    gSPDisplayList(glistp++, setup_rdpstate);
     gDPSetDepthImage(glistp++, osVirtualToPhysical(zbuffer));
     gDPPipeSync(glistp++);
     gDPSetCycleType(glistp++, G_CYC_FILL);
