@@ -17,6 +17,6 @@ void PauseGame(void) {
     pauseStart = (s32)(osGetTime() / osClockRate);
     pausedMode = gameMode;
     gameMode = 6;
-    MakeObj(0, 0, func_80028B1C, 0x5020000);
+    MakeObj(0, 0, DrawPause, 0x5020000);
     PauseSounds();
 }

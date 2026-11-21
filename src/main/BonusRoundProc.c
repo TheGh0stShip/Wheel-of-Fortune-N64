@@ -31,7 +31,7 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
             }
             bonusConsonants = 0;
             bonusVowels = 0;
-            func_8002B054();
+            ClearBonusLetters();
             InitCategory();
             ret.w[1] = 1;
             ret.w[0] = 60 / frameRetraces;
@@ -71,7 +71,7 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
                 StartSolveTimer();
                 StartSolvePuzzle();
                 task = CreatProc(BonusTimerProc, 0x5050200);
-                MakeScreenObj(task, 0, func_80028554, 0x5050200);
+                MakeScreenObj(task, 0, DrawBonusTimer, 0x5050200);
                 ret.w[1] = 2;
                 ret.w[0] = 10;
                 return ret;

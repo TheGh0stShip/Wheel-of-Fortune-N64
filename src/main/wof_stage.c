@@ -148,7 +148,14 @@ struct procResult_s PointerProc(proc_t *proc) {
     return result;
 }
 
-struct procResult_s func_8000F740(proc_t *proc) {
+/*
+=====================
+DebugPointerProc
+
+Turns an obj with the C buttons; nothing creates it.
+=====================
+*/
+struct procResult_s DebugPointerProc(proc_t *proc) {
     struct procResult_s result;
     obj_t *actor;
 
@@ -295,7 +302,14 @@ struct procResult_s WheelSpinProc(proc_t *proc) {
     return TurnWheel(proc);
 }
 
-struct procResult_s func_8000FFE0(proc_t *proc) {
+/*
+=====================
+BoardLightsProc
+
+Runs the lights of the board through its three display lists, until a turn goes on.
+=====================
+*/
+struct procResult_s BoardLightsProc(proc_t *proc) {
     struct procResult_s result;
     obj_t *obj;
     s32 event;
@@ -1517,7 +1531,7 @@ void StartBoardLights(void) {
     if (obj != 0) {
         task = FindProc(0x1010000, -1);
         if (task == 0) {
-            task = CreatProc(func_8000FFE0, 0x1010000);
+            task = CreatProc(BoardLightsProc, 0x1010000);
             task->data->obj = obj;
         }
     }

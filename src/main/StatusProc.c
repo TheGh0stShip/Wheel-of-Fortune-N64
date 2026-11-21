@@ -30,7 +30,7 @@ struct procResult_s StatusProc(proc_t *proc) {
             break;
         case 8:
             UnflashActions();
-            func_80028CC4();
+            ClearCategory();
             shownJackpot = 0;
             ShowJackpot();
             SetScorePictures(0);
@@ -75,7 +75,7 @@ struct procResult_s StatusProc(proc_t *proc) {
             inputCount++;
             UnflashActions();
             InitActionCursor(proc);
-            func_80028CC4();
+            ClearCategory();
             SetScorePictures(1);
             for (i = 0; i < 3; i++) {
                 playerStatusImages[i][0].flash = 0;

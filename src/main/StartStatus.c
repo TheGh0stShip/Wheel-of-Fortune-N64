@@ -24,7 +24,7 @@ void StartStatus(void) {
     }
     func_8002EDC0();
     task = CreatProc(StatusProc, 0x5000000);
-    MakeScreenObj(task, 0, func_800278F0, 0x5000000);
+    MakeScreenObj(task, 0, DrawStatus, 0x5000000);
     D_800BCA14 = 0;
     D_800B9974 = 0;
 }

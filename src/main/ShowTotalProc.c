@@ -21,7 +21,7 @@ struct procResult_s ShowTotalProc(proc_t *proc) {
         case 8:
             gameMode = 8;
             ShowTotal();
-            MakeScreenObj(proc, 0, func_80027F3C, 0x5050100);
+            MakeScreenObj(proc, 0, DrawBigNumber, 0x5050100);
             applause += 2;
             result.w[0] = 30 / frameRetraces;
             return result;

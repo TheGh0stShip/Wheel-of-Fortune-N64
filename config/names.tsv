@@ -979,3 +979,17 @@ offset	local	UpdateClip	invented	the offset of the picture slot in the frame
 angle	local	PointerProc	invented	the wheel's angle under the pointer, then how far past a peg
 deflection	local	PointerProc	invented	how far a peg pushes the pointer
 pegs	local	PointerProc	invented	the pegs passed: the angle in fives of degrees
+OpeningWheelProc	function	0x8000C310	invented	turns the wheel in the opening and flashes its lights; it rises after frame 600
+DrawOpeningWheel	function	0x8000D8B8	invented	the draw function of the wheel in the opening, with its 24 wedges
+OpeningWedgeProc	function	0x8000C50C	invented	places one of the 24 wedges of the opening around the wheel as the lift rises
+TitleLetterProc	function	0x8000C6C4	invented	places one of the letters of WHEEL OF FORTUNE as the lift rises
+DrawOpeningPiece	function	0x8000D6D8	invented	the draw function of a wedge or a title letter in the opening, before frame 318
+DebugCameraProc	function	0x8000C8A8	invented	moves the camera and changes the round with the buttons; nothing creates it
+DebugPointerProc	function	0x8000F740	invented	turns an obj with the C buttons; nothing creates it
+BoardLightsProc	function	0x8000FFE0	invented	runs the lights of the board through its three display lists, until a turn goes on
+DrawStatus	function	0x800278F0	invented	the draw function of the status screen of StatusProc
+DrawBigNumber	function	0x80027F3C	invented	the draw function of bigNumberImages
+DrawBonusTimer	function	0x80028554	invented	the draw function of bonusTimerImages
+DrawPause	function	0x80028B1C	invented	the draw function of the pause screen
+ClearCategory	function	0x80028CC4	invented	takes the letters of the category off the screen
+ClearBonusLetters	function	0x8002B054	invented	takes the four letters chosen in the bonus round off the screen

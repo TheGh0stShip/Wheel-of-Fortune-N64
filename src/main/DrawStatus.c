@@ -1,7 +1,16 @@
+// DrawStatus.c -- the draw function of the status screen of StatusProc
+
 #include "wof.h"
 
 
-void func_800278F0(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawStatus
+
+The draw function of the status screen of StatusProc.
+=====================
+*/
+void DrawStatus(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
     s32 j;

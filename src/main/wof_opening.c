@@ -214,7 +214,14 @@ struct procResult_s OpeningProc(proc_t *proc) {
     return result;
 }
 
-struct procResult_s func_8000C310(proc_t *proc) {
+/*
+=====================
+OpeningWheelProc
+
+Turns the wheel in the opening and flashes its lights; it rises after frame 600.
+=====================
+*/
+struct procResult_s OpeningWheelProc(proc_t *proc) {
     struct procResult_s result;
     obj_t *obj;
     s32 event;
@@ -255,13 +262,20 @@ struct procResult_s func_8000C310(proc_t *proc) {
     return result;
 }
 
-struct procResult_s func_8000C50C(proc_t *proc) {
+/*
+=====================
+OpeningWedgeProc
+
+Places one of the 24 wedges of the opening around the wheel as the lift rises.
+=====================
+*/
+struct procResult_s OpeningWedgeProc(proc_t *proc) {
     f32 mtxA[4][4];
     f32 mtxB[4][4];
     struct procResult_s result;
     obj_t *pos;
     s32 event;
-    s32 unused;  /* NOTE: unused in the original; func_8000C6C4 keeps an index here */
+    s32 unused;  /* NOTE: unused in the original; TitleLetterProc keeps an index here */
 
     pos = proc->data->data8000C50C.unk_00;
     while ((event = ProcGetMessage(proc)) != 0) {
@@ -284,7 +298,14 @@ struct procResult_s func_8000C50C(proc_t *proc) {
     return result;
 }
 
-struct procResult_s func_8000C6C4(proc_t *proc) {
+/*
+=====================
+TitleLetterProc
+
+Places one of the letters of WHEEL OF FORTUNE as the lift rises.
+=====================
+*/
+struct procResult_s TitleLetterProc(proc_t *proc) {
     f32 mtx[4][4];
     f32 rot[4][4];
     struct procResult_s ret;
@@ -318,7 +339,14 @@ struct procResult_s func_8000C6C4(proc_t *proc) {
     return ret;
 }
 
-struct procResult_s func_8000C8A8(proc_t *proc) {
+/*
+=====================
+DebugCameraProc
+
+Moves the camera and changes the round with the buttons; nothing creates it.
+=====================
+*/
+struct procResult_s DebugCameraProc(proc_t *proc) {
     struct procResult_s ret;
     obj_t *cam;
     s32 event;
@@ -422,7 +450,14 @@ void func_8000D400(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, obj->dl);
 }
 
-void func_8000D6D8(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawOpeningPiece
+
+The draw function of a wedge or a title letter in the opening, before frame 318.
+=====================
+*/
+void DrawOpeningPiece(obj_t *obj, frame_t *frame) {
     if (openingFrame >= 318) {
         return;
     }
@@ -438,7 +473,14 @@ void func_8000D6D8(obj_t *obj, frame_t *frame) {
     }
 }
 
-void func_8000D8B8(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawOpeningWheel
+
+The draw function of the wheel in the opening, with its 24 wedges.
+=====================
+*/
+void DrawOpeningWheel(obj_t *obj, frame_t *frame) {
     s32 i;
 
     if (openingFrame < 318) {
@@ -618,13 +660,13 @@ void StartOpening(void) {
     MakeObj(0, 0, func_8000CB58, 0x8000000);
     MakeObj(0, 0, func_8000DCA0, 0x8000000);
     for (i = 0; i < 14; i++) {
-        task = CreatProc(func_8000C6C4, 0x8010000);
+        task = CreatProc(TitleLetterProc, 0x8010000);
         task->data->data8000C6C4.unk_08 = i;
-        obj = MakeObj(task, titleLetters[i].dl, func_8000D6D8, 0x8010000);
+        obj = MakeObj(task, titleLetters[i].dl, DrawOpeningPiece, 0x8010000);
         obj->mtx = titleLetters[i].mtx;
     }
-    task = CreatProc(func_8000C310, 0x8010000);
-    obj = MakeObj(task, D_011356C0, func_8000D8B8, 0x8010000);
+    task = CreatProc(OpeningWheelProc, 0x8010000);
+    obj = MakeObj(task, D_011356C0, DrawOpeningWheel, 0x8010000);
     obj->y = -20;
     task = CreatProc(OpeningProc, 0x8000000);
     obj = MakeObj(task, D_01197D78, func_8000D400, 0x8010000);
@@ -640,9 +682,9 @@ void StartOpening(void) {
     D_800B61AC = 0;
     task->data->opening.music = PlaySound(15);
     for (i = 0; i < 24; i++) {
-        task = CreatProc(func_8000C50C, 0x8010000);
+        task = CreatProc(OpeningWedgeProc, 0x8010000);
         task->data->data8000C50C.unk_08 = i;
-        obj = MakeObj(task, openingWedgeDls[i], func_8000D6D8, 0x8010000);
+        obj = MakeObj(task, openingWedgeDls[i], DrawOpeningPiece, 0x8010000);
         obj->mtx = openingWedgeMtxs[i];
     }
     MakeObj(0, 0, func_800287A4, 0x5000000);

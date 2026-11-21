@@ -359,7 +359,7 @@ typedef struct {
 } puzzle_t;    // size 0xC
 
 // The entries of titleLetters[]: the display list and the matrix of one of the objs StartOpening
-// makes, drawn by func_8000D6D8.
+// makes, drawn by DrawOpeningPiece.
 typedef struct {
     /* 0x00 */ Gfx *dl;
     /* 0x04 */ Mtx *mtx;
@@ -399,26 +399,26 @@ typedef struct {
     /* 0x14 */ f32 z;
 } opening_t;    // size 0x18
 
-// the data of the proc whose handler is func_8000C310
+// the data of the proc whose handler is OpeningWheelProc
 typedef struct {
     /* 0x00 */ obj_t *unk_00;
 } data8000C310_t;    // size 0x4
 
-// the data of the proc whose handler is func_8000C50C
+// the data of the proc whose handler is OpeningWedgeProc
 typedef struct {
     /* 0x00 */ obj_t *unk_00;
     /* 0x04 */ u8 unk_04[0x4];
     /* 0x08 */ s32 unk_08;
 } data8000C50C_t;    // size 0xC
 
-// the data of the proc whose handler is func_8000C6C4
+// the data of the proc whose handler is TitleLetterProc
 typedef struct {
     /* 0x00 */ obj_t *pos;
     /* 0x04 */ u8 unk_04[0x4];
     /* 0x08 */ s32 unk_08;
 } data8000C6C4_t;    // size 0xC
 
-// the data of the proc whose handler is func_8000C8A8
+// the data of the proc whose handler is DebugCameraProc
 typedef struct {
     /* 0x00 */ obj_t *cam;
 } data8000C8A8_t;    // size 0x4
@@ -453,7 +453,7 @@ typedef struct {
     /* 0x10 */ f32 lastSpeed;
 } wheelSpin_t;    // size 0x14
 
-// the data of the proc whose handler is func_8000FFE0
+// the data of the proc whose handler is BoardLightsProc
 typedef struct {
     /* 0x00 */ obj_t *unk_00;
     /* 0x04 */ u8 unk_04[0x4];
@@ -1180,14 +1180,14 @@ void StartGame( void );
 struct procResult_s GameStartProc( proc_t *proc );
 void BeginGame( void );
 struct procResult_s OpeningProc( proc_t *proc );
-struct procResult_s func_8000C310( proc_t *proc );
-struct procResult_s func_8000C50C( proc_t *proc );
-struct procResult_s func_8000C6C4( proc_t *proc );
-struct procResult_s func_8000C8A8( proc_t *proc );
+struct procResult_s OpeningWheelProc( proc_t *proc );
+struct procResult_s OpeningWedgeProc( proc_t *proc );
+struct procResult_s TitleLetterProc( proc_t *proc );
+struct procResult_s DebugCameraProc( proc_t *proc );
 void func_8000CB58( obj_t *obj, frame_t *frame );
 void func_8000D400( obj_t *obj, frame_t *frame );
-void func_8000D6D8( obj_t *obj, frame_t *frame );
-void func_8000D8B8( obj_t *obj, frame_t *frame );
+void DrawOpeningPiece( obj_t *obj, frame_t *frame );
+void DrawOpeningWheel( obj_t *obj, frame_t *frame );
 void func_8000DCA0( obj_t *obj, frame_t *frame );
 void DrawLogo( obj_t *obj, frame_t *frame );
 struct procResult_s LogoProc( proc_t *proc );
@@ -1200,11 +1200,11 @@ void func_8000EE50( s32 arg0, s32 arg1 );
 void StartDemo( void );
 struct procResult_s WheelPullProc( proc_t *proc );
 struct procResult_s PointerProc( proc_t *proc );
-struct procResult_s func_8000F740( proc_t *proc );
+struct procResult_s DebugPointerProc( proc_t *proc );
 struct procResult_s WheelStopProc( proc_t *proc );
 struct procResult_s TurnWheel( proc_t *proc );
 struct procResult_s WheelSpinProc( proc_t *proc );
-struct procResult_s func_8000FFE0( proc_t *proc );
+struct procResult_s BoardLightsProc( proc_t *proc );
 struct procResult_s func_800101F4( proc_t *proc );
 struct procResult_s func_800103B4( proc_t *proc );
 struct procResult_s LightLetterProc( proc_t *proc );
@@ -1333,19 +1333,19 @@ obj_t *MakeScreenObj( proc_t *proc, Gfx *dl, objDraw_t draw, s32 cls );
 u16 *GetImageTexture( image_t *image, s32 lit );
 void DrawImageAt( image_t *image, s32 lit, s32 dx, s32 dy );
 void DrawImage( image_t *image, s32 lit );
-void func_800278F0( obj_t *obj, frame_t *frame );
-void func_80027F3C( obj_t *obj, frame_t *frame );
+void DrawStatus( obj_t *obj, frame_t *frame );
+void DrawBigNumber( obj_t *obj, frame_t *frame );
 void func_80028064( obj_t *obj, frame_t *frame );
 void DrawLetterPick( obj_t *obj, frame_t *frame );
 void func_8002842C( obj_t *obj, frame_t *frame );
-void func_80028554( obj_t *obj, frame_t *frame );
+void DrawBonusTimer( obj_t *obj, frame_t *frame );
 void func_8002867C( s32 arg0, s32 arg1 );
 void func_800287A4( obj_t *obj, frame_t *frame );
 void DrawBootScreen( obj_t *obj, frame_t *frame );
 void DrawNoController( obj_t *obj, frame_t *frame );
-void func_80028B1C( obj_t *obj, frame_t *frame );
+void DrawPause( obj_t *obj, frame_t *frame );
 void InitActionCursor( proc_t *proc );
-void func_80028CC4( void );
+void ClearCategory( void );
 void func_80028D3C( obj_t *obj, frame_t *frame );
 struct procResult_s CategoryProc( proc_t *proc );
 void InitCategory( void );
@@ -1359,7 +1359,7 @@ void MoveCursorRight( proc_t *proc, s32 letters, s32 sound );
 void MoveCursorUp( proc_t *proc );
 void MoveCursorDown( proc_t *proc );
 void UnflashActions( void );
-void func_8002B054( void );
+void ClearBonusLetters( void );
 struct procResult_s ShowTotalProc( proc_t *proc );
 struct procResult_s CreditsProc( proc_t *proc );
 struct procResult_s ShowWinTotalProc( proc_t *proc );
