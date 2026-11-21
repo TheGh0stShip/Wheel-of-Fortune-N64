@@ -770,6 +770,7 @@ extern u8 alphabet[];          // "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 extern s8 vowelLetters[];
 extern s8 consonantLetters[];
 extern puzzle_t puzzles[];
+extern char *procEventNames[];       // the proc events by name: a debug table no function reads
 extern s32 siLockMade;
 extern titleLetter_t titleLetters[];
 extern Gfx *openingWedgeDls[];

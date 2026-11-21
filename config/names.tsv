@@ -1055,3 +1055,6 @@ wof_waittimer	unit	0x8002FCD8	invented	starting and stopping a five-second timer
 wof_starttimers	unit	0x8002FD50	invented	starting the solve and round timers (StartSolveTimer to StartRoundTimer)
 wof_drawvanna	unit	0x80030490	invented	the draw functions of a menu contestant and of Vanna (DrawMenuContestant and DrawVanna)
 wof_applause	unit	0x80033A28	invented	the crowd's applause (ApplauseProc and StartApplause)
+wof_procevents	unit	0x80057170	invented	the proc events by name: an object of data alone
+procEventNames	global	0x8005772C	invented	the 53 proc events by name, PRC_EVENT_NULL to PRC_EVENT_NOT_ENOUGH2, from the strings it points at
+wof_silock	unit	0x80057800	invented	siLockMade: an object of data alone, closed by stale fill

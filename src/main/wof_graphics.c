@@ -7,6 +7,15 @@
 
 #include "wof.h"
 
+// guess: the RCS run at 0x800004F0 opens this object's read-only data. The #ident line of the system
+// header the object included put the string there, and zeros to an 8-byte boundary follow it before
+// SetLightColor's jump table, which needs that boundary itself. The run may instead be all the
+// read-only data of an object between ReadControllers and SetLightColor (the rumble's, say), whose
+// text uses none; the bytes are the same either way. This reading needs one object start fewer (no
+// object whose read-only data opens without a run at 0x80000508), and it is how the runs at 0x80000B00
+// and 0x80000E28, also followed by zeros and the next functions' data, are read.
+#ident "$Revision: 1.17 $"
+
 /*
 =====================
 SetLightColor

@@ -6,6 +6,13 @@
 
 #include "wof.h"
 
+// guess: the RCS run at 0x80001A48 opens this object's read-only data, and is all of it. The 4-byte
+// gap after StartPauseProc ends an object for certain, and every object from wof_opening on whose
+// start the evidence shows opens its read-only data with a run; the run at 0x80001A30 before this one
+// then opens the pause's object, and the one at 0x80001A60 AddConfetti's. The bytes are the same if
+// this run opens an object after StartApplause instead.
+#ident "$Revision: 1.17 $"
+
 /*
 =====================
 ApplauseProc

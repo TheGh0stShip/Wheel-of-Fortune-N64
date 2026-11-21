@@ -275,6 +275,8 @@ mpeg_16bit	0x800A19D8	0x1130	match	game	src/mpeg/16bit.c
 mpeg_util32	0x800A2B08	0x34	match	game	src/mpeg/util32.c
 mpeg_readfile	0x800A2B40	0x1ED8	match	game	src/mpeg/readfile.c
 mpeg_libc	0x800A4A18	0x65C	match	game	src/mpeg/libc.c
+wof_procevents	0x80057170	0x690	match	game	src/main/wof_procevents.c
+wof_silock	0x80057800	0x4	match	game	src/main/wof_silock.c
 campath_8005C960	0x8005C960	0x21E4	match	game	src/main/campath_8005C960.c
 campath_8005EB48	0x8005EB48	0x6564	match	game	src/main/campath_8005EB48.c
 campath_800650B0	0x800650B0	0x21E4	match	game	src/main/campath_800650B0.c

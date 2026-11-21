@@ -1,5 +1,23 @@
+// createGfxTask.c -- the frame's graphics task: the segments, the display lists and the scheduler task
+
 #include "wof.h"
 
+// guess: the lights of every scene are this object's. They lie between the audio manager's data and
+// D_8004B830 with no fill on either side, so they are the data of this object, of one of the objects
+// between the audio manager and createGfxTask, or of an object of their own; their content is the
+// graphics'.
+Lights7 sceneLights = {
+    { { { 0, 0, 0 }, 0, { 0, 0, 0 }, 0 } },
+    {
+        { { { 80, 80, 80 }, 0, { 80, 80, 80 }, 0, { 0, 100, 0 }, 0 } },
+        { { { 140, 140, 140 }, 0, { 140, 140, 140 }, 0, { 0, 0, 100 }, 0 } },
+        { { { 140, 140, 140 }, 0, { 140, 140, 140 }, 0, { 0, 0, -100 }, 0 } },
+        { { { 140, 140, 140 }, 0, { 140, 140, 140 }, 0, { -100, 0, 0 }, 0 } },
+        { { { 140, 140, 140 }, 0, { 140, 140, 140 }, 0, { 100, 0, 0 }, 0 } },
+        { { { 10, 10, 10 }, 0, { 10, 10, 10 }, 0, { 0, -100, 0 }, 0 } },
+        { { { 0, 0, 0 }, 0, { 0, 0, 0 }, 0, { 100, 0, 0 }, 0 } }
+    }
+};
 s32 D_8004B830 = 1;
 
 void createGfxTask(gfxInfo_t *info) {
