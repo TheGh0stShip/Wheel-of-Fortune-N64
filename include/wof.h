@@ -263,17 +263,17 @@ typedef struct {
 
 // One of the three contestants: players[3].
 typedef struct {
-    /* 0x000 */ s32 unk_000;
-    /* 0x004 */ s32 unk_004;
-    /* 0x008 */ s32 unk_008;
-    /* 0x00C */ s32 unk_00C;
+    /* 0x000 */ s32 score;
+    /* 0x004 */ s32 total;
+    /* 0x008 */ s32 freeSpin;
+    /* 0x00C */ s32 hasPrize;
     /* 0x010 */ s32 unk_010;
-    /* 0x014 */ s32 unk_014;
-    /* 0x018 */ s32 unk_018;
+    /* 0x014 */ s32 controller;
+    /* 0x018 */ s32 contestant;
     /* 0x01C */ u8 unk_01C[0x14];
     /* 0x030 */ u8 unk_030[10][0x14];
-    /* 0x0F8 */ s32 unk_0F8;
-    /* 0x0FC */ s32 unk_0FC;
+    /* 0x0F8 */ s32 prize;
+    /* 0x0FC */ s32 letterSounds;
     /* 0x100 */ s32 unk_100;
     /* 0x104 */ s32 unk_104;
     /* 0x108 */ s32 unk_108;
@@ -338,10 +338,10 @@ typedef struct {
 } puzzleRange_t;    // size 0x8
 // One wedge of the wheel: wedges[].
 typedef struct {
-    /* 0x00 */ s32 unk_00;
+    /* 0x00 */ s32 value;
     /* 0x04 */ s8 name[0x14];
     /* 0x18 */ s32 unk_18;
-    /* 0x1C */ s32 unk_1C;
+    /* 0x1C */ s32 claimed;
 } wedge_t;    // size 0x20
 
 // The display lists of one wedge of the wheel. D_80057F08[7] points at the 24 of each kind of
@@ -353,9 +353,9 @@ typedef struct {
 
 // One puzzle of the built-in list: puzzles[].
 typedef struct {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ u8  *unk_04;     // its category, which LoadPuzzle copies into category
-    /* 0x08 */ s32 unk_08;
+    /* 0x00 */ s32 rom;
+    /* 0x04 */ u8  *category;     // its category, which LoadPuzzle copies into category
+    /* 0x08 */ s32 used;
 } puzzle_t;    // size 0xC
 
 // The entries of D_80057808[]: the display list and the matrix of one of the objs StartOpening
@@ -380,13 +380,13 @@ typedef struct {
 // One square of the puzzle board. The four rows are D_800B9D08[12], D_800B9E58[14],
 // D_800B9FE0[14] and D_800BA168[12].
 typedef struct {
-    /* 0x00 */ Gfx *unk_00;     // its display list
-    /* 0x04 */ u8  *unk_04;     // the picture it shows
-    /* 0x08 */ u8  *unk_08;     // the picture of its letter, shown once the square is turned
-    /* 0x0C */ s32 unk_0C;      // not 0: it blinks
-    /* 0x10 */ s32 unk_10;      // the frames one blink takes
-    /* 0x14 */ s32 unk_14;      // the frames left of this blink
-    /* 0x18 */ s32 unk_18;      // its colour
+    /* 0x00 */ Gfx *dl;     // its display list
+    /* 0x04 */ u8  *image;     // the picture it shows
+    /* 0x08 */ u8  *letterImage;     // the picture of its letter, shown once the square is turned
+    /* 0x0C */ s32 blink;      // not 0: it blinks
+    /* 0x10 */ s32 blinkFrames;      // the frames one blink takes
+    /* 0x14 */ s32 blinkLeft;      // the frames left of this blink
+    /* 0x18 */ s32 color;      // its colour
 } tile_t;    // size 0x1C
 
 // the data of the proc whose handler is func_8000BEA8
@@ -427,20 +427,20 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 unk_00[0xC];
     /* 0x0C */ f32 unk_0C;
-} data8000EF68_t;    // size 0x10
+} wheelPull_t;    // size 0x10
 
 // the data of the proc whose handler is PointerProc, created by InitStage 
 typedef struct {
     /* 0x00 */ obj_t *actor;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ s32 unk_08;
-} data8000F274_t;    // size 0xC
+} pointer_t;    // size 0xC
 
 // the data of the proc whose handler is WheelStopProc, created by TurnWheel
 typedef struct {
     /* 0x00 */ obj_t *unk_00;   // NOTE: no obj is made for this proc; the handler reads it all the same
     /* 0x04 */ s32 unk_04;
-} data8000F84C_t;    // size 0x8
+} wheelStop_t;    // size 0x8
 
 // The data of the proc whose handler is WheelSpinProc, which ends each frame in TurnWheel
 // on the same data. SpinProc, CpuSpinProc and FinalSpinProc create it and put the obj
@@ -451,7 +451,7 @@ typedef struct {
     /* 0x08 */ u8 unk_08[0x4];
     /* 0x0C */ f32 unk_0C;
     /* 0x10 */ f32 unk_10;
-} data8000FDFC_t;    // size 0x14
+} wheelSpin_t;    // size 0x14
 
 // the data of the proc whose handler is func_8000FFE0
 typedef struct {
@@ -481,7 +481,7 @@ typedef struct {
     /* 0x08 */ s32 col;
     /* 0x0C */ s32 unk_0C;
     /* 0x10 */ u8 letter;
-} data80010574_t;    // size 0x14
+} lightLetter_t;    // size 0x14
 
 // the data of the proc whose handler is LightTextProc, created by func_8002C094
 typedef struct {
@@ -490,7 +490,7 @@ typedef struct {
     /* 0x08 */ s32 col;
     /* 0x0C */ u8 unk_0C[0x8];
     /* 0x14 */ u8 *text;
-} data80010D3C_t;    // size 0x18
+} lightText_t;    // size 0x18
 
 // the data of the proc whose handler is CameraPathProc, created by SetView
 typedef struct {
@@ -499,13 +499,13 @@ typedef struct {
     /* 0x08 */ camera_t *unk_08;    // the move it plays
     /* 0x0C */ s32 unk_0C;          // the frame it is at
     /* 0x10 */ s32 unk_10;          // how many frames the move has
-} data80016734_t;    // size 0x14
+} cameraPath_t;    // size 0x14
 
 // the data of the proc whose handler is AdjustCameraProc, created by SetGameView
 typedef struct {
     /* 0x00 */ u8  unk_00[0x4];
     /* 0x04 */ s32 unk_04;      // the player whose turn it was made in
-} data80017938_t;    // size 0x8
+} adjustCamera_t;    // size 0x8
 
 // The data of a player proc: the proc of a turn, whose handler is PlayerTurnProc for a person
 // and CpuTurnProc for the machine, and the procs a turn makes for its steps, to which it
@@ -631,17 +631,17 @@ typedef union procData_u {
     data8000C50C_t  data8000C50C;
     data8000C6C4_t  data8000C6C4;
     data8000C8A8_t  data8000C8A8;
-    data8000EF68_t  data8000EF68;
-    data8000F274_t  data8000F274;
-    data8000F84C_t  data8000F84C;
-    data8000FDFC_t  data8000FDFC;
+    wheelPull_t  wheelPull;
+    pointer_t  pointer;
+    wheelStop_t  wheelStop;
+    wheelSpin_t  wheelSpin;
     data8000FFE0_t  data8000FFE0;
     data800101F4_t  data800101F4;
     data800103B4_t  data800103B4;
-    data80010574_t  data80010574;
-    data80010D3C_t  data80010D3C;
-    data80016734_t  data80016734;
-    data80017938_t  data80017938;
+    lightLetter_t  lightLetter;
+    lightText_t  lightText;
+    cameraPath_t  cameraPath;
+    adjustCamera_t  adjustCamera;
     playerProc_t    playerProc;
     data80021744_t  data80021744;
     data80029098_t  data80029098;

@@ -19,7 +19,7 @@ struct procResult_s CpuBuyVowelProc(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            if (players[curPlayer].unk_000 < 250) {
+            if (players[curPlayer].score < 250) {
                 ProcPostMessage(proc, 51, 0);
                 PlaySound(1);
                 ret.w[1] = 1;
@@ -35,7 +35,7 @@ struct procResult_s CpuBuyVowelProc(proc_t *proc) {
             }
             break;
         case 5:
-            PlaySound(players[curPlayer].unk_0FC + (curLetter - 'A'));
+            PlaySound(players[curPlayer].letterSounds + (curLetter - 'A'));
             ProcPostMessage(proc, 44, 0);
             ret.w[1] = 1;
             ret.w[0] = 30 / frameRetraces;
@@ -46,7 +46,7 @@ struct procResult_s CpuBuyVowelProc(proc_t *proc) {
             if (CallLetter(curLetter, 1) > 0) {
                 ShowLetter(curLetter);
                 task = CreatProc(LightLetterProc, 0x1000000);
-                task->data->data80010574.letter = curLetter;
+                task->data->lightLetter.letter = curLetter;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {
@@ -64,7 +64,7 @@ struct procResult_s CpuBuyVowelProc(proc_t *proc) {
             ProcPostEvent(9);
             PlaySound(150);
             // RULE-EXCEPTION: R25, no prototype in scope: retail passes the 0.8 as a double
-            StartRumble(players[curPlayer].unk_014, 30, 0.8);
+            StartRumble(players[curPlayer].controller, 30, 0.8);
             LoseTurn();
             ret.w[1] = 0;
             ret.w[0] = 0;

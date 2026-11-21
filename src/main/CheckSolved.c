@@ -41,16 +41,16 @@ s32 CheckSolved(s32 bank) {
     if (bank != 0) {
         if (jackpotWon != 0) {
             func_80034950();
-            players[curPlayer].unk_000 += jackpot;
+            players[curPlayer].score += jackpot;
         }
-        if (players[curPlayer].unk_000 < 500) {
-            players[curPlayer].unk_000 = 500;
+        if (players[curPlayer].score < 500) {
+            players[curPlayer].score = 500;
         }
-        players[curPlayer].unk_004 += players[curPlayer].unk_000;
-        players[curPlayer].unk_004 += players[curPlayer].unk_0F8;
-        players[0].unk_00C = 0;
-        players[1].unk_00C = 0;
-        players[2].unk_00C = 0;
+        players[curPlayer].total += players[curPlayer].score;
+        players[curPlayer].total += players[curPlayer].prize;
+        players[0].hasPrize = 0;
+        players[1].hasPrize = 0;
+        players[2].hasPrize = 0;
     }
     return 1;
 }

@@ -18,7 +18,7 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
         case 8:
             InitLetterCursor(proc);
             task = GetCursorProc();
-            if (players[curPlayer].unk_014 == 4) {
+            if (players[curPlayer].controller == 4) {
                 proc->data->cursor.index = puzzleText[solveRow][solveCol] - 65;
                 curLetter = proc->data->cursor.index + 65;
                 ProcPostMessage(proc, 25, 0);
@@ -71,7 +71,7 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
         }
     }
     D_8005A998[proc->data->cursor.index].unk_10 = 0;
-    if (players[curPlayer].unk_014 == 4) {
+    if (players[curPlayer].controller == 4) {
         D_8005A998[proc->data->cursor.index].unk_10 = 1;
         return result;
     }

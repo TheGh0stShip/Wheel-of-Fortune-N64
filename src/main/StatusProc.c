@@ -113,7 +113,7 @@ struct procResult_s StatusProc(proc_t *proc) {
         D_8005A828[proc->data->cursor.index].unk_10 = 0;
         return result;
     }
-    if (players[curPlayer].unk_014 == 4) {
+    if (players[curPlayer].controller == 4) {
         D_8005A828[proc->data->cursor.index].unk_10 = 1;
         return result;
     }

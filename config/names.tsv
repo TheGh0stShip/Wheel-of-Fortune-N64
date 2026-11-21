@@ -516,3 +516,19 @@ row	local	CheckPercentDone	invented
 col	local	CheckPercentDone	invented	
 count	local	CheckPercentDone	invented	the hidden letters, then the turned ones
 letters	local	CheckPercentDone	invented	
+wheelPull_t	type	wof.h	invented	the data of WheelPullProc
+wheelPull	member	procData_t	invented	the data of WheelPullProc
+pointer_t	type	wof.h	invented	the data of PointerProc
+pointer	member	procData_t	invented	the data of PointerProc
+wheelStop_t	type	wof.h	invented	the data of WheelStopProc
+wheelStop	member	procData_t	invented	the data of WheelStopProc
+wheelSpin_t	type	wof.h	invented	the data of WheelSpinProc
+wheelSpin	member	procData_t	invented	the data of WheelSpinProc
+lightLetter_t	type	wof.h	invented	the data of LightLetterProc
+lightLetter	member	procData_t	invented	the data of LightLetterProc
+lightText_t	type	wof.h	invented	the data of LightTextProc
+lightText	member	procData_t	invented	the data of LightTextProc
+cameraPath_t	type	wof.h	invented	the data of CameraPathProc
+cameraPath	member	procData_t	invented	the data of CameraPathProc
+adjustCamera_t	type	wof.h	invented	the data of AdjustCameraProc
+adjustCamera	member	procData_t	invented	the data of AdjustCameraProc

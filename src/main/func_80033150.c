@@ -11,10 +11,10 @@ s32 func_80033150(s32 arg0, s32 arg1, s32 arg2) {
     s32 sp34;
 
     sp34 = 0x2000000;
-    if (players[arg2].unk_018 >= 6) {
+    if (players[arg2].contestant >= 6) {
         func_80009F38("InitContestants: invalid image num");
     }
-    slots = D_8005C568[players[arg2].unk_018];
+    slots = D_8005C568[players[arg2].contestant];
     if (slots[arg0].count > 0) {
         obj = FindObj(arg2 | 0xA020000, -1);
         if (obj == 0) {

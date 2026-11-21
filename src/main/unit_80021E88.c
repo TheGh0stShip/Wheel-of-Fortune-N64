@@ -231,7 +231,7 @@ void func_80023200(void) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        players[i].unk_014 = D_800584C8[i].sel;
+        players[i].controller = D_800584C8[i].sel;
         func_80024D60(i);
     }
 }
@@ -386,7 +386,7 @@ struct procResult_s func_80023CA4(proc_t *proc) {
             break;
         case 1:
             if (curPlayer >= 2) {
-                players[curPlayer].unk_018 = D_80058868[0].sel;
+                players[curPlayer].contestant = D_80058868[0].sel;
                 curPlayer = 0;
                 KillProcClass(0xA000300, -256, 1);
                 func_80026800();
@@ -394,7 +394,7 @@ struct procResult_s func_80023CA4(proc_t *proc) {
                 ret.w[0] = 1;
                 return ret;
             } else {
-                players[curPlayer].unk_018 = D_80058868[0].sel;
+                players[curPlayer].contestant = D_80058868[0].sel;
                 curPlayer++;
                 KillProcClass(0xA000300, -256, 1);
                 func_800263DC();
@@ -408,7 +408,7 @@ struct procResult_s func_80023CA4(proc_t *proc) {
     }
     if ((buttonsPressed & 0x5000) & 0xFFFF) {
         PlaySound(42);
-        players[curPlayer].unk_018 = D_80058868[0].sel;
+        players[curPlayer].contestant = D_80058868[0].sel;
         curPlayer = 0;
         KillProcClass(0xA000300, -256, 1);
         func_80025FA8();
@@ -584,19 +584,19 @@ struct procResult_s func_80024868(proc_t *proc) {
 }
 
 void func_80024D60(s32 arg0) {
-    players[arg0].unk_110 = D_8005A3E4[players[arg0].unk_018].unk_14;
-    players[arg0].unk_0FC = D_8005A3E4[players[arg0].unk_018].unk_00;
-    players[arg0].unk_100 = D_8005A3E4[players[arg0].unk_018].unk_04;
-    players[arg0].unk_104 = D_8005A3E4[players[arg0].unk_018].unk_08;
-    players[arg0].unk_108 = D_8005A3E4[players[arg0].unk_018].unk_0C;
-    players[arg0].unk_10C = D_8005A3E4[players[arg0].unk_018].unk_10;
+    players[arg0].unk_110 = D_8005A3E4[players[arg0].contestant].unk_14;
+    players[arg0].letterSounds = D_8005A3E4[players[arg0].contestant].unk_00;
+    players[arg0].unk_100 = D_8005A3E4[players[arg0].contestant].unk_04;
+    players[arg0].unk_104 = D_8005A3E4[players[arg0].contestant].unk_08;
+    players[arg0].unk_108 = D_8005A3E4[players[arg0].contestant].unk_0C;
+    players[arg0].unk_10C = D_8005A3E4[players[arg0].contestant].unk_10;
 }
 
 void func_8002500C(void) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        D_800BEDD8[i] = players[i].unk_018;
+        D_800BEDD8[i] = players[i].contestant;
     }
     func_80023200();
     switch (D_80058E70[0].sel) {
@@ -816,7 +816,7 @@ void func_800263DC(void) {
     proc_t *task;
 
     i = curPlayer;
-    while (players[i].unk_014 >= 4) {
+    while (players[i].controller >= 4) {
         i++;
         if (i >= 3) {
             curPlayer = 0;
@@ -856,7 +856,7 @@ void func_800263DC(void) {
         D_800588F0[9].unk_24 = D_0115B068;
         break;
     }
-    D_80058868[0].sel = players[curPlayer].unk_018;
+    D_80058868[0].sel = players[curPlayer].contestant;
     for (i = 0; i < 6; i++) {
         if (i == D_80058868[0].sel) {
             func_800323C4(i, i, D_8005A390.unk_00, D_8005A390.unk_04, D_8005A390.unk_08);
@@ -876,20 +876,20 @@ void func_80026800(void) {
     func_80027218(task, 0, func_80022218, 0x5000000);
     func_800258BC();
     for (i = 0; i < 3; i++) {
-        if (players[i].unk_014 == 4) {
+        if (players[i].controller == 4) {
             do {
                 clashes = 0;
                 for (j = 0; j < 3; j++) {
                     if (i != j) {
-                        if (players[i].unk_018 == players[j].unk_018) {
+                        if (players[i].contestant == players[j].contestant) {
                             clashes++;
                         }
                     }
                 }
                 if (clashes != 0) {
-                    players[i].unk_018++;
-                    if (players[i].unk_018 >= 6) {
-                        players[i].unk_018 = 0;
+                    players[i].contestant++;
+                    if (players[i].contestant >= 6) {
+                        players[i].contestant = 0;
                     }
                 }
             } while (clashes > 0);
@@ -897,7 +897,7 @@ void func_80026800(void) {
     }
     i = 0;
     while (i < 3) {
-        func_800323C4(players[i].unk_018, i, D_8005A474[i].unk_00, D_8005A474[i].unk_04, D_8005A474[i].unk_08);
+        func_800323C4(players[i].contestant, i, D_8005A474[i].unk_00, D_8005A474[i].unk_04, D_8005A474[i].unk_08);
         switch (D_800584C8[i].sel) {
         case 0:
             D_80058B28[i * 3 + 2].unk_20 = D_01158068;
@@ -950,7 +950,7 @@ void func_80026EB4(void) {
     func_80005700();
     gameMode = 7;
     for (i = 0; i < 3; i++) {
-        players[i].unk_018 = D_800BEDD8[i];
+        players[i].contestant = D_800BEDD8[i];
     }
     CreateCamera();
     SetCameraView(19);
@@ -967,8 +967,8 @@ void func_80026FD4(void) {
     numRounds = 6;
     for (i = 0; i < 3; i++) {
         D_800584C8[i].sel = 4;
-        players[i].unk_014 = 4;
-        players[i].unk_018 = i;
+        players[i].controller = 4;
+        players[i].contestant = i;
         D_800BEDD8[i] = i;
         StrCopy(players[i].unk_01C, D_8005A498[i]);
     }
@@ -977,7 +977,7 @@ void func_80026FD4(void) {
     while (i < 4) {
         if ((contPattern >> i) % 2 != 0) {
             D_800584C8[count].sel = i;
-            players[count].unk_014 = i;
+            players[count].controller = i;
             count++;
         }
         if (count >= 3) {

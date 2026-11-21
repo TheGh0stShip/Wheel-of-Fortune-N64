@@ -7,7 +7,7 @@ struct procResult_s AdjustCameraProc(proc_t *proc) {
 
     sp10.w[1] = 1;
     sp10.w[0] = 0;
-    if (proc->data->data80017938.unk_04 != curPlayer) {
+    if (proc->data->adjustCamera.unk_04 != curPlayer) {
         return sp10;
     }
     if ((playerPad.button & 1 & 0xFFFF) != 0) {

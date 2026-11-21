@@ -4,7 +4,7 @@ s32 GetWedgeValue(void) {
     s32 result;
     s32 rem;
 
-    if (wedges[curWedge].unk_00 == -10000) {
+    if (wedges[curWedge].value == -10000) {
         rem = wedgeThird % 3;
         if (rem == 1) {
             result = 10000;
@@ -12,7 +12,7 @@ s32 GetWedgeValue(void) {
             result = -1;
         }
     } else {
-        result = wedges[curWedge].unk_00;
+        result = wedges[curWedge].value;
     }
     return result;
 }

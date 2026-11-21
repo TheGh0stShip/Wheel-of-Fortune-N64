@@ -35,7 +35,7 @@ void CpuChooseAction(proc_t *proc) {
         score = score + sp1C;
         switch (GetUncalledKinds()) {
         case 4:
-            if (score < proc->data->playerProc.unk_0C || players[curPlayer].unk_000 < 250) {
+            if (score < proc->data->playerProc.unk_0C || players[curPlayer].score < 250) {
                 curLetter = 48;
                 ProcPostMessage(proc, 12, 0);
             } else {

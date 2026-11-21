@@ -24,7 +24,7 @@ struct procResult_s PlayerTurnProc(proc_t *proc) {
         switch (event) {
         case 38:
             PlaySound(players[curPlayer].unk_10C);
-            players[curPlayer].unk_008 = 0;
+            players[curPlayer].freeSpin = 0;
             task = FindProc(0x5000000, -1);
             ProcPostMessage(task, 24, 0);
             /* fallthrough */
@@ -117,7 +117,7 @@ struct procResult_s PlayerTurnProc(proc_t *proc) {
             PlaySound(1);
             SetGameView(0, 0);
             NextTurn();
-            StartRumble(players[curPlayer].unk_014, 30, 0.8f);
+            StartRumble(players[curPlayer].controller, 30, 0.8f);
             ret.w[1] = 2;
             ret.w[0] = -1;
             return ret;

@@ -42,9 +42,9 @@ struct procResult_s func_8002C094(proc_t *proc) {
                 ShowLetter(D_8005C394[i]);
             }
             task = CreatProc(LightTextProc, 0x1000000);
-            task->data->data80010D3C.row = 0;
-            task->data->data80010D3C.col = 0;
-            task->data->data80010D3C.text = D_8005C394;
+            task->data->lightText.row = 0;
+            task->data->lightText.col = 0;
+            task->data->lightText.text = D_8005C394;
             ret.w[1] = 2;
             ret.w[0] = 6;
             return ret;
@@ -109,9 +109,9 @@ struct procResult_s func_8002C094(proc_t *proc) {
             D_800B61AA[i] = curLetter;
             if (StrLen(D_800B61B0) == 4) {
                 task = CreatProc(LightTextProc, 0x1000000);
-                task->data->data80010D3C.row = 0;
-                task->data->data80010D3C.col = 0;
-                task->data->data80010D3C.text = D_800B61B0;
+                task->data->lightText.row = 0;
+                task->data->lightText.col = 0;
+                task->data->lightText.text = D_800B61B0;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {

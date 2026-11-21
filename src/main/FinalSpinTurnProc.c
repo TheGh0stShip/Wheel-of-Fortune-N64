@@ -24,7 +24,7 @@ struct procResult_s FinalSpinTurnProc(proc_t *proc) {
             ret.w[0] = 5;
             break;
         case 5:
-            PlaySound(players[curPlayer].unk_0FC + (curLetter - 'A'));
+            PlaySound(players[curPlayer].letterSounds + (curLetter - 'A'));
             ProcPostMessage(proc, 44, 0);
             ret.w[1] = 1;
             ret.w[0] = 30 / frameRetraces;
@@ -33,12 +33,12 @@ struct procResult_s FinalSpinTurnProc(proc_t *proc) {
             if (CallLetter(curLetter, 2) > 0) {
                 ShowLetter(curLetter);
                 task = CreatProc(LightLetterProc, 0x1000000);
-                task->data->data80010574.letter = curLetter;
+                task->data->lightLetter.letter = curLetter;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {
                 PlaySound(1);
-                StartRumble(players[curPlayer].unk_014, 30, 0.8f);
+                StartRumble(players[curPlayer].controller, 30, 0.8f);
                 LoseTurn();
                 ProcPostEvent(31);
                 ProcPostMessage(task, 31, 0);

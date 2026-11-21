@@ -40,8 +40,8 @@ struct procResult_s FinalSpinProc(proc_t *proc) {
     SetGameView(0, 1);
     task = CreatProc(WheelSpinProc, 0x4000000);
     node = FindObj(0x4010000, 0xFFFF0000);
-    task->data->data8000FDFC.unk_00 = node;
-    task->data->data8000FDFC.unk_0C = guRandom() % 25 + 75;
+    task->data->wheelSpin.unk_00 = node;
+    task->data->wheelSpin.unk_0C = guRandom() % 25 + 75;
     result.w[1] = 2;
     result.w[0] = 2;
     return result;

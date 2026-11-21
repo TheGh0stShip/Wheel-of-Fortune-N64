@@ -8,8 +8,8 @@ void FindWinner(void) {
     max = 0;
     curPlayer = 0;
     for (i = 0; i < 3; i++) {
-        if (players[i].unk_004 > max) {
-            max = players[i].unk_004;
+        if (players[i].total > max) {
+            max = players[i].total;
             curPlayer = i;
         }
     }

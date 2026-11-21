@@ -33,7 +33,7 @@ struct procResult_s SolveProc(proc_t *proc) {
             } else {
                 ProcPostMessage(task, 20, 0);
                 PlaySound(1);
-                StartRumble(players[curPlayer].unk_014, 30, 0.8f);
+                StartRumble(players[curPlayer].controller, 30, 0.8f);
                 if (finalSpin == 0) {
                     if (LoseTurn() != 0) {
                         ProcPostEvent(10);

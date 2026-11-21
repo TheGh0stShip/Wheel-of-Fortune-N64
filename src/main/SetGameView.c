@@ -17,7 +17,7 @@ void SetGameView(s32 view, s32 arg1) {
         task = FindProc(0x2010000, 0xFFFF0000);
         if (task == 0 && arg1 == 0) {
             task = CreatProc(AdjustCameraProc, curPlayer | 0x2010000);
-            task->data->data80017938.unk_04 = curPlayer;
+            task->data->adjustCamera.unk_04 = curPlayer;
         }
         SetView(sp10, view);
         return;

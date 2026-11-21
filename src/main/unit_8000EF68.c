@@ -34,7 +34,7 @@ struct procResult_s WheelPullProc(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            proc->data->data8000EF68.unk_0C = obj->pitch;
+            proc->data->wheelPull.unk_0C = obj->pitch;
             break;
         case 34:
             ret.w[1] = 0;
@@ -42,7 +42,7 @@ struct procResult_s WheelPullProc(proc_t *proc) {
             return ret;
         }
     }
-    delta = proc->data->data8000EF68.unk_0C - playerPad.stick_x / D_80057F44;
+    delta = proc->data->wheelPull.unk_0C - playerPad.stick_x / D_80057F44;
     if (delta > 0.0f) {
         delta = delta * -1.0f;
     }
@@ -85,7 +85,7 @@ struct procResult_s PointerProc(proc_t *proc) {
             return result;
         }
     }
-    actor = proc->data->data8000F274.actor;
+    actor = proc->data->pointer.actor;
     result.w[1] = 1;
     result.w[0] = 0;
     target = FindObj(0x4010000, 0xFFFF0000);
@@ -98,9 +98,9 @@ struct procResult_s PointerProc(proc_t *proc) {
     if ((f64)((wheelSpeed / 60.0f) * (f32)frameRetraces) > 2.5) {
         sp2C = sp28 * -4.0f + 30.0f;
         if ((proc->cls & 255) == curPlayer) {
-            if (players[curPlayer].unk_014 < 4) {
+            if (players[curPlayer].controller < 4) {
                 // RULE-EXCEPTION: R25, no prototype in scope: retail passes the 1.0 as a double
-                StartRumble(players[curPlayer].unk_014, 2, 1.0);
+                StartRumble(players[curPlayer].controller, 2, 1.0);
             }
             if ((u32)numSoundsPlaying < 16) {
                 PlaySound(Random(11) + 27);
@@ -115,20 +115,20 @@ struct procResult_s PointerProc(proc_t *proc) {
         }
         if ((proc->cls & 255) == curPlayer) {
             if (sp2C - actor->pitch < 0.0f) {
-                if (proc->data->data8000F274.unk_08 > 0) {
+                if (proc->data->pointer.unk_08 > 0) {
                     PlaySound(Random(2) + 25);
-                    if (players[curPlayer].unk_014 < 4) {
+                    if (players[curPlayer].controller < 4) {
                         // RULE-EXCEPTION: R25, as above
-                        StartRumble(players[curPlayer].unk_014, 5, 1.0);
+                        StartRumble(players[curPlayer].controller, 5, 1.0);
                     }
                 }
             }
         }
     }
     if ((proc->cls & 255) == curPlayer) {
-        SetWedge(target->pitch + (f32)D_800581F0[curPlayer] - sp28 + proc->data->data8000F274.unk_04);
+        SetWedge(target->pitch + (f32)D_800581F0[curPlayer] - sp28 + proc->data->pointer.unk_04);
     }
-    proc->data->data8000F274.unk_08 = (s32)(sp2C - actor->pitch);
+    proc->data->pointer.unk_08 = (s32)(sp2C - actor->pitch);
     actor->pitch = sp2C;
     return result;
 }
@@ -156,7 +156,7 @@ struct procResult_s WheelStopProc(proc_t *proc) {
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    sp20 = proc->data->data8000F84C.unk_00;
+    sp20 = proc->data->wheelStop.unk_00;
     ret.w[1] = 1;
     ret.w[0] = 0;
     while ((event = ProcGetMessage(proc)) != 0) {
@@ -175,7 +175,7 @@ struct procResult_s WheelStopProc(proc_t *proc) {
                 D_800B96A8++;
                 break;
             case 3500:
-                proc->data->data8000F84C.unk_04 = 1;
+                proc->data->wheelStop.unk_04 = 1;
                 D_800B96A8++;
                 ProcPostMessage(proc, 41, 0);
                 ret.w[1] = 1;
@@ -209,24 +209,24 @@ struct procResult_s TurnWheel(proc_t *proc) {
     struct procResult_s ret;
     obj_t *obj;
 
-    obj = proc->data->data8000FDFC.unk_00;
+    obj = proc->data->wheelSpin.unk_00;
     ret.w[1] = 1;
     ret.w[0] = 0;
-    if (proc->data->data8000FDFC.unk_0C <= 0.0f) {
+    if (proc->data->wheelSpin.unk_0C <= 0.0f) {
         CreatProc(WheelStopProc, 0x4000000);
         ret.w[1] = 0;
         ret.w[0] = 0;
     } else {
-        obj->pitch = obj->pitch - proc->data->data8000FDFC.unk_0C / 60.0f * frameRetraces;
-        proc->data->data8000FDFC.unk_0C = proc->data->data8000FDFC.unk_0C - frameRetraces * 0.5;
+        obj->pitch = obj->pitch - proc->data->wheelSpin.unk_0C / 60.0f * frameRetraces;
+        proc->data->wheelSpin.unk_0C = proc->data->wheelSpin.unk_0C - frameRetraces * 0.5;
     }
-    if (proc->data->data8000FDFC.unk_0C <= 50.0f) {
-        if (proc->data->data8000FDFC.unk_10 > 50.0f) {
+    if (proc->data->wheelSpin.unk_0C <= 50.0f) {
+        if (proc->data->wheelSpin.unk_10 > 50.0f) {
             ProcPostEvent(4);
         }
     }
-    wheelSpeed = proc->data->data8000FDFC.unk_0C;
-    proc->data->data8000FDFC.unk_10 = proc->data->data8000FDFC.unk_0C;
+    wheelSpeed = proc->data->wheelSpin.unk_0C;
+    proc->data->wheelSpin.unk_10 = proc->data->wheelSpin.unk_0C;
     return ret;
 }
 
@@ -236,19 +236,19 @@ struct procResult_s WheelSpinProc(proc_t *proc) {
     s32 event;
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
-    sp20 = proc->data->data8000FDFC.unk_00;
+    sp20 = proc->data->wheelSpin.unk_00;
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
             func_80016098();
             func_80032B10();
             func_80032AD4(1);
-            proc->data->data8000FDFC.unk_04 = 0;
+            proc->data->wheelSpin.unk_04 = 0;
             D_800B96A8++;
             ProcPostMessage(proc, 41, 0);
             return TurnWheel(proc);
         case 41:
-            D_800B96A8 += players[curPlayer].unk_000 / 5000;
+            D_800B96A8 += players[curPlayer].score / 5000;
             return TurnWheel(proc);
         case 34:
             ret.w[1] = 0;
@@ -387,12 +387,12 @@ struct procResult_s LightLetterProc(proc_t *proc) {
     while ((event = ProcGetMessage(proc)) != 0) {
         switch (event) {
         case 8:
-            proc->data->data80010574.unk_0C = 0;
-            proc->data->data80010574.row = 0;
+            proc->data->lightLetter.unk_0C = 0;
+            proc->data->lightLetter.row = 0;
             if (lightDir == 1) {
-                proc->data->data80010574.col = 0;
+                proc->data->lightLetter.col = 0;
             } else {
-                proc->data->data80010574.col = 13;
+                proc->data->lightLetter.col = 13;
             }
             D_800B96A8 = D_800B96A8 + 2;
             ret.w[1] = 1;
@@ -410,19 +410,19 @@ struct procResult_s LightLetterProc(proc_t *proc) {
             return ret;
         }
     }
-    letter = proc->data->data80010574.letter;
-    col = proc->data->data80010574.col;
-    startRow = proc->data->data80010574.row;
-    if (proc->data->data80010574.unk_0C == 0) {
+    letter = proc->data->lightLetter.letter;
+    col = proc->data->lightLetter.col;
+    startRow = proc->data->lightLetter.row;
+    if (proc->data->lightLetter.unk_0C == 0) {
         if (lightDir == 1) {
             if (col >= 7) {
                 func_80032AD4(0);
-                proc->data->data80010574.unk_0C = 1;
+                proc->data->lightLetter.unk_0C = 1;
             }
         } else {
             if (col < 7) {
                 func_80032AD4(0);
-                proc->data->data80010574.unk_0C = 1;
+                proc->data->lightLetter.unk_0C = 1;
             }
         }
     }
@@ -431,24 +431,24 @@ struct procResult_s LightLetterProc(proc_t *proc) {
         while (row < 4) {
             startRow = 0;
             if (letter == puzzleText[row][col]) {
-                proc->data->data80010574.row = row + 1;
-                proc->data->data80010574.col = col;
-                if (proc->data->data80010574.row >= 4) {
-                    proc->data->data80010574.row = 0;
-                    proc->data->data80010574.col = col + lightDir;
+                proc->data->lightLetter.row = row + 1;
+                proc->data->lightLetter.col = col;
+                if (proc->data->lightLetter.row >= 4) {
+                    proc->data->lightLetter.row = 0;
+                    proc->data->lightLetter.col = col + lightDir;
                 }
                 switch (row) {
                 case 0:
-                    D_800B9D08[col].unk_18 = 0x1111AAFF;
+                    D_800B9D08[col].color = 0x1111AAFF;
                     break;
                 case 1:
-                    D_800B9E58[col].unk_18 = 0x1111AAFF;
+                    D_800B9E58[col].color = 0x1111AAFF;
                     break;
                 case 2:
-                    D_800B9FE0[col].unk_18 = 0x1111AAFF;
+                    D_800B9FE0[col].color = 0x1111AAFF;
                     break;
                 case 3:
-                    D_800BA168[col].unk_18 = 0x1111AAFF;
+                    D_800BA168[col].color = 0x1111AAFF;
                     break;
                 }
                 PlaySound(2);
@@ -460,9 +460,9 @@ struct procResult_s LightLetterProc(proc_t *proc) {
         }
         col = col + lightDir;
     }
-    if (proc->data->data80010574.unk_0C == 0) {
+    if (proc->data->lightLetter.unk_0C == 0) {
         func_80032AD4(0);
-        proc->data->data80010574.unk_0C = 1;
+        proc->data->lightLetter.unk_0C = 1;
     }
     ret.w[1] = 2;
     ret.w[0] = 49;
@@ -471,22 +471,22 @@ struct procResult_s LightLetterProc(proc_t *proc) {
 
 void TurnSquares(s32 col) {
     if (col < 12) {
-        if (D_800B9D08[col].unk_18 == 0x1111AAFF) {
-            D_800B9D08[col].unk_04 = D_800B9D08[col].unk_08;
-            D_800B9D08[col].unk_18 = -1;
+        if (D_800B9D08[col].color == 0x1111AAFF) {
+            D_800B9D08[col].image = D_800B9D08[col].letterImage;
+            D_800B9D08[col].color = -1;
         }
-        if (D_800BA168[col].unk_18 == 0x1111AAFF) {
-            D_800BA168[col].unk_04 = D_800BA168[col].unk_08;
-            D_800BA168[col].unk_18 = -1;
+        if (D_800BA168[col].color == 0x1111AAFF) {
+            D_800BA168[col].image = D_800BA168[col].letterImage;
+            D_800BA168[col].color = -1;
         }
     }
-    if (D_800B9E58[col].unk_18 == 0x1111AAFF) {
-        D_800B9E58[col].unk_04 = D_800B9E58[col].unk_08;
-        D_800B9E58[col].unk_18 = -1;
+    if (D_800B9E58[col].color == 0x1111AAFF) {
+        D_800B9E58[col].image = D_800B9E58[col].letterImage;
+        D_800B9E58[col].color = -1;
     }
-    if (D_800B9FE0[col].unk_18 == 0x1111AAFF) {
-        D_800B9FE0[col].unk_04 = D_800B9FE0[col].unk_08;
-        D_800B9FE0[col].unk_18 = -1;
+    if (D_800B9FE0[col].color == 0x1111AAFF) {
+        D_800B9FE0[col].image = D_800B9FE0[col].letterImage;
+        D_800B9FE0[col].color = -1;
     }
 }
 
@@ -521,36 +521,36 @@ struct procResult_s LightTextProc(proc_t *proc) {
             return result;
         }
     }
-    c = *proc->data->data80010D3C.text;
+    c = *proc->data->lightText.text;
     if (c == 0) {
         func_80032AD4(0);
         result.w[1] = 2;
         result.w[0] = 49;
         return result;
     }
-    row = proc->data->data80010D3C.row;
+    row = proc->data->lightText.row;
     while (row < 4) {
-        p = &puzzleText[row][proc->data->data80010D3C.col];
+        p = &puzzleText[row][proc->data->lightText.col];
         while (p != 0) {
             p = StrChr(p, c);
             if (p != 0) {
                 p++;
-                proc->data->data80010D3C.row = row;
-                proc->data->data80010D3C.col = p - puzzleText[0] - row * 21;
-                foundRow = proc->data->data80010D3C.row;
-                foundCol = proc->data->data80010D3C.col - 1;
+                proc->data->lightText.row = row;
+                proc->data->lightText.col = p - puzzleText[0] - row * 21;
+                foundRow = proc->data->lightText.row;
+                foundCol = proc->data->lightText.col - 1;
                 switch (foundRow) {
                 case 0:
-                    D_800B9D08[foundCol].unk_18 = 0x1111AAFF;
+                    D_800B9D08[foundCol].color = 0x1111AAFF;
                     break;
                 case 1:
-                    D_800B9E58[foundCol].unk_18 = 0x1111AAFF;
+                    D_800B9E58[foundCol].color = 0x1111AAFF;
                     break;
                 case 2:
-                    D_800B9FE0[foundCol].unk_18 = 0x1111AAFF;
+                    D_800B9FE0[foundCol].color = 0x1111AAFF;
                     break;
                 case 3:
-                    D_800BA168[foundCol].unk_18 = 0x1111AAFF;
+                    D_800BA168[foundCol].color = 0x1111AAFF;
                     break;
                 }
                 PlaySound(2);
@@ -559,12 +559,12 @@ struct procResult_s LightTextProc(proc_t *proc) {
                 return result;
             }
         }
-        proc->data->data80010D3C.col = 0;
+        proc->data->lightText.col = 0;
         row++;
     }
-    proc->data->data80010D3C.text++;
-    proc->data->data80010D3C.col = 0;
-    proc->data->data80010D3C.row = 0;
+    proc->data->lightText.text++;
+    proc->data->lightText.col = 0;
+    proc->data->lightText.row = 0;
     return result;
 }
 
@@ -589,16 +589,16 @@ s32 FindHiddenSquare(s32 row, s32 col, s32 dir) {
 void SetSquareBlink(s32 row, s32 col, s32 blink) {
     switch (row) {
     case 0:
-        D_800B9D08[col].unk_0C = blink;
+        D_800B9D08[col].blink = blink;
         return;
     case 1:
-        D_800B9E58[col].unk_0C = blink;
+        D_800B9E58[col].blink = blink;
         return;
     case 2:
-        D_800B9FE0[col].unk_0C = blink;
+        D_800B9FE0[col].blink = blink;
         return;
     case 3:
-        D_800BA168[col].unk_0C = blink;
+        D_800BA168[col].blink = blink;
         return;
     }
 }
@@ -610,16 +610,16 @@ void SetSquareLetter(s32 row, s32 col, u8 letter) {
     solveBoard[row][col] = curLetter;
     switch (row) {
     case 0:
-        D_800B9D08[col].unk_04 = D_800579BC[letter];
+        D_800B9D08[col].image = D_800579BC[letter];
         return;
     case 1:
-        D_800B9E58[col].unk_04 = D_800579BC[letter];
+        D_800B9E58[col].image = D_800579BC[letter];
         return;
     case 2:
-        D_800B9FE0[col].unk_04 = D_800579BC[letter];
+        D_800B9FE0[col].image = D_800579BC[letter];
         return;
     case 3:
-        D_800BA168[col].unk_04 = D_800579BC[letter];
+        D_800BA168[col].image = D_800579BC[letter];
         return;
     }
 }
@@ -671,25 +671,25 @@ void ResetSquares(void) {
     s32 i;
 
     for (i = 0; i < 12; i++) {
-        D_800B9D08[i].unk_18 = -1;
-        D_800B9D08[i].unk_0C = 0;
+        D_800B9D08[i].color = -1;
+        D_800B9D08[i].blink = 0;
     }
     i = 0;
     while (i < 14) {
-        D_800B9E58[i].unk_18 = -1;
-        D_800B9E58[i].unk_0C = 0;
+        D_800B9E58[i].color = -1;
+        D_800B9E58[i].blink = 0;
         i++;
     }
     i = 0;
     while (i < 14) {
-        D_800B9FE0[i].unk_18 = -1;
-        D_800B9FE0[i].unk_0C = 0;
+        D_800B9FE0[i].color = -1;
+        D_800B9FE0[i].blink = 0;
         i++;
     }
     i = 0;
     while (i < 12) {
-        D_800BA168[i].unk_18 = -1;
-        D_800BA168[i].unk_0C = 0;
+        D_800BA168[i].color = -1;
+        D_800BA168[i].blink = 0;
         i++;
     }
 }
@@ -700,9 +700,9 @@ void RevealPuzzle(void) {
     for (i = 0; i < 12; i++) {
         if (puzzleText[0][i] >= 65) {
             if (puzzleText[0][i] < 91) {
-                D_800B9D08[i].unk_04 = D_800579BC[puzzleText[0][i]];
-                D_800B9D08[i].unk_18 = -1;
-                D_800B9D08[i].unk_0C = 0;
+                D_800B9D08[i].image = D_800579BC[puzzleText[0][i]];
+                D_800B9D08[i].color = -1;
+                D_800B9D08[i].blink = 0;
             }
         }
     }
@@ -710,9 +710,9 @@ void RevealPuzzle(void) {
     while (i < 14) {
         if (puzzleText[1][i] >= 65) {
             if (puzzleText[1][i] < 91) {
-                D_800B9E58[i].unk_04 = D_800579BC[puzzleText[1][i]];
-                D_800B9E58[i].unk_18 = -1;
-                D_800B9E58[i].unk_0C = 0;
+                D_800B9E58[i].image = D_800579BC[puzzleText[1][i]];
+                D_800B9E58[i].color = -1;
+                D_800B9E58[i].blink = 0;
             }
         }
         i++;
@@ -721,9 +721,9 @@ void RevealPuzzle(void) {
     while (i < 14) {
         if (puzzleText[2][i] >= 65) {
             if (puzzleText[2][i] < 91) {
-                D_800B9FE0[i].unk_04 = D_800579BC[puzzleText[2][i]];
-                D_800B9FE0[i].unk_18 = -1;
-                D_800B9FE0[i].unk_0C = 0;
+                D_800B9FE0[i].image = D_800579BC[puzzleText[2][i]];
+                D_800B9FE0[i].color = -1;
+                D_800B9FE0[i].blink = 0;
             }
         }
         i++;
@@ -732,9 +732,9 @@ void RevealPuzzle(void) {
     while (i < 12) {
         if (puzzleText[3][i] >= 65) {
             if (puzzleText[3][i] < 91) {
-                D_800BA168[i].unk_04 = D_800579BC[puzzleText[3][i]];
-                D_800BA168[i].unk_18 = -1;
-                D_800BA168[i].unk_0C = 0;
+                D_800BA168[i].image = D_800579BC[puzzleText[3][i]];
+                D_800BA168[i].color = -1;
+                D_800BA168[i].blink = 0;
             }
         }
         i++;
@@ -746,35 +746,35 @@ void GreyHiddenSquares(void) {
 
     for (i = 0; i < 12; i++) {
         if (board[0][i] == '+') {
-            D_800B9D08[i].unk_04 = D_010A3388;
-            D_800B9D08[i].unk_18 = 0x88888888;
-            D_800B9D08[i].unk_0C = 0;
+            D_800B9D08[i].image = D_010A3388;
+            D_800B9D08[i].color = 0x88888888;
+            D_800B9D08[i].blink = 0;
         }
     }
     i = 0;
     while (i < 14) {
         if (board[1][i] == '+') {
-            D_800B9E58[i].unk_04 = D_010A3388;
-            D_800B9E58[i].unk_18 = 0x88888888;
-            D_800B9E58[i].unk_0C = 0;
+            D_800B9E58[i].image = D_010A3388;
+            D_800B9E58[i].color = 0x88888888;
+            D_800B9E58[i].blink = 0;
         }
         i++;
     }
     i = 0;
     while (i < 14) {
         if (board[2][i] == '+') {
-            D_800B9FE0[i].unk_04 = D_010A3388;
-            D_800B9FE0[i].unk_18 = 0x88888888;
-            D_800B9FE0[i].unk_0C = 0;
+            D_800B9FE0[i].image = D_010A3388;
+            D_800B9FE0[i].color = 0x88888888;
+            D_800B9FE0[i].blink = 0;
         }
         i++;
     }
     i = 0;
     while (i < 12) {
         if (board[3][i] == '+') {
-            D_800BA168[i].unk_04 = D_010A3388;
-            D_800BA168[i].unk_18 = 0x88888888;
-            D_800BA168[i].unk_0C = 0;
+            D_800BA168[i].image = D_010A3388;
+            D_800BA168[i].color = 0x88888888;
+            D_800BA168[i].blink = 0;
         }
         i++;
     }
@@ -856,14 +856,14 @@ void DrawPointer(obj_t *obj, frame_t *frame) {
 s32 GetSquareColor(tile_t *arg0) {
     s32 result;
 
-    result = arg0->unk_18;
-    if (arg0->unk_0C != 0) {
-        if (arg0->unk_14 > arg0->unk_10 / 2) {
+    result = arg0->color;
+    if (arg0->blink != 0) {
+        if (arg0->blinkLeft > arg0->blinkFrames / 2) {
             result = -1;
         }
-        arg0->unk_14 = arg0->unk_14 - frameRetraces;
-        if (arg0->unk_14 < 0) {
-            arg0->unk_14 = arg0->unk_10;
+        arg0->blinkLeft = arg0->blinkLeft - frameRetraces;
+        if (arg0->blinkLeft < 0) {
+            arg0->blinkLeft = arg0->blinkFrames;
         }
     }
     return result;
@@ -875,19 +875,19 @@ void DrawSquares(tile_t *tiles, s32 count, s32 arg2) {
     if (gameMode != 6) {
         for (i = 0; i < count; i++) {
             if (arg2 != 0) {
-                if (tiles[i].unk_04 == D_010A2B88) {
+                if (tiles[i].image == D_010A2B88) {
                     SetLightColor(2);
                     gDPPipeSync(glistp++);
-                    gSPDisplayList(glistp++, tiles[i].unk_00);
+                    gSPDisplayList(glistp++, tiles[i].dl);
                 }
-            } else if (tiles[i].unk_04 != D_010A2B88) {
+            } else if (tiles[i].image != D_010A2B88) {
                 gSPLightColor(glistp++, LIGHT_2, GetSquareColor(&tiles[i]));
                 gDPPipeSync(glistp++);
-                gDPLoadTextureBlock(glistp++, tiles[i].unk_04, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
+                gDPLoadTextureBlock(glistp++, tiles[i].image, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
                                     G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                                     5, 5, G_TX_NOLOD, G_TX_NOLOD);
                 gDPPipeSync(glistp++);
-                gSPDisplayList(glistp++, tiles[i].unk_00);
+                gSPDisplayList(glistp++, tiles[i].dl);
             }
         }
         return;
@@ -896,7 +896,7 @@ void DrawSquares(tile_t *tiles, s32 count, s32 arg2) {
     while (i < count) {
         SetLightColor(2);
         gDPPipeSync(glistp++);
-        gSPDisplayList(glistp++, tiles[i].unk_00);
+        gSPDisplayList(glistp++, tiles[i].dl);
         i++;
     }
 }
@@ -981,9 +981,9 @@ void SetScoreDigits(s32 total) {
             D_800BEEA8[i][j] = D_010367A8;
         }
         if (total != 0) {
-            value = players[i].unk_004;
+            value = players[i].total;
         } else {
-            value = players[i].unk_000;
+            value = players[i].score;
         }
         IntToStr(digits, value);
         len = StrLen(digits);
@@ -1143,7 +1143,7 @@ void DrawWheel(obj_t *obj, frame_t *frame) {
         gSPLightColor(glistp++, LIGHT_1, 0xC8C8C8FF);
         i = 0;
         while (i < 24) {
-            if (wedges[i].unk_1C != 0 && D_80057F08[round][i].unk_04 != 0) {
+            if (wedges[i].claimed != 0 && D_80057F08[round][i].unk_04 != 0) {
                 gSPDisplayList(glistp++, D_80057F08[round][i].unk_04);
             } else {
                 gSPDisplayList(glistp++, D_80057F08[round][i].unk_00);
@@ -1208,41 +1208,41 @@ void InitSquares(Gfx **dls, tile_t *tiles, s32 row, s32 count) {
     s32 i;
 
     for (i = 0; i < count; i++) {
-        tiles[i].unk_00 = dls[i];
-        tiles[i].unk_0C = 0;
-        tiles[i].unk_10 = 32;
-        tiles[i].unk_14 = 0;
+        tiles[i].dl = dls[i];
+        tiles[i].blink = 0;
+        tiles[i].blinkFrames = 32;
+        tiles[i].blinkLeft = 0;
         switch (puzzleText[row][i]) {
         case 0:
         case 32:
         case 47:
-            tiles[i].unk_04 = D_010A2B88;
-            tiles[i].unk_18 = -1;
+            tiles[i].image = D_010A2B88;
+            tiles[i].color = -1;
             break;
         case 38:
-            tiles[i].unk_04 = D_010A1F88;
-            tiles[i].unk_18 = -1;
+            tiles[i].image = D_010A1F88;
+            tiles[i].color = -1;
             break;
         case 46:
-            tiles[i].unk_04 = D_010A3788;
-            tiles[i].unk_18 = -1;
+            tiles[i].image = D_010A3788;
+            tiles[i].color = -1;
             break;
         case 39:
-            tiles[i].unk_04 = D_010A2388;
-            tiles[i].unk_18 = -1;
+            tiles[i].image = D_010A2388;
+            tiles[i].color = -1;
             break;
         case 45:
-            tiles[i].unk_04 = D_010A1B88;
-            tiles[i].unk_18 = -1;
+            tiles[i].image = D_010A1B88;
+            tiles[i].color = -1;
             break;
         case 63:
-            tiles[i].unk_04 = D_010A2788;
-            tiles[i].unk_18 = -1;
+            tiles[i].image = D_010A2788;
+            tiles[i].color = -1;
             break;
         default:
-            tiles[i].unk_04 = D_010A3388;
-            tiles[i].unk_08 = D_800579BC[puzzleText[row][i]];
-            tiles[i].unk_18 = 0x88888888;
+            tiles[i].image = D_010A3388;
+            tiles[i].letterImage = D_800579BC[puzzleText[row][i]];
+            tiles[i].color = 0x88888888;
         }
     }
 }
@@ -1275,11 +1275,11 @@ void ClearSquares(Gfx **dls, tile_t *tiles, s32 row, s32 count) {
     s32 i;
 
     for (i = 0; i < count; i++) {
-        tiles[i].unk_00 = dls[i];
-        tiles[i].unk_0C = 0;
-        tiles[i].unk_10 = 32;
-        tiles[i].unk_14 = 0;
-        tiles[i].unk_04 = D_010A2B88;
+        tiles[i].dl = dls[i];
+        tiles[i].blink = 0;
+        tiles[i].blinkFrames = 32;
+        tiles[i].blinkLeft = 0;
+        tiles[i].image = D_010A2B88;
     }
 }
 
@@ -1363,20 +1363,20 @@ void InitStage(void) {
     MakeObj(0, D_010A6098, func_80014208, 0xA000000);
     MakeObj(0, D_010E4260, func_800153C4, 0xA000000);
     task = CreatProc(PointerProc, 0x4020000);
-    task->data->data8000F274.unk_04 = -2.0f;
-    task->data->data8000F274.unk_08 = 0;
+    task->data->pointer.unk_04 = -2.0f;
+    task->data->pointer.unk_08 = 0;
     obj = MakeObj(task, D_01037090, DrawPointer, 0x4020000);
     obj->mtx = &D_01037EF0;
     LightPlayer(0);
     obj = MakeObj(0, 0, DrawScores, 0xA000000);
     task = CreatProc(PointerProc, 0x4020001);
-    task->data->data8000F274.unk_04 = -2.0f;
-    task->data->data8000F274.unk_08 = 0;
+    task->data->pointer.unk_04 = -2.0f;
+    task->data->pointer.unk_08 = 0;
     obj = MakeObj(task, D_01036FA8, DrawPointer, 0x4020001);
     obj->mtx = &D_01037EB0;
     task = CreatProc(PointerProc, 0x4020002);
-    task->data->data8000F274.unk_04 = -2.0f;
-    task->data->data8000F274.unk_08 = 0;
+    task->data->pointer.unk_04 = -2.0f;
+    task->data->pointer.unk_08 = 0;
     obj = MakeObj(task, D_01037178, DrawPointer, 0x4020002);
     obj->mtx = &D_01037E70;
 }

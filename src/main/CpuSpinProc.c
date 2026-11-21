@@ -23,9 +23,9 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
             SetGameView(0, 1);
             task = CreatProc(WheelSpinProc, 0x4000000);
             target = FindObj(0x4010000, 0xFFFF0000);
-            task->data->data8000FDFC.unk_00 = target;
-            task->data->data8000FDFC.unk_0C = (f32)(guRandom() % 50 + 100);
-            if ((f64)task->data->data8000FDFC.unk_0C > 80.0) {
+            task->data->wheelSpin.unk_00 = target;
+            task->data->wheelSpin.unk_0C = (f32)(guRandom() % 50 + 100);
+            if ((f64)task->data->wheelSpin.unk_0C > 80.0) {
                 ProcPostMessage(proc, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 30 / frameRetraces;
@@ -96,7 +96,7 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
             result.w[0] = 0;
             return result;
         case 5:
-            PlaySound(players[curPlayer].unk_0FC + (curLetter - 65));
+            PlaySound(players[curPlayer].letterSounds + (curLetter - 65));
             ProcPostMessage(proc, 44, 0);
             result.w[1] = 1;
             result.w[0] = 30 / frameRetraces;
@@ -108,7 +108,7 @@ struct procResult_s CpuSpinProc(proc_t *proc) {
             if (CallLetter(curLetter, 0) > 0) {
                 ShowLetter(curLetter);
                 task = CreatProc(LightLetterProc, 0x1000000);
-                task->data->data80010574.letter = curLetter;
+                task->data->lightLetter.letter = curLetter;
                 result.w[1] = 2;
                 result.w[0] = 6;
                 return result;

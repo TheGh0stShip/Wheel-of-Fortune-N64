@@ -61,10 +61,10 @@ void func_800278F0(obj_t *obj, frame_t *frame) {
     }
     i = 0;
     while (i < 3) {
-        if (players[i].unk_008 != 0) {
+        if (players[i].freeSpin != 0) {
             func_800278A8(&D_8005A7B0[i], 1);
         }
-        if (players[i].unk_00C != 0) {
+        if (players[i].hasPrize != 0) {
             func_800278A8(&D_8005A5A8[i], 1);
         }
         i++;

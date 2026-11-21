@@ -31,7 +31,7 @@ void StartRound(void) {
     }
     i = puzzleRanges[kind].base + Random(puzzleRanges[kind].range);
     if (gameMode != 3) {
-        while (puzzles[i].unk_08 != 0) {
+        while (puzzles[i].used != 0) {
             i = puzzleRanges[kind].base + Random(puzzleRanges[kind].range);
         }
     }

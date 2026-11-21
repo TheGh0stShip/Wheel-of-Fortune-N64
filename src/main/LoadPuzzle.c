@@ -12,9 +12,9 @@ void LoadPuzzle(s32 puzzle, u8 *str) {
     u8 buf[104];
 
     for (len = 0; len < 3; len++) {
-        players[len].unk_000 = 0;
-        players[len].unk_0F8 = 0;
-        players[len].unk_00C = 0;
+        players[len].score = 0;
+        players[len].prize = 0;
+        players[len].hasPrize = 0;
     }
     category[0] = 0;
     D_800B9655[0] = 0;
@@ -28,11 +28,11 @@ void LoadPuzzle(s32 puzzle, u8 *str) {
         board[line][14] = 0;
     }
     if (str == 0) {
-        StrCopy(category, puzzles[puzzle].unk_04);
-        ReadRom(puzzles[puzzle].unk_00, buf, 101);
+        StrCopy(category, puzzles[puzzle].category);
+        ReadRom(puzzles[puzzle].rom, buf, 101);
         text = buf;
         if (gameMode != 3) {
-            puzzles[puzzle].unk_08++;
+            puzzles[puzzle].used++;
         }
         curPuzzle = puzzle;
     } else {

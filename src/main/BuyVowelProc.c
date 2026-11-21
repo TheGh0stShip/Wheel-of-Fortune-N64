@@ -20,10 +20,10 @@ struct procResult_s BuyVowelProc(proc_t *proc) {
         }
         switch (event) {
         case 8:
-            if (players[curPlayer].unk_000 < 250) {
+            if (players[curPlayer].score < 250) {
                 ProcPostMessage(proc, 51, 0);
                 PlaySound(1);
-                StartRumble(players[curPlayer].unk_014, 30, 0.8f);
+                StartRumble(players[curPlayer].controller, 30, 0.8f);
                 ret.w[1] = 1;
                 ret.w[0] = 30 / frameRetraces;
                 return ret;
@@ -47,7 +47,7 @@ struct procResult_s BuyVowelProc(proc_t *proc) {
             ret.w[1] = 0;
             return ret;
         case 5:
-            PlaySound(players[curPlayer].unk_0FC + (curLetter - 'A'));
+            PlaySound(players[curPlayer].letterSounds + (curLetter - 'A'));
             ProcPostMessage(proc, 44, 0);
             ret.w[1] = 1;
             ret.w[0] = 30 / frameRetraces;
@@ -56,12 +56,12 @@ struct procResult_s BuyVowelProc(proc_t *proc) {
             if (CallLetter(curLetter, 1) > 0) {
                 ShowLetter(curLetter);
                 task = CreatProc(LightLetterProc, 0x1000000);
-                task->data->data80010574.letter = curLetter;
+                task->data->lightLetter.letter = curLetter;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {
                 PlaySound(1);
-                StartRumble(players[curPlayer].unk_014, 30, 0.8f);
+                StartRumble(players[curPlayer].controller, 30, 0.8f);
                 if (LoseTurn() != 0) {
                     ProcPostEvent(9);
                 }

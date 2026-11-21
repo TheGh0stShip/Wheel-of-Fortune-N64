@@ -4,7 +4,7 @@
 s32 LoseTurn(void) {
     proc_t *handle;
 
-    if (players[curPlayer].unk_008 != 0 && finalSpin == 0) {
+    if (players[curPlayer].freeSpin != 0 && finalSpin == 0) {
         ProcPostMessageClass(37, curPlayer | 0x2000000, 0xFF0000FF, 1);
         return 0;
     }

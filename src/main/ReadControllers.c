@@ -67,7 +67,7 @@ void ReadControllers(void) {
                 }
                 i++;
             }
-        } else if (gameMode == 6 || players[curPlayer].unk_014 == 4) {
+        } else if (gameMode == 6 || players[curPlayer].controller == 4) {
             buttonsPressed = 0;
             i = 0;
             while (i < 4) {
@@ -75,8 +75,8 @@ void ReadControllers(void) {
                 i++;
             }
         } else {
-            buttonsPressed = contPressed[players[curPlayer].unk_014];
-            playerPad = contPads[players[curPlayer].unk_014];
+            buttonsPressed = contPressed[players[curPlayer].controller];
+            playerPad = contPads[players[curPlayer].controller];
         }
         i = 0;
         while (i < 4) {

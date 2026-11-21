@@ -10,11 +10,11 @@ void StartBonusRound(void) {
     finalSpin = 0;
     curPlayer = 0;
     for (i = 0; i < 3; i++) {
-        if (players[i].unk_004 > players[curPlayer].unk_004) {
+        if (players[i].total > players[curPlayer].total) {
             curPlayer = i;
         }
     }
-    if (players[curPlayer].unk_014 == 4) {
+    if (players[curPlayer].controller == 4) {
         ProcPostMessageClass(42, 0, 0, 1);
         CreatProc(func_8002B094, 0x6000000);
         return;

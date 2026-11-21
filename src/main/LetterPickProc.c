@@ -38,7 +38,7 @@ struct procResult_s LetterPickProc(proc_t *proc) {
     }
     curLetter = proc->data->cursor.index + 65;
     D_8005A998[proc->data->cursor.index].unk_10 = 0;
-    if (players[curPlayer].unk_014 == 4) {
+    if (players[curPlayer].controller == 4) {
         D_8005A998[proc->data->cursor.index].unk_10 = 1;
         return result;
     }

@@ -12,15 +12,15 @@ void func_80032BF0(void) {
     sp28 = 0x2000000;
     if (gameMode == 3) {
         for (i = 0; i < 3; i++) {
-            players[i].unk_018 = i;
+            players[i].contestant = i;
         }
     }
     D_800BCA60 = PushMemStack();
     for (i = 0; i < 3; i++) {
-        if (players[i].unk_018 >= 6) {
+        if (players[i].contestant >= 6) {
             func_80009F38("InitContestants: invalid image num");
         }
-        slots = D_8005C3B8[players[i].unk_018];
+        slots = D_8005C3B8[players[i].contestant];
         for (j = 0; j < 2; j++) {
             if (slots[j].count > 0) {
                 size = slots[j].width * slots[j].height * 2;

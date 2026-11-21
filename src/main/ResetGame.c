@@ -11,9 +11,9 @@ void ResetGame(void) {
         curPlayer = 0;
     }
     finalSpin = 0;
-    players[0].unk_008 = 0;
-    players[1].unk_008 = 0;
-    players[2].unk_008 = 0;
+    players[0].freeSpin = 0;
+    players[1].freeSpin = 0;
+    players[2].freeSpin = 0;
     ClearScores();
     StartRound();
 }

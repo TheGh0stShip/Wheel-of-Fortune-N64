@@ -40,7 +40,7 @@ struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
             return sp10;
             break;
         case 5:
-            PlaySound(players[curPlayer].unk_0FC + (curLetter - 65));
+            PlaySound(players[curPlayer].letterSounds + (curLetter - 65));
             ProcPostMessage(proc, 44, 0);
             sp10.w[1] = 1;
             sp10.w[0] = 30 / frameRetraces;
@@ -51,7 +51,7 @@ struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
             if (CallLetter(curLetter, 2) > 0) {
                 ShowLetter(curLetter);
                 task = CreatProc(LightLetterProc, 0x1000000);
-                task->data->data80010574.letter = curLetter;
+                task->data->lightLetter.letter = curLetter;
                 sp10.w[1] = 2;
                 sp10.w[0] = 6;
                 return sp10;

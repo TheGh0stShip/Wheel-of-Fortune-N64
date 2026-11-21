@@ -23,7 +23,7 @@ struct procResult_s RoundTimerProc(proc_t *proc) {
                 if (i >= 3) {
                     break;
                 }
-                if (players[i].unk_014 == 4) {
+                if (players[i].controller == 4) {
                     roundTime = roundTime + 240;
                 } else {
                     roundTime = roundTime + 300;

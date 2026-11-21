@@ -16,7 +16,7 @@ struct procResult_s func_8002BE84(proc_t *proc) {
             StartBoardLights();
             func_80034950();
             KillProcClass(0x5050200, -1, 1);
-            players[curPlayer].unk_004 = players[curPlayer].unk_004 + 0x61A8;
+            players[curPlayer].total = players[curPlayer].total + 0x61A8;
             PlaySound(5);
             func_80027218(proc, 0, func_8002842C, 0x5050000);
             sp18.w[0] = 320 / frameRetraces;

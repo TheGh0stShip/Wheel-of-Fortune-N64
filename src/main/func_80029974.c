@@ -13,9 +13,9 @@ void func_80029974(s32 arg0) {
             D_8005ADD0[i][j].unk_20 = 0;
         }
         if (arg0 != 0) {
-            value = players[i].unk_004;
+            value = players[i].total;
         } else {
-            value = players[i].unk_000;
+            value = players[i].score;
         }
         IntToStr(buf, value);
         len = StrLen(buf);

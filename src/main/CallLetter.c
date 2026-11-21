@@ -51,29 +51,29 @@ s32 CallLetter(register s32 c, s32 kind) {
     }
     if (finalSpin != 0) {
         if (kind == 0) {
-            players[curPlayer].unk_000 += finalSpinValue * count;
+            players[curPlayer].score += finalSpinValue * count;
         }
         return count;
     }
     if (count > 0 && kind == 0) {
         if (GetWedgeValue() > 0) {
             if (GetWedgeValue() == 10000) {
-                players[curPlayer].unk_0F8 += 10000;
+                players[curPlayer].prize += 10000;
                 D_800B9538 = 1;
-                players[curPlayer].unk_00C = 1;
+                players[curPlayer].hasPrize = 1;
                 ClaimWedge();
             } else {
-                players[curPlayer].unk_000 += GetWedgeValue() * count;
+                players[curPlayer].score += GetWedgeValue() * count;
             }
             goto end;
         }
     }
     if (kind != 0) {
-        players[curPlayer].unk_000 -= 250;
+        players[curPlayer].score -= 250;
     } else if (count > 0) {
         if (kind == 0) {
             if (GetWedgeValue() < -4) {
-                players[curPlayer].unk_008 = 1;
+                players[curPlayer].freeSpin = 1;
                 ClaimWedge();
             end:;
             }

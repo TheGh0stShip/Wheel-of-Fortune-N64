@@ -9,7 +9,7 @@ void InitPlayers(void) {
     for (i = 0; i < 3; i++) {
         if (gameMode == 3) {
             AddDemoCpu(i);
-        } else if (players[i].unk_014 < 4) {
+        } else if (players[i].controller < 4) {
             AddPlayer(i);
         } else {
             AddCpu(i);

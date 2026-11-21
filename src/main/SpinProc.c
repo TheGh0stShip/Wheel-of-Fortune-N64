@@ -26,13 +26,13 @@ struct procResult_s SpinProc(proc_t *proc) {
             SetGameView(0, 0);
             task = CreatProc(WheelSpinProc, 0x4030000);
             node = FindObj(0x4010000, 0xFFFF0000);
-            task->data->data8000FDFC.unk_00 = node;
+            task->data->wheelSpin.unk_00 = node;
             if (wheelSpeed > 50.0f) {
-                task->data->data8000FDFC.unk_0C = wheelSpeed + guRandom() % 10;
+                task->data->wheelSpin.unk_0C = wheelSpeed + guRandom() % 10;
             } else {
-                task->data->data8000FDFC.unk_0C = (f32)(guRandom() % 10 + 50) + wheelSpeed;
+                task->data->wheelSpin.unk_0C = (f32)(guRandom() % 10 + 50) + wheelSpeed;
             }
-            if (task->data->data8000FDFC.unk_0C > 80.0) {
+            if (task->data->wheelSpin.unk_0C > 80.0) {
                 ProcPostMessage(proc, 7, 0);
                 result.w[1] = 1;
                 result.w[0] = 40 / frameRetraces;
@@ -45,7 +45,7 @@ struct procResult_s SpinProc(proc_t *proc) {
             break;
         case 7:
             task = FindProc(0x4030000, -1);
-            if (task->data->data8000FDFC.unk_0C >= 110.0) {
+            if (task->data->wheelSpin.unk_0C >= 110.0) {
                 if (guRandom() % 100 >= 51) {
                     SetGameView(11, 0);
                 } else {
@@ -68,7 +68,7 @@ struct procResult_s SpinProc(proc_t *proc) {
             if (GetWedgeValue() == -2 || GetWedgeValue() == -1) {
                 SetGameView(0, 0);
                 func_80032B80();
-                StartRumble(players[curPlayer].unk_014, 30, 0.8f);
+                StartRumble(players[curPlayer].controller, 30, 0.8f);
                 if (func_80017728() != 0) {
                     if (GetWedgeValue() == -2) {
                         func_80021B04(12, 16);
@@ -105,7 +105,7 @@ struct procResult_s SpinProc(proc_t *proc) {
             result.w[0] = 0;
             return result;
         case 5:
-            PlaySound(players[curPlayer].unk_0FC + (curLetter - 65));
+            PlaySound(players[curPlayer].letterSounds + (curLetter - 65));
             ProcPostMessage(proc, 44, 0);
             result.w[1] = 1;
             result.w[0] = 30 / frameRetraces;
@@ -115,12 +115,12 @@ struct procResult_s SpinProc(proc_t *proc) {
             if (CallLetter(curLetter, 0) > 0) {
                 ShowLetter(curLetter);
                 task = CreatProc(LightLetterProc, 0x1000000);
-                task->data->data80010574.letter = curLetter;
+                task->data->lightLetter.letter = curLetter;
                 result.w[1] = 2;
                 result.w[0] = 6;
             } else {
                 PlaySound(1);
-                StartRumble(players[curPlayer].unk_014, 30, 0.8f);
+                StartRumble(players[curPlayer].controller, 30, 0.8f);
                 if (LoseTurn() != 0) {
                     ProcPostEvent(3);
                 }

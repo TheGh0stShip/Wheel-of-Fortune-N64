@@ -9,6 +9,6 @@ void AddDemoCpu(s32 player) {
     task = CreatProc(CpuTurnProc, player | 0x2030000);
     task->data->playerProc.player = player;
     task->data->playerProc.unk_0C = 0.65f;
-    players[player].unk_014 = 4;
+    players[player].controller = 4;
     func_80024D60(player);
 }

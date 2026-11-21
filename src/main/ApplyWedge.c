@@ -5,9 +5,9 @@ void ApplyWedge(s32 final) {
         finalSpinValue = GetWedgeValue();
     } else {
         if (GetWedgeValue() == -1) {
-            players[curPlayer].unk_000 = 0;
-            players[curPlayer].unk_0F8 = 0;
-            players[curPlayer].unk_00C = 0;
+            players[curPlayer].score = 0;
+            players[curPlayer].prize = 0;
+            players[curPlayer].hasPrize = 0;
         }
         if (round == 2) {
             if (GetWedgeValue() > 0) {
