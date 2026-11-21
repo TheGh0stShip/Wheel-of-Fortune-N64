@@ -29,8 +29,8 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
 | symbol proposals | `./wof infer` (not a gate: it reads addresses from retail and writes proposals to the build directory) |
 | unit boundaries | `./wof unitmap [-v]` (not a gate: prints the evidence for original object boundaries among the game functions, from the ROM and the last gate's unit list; `-v` adds the strings each function uses) |
 | stack frames | `./wof frame [-v] [-s] UNIT...` (not a gate: prints a game function's stack frame as retail uses it, slot by slot, next to the locals the source declares, with the evidence about each local the function never names or names after its offset; a function name or address works too; `-v` adds the instructions, `-s` gives one line per function, `-a` takes every game unit, `-c` compares the tool's layout rule with cc1's debug info from the last gate) |
-| data map | `./wof datamap`, `-v`, `-g`, `-p LO HI` (not a gate: checks `config/data.tsv`, the map of every image byte that is neither compiled code nor data from source, and counts the image by class, kind and owner against the last gate; `-g` lists the unmapped ranges cut at what points into them, `-p` proposes rows) |
-| data definitions | `./wof datagen ADDRESS TYPE [NAME]`, `-r ADDRESS`, `-t TYPE`, `-c` (not a gate: prints the C definition of a datum from the ROM, given its type, with pointers written as the names they point at; `-r` takes a `config/data.tsv` row, `-t` prints a type's layout, `-c` checks every row's type against its range) |
+| data map | `./wof datamap`, `-v`, `-g`, `-p LO HI` (not a gate: checks `config/data.tsv`, the map of every image byte that is neither compiled code nor data from source (asset ranges are in `config/assets.tsv`), and counts the image by class, kind and owner against the last gate; `-g` lists the unmapped ranges cut at what points into them, `-p` proposes rows) |
+| data definitions | `./wof datagen ADDRESS TYPE [NAME]`, `-r ADDRESS`, `-t TYPE`, `-c` (not a gate: prints the C definition of a datum from the ROM, given its type, with pointers written as the names they point at; `-r` takes a `config/data.tsv` row, `-t` prints a type's layout, `-c` checks every row's type against its range; `-a DIR` is the gate's asset step) |
 | renames | `./wof rename [-n] SPEC...` (not a gate: renames identifier tokens across the game's sources, headers and config from `OLD NEW [FILE[:A-B]]` lines, comments included, strings not; refuses a collision or a name the library and MPEG trees use; a one-function unit's file follows its function; `config/names.tsv` records every name given and its evidence) |
 | `permute` | none |
 
@@ -53,9 +53,19 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
   - `sdk_ucode` (assembler `asset`): the SDK's microcode objects (`asm/sdk/`), which the host's `mips-linux-gnu-as`
     builds by `.incbin` from `baserom.z64`, a big-endian copy of the ROM the gate writes to the build directory.
     No source rebuilds them; their bytes are counted apart, as asset bytes.
+- **Assets (the user's ruling).** The repository carries none of the game's creative content: the puzzle table
+  and the names of the puzzle kinds, the credits, the clip masks. Their units keep each definition (name, type,
+  place) and `#include "assets/FILE"` at it; `config/assets.tsv` (start, end, owner, type, file, what) lists the
+  ranges. Before compiling, the gate preprocesses `include/wof.h` with the owners' flag class and runs
+  `datagen -a`, which writes each initialiser from the ROM into `$WOF_BUILD/assets/FILE` (the header of
+  `tools/datagen.c` says what a file holds). Those bytes count as asset bytes, never as bytes from source, and
+  the gate fails when a range does not lie whole in its owner's placed data. Generated files are never
+  committed. New creative content (prose or pictures the player sees) goes the same way; code strings (debug
+  and error messages) and structural tables (camera paths, addresses, menu layouts) stay C.
 - **Include paths.** The 32-bit preprocessors cannot `#include` from the Windows mount. `include/` and `lib/`
   are copied into the build directory on every run, and the flag rows name them there
-  (`-I $WOF_BUILD/include`, `-I $WOF_BUILD/lib/...`). Sources under `lib/` are compiled from that copy.
+  (`-I $WOF_BUILD/include`, `-I $WOF_BUILD/lib/...`). Sources under `lib/` are compiled from that copy. The
+  `game` class also has `-I $WOF_BUILD`, for the generated `assets/`.
 - **The `asn64` assembler mode.** The game's objects were not assembled by GNU as. `tools/asn64.c` rewrites cc1's
   assembly into the forms retail shows (no delay-slot filling, `$at` for symbol-plus-register loads, literal-pool
   float constants, and so on; the file's header lists every rule) and GNU as assembles the result. Each rule was
@@ -117,7 +127,8 @@ unit's range in a copy of the ROM, writes the compiled bytes in, and compares th
 
 - The gate has two states, `GATE OK` or `GATE FAILED`. Write "matched" or "banked" only from its printed lines.
 - It is green at 0%: read the coverage it prints (`N units, T text + D data bytes from source, A asset bytes from
-  the cartridge`). Asset bytes are copied from the ROM by an asset unit and are never progress.
+  the cartridge`). Asset bytes are taken from the ROM, by an asset unit or as a range of `config/assets.tsv`
+  inside a game unit, and are never progress.
 - A red gate names the units that differ; `./wof diff UNIT` shows where.
 - A unit's size has to cover all of its object's code: an object that holds code past the unit's size fails
   the gate, since that code would never reach the image and retail's bytes would stand there unverified.
