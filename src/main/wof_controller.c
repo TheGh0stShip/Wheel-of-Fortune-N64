@@ -1,12 +1,18 @@
-// wof_controller.c -- the controller thread, starting the controllers and the rumble, and reading the
-// pads each frame
+// wof_controller.c -- the controllers and the rumble: the controller thread, starting the controllers,
+// the rumble thread and its motor messages, and reading the pads each frame
 //
-// ControllerThread and InitControllers end off an 8-byte boundary with the next function right after,
-// which happens only inside an object: the three are one object's. The object's read-only data has no
-// RCS run. Where it starts after __clearAudioDMA, and whether it runs on after ReadControllers into the
-// rumble functions, the text does not say.
+// ControllerThread, InitControllers, StopMotor, ResetMotor and RumbleThread each end off an 8-byte
+// boundary with the next function right after, which happens only inside an object. guess: the joins
+// after ReadControllers, StartMotor and StartRumble, and the boundary after ResetMotors. The RCS run at
+// 0x800004F0 opens the read-only data of an object starting after one of ReadControllers, StartMotor,
+// StartRumble and ResetMotors; under the project's ruling every other open position is a join, and the
+// boundary goes after ResetMotors because the call graph ties the rumble to the controllers
+// (InitControllers starts RumbleThread, ReadControllers calls StartMotor and StopMotor) and not to the
+// graphics after it. Where the object starts after __clearAudioDMA rests on the lineage of the audio
+// manager before it, whose file ends there. The object's read-only data has no RCS run.
 
 #include "wof.h"
+#include "rumble.h"
 
 /*
 =====================
@@ -181,5 +187,123 @@ void ReadControllers(void) {
             i++;
         }
         newFrame = 0;
+    }
+}
+
+/*
+=====================
+StartMotor
+
+Asks the rumble thread to start a pak's motor.
+=====================
+*/
+void StartMotor(s32 cont) {
+    rumbleMsg.type = 1;
+    rumbleMsg.index = cont;
+    osSendMesg(&rumbleMsgQ, (OSMesg)&rumbleMsg, OS_MESG_BLOCK);
+}
+
+/*
+=====================
+StopMotor
+
+Asks the rumble thread to stop a pak's motor.
+=====================
+*/
+void StopMotor(s32 cont) {
+    rumbleMsg.type = 0;
+    rumbleMsg.index = cont;
+    osSendMesg(&rumbleMsgQ, (OSMesg)&rumbleMsg, OS_MESG_BLOCK);
+}
+
+/*
+=====================
+ResetMotor
+
+Asks the rumble thread to start a pak over (osMotorInit, then stop)
+=====================
+*/
+void ResetMotor(s32 cont) {
+    rumbleMsg.type = 2;
+    rumbleMsg.index = cont;
+    osSendMesg(&rumbleMsgQ, (OSMesg)&rumbleMsg, OS_MESG_BLOCK);
+}
+
+/*
+=====================
+RumbleThread
+
+The rumble thread: carries out the motor messages.
+=====================
+*/
+void RumbleThread(void *arg) {
+    rumbleMsg_t *msg;
+    s32 result;
+    s32 index;
+    s16 type;
+
+    msg = 0;
+    while (1) {
+        osRecvMesg(&rumbleMsgQ, (OSMesg *)&msg, OS_MESG_BLOCK);
+        LockSi();
+        index = msg->index;
+        type = msg->type;
+        switch (type) {
+        case 1:
+            result = osMotorStart(&contPfs[index]);
+            if (result == 0) {
+                motorOn[index] = 1;
+            }
+            break;
+        case 0:
+            result = osMotorStop(&contPfs[index]);
+            if (result == 0) {
+                motorOn[index] = 0;
+            }
+            break;
+        case 2:
+            result = osMotorInit(&contMsgQ, &contPfs[index], index);
+            result = osMotorStop(&contPfs[index]);
+            if (result == 0) {
+                motorOn[index] = 0;
+            }
+            break;
+        }
+        UnlockSi();
+    }
+}
+
+/*
+=====================
+StartRumble
+
+Rumbles a controller's pak for some frames at some strength.
+=====================
+*/
+void StartRumble(s32 cont, s32 frames, f32 strength) {
+    if (rumbles[cont].present == 0) {
+        return;
+    }
+    rumbles[cont].frames = frames;
+    rumbles[cont].strength = strength;
+    rumbles[cont].level = 0;
+}
+
+/*
+=====================
+ResetMotors
+
+ResetMotor on each controller that has a rumble pak.
+=====================
+*/
+void ResetMotors(void) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        if ((contPattern >> i) % 2 != 0) {
+            if (rumbles[i].present != 0) {
+                ResetMotor(i);
+            }
+        }
     }
 }

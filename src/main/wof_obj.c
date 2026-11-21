@@ -1,12 +1,56 @@
-// wof_obj.c -- the obj before another, making and freeing objs, drawing them and finding them by class
+// wof_obj.c -- the objs: clearing them, the list and its free entries, making, freeing and drawing objs,
+// and finding and freeing them by class
 //
-// GetObjBefore, AllocObj, FreeObj and DrawTopObjs each end off an 8-byte boundary with the next
-// function right after, which happens only inside an object; FreeProcObjs's read-only items run on
-// into CreatObj's and DrawObjs's with no 8-byte boundary between, and DrawObjs and DrawTopObjs print
-// one string literal. Whether GetLastObj before it and FindNextObj after it are this object's the
-// text does not say.
+// The object starts after the 4-byte gap that ends KillProcClass. InitObjs, GetObjBefore, AllocObj,
+// FreeObj, DrawTopObjs and FindNextObj each end off an 8-byte boundary with the next function right
+// after, which happens only inside an object; FreeProcObjs's read-only items run on into CreatObj's and
+// DrawObjs's with no 8-byte boundary between, and DrawObjs and DrawTopObjs print one string literal.
+// guess: the joins after GetLastObj and FindObj, and the boundary after FreeObjClass. The zero word
+// before 0x80000AA0 opens mem_stack's object's read-only data after FindObj or after FreeObjClass; the
+// boundary goes after FreeObjClass because FindNextObj and FreeObjClass work the obj list FindObj walks,
+// and the project's ruling takes the join everywhere else.
 
 #include "wof.h"
+
+/*
+=====================
+InitObjs
+
+Clears objst.
+=====================
+*/
+void InitObjs(void) {
+    s32 i;
+
+    for (i = 0; i < 100; i++) {
+        objst[i].draw = 0;
+        objst[i].index = i;
+        objst[i].owner = 0;
+    }
+    numObjs = 0;
+    objst[0].draw = 0;
+    objst[0].next = 0;
+}
+
+/*
+=====================
+GetLastObj
+
+The last obj of the list; named after GetObjBefore.
+=====================
+*/
+obj_t *GetLastObj(void) {
+    obj_t *next;
+    obj_t *node;
+
+    node = &objst[0];
+    next = node->next;
+    while (next != 0) {
+        node = next;
+        next = node->next;
+    }
+    return node;
+}
 
 /*
 =====================
@@ -190,4 +234,38 @@ obj_t *FindObj(s32 cls, s32 mask) {
         }
     }
     return 0;
+}
+
+/*
+=====================
+FindNextObj
+
+The next such obj after one.
+=====================
+*/
+obj_t *FindNextObj(obj_t *obj, s32 cls, s32 mask) {
+    while (obj->next != 0) {
+        obj = obj->next;
+        if ((obj->cls & mask) == cls) {
+            return obj;
+        }
+    }
+    return 0;
+}
+
+/*
+=====================
+FreeObjClass
+
+Frees every obj of a class.
+=====================
+*/
+void FreeObjClass(s32 cls, s32 mask) {
+    obj_t *node;
+
+    node = FindObj(cls, mask);
+    while (node != 0) {
+        FreeObj(node);
+        node = FindNextObj(node, cls, mask);
+    }
 }

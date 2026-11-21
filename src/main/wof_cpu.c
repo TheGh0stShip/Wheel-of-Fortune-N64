@@ -1,21 +1,68 @@
-// wof_cpu.c -- the machine's turn: its letters, its choice of solving, spinning or buying a vowel, its
-// spin, vowel, solve and final spin, and its turn procs for the demo and a game
+// wof_cpu.c -- the machine's turn: the letters it may still call, its letters, its choice of solving,
+// spinning or buying a vowel, its spin, vowel, solve and final spin, and its turn procs
 //
-// PickHitLetter, CpuPickConsonant, CpuSpinProc, CpuBuyVowelProc, CpuFinalSpinTurnProc and AddDemoCpu
-// each end off an 8-byte boundary with the next function right after, which happens only inside an
-// object, and CpuPickVowel's read-only items run on into CpuChooseAction's with no 8-byte boundary
-// between. The joins after CpuChooseAction, CpuSolveProc and CpuTurnProc rest on the RCS premise (every
-// object from 0x8000BAA8 on opens its read-only data with an RCS run, which the project accepts): no
-// run lies where an object starting there would need one. Its read-only data opens with the RCS run at
-// 0x800011B0, which could open an object starting after InitPlayers, InitCpuLetters or PickMissLetter;
-// where it ends after AddCpu the text does not say (the RCS run at 0x800014B8 opens the next object
-// after AddCpu or one of the movie functions after it).
+// RemoveCalledLetters, PickHitLetter, CpuPickConsonant, CpuSpinProc, CpuBuyVowelProc,
+// CpuFinalSpinTurnProc and AddDemoCpu each end off an 8-byte boundary with the next function right
+// after, which happens only inside an object, and CpuPickVowel's read-only items run on into
+// CpuChooseAction's with no 8-byte boundary between. The joins after CpuChooseAction, CpuSolveProc and
+// CpuTurnProc rest on the RCS premise (every object from 0x8000BAA8 on opens its read-only data with an
+// RCS run, which the project accepts). Its read-only data opens with the RCS run at 0x800011B0. guess:
+// the boundary before RemoveCalledLetters (see wof_turns.c), the join after PickMissLetter, and the
+// boundary after AddCpu: the RCS run at 0x800014B8 opens the next object after one of AddCpu,
+// DrawMovie64, DrawMovie96, StoreFrame96 and DrawMovie112, and it goes after AddCpu because DrawMovie
+// picks DrawMovie64, DrawMovie96 and DrawMovie112 by the movie's size; the project's ruling takes the
+// join everywhere else.
 
 #include "wof.h"
 
 // The #ident line of the system header this object included: the original assembler put the string
 // into the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
+
+/*
+=====================
+RemoveCalledLetters
+
+Drops from a string the letters already called.
+=====================
+*/
+void RemoveCalledLetters(u8 *letters) {
+    u8 *found;
+    u8 *p;
+
+    p = letters;
+    while (StrLen(p) > 0) {
+        found = StrChr(uncalled, *p);
+        if (found == 0) {
+            StrCopy(p, p + 1);
+        } else {
+            p++;
+        }
+    }
+}
+
+/*
+=====================
+PickMissLetter
+
+The last letter of a string that is not in the puzzle, or a space.
+=====================
+*/
+s32 PickMissLetter(u8 *letters) {
+    s32 i;
+    s32 len;
+    u8 result;
+
+    result = 32;
+    len = StrLen(letters);
+    for (i = 0; i < len; i++) {
+        if (CountLetter(letters[i]) == 0) {
+            result = letters[i];
+            break;
+        }
+    }
+    return result;
+}
 
 /*
 =====================

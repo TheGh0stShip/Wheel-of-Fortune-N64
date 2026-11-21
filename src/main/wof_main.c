@@ -1,10 +1,27 @@
-// wof_main.c -- the idle thread, the frame and the main thread
+// wof_main.c -- the boot, the idle thread, the frame, the main thread, the game thread, reading the
+// cartridge and starting the game
 //
-// idle and RunFrame each end off an 8-byte boundary with the next function right after, which happens
-// only inside an object: idle to mainproc are one object's. Whether boot before it and GameThread and
-// ReadRom after it are this object's too the text does not say.
+// The object lies between the 4-byte gaps that end parse_args and InitGame. idle and RunFrame each end
+// off an 8-byte boundary with the next function right after, which happens only inside an object.
+// guess: the joins after boot, mainproc, GameThread and ReadRom, where nothing in the image decides and
+// the project's ruling takes the join. Its text uses no read-only data.
 
 #include "wof.h"
+
+/*
+=====================
+boot
+
+guess: boot of the SDK demos. Starts the OS and the idle thread.
+=====================
+*/
+void boot(void) {
+    s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
+
+    osInitialize();
+    osCreateThread(&idleThread, 1, idle, (void *)bootArg, idleThreadStack + 0x2000 / sizeof(u64), 10);
+    osStartThread(&idleThread);
+}
 
 /*
 =====================
@@ -97,4 +114,87 @@ void mainproc(void *arg) {
             break;
         }
     }
+}
+
+/*
+=====================
+GameThread
+
+The game thread: runs RunFrame forever.
+=====================
+*/
+void GameThread(void *arg) {
+    s32 zero;  /* NOTE: set to 0 and never read */
+
+    zero = 0;
+    while (1) {
+        RunFrame();
+    }
+}
+
+/*
+=====================
+ReadRom
+
+Reads bytes from the cartridge by PI DMA and waits for them.
+=====================
+*/
+void ReadRom(s32 rom, void *ram, s32 size) {
+    OSIoMesg dmaIoMesgBuf;
+    OSMesg dummyMesg;
+
+    while (osPiGetStatus() == 1) {
+    }
+    osInvalICache(ram, size);
+    osInvalDCache(ram, size);
+    osPiStartDma(&dmaIoMesgBuf, OS_MESG_PRI_NORMAL, OS_READ, rom, ram, size, &dmaMessageQ);
+    osRecvMesg(&dmaMessageQ, &dummyMesg, OS_MESG_BLOCK);
+}
+
+/*
+=====================
+InitGame
+
+Creates the queues and the scheduler and starts memory, controllers, audio, graphics, procs and
+objs.
+=====================
+*/
+void InitGame(void) {
+    s32 count;
+
+    osCreateMesgQueue(&dmaMessageQ, &dmaMessageBuf, 1);
+    osCreateMesgQueue(&gfxMsgQ, gfxMsgBuf, 8);
+    osCreateMesgQueue(&retraceMsgQ, retraceMsgBuf, 8);
+    if (osTvType == 2) {
+        osCreateScheduler(&sc, scheduleStack + OS_SC_STACKSIZE / sizeof(u64), 13, 30, 1);
+    } else {
+        osCreateScheduler(&sc, scheduleStack + OS_SC_STACKSIZE / sizeof(u64), 13, 2, 1);
+    }
+    osScAddClient(&sc, &gfxClient, &gfxMsgQ);
+    osScAddClient(&sc, &retraceClient, &retraceMsgQ);
+    sched_cmdQ = osScGetCmdQ(&sc);
+    count = (s32)osGetTime() & 4095;
+    while (count-- > 0) {
+        guRandom();
+    }
+    retraceTime = 0;
+    minRetraces = 0;
+    movieSound = 0;
+    retraceCount = 0;
+    frameRetraces = 0;
+    initGameZero = 0;
+    InitMemStack();
+    InitControllers();
+    InitAudio();
+    InitGraphics();
+    initGame37 = 37;
+    movieDone = 1;
+    InitProcs();
+    InitObjs();
+    if (contPattern != 0) {
+        StartLogos();
+    } else {
+        ShowNoController();
+    }
+    InitOptions();
 }

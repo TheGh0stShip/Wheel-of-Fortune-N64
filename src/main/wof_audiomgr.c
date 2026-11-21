@@ -6,7 +6,8 @@
 // ties the rest: nextDMA and firstTime lie 4 bytes past an 8-byte boundary, where no object starts,
 // so audFrameCt and nextDMA (__amMain, __amDMA, __clearAudioDMA) are one object's, and so are
 // curAcmdList (__amHandleFrameMsg) and __amHandleDoneMsg's static firstTime; audiomgr.c defines
-// all three globals together. Where the object ends after __clearAudioDMA the text does not say.
+// all three globals together. The text does not show where the object ends; the lineage ends it
+// after __clearAudioDMA, the last function of audiomgr.c.
 
 #include "wof.h"
 

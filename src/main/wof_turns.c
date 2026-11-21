@@ -1,18 +1,21 @@
 // wof_turns.c -- the turns: losing one, the next turn and round, the winner, the camera of a turn, the
-// end of a round, and a person's spin, vowel, solve and final spin, with the players' turn procs
+// end of a round, a person's spin, vowel, solve and final spin, the players' turn procs, and the
+// machine's first letters
 //
 // The object starts after the 4-byte gap that ends CreateCamera. Its read-only data opens with the RCS
 // run at 0x80000E98, which could open an object starting after LoseTurn, NextTurn, NextRound or
 // FindWinner instead; that it opens at the gap, so that LoseTurn to FindWinner are this object's, rests
 // on the RCS premise (every object from 0x8000BAA8 on opens its read-only data with an RCS run, which
-// the project accepts), and so do the joins after WinnerProc, SpinProc and SolveProc: no run lies where
-// an object starting there would need one. Inside, MustLoseTurn, SetGameView, RoundOverProc,
-// BuyVowelProc, FinalSpinTurnProc, PlayerTurnProc and AddPlayer end off an 8-byte boundary with the next
-// function right after, which happens only inside an object, and AdjustCameraProc's read-only items run
-// on into SetGameView's with no 8-byte boundary between. Its data runs from views to playerViews with no
-// gap; pointerAngles, between them, is this object's too. Where it ends after InitPlayers the text does
-// not say: the RCS run at 0x800011B0 opens the next object after InitPlayers, InitCpuLetters or
-// PickMissLetter.
+// the project accepts), and so do the joins after WinnerProc, SpinProc and SolveProc. Inside,
+// MustLoseTurn, SetGameView, RoundOverProc, BuyVowelProc, FinalSpinTurnProc, PlayerTurnProc and
+// AddPlayer end off an 8-byte boundary with the next function right after, which happens only inside an
+// object, and AdjustCameraProc's read-only items run on into SetGameView's with no 8-byte boundary
+// between. Its data runs from views to vowelOrder with no gap, and stale fill ends it. guess: the join
+// after InitPlayers and the boundary after InitCpuLetters. The RCS run at 0x800011B0 opens the next
+// object after one of InitPlayers, InitCpuLetters and PickMissLetter; it goes after InitCpuLetters
+// because this object's functions are the ones that call InitCpuLetters (with StartBonusRound) and its
+// vowelOrder runs on from this object's data without a gap, and the project's ruling takes the join
+// everywhere else.
 
 #include "wof.h"
 #include "rumble.h"
@@ -926,4 +929,19 @@ void InitPlayers(void) {
         return;
     }
     SetGameView(3, 0);
+}
+
+u8 consonantOrder[24] = "RSTLNCBDMHFYKJGPQVWXZ";
+u8 vowelOrder[6] = "EAIOU";
+
+/*
+=====================
+InitCpuLetters
+
+The orders in which the machine calls letters.
+=====================
+*/
+void InitCpuLetters(void) {
+    StrCopy(cpuConsonants, consonantOrder);
+    StrCopy(cpuVowels, vowelOrder);
 }

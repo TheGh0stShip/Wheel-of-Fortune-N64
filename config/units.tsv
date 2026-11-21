@@ -1,89 +1,48 @@
 # config/units.tsv -- unit, address, size, state (match: in the gate; open: parked), flag class, source,
-# optional entry symbol. A game unit is one original object, or the part of one that the evidence settles.
+# optional entry symbol. A game unit is one original object, or the reading of one that the evidence and
+# the project's rulings give.
 #
-# Above each game unit, "# premise:" names the joins inside it that rest on the RCS premise alone (every
+# Above each game unit: "# premise:" names the joins inside it that rest on the RCS premise alone (every
 # object from 0x8000BAA8 on opens its read-only data with an RCS run, which the project accepts: in every
-# assignment of the RCS starts to the positions that meets it, no run lies where an object starting there
-# would need one). "# open:" names a position between game functions that no evidence settles
-# (./wof unitmap: "unknown"), above the unit after it; "# open inside:" one a unit holds on evidence
-# unitmap does not read, and which. Every open position was tested with all of: the text padding (a 4-byte
-# gap ends an object, a function ending off an 8-byte boundary with the next right after joins one); the
-# read-only data (object starts at RCS runs and alignment zeros, bracketed and put in order; contiguous
-# items; items in text order; one string literal used on both sides; one string at two addresses); the
-# objects' static .bss (shared statics and their order); .data and .bss interleaving between two
-# functions' private data; the order of the units' .data against their users; stale fill that ends an
-# object's .data; the RCS premise; and the call graph (helpers called from one place, proc handlers named
-# by their creator, function addresses in data), which fails at certain positions and so decides
-# nothing. The order of the common .bss (uninitialised globals) was compared with the order of their
-# first users and does not follow it.
+# assignment of the RCS starts that meets it, no run lies where an object starting there would need one);
+# "# guess:" the joins and the boundary before it that rest on the user's ruling (AGENTS.md, R15): where
+# no evidence settles a position it is a join, the likelier reading, and where one of several read-only
+# object starts must fall, the boundary goes at the candidate the remaining evidence favours (said on the
+# line), the earliest if none; "# lineage:" a boundary that rests on the published source a unit descends
+# from; "# open inside:" a position a unit holds on that lineage. ./wof unitmap reports evidence only and
+# still lists every "# guess:" and lineage position as unknown. Every such position was tested with all
+# of: the text padding (a 4-byte gap ends an object, a function ending off an 8-byte boundary with the
+# next right after joins one); the read-only data (object starts at RCS runs and alignment zeros,
+# bracketed and put in order; contiguous items; items in text order; one string literal used on both
+# sides; one string at two addresses); the objects' static .bss (shared statics and their order); .data
+# and .bss interleaving between two functions' private data; the order of the units' .data against their
+# users; stale fill that ends an object's .data; the RCS premise; and the call graph (helpers called from
+# one place, proc handlers named by their creator, function addresses in data), which fails at certain
+# positions and so decides nothing alone. The order of the common .bss (uninitialised globals) was
+# compared with the order of their first users and does not follow it.
 func_80000400	0x80000400	0x40	match	asm	asm/func_80000400.s
 wof_audio	0x80002348	0xF5C	match	game	src/main/wof_audio.c
 # open inside: after amCreateAudioMgr: nothing in the image decides it; the unit holds it as the audiomgr.c of the SDK demos, one file
 wof_audiomgr	0x800032A8	0xEB8	match	game	src/main/wof_audiomgr.c
-# open: after __clearAudioDMA, between wof_audiomgr and wof_controller: nothing in the image decides it
-wof_controller	0x80004160	0xCF0	match	game	src/main/wof_controller.c
-# open: after ReadControllers, between wof_controller and StartMotor: one of the positions the read-only object start at 0x800004F0 may take
-StartMotor	0x80004E50	0x60	match	game	src/main/StartMotor.c
-# open: after StartMotor, between StartMotor and wof_rumble: one of the positions the read-only object start at 0x800004F0 may take
-wof_rumble	0x80004EB0	0x3A8	match	game	src/main/wof_rumble.c
-# open: after StartRumble, between wof_rumble and ResetMotors: one of the positions the read-only object start at 0x800004F0 may take
-ResetMotors	0x80005258	0xA8	match	game	src/main/ResetMotors.c
-# open: after ResetMotors, between ResetMotors and wof_graphics: one of the positions the read-only object start at 0x800004F0 may take
-wof_graphics	0x80005300	0x400	match	game	src/main/wof_graphics.c
-# open: after InitGraphics, between wof_graphics and LoadSceneData: nothing in the image decides it
-LoadSceneData	0x80005700	0xA8	match	game	src/main/LoadSceneData.c
-# open: after LoadSceneData, between LoadSceneData and createGfxTask: nothing in the image decides it
-createGfxTask	0x800057A8	0x828	match	game	src/main/createGfxTask.c
-# open: after createGfxTask, between createGfxTask and ResetScissor: nothing in the image decides it
-ResetScissor	0x80005FD0	0xDC	match	game	src/main/ResetScissor.c
+# lineage: boundary after __clearAudioDMA: nothing in the image decides it; the SDK demos' audiomgr.c ends there
+# guess: joined after ReadControllers, StartMotor, StartRumble (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_controller	0x80004160	0x11A0	match	game	src/main/wof_controller.c
+# guess: boundary after ResetMotors (the user's ruling: the RCS run at 0x800004F0 opens an object after one of ReadControllers, StartMotor, StartRumble and ResetMotors; the call graph ties the rumble to the controllers (InitControllers starts RumbleThread, ReadControllers calls StartMotor and StopMotor))
+# guess: joined after InitGraphics, LoadSceneData, createGfxTask (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_graphics	0x80005300	0xDAC	match	game	src/main/wof_graphics.c
 parse_args	0x800060B0	0x274	match	game	src/main/parse_args.c
-boot	0x80006328	0x78	match	game	src/main/boot.c
-# open: after boot, between boot and wof_main: nothing in the image decides it
-wof_main	0x800063A0	0x438	match	game	src/main/wof_main.c
-# open: after mainproc, between wof_main and GameThread: nothing in the image decides it
-GameThread	0x800067D8	0x50	match	game	src/main/GameThread.c
-# open: after GameThread, between GameThread and ReadRom: nothing in the image decides it
-ReadRom	0x80006828	0xC8	match	game	src/main/ReadRom.c
-# open: after ReadRom, between ReadRom and InitGame: nothing in the image decides it
-InitGame	0x800068F0	0x234	match	game	src/main/InitGame.c
-NewGame	0x80006B28	0x30	match	game	src/main/NewGame.c
-# open: after NewGame, between NewGame and wof_puzzle: nothing in the image decides it
-wof_puzzle	0x80006B58	0x2BEC	match	game	src/main/wof_puzzle.c
-wof_strcat	0x80009748	0x1B8	match	game	src/main/wof_strcat.c
-# open: after StrCat, between wof_strcat and StrCopy: one of the positions the read-only object start at 0x800007D8 may take
-StrCopy	0x80009900	0xB0	match	game	src/main/StrCopy.c
-# open: after StrCopy, between StrCopy and wof_strlen: one of the positions the read-only object start at 0x800007D8 may take
-wof_strlen	0x800099B0	0x130	match	game	src/main/wof_strlen.c
-# open: after StrLen, between wof_strlen and IntToStr: one of the positions the read-only object start at 0x800007D8 may take
-IntToStr	0x80009AE0	0x1B8	match	game	src/main/IntToStr.c
-# open: after IntToStr, between IntToStr and Random: nothing in the image decides it
-Random	0x80009C98	0x70	match	game	src/main/Random.c
-# open: after Random, between Random and wof_abs: nothing in the image decides it
-wof_abs	0x80009D08	0x70	match	game	src/main/wof_abs.c
-# open: after Abs, between wof_abs and PrintNum: nothing in the image decides it
-PrintNum	0x80009D78	0x1C0	match	game	src/main/PrintNum.c
-# open: after PrintNum, between PrintNum and FatalError: nothing in the image decides it
-FatalError	0x80009F38	0x60	match	game	src/main/FatalError.c
-# open: after FatalError, between FatalError and PrintStr: nothing in the image decides it
-PrintStr	0x80009F98	0x3C	match	game	src/main/PrintStr.c
-wof_procinit	0x80009FD8	0x180	match	game	src/main/wof_procinit.c
-# open: after GetLastProc, between wof_procinit and wof_procalloc: one of the positions the read-only object start at 0x800007F0 may take
-wof_procalloc	0x8000A158	0x2B0	match	game	src/main/wof_procalloc.c
-# open: after AllocBlock, between wof_procalloc and wof_procrun: nothing in the image decides it
-wof_procrun	0x8000A408	0x448	match	game	src/main/wof_procrun.c
-# open: after DoProcs, between wof_procrun and wof_procevent: nothing in the image decides it
-wof_procevent	0x8000A850	0x368	match	game	src/main/wof_procevent.c
-# open: after ProcPostMessage, between wof_procevent and wof_procmessage: nothing in the image decides it
-wof_procmessage	0x8000ABB8	0x2B8	match	game	src/main/wof_procmessage.c
-# open: after KillOtherProcs, between wof_procmessage and KillProcClass: nothing in the image decides it
-KillProcClass	0x8000AE70	0x8C	match	game	src/main/KillProcClass.c
-wof_objinit	0x8000AF00	0x160	match	game	src/main/wof_objinit.c
-# open: after GetLastObj, between wof_objinit and wof_obj: nothing in the image decides it
-wof_obj	0x8000B060	0x610	match	game	src/main/wof_obj.c
-# open: after FindObj, between wof_obj and wof_objclass: one of the positions the read-only object start at 0x80000AA0 may take
-wof_objclass	0x8000B670	0x110	match	game	src/main/wof_objclass.c
+# guess: joined after boot, mainproc, GameThread, ReadRom (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_main	0x80006328	0x7FC	match	game	src/main/wof_main.c
+# guess: joined after NewGame (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_puzzle	0x80006B28	0x2C1C	match	game	src/main/wof_puzzle.c
+# guess: joined after StrCat, StrCopy, StrLen, IntToStr, Random, Abs, PrintNum, FatalError (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_str	0x80009748	0x88C	match	game	src/main/wof_str.c
+# guess: joined after GetLastProc, AllocBlock, DoProcs, ProcPostMessage, KillOtherProcs (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_proc	0x80009FD8	0xF24	match	game	src/main/wof_proc.c
+# guess: joined after GetLastObj, FindObj (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_obj	0x8000AF00	0x880	match	game	src/main/wof_obj.c
+# guess: boundary after FreeObjClass (the user's ruling: the zero word before 0x80000AA0 opens mem_stack's object after FindObj or FreeObjClass; FindNextObj and FreeObjClass work the obj list FindObj walks)
 # premise: joined after AllocMem
-# open: after FreeObjClass, between wof_objclass and wof_memstack: one of the positions the read-only object start at 0x80000AA0 may take
 wof_memstack	0x8000B780	0x324	match	game	src/main/wof_memstack.c
 # premise: joined after InitSiLock, LockSi, UnlockSi, BeginGame, OpeningProc
 wof_opening	0x8000BAA8	0x3098	match	game	src/main/wof_opening.c
@@ -92,58 +51,34 @@ wof_stage	0x8000EF68	0x76CC	match	game	src/main/wof_stage.c
 # premise: joined after IsBoardView
 wof_camera	0x80016638	0xF0C	match	game	src/main/wof_camera.c
 # premise: joined after LoseTurn, NextTurn, NextRound, FindWinner, WinnerProc, SpinProc, SolveProc
-wof_turns	0x80017548	0x3088	match	game	src/main/wof_turns.c
-# open: after InitPlayers, between wof_turns and InitCpuLetters: one of the positions the read-only object start at 0x800011B0 may take, and the RCS premise leaves it open
-InitCpuLetters	0x8001A5D0	0x58	match	game	src/main/InitCpuLetters.c
-# open: after InitCpuLetters, between InitCpuLetters and wof_cpuletters: one of the positions the read-only object start at 0x800011B0 may take, and the RCS premise leaves it open
-wof_cpuletters	0x8001A628	0x180	match	game	src/main/wof_cpuletters.c
+# guess: joined after InitPlayers (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_turns	0x80017548	0x30E0	match	game	src/main/wof_turns.c
+# guess: boundary after InitCpuLetters (the user's ruling: the RCS run at 0x800011B0 opens an object after one of InitPlayers, InitCpuLetters and PickMissLetter; InitCpuLetters is called by this object's functions (and StartBonusRound) and its vowelOrder runs on from this object's data without a gap)
 # premise: joined after CpuChooseAction, CpuSolveProc, CpuTurnProc
-# open: after PickMissLetter, between wof_cpuletters and wof_cpu: one of the positions the read-only object start at 0x800011B0 may take, and the RCS premise leaves it open
-wof_cpu	0x8001A7A8	0x2C98	match	game	src/main/wof_cpu.c
-# open: after AddCpu, between wof_cpu and DrawMovie64: one of the positions the read-only object start at 0x800014B8 may take, and the RCS premise leaves it open
-DrawMovie64	0x8001D440	0x6B0	match	game	src/main/DrawMovie64.c
-# open: after DrawMovie64, between DrawMovie64 and DrawMovie96: one of the positions the read-only object start at 0x800014B8 may take, and the RCS premise leaves it open
-DrawMovie96	0x8001DAF0	0x1258	match	game	src/main/DrawMovie96.c
-# open: after DrawMovie96, between DrawMovie96 and StoreFrame96: one of the positions the read-only object start at 0x800014B8 may take, and the RCS premise leaves it open
-StoreFrame96	0x8001ED48	0x2A8	match	game	src/main/StoreFrame96.c
-# open: after StoreFrame96, between StoreFrame96 and DrawMovie112: one of the positions the read-only object start at 0x800014B8 may take, and the RCS premise leaves it open
-DrawMovie112	0x8001EFF0	0x1160	match	game	src/main/DrawMovie112.c
+# guess: joined after PickMissLetter (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_cpu	0x8001A628	0x2E18	match	game	src/main/wof_cpu.c
+# guess: boundary after AddCpu (the user's ruling: the RCS run at 0x800014B8 opens an object after one of AddCpu, DrawMovie64, DrawMovie96, StoreFrame96 and DrawMovie112; DrawMovie picks DrawMovie64, DrawMovie96 and DrawMovie112 by the movie's size)
 # premise: joined after MakeMovieObj, UpdateClip, ClipProc, LoadMovie, PlayClip
-# open: after DrawMovie112, between DrawMovie112 and wof_movie: one of the positions the read-only object start at 0x800014B8 may take, and the RCS premise leaves it open
-wof_movie	0x80020150	0x1D34	match	game	src/main/wof_movie.c
+# guess: joined after DrawMovie64, DrawMovie96, StoreFrame96, DrawMovie112 (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_movie	0x8001D440	0x4A44	match	game	src/main/wof_movie.c
 # premise: joined after StartContestantMenu
 wof_menu	0x80021E88	0x538C	match	game	src/main/wof_menu.c
 # premise: joined after DrawImageAt, DrawImage, StatusProc, InitLetterCursor, LetterPickProc, GetCursorProc
-wof_status	0x80027218	0x7928	match	game	src/main/wof_status.c
-# open: after SolvePuzzleProc, between wof_status and StartLetterPick: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
-StartLetterPick	0x8002EB40	0x50	match	game	src/main/StartLetterPick.c
-# open: after StartLetterPick, between StartLetterPick and wof_startpick: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
-wof_startpick	0x8002EB90	0xD0	match	game	src/main/wof_startpick.c
-# open: after StartSolvePuzzle, between wof_startpick and StartStatus: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
-StartStatus	0x8002EC60	0x160	match	game	src/main/StartStatus.c
-# open: after StartStatus, between StartStatus and StatusStub: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
-StatusStub	0x8002EDC0	0x20	match	game	src/main/StatusStub.c
-# open: after StatusStub, between StatusStub and StartBonusRound: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
-StartBonusRound	0x8002EDE0	0x1E0	match	game	src/main/StartBonusRound.c
+# guess: joined after SolvePuzzleProc, StartLetterPick, StartSolvePuzzle, StartStatus, StatusStub (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_status	0x80027218	0x7DA8	match	game	src/main/wof_status.c
+# guess: boundary after StartBonusRound (the user's ruling: the RCS run at 0x800018F8 opens an object after one of SolvePuzzleProc to StartBonusRound; the functions before it start the status object's procs (LetterPickProc, SolvePuzzleProc, StatusProc, BonusRoundProc))
 # premise: joined after FinalSpinProc, SolveTimerProc, FreeSpinTimerProc, StopFreeSpinTimer, StartRoundTimer
-# open: after StartBonusRound, between StartBonusRound and wof_timers: one of the positions the read-only object start at 0x800018F8 may take, and the RCS premise leaves it open
 wof_timers	0x8002EFC0	0xEEC	match	game	src/main/wof_timers.c
 # premise: joined after DrawContestant, DrawVanna
 wof_anim	0x8002FEB0	0x3720	match	game	src/main/wof_anim.c
-# open: after HideOtherContestants, between wof_anim and PauseGame: the RCS runs at 0x80001A30 and 0x80001A48, which no function uses, may open objects here; the RCS premise leaves it open
-PauseGame	0x800335D0	0xB8	match	game	src/main/PauseGame.c
-# open: after PauseGame, between PauseGame and PauseProc: the RCS runs at 0x80001A30 and 0x80001A48, which no function uses, may open objects here; the RCS premise leaves it open
-PauseProc	0x80033688	0x360	match	game	src/main/PauseProc.c
-# open: after PauseProc, between PauseProc and StartPauseProc: the RCS runs at 0x80001A30 and 0x80001A48, which no function uses, may open objects here; the RCS premise leaves it open
-StartPauseProc	0x800339E8	0x3C	match	game	src/main/StartPauseProc.c
+# guess: boundary after HideOtherContestants (the user's ruling: the RCS runs at 0x80001A30 and 0x80001A48 open objects at two of the positions after HideOtherContestants, PauseGame, PauseProc and StartPauseProc (a text gap, which takes the second); PauseGame, PauseProc and StartPauseProc are the pause (StartPauseProc starts PauseProc))
+# guess: joined after PauseGame, PauseProc (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_pause	0x800335D0	0x454	match	game	src/main/wof_pause.c
 wof_applause	0x80033A28	0x2D0	match	game	src/main/wof_applause.c
-# open: after StartApplause, between wof_applause and DrawConfetti: one of the positions the read-only object start at 0x80001A60 may take, and the RCS premise leaves it open
-DrawConfetti	0x80033CF8	0x330	match	game	src/main/DrawConfetti.c
-# open: after DrawConfetti, between DrawConfetti and ConfettiProc: one of the positions the read-only object start at 0x80001A60 may take, and the RCS premise leaves it open
-ConfettiProc	0x80034028	0x3D0	match	game	src/main/ConfettiProc.c
+# guess: boundary after StartApplause (the user's ruling: the RCS run at 0x80001A60 opens AddConfetti's object after one of StartApplause, DrawConfetti and ConfettiProc; AddConfetti makes its piece with ConfettiProc and DrawConfetti)
 # premise: joined after AddConfetti, ConfettiBurstProc
-# open: after ConfettiProc, between ConfettiProc and wof_confetti: one of the positions the read-only object start at 0x80001A60 may take, and the RCS premise leaves it open
-wof_confetti	0x800343F8	0x5BC	match	game	src/main/wof_confetti.c
+# guess: joined after DrawConfetti, ConfettiProc (the user's ruling: no evidence settles them, and a join is the likelier reading)
+wof_confetti	0x80033CF8	0xCBC	match	game	src/main/wof_confetti.c
 rspboot	0x800349B8	0xD0	match	sdk_ucode	asm/sdk/rspboot.s
 ucode_80034A88	0x80034A88	0x1400	match	sdk_ucode	asm/sdk/ucode_80034A88.s
 ucode_80035E88	0x80035E88	0x1410	match	sdk_ucode	asm/sdk/ucode_80035E88.s
@@ -310,58 +245,58 @@ vimodempallan1	0x80084328	0x50	match	ultra_O1	lib/ultralib/src/vimodes/vimodempa
 vimodentsclan1	0x80084378	0x50	match	ultra_O1	lib/ultralib/src/vimodes/vimodentsclan1.c
 vitbl	0x800843C8	0xD20	match	ultra_O1	lib/ultralib/src/io/vitbl.c
 kdebugserver	0x800B2420	0x1B0	match	ultra_O1	lib/ultralib/src/debug/kdebugserver.c
-# open inside: after func_800887D8: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_80088A2C: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_80088C58: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after correct_underflow: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after get_ext_data: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after next_start_code: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 mpeg_util	0x800887D8	0xCB4	match	game	src/mpeg/util.c
-# open inside: after func_80089490: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800895C4: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_80089984: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_8008A34C: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_8008B560: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_8008C0A8: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_8008CDB8: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_8008F3AC: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_80094064: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReadSysClock: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after NewVidStream: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after NewPictImage: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ParseSeqHead: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ParseGOP: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ParsePicture: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ParseSlice: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReconIMBlock: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ProcessSkippedPFrameMBlocks: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 mpeg_video	0x80089490	0xD03C	match	game	src/mpeg/video.c
 mpeg_parseblock	0x800964D0	0x3410	match	game	src/mpeg/parseblock.c
-# open: after func_800983D4, between mpeg_parseblock and mpeg_motionvector: nothing in the image decides it
+# lineage: boundary after ParseAwayBlock: nothing in the image decides it; the mpeg_play file mpeg_parseblock descends from ends there
 mpeg_motionvector	0x800998E0	0x758	match	game	src/mpeg/motionvector.c
-# open: after func_80099C8C, between mpeg_motionvector and mpeg_decoders: nothing in the image decides it
-# open inside: after func_8009A038: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_8009A7D0: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_8009AF48: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# lineage: boundary after ComputeBackVector: nothing in the image decides it; the mpeg_play file mpeg_motionvector descends from ends there
+# open inside: after init_mb_addr_inc: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after init_mb_type_P: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after init_mb_type_B: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 mpeg_decoders	0x8009A038	0x25C4	match	game	src/mpeg/decoders.c
 mpeg_floatdct	0x8009C600	0x480	match	game	src/mpeg/floatdct.c
-# open: after func_8009C754, between mpeg_floatdct and mpeg_gdith: nothing in the image decides it
-# open inside: after func_8009CA80: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# lineage: boundary after float_idct: nothing in the image decides it; the mpeg_play file mpeg_floatdct descends from ends there
+# open inside: after InitColorDisplay: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 mpeg_gdith	0x8009CA80	0x43C	match	game	src/mpeg/gdith.c
 # open inside: after mpegNextFrame: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 mpeg_main	0x8009CEC0	0x514	match	game	src/mpeg/main.c
-# open inside: after func_8009D3D8: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after init_pre_idct: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 mpeg_jrevdct	0x8009D3D8	0x45FC	match	game	src/mpeg/jrevdct.c
 # open inside: after func_800A1A74: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 # open inside: after func_800A1AE0: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 mpeg_16bit	0x800A19D8	0x1130	match	game	src/mpeg/16bit.c
-# open: after func_800A2594, between mpeg_16bit and mpeg_util32: nothing in the image decides it
+# lineage: boundary after Color16DitherImage: nothing in the image decides it; the mpeg_play file mpeg_16bit descends from ends there
 mpeg_util32	0x800A2B08	0x34	match	game	src/mpeg/util32.c
-# open inside: after func_800A2B40: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A2D84: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A3168: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A3460: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A3808: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A3A3C: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A3B40: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A4804: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A4888: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after get_more_data: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after SeekStream: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after pure_get_more_data: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after read_sys: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReadStartCode: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReadPackHeader: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReadSystemHeader: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReadSTD: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after ReadRate: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 mpeg_readfile	0x800A2B40	0x1ED8	match	game	src/mpeg/readfile.c
-# open: after func_800A4920, between mpeg_readfile and mpeg_libc: nothing in the image decides it
-# open inside: after func_800A4A18: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A4C04: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A4C28: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A4CBC: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A4D84: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
-# open inside: after func_800A4DD0: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# lineage: boundary after MakeFloatClockTime: nothing in the image decides it; the mpeg_play file mpeg_readfile descends from ends there
+# open inside: after fread: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after free: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after malloc: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after exit: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after strtok: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
+# open inside: after fopen: nothing in the image decides it; the unit holds it as one file of the Berkeley mpeg_play decoder, whose functions it holds in that file's order (see the unit)
 mpeg_libc	0x800A4A18	0x65C	match	game	src/mpeg/libc.c
 wof_procevents	0x80057170	0x690	match	game	src/main/wof_procevents.c
 wof_silock	0x80057800	0x4	match	game	src/main/wof_silock.c

@@ -5,9 +5,8 @@
 // function right after, which happens only inside an object; a 4-byte gap ends the text after
 // PopMemStack. The join after AllocMem rests on the RCS premise (every object from 0x8000BAA8 on opens
 // its read-only data with an RCS run, which the project accepts): no run lies where an object starting
-// at PushMemStack would need one. Where the object starts before InitMemStack the text does not say:
-// the zero word before 0x80000AA0, which opens mem_stack's read-only data, may fall after FindObj or
-// after FreeObjClass.
+// at PushMemStack would need one. guess: the boundary before InitMemStack (see wof_obj.c), where the
+// zero word before 0x80000AA0 opens mem_stack's read-only data.
 
 #include "wof.h"
 

@@ -75,8 +75,8 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
   one compiled source file placed at one address: by its `.text`, or, for an object without code (a table, a
   block of uninitialised data), by its first data section. `match` units are in the gate; `open` units are compiled and
   compared but keep retail's bytes in the linked image. **`open` is the parking mechanism**: an unfinished
-  function stays in its own `open` unit. Today nearly every unit holds one function, which is not the original
-  layout (see "Unit boundaries").
+  function stays in its own `open` unit. Each game unit holds one original object as the evidence and the
+  project's rulings read it (see "Unit boundaries").
 - **Functions** (`config/functions.tsv`): the inventory of 773 function ranges, 745 C and 28 assembly. The
   assembly ranges are the entry stub and libultra's own `.s` sources: `ORIGINAL-ASM`.
 - **Symbols** (`config/symbols.txt`): addresses of names no unit defines yet: the globals named before their data is defined in source. `func_XXXXXXXX` and `D_XXXXXXXX`
@@ -187,7 +187,7 @@ Project profile:
 | evidence for names (R7) | Message strings that start with a function name (`"AllocProc: Out of Procs"`) name the function that prints them, and sometimes its data (`"Reached end of procst."`); `./wof unitmap -v` lists them per function. The 22 RCS `$Revision` strings mark original objects. libultra and libgcc names come from the SDK; the MPEG player's from `mpeg_play`, as `guess:`. Everything else is invented and recorded as invented. |
 | does the binary record source lines? | The ROM has no line table, but **layout is [checked] all the same.** The game was built with `-g`, and under `-g` cc1 2.7.2 writes a placeholder `nop` before a loop that follows a label unless a line-number note separates them. So whether a `for`/`while`/`do` starts on a new source line changes the code. Gate every formatting change. |
 | parking mechanism | the `open` state in `config/units.tsv` |
-| rules tightened or relaxed | **R1 tightened:** an identical duplicate of a type in two files fires, not only a differing one. Reason: the imported sources have no headers at all, and 438 files re-typedef the same scalar types; those copies are the R1 violation in its plainest form. **R2 and R17 relaxed for `lib/ultralib` only (the user's ruling):** an `extern` in a `.c` file and a local nothing uses do not fire there. Reason: that tree is the SDK's source kept verbatim to upstream, and the SDK's own code declares `extern`s inside `.c` files and leaves locals unused; editing it to satisfy the checker would trade a faithful copy for a private fork. One global declared with two types still fires there, and so does every other R17 row. Game code and `lib/libgcc` get no relaxation. **R17's empty-block row relaxed for labelled blocks (the user's ruling):** an empty `if` or `else` block passes when a line of it carries `NOTE:`, `BUG:`, `guess:` or `RULE-EXCEPTION`, as an unused local does. Reason: retail has branches over nothing (code the original build compiled out), which no other spelling reproduces; the label states the evidence instead of hiding the block. An unlabelled empty block still fires. **R17's `* 1` row relaxed for named constants (the user's ruling):** `NAME * 1`, where `NAME` is an `UPPER_SNAKE` constant, does not fire. Reason: code that indexes rows as `DCTSIZE * 0` … `DCTSIZE * 7` spells the second row `DCTSIZE * 1` (the `mpeg_play` source does); a variable or expression times 1 still fires. |
+| rules tightened or relaxed | **R1 tightened:** an identical duplicate of a type in two files fires, not only a differing one. Reason: the imported sources have no headers at all, and 438 files re-typedef the same scalar types; those copies are the R1 violation in its plainest form. **R2 and R17 relaxed for `lib/ultralib` only (the user's ruling):** an `extern` in a `.c` file and a local nothing uses do not fire there. Reason: that tree is the SDK's source kept verbatim to upstream, and the SDK's own code declares `extern`s inside `.c` files and leaves locals unused; editing it to satisfy the checker would trade a faithful copy for a private fork. One global declared with two types still fires there, and so does every other R17 row. Game code and `lib/libgcc` get no relaxation. **R17's empty-block row relaxed for labelled blocks (the user's ruling):** an empty `if` or `else` block passes when a line of it carries `NOTE:`, `BUG:`, `guess:` or `RULE-EXCEPTION`, as an unused local does. Reason: retail has branches over nothing (code the original build compiled out), which no other spelling reproduces; the label states the evidence instead of hiding the block. An unlabelled empty block still fires. **R17's `* 1` row relaxed for named constants (the user's ruling):** `NAME * 1`, where `NAME` is an `UPPER_SNAKE` constant, does not fire. Reason: code that indexes rows as `DCTSIZE * 0` … `DCTSIZE * 7` spells the second row `DCTSIZE * 1` (the `mpeg_play` source does); a variable or expression times 1 still fires. **R15 relaxed for unsettled positions (the user's ruling):** a position between two game functions that no evidence settles is a join, and where one of several read-only object starts must fall the boundary goes at the candidate the remaining evidence favours, the earliest if none; each such join and boundary is labelled `guess:` (see "Unit boundaries"). Reason: most positions between two functions are not file boundaries, so the join is the likelier reading, and a function left alone in a unit claims a one-function object the evidence does not show. |
 
 ## Matching rules that are easy to get wrong
 
@@ -217,10 +217,26 @@ Project profile:
 
 ## Unit boundaries
 
-The imported tree has one function per file. The original did not: retail pads `.text` to 8 bytes between
+The imported tree had one function per file. The original did not: retail pads `.text` to 8 bytes between
 objects, and each original object's literals and jump tables sit together in read-only data. A unit is merged
-from its functions only on that evidence (R15), and the merged unit must pass the gate with its data section at
-one consistent address.
+from its functions on that evidence (R15), and the merged unit must pass the gate with its data section at
+one consistent address. `./wof unitmap` reports the evidence and nothing else.
+
+Where the evidence stops, two readings are accepted, each named where it is used:
+
+- **The RCS premise:** every object from 0x8000BAA8 on opens its read-only data with an RCS run. A position
+  that is a join (or a boundary) in every assignment of the RCS starts that meets it counts as one. Units whose
+  boundaries rest on it say so in their opening comment, and `config/units.tsv` lists them as `# premise:`.
+- **The base rate (the user's ruling, R15 relaxed):** at a position no evidence settles, join, because most
+  positions between two functions are not file boundaries. Where one of several read-only object starts must
+  fall, the boundary goes at the candidate the remaining evidence favours (the call graph, the data, what the
+  functions do; said where it is used), the earliest if nothing favours one, and a certain text gap among the
+  candidates takes the start. Every join or boundary that rests on this is labelled `guess:` in the unit's
+  opening comment and as a `# guess:` line in `config/units.tsv`.
+
+Boundaries that rest on a published source the code descends from (the MPEG player's files, the SDK demos'
+`audiomgr.c`) stay where that source puts them (`# lineage:`, `# open inside:`). A one-function unit stands
+only where the evidence shows text gaps on both sides.
 
 ## Data
 

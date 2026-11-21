@@ -2,17 +2,29 @@
 // puzzle on the board, calling letters, checking whether the puzzle is solved, the wedges of the wheel
 // and the players' scores and turns
 //
-// One object from ResetGame to NextPlayer. ResetGame, StartRound, CallLetter, ShowLetter, CheckSolved,
-// StartSolve, InitWheel, SetWedge, GetWedgeValue, ApplyWedge and ClearScores each end off an 8-byte
-// boundary with the next function right after, which happens only inside an object. The data ties in
-// the rest: CallLetter's vowels and consonants lie between LoadPuzzle's alphabet and the category
-// names; ClaimWedge's read-only items run on into SetWedge's with no 8-byte boundary between; and the
-// wheel's wedge tables, which only InitWheel reads, lie below the puzzle's data in .data although
-// InitWheel's text lies above ResetGame's, which only one object can do. A 4-byte gap ends the text
-// after NextPlayer. Whether NewGame, before ResetGame, is this object's the text does not say. Its
-// read-only data starts at 0x80000560 with LoadPuzzle's; it has no RCS run.
+// One object from NewGame to NextPlayer; the 4-byte gaps that end InitGame and NextPlayer bound it.
+// ResetGame, StartRound, CallLetter, ShowLetter, CheckSolved, StartSolve, InitWheel, SetWedge,
+// GetWedgeValue, ApplyWedge and ClearScores each end off an 8-byte boundary with the next function right
+// after, which happens only inside an object. The data ties in the rest: CallLetter's vowels and
+// consonants lie between LoadPuzzle's alphabet and the category names; ClaimWedge's read-only items run
+// on into SetWedge's with no 8-byte boundary between; and the wheel's wedge tables, which only InitWheel
+// reads, lie below the puzzle's data in .data although InitWheel's text lies above ResetGame's, which
+// only one object can do. guess: the join after NewGame, where nothing in the image decides and the
+// project's ruling takes the join. Its read-only data starts at 0x80000560 with LoadPuzzle's; it has no
+// RCS run.
 
 #include "wof.h"
+
+/*
+=====================
+NewGame
+
+Starts a game: ResetGame.
+=====================
+*/
+void NewGame(void) {
+    ResetGame();
+}
 
 // guess: the angle the wheel starts each round at is this object's, as the datum right before the
 // wedge tables. It lies between parse_args's data and the wedges, so it is this object's or one of the

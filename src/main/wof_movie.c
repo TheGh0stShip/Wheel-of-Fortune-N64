@@ -1,5 +1,5 @@
-// wof_movie.c -- drawing a movie by its size, storing its decoded frames, its obj, its next frame, the
-// procs that play it, loading it, the movies on the cartridge and playing one, and stopping it
+// wof_movie.c -- the movies: drawing one by its size, storing its decoded frames, its obj, its next
+// frame, the procs that play it, loading it, the movies on the cartridge and playing one, and stopping it
 //
 // DrawMovie, StoreFrame112, StoreFrame64x64 and StoreFrame64x96 lie between the users of one string
 // literal (DrawMovie's and StoreFrame's "x", " " and "Size Video Not Supported"); StoreFrame,
@@ -7,9 +7,9 @@
 // next function right after, which happens only inside an object; a 4-byte gap ends the text after
 // StopMovie. The joins after MakeMovieObj, UpdateClip, ClipProc, LoadMovie and PlayClip rest on the RCS
 // premise (every object from 0x8000BAA8 on opens its read-only data with an RCS run, which the project
-// accepts): no run lies where an object starting there would need one. The RCS run at 0x800014B8 opens
-// its read-only data, or that of an object starting a few functions before DrawMovie; where the object
-// starts the text does not say.
+// accepts). The RCS run at 0x800014B8 opens its read-only data. guess: the boundary before DrawMovie64
+// (see wof_cpu.c) and the joins after DrawMovie64, DrawMovie96, StoreFrame96 and DrawMovie112, which the
+// project's ruling takes.
 
 #include "wof.h"
 #include "mpeg/proto.h"
@@ -24,6 +24,207 @@
 #ident "$Revision: 1.2 $"
 #ident "$Revision: 1.4 $"
 #ident "$Revision: 1.17 $"
+
+/*
+=====================
+DrawMovie64
+
+Draws a movie 64 pixels wide.
+=====================
+*/
+void DrawMovie64(obj_t *obj, frame_t *frame) {
+    gDPPipeSync(glistp++);
+    gDPSetRenderMode(glistp++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gSPDisplayList(glistp++, imageSetupDl);
+    gDPSetCycleType(glistp++, G_CYC_COPY);
+    gDPLoadTextureBlock(glistp++, obj->image, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 64, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        5, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 3) << 2, (obj->y + 3) << 2,
+                        (obj->x + 34) << 2, (obj->y + 66) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 64, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        5, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 35) << 2, (obj->y + 3) << 2,
+                        (obj->x + 66) << 2, (obj->y + 66) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPSetCycleType(glistp++, G_CYC_1CYCLE);
+    gDPSetRenderMode(glistp++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+}
+
+/*
+=====================
+DrawMovie96
+
+Draws a movie 96 pixels wide.
+=====================
+*/
+void DrawMovie96(obj_t *obj, frame_t *frame) {
+    gDPPipeSync(glistp++);
+    gDPSetRenderMode(glistp++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gDPSetCycleType(glistp++, G_CYC_FILL);
+    gDPSetFillColor(glistp++, 0x39CF39CF);
+    gDPFillRectangle(glistp++, obj->x, obj->y, obj->x + 102, obj->y + 102);
+    gSPDisplayList(glistp++, imageSetupDl);
+    gDPSetCycleType(glistp++, G_CYC_COPY);
+    gDPLoadTextureBlock(glistp++, obj->image, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 32, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        6, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 3) << 2, (obj->y + 3) << 2,
+                        (obj->x + 50) << 2, (obj->y + 34) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPLoadTextureBlock(glistp++, obj->image + 3072, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 32, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        6, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 51) << 2, (obj->y + 3) << 2,
+                        (obj->x + 98) << 2, (obj->y + 34) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x1800, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 32, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        6, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 3) << 2, (obj->y + 35) << 2,
+                        (obj->x + 50) << 2, (obj->y + 66) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x2400, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 32, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        6, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 51) << 2, (obj->y + 35) << 2,
+                        (obj->x + 98) << 2, (obj->y + 66) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x3000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 32, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        6, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 3) << 2, (obj->y + 67) << 2,
+                        (obj->x + 50) << 2, (obj->y + 98) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x3C00, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 32, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        6, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 51) << 2, (obj->y + 67) << 2,
+                        (obj->x + 98) << 2, (obj->y + 98) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPSetCycleType(glistp++, G_CYC_1CYCLE);
+    gDPSetRenderMode(glistp++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+}
+
+/*
+=====================
+StoreFrame96
+
+The same for a movie 96 pixels wide.
+=====================
+*/
+void StoreFrame96(u16 *pixels) {
+    s32 offset;
+    s32 y;
+    s32 x;
+    s32 k;
+    s32 n;
+    u16 *src;
+    s32 unused;  /* NOTE: unused in the original */
+    s16 *dst;
+    s32 unused2;  /* NOTE: unused in the original */
+    s32 unused3;  /* NOTE: unused in the original */
+    s32 base;
+
+    base = 0x2000000;
+    offset = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.moviePicture);
+    offset = offset - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
+    src = pixels;
+    dst = gfxInfo[curGfxInfo].frame.moviePicture;
+    n = 0;
+    for (k = 0; k < 3; k++) {
+        for (y = 0; y < 32; y++) {
+            for (x = 0; x < 48; x++) {
+                dst[k * 3072 + y * 48 + x] = src[n] | 1;
+                (&dst[k * 3072 + y * 48 + x])[1536] = (&src[n])[48] | 1;
+                n++;
+            }
+            n = n + 48;
+        }
+    }
+}
+
+/*
+=====================
+DrawMovie112
+
+Draws a movie 112 pixels wide.
+=====================
+*/
+void DrawMovie112(obj_t *obj, frame_t *frame) {
+    gDPPipeSync(glistp++);
+    gDPSetRenderMode(glistp++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gSPDisplayList(glistp++, imageSetupDl);
+    gDPSetCycleType(glistp++, G_CYC_COPY);
+    gDPLoadTextureBlock(glistp++, obj->image, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                        6, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 3) << 2, (obj->y + 3) << 2,
+                        (obj->x + 66) << 2, (obj->y + 34) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x1000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 32, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        6, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 67) << 2, (obj->y + 3) << 2,
+                        (obj->x + 114) << 2, (obj->y + 34) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x1C00, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                        6, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 3) << 2, (obj->y + 35) << 2,
+                        (obj->x + 66) << 2, (obj->y + 66) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x2C00, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 32, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        6, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 67) << 2, (obj->y + 35) << 2,
+                        (obj->x + 114) << 2, (obj->y + 66) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x3800, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 16, 0,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                        6, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 3) << 2, (obj->y + 67) << 2,
+                        (obj->x + 66) << 2, (obj->y + 82) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPLoadTextureBlock(glistp++, obj->image + 0x4000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 16, 0,
+                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
+                        6, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPPipeSync(glistp++);
+    gSPTextureRectangle(glistp++, (obj->x + 67) << 2, (obj->y + 67) << 2,
+                        (obj->x + 114) << 2, (obj->y + 82) << 2,
+                        G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+    gDPPipeSync(glistp++);
+    gDPSetCycleType(glistp++, G_CYC_1CYCLE);
+    gDPSetRenderMode(glistp++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+}
 
 /*
 =====================

@@ -1,18 +1,21 @@
 // wof_status.c -- the pictures on the screen and the status screen: the players' status and scores, the
 // letters and their cursor, the jackpot and the big numbers, the category, the boot, pause and
-// no-controller screens, the credits, the bonus round, the turn's status proc, and picking a letter and
-// solving
+// no-controller screens, the credits, the bonus round, the turn's status proc, picking a letter and
+// solving, and the functions that start them
 //
 // The object starts after the 4-byte gap that ends InitOptions, where the RCS run at 0x80001678 opens
 // its read-only data. From MakeScreenObj to SolvePuzzleProc every function but the ones the data ties
 // in ends off an 8-byte boundary with the next right after, which happens only inside an object; the
-// data ties in DrawCategoryWheel, CategoryProc, FlashScore, ShowJackpot, ShowTotal, MoveCursorLeft to
-// MoveCursorUp, ShowTotalProc and CreditsProc (each one's data lies among the others'). The joins after
-// DrawImageAt, DrawImage, StatusProc, InitLetterCursor, LetterPickProc and GetCursorProc rest on the RCS
-// premise (every object from 0x8000BAA8 on opens its read-only data with an RCS run, which the project
-// accepts): no run lies where an object starting there would need one. Where it ends after
-// SolvePuzzleProc the text does not say: the RCS run at 0x800018F8 opens the next object after one of
-// SolvePuzzleProc to StartBonusRound.
+// data ties in the functions whose data lies among the others'. The joins after DrawImageAt, DrawImage,
+// StatusProc, InitLetterCursor, LetterPickProc and GetCursorProc rest on the RCS premise (every object
+// from 0x8000BAA8 on opens its read-only data with an RCS run, which the project accepts);
+// StartCpuLetterPick ends off an 8-byte boundary with StartSolvePuzzle right after. guess: the joins
+// after SolvePuzzleProc, StartLetterPick, StartSolvePuzzle, StartStatus and StatusStub, and the boundary
+// after StartBonusRound. The RCS run at 0x800018F8 opens the next object after one of SolvePuzzleProc to
+// StartBonusRound; it goes after StartBonusRound because the functions before it start this object's
+// procs (StartLetterPick and StartCpuLetterPick LetterPickProc, StartSolvePuzzle SolvePuzzleProc,
+// StartStatus StatusProc, StartBonusRound BonusRoundProc), and the project's ruling takes the join
+// everywhere else.
 
 #include "wof.h"
 
@@ -2259,4 +2262,123 @@ struct procResult_s SolvePuzzleProc(proc_t *proc) {
     }
     letterImages[proc->data->cursor.index].flash = 1;
     return result;
+}
+
+/*
+=====================
+StartLetterPick
+
+LetterPickProc for a person.
+=====================
+*/
+void StartLetterPick(void) {
+    proc_t *task;
+
+    task = CreatProc(LetterPickProc, 0x5010000);
+    task->data->cursor.index = 6;
+}
+
+/*
+=====================
+StartCpuLetterPick
+
+LetterPickProc on the letter the machine chose.
+=====================
+*/
+void StartCpuLetterPick(register s32 letter) {
+    u8 c;
+    proc_t *task;
+
+    c = letter;
+    task = CreatProc(LetterPickProc, 0x5010000);
+    task->data->cursor.index = c - 65;
+}
+
+/*
+=====================
+StartSolvePuzzle
+
+StartSolve, the cursor proc and SolvePuzzleProc.
+=====================
+*/
+void StartSolvePuzzle(void) {
+    proc_t *task;
+
+    StartSolve();
+    CreatProc(CursorProc, 0x1020000);
+    task = CreatProc(SolvePuzzleProc, 0x5020000);
+    task->data->cursor.index = 6;
+}
+
+/*
+=====================
+StartStatus
+
+StatusProc and its obj.
+=====================
+*/
+void StartStatus(void) {
+    proc_t *task;
+    s32 i;
+    s32 j;
+
+    for (i = 0; i < 3; i++) {
+        playerStatusImages[i][0].flash = 0;
+        playerStatusImages[i][1].flash = 0;
+        for (j = 0; j < 7; j++) {
+            statusScoreImages[i][j].flash = 0;
+        }
+    }
+    StatusStub();
+    task = CreatProc(StatusProc, 0x5000000);
+    MakeScreenObj(task, 0, DrawStatus, 0x5000000);
+    startStatusZero1 = 0;
+    startStatusZero2 = 0;
+}
+
+/*
+=====================
+StatusStub
+
+Empty; StartStatus, StartBonusRound and RestartOpening call it.
+=====================
+*/
+void StatusStub(void) {
+
+}
+
+/*
+=====================
+StartBonusRound
+
+Sets the bonus round (gameMode 4) for the player with the most money.
+=====================
+*/
+void StartBonusRound(void) {
+    proc_t *handle;
+    s32 i;
+
+    round = 6;
+    gameMode = 4;
+    finalSpin = 0;
+    curPlayer = 0;
+    for (i = 0; i < 3; i++) {
+        if (players[i].total > players[curPlayer].total) {
+            curPlayer = i;
+        }
+    }
+    if (players[curPlayer].controller == 4) {
+        ProcPostMessageClass(PRC_EVENT_BONUS_ROUND, 0, 0, 1);
+        CreatProc(ShowTotalProc, 0x6000000);
+        return;
+    }
+    ResetMotors();
+    SetGameView(3, 0);
+    StartRound();
+    ProcPostMessageClass(PRC_EVENT_BONUS_ROUND, 0, 0, 1);
+    handle = CreatProc(BonusRoundProc, 0x5050000);
+    MakeScreenObj(handle, 0, DrawLetterPick, 0x5050000);
+    InitBoard();
+    InitCpuLetters();
+    StatusStub();
 }

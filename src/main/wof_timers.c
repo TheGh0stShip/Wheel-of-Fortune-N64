@@ -6,9 +6,8 @@
 // ends the text after StartDemoTimer. The joins after FinalSpinProc, SolveTimerProc, FreeSpinTimerProc,
 // StopFreeSpinTimer and StartRoundTimer rest on the RCS premise (every object from 0x8000BAA8 on opens its
 // read-only data with an RCS run, which the project accepts): no run lies where an object starting
-// there would need one. Its read-only data opens with the RCS run at 0x800018F8, which could open an
-// object starting after any of SolvePuzzleProc to StartBonusRound; where it starts the text does not
-// say.
+// there would need one. Its read-only data opens with the RCS run at 0x800018F8. guess: the boundary
+// before FinalSpinProc (see wof_status.c).
 
 #include "wof.h"
 

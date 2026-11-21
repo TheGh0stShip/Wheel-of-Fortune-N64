@@ -9,10 +9,8 @@
 // SetVannaStill, InitVannaAnim, PlayContestantClip and InitMenuContestants end off an 8-byte boundary
 // with the next function right after, which happens only inside an object; InitMenuAnim, InitAnim and
 // the functions to InitContestants share string literals or lie among each other's read-only items and
-// data. Where it ends after HideOtherContestants the text does not say: the RCS runs at 0x80001A30,
-// 0x80001A48 and 0x80001A60 open the next objects at three of the positions after
-// HideOtherContestants, PauseGame, PauseProc, StartPauseProc (a text gap), StartApplause, DrawConfetti
-// and ConfettiProc.
+// data. guess: the boundary after HideOtherContestants (see wof_pause.c), where the RCS run at
+// 0x80001A30 opens the next object's read-only data.
 
 #include "wof.h"
 

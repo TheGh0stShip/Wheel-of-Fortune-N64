@@ -7,10 +7,7 @@
 # The game's creative content (puzzles, credits, clip masks) is not mapped here: its units define it, the build takes
 # its initialisers from the cartridge, and config/assets.tsv lists those ranges, which datamap counts as asset bytes.
 0x800007D2	0x800007D8	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x800007DE	0x800007E0	fill	?IntToStr..FatalError	-	zero alignment: inside one object if IntToStr and FatalError are one object's, else fill between objects
 0x800007EA	0x800007F0	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x800008B6	0x800008B8	fill	?wof_procrun..wof_procevent	-	zero alignment: inside one object if DoProcs and ProcPostEvent are one object's, else fill between objects
-0x8000095F	0x80000960	fill	?wof_procevent..wof_procmessage	-	zero alignment: inside one object if ProcPostMessage and ProcPostMessageClass are one object's, else fill between objects
 0x800009EE	0x800009F0	fill	-	-	zeros to an 8-byte boundary: fill between objects (the text gap after KillProcClass lies between the users of the data on either side)
 0x80000A9A	0x80000AA0	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80000ABD	0x80000AC0	fill	-	-	zeros to an 8-byte boundary: fill between objects (the RCS run that opens wof_opening's object follows)

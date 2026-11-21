@@ -1,8 +1,8 @@
 // wof_applause.c -- the crowd's applause
 //
 // ApplauseProc ends off an 8-byte boundary with StartApplause right after, which happens only inside an
-// object; the 4-byte gap that ends StartPauseProc opens it. Whether it runs on into DrawConfetti the
-// text does not say.
+// object; the 4-byte gap that ends StartPauseProc opens it. guess: the boundary after StartApplause
+// (see wof_confetti.c).
 
 #include "wof.h"
 
