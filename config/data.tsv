@@ -49,7 +49,7 @@
 0x80057804	0x80057808	fill	-	-	stale fill to an 8-byte boundary: fill between objects
 0x80057F4C	0x80057F50	fill	-	-	stale bytes (6a596a59) to an 8-byte boundary: wof_stage's data ends; views starts an object at 0x80057F50
 0x80058226	0x80058228	fill	-	-	stale bytes (00 01) to an 8-byte boundary after vowelOrder: fill between objects (movies starts the next)
-0x8005A4B6	0x8005A4B8	fill	-	-	zeros to an 8-byte boundary after wof_menu's last datum: fill between objects
+0x8005A4B6	0x8005A4B8	fill	-	-	stale bytes (83 8f) to an 8-byte boundary after wof_menu's last datum: fill between objects
 0x8005C39B	0x8005C3A0	fill	-	-	stale bytes (S 00 S 19 1f) to an 8-byte boundary after givenLetters: the status object's data ends
 0x8005EB44	0x8005EB48	fill	-	-	stale bytes ("rJan") to an 8-byte boundary: fill between camera-path objects
 0x800650AC	0x800650B0	fill	-	-	stale bytes to an 8-byte boundary: fill between camera-path objects
