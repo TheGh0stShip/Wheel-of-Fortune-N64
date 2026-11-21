@@ -22,7 +22,7 @@ proc_t *InitVannaAnim(s32 anim, s32 replace) {
     if (anim == 80) {
         anim = 2;
     } else if (anim >= 6) {
-        func_80009F38("InitVannaAnim: invalid animation number");
+        FatalError("InitVannaAnim: invalid animation number");
     }
     if (vannaClips[anim].pictures == 0) {
         return 0;

@@ -16,14 +16,14 @@ void ProcPostMessageClass(s32 msg, s32 cls, s32 mask, s32 wake) {
     node = FindProc(cls, mask);
     while (node != 0) {
         if (msg >= 53) {
-            func_80009F38("ProcPostMessageClass: bogus message\n");
+            FatalError("ProcPostMessageClass: bogus message\n");
             return;
         }
         if (node->count < 5) {
             node->items[node->count] = msg;
             node->count++;
         } else {
-            func_80009F38("ProcPostMessageClass: Message Que overrun.\n");
+            FatalError("ProcPostMessageClass: Message Que overrun.\n");
         }
         if (wake != 0) {
             node->waiting = 0;

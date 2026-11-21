@@ -196,7 +196,7 @@ num	param	PrintNum	invented
 PrintStr	function	0x80009F98	invented	the debug print, which in retail only measures its string
 str	param	PrintStr	invented	
 len	local	PrintStr	invented	
-msg	param	func_80009F38	invented	
+msg	param	FatalError	invented	
 InitProcs	function	0x80009FD8	invented	clears procst and the data block owners
 GetLastProc	function	0x8000A0E4	invented	the last proc of the list, after which CreatProc links a new one; named after GetProcBefore
 FreeBlocks	function	0x8000A408	invented	frees the data blocks a proc owns
@@ -248,7 +248,7 @@ numObjs	global	0x800BCA10	invented	the objs in use
 InitMemStack	function	0x8000B780	invented	sets the memory stack to the free memory; named after mem_stack
 AlignMemStack	function	0x8000B89C	invented	rounds the top of the memory stack up to a power of two
 align	param	AlignMemStack	invented	
-size	param	func_8000B924	invented	
+size	param	AllocMem	invented	
 size	param	mem_stack	invented	
 PushMemStack	function	0x8000B978	invented	saves the top of the memory stack, up to 10 deep
 PopMemStack	function	0x8000B9FC	invented	drops a number of saved tops and goes back to the one under them
@@ -1009,3 +1009,6 @@ index	member	openingWedge_t	invented	which of the 24 wedges
 index	member	titleLetterProc_t	invented	which of the 14 letters
 obj	member	boardLights_t	invented	the board obj
 frames	member	boardLights_t	invented	frames since the lights last changed
+FatalError	function	0x80009F38	invented	prints "ERROR: " and the message, then loops forever; the out-of-procs, out-of-objs and out-of-blocks messages end here
+AllocMem	function	0x8000B924	invented	aligns the memory stack to 8 bytes and takes size bytes from it (mem_stack)
+StoreFrame	function	0x80021090	invented	hands a decoded movie frame to the StoreFrame function for the movie's size

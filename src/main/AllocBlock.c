@@ -18,6 +18,6 @@ void *AllocBlock(s32 owner) {
             return blocks[i];
         }
     }
-    func_80009F38("AllocBlock: Out of Blocks.\n");
+    FatalError("AllocBlock: Out of Blocks.\n");
     return 0;
 }

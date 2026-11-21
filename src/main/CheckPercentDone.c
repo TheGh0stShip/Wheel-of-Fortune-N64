@@ -41,7 +41,7 @@ f32 CheckPercentDone(void) {
     }
     count = letters - count;
     if (letters == 0.0f) {
-        func_80009F38("CheckPercentDone: No letters in puzzle\n");
+        FatalError("CheckPercentDone: No letters in puzzle\n");
     }
     return count / letters;
 }

@@ -15,7 +15,7 @@ void ProcPostEvent(s32 event) {
     proc_t *node;
 
     if (event >= 53) {
-        func_80009F38("ProcPostEvent: bogus event\n");
+        FatalError("ProcPostEvent: bogus event\n");
         return;
     }
     node = &procst[0];
@@ -29,7 +29,7 @@ void ProcPostEvent(s32 event) {
                 node->items[node->count] = event;
                 node->count++;
             } else {
-                func_80009F38("ProcPostEvent: Message Que overrun.\n");
+                FatalError("ProcPostEvent: Message Que overrun.\n");
             }
         }
     }

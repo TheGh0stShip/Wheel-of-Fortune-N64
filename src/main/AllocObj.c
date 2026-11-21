@@ -13,7 +13,7 @@ obj_t *AllocObj(void) {
     s32 i;
 
     if (numObjs == 100) {
-        func_80009F38("AllocObj: Out of Objects\n");
+        FatalError("AllocObj: Out of Objects\n");
         return 0;
     }
     i = 1;
@@ -24,6 +24,6 @@ obj_t *AllocObj(void) {
         }
         i++;
     }
-    func_80009F38("AllocObj: Reached end of objst.\n");
+    FatalError("AllocObj: Reached end of objst.\n");
     return 0;
 }

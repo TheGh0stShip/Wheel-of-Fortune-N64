@@ -138,7 +138,7 @@ void SeekStream( VidStream *vid_stream ) {
     errno = fseek( vid_stream->input, vid_stream->seekValue, 0 );
     if ( errno != 0 ) {
         fprintf( stderr, "Error in seek (%d)\n", errno );
-        func_80009F38( "mpeg_play" );
+        FatalError( "mpeg_play" );
     }
     vid_stream->seekValue = 0 - vid_stream->seekValue;
     vid_stream->totNumFrames = 0;

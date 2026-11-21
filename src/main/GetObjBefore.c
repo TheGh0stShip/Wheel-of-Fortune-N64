@@ -22,6 +22,6 @@ obj_t *GetObjBefore(obj_t *obj) {
         node = next;
         next = node->next;
     }
-    func_80009F38("GetObjBefore: Could not find obj\n");
+    FatalError("GetObjBefore: Could not find obj\n");
     return 0;
 }

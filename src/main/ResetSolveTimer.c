@@ -18,7 +18,7 @@ void ResetSolveTimer(void) {
     }
     task = FindProc(0x7030000, -1);
     if (task == 0) {
-        func_80009F38("ResetSolveTimer: Solve Timer Proc does not exist.\n");
+        FatalError("ResetSolveTimer: Solve Timer Proc does not exist.\n");
     }
     ProcPostMessage(task, 8, 0);
 }

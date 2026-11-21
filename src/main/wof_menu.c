@@ -185,7 +185,7 @@ void InitMainFlash(proc_t *proc, image_t *images, menuItem_t *item, s32 on) {
 
     sel = item->sel;
     if (sel < 0 || sel >= item->rows) {
-        func_80009F38("InitMainFlash: Invalid button");
+        FatalError("InitMainFlash: Invalid button");
     }
     SetImageFlash(&images[item->label], item->labelCount, on * 2);
     for (i = 0; i < item->rows * item->cols; i += item->cols) {
@@ -368,7 +368,7 @@ struct procResult_s MainMenu1Proc(proc_t *proc) {
             result.w[0] = 1;
             return result;
         default:
-            func_80009F38("MainMenu1 Proc: button press invalid\n");
+            FatalError("MainMenu1 Proc: button press invalid\n");
         }
     }
     if ((buttonsPressed & 0x5000 & 0xFFFF) != 0) {
@@ -445,7 +445,7 @@ void SwitchImage(void) {
     for (i = 0; i < 6; i++) {
         obj = FindObj(i | 0xA020000, -1);
         if (obj == 0) {
-            func_80009F38("SwitchImage: could not find contestant");
+            FatalError("SwitchImage: could not find contestant");
         }
         if (i == contestantMenu[0].sel) {
             obj->x = frontContestantPos.unk_00;
@@ -509,7 +509,7 @@ struct procResult_s ContestantMenuProc(proc_t *proc) {
                 return ret;
             }
         default:
-            func_80009F38("MainMenu1 Proc: button press invalid\n");
+            FatalError("MainMenu1 Proc: button press invalid\n");
         }
     }
     if ((buttonsPressed & 0x5000) & 0xFFFF) {
@@ -596,7 +596,7 @@ struct procResult_s SkillMenuProc(proc_t *proc) {
             result.w[0] = 1;
             return result;
         default:
-            func_80009F38("MainMenu1 Proc: button press invalid\n");
+            FatalError("MainMenu1 Proc: button press invalid\n");
         }
     }
     if ((buttonsPressed & 0x5000 & 0xFFFF) != 0) {
@@ -668,7 +668,7 @@ struct procResult_s RoundsMenuProc(proc_t *proc) {
             result.w[0] = 1;
             return result;
         default:
-            func_80009F38("MainMenu1 Proc: button press invalid\n");
+            FatalError("MainMenu1 Proc: button press invalid\n");
         }
     }
     if ((buttonsPressed & 0x5000 & 0xFFFF) != 0) {
@@ -816,7 +816,7 @@ struct procResult_s MainMenu3Proc(proc_t *proc) {
             ret.w[0] = 1;
             break;
         default:
-            func_80009F38("MainMenu3 Proc: button press invalid\n");
+            FatalError("MainMenu3 Proc: button press invalid\n");
         }
     }
     if ((buttonsPressed & 0x1000 & 0xFFFF) != 0) {

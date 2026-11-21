@@ -12,11 +12,11 @@ Queues a message for a proc, and wakes it if asked.
 */
 void ProcPostMessage(proc_t *proc, s32 msg, s32 wake) {
     if (proc == 0) {
-        func_80009F38("ProcPostMessage: NULL proc\n");
+        FatalError("ProcPostMessage: NULL proc\n");
         return;
     }
     if (msg >= 53) {
-        func_80009F38("ProcPostMessage: bogus message\n");
+        FatalError("ProcPostMessage: bogus message\n");
         return;
     }
     if (proc->count < 5) {
@@ -28,5 +28,5 @@ void ProcPostMessage(proc_t *proc, s32 msg, s32 wake) {
         }
         return;
     }
-    func_80009F38("ProcPostMessage: Message Que overrun.\n");
+    FatalError("ProcPostMessage: Message Que overrun.\n");
 }

@@ -18,6 +18,6 @@ void LoadSceneData(void) {
     while (pendingGfx != 0 && retraceCount < 100) {
     }
     PushMemStack();
-    sceneData = func_8000B924(size);
+    sceneData = AllocMem(size);
     ReadRom(sceneDataRom, sceneData, size);
 }

@@ -22,7 +22,7 @@ void InitCategory(void) {
 
     len = StrLen(category);
     if (len >= 21) {
-        func_80009F38("InitCategory: category strlen > 20");
+        FatalError("InitCategory: category strlen > 20");
     }
     i = 0;
     while (i < 22) {

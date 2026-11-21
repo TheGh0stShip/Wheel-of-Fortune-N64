@@ -23,13 +23,13 @@ s32 PlayContestantClip(s32 clip, s32 event, s32 player) {
 
     base = 0x2000000;
     if (players[player].contestant >= 6) {
-        func_80009F38("InitContestants: invalid image num");
+        FatalError("InitContestants: invalid image num");
     }
     slots = contestantMovies[players[player].contestant];
     if (slots[clip].count > 0) {
         obj = FindObj(player | 0xA020000, -1);
         if (obj == 0) {
-            func_80009F38(D_800019BC);
+            FatalError(D_800019BC);
         }
         other = FindProc(player | 0xA000300, -1);
         if (other != 0) {

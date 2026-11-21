@@ -118,7 +118,7 @@ struct procResult_s StatusProc(proc_t *proc) {
     UnflashActions();
     handle = FindProc(curPlayer | 0x2000000, 0xFF0000FF);
     if (handle == 0) {
-        func_80009F38("Status Proc: player proc does not exist\n");
+        FatalError("Status Proc: player proc does not exist\n");
     }
     if (finalSpin == 1) {
         actionImages[proc->data->cursor.index].flash = 0;
@@ -170,7 +170,7 @@ struct procResult_s StatusProc(proc_t *proc) {
             func_8002FD14();
             return result;
         default:
-            func_80009F38("Status Proc: button press invalid\n");
+            FatalError("Status Proc: button press invalid\n");
         }
     }
     if ((buttonsPressed & 2048 & 0xFFFF) != 0) {

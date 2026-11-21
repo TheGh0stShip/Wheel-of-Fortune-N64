@@ -24,7 +24,7 @@ void InitAudio( void ) {
     u8              *heap;
     s32             i;
 
-    heap = func_8000B924( AUDIO_HEAP_SIZE );
+    heap = AllocMem( AUDIO_HEAP_SIZE );
     alHeapInit( &audioHeap, heap, AUDIO_HEAP_SIZE );
     c.maxVVoices = MAX_VOICES;
     c.maxPVoices = MAX_VOICES;
@@ -47,18 +47,18 @@ void InitAudio( void ) {
     seqc.stopOsc = 0;
     seqc.debugFlags = NO_VOICE_ERR_MASK | NOTE_OFF_ERR_MASK | NO_SOUND_ERR_MASK;
     // the size is that of ALSeqPlayer, 12 bytes more than the ALCSPlayer it is used as
-    seqPlayers[0] = func_8000B924( sizeof( ALSeqPlayer ) );
+    seqPlayers[0] = AllocMem( sizeof( ALSeqPlayer ) );
     alCSPNew( seqPlayers[0], &seqc );
     sndpConfig.maxSounds = MAX_SOUNDS;
     sndpConfig.maxEvents = 64;
     sndpConfig.heap = &audioHeap;
     alSndpNew( sndPlayer, &sndpConfig );
     size = sfxCtlRomEnd - sfxCtlRom;
-    sfxBankFile = func_8000B924( size );
+    sfxBankFile = AllocMem( size );
     ReadRom( sfxCtlRom, sfxBankFile, size );
     alBnkfNew( sfxBankFile, (u8 *)sfxTblRom );
     sfxInst = sfxBankFile->bankArray[0]->instArray[0];
-    soundIds = func_8000B924( MAX_SOUNDS * sizeof( ALSndId ) );
+    soundIds = AllocMem( MAX_SOUNDS * sizeof( ALSndId ) );
     i = 0;
     while ( i < MAX_SOUNDS ) {
         soundIds[i] = -1;

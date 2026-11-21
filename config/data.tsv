@@ -12,7 +12,7 @@
 0x80000634	0x80000638	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x8000068C	0x80000690	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x800007D2	0x800007D8	fill	-	-	zeros to an 8-byte boundary: fill between objects
-0x800007DE	0x800007E0	fill	func_80009F38	-	zero alignment to 4 bytes inside one object: func_80009F38's data follows
+0x800007DE	0x800007E0	fill	FatalError	-	zero alignment to 4 bytes inside one object: FatalError's data follows
 0x800007EA	0x800007F0	fill	-	-	zeros to an 8-byte boundary: fill between objects
 0x80000853	0x80000854	fill	AllocBlock	-	zero alignment to 4 bytes inside one object: AllocBlock's data follows
 0x80000891	0x80000894	fill	DoProcs	-	zero alignment to 4 bytes inside one object: DoProcs's data follows

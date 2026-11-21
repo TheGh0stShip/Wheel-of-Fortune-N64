@@ -29,13 +29,13 @@ void InitContestants(void) {
     contestantMemMark = PushMemStack();
     for (i = 0; i < 3; i++) {
         if (players[i].contestant >= 6) {
-            func_80009F38("InitContestants: invalid image num");
+            FatalError("InitContestants: invalid image num");
         }
         slots = contestantClips[players[i].contestant];
         for (j = 0; j < 2; j++) {
             if (slots[j].count > 0) {
                 size = slots[j].width * slots[j].height * 2;
-                slots[j].pictures = func_8000B924(size * slots[j].count);
+                slots[j].pictures = AllocMem(size * slots[j].count);
                 DecodeMovie(slots[j].movie, slots[j].count, slots[j].pictures, slots[j].unk_20);
             } else {
                 slots[j].pictures = 0;
@@ -45,7 +45,7 @@ void InitContestants(void) {
     i = 0;
     while (i < 6) {
         size = vannaClips[i].width * vannaClips[i].height * 2;
-        vannaClips[i].pictures = func_8000B924(size * vannaClips[i].count);
+        vannaClips[i].pictures = AllocMem(size * vannaClips[i].count);
         DecodeMovie(vannaClips[i].movie, vannaClips[i].count, vannaClips[i].pictures, vannaClips[i].unk_20);
         i++;
     }

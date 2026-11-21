@@ -18,18 +18,18 @@ void InitAnim(s32 anim, s32 player) {
         return;
     }
     if (anim >= 2) {
-        func_80009F38("InitAnim: invalid animation number");
+        FatalError("InitAnim: invalid animation number");
     }
     kind = players[player].contestant;
     if (kind >= 6) {
-        func_80009F38("InitAnim: invalid contestant number");
+        FatalError("InitAnim: invalid contestant number");
     }
     if (contestantClips[kind][anim].pictures == 0) {
         return;
     }
     obj = FindObj(player | 0xA020000, -1);
     if (obj == 0) {
-        func_80009F38("InitAnim: cannot find contestant obj");
+        FatalError("InitAnim: cannot find contestant obj");
     }
     task = FindProc(player | 0xA000300, -1);
     if (task != 0) {

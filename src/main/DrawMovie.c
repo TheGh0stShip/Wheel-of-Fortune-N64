@@ -31,6 +31,6 @@ void DrawMovie(obj_t *obj, frame_t *frame) {
         PrintStr("x");
         PrintNum(D_80107884->v_size);
         PrintStr(" ");
-        func_80009F38("Size Video Not Supported");
+        FatalError("Size Video Not Supported");
     }
 }

@@ -60,7 +60,7 @@ Random	0x80009C98	0x70	match	game	src/main/Random.c
 func_80009D08	0x80009D08	0x24	match	game	src/main/func_80009D08.c
 Abs	0x80009D2C	0x4C	match	game	src/main/Abs.c
 PrintNum	0x80009D78	0x1C0	match	game	src/main/PrintNum.c
-func_80009F38	0x80009F38	0x60	match	game	src/main/func_80009F38.c
+FatalError	0x80009F38	0x60	match	game	src/main/FatalError.c
 PrintStr	0x80009F98	0x3C	match	game	src/main/PrintStr.c
 InitProcs	0x80009FD8	0x10C	match	game	src/main/InitProcs.c
 GetLastProc	0x8000A0E4	0x74	match	game	src/main/GetLastProc.c
@@ -95,7 +95,7 @@ FreeObjClass	0x8000B6FC	0x84	match	game	src/main/FreeObjClass.c
 InitMemStack	0x8000B780	0x74	match	game	src/main/InitMemStack.c
 mem_stack	0x8000B7F4	0xA8	match	game	src/main/mem_stack.c
 AlignMemStack	0x8000B89C	0x88	match	game	src/main/AlignMemStack.c
-func_8000B924	0x8000B924	0x54	match	game	src/main/func_8000B924.c
+AllocMem	0x8000B924	0x54	match	game	src/main/AllocMem.c
 PushMemStack	0x8000B978	0x84	match	game	src/main/PushMemStack.c
 PopMemStack	0x8000B9FC	0xA8	match	game	src/main/PopMemStack.c
 wof_opening	0x8000BAA8	0x3098	match	game	src/main/wof_opening.c
@@ -140,7 +140,7 @@ DrawMovie	0x80020150	0x150	match	game	src/main/DrawMovie.c
 StoreFrame112	0x800202A0	0x428	match	game	src/main/StoreFrame112.c
 StoreFrame64x64	0x800206C8	0x5D0	match	game	src/main/StoreFrame64x64.c
 StoreFrame64x96	0x80020C98	0x3F8	match	game	src/main/StoreFrame64x96.c
-func_80021090	0x80021090	0x154	match	game	src/main/func_80021090.c
+StoreFrame	0x80021090	0x154	match	game	src/main/StoreFrame.c
 MakeMovieObj	0x800211E4	0xDC	match	game	src/main/MakeMovieObj.c
 UpdateMovie	0x800212C0	0x10C	match	game	src/main/UpdateMovie.c
 UpdateClip	0x800213CC	0x17C	match	game	src/main/UpdateClip.c

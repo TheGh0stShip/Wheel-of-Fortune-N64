@@ -13,7 +13,7 @@ proc_t *AllocProc(void) {
     s32 i;
 
     if (numProcs == 69) {
-        func_80009F38("AllocProc: Out of Procs\n");
+        FatalError("AllocProc: Out of Procs\n");
         return 0;
     }
     i = 1;
@@ -24,6 +24,6 @@ proc_t *AllocProc(void) {
         }
         i++;
     }
-    func_80009F38("AllocProc: Reached end of procst.\n");
+    FatalError("AllocProc: Reached end of procst.\n");
     return 0;
 }

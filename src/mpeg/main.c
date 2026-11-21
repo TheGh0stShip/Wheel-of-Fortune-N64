@@ -91,7 +91,7 @@ void func_8009CEC0( char *movie, s32 gamma ) {
 
     input = fopen( movie );
     if ( input == NULL ) {
-        func_80009F38( "MPEG: input == NULL" );
+        FatalError( "MPEG: input == NULL" );
     }
     inputName = NULL;
 
@@ -99,7 +99,7 @@ void func_8009CEC0( char *movie, s32 gamma ) {
     cr_values = cr;
 
     if ( ( startFrame != -1 ) && ( endFrame != -1 ) && ( endFrame < startFrame ) ) {
-        func_80009F38( "MPEG: endFrame < startFrame" );
+        FatalError( "MPEG: endFrame < startFrame" );
     }
 
     init_tables();
@@ -137,7 +137,7 @@ void func_8009CEC0( char *movie, s32 gamma ) {
     mark = quietFlag;
     quietFlag = 1;
     if ( mpegVidRsrc( 0, theStream, 1, &xinfo ) == NULL ) {
-        func_80009F38( "MPEG: mpegVidRsrc returned NULL" );
+        FatalError( "MPEG: mpegVidRsrc returned NULL" );
     }
     quietFlag = mark;
 

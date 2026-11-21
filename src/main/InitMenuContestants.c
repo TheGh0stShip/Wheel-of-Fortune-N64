@@ -20,7 +20,7 @@ void InitMenuContestants(void) {
     contestantMemMark = PushMemStack();
     for (i = 0; i < 6; i++) {
         size = menuClips[i].width * menuClips[i].height * 2;
-        menuClips[i].pictures = func_8000B924(size * menuClips[i].count);
+        menuClips[i].pictures = AllocMem(size * menuClips[i].count);
         DecodeMovie(menuClips[i].movie, menuClips[i].count, menuClips[i].pictures, menuClips[i].unk_20);
     }
     retraceCount = 0;

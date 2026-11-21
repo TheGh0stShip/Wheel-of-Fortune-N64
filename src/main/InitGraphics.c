@@ -14,7 +14,7 @@ void InitGraphics(void) {
 
     size = staticSize;
     camX = camY = camZ = camRoll = camPitch = camHeading = 0.0f;
-    staticSegment = func_8000B924(size);
+    staticSegment = AllocMem(size);
     ReadRom(staticRom, staticSegment, size);
     gfxInfo[0].msg.type = OS_SC_DONE_MSG;
     gfxInfo[0].framebuffer = D_803B5000;

@@ -40,7 +40,7 @@ Not there: prints that it is missing.
 =====================
 */
 int fgetc( FILE *stream ) {
-    func_80009F38( "fgetc: function not yet implemented" );
+    FatalError( "fgetc: function not yet implemented" );
 }
 
 /*
@@ -71,7 +71,7 @@ Not there: prints that it is missing.
 =====================
 */
 int fseek( FILE *stream, long offset, int whence ) {
-    func_80009F38( "fseek: function not yet implemented" );
+    FatalError( "fseek: function not yet implemented" );
     return 0;
 }
 
@@ -93,7 +93,7 @@ Allocates from the heap of the game.
 =====================
 */
 void *malloc( unsigned int size ) {
-    return func_8000B924( size );
+    return AllocMem( size );
 }
 
 /*
@@ -104,7 +104,7 @@ Not there: prints that it is missing.
 =====================
 */
 void *realloc( void *ptr, unsigned int size ) {
-    func_80009F38( "REALLOC: function not yet implemented" );
+    FatalError( "REALLOC: function not yet implemented" );
     return 0;
 }
 
@@ -116,7 +116,7 @@ Prints that the player wanted to exit, and returns to it.
 =====================
 */
 void exit( int status ) {
-    func_80009F38( "MPEG: exited before done" );
+    FatalError( "MPEG: exited before done" );
 }
 
 /*
@@ -145,7 +145,7 @@ Not there: prints that it is missing.
 =====================
 */
 char *strtok( char *s1, char *s2 ) {
-    func_80009F38( "strtok: function not yet implemented" );
+    FatalError( "strtok: function not yet implemented" );
     return 0;
 }
 
@@ -158,7 +158,7 @@ Opens the one stream there is on the movie at `filename`, which is its address i
 */
 FILE *fopen( char *filename ) {
     if ( D_80086D58 != 0 ) {
-        func_80009F38( "fopen: File already open. (MPEG)" );
+        FatalError( "fopen: File already open. (MPEG)" );
         return 0;
     }
     D_80086D58 = 1;
@@ -187,7 +187,7 @@ Not there: prints that it is missing.
 =====================
 */
 double sqrt( double x ) {
-    func_80009F38( "sqrt: function not yet implemented" );
+    FatalError( "sqrt: function not yet implemented" );
     return 0.0;
 }
 
@@ -199,7 +199,7 @@ Not there: prints that it is missing.
 =====================
 */
 double cos( double x ) {
-    func_80009F38( "cos: function not yet implemented" );
+    FatalError( "cos: function not yet implemented" );
     return 0.0;
 }
 
@@ -211,7 +211,7 @@ Not there: prints that it is missing.
 =====================
 */
 double floor( double x ) {
-    func_80009F38( "floor: function not yet implemented" );
+    FatalError( "floor: function not yet implemented" );
     return 0.0;
 }
 

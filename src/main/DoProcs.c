@@ -19,7 +19,7 @@ void DoProcs(void) {
     while (task->next != 0) {
         task = task->next;
         if (task->handler == 0) {
-            func_80009F38("DoProcs: Tried to execute a NULL\n");
+            FatalError("DoProcs: Tried to execute a NULL\n");
             return;
         }
         if (task->waiting == 0) {

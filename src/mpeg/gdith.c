@@ -132,6 +132,6 @@ void ExecuteDisplay( VidStream *vid_stream, XInfo *xinfo ) {
             xinfo->ximage = NULL;
         }
 
-        func_80021090( vid_stream->current->display );
+        StoreFrame( vid_stream->current->display );
     }
 }

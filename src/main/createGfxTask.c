@@ -59,7 +59,7 @@ void createGfxTask(gfxInfo_t *info) {
     gSPEndDisplayList(glistp++);
     osWritebackDCache(&info->frame, (s32)glistp - (s32)&info->frame);
     if (glistp - frame->glist >= 3048) {
-        func_80009F38("GFX Error: GLIST OVERFLOW\n");
+        FatalError("GFX Error: GLIST OVERFLOW\n");
     }
     t = &info->task;
     t->list.t.data_ptr = (u64 *)frame->glist;

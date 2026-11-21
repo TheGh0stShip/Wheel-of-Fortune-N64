@@ -23,6 +23,6 @@ proc_t *GetProcBefore(proc_t *proc) {
         prev = cur;
         cur = prev->next;
     }
-    func_80009F38("GetProcBefore: Could not find proc\n");
+    FatalError("GetProcBefore: Could not find proc\n");
     return 0;
 }

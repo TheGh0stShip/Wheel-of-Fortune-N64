@@ -20,7 +20,7 @@ proc_t *CreatProc(procHandler_t handler, s32 cls) {
     last = GetLastProc();
     task = AllocProc();
     if (task == 0) {
-        func_80009F38("CreatProc: Failed to alloc proc\n");
+        FatalError("CreatProc: Failed to alloc proc\n");
         return 0;
     }
     last->next = task;

@@ -18,7 +18,7 @@ void InitMenuAnim(s32 contestant, s32 slot, s32 x, s32 y, s32 z) {
         return;
     }
     if (contestant >= 6) {
-        func_80009F38("InitAnim: invalid animation number");
+        FatalError("InitAnim: invalid animation number");
     }
     if (menuClips[contestant].pictures == 0) {
         return;

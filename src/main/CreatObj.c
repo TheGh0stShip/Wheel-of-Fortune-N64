@@ -19,7 +19,7 @@ obj_t *CreatObj(s32 owner, objDraw_t draw, s32 cls) {
     tail = GetLastObj();
     node = AllocObj();
     if (node == 0) {
-        func_80009F38("CreatObj: Failed to alloc obj\n");
+        FatalError("CreatObj: Failed to alloc obj\n");
         return 0;
     }
     tail->next = node;
