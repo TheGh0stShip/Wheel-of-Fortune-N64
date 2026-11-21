@@ -13,7 +13,7 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
-s32 D_800584A0[5][2] = {
+s32 controllerLabelPos[5][2] = {
     { 56, 51 },
     { 126, 51 },
     { 196, 51 },
@@ -52,7 +52,7 @@ menuItem_t contestantMenu[2] = {
     { 1, 7, 3, 1, 6, 1, 0, NULL },
     { 1, 10, 1, 10, 1, 1, 0, NULL }
 };
-u16 *D_800588A8[3][3][2] = {
+u16 *playerMenuTextures[3][3][2] = {
     {
         { (u16 *)0x0114A538, (u16 *)0x0114A538 },
         { (u16 *)0x01000000, (u16 *)0x01002940 },
@@ -1205,13 +1205,13 @@ void StartMainMenu1(void) {
     j = 0;
     for (i = 2; i < 6; i++) {
         if ((contPattern >> (i - 2)) % 2 != 0) {
-            mainMenu1Images[i].x = D_800584A0[j][0];
-            mainMenu1Images[i].y = D_800584A0[j][1];
+            mainMenu1Images[i].x = controllerLabelPos[j][0];
+            mainMenu1Images[i].y = controllerLabelPos[j][1];
             j++;
         }
     }
-    mainMenu1Images[6].x = D_800584A0[j][0];
-    mainMenu1Images[6].y = D_800584A0[j][1];
+    mainMenu1Images[6].x = controllerLabelPos[j][0];
+    mainMenu1Images[6].y = controllerLabelPos[j][1];
     for (i = 0; i < 3; i++) {
         switch (mainMenu1[i].sel) {
         case 0:
@@ -1262,12 +1262,12 @@ void StartContestantMenu(void) {
     task = CreatProc(ContestantMenuProc, 0x5000000);
     MakeScreenObj(task, 0, DrawContestantMenu, 0x5000000);
     InitMarquee();
-    contestantMenuImages[0].texture = D_800588A8[i][0][0];
-    contestantMenuImages[0].dimTexture = D_800588A8[i][0][1];
-    contestantMenuImages[7].texture = D_800588A8[i][1][0];
-    contestantMenuImages[7].dimTexture = D_800588A8[i][1][1];
-    contestantMenuImages[8].texture = D_800588A8[i][2][0];
-    contestantMenuImages[8].dimTexture = D_800588A8[i][2][1];
+    contestantMenuImages[0].texture = playerMenuTextures[i][0][0];
+    contestantMenuImages[0].dimTexture = playerMenuTextures[i][0][1];
+    contestantMenuImages[7].texture = playerMenuTextures[i][1][0];
+    contestantMenuImages[7].dimTexture = playerMenuTextures[i][1][1];
+    contestantMenuImages[8].texture = playerMenuTextures[i][2][0];
+    contestantMenuImages[8].dimTexture = playerMenuTextures[i][2][1];
     switch (mainMenu1[i].sel) {
     case 0:
         contestantMenuImages[9].texture = D_01158068;

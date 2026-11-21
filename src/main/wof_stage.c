@@ -11,7 +11,7 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
-Gfx *D_80057988[13] = {
+Gfx *letterBoardDls[13] = {
     (Gfx *)0x010A4D30, (Gfx *)0x010A4CD8, (Gfx *)0x010A4C80, (Gfx *)0x010A4C28, (Gfx *)0x010A4BD0,
     (Gfx *)0x010A4B78, (Gfx *)0x010A4B20, (Gfx *)0x010A4AC8, (Gfx *)0x010A4A70, (Gfx *)0x010A4A18,
     (Gfx *)0x010A49C0, (Gfx *)0x010A4968, (Gfx *)0x010A4910
@@ -50,7 +50,7 @@ Gfx *bottomRowDls[48] = {
     (Gfx *)0x01031FA8, (Gfx *)0x010327A8, (Gfx *)0x01032FA8, (Gfx *)0x010337A8, (Gfx *)0x01033FA8,
     (Gfx *)0x010347A8, (Gfx *)0x01034FA8, (Gfx *)0x010357A8
 };
-Gfx *D_80057B50[3][8] = {
+Gfx *scorePanelDigitDls[3][8] = {
     {
         (Gfx *)0x010306B0, (Gfx *)0x01030690, (Gfx *)0x01030670, (Gfx *)0x01030650,
         (Gfx *)0x01030630, (Gfx *)0x01030610, (Gfx *)0x010305F0, (Gfx *)0x010305D0
@@ -70,7 +70,7 @@ layer_t scorePanels[3] = {
     { (Gfx *)0x01037698, 0, 32, 0, 27647, 0x2020FFFF }
 };
 s32 D_80057BF8[4] = { 0x01010100, 0x01010200, 0x01010300, 0x01010400 };
-wedgeDl_t D_80057C08[24] = {
+wedgeDl_t firstRoundWedgeDls[24] = {
     { (Gfx *)0x010FB308, NULL },
     { (Gfx *)0x010FB1B8, NULL },
     { (Gfx *)0x010FB1A8, NULL },
@@ -96,7 +96,7 @@ wedgeDl_t D_80057C08[24] = {
     { (Gfx *)0x010FA210, NULL },
     { (Gfx *)0x010FA200, NULL }
 };
-wedgeDl_t D_80057CC8[24] = {
+wedgeDl_t secondRoundWedgeDls[24] = {
     { (Gfx *)0x010FB308, NULL },
     { (Gfx *)0x010FB1B8, NULL },
     { (Gfx *)0x010FB1A8, NULL },
@@ -122,7 +122,7 @@ wedgeDl_t D_80057CC8[24] = {
     { (Gfx *)0x010FA210, NULL },
     { (Gfx *)0x010FA200, NULL }
 };
-wedgeDl_t D_80057D88[24] = {
+wedgeDl_t jackpotRoundWedgeDls[24] = {
     { (Gfx *)0x010B6D60, NULL },
     { (Gfx *)0x010B6AC0, NULL },
     { (Gfx *)0x010B6AB0, NULL },
@@ -148,7 +148,7 @@ wedgeDl_t D_80057D88[24] = {
     { (Gfx *)0x010B4FA0, NULL },
     { (Gfx *)0x010B4A50, NULL }
 };
-wedgeDl_t D_80057E48[24] = {
+wedgeDl_t laterRoundWedgeDls[24] = {
     { (Gfx *)0x010EEF40, NULL },
     { (Gfx *)0x010EEF30, NULL },
     { (Gfx *)0x010EEDE0, NULL },
@@ -175,7 +175,7 @@ wedgeDl_t D_80057E48[24] = {
     { (Gfx *)0x010EDCF0, NULL }
 };
 wedgeDl_t *wedgeDls[7] = {
-    D_80057C08, D_80057CC8, D_80057D88, D_80057E48, D_80057E48, D_80057E48, D_80057E48
+    firstRoundWedgeDls, secondRoundWedgeDls, jackpotRoundWedgeDls, laterRoundWedgeDls, laterRoundWedgeDls, laterRoundWedgeDls, laterRoundWedgeDls
 };
 Gfx *backdropDls[4] = {
     (Gfx *)0x01039E58, (Gfx *)0x0104DE00, (Gfx *)0x01065338, (Gfx *)0x0107A568
@@ -1422,7 +1422,7 @@ void DrawScores(obj_t *obj, frame_t *frame) {
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 8; j++) {
                 if (scoreDigits[i][j] == D_010367A8) {
-                    gSPDisplayList(glistp++, D_80057B50[i][j]);
+                    gSPDisplayList(glistp++, scorePanelDigitDls[i][j]);
                 }
             }
         }
@@ -1434,7 +1434,7 @@ void DrawScores(obj_t *obj, frame_t *frame) {
                                         32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                                         G_TX_NOMIRROR | G_TX_CLAMP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
                     gDPPipeSync(glistp++);
-                    gSPDisplayList(glistp++, D_80057B50[i][j]);
+                    gSPDisplayList(glistp++, scorePanelDigitDls[i][j]);
                 }
             }
             i++;
@@ -1463,7 +1463,7 @@ void DrawLetterBoard(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, obj->dl);
     gSPDisplayList(glistp++, D_01021A70);
     for (i = 0; i < 26; i++) {
-        gSPDisplayList(glistp++, D_80057988[i]);
+        gSPDisplayList(glistp++, letterBoardDls[i]);
     }
     SetLightColor(1);
 }

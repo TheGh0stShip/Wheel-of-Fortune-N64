@@ -3,10 +3,10 @@
 
 #include "wof.h"
 
-s32 D_8004B838 = 0;
+s32 vFlag = 0;
 s32 debugflag = 0;
-s32 D_8004B840 = 0;
-s32 D_8004B844 = 0;
+s32 sFlag = 0;
+s32 lFlag = 0;
 
 /*
 =====================
@@ -46,13 +46,13 @@ void parse_args(s32 argstring) {
             debugflag = 1;
             break;
         case 'v':
-            D_8004B838 = 1;
+            vFlag = 1;
             break;
         case 's':
-            D_8004B840 = 1;
+            sFlag = 1;
             break;
         case 'l':
-            D_8004B844 = 1;
+            lFlag = 1;
             break;
         default:
             break;

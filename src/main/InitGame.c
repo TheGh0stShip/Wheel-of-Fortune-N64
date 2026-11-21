@@ -16,14 +16,14 @@ void InitGame(void) {
 
     osCreateMesgQueue(&dmaMessageQ, &dmaMessageBuf, 1);
     osCreateMesgQueue(&gfxMsgQ, gfxMsgBuf, 8);
-    osCreateMesgQueue(&D_800B9CD0, D_800BEE00, 8);
+    osCreateMesgQueue(&retraceMsgQ, retraceMsgBuf, 8);
     if (osTvType == 2) {
         osCreateScheduler(&sc, scheduleStack + OS_SC_STACKSIZE / sizeof(u64), 13, 30, 1);
     } else {
         osCreateScheduler(&sc, scheduleStack + OS_SC_STACKSIZE / sizeof(u64), 13, 2, 1);
     }
     osScAddClient(&sc, &gfxClient, &gfxMsgQ);
-    osScAddClient(&sc, &D_800B3988, &D_800B9CD0);
+    osScAddClient(&sc, &retraceClient, &retraceMsgQ);
     sched_cmdQ = osScGetCmdQ(&sc);
     count = (s32)osGetTime() & 4095;
     while (count-- > 0) {

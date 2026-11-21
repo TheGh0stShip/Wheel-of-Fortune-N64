@@ -233,11 +233,11 @@ struct procResult_s OpeningProc(proc_t *proc) {
     result.w[1] = 1;
     result.w[0] = 0;
     if (openingFrame >= 269 && openingFrame < 318) {
-        D_800BEE24 = D_800BEE24 + frameRetraces * 5;
+        logoSpread = logoSpread + frameRetraces * 5;
     }
-    D_800B61AC = D_800B61AC - frameRetraces;
+    hubAngle = hubAngle - frameRetraces;
     openingFrame = openingFrame + frameRetraces;
-    guTranslateF(mtx, 0, D_800BEE24, 0);
+    guTranslateF(mtx, 0, logoSpread, 0);
     guRotateRPYF(rot, obj->roll, obj->pitch, obj->heading);
     guMtxCatF(mtx, rot, mtx);
     obj->x = proc->data->opening.x + mtx[3][0];
@@ -322,7 +322,7 @@ struct procResult_s OpeningWedgeProc(proc_t *proc) {
             return result;
         }
     }
-    guTranslateF(mtxA, 0, 0, D_800BEE24);
+    guTranslateF(mtxA, 0, 0, logoSpread);
     guRotateRPYF(mtxB, 0, proc->data->openingWedge.index * 15, 0);
     guMtxCatF(mtxA, mtxB, mtxA);
     pos->x = mtxA[3][0];
@@ -363,7 +363,7 @@ struct procResult_s TitleLetterProc(proc_t *proc) {
         }
     }
     index = proc->data->titleLetterProc.index;
-    guTranslateF(mtx, (f32)D_800BEE24 * titleLetters[index].spread, (f32)D_800BEE24, 0);
+    guTranslateF(mtx, (f32)logoSpread * titleLetters[index].spread, (f32)logoSpread, 0);
     guRotateRPYF(rot, -61.317f, 58.385f, -9.848f);
     guMtxCatF(mtx, rot, mtx);
     pos->x = (s32)mtx[3][0];
@@ -491,7 +491,7 @@ void DrawOpeningHub(obj_t *obj, frame_t *frame) {
     guTranslate(&frame->translate[obj->index], obj->x, obj->y, obj->z);
     guScale(&frame->scale[obj->index], obj->scale, obj->scale, obj->scale);
     guRotateRPY(&frame->rotate[obj->index], obj->roll, obj->pitch, obj->heading);
-    guRotateRPY(&frame->unk_04C80, 0, D_800B61AC, 0);
+    guRotateRPY(&frame->unk_04C80, 0, hubAngle, 0);
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->scale[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
@@ -737,7 +737,7 @@ void StartOpening(void) {
     obj->roll = -61.317f;
     obj->pitch = 58.385f;
     obj->heading = -9.848f;
-    D_800B61AC = 0;
+    hubAngle = 0;
     task->data->opening.music = PlaySound(15);
     for (i = 0; i < 24; i++) {
         task = CreatProc(OpeningWedgeProc, 0x8010000);
@@ -747,5 +747,5 @@ void StartOpening(void) {
     }
     MakeObj(0, 0, DrawPressStart, 0x5000000);
     openingFrames = 721;
-    D_800BEE24 = 0;
+    logoSpread = 0;
 }

@@ -142,76 +142,76 @@ Gfx *contestantDls[3][2] = {
 };
 clip_t contestantClips[6][2] = {
     {
-        { 64, 64, 8, 4, 1, 0, NULL, 13, D_800769C4 },
-        { 64, 64, 1, 4, 2, 0, NULL, 27, D_80078BC4 }
+        { 64, 64, 8, 4, 1, 0, NULL, 13, contestant0AnimMask },
+        { 64, 64, 1, 4, 2, 0, NULL, 27, contestant0StillMask }
     },
     {
-        { 64, 64, 9, 4, 2, 0, NULL, 15, D_80078DC4 },
-        { 64, 64, 1, 4, 2, 0, NULL, 28, D_80079FC4 }
+        { 64, 64, 9, 4, 2, 0, NULL, 15, contestant1AnimMask },
+        { 64, 64, 1, 4, 2, 0, NULL, 28, contestant1StillMask }
     },
     {
-        { 64, 64, 8, 4, 2, 0, NULL, 16, D_8007A1C4 },
-        { 64, 64, 1, 4, 2, 0, NULL, 29, D_8007B1C4 }
+        { 64, 64, 8, 4, 2, 0, NULL, 16, contestant2AnimMask },
+        { 64, 64, 1, 4, 2, 0, NULL, 29, contestant2StillMask }
     },
     {
-        { 64, 64, 6, 4, 2, 0, NULL, 17, D_8007BFC4 },
-        { 64, 64, 1, 4, 2, 0, NULL, 30, D_8007CBC4 }
+        { 64, 64, 6, 4, 2, 0, NULL, 17, contestant3AnimMask },
+        { 64, 64, 1, 4, 2, 0, NULL, 30, contestant3StillMask }
     },
     {
-        { 64, 64, 10, 4, 2, 0, NULL, 18, D_8007D9C4 },
-        { 64, 64, 1, 4, 2, 0, NULL, 31, D_8007EDC4 }
+        { 64, 64, 10, 4, 2, 0, NULL, 18, contestant4AnimMask },
+        { 64, 64, 1, 4, 2, 0, NULL, 31, contestant4StillMask }
     },
     {
-        { 64, 64, 7, 4, 2, 0, NULL, 20, D_800813C4 },
-        { 64, 64, 1, 4, 2, 0, NULL, 32, D_800829C4 }
+        { 64, 64, 7, 4, 2, 0, NULL, 20, contestant5AnimMask },
+        { 64, 64, 1, 4, 2, 0, NULL, 32, contestant5StillMask }
     }
 };
 clip_t contestantMovies[6][2] = {
     {
         { 0, 0, -1, 0, 0, 0, NULL, 0, NULL },
-        { 64, 64, 9, 4, 0, 0, NULL, 14, D_800779C4 }
+        { 64, 64, 9, 4, 0, 0, NULL, 14, contestant0ClipMask1 }
     },
     {
         { 0, 0, -1, 0, 0, 0, NULL, 0, NULL },
         { 0, 0, -1, 0, 0, 0, NULL, 0, NULL }
     },
     {
-        { 64, 64, 8, 4, 2, 0, NULL, 34, D_8007B3C4 },
+        { 64, 64, 8, 4, 2, 0, NULL, 34, contestant2ClipMask0 },
         { 0, 0, -1, 0, 0, 0, NULL, 0, NULL }
     },
     {
-        { 64, 64, 6, 4, 2, 0, NULL, 35, D_8007CDC4 },
+        { 64, 64, 6, 4, 2, 0, NULL, 35, contestant3ClipMask0 },
         { 0, 0, -1, 0, 0, 0, NULL, 0, NULL }
     },
     {
-        { 64, 64, 10, 4, 2, 0, NULL, 36, D_8007EFC4 },
-        { 64, 64, 10, 4, 2, 0, NULL, 37, D_800801C4 }
+        { 64, 64, 10, 4, 2, 0, NULL, 36, contestant4ClipMask0 },
+        { 64, 64, 10, 4, 2, 0, NULL, 37, contestant4ClipMask1 }
     },
     {
-        { 64, 64, 4, 4, 2, 0, NULL, 19, D_800821C4 },
+        { 64, 64, 4, 4, 2, 0, NULL, 19, contestant5ClipMask0 },
         { 0, 0, -1, 0, 0, 0, NULL, 0, NULL }
     }
 };
 clip_t menuClips[6] = {
-    { 64, 64, 1, 4, 2, 0, NULL, 27, D_80078BC4 },
-    { 64, 64, 1, 4, 2, 0, NULL, 28, D_80079FC4 },
-    { 64, 64, 1, 4, 2, 0, NULL, 29, D_8007B1C4 },
-    { 64, 64, 1, 4, 2, 0, NULL, 30, D_8007CBC4 },
-    { 64, 64, 1, 4, 2, 0, NULL, 31, D_8007EDC4 },
-    { 64, 64, 1, 4, 2, 0, NULL, 32, D_800829C4 }
+    { 64, 64, 1, 4, 2, 0, NULL, 27, contestant0StillMask },
+    { 64, 64, 1, 4, 2, 0, NULL, 28, contestant1StillMask },
+    { 64, 64, 1, 4, 2, 0, NULL, 29, contestant2StillMask },
+    { 64, 64, 1, 4, 2, 0, NULL, 30, contestant3StillMask },
+    { 64, 64, 1, 4, 2, 0, NULL, 31, contestant4StillMask },
+    { 64, 64, 1, 4, 2, 0, NULL, 32, contestant5StillMask }
 };
 clip_t vannaClips[6] = {
-    { 64, 96, 8, 6, 2, 1, NULL, 21, D_800703C4 },
-    { 64, 96, 9, 6, 2, 1, NULL, 24, D_80071EC4 },
-    { 64, 96, 7, 4, 3, 1, NULL, 25, D_800748C4 },
-    { 64, 96, 4, 6, 0, 1, NULL, 26, D_80075DC4 },
-    { 64, 96, 1, 1, 3, 1, NULL, 24, D_80071EC4 },
-    { 64, 96, 5, 6, 2, 1, NULL, 33, D_800739C4 }
+    { 64, 96, 8, 6, 2, 1, NULL, 21, vannaWalkMask },
+    { 64, 96, 9, 6, 2, 1, NULL, 24, vannaAnim1Mask },
+    { 64, 96, 7, 4, 3, 1, NULL, 25, vannaAnim2Mask },
+    { 64, 96, 4, 6, 0, 1, NULL, 26, vannaTurnMask },
+    { 64, 96, 1, 1, 3, 1, NULL, 24, vannaAnim1Mask },
+    { 64, 96, 5, 6, 2, 1, NULL, 33, vannaAnim5Mask }
 };
-s32 D_8005C8C8[13] = { 0, -5, -1, 3, -2, -6, -4, 1, -1, 0, 2, 8, 9 };
-s32 D_8005C8FC[3] = { 0, 2, 8 };
-s32 D_8005C908[1] = { 9 };
-s32 D_8005C90C[15] = {
+s32 vannaWalkOffsets[13] = { 0, -5, -1, 3, -2, -6, -4, 1, -1, 0, 2, 8, 9 };
+s32 vannaTurnOffsets[3] = { 0, 2, 8 };
+s32 columnLeftEdges[1] = { 9 };
+s32 columnRightEdges[15] = {
     0, 71, 142, 213, 284, 355, 426, 497, 568, 639, 710, 781, 852, 923, 994
 };
 
@@ -455,8 +455,8 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
         }
         i = 1;
         while (i < 15) {
-            if (vannaX < D_8005C90C[i]) {
-                if (vannaX > D_8005C908[i]) {
+            if (vannaX < columnRightEdges[i]) {
+                if (vannaX > columnLeftEdges[i]) {
                     TurnSquares(i - 1);
                 }
             }
@@ -470,7 +470,7 @@ L384: ;
     SetVannaPicture(frame, (proc->data->vannaAnim.mirror * lightDir));
     switch (proc->data->vannaAnim.anim) {
     case 0:
-        obj->x = D_8005C8C8[proc->data->vannaAnim.frame] * 4 * lightDir + vannaX;
+        obj->x = vannaWalkOffsets[proc->data->vannaAnim.frame] * 4 * lightDir + vannaX;
         if (((lightDir == 1) && ((vannaX >= 921) && (proc->data->vannaAnim.frame == 1))) || ((lightDir == -1) && ((vannaX < 100) && (proc->data->vannaAnim.frame == 1)))) {
             InitVannaAnim(3, 0);
             ret.w[1] = 0;
@@ -479,7 +479,7 @@ L384: ;
         }
         break;
     case 3:
-        obj->x = D_8005C8FC[proc->data->vannaAnim.frame] * 4 * lightDir + vannaX;
+        obj->x = vannaTurnOffsets[proc->data->vannaAnim.frame] * 4 * lightDir + vannaX;
         break;
     }
     ret.w[1] = 1;
@@ -744,7 +744,7 @@ s32 PlayContestantClip(s32 clip, s32 event, s32 player) {
     if (slots[clip].count > 0) {
         obj = FindObj(player | 0xA020000, -1);
         if (obj == 0) {
-            FatalError(D_800019BC);
+            FatalError(noContestantObjMsg);
         }
         other = FindProc(player | 0xA000300, -1);
         if (other != 0) {

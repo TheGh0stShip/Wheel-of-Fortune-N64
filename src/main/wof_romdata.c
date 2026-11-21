@@ -20,8 +20,8 @@ s32 staticRom = 0xB025D828;
 s32 staticSize = 0x0013AE68;
 s32 sceneDataRom = 0xB0398690;
 s32 sceneDataSize = 0x00060298;
-s32 D_8006DCFC = 0xB03F8928;
-s32 D_8006DD00 = 0x800FB898;
+s32 sceneDataRomEnd = 0xB03F8928;
+s32 bssEnd = 0x800FB898;
 s32 sfxCtlRom = 0xB01A3E48;
 s32 sfxCtlRomEnd = 0xB01AB350;
 s32 sfxTblRom = 0xB00A5C78;
@@ -41,98 +41,98 @@ s32 movieSizes[38] = {
 };
 
 // zero, then a mask: StartCelebration decodes movie 0x16 with it
-s32 D_8006DDC4[0x980] = {
+s32 celebrationMask[0x980] = {
 #include "assets/D_8006DDC4.inc.c"
 };
 
-s32 D_800703C4[1728] = {
+s32 vannaWalkMask[1728] = {
 #include "assets/D_800703C4.inc.c"
 };
 
-s32 D_80071EC4[1728] = {
+s32 vannaAnim1Mask[1728] = {
 #include "assets/D_80071EC4.inc.c"
 };
 
-s32 D_800739C4[960] = {
+s32 vannaAnim5Mask[960] = {
 #include "assets/D_800739C4.inc.c"
 };
 
-s32 D_800748C4[1344] = {
+s32 vannaAnim2Mask[1344] = {
 #include "assets/D_800748C4.inc.c"
 };
 
-s32 D_80075DC4[768] = {
+s32 vannaTurnMask[768] = {
 #include "assets/D_80075DC4.inc.c"
 };
 
-s32 D_800769C4[1024] = {
+s32 contestant0AnimMask[1024] = {
 #include "assets/D_800769C4.inc.c"
 };
 
-s32 D_800779C4[1152] = {
+s32 contestant0ClipMask1[1152] = {
 #include "assets/D_800779C4.inc.c"
 };
 
-s32 D_80078BC4[128] = {
+s32 contestant0StillMask[128] = {
 #include "assets/D_80078BC4.inc.c"
 };
 
-s32 D_80078DC4[1152] = {
+s32 contestant1AnimMask[1152] = {
 #include "assets/D_80078DC4.inc.c"
 };
 
-s32 D_80079FC4[128] = {
+s32 contestant1StillMask[128] = {
 #include "assets/D_80079FC4.inc.c"
 };
 
-s32 D_8007A1C4[1024] = {
+s32 contestant2AnimMask[1024] = {
 #include "assets/D_8007A1C4.inc.c"
 };
 
-s32 D_8007B1C4[128] = {
+s32 contestant2StillMask[128] = {
 #include "assets/D_8007B1C4.inc.c"
 };
 
-s32 D_8007B3C4[768] = {
+s32 contestant2ClipMask0[768] = {
 #include "assets/D_8007B3C4.inc.c"
 };
 
-s32 D_8007BFC4[768] = {
+s32 contestant3AnimMask[768] = {
 #include "assets/D_8007BFC4.inc.c"
 };
 
-s32 D_8007CBC4[128] = {
+s32 contestant3StillMask[128] = {
 #include "assets/D_8007CBC4.inc.c"
 };
 
-s32 D_8007CDC4[768] = {
+s32 contestant3ClipMask0[768] = {
 #include "assets/D_8007CDC4.inc.c"
 };
 
-s32 D_8007D9C4[1280] = {
+s32 contestant4AnimMask[1280] = {
 #include "assets/D_8007D9C4.inc.c"
 };
 
-s32 D_8007EDC4[128] = {
+s32 contestant4StillMask[128] = {
 #include "assets/D_8007EDC4.inc.c"
 };
 
-s32 D_8007EFC4[1152] = {
+s32 contestant4ClipMask0[1152] = {
 #include "assets/D_8007EFC4.inc.c"
 };
 
-s32 D_800801C4[1152] = {
+s32 contestant4ClipMask1[1152] = {
 #include "assets/D_800801C4.inc.c"
 };
 
-s32 D_800813C4[896] = {
+s32 contestant5AnimMask[896] = {
 #include "assets/D_800813C4.inc.c"
 };
 
-s32 D_800821C4[512] = {
+s32 contestant5ClipMask0[512] = {
 #include "assets/D_800821C4.inc.c"
 };
 
-s32 D_800829C4[128] = {
+s32 contestant5StillMask[128] = {
 #include "assets/D_800829C4.inc.c"
 };

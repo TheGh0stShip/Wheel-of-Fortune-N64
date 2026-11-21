@@ -149,7 +149,7 @@ void LoadPuzzle(s32 puzzle, u8 *str) {
         players[len].hasPrize = 0;
     }
     category[0] = 0;
-    D_800B9655[0] = 0;
+    puzzleTail[0] = 0;
     uncalled[0] = 0;
     for (line = 0; line < 4; line++) {
         for (len = 0; len < 14; len++) {
@@ -218,8 +218,8 @@ void LoadPuzzle(s32 puzzle, u8 *str) {
         line++;
     }
     len = StrChr(text, 10) - text;
-    StrNCopy(D_800B9655, text, len);
-    D_800B9655[len] = 0;
+    StrNCopy(puzzleTail, text, len);
+    puzzleTail[len] = 0;
     StrCopy(uncalled, alphabet);
     for (line = 0; line < 4; line++) {
         for (len = 0; len < 14; len++) {

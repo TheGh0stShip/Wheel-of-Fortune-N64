@@ -61,8 +61,8 @@ void InitGraphics(void) {
     staticSegment = AllocMem(size);
     ReadRom(staticRom, staticSegment, size);
     gfxInfo[0].msg.type = OS_SC_DONE_MSG;
-    gfxInfo[0].framebuffer = D_803B5000;
+    gfxInfo[0].framebuffer = framebuffer0;
     gfxInfo[1].msg.type = OS_SC_DONE_MSG;
-    gfxInfo[1].framebuffer = D_803DA800;
+    gfxInfo[1].framebuffer = framebuffer1;
     osViSetSpecialFeatures(64);
 }

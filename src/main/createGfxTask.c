@@ -3,7 +3,7 @@
 #include "wof.h"
 
 // guess: the lights of every scene are this object's. They lie between the audio manager's data and
-// D_8004B830 with no fill on either side, so they are the data of this object, of one of the objects
+// firstframe with no fill on either side, so they are the data of this object, of one of the objects
 // between the audio manager and createGfxTask, or of an object of their own; their content is the
 // graphics'.
 Lights7 sceneLights = {
@@ -18,7 +18,7 @@ Lights7 sceneLights = {
         { { { 0, 0, 0 }, 0, { 0, 0, 0 }, 0, { 100, 0, 0 }, 0 } }
     }
 };
-s32 D_8004B830 = 1;
+s32 firstframe = 1;
 
 void createGfxTask(gfxInfo_t *info) {
     frame_t *frame;
@@ -40,9 +40,9 @@ void createGfxTask(gfxInfo_t *info) {
     gSPSegment(glistp++, 1, osVirtualToPhysical(staticSegment));
     gSPSegment(glistp++, 2, osVirtualToPhysical(frame));
     gSPDisplayList(glistp++, D_01021948);
-    if (D_8004B830 != 0) {
+    if (firstframe != 0) {
         gSPDisplayList(glistp++, D_010217E0);
-        D_8004B830 = 0;
+        firstframe = 0;
     }
     gSPDisplayList(glistp++, D_010218C8);
     gDPSetDepthImage(glistp++, osVirtualToPhysical(zbuffer));
@@ -88,8 +88,8 @@ void createGfxTask(gfxInfo_t *info) {
     t->list.t.flags = 0x0;
     t->list.t.ucode_boot = (u64 *)rspbootTextStart;
     t->list.t.ucode_boot_size = (s32)rspbootTextEnd - (s32)rspbootTextStart;
-    t->list.t.ucode = (u64 *)D_80034A88;
-    t->list.t.ucode_data = (u64 *)D_80082BC8;
+    t->list.t.ucode = (u64 *)gfxUcodeText;
+    t->list.t.ucode_data = (u64 *)gfxUcodeData;
     t->list.t.ucode_data_size = SP_UCODE_DATA_SIZE;
     t->list.t.dram_stack = (u64 *)dram_stack;
     t->list.t.dram_stack_size = SP_DRAM_STACK_SIZE8;

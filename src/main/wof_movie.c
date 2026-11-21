@@ -146,7 +146,7 @@ void StoreFrame64x64(u16 *pixels) {
     dst = gfxInfo[curGfxInfo].frame.unk_0AC00[0];
     if (movieToMemory != 0) {
         dst = moviePictures;
-        mask = D_800B81E4;
+        mask = curMask;
         n = 4032;
         row = 126;
         for (i = 0; i < 64; i++) {
@@ -171,13 +171,13 @@ void StoreFrame64x64(u16 *pixels) {
             n -= 96;
         }
         moviePictures += 0x1000;
-        D_800B81E4 += 128;
+        curMask += 128;
         return;
     }
     dst = gfxInfo[curGfxInfo].frame.unk_19C00;
     row = 0;
     n = 0;
-    mask = D_800B81E4;
+    mask = curMask;
     for (i = 0; i < 64; i++) {
         bits0 = mask[row++];
         bits1 = mask[row++];
@@ -198,7 +198,7 @@ void StoreFrame64x64(u16 *pixels) {
         }
         n += 32;
     }
-    D_800B81E4 += 128;
+    curMask += 128;
 }
 
 /*
@@ -228,7 +228,7 @@ void StoreFrame64x96(u16 *pixels) {
     dst = gfxInfo[curGfxInfo].frame.unk_0AC00[0];
     if (movieToMemory != 0) {
         dst = moviePictures;
-        mask = D_800B81E4;
+        mask = curMask;
         n = 0x17C0;
         row = 190;
         for (i = 0; i < 96; i++) {
@@ -249,7 +249,7 @@ void StoreFrame64x96(u16 *pixels) {
             n -= 128;
         }
         moviePictures += 0x1800;
-        D_800B81E4 += 192;
+        curMask += 192;
         return;
     }
     n = 0;
@@ -590,7 +590,7 @@ void DecodeMovie(s32 movie, s32 count, s16 *pictures, s32 *mask) {
     }
     movieToMemory = 1;
     moviePictures = pictures;
-    D_800B81E4 = mask;
+    curMask = mask;
     curMovie = movie;
     movieMemMark = PushMemStack();
     movieDone = 0;
@@ -621,7 +621,7 @@ void PlayClip(s32 movie, s32 *mask, obj_t *obj, s32 slot, s32 event) {
         fclose(0);
     }
     movieToMemory = 1;
-    D_800B81E4 = mask;
+    curMask = mask;
     curMovie = movie;
     moviePictures = gfxInfo[curGfxInfo].frame.unk_0AC00[slot];
     SetCameraView(17);

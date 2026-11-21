@@ -133,7 +133,7 @@ image_t playerStatusImages[3][2] = {
         { 253, 174, 40, 22, 0, 32, 16, 0, (u16 *)0x01002260, (u16 *)0x01004BA0 }
     }
 };
-image_t D_8005A5A8[3] = {
+image_t prizeImages[3] = {
     { 58, 169, 32, 16, 0, 16, 8, 0, (u16 *)0x01010520, NULL },
     { 136, 169, 32, 16, 0, 16, 8, 0, (u16 *)0x01010520, NULL },
     { 214, 169, 32, 16, 0, 16, 8, 0, (u16 *)0x01010520, NULL }
@@ -152,7 +152,7 @@ image_t noControllerImages[2] = {
     { 96, 104, 64, 32, 1, 16, 8, 0, (u16 *)0x0113CE68, (u16 *)0x0113DE68 },
     { 160, 104, 64, 32, 1, 16, 8, 0, (u16 *)0x0113AE68, (u16 *)0x0113BE68 }
 };
-image_t D_8005A7B0[3] = {
+image_t freeSpinImages[3] = {
     { 58, 171, 20, 20, 0, 16, 8, 0, (u16 *)0x01010200, NULL },
     { 136, 171, 20, 20, 0, 16, 8, 0, (u16 *)0x01010200, NULL },
     { 214, 171, 20, 20, 0, 16, 8, 0, (u16 *)0x01010200, NULL }
@@ -246,10 +246,10 @@ u16 *bigDigitTextures[12] = {
     (u16 *)0x01013E60, (u16 *)0x01013FC8
 };
 s32 bigDigitAdvances[10] = { 10, 8, 10, 10, 11, 10, 10, 10, 10, 10 };
-s32 D_8005B170 = 10;
-s32 D_8005B174 = 5;
+s32 dollarAdvance = 10;
+s32 commaAdvance = 5;
 s32 bigDigitWidths[12] = { 12, 8, 12, 12, 12, 12, 12, 12, 12, 12, 12, 8 };
-image_t D_8005B1A8[7] = {
+image_t bonusPrizeImages[7] = {
     { 128, 100, 12, 15, 1, 32, 16, 0, (u16 *)0x01013E60, NULL },
     { 138, 100, 12, 15, 1, 32, 16, 0, (u16 *)0x01014310, NULL },
     { 148, 100, 12, 15, 1, 32, 16, 0, (u16 *)0x01014748, NULL },
@@ -288,7 +288,7 @@ image_t bigNumberImages[9] = {
     { 46, 61, 12, 15, 0, 32, 16, 0, (u16 *)0x01014478, NULL },
     { 58, 61, 12, 15, 0, 32, 16, 0, (u16 *)0x010145E0, NULL }
 };
-image_t D_8005B630[3] = {
+image_t jackpotSignImages[3] = {
     { 18, 9, 28, 55, 0, 32, 16, 0, (u16 *)0x01011C00, NULL },
     { 46, 9, 24, 55, 0, 32, 16, 0, (u16 *)0x01012808, NULL },
     { 70, 9, 28, 55, 0, 32, 16, 0, (u16 *)0x01013258, NULL }
@@ -325,11 +325,11 @@ image_t categoryImages[22] = {
     { 268, 154, 12, 16, 0, 32, 16, 0, (u16 *)0x01016AD0, NULL },
     { 280, 154, 8, 16, 0, 32, 16, 0, (u16 *)0x01017650, NULL }
 };
-s32 D_8005BA80[16] = {
+s32 categoryWheelFrames[16] = {
     0x01017D50, 0x010181D0, 0x01018650, 0x01018AD0, 0x01018F50, 0x010193D0, 0x01019850, 0x01019CD0,
     0x0101A150, 0x0101A5D0, 0x0101AA50, 0x0101AED0, 0x0101B350, 0x0101B7D0, 0x0101BC50, 0x0101C0D0
 };
-image_t D_8005BAC0[13] = {
+image_t pressStartImages[13] = {
     { 92, 200, 8, 16, 1, 32, 16, 0, (u16 *)0x01017550, NULL },
     { 100, 200, 12, 16, 1, 32, 16, 0, (u16 *)0x010164D0, NULL },
     { 112, 200, 12, 16, 1, 32, 16, 0, (u16 *)0x010167D0, NULL },
@@ -424,7 +424,7 @@ void DrawStatus(obj_t *obj, frame_t *frame) {
         case 18:
             j = 0;
             while (j < 3) {
-                DrawImage(&D_8005B630[j], 1);
+                DrawImage(&jackpotSignImages[j], 1);
                 j++;
             }
             j = 0;
@@ -453,10 +453,10 @@ void DrawStatus(obj_t *obj, frame_t *frame) {
     i = 0;
     while (i < 3) {
         if (players[i].freeSpin != 0) {
-            DrawImage(&D_8005A7B0[i], 1);
+            DrawImage(&freeSpinImages[i], 1);
         }
         if (players[i].hasPrize != 0) {
-            DrawImage(&D_8005A5A8[i], 1);
+            DrawImage(&prizeImages[i], 1);
         }
         i++;
     }
@@ -561,7 +561,7 @@ void DrawBonusPrize(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, &D_01021970);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 7; i++) {
-        DrawImage(&D_8005B1A8[i], 1);
+        DrawImage(&bonusPrizeImages[i], 1);
     }
 }
 
@@ -621,7 +621,7 @@ void DrawPressStart(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, &D_01021970);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 13; i++) {
-        DrawImage(&D_8005BAC0[i], 1);
+        DrawImage(&pressStartImages[i], 1);
     }
 }
 
@@ -677,7 +677,7 @@ void DrawPause(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, &D_01021970);
     gDPSetCycleType(glistp++, G_CYC_COPY);
     for (i = 0; i < 13; i++) {
-        DrawImageAt(&D_8005BAC0[i], 1, 0, -114);
+        DrawImageAt(&pressStartImages[i], 1, 0, -114);
     }
 }
 
@@ -794,7 +794,7 @@ struct procResult_s CategoryProc(proc_t *proc) {
     if (index >= 16) {
         index = index % 16;
     }
-    obj->image = D_8005BA80[index];
+    obj->image = categoryWheelFrames[index];
     proc->data->categoryShow.index++;
     return result;
 }
@@ -1015,8 +1015,8 @@ void ShowJackpot(void) {
         for (i = 0; i < len; i++) {
             x = x + bigDigitAdvances[buf[i] - '0'];
         }
-        x = x + D_8005B170;
-        x = x + D_8005B174;
+        x = x + dollarAdvance;
+        x = x + commaAdvance;
         x = x / 2;
         x = 58 - x;
         pos = 0;
@@ -1078,8 +1078,8 @@ void ShowTotal(void) {
     for (i = 0; i < len; i++) {
         x = x + bigDigitAdvances[buf[i] - '0'];
     }
-    x = x + D_8005B170;
-    x = x + D_8005B174;
+    x = x + dollarAdvance;
+    x = x + commaAdvance;
     x = x / 2;
     x = 160 - x;
     pos = 0;
@@ -1596,7 +1596,7 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
         case 8:
             bonusMusicSlot = -1;
             for (i = 0; i < 5; i++) {
-                D_800B61B0[i] = 0;
+                bonusPicks[i] = 0;
             }
             bonusConsonants = 0;
             bonusVowels = 0;
@@ -1685,12 +1685,12 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
             bonusLetterSlots[i].width = bonusLetterImages[curLetter - 65].width;
             bonusLetterSlots[i].height = bonusLetterImages[curLetter - 65].height;
             ShowLetter(curLetter);
-            D_800B61AA[i] = curLetter;
-            if (StrLen(D_800B61B0) == 4) {
+            bonusSlotLetters[i] = curLetter;
+            if (StrLen(bonusPicks) == 4) {
                 task = CreatProc(LightTextProc, 0x1000000);
                 task->data->lightText.row = 0;
                 task->data->lightText.col = 0;
-                task->data->lightText.text = D_800B61B0;
+                task->data->lightText.text = bonusPicks;
                 ret.w[1] = 2;
                 ret.w[0] = 6;
             } else {

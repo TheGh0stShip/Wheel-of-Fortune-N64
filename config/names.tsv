@@ -1084,3 +1084,75 @@ mpegStart	function	0x8009CEC0	invented	the decoder's main (guess: mpeg_play's ma
 mpegNextFrame	function	0x8009D244	invented	the body of the loop mpeg_play's main ended with, which had no name: decodes until one more frame is shown, and returns 1 at the film's end
 fclose	function	0x800A4E58	lineage	guess: the C library's fclose, which mpeg_play calls on its input when the film ends; include/mpeg/libc.h said so, and the stand-in only marks the one stream closed
 streamOpen	global	0x80086D58	invented	fopen sets it and refuses while it is set; fclose clears it; the game's movie functions call fclose first while it is set
+noContestantObjMsg	global	0x800019BC	invented	the string "InitAnim: cannot find contestant obj" that PlayContestantClip passes to FatalError
+gfxUcodeText	global	0x80034A88	invented	the text of the graphics microcode createGfxTask gives its task; which SDK microcode it is the bytes do not say, so it is named for its role
+gfxUcodeData	global	0x80082BC8	invented	the data of that microcode, the task's ucode_data
+firstframe	global	0x8004B830	lineage	guess: the SDK demos' gfx.c: 1 at first, and createGfxTask sends rdpstateinit_dl and clears it, between setup_rspstate and setup_rdpstate
+vFlag	global	0x8004B838	invented	parse_args sets it for the -v switch; nothing reads it
+sFlag	global	0x8004B840	invented	parse_args sets it for the -s switch; nothing reads it
+lFlag	global	0x8004B844	invented	parse_args sets it for the -l switch; nothing reads it
+letterBoardDls	global	0x80057988	invented	DrawLetterBoard draws 26 entries from here, each one quad with one letter's texture (the first is A's): the letters of the letter board
+scorePanelDigitDls	global	0x80057B50	invented	[3][8] quads DrawScores draws with each digit texture of scoreDigits: the digits of the scores on the stage
+firstRoundWedgeDls	global	0x80057C08	invented	wedgeDls[0], used when round is 0, as firstRoundWedges is
+secondRoundWedgeDls	global	0x80057CC8	invented	wedgeDls[1], used when round is 1, as secondRoundWedges is
+jackpotRoundWedgeDls	global	0x80057D88	invented	wedgeDls[2], used when round is 2, as jackpotRoundWedges is
+laterRoundWedgeDls	global	0x80057E48	invented	wedgeDls[3] to [6], used in the later rounds, as laterRoundWedges is
+controllerLabelPos	global	0x800584A0	invented	StartMainMenu1 puts pictures 2 to 6 of the first menu, the labels Controller 1 to 4 and Computer, at these places in turn, one for each controller plugged in
+playerMenuTextures	global	0x800588A8	invented	for each player the textures StartContestantMenu gives pictures 0, 7 and 8 of contestantMenuImages: the player's label and status pictures
+prizeImages	global	0x8005A5A8	invented	DrawStatus draws entry i while players[i].hasPrize: the prize token
+freeSpinImages	global	0x8005A7B0	invented	DrawStatus draws entry i while players[i].freeSpin: the free spin token
+dollarAdvance	global	0x8005B170	invented	ShowJackpot and ShowTotal add it as the advance of the $ glyph, and read it as bigDigitAdvances[10]
+commaAdvance	global	0x8005B174	invented	the same for the , glyph, bigDigitAdvances[11]
+bonusPrizeImages	global	0x8005B1A8	invented	seven big-digit glyphs, $ 2 5 , 0 0 0, which DrawBonusPrize shows
+jackpotSignImages	global	0x8005B630	invented	three pictures that read JACKPOT on a sign; DrawStatus shows them in round 2
+categoryWheelFrames	global	0x8005BA80	invented	16 pictures of 24 by 24 of a small wheel turning; CategoryProc shows them in turn
+pressStartImages	global	0x8005BAC0	invented	13 category glyphs: the plate's caps around P R E S S, a space, S T A R T
+vannaWalkOffsets	global	0x8005C8C8	invented	added, times 4 times lightDir, to vannaX for each picture of animation 0, the walk along the board
+vannaTurnOffsets	global	0x8005C8FC	invented	the same for animation 3, after which lightDir turns
+columnLeftEdges	global	0x8005C908	invented	VannaAnimProc reads [i] as the left edge of board column i - 1 (the entry before columnRightEdges[i]); defined as one entry
+columnRightEdges	global	0x8005C90C	invented	VannaAnimProc turns the squares of column i - 1 while vannaX lies below [i] and above the entry before it: steps of 71 from 0
+fastSpinPath1	global	0x800650B0	invented	the move of view 11, which SpinProc picks at random with view 15 for a spin of 110 or more
+fastSpinPath2	global	0x8005C960	invented	the move of view 15, the other of the two
+gameStartPath	global	0x80069908	invented	the move of view 12, which GameStartProc sets when a game starts
+nextRoundPath	global	0x80068C38	invented	the move of view 13, which RoundOverProc sets before the next round
+view14Path	global	0x80067F68	invented	the move of view 14; no code selects view 14
+view16Path	global	0x8006C360	invented	the move of view 16; no code selects view 16
+unusedCameraPath	global	0x80067298	invented	a camera move of 91 frames that no view holds
+sceneDataRomEnd	global	0x8006DCFC	invented	its value is sceneDataRom + sceneDataSize, the end of the cartridge's contents; nothing reads it
+bssEnd	global	0x8006DD00	invented	its value, 0x800FB898, is where the entry stub stops clearing the uninitialised data; nothing reads it
+celebrationMask	global	0x8006DDC4	invented	the mask StartCelebration puts in curMask before it decodes movie 22
+vannaWalkMask	global	0x800703C4	invented	the mask of vannaClips[0], the walk
+vannaAnim1Mask	global	0x80071EC4	invented	the mask of vannaClips[1] and [4], both from movie 24
+vannaAnim2Mask	global	0x800748C4	invented	the mask of vannaClips[2]
+vannaTurnMask	global	0x80075DC4	invented	the mask of vannaClips[3], after which Vanna turns
+vannaAnim5Mask	global	0x800739C4	invented	the mask of vannaClips[5]
+contestant0AnimMask	global	0x800769C4	invented	the mask of contestantClips[0][0], contestant 0's clip of several pictures
+contestant1AnimMask	global	0x80078DC4	invented	the mask of contestantClips[1][0]
+contestant2AnimMask	global	0x8007A1C4	invented	the mask of contestantClips[2][0]
+contestant3AnimMask	global	0x8007BFC4	invented	the mask of contestantClips[3][0]
+contestant4AnimMask	global	0x8007D9C4	invented	the mask of contestantClips[4][0]
+contestant5AnimMask	global	0x800813C4	invented	the mask of contestantClips[5][0]
+contestant0StillMask	global	0x80078BC4	invented	the mask of contestantClips[0][1] and menuClips[0], one picture
+contestant1StillMask	global	0x80079FC4	invented	the mask of contestantClips[1][1] and menuClips[1]
+contestant2StillMask	global	0x8007B1C4	invented	the mask of contestantClips[2][1] and menuClips[2]
+contestant3StillMask	global	0x8007CBC4	invented	the mask of contestantClips[3][1] and menuClips[3]
+contestant4StillMask	global	0x8007EDC4	invented	the mask of contestantClips[4][1] and menuClips[4]
+contestant5StillMask	global	0x800829C4	invented	the mask of contestantClips[5][1] and menuClips[5]
+contestant0ClipMask1	global	0x800779C4	invented	the mask of contestantMovies[0][1], a clip PlayContestantClip plays
+contestant2ClipMask0	global	0x8007B3C4	invented	the mask of contestantMovies[2][0]
+contestant3ClipMask0	global	0x8007CDC4	invented	the mask of contestantMovies[3][0]
+contestant4ClipMask0	global	0x8007EFC4	invented	the mask of contestantMovies[4][0]
+contestant4ClipMask1	global	0x800801C4	invented	the mask of contestantMovies[4][1]
+contestant5ClipMask0	global	0x800821C4	invented	the mask of contestantMovies[5][0]
+retraceClient	global	0x800B3988	invented	the second client InitGame adds to the scheduler, which sends its clients the retraces; nothing reads its queue
+retraceMsgQ	global	0x800B9CD0	invented	that client's queue
+retraceMsgBuf	global	0x800BEE00	invented	the 8 messages of retraceMsgQ
+bonusSlotLetters	global	0x800B61AA	invented	BonusRoundProc stores the letter of bonusLetterSlots[i] at [i]; i is 6 to 9 there, which are bonusPicks
+hubAngle	global	0x800B61AC	invented	StartOpening zeroes it, OpeningProc takes a degree off each retrace, DrawOpeningHub turns the hub by it
+bonusPicks	global	0x800B61B0	invented	cleared at the start of the bonus round; holds the picked consonants and vowel as a string, which LightTextProc lights once it has 4 letters
+curMask	global	0x800B81E4	invented	the clip mask StoreFrame64x64 and StoreFrame64x96 store frames through; PlayClip, DecodeMovie and StartCelebration set it
+puzzleTail	global	0x800B9655	invented	LoadPuzzle copies the text after the fourth tab of the puzzle's line, up to the newline, here; nothing reads it
+bootArg	global	0x800BA5D4	invented	boot passes it to the idle thread, which passes it to mainproc and GameThread
+sndPlayerData	global	0x800BCCF8	invented	the ALSndPlayer that sndPlayer points at
+logoSpread	global	0x800BEE24	invented	OpeningProc adds 5 a retrace from frame 269 to 318; the hub, the wedges and the title letters move out from the logo's centre by it
+framebuffer0	global	0x803B5000	invented	gfxInfo[0].framebuffer

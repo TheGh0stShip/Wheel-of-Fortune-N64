@@ -240,7 +240,7 @@ typedef struct {
     /* 0x14 */ s32 mirror;
     /* 0x18 */ s16 *pictures;     // the pictures, once they are decoded
     /* 0x1C */ s32 movie;       // its number in movies
-    /* 0x20 */ s32 *unk_20;     // what D_800B81E4 is while it is decoded
+    /* 0x20 */ s32 *unk_20;     // what curMask is while it is decoded
 } clip_t;    // size 0x24
 
 // three coordinates: where InitMenuAnim puts a contestant's obj
@@ -744,23 +744,23 @@ extern Gfx D_01197D78[];
 // read-only data starts in an earlier function, which fixes where this one's strings and jump
 // tables fall
 //
-extern char D_800019BC[];   // "InitAnim: cannot find contestant obj", in PlayContestantClip
+extern char noContestantObjMsg[];   // "InitAnim: cannot find contestant obj", in PlayContestantClip
 
 //
 // globals, in address order
 //
-extern long long int D_80034A88[];  // the text of the graphics microcode (asm/sdk/ucode_80034A88.s)
+extern long long int gfxUcodeText[];  // the text of the graphics microcode (asm/sdk/ucode_80034A88.s)
 extern ALSndPlayer *sndPlayer;
 extern s32 reverbParams[];            // the parameters of the custom reverb
 extern u32 audFrameCt;              // audFrameCt
 extern u32 nextDMA;              // nextDMA
 extern u32 curAcmdList;              // curAcmdList
 extern Lights7 sceneLights;          // the lights of every scene: DrawCamera sets the first six
-extern s32 D_8004B830;
-extern s32 D_8004B838;
+extern s32 firstframe;              // guess: the demos' firstframe; rdpstateinit_dl goes once
+extern s32 vFlag;                   // set by parse_args for the -v switch; nothing reads it
 extern s32 debugflag;
-extern s32 D_8004B840;
-extern s32 D_8004B844;
+extern s32 sFlag;                   // set by parse_args for the -s switch; nothing reads it
+extern s32 lFlag;                   // set by parse_args for the -l switch; nothing reads it
 extern s32 wheelStartAngles[];
 extern s32 firstRoundWedges[];
 extern s32 secondRoundWedges[];
@@ -776,20 +776,20 @@ extern titleLetter_t titleLetters[];
 extern Gfx *openingWedgeDls[];
 extern Mtx *openingWedgeMtxs[];
 extern s32 logoTiles[][3];
-extern Gfx *D_80057988[];
+extern Gfx *letterBoardDls[];       // [26] the letter board's letters, A to Z (see letterPictures)
 extern u8 *letterPictures[];           // the pictures of the letters, by character
 extern Gfx *topRowDls[];           // topRowDls to bottomRowDls: the display lists of the squares of each row
 extern Gfx *secondRowDls[];
 extern Gfx *thirdRowDls[];
 extern u16 *scoreDigitPictures[];
 extern Gfx *bottomRowDls[];
-extern Gfx *D_80057B50[][8];
+extern Gfx *scorePanelDigitDls[][8]; // [3], the 8 digit quads of each score on stage
 extern layer_t scorePanels[];
 extern s32 D_80057BF8[];          // four segment addresses no instruction names
-extern wedgeDl_t D_80057C08[];
-extern wedgeDl_t D_80057CC8[];
-extern wedgeDl_t D_80057D88[];
-extern wedgeDl_t D_80057E48[];
+extern wedgeDl_t firstRoundWedgeDls[]; // the wedges of each kind of round, as wedgeDls takes them
+extern wedgeDl_t secondRoundWedgeDls[];
+extern wedgeDl_t jackpotRoundWedgeDls[];
+extern wedgeDl_t laterRoundWedgeDls[];
 extern wedgeDl_t *wedgeDls[];
 extern Gfx *backdropDls[];
 extern Gfx *backdropOverlays[];
@@ -802,11 +802,11 @@ extern u8 consonantOrder[];          // "RSTLNCBDMHFYKJGPQVWXZ"
 extern u8 vowelOrder[];          // "EAIOU"
 extern movie_t movies[];
 extern char winnerText[];           // "You are the BIG winner!"
-extern s32 D_800584A0[][2];         // [5], x and y of pictures 2 to 6 of the first menu
+extern s32 controllerLabelPos[][2];         // [5], x and y of pictures 2 to 6 of the first menu
 extern menuItem_t mainMenu1[];
 extern image_t mainMenu1Images[];
 extern menuItem_t contestantMenu[];
-extern u16 *D_800588A8[][3][2];     // [3], for each contestant texture and dimTexture of pictures 0, 7 and 8 of contestantMenuImages
+extern u16 *playerMenuTextures[][3][2];     // [3], for each contestant texture and dimTexture of pictures 0, 7 and 8 of contestantMenuImages
 extern image_t contestantMenuImages[];
 extern menuItem_t mainMenu3[];
 extern image_t mainMenu3Images[];
@@ -821,10 +821,10 @@ extern voice_t voices[];
 extern vec_t playerPos[];
 extern u8 defaultNames[][10];
 extern image_t playerStatusImages[][2];
-extern image_t D_8005A5A8[];
+extern image_t prizeImages[];       // [3] the prize token of each player, shown while hasPrize
 extern image_t bootScreenImages[];
 extern image_t noControllerImages[];
-extern image_t D_8005A7B0[];
+extern image_t freeSpinImages[];    // [3] the free spin token of each player, shown while freeSpin
 extern image_t actionImages[];
 extern u16 *calledLetterTextures[];
 extern u16 *letterTextures[];
@@ -833,19 +833,19 @@ extern u16 *statusDigitTextures[];
 extern image_t statusScoreImages[][7];
 extern u16 *bigDigitTextures[];
 extern s32 bigDigitAdvances[];
-extern s32 D_8005B170;
-extern s32 D_8005B174;
+extern s32 dollarAdvance;           // read as bigDigitAdvances[10], the $ glyph's
+extern s32 commaAdvance;            // bigDigitAdvances[11]: the advance of the , glyph
 extern s32 bigDigitWidths[];
-extern image_t D_8005B1A8[];
+extern image_t bonusPrizeImages[];  // [7] $25,000 in big digits
 extern image_t bonusTimerImages[];
 extern image_t retraceImages[];
 extern image_t rollingNumberImages[];
 extern image_t bigNumberImages[];
 extern u16 *categoryLetterTextures[];
-extern image_t D_8005B630[];
+extern image_t jackpotSignImages[]; // [3] the JACKPOT sign over the jackpot in round 2
 extern image_t categoryImages[];
-extern s32 D_8005BA80[];
-extern image_t D_8005BAC0[];
+extern s32 categoryWheelFrames[];   // [16] a small wheel turning, 24 by 24
+extern image_t pressStartImages[];  // [13] PRESS START in the category's letters
 extern letterImage_t bonusLetterImages[];
 extern image_t bonusLetterSlots[];
 extern u8 *creditsText[];
@@ -856,21 +856,21 @@ extern clip_t contestantClips[][2];
 extern clip_t contestantMovies[][2];
 extern clip_t menuClips[];
 extern clip_t vannaClips[];
-extern s32 D_8005C8C8[];
-extern s32 D_8005C8FC[];
-extern s32 D_8005C908[];
-extern s32 D_8005C90C[];
+extern s32 vannaWalkOffsets[];      // x offsets of animation 0, by picture
+extern s32 vannaTurnOffsets[];      // x of animation 3, by picture: 4 with the next
+extern s32 columnLeftEdges[];       // read as [i] = columnRightEdges[i - 1]
+extern s32 columnRightEdges[];      // [15] the right edges of the board's columns in vannaX, from 0
 extern s32 confettiTextures[];
 extern f32 confettiGravity;
 extern f32 confettiDrag;
-extern camera_t D_8005C960[];
+extern camera_t fastSpinPath2[];    // the move of view 15, one of the two of a fast spin
 extern camera_t openingPath[];
-extern camera_t D_800650B0[];
-extern camera_t D_80067298[];   // a move no view plays
-extern camera_t D_80067F68[];
-extern camera_t D_80068C38[];
-extern camera_t D_80069908[];
-extern camera_t D_8006C360[];
+extern camera_t fastSpinPath1[];    // the move of view 11, one of the two of a fast spin
+extern camera_t unusedCameraPath[];   // a move no view plays
+extern camera_t view14Path[];       // the move of view 14, which no code selects
+extern camera_t nextRoundPath[];    // the move of view 13, between rounds
+extern camera_t gameStartPath[];    // the move of view 12, at the start of a game
+extern camera_t view16Path[];       // the move of view 16, which no code selects
 extern s32 memEnd;
 extern s32 D_8006DCDC;
 extern s32 D_8006DCE0;
@@ -880,8 +880,8 @@ extern s32 staticRom;
 extern s32 staticSize;
 extern s32 sceneDataRom;
 extern s32 sceneDataSize;
-extern s32 D_8006DCFC;
-extern s32 D_8006DD00;
+extern s32 sceneDataRomEnd;         // sceneDataRom + sceneDataSize; nothing reads it
+extern s32 bssEnd;                  // the end of the .bss; nothing reads it
 extern s32 sfxCtlRom;
 extern s32 sfxCtlRomEnd;
 extern s32 sfxTblRom;
@@ -893,31 +893,31 @@ extern s32 D_8006DD20;
 extern s32 D_8006DD24;
 extern s32 D_8006DD28;
 extern s32 movieSizes[];
-extern s32 D_8006DDC4[];  // a mask, zero at first
-extern s32 D_800703C4[];  // a mask
-extern s32 D_80071EC4[];  // a mask
-extern s32 D_800739C4[];  // a mask
-extern s32 D_800748C4[];  // a mask
-extern s32 D_80075DC4[];  // a mask
-extern s32 D_800769C4[];  // a mask
-extern s32 D_800779C4[];  // a mask
-extern s32 D_80078BC4[];  // a mask
-extern s32 D_80078DC4[];  // a mask
-extern s32 D_80079FC4[];  // a mask
-extern s32 D_8007A1C4[];  // a mask
-extern s32 D_8007B1C4[];  // a mask
-extern s32 D_8007B3C4[];  // a mask
-extern s32 D_8007BFC4[];  // a mask
-extern s32 D_8007CBC4[];  // a mask
-extern s32 D_8007CDC4[];  // a mask
-extern s32 D_8007D9C4[];  // a mask
-extern s32 D_8007EDC4[];  // a mask
-extern s32 D_8007EFC4[];  // a mask
-extern s32 D_800801C4[];  // a mask
-extern s32 D_800813C4[];  // a mask
-extern s32 D_800821C4[];  // a mask
-extern s32 D_800829C4[];  // a mask
-extern long long int D_80082BC8[];  // its data
+extern s32 celebrationMask[];  // zero, then a mask: StartCelebration decodes movie 22 through it
+extern s32 vannaWalkMask[];  // a mask
+extern s32 vannaAnim1Mask[];  // a mask
+extern s32 vannaAnim5Mask[];  // a mask
+extern s32 vannaAnim2Mask[];  // a mask
+extern s32 vannaTurnMask[];  // a mask
+extern s32 contestant0AnimMask[];  // a mask
+extern s32 contestant0ClipMask1[];  // a mask
+extern s32 contestant0StillMask[];  // a mask
+extern s32 contestant1AnimMask[];  // a mask
+extern s32 contestant1StillMask[];  // a mask
+extern s32 contestant2AnimMask[];  // a mask
+extern s32 contestant2StillMask[];  // a mask
+extern s32 contestant2ClipMask0[];  // a mask
+extern s32 contestant3AnimMask[];  // a mask
+extern s32 contestant3StillMask[];  // a mask
+extern s32 contestant3ClipMask0[];  // a mask
+extern s32 contestant4AnimMask[];  // a mask
+extern s32 contestant4StillMask[];  // a mask
+extern s32 contestant4ClipMask0[];  // a mask
+extern s32 contestant4ClipMask1[];  // a mask
+extern s32 contestant5AnimMask[];  // a mask
+extern s32 contestant5ClipMask0[];  // a mask
+extern s32 contestant5StillMask[];  // a mask
+extern long long int gfxUcodeData[];  // its data
 extern s32 streamOpen;
 extern ALCSeq *seqs[];
 extern ALSndpConfig sndpConfig;
@@ -944,7 +944,7 @@ extern OSMesgQueue PiMessageQ;      // the queue of the PI manager
 extern OSMesgQueue dmaMessageQ;      // where ReadRom waits for its read
 extern OSMesg dmaMessageBuf;
 extern OSMesgQueue contMsgQ;      // the queue of the controller events
-extern OSScClient D_800B3988;
+extern OSScClient retraceClient;    // a scheduler client whose queue nothing reads
 extern ALBankFile *sfxBankFile;
 extern s32 openingFrame;
 extern ALBankFile *seqBankFile;      // NOTE: nothing sets it
@@ -960,9 +960,9 @@ extern s32 round;
 extern s32 curGfxInfo;
 extern s32 D_800B61A4;
 extern s32 lightDir;
-extern s8 D_800B61AA[];
-extern f32 D_800B61AC;
-extern s8 D_800B61B0[];
+extern s8 bonusSlotLetters[];       // by bonusLetterSlots; 6 to 9 are bonusPicks
+extern f32 hubAngle;                // the turn of the opening's hub, less a degree each retrace
+extern s8 bonusPicks[];             // the bonus round's 3 consonants and vowel
 extern u8 curLetter;
 extern s32 solveRow;
 extern u8 cpuConsonants[];          // InitCpuLetters copies consonantOrder here
@@ -978,7 +978,7 @@ extern u8 blocks[][0x50];       // [70], the data blocks of the procs: AllocBloc
 extern ALSeqFile *seqFile;
 extern s32 roundTime;
 extern s32 backdrop;
-extern s32 *D_800B81E4;
+extern s32 *curMask;                // the clip mask the frames being decoded are stored through
 extern Gfx *glistp;
 extern s32 soundStates[];
 extern s32 memStackTop;
@@ -992,7 +992,7 @@ extern u8 category[];
 extern u8 board[][21];
 extern u8 solveBoard[][21];
 extern u8 puzzleText[][21];
-extern s8 D_800B9655[];
+extern s8 puzzleTail[];             // a puzzle line's text after its 4th tab
 extern u8 uncalled[];
 extern OSMesgQueue gfxMsgQ;      // where the scheduler answers the graphics tasks and sends the retraces
 extern s32 jackpotWon;
@@ -1015,7 +1015,7 @@ extern s32 memStackFree;
 extern s32 vannaX;
 extern s16 *moviePictures;
 extern player_t players[];
-extern OSMesgQueue D_800B9CD0;
+extern OSMesgQueue retraceMsgQ;     // the queue of retraceClient
 extern s32 shownJackpot;
 extern s32 gameOver;
 extern void *sceneData;
@@ -1033,7 +1033,7 @@ extern AMDMABuffer dmaBuffs[];     // dmaBuffs[NUM_DMA_BUFFERS]
 extern OSMesgQueue audDMAMessageQ;       // audDMAMessageQ
 extern OSMesgQueue siLockQ;      // holds one message: LockSi takes it, UnlockSi puts it back
 extern AMDMAState dmaState;        // dmaState
-extern s32 D_800BA5D4;
+extern s32 bootArg;                 // the argument of the game's threads
 extern camera_t *curCamera;
 extern s32 blockOwners[];
 extern u64 scheduleStack[];            // the stack of the scheduler: OS_SC_STACKSIZE bytes
@@ -1057,7 +1057,7 @@ extern s32 contestantMemMark;
 extern AMAudioMgr __am;        // __am
 extern f32 wheelSpeed;
 extern s32 solveCol;
-extern ALSndPlayer D_800BCCF8;      // the sound player sndPlayer points at
+extern ALSndPlayer sndPlayerData;      // the sound player sndPlayer points at
 extern s32 D_800BCD50;
 extern s32 gameMode;
 extern OSScClient gfxClient;
@@ -1075,9 +1075,9 @@ extern s32 savedContestants[];
 extern u32 pendingGfx;
 extern s32 motorOn[];
 extern s32 wedgeThird;
-extern OSMesg D_800BEE00[];          // [8], the messages of D_800B9CD0
+extern OSMesg retraceMsgBuf[];          // [8], the messages of retraceMsgQ
 extern s32 bonusMusicSlot;
-extern s32 D_800BEE24;
+extern s32 logoSpread;              // how far the logo's pieces have flown out
 extern s32 bonusConsonants;
 extern f32 camX;
 extern f32 camY;
@@ -1099,8 +1099,8 @@ extern s32 contReading;
 extern u64 retraceTime;
 extern OSMesg audDMAMessageBuf[];          // audDMAMessageBuf[NUM_DMA_MESSAGES]
 extern u16 zbuffer[];            // the depth buffer
-extern u16 D_803B5000[];            // D_803B5000 and D_803DA800: the two framebuffers
-extern u16 D_803DA800[];
+extern u16 framebuffer0[];            // framebuffer0 and framebuffer1: the two framebuffers
+extern u16 framebuffer1[];
 extern puzzleRange_t puzzleRanges[];  // on the cartridge, read in place
 
 //
