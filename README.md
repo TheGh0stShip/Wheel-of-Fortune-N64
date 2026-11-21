@@ -17,9 +17,9 @@ requires its SHA-1 to equal the retail ROM's.
   773 inventoried function ranges (745 C, 28 original assembly).
 - The game is 441 functions built with GCC 2.7.2. All 441 pass the rules. The MPEG player is the Berkeley
   `mpeg_play` decoder, rebuilt as its 13 original objects with that source's names as `guess:`. The rest of
-  the game is named where the evidence allows: 30 names the ROM's own messages record, 46 from the SDK demos'
-  lineage, and 934 invented from what the code does, each listed with its evidence in `config/names.tsv`;
-  about 30 functions whose purpose is unclear keep their placeholder names. 327 game functions sit in 34
+  the game is named: 30 names the ROM's own messages record, 51 from the SDK demos' and `mpeg_play`'s
+  lineage, and 1,212 invented from what the code does, each listed with its evidence in `config/names.tsv`. No
+  game function or global keeps a placeholder; 36 struct members that no code reads or writes stay `unk_`. 327 game functions sit in 34
   original objects rebuilt as units; `./wof unitmap` prints the evidence for every boundary, and
   `config/units.tsv` names each position no evidence settles yet and what was checked there.
 - The library is libultra (IDO 5.3, built from the `ultralib` reconstruction under `lib/ultralib`) and three
