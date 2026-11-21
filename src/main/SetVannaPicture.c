@@ -9,7 +9,7 @@ SetVannaPicture
 Copies Vanna's picture into this frame, mirrored for -1.
 =====================
 */
-void SetVannaPicture(s16 *arg0, s32 arg1) {
+void SetVannaPicture(s16 *pixels, s32 dir) {
     s32 i;
     s32 j;
     s32 k;
@@ -17,9 +17,9 @@ void SetVannaPicture(s16 *arg0, s32 arg1) {
     u16 *src;
     s16 *dst;
 
-    src = (u16 *)arg0;
+    src = (u16 *)pixels;
     dst = gfxInfo[curGfxInfo].frame.unk_16C00;
-    if (arg1 == -1) {
+    if (dir == -1) {
         for (i = 0; i < 96; i++) {
             k = 63;
             for (j = 0; j < 64; j++) {

@@ -10,10 +10,10 @@ MoveCursorLeft
 Moves a cursor left over the letters or the choices.
 =====================
 */
-void MoveCursorLeft(proc_t *proc, s32 arg1) {
+void MoveCursorLeft(proc_t *proc, s32 letters) {
     inputCount++;
     PlaySound(43);
-    if (arg1 != 0) {
+    if (letters != 0) {
         proc->data->cursor.index--;
         if (proc->data->cursor.index == 12) {
             proc->data->cursor.index = 25;

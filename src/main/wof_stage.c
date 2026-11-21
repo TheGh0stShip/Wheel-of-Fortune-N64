@@ -988,17 +988,17 @@ GetSquareColor
 A square's colour, or -1 in the first half of each blink.
 =====================
 */
-s32 GetSquareColor(tile_t *arg0) {
+s32 GetSquareColor(tile_t *tile) {
     s32 result;
 
-    result = arg0->color;
-    if (arg0->blink != 0) {
-        if (arg0->blinkLeft > arg0->blinkFrames / 2) {
+    result = tile->color;
+    if (tile->blink != 0) {
+        if (tile->blinkLeft > tile->blinkFrames / 2) {
             result = -1;
         }
-        arg0->blinkLeft = arg0->blinkLeft - frameRetraces;
-        if (arg0->blinkLeft < 0) {
-            arg0->blinkLeft = arg0->blinkFrames;
+        tile->blinkLeft = tile->blinkLeft - frameRetraces;
+        if (tile->blinkLeft < 0) {
+            tile->blinkLeft = tile->blinkFrames;
         }
     }
     return result;
@@ -1011,12 +1011,12 @@ DrawSquares
 Draws a row of the board's squares, the blank ones or the others.
 =====================
 */
-void DrawSquares(tile_t *tiles, s32 count, s32 arg2) {
+void DrawSquares(tile_t *tiles, s32 count, s32 blanks) {
     s32 i;
 
     if (gameMode != 6) {
         for (i = 0; i < count; i++) {
-            if (arg2 != 0) {
+            if (blanks != 0) {
                 if (tiles[i].image == D_010A2B88) {
                     SetLightColor(2);
                     gDPPipeSync(glistp++);

@@ -9,7 +9,7 @@ StoreFrame64x64
 The same for a movie of 64 by 64.
 =====================
 */
-void StoreFrame64x64(u16 *arg0) {
+void StoreFrame64x64(u16 *pixels) {
     s32 diff;
     s32 i;
     s32 j;
@@ -25,7 +25,7 @@ void StoreFrame64x64(u16 *arg0) {
     base = 0x2000000;
     diff = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_0AC00[0]);
     diff = diff - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
-    src = arg0;
+    src = pixels;
     dst = gfxInfo[curGfxInfo].frame.unk_0AC00[0];
     if (movieToMemory != 0) {
         dst = moviePictures;

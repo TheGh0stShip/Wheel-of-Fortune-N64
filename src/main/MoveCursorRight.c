@@ -10,12 +10,12 @@ MoveCursorRight
 Moves a cursor right over the letters or the choices.
 =====================
 */
-void MoveCursorRight(proc_t *proc, s32 arg1, s32 arg2) {
+void MoveCursorRight(proc_t *proc, s32 letters, s32 sound) {
     inputCount++;
-    if (arg2 != 0) {
+    if (sound != 0) {
         PlaySound(43);
     }
-    if (arg1 != 0) {
+    if (letters != 0) {
         proc->data->cursor.index++;
         if (proc->data->cursor.index == 13) {
             proc->data->cursor.index = 0;

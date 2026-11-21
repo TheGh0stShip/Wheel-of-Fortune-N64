@@ -10,32 +10,32 @@ InitMenuAnim
 InitAnim for a contestant shown in the menus, with its obj; prints InitAnim's first message.
 =====================
 */
-void InitMenuAnim(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void InitMenuAnim(s32 contestant, s32 slot, s32 x, s32 y, s32 z) {
     proc_t *task;
     obj_t *obj;
 
-    if (arg0 < 0) {
+    if (contestant < 0) {
         return;
     }
-    if (arg0 >= 6) {
+    if (contestant >= 6) {
         func_80009F38("InitAnim: invalid animation number");
     }
-    if (menuClips[arg0].pictures == 0) {
+    if (menuClips[contestant].pictures == 0) {
         return;
     }
-    task = FindProc(arg1 | 0xA000300, -1);
+    task = FindProc(slot | 0xA000300, -1);
     if (task != 0) {
         KillProc(task, 0);
     }
-    task = CreatProc(AnimProc, arg1 | 0xA000300);
-    obj = MakeObj(task, D_0113A9B0, DrawMenuContestant, arg1 | 0xA020000);
+    task = CreatProc(AnimProc, slot | 0xA000300);
+    obj = MakeObj(task, D_0113A9B0, DrawMenuContestant, slot | 0xA020000);
     obj->secondDl = D_0113A9D0;
-    obj->x = arg2;
-    obj->y = arg3;
-    obj->z = arg4;
-    task->data->anim.slot = arg1;
-    task->data->anim.pictures = menuClips[arg0].pictures;
-    task->data->anim.count = menuClips[arg0].count;
-    task->data->anim.loop = menuClips[arg0].loop;
+    obj->x = x;
+    obj->y = y;
+    obj->z = z;
+    task->data->anim.slot = slot;
+    task->data->anim.pictures = menuClips[contestant].pictures;
+    task->data->anim.count = menuClips[contestant].count;
+    task->data->anim.loop = menuClips[contestant].loop;
     task->data->anim.obj = obj;
 }

@@ -10,7 +10,7 @@ MakeMovieObj
 The obj a movie is drawn by.
 =====================
 */
-obj_t *MakeMovieObj(proc_t *proc, char *arg1, f32 x, f32 y, s32 arg4) {
+obj_t *MakeMovieObj(proc_t *proc, char *text, f32 x, f32 y, s32 movie) {
     s32 parent;
     obj_t *obj;
 

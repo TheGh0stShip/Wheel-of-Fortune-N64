@@ -11,7 +11,7 @@ Copies a decoded frame 112 pixels wide into the frame's picture memory, in the t
 loads.
 =====================
 */
-void StoreFrame112(u16 *arg0) {
+void StoreFrame112(u16 *pixels) {
     s32 size;
     s32 row;
     s32 col;
@@ -24,7 +24,7 @@ void StoreFrame112(u16 *arg0) {
     sp2C = 0x2000000;
     size = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_19C00);
     size = size - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
-    src = arg0;
+    src = pixels;
     dst = gfxInfo[curGfxInfo].frame.unk_19C00;
     n = 0;
     page = 0;

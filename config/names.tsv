@@ -887,3 +887,44 @@ contestantMemMark	global	0x800BCA60	invented	what PushMemStack returned before t
 dl	member	titleLetter_t	invented	the letter's display list
 mtx	member	titleLetter_t	invented	its matrix
 spread	member	titleLetter_t	invented	how far sideways the opening's lift moves it
+tile	param	GetSquareColor	invented	
+blanks	param	DrawSquares	invented	not 0: draw the blank squares, else the others
+cpu	param	SetGameView	invented	not 0: the machine's turn, which makes no AdjustCameraProc
+pixels	param	StoreFrame112	invented	the decoded frame
+pixels	param	StoreFrame96	invented	the decoded frame
+pixels	param	StoreFrame64x64	invented	the decoded frame
+pixels	param	StoreFrame64x96	invented	the decoded frame
+text	param	MakeMovieObj	invented	not read
+movie	param	MakeMovieObj	invented	not read
+pictures	param	DecodeMovie	invented	where the frames go
+movie	param	PlayClip	invented	
+obj	param	PlayClip	invented	the contestant's obj
+slot	param	PlayClip	invented	the picture slot: the player's number
+event	param	PlayClip	invented	posted at the clip's end
+letters	param	MoveCursorLeft	invented	not 0: the cursor is on the letters, else on the actions
+letters	param	MoveCursorRight	invented	not 0: the cursor is on the letters, else on the actions
+sound	param	MoveCursorRight	invented	not 0: the move makes its sound
+pixels	param	SetPicture	invented	
+slot	param	SetPicture	invented	
+pixels	param	SetVannaPicture	invented	
+dir	param	SetVannaPicture	invented	-1: mirrored
+contestant	param	InitMenuAnim	invented	
+slot	param	InitMenuAnim	invented	the picture slot and the obj's number
+x	param	InitMenuAnim	invented	
+y	param	InitMenuAnim	invented	
+z	param	InitMenuAnim	invented	
+anim	param	InitAnim	invented	0 or 1
+player	param	InitAnim	invented	
+anim	param	InitVannaAnim	invented	
+replace	param	InitVannaAnim	invented	not 0: the animation playing is killed first
+clip	param	PlayContestantClip	invented	
+event	param	PlayContestantClip	invented	posted at the clip's end
+player	param	PlayContestantClip	invented	
+x	param	AddConfetti	invented	the left of the range it starts in
+xRange	param	AddConfetti	invented	
+y	param	AddConfetti	invented	the top of the range it starts in
+yRange	param	AddConfetti	invented	
+speedRange	param	AddConfetti	invented	of its sideways speed, in hundredths
+speedBase	param	AddConfetti	invented	
+turnsRange	param	AddConfetti	invented	of how many turns of its four frames it lasts
+turnsBase	param	AddConfetti	invented	

@@ -9,7 +9,7 @@ DecodeMovie
 Decodes a number of frames of a movie into memory at once.
 =====================
 */
-void DecodeMovie(s32 movie, s32 count, s16 *arg2, s32 *arg3) {
+void DecodeMovie(s32 movie, s32 count, s16 *pictures, s32 *arg3) {
     s32 i;
     s32 unused;  /* NOTE: unused in the original */
     char *sp18;
@@ -19,7 +19,7 @@ void DecodeMovie(s32 movie, s32 count, s16 *arg2, s32 *arg3) {
         func_800A4E58(0);
     }
     movieToMemory = 1;
-    moviePictures = arg2;
+    moviePictures = pictures;
     D_800B81E4 = arg3;
     curMovie = movie;
     movieMemMark = PushMemStack();
