@@ -66,7 +66,7 @@ the compiler lives; from PowerShell use `wsl -d Ubuntu -- sh /mnt/e/<checkout>/w
   layout (see "Unit boundaries").
 - **Functions** (`config/functions.tsv`): the inventory of 773 function ranges, 745 C and 28 assembly. The
   assembly ranges are the entry stub and libultra's own `.s` sources: `ORIGINAL-ASM`.
-- **Symbols** (`config/symbols.txt`): addresses of names no unit defines yet; empty today. `func_XXXXXXXX` and `D_XXXXXXXX`
+- **Symbols** (`config/symbols.txt`): addresses of names no unit defines yet: the globals named before their data is defined in source. `func_XXXXXXXX` and `D_XXXXXXXX`
   carry their address in the name and need no entry. A unit that defines a global exports it to every other
   unit. The gate rejects an undeclared name, a name bound to two addresses, and an address-named function placed
   anywhere else.
