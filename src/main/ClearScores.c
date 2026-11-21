@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+ClearScores
+
+Sets every player's scores to 0.
+=====================
+*/
 void ClearScores(void) {
     s32 i;
 

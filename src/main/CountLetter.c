@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+CountLetter
+
+How often a letter is in the puzzle; -1 if it was called already.
+=====================
+*/
 s32 CountLetter(register s32 letter) {
     u8 ch;
     s32 i;

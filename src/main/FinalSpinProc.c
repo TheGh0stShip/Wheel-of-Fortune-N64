@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+FinalSpinProc
+
+The host's final spin when the time runs out: "Final spin is ".
+=====================
+*/
 struct procResult_s FinalSpinProc(proc_t *proc) {
     struct procResult_s result;
     proc_t *task;

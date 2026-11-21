@@ -13,6 +13,13 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
+/*
+=====================
+DrawMainMenu1
+
+The draw function of the players menu.
+=====================
+*/
 void DrawMainMenu1(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
@@ -37,6 +44,13 @@ void DrawMainMenu1(obj_t *obj, frame_t *frame) {
     }
 }
 
+/*
+=====================
+DrawContestantMenu
+
+The draw function of the contestant menu.
+=====================
+*/
 void DrawContestantMenu(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
@@ -55,6 +69,13 @@ void DrawContestantMenu(obj_t *obj, frame_t *frame) {
     }
 }
 
+/*
+=====================
+DrawMainMenu3
+
+The draw function of the main menu.
+=====================
+*/
 void DrawMainMenu3(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
@@ -76,6 +97,13 @@ void DrawMainMenu3(obj_t *obj, frame_t *frame) {
     }
 }
 
+/*
+=====================
+DrawSkillMenu
+
+The draw function of the skill menu.
+=====================
+*/
 void DrawSkillMenu(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
@@ -94,6 +122,13 @@ void DrawSkillMenu(obj_t *obj, frame_t *frame) {
     }
 }
 
+/*
+=====================
+DrawRoundsMenu
+
+The draw function of the rounds menu.
+=====================
+*/
 void DrawRoundsMenu(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;
@@ -120,6 +155,13 @@ void DrawRoundsMenu(obj_t *obj, frame_t *frame) {
     }
 }
 
+/*
+=====================
+SetImageFlash
+
+Sets how a run of pictures flashes.
+=====================
+*/
 void SetImageFlash(image_t *images, s32 count, s32 flash) {
     s32 i;
 
@@ -129,6 +171,14 @@ void SetImageFlash(image_t *images, s32 count, s32 flash) {
     }
 }
 
+/*
+=====================
+InitMainFlash
+
+Sets how the pictures of a menu line flash: its label, and its chosen option lit if the cursor is on
+the line.
+=====================
+*/
 void InitMainFlash(proc_t *proc, image_t *images, menuItem_t *item, s32 on) {
     s32 sel;
     s32 i;
@@ -149,6 +199,13 @@ void InitMainFlash(proc_t *proc, image_t *images, menuItem_t *item, s32 on) {
     }
 }
 
+/*
+=====================
+MenuUp
+
+Moves a menu's cursor to the line above that it can stop on.
+=====================
+*/
 void MenuUp(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
     PlaySound(44);
     InitMainFlash(proc, images, &items[proc->data->mainMenu.index], 0);
@@ -167,6 +224,13 @@ void MenuUp(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
     proc->data->mainMenu.delay = 15;
 }
 
+/*
+=====================
+MenuDown
+
+Moves a menu's cursor to the line below that it can stop on.
+=====================
+*/
 void MenuDown(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
     PlaySound(44);
     InitMainFlash(proc, images, &items[proc->data->mainMenu.index], 0);
@@ -185,6 +249,13 @@ void MenuDown(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
     proc->data->mainMenu.delay = 15;
 }
 
+/*
+=====================
+MenuLeft
+
+Chooses the option before on a menu's line.
+=====================
+*/
 void MenuLeft(proc_t *proc, image_t *images, menuItem_t *item, s32 skipAbsent) {
     PlaySound(43);
     SetImageFlash(&images[item->options + proc->data->mainMenu.sel * item->cols],
@@ -207,6 +278,13 @@ void MenuLeft(proc_t *proc, image_t *images, menuItem_t *item, s32 skipAbsent) {
     proc->data->mainMenu.delay = 15;
 }
 
+/*
+=====================
+MenuRight
+
+Chooses the option after on a menu's line.
+=====================
+*/
 void MenuRight(proc_t *proc, image_t *images, menuItem_t *item, s32 skipAbsent) {
     PlaySound(43);
     SetImageFlash(&images[item->options + proc->data->mainMenu.sel * item->cols], item->cols, 0);
@@ -227,6 +305,13 @@ void MenuRight(proc_t *proc, image_t *images, menuItem_t *item, s32 skipAbsent) 
     proc->data->mainMenu.delay = 15;
 }
 
+/*
+=====================
+SetControllers
+
+Gives each player the controller the players menu chose, and its contestant's sounds.
+=====================
+*/
 void SetControllers(void) {
     s32 i;
 
@@ -236,6 +321,13 @@ void SetControllers(void) {
     }
 }
 
+/*
+=====================
+MainMenu1Proc
+
+The proc of the players menu, where a controller or the machine is chosen for each player.
+=====================
+*/
 struct procResult_s MainMenu1Proc(proc_t *proc) {
     s32 event;
     s32 cursor;
@@ -339,6 +431,13 @@ struct procResult_s MainMenu1Proc(proc_t *proc) {
     return result;
 }
 
+/*
+=====================
+SwitchImage
+
+Puts the contestant chosen in the contestant menu in front and the others in their places.
+=====================
+*/
 void SwitchImage(void) {
     s32 i;
     obj_t *obj;
@@ -360,6 +459,13 @@ void SwitchImage(void) {
     }
 }
 
+/*
+=====================
+ContestantMenuProc
+
+The menu where each person picks a contestant; it prints MainMenu1Proc's message.
+=====================
+*/
 struct procResult_s ContestantMenuProc(proc_t *proc) {
     s32 event;
     struct procResult_s ret;
@@ -453,6 +559,13 @@ struct procResult_s ContestantMenuProc(proc_t *proc) {
     return ret;
 }
 
+/*
+=====================
+SkillMenuProc
+
+The menu of the machine's skill; it prints MainMenu1Proc's message.
+=====================
+*/
 struct procResult_s SkillMenuProc(proc_t *proc) {
     s32 event;
     struct procResult_s sp18;
@@ -518,6 +631,13 @@ struct procResult_s SkillMenuProc(proc_t *proc) {
     return sp18;
 }
 
+/*
+=====================
+RoundsMenuProc
+
+The menu of the number of rounds; it prints MainMenu1Proc's message.
+=====================
+*/
 struct procResult_s RoundsMenuProc(proc_t *proc) {
     s32 event;
     struct procResult_s result;
@@ -583,6 +703,13 @@ struct procResult_s RoundsMenuProc(proc_t *proc) {
     return result;
 }
 
+/*
+=====================
+SetContestantSounds
+
+Copies the sounds of a player's contestant into the player.
+=====================
+*/
 void SetContestantSounds(s32 player) {
     players[player].winSound = voices[players[player].contestant].winSound;
     players[player].letterSounds = voices[players[player].contestant].letters;
@@ -592,6 +719,13 @@ void SetContestantSounds(s32 player) {
     players[player].freeSpinSound = voices[players[player].contestant].freeSpinSound;
 }
 
+/*
+=====================
+ApplyOptions
+
+Keeps the contestants and sets the controllers, the machine's skill and the rounds the menus chose.
+=====================
+*/
 void ApplyOptions(void) {
     s32 i;
 
@@ -612,6 +746,13 @@ void ApplyOptions(void) {
     numRounds = roundsMenu[0].sel + 3;
 }
 
+/*
+=====================
+MainMenu3Proc
+
+The proc of the main menu: starts a game or opens the players, skill or rounds menu.
+=====================
+*/
 struct procResult_s MainMenu3Proc(proc_t *proc) {
     s32 event;
     struct procResult_s ret;
@@ -719,6 +860,13 @@ struct procResult_s MainMenu3Proc(proc_t *proc) {
     return ret;
 }
 
+/*
+=====================
+InitMarquee
+
+Sets the lights around the menus flashing in a running pattern.
+=====================
+*/
 void InitMarquee(void) {
     s32 i;
     s32 k;
@@ -766,6 +914,13 @@ void InitMarquee(void) {
     }
 }
 
+/*
+=====================
+StartMainMenu1
+
+Opens the players menu (MainMenu1Proc)
+=====================
+*/
 void StartMainMenu1(void) {
     s32 i;
     s32 j;
@@ -811,6 +966,13 @@ void StartMainMenu1(void) {
     }
 }
 
+/*
+=====================
+StartContestantMenu
+
+Opens the contestant menu for the next person.
+=====================
+*/
 void StartContestantMenu(void) {
     s32 i;
     proc_t *task;
@@ -866,6 +1028,13 @@ void StartContestantMenu(void) {
     }
 }
 
+/*
+=====================
+StartMainMenu3
+
+Opens the main menu (MainMenu3Proc)
+=====================
+*/
 void StartMainMenu3(void) {
     s32 i;
     s32 j;
@@ -924,6 +1093,13 @@ void StartMainMenu3(void) {
     }
 }
 
+/*
+=====================
+StartSkillMenu
+
+Opens the skill menu.
+=====================
+*/
 void StartSkillMenu(void) {
     s32 unused;  /* NOTE: unused in the original */
     proc_t *task;
@@ -933,6 +1109,13 @@ void StartSkillMenu(void) {
     InitMarquee();
 }
 
+/*
+=====================
+StartRoundsMenu
+
+Opens the rounds menu.
+=====================
+*/
 void StartRoundsMenu(void) {
     s32 unused;  /* NOTE: unused in the original */
     proc_t *sp14;
@@ -942,6 +1125,13 @@ void StartRoundsMenu(void) {
     InitMarquee();
 }
 
+/*
+=====================
+StartMenus
+
+Sets gameMode 7 and opens the main menu with the camera and the contestants.
+=====================
+*/
 void StartMenus(void) {
     s32 i;
 
@@ -959,6 +1149,13 @@ void StartMenus(void) {
     StartMainMenu3();
 }
 
+/*
+=====================
+InitOptions
+
+The options before any menu: the machine's skill, 6 rounds, a controller for each player present.
+=====================
+*/
 void InitOptions(void) {
     s32 i;
     s32 count;

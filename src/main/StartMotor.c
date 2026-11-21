@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+StartMotor
+
+Asks the rumble thread to start a pak's motor.
+=====================
+*/
 void StartMotor(s32 cont) {
     rumbleMsg.type = 1;
     rumbleMsg.index = cont;

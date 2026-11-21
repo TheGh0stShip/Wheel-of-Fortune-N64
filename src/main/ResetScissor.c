@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+ResetScissor
+
+Sets the scissor back to the whole screen between the two DrawObjs passes.
+=====================
+*/
 void ResetScissor(frame_t *frame) {
     s32 unused;  /* NOTE: unused in the original */
 

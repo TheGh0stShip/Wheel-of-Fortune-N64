@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+StartSolve
+
+Copies the board into solveBoard, which the player fills in.
+=====================
+*/
 void StartSolve(void) {
     s32 i;
     s32 j;

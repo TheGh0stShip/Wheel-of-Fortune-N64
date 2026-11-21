@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+AnimProc
+
+Plays a contestant's animation.
+=====================
+*/
 struct procResult_s AnimProc(proc_t *proc) {
     struct procResult_s result;
     s32 event;

@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+ApplauseProc
+
+Plays the crowd's applause, as loud as applause asks.
+=====================
+*/
 struct procResult_s ApplauseProc(proc_t *proc) {
     struct procResult_s result;
     s32 event;

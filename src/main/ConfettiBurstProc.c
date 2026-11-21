@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+ConfettiBurstProc
+
+Throws confetti for a while.
+=====================
+*/
 struct procResult_s ConfettiBurstProc(proc_t *proc) {
     struct procResult_s sp20;
     s32 sp30;

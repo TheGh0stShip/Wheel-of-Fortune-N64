@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+DemoTimerProc
+
+Ends the demo after 30 seconds or on START.
+=====================
+*/
 struct procResult_s DemoTimerProc(proc_t *proc) {
     struct procResult_s result;
     OSTime time; /* NOTE: unused in the original. Eight bytes nothing touches; guess: an OSTime */

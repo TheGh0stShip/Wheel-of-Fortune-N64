@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+BonusRoundProc
+
+The bonus round: the given letters, three consonants and a vowel, then the solve.
+=====================
+*/
 struct procResult_s BonusRoundProc(proc_t *proc) {
     s32 event;
     s32 i;

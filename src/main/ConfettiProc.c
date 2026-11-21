@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+ConfettiProc
+
+A piece of confetti falling across the screen.
+=====================
+*/
 struct procResult_s ConfettiProc(proc_t *proc) {
     struct procResult_s ret;
     s32 event;

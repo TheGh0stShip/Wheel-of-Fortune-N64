@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+WinnerProc
+
+Shows the winner of the game.
+=====================
+*/
 struct procResult_s WinnerProc(proc_t *proc) {
     struct procResult_s ret;
     s32 unused;   /* NOTE: unused in the original */

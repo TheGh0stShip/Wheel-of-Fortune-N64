@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+MakeMovieObj
+
+The obj a movie is drawn by.
+=====================
+*/
 obj_t *MakeMovieObj(proc_t *proc, char *arg1, f32 x, f32 y, s32 arg4) {
     s32 parent;
     obj_t *obj;

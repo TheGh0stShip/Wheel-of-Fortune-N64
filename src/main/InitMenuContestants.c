@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+InitMenuContestants
+
+Decodes the movies of the six contestants of the menus.
+=====================
+*/
 void InitMenuContestants(void) {
     s32 unused;  /* NOTE: unused in the original */
     s32 unused2;  /* NOTE: unused in the original */

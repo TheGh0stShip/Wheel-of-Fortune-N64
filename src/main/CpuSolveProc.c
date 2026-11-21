@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+CpuSolveProc
+
+The machine solves.
+=====================
+*/
 struct procResult_s CpuSolveProc(proc_t *proc) {
     struct procResult_s sp10;
     proc_t *task;

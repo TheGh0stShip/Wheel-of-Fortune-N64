@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+AdjustCameraProc
+
+The C buttons turn the camera for the player whose turn it is.
+=====================
+*/
 struct procResult_s AdjustCameraProc(proc_t *proc) {
     struct procResult_s sp10;
     s32 unused;  /* NOTE: unused in the original */

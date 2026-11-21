@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+CreatObj
+
+Makes an obj with a draw function and a class for a proc and links it at the end of the list.
+=====================
+*/
 obj_t *CreatObj(s32 owner, objDraw_t draw, s32 cls) {
     obj_t *tail;
     obj_t *node;

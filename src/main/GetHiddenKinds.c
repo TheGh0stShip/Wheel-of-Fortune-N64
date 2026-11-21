@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+GetHiddenKinds
+
+Which kinds of letters the board still hides: 4 both, 3 consonants, 2 vowels, 1 none.
+=====================
+*/
 s32 GetHiddenKinds(void) {
     s32 row;
     s32 consonants;

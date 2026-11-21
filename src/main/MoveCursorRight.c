@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+MoveCursorRight
+
+Moves a cursor right over the letters or the choices.
+=====================
+*/
 void MoveCursorRight(proc_t *proc, s32 arg1, s32 arg2) {
     inputCount++;
     if (arg2 != 0) {

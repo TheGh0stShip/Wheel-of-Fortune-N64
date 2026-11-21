@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+InitObjs
+
+Clears objst.
+=====================
+*/
 void InitObjs(void) {
     s32 i;
 

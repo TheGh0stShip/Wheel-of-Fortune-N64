@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+PlayMovie
+
+Plays a movie at a place on the screen, then posts an event.
+=====================
+*/
 void PlayMovie(s32 movie, s32 event, s32 x, s32 y) {
     proc_t *task;
     char *sp1C;

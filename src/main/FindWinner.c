@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+FindWinner
+
+The player with the most money takes the turn and is shown.
+=====================
+*/
 void FindWinner(void) {
     s32 i;
     s32 max;

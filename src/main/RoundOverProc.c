@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+RoundOverProc
+
+The puzzle is solved: the camera, the movie, then the next round or the end of the game.
+=====================
+*/
 struct procResult_s RoundOverProc(proc_t *proc) {
     struct procResult_s result;
     s32 unused;  /* NOTE: unused in the original */

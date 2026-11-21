@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+DrawContestant
+
+The draw function of a player's contestant.
+=====================
+*/
 void DrawContestant(obj_t *obj, frame_t *frame) {
     if (obj->image == 0) {
         return;

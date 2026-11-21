@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+CreditsProc
+
+Shows the credits as puzzles on the board, one after another.
+=====================
+*/
 struct procResult_s CreditsProc(proc_t *proc) {
     s32 event;
     s32 i;

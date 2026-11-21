@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+PrintNum
+
+Writes a number in decimal and prints it with PrintStr.
+=====================
+*/
 void PrintNum(s32 num) {
     u8 buf[20];
     s32 i;

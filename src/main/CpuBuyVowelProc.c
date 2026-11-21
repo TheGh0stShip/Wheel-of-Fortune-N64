@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+CpuBuyVowelProc
+
+The machine buys a vowel.
+=====================
+*/
 struct procResult_s CpuBuyVowelProc(proc_t *proc) {
     struct procResult_s ret;
     proc_t *task;

@@ -1,6 +1,14 @@
 #include "wof.h"
 
 
+/*
+=====================
+CheckSolved
+
+0: consonants are hidden, 2: only vowels are, 1: the puzzle is solved (and banks the round's score
+if asked)
+=====================
+*/
 s32 CheckSolved(s32 bank) {
     s32 row;
     s32 consonants;

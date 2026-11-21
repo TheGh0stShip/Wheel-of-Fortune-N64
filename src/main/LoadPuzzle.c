@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+LoadPuzzle
+
+Reads a puzzle (or takes the text given) and lays it out on the four rows of the board.
+=====================
+*/
 void LoadPuzzle(s32 puzzle, u8 *str) {
     s32 line;
     s32 len;

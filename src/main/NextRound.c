@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+NextRound
+
+Starts the next round.
+=====================
+*/
 void NextRound(void) {
     proc_t *handle;
 

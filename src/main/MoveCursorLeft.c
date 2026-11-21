@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+MoveCursorLeft
+
+Moves a cursor left over the letters or the choices.
+=====================
+*/
 void MoveCursorLeft(proc_t *proc, s32 arg1) {
     inputCount++;
     PlaySound(43);

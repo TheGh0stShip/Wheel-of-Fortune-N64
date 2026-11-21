@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+mem_stack
+
+Takes bytes from the top of the memory stack; there is no freeing but PopMemStack.
+=====================
+*/
 void *mem_stack(s32 size) {
     s32 result;
 

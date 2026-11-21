@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+FreeProcObjs
+
+Frees the objs a proc owns.
+=====================
+*/
 void FreeProcObjs(s32 owner) {
     s32 i;
     s32 result;

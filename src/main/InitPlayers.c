@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+InitPlayers
+
+A turn proc for each contestant, a person's or the machine's.
+=====================
+*/
 void InitPlayers(void) {
     s32 unused;  /* NOTE: unused in the original */
     s32 unused2;  /* NOTE: unused in the original */

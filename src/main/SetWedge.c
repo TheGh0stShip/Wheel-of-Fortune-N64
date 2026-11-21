@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+SetWedge
+
+The wedge the wheel stopped on, from its angle (or a random one for -1)
+=====================
+*/
 void SetWedge(f32 degrees) {
     s32 angle;
 

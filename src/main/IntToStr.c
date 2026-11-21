@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+IntToStr
+
+Writes a number in decimal.
+=====================
+*/
 void IntToStr(u8 *dst, s32 value) {
     s32 i;
     u8 buf[24];

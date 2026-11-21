@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+KillProcClass
+
+Kills every proc of a class.
+=====================
+*/
 void KillProcClass(s32 cls, s32 mask, s32 killObjs) {
     proc_t *proc;
 

@@ -1,5 +1,13 @@
 #include "wof.h"
 
+/*
+=====================
+PlayContestantClip
+
+Plays a movie as a player's picture, if the contestant has one; prints InitContestants' and
+InitAnim's messages.
+=====================
+*/
 s32 PlayContestantClip(s32 arg0, s32 arg1, s32 arg2) {
     obj_t *obj;
     proc_t *other;

@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+AddCpu
+
+A machine turn proc of the skill chosen.
+=====================
+*/
 void AddCpu(s32 player) {
     proc_t *task;
     s32 unused;   /* NOTE: unused in the original */

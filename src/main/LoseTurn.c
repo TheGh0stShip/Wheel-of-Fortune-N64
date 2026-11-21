@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+LoseTurn
+
+The turn passes, unless the player holds a free spin, who is asked (message 37) and keeps it.
+=====================
+*/
 s32 LoseTurn(void) {
     proc_t *handle;
 

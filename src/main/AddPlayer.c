@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+AddPlayer
+
+The turn proc of a person.
+=====================
+*/
 void AddPlayer(s32 player) {
     proc_t *task;
     s32 unused;   /* NOTE: unused in the original */

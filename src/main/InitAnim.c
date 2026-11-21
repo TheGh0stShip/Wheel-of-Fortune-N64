@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+InitAnim
+
+Starts a player's contestant playing one of its two animations.
+=====================
+*/
 void InitAnim(s32 arg0, s32 arg1) {
     proc_t *task;
     obj_t *obj;

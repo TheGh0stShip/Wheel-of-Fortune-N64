@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+MovieProc
+
+Plays a movie on the screen; at its end, its event.
+=====================
+*/
 struct procResult_s MovieProc(proc_t *proc) {
     s32 event;
     struct procResult_s ret;

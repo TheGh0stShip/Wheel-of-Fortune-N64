@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+UpdateClip
+
+Points a contestant's obj at its picture and decodes the next.
+=====================
+*/
 void UpdateClip(proc_t *proc) {
     s32 sp10;
     s32 unused;  /* NOTE: unused in the original */

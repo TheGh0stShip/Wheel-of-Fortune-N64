@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+GetObjBefore
+
+The obj before one in the list of live objs; the list's head if it is the first.
+=====================
+*/
 obj_t *GetObjBefore(obj_t *obj) {
     obj_t *next;
     obj_t *node;

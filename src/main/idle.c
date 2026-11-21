@@ -1,5 +1,13 @@
 #include "wof.h"
 
+/*
+=====================
+idle
+
+guess: idle of the SDK demos. Starts the PI manager and the main and game threads, then idles at the
+lowest priority.
+=====================
+*/
 void idle(void *arg) {
     osCreatePiManager(OS_PRIORITY_PIMGR, &PiMessageQ, PiMessages, 200);
     osCreateThread(&mainThread, 10, mainproc, arg, mainThreadStack + 0x2000 / sizeof(u64), 10);

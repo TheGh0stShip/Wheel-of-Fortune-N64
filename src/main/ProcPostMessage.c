@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+ProcPostMessage
+
+Queues a message for a proc, and wakes it if asked.
+=====================
+*/
 void ProcPostMessage(proc_t *proc, s32 msg, s32 wake) {
     if (proc == 0) {
         func_80009F38("ProcPostMessage: NULL proc\n");

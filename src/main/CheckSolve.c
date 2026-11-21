@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+CheckSolve
+
+1 and the whole puzzle shown if solveBoard is the puzzle.
+=====================
+*/
 s32 CheckSolve(void) {
     s32 i;
     s32 j;

@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+StopMovie
+
+Ends the movie in play and frees its memory.
+=====================
+*/
 void StopMovie(void) {
     if (D_80086D58 != 0) {
         PopMemStack(1);

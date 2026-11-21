@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+AlignMemStack
+
+Rounds the top of the memory stack up to a power of two.
+=====================
+*/
 void AlignMemStack(s32 align) {
     s32 rem;
 

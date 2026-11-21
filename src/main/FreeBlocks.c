@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+FreeBlocks
+
+Frees the data blocks a proc owns.
+=====================
+*/
 void FreeBlocks(s32 owner) {
     s32 i;
 

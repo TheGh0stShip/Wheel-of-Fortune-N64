@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+RoundTimerProc
+
+The time of a round, 300 seconds a person and 240 the machine; then the final spin or the end.
+=====================
+*/
 struct procResult_s RoundTimerProc(proc_t *proc) {
     struct procResult_s result;
     OSTime time; /* NOTE: unused in the original. Eight bytes nothing touches; guess: an OSTime */

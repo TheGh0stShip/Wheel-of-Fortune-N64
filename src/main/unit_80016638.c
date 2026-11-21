@@ -46,6 +46,13 @@ s32 func_800166C0(void) {
     return result;
 }
 
+/*
+=====================
+CameraPathProc
+
+Plays a camera move a frame at a time; event 45 when it ends.
+=====================
+*/
 struct procResult_s CameraPathProc(proc_t *proc) {
     s32 event;
     struct procResult_s result;
@@ -77,6 +84,13 @@ struct procResult_s CameraPathProc(proc_t *proc) {
     return result;
 }
 
+/*
+=====================
+SetView
+
+Puts the camera obj at a view, and plays its camera move if it has one.
+=====================
+*/
 void SetView(obj_t *obj, s32 view) {
     proc_t *task;
 
@@ -109,6 +123,13 @@ void SetView(obj_t *obj, s32 view) {
     cameraUpZ = 0;
 }
 
+/*
+=====================
+SetCameraView
+
+SetView on the camera obj.
+=====================
+*/
 void SetCameraView(s32 view) {
     obj_t *sp10;
 
@@ -116,6 +137,13 @@ void SetCameraView(s32 view) {
     SetView(sp10, view);
 }
 
+/*
+=====================
+CameraProc
+
+The proc of the camera obj, which does nothing.
+=====================
+*/
 struct procResult_s CameraProc(proc_t *proc) {
     struct procResult_s result;
     obj_t *sp20;
@@ -127,6 +155,13 @@ struct procResult_s CameraProc(proc_t *proc) {
     return result;
 }
 
+/*
+=====================
+DrawCamera
+
+The draw function of the camera: the projection and guLookAt, from the opening, a move or the obj.
+=====================
+*/
 void DrawCamera(obj_t *obj, frame_t *frame) {
     s32 step;
     u16 perspNorm;
@@ -170,6 +205,13 @@ void DrawCamera(obj_t *obj, frame_t *frame) {
     gSPSetLights6(glistp++, D_8004B7B8);
 }
 
+/*
+=====================
+InitCamera
+
+Makes the camera obj of a proc.
+=====================
+*/
 void InitCamera(proc_t *proc) {
     obj_t *handle;
 
@@ -181,6 +223,13 @@ void InitCamera(proc_t *proc) {
     SetView(handle, 1);
 }
 
+/*
+=====================
+CreateCamera
+
+Makes the camera proc and its obj.
+=====================
+*/
 void CreateCamera(void) {
     proc_t *task;
     s32 unused;  /* NOTE: unused in the original */

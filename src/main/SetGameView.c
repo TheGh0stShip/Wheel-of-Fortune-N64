@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+SetGameView
+
+SetView for a step of a turn.
+=====================
+*/
 void SetGameView(s32 view, s32 arg1) {
     obj_t *sp10;
     proc_t *task;

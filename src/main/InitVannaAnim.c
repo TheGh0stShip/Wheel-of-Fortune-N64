@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+InitVannaAnim
+
+Starts Vanna playing an animation; animation 80 is animation 2 of the bonus round.
+=====================
+*/
 proc_t *InitVannaAnim(s32 arg0, s32 arg1) {
     proc_t *task;
     obj_t *child;

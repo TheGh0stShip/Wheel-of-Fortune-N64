@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+StoreFrame64x96
+
+The same for a movie of 64 by 96.
+=====================
+*/
 void StoreFrame64x96(u16 *arg0) {
     s32 diff;
     s32 i;

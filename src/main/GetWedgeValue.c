@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+GetWedgeValue
+
+The value of curWedge; the 10000 wedge is 10000 only in its middle third, else BANKRUPT.
+=====================
+*/
 s32 GetWedgeValue(void) {
     s32 result;
     s32 rem;

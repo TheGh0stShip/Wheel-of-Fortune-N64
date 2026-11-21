@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+SetScorePictures
+
+Lays out the digit pictures of each player's score on the screen, and on the stage.
+=====================
+*/
 void SetScorePictures(s32 total) {
     s32 i;
     s32 j;

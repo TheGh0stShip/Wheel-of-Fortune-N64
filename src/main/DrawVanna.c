@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+DrawVanna
+
+The draw function of Vanna.
+=====================
+*/
 void DrawVanna(obj_t *obj, frame_t *frame) {
     proc_t *actor;
     s16 *pixels;

@@ -1,5 +1,13 @@
 #include "wof.h"
 
+/*
+=====================
+parse_args
+
+guess: parse_args of the SDK demos. Splits the argument string into words and sets a flag for each
+switch (-d, -v, -s, -l). Nothing calls it.
+=====================
+*/
 void parse_args(s32 argstring) {
     s32 argc;
     u8 *argv[32];

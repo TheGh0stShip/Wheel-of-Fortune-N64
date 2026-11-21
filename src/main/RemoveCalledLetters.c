@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+RemoveCalledLetters
+
+Drops from a string the letters already called.
+=====================
+*/
 void RemoveCalledLetters(u8 *letters) {
     u8 *found;
     u8 *p;

@@ -2,6 +2,13 @@
 #include "rumble.h"
 
 
+/*
+=====================
+SolveProc
+
+A person solves the puzzle.
+=====================
+*/
 struct procResult_s SolveProc(proc_t *proc) {
     struct procResult_s ret;
     proc_t *task;

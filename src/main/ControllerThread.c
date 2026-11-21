@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+ControllerThread
+
+The controller thread: on each SI event of a read it started, ReadControllers.
+=====================
+*/
 void ControllerThread(void *arg) {
     OSScMsg *msg;
 

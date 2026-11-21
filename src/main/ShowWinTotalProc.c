@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+ShowWinTotalProc
+
+Shows the total of a bonus round won and a movie, then the credits.
+=====================
+*/
 struct procResult_s ShowWinTotalProc(proc_t *proc) {
     s32 event;
     struct procResult_s ret;

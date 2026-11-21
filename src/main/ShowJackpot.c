@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+ShowJackpot
+
+Lays out the jackpot on the screen in the jackpot round, rolling it when it changes.
+=====================
+*/
 void ShowJackpot(void) {
     s32 glyph;
     s32 i;

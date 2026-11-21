@@ -1,6 +1,14 @@
 #include "wof.h"
 
 
+/*
+=====================
+CreatProc
+
+Makes a proc with a handler and a class, links it at the end of the list, gives it a data block and
+the start message (8).
+=====================
+*/
 proc_t *CreatProc(procHandler_t handler, s32 cls) {
     proc_t *last;
     proc_t *task;

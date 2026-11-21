@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+StartStatus
+
+StatusProc and its obj.
+=====================
+*/
 void StartStatus(void) {
     proc_t *sp10;
     s32 i;

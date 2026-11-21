@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+CheckPercentDone
+
+The share of the puzzle's letters that are turned, from 0 to 1.
+=====================
+*/
 f32 CheckPercentDone(void) {
     s32 row;
     s32 col;

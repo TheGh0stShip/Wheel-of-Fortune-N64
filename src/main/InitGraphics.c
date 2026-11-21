@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+InitGraphics
+
+Loads segment 1 from the cartridge and gives each gfxInfo its framebuffer.
+=====================
+*/
 void InitGraphics(void) {
     s32 size;
 

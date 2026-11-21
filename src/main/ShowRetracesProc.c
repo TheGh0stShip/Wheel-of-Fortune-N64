@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+ShowRetracesProc
+
+Shows frameRetraces as two digits.
+=====================
+*/
 struct procResult_s ShowRetracesProc(proc_t *proc) {
     s32 busy;
     s32 tens;

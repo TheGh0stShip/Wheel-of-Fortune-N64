@@ -2,6 +2,13 @@
 #include "rumble.h"
 
 
+/*
+=====================
+PlayerTurnProc
+
+The turn of a person: makes the procs of its steps; named after the ROM's "player proc".
+=====================
+*/
 struct procResult_s PlayerTurnProc(proc_t *proc) {
     s32 event;
     struct procResult_s ret;

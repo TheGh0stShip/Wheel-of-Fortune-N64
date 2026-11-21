@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+DrawMovie64
+
+Draws a movie 64 pixels wide.
+=====================
+*/
 void DrawMovie64(obj_t *obj, frame_t *frame) {
     gDPPipeSync(glistp++);
     gDPSetRenderMode(glistp++, G_RM_OPA_SURF, G_RM_OPA_SURF2);

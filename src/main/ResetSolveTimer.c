@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+ResetSolveTimer
+
+Starts the solve timer over, in the final spin.
+=====================
+*/
 void ResetSolveTimer(void) {
     proc_t *task;
 

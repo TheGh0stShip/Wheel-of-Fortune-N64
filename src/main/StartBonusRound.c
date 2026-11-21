@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+StartBonusRound
+
+Sets the bonus round (gameMode 4) for the player with the most money.
+=====================
+*/
 void StartBonusRound(void) {
     proc_t *handle;
     s32 i;

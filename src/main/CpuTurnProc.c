@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+CpuTurnProc
+
+The turn of the machine: makes the procs of its steps.
+=====================
+*/
 struct procResult_s CpuTurnProc(proc_t *proc) {
     s32 event;
     struct procResult_s ret;

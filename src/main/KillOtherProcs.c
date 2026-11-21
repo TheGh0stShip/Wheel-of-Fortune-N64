@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+KillOtherProcs
+
+Kills every proc but one.
+=====================
+*/
 void KillOtherProcs(proc_t *proc) {
     struct procResult_s res;
     proc_t *node;

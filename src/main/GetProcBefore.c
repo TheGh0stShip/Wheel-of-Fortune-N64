@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+GetProcBefore
+
+The proc before one in the list of live procs; the list's head if it is the first.
+=====================
+*/
 proc_t *GetProcBefore(proc_t *proc) {
     proc_t *cur;
     proc_t *prev;

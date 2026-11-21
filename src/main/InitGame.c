@@ -1,5 +1,13 @@
 #include "wof.h"
 
+/*
+=====================
+InitGame
+
+Creates the queues and the scheduler and starts memory, controllers, audio, graphics, procs and
+objs.
+=====================
+*/
 void InitGame(void) {
     s32 count;
 

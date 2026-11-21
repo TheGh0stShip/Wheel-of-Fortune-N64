@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+BonusWonProc
+
+The bonus puzzle was solved: 25000, the lights and the celebration.
+=====================
+*/
 struct procResult_s BonusWonProc(proc_t *proc) {
     s32 event;
     struct procResult_s sp18;

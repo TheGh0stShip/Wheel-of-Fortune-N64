@@ -84,10 +84,24 @@ void PlaySequence( s32 seqNo, s32 player ) {
     alCSPPlay( seqPlayers[player] );
 }
 
+/*
+=====================
+StopSequence
+
+AlCSPStop on a sequence player.
+=====================
+*/
 void StopSequence(s32 player) {
     alCSPStop(seqPlayers[player]);
 }
 
+/*
+=====================
+FindFreeSound
+
+Frees the sounds that have stopped and returns the first free slot of soundIds, or -1.
+=====================
+*/
 s32 FindFreeSound(void) {
     s32 i;
 
@@ -113,6 +127,14 @@ s32 FindFreeSound(void) {
     return -1;
 }
 
+/*
+=====================
+PauseSounds
+
+Frees the stopped sounds and stops the playing ones without freeing them; ResumeSounds plays them
+again.
+=====================
+*/
 void PauseSounds(void) {
     s32 i;
 
@@ -142,6 +164,13 @@ void PauseSounds(void) {
     }
 }
 
+/*
+=====================
+ResumeSounds
+
+Plays again every allocated sound that is stopped.
+=====================
+*/
 void ResumeSounds(void) {
     s32 i;
 
@@ -155,6 +184,13 @@ void ResumeSounds(void) {
     }
 }
 
+/*
+=====================
+IsSoundStopped
+
+1 when the sound in a slot is AL_STOPPED.
+=====================
+*/
 s32 IsSoundStopped(s32 slot) {
     alSndpSetSound(sndPlayer, soundIds[slot]);
     if ((soundStates[slot] = alSndpGetState(sndPlayer)) == 0) {
@@ -163,6 +199,14 @@ s32 IsSoundStopped(s32 slot) {
     return 0;
 }
 
+/*
+=====================
+PlaySound
+
+Allocates a slot for a sound of the bank, sets its pitch from its detune and plays it; returns the
+slot.
+=====================
+*/
 s32 PlaySound(s32 sound) {
     f32 pitch;
     s32 unused;  /* NOTE: unused in the original */
@@ -221,6 +265,13 @@ s32 PlaySound(s32 sound) {
     return slot;
 }
 
+/*
+=====================
+StopSound
+
+Stops and frees the sound in a slot.
+=====================
+*/
 void StopSound(s32 slot) {
     alSndpSetSound(sndPlayer, soundIds[slot]);
     alSndpStop(sndPlayer);
@@ -228,6 +279,13 @@ void StopSound(s32 slot) {
     soundIds[slot] = -1;
 }
 
+/*
+=====================
+SetSoundMix
+
+Sets the effect mix, pan and volume of the sound in a slot.
+=====================
+*/
 void SetSoundMix(s32 slot, register s32 fxMix, register s32 pan, register s32 vol) {
     u8 mix;
     u8 panPos;
@@ -242,11 +300,25 @@ void SetSoundMix(s32 slot, register s32 fxMix, register s32 pan, register s32 vo
     alSndpSetVol(sndPlayer, volume);
 }
 
+/*
+=====================
+SetSoundPitch
+
+AlSndpSetPitch on the sound in a slot.
+=====================
+*/
 void SetSoundPitch(s32 slot, f32 pitch) {
     alSndpSetSound(sndPlayer, soundIds[slot]);
     alSndpSetPitch(sndPlayer, pitch);
 }
 
+/*
+=====================
+StopAllSounds
+
+Stops every sound and the first sequence player.
+=====================
+*/
 void StopAllSounds(void) {
     s32 i;
 
@@ -259,10 +331,24 @@ void StopAllSounds(void) {
     alCSPStop(seqPlayers[0]);
 }
 
+/*
+=====================
+GetSoundCount
+
+The sounds in the instrument of the sound effects.
+=====================
+*/
 s32 GetSoundCount(void) {
     return sfxInst->soundCount;
 }
 
+/*
+=====================
+GetSeqCount
+
+The sequences in the sequence file.
+=====================
+*/
 s32 GetSeqCount(void) {
     return seqFile->seqCount;
 }

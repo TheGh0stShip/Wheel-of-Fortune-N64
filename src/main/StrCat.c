@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+StrCat
+
+Appends a string.
+=====================
+*/
 u8 *StrCat(u8 *dst, u8 *src) {
     s32 i;
     s32 j;

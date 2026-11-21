@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+CpuFinalSpinTurnProc
+
+The machine's turn in the final spin.
+=====================
+*/
 struct procResult_s CpuFinalSpinTurnProc(proc_t *proc) {
     struct procResult_s sp10;
     proc_t *task;

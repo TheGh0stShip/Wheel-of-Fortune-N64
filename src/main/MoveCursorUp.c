@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+MoveCursorUp
+
+Moves the letter cursor up a row, if that row has an uncalled letter.
+=====================
+*/
 void MoveCursorUp(proc_t *proc) {
     s32 i;
 

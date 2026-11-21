@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+StartLetterPick
+
+LetterPickProc for a person.
+=====================
+*/
 void StartLetterPick(void) {
     proc_t *task;
 

@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+StrLen
+
+The length of a string.
+=====================
+*/
 s32 StrLen(u8 *str) {
     s32 len;
 

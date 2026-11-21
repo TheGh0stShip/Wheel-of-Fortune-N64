@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+SolveTimerProc
+
+The time to solve: 8 seconds, or 20 in the bonus round; then it posts message 33.
+=====================
+*/
 struct procResult_s SolveTimerProc(proc_t *proc) {
     struct procResult_s result;
     OSTime time; /* NOTE: unused in the original. Eight bytes nothing touches; guess: an OSTime */

@@ -11,6 +11,13 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
+/*
+=====================
+WheelPullProc
+
+The player pulls the wheel back with the stick; a button or a fast enough swing spins it (event 29)
+=====================
+*/
 struct procResult_s WheelPullProc(proc_t *proc) {
     // The locals are PointerProc's, slot for slot; this handler leaves three of them unused.
     struct procResult_s ret;
@@ -64,6 +71,14 @@ struct procResult_s WheelPullProc(proc_t *proc) {
     return ret;
 }
 
+/*
+=====================
+PointerProc
+
+The pointer of a player that clicks over the pegs as the wheel turns, with sound and rumble; sets
+the wedge.
+=====================
+*/
 struct procResult_s PointerProc(proc_t *proc) {
     struct procResult_s result;
     obj_t *actor;
@@ -150,6 +165,13 @@ struct procResult_s func_8000F740(proc_t *proc) {
     return result;
 }
 
+/*
+=====================
+WheelStopProc
+
+The wheel has stopped: the sound of the wedge, and the crowd for the high values.
+=====================
+*/
 struct procResult_s WheelStopProc(proc_t *proc) {
     struct procResult_s ret;
     obj_t *sp20;
@@ -205,6 +227,13 @@ struct procResult_s WheelStopProc(proc_t *proc) {
     return ret;
 }
 
+/*
+=====================
+TurnWheel
+
+Turns the wheel a frame and slows it; when it stops, WheelStopProc.
+=====================
+*/
 struct procResult_s TurnWheel(proc_t *proc) {
     struct procResult_s ret;
     obj_t *obj;
@@ -230,6 +259,13 @@ struct procResult_s TurnWheel(proc_t *proc) {
     return ret;
 }
 
+/*
+=====================
+WheelSpinProc
+
+The wheel turning after a spin, through TurnWheel.
+=====================
+*/
 struct procResult_s WheelSpinProc(proc_t *proc) {
     struct procResult_s ret;
     obj_t *sp20;
@@ -375,6 +411,13 @@ struct procResult_s func_800103B4(proc_t *proc) {
     return sp10;
 }
 
+/*
+=====================
+LightLetterProc
+
+Lights the squares of the called letter one after another, from the side of direction.
+=====================
+*/
 struct procResult_s LightLetterProc(proc_t *proc) {
     struct procResult_s ret;
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
@@ -469,6 +512,13 @@ struct procResult_s LightLetterProc(proc_t *proc) {
     return ret;
 }
 
+/*
+=====================
+TurnSquares
+
+Turns the lit squares of a column to show their letters.
+=====================
+*/
 void TurnSquares(s32 col) {
     if (col < 12) {
         if (D_800B9D08[col].color == 0x1111AAFF) {
@@ -490,6 +540,13 @@ void TurnSquares(s32 col) {
     }
 }
 
+/*
+=====================
+LightTextProc
+
+Lights the squares of each letter of a text in turn.
+=====================
+*/
 struct procResult_s LightTextProc(proc_t *proc) {
     struct procResult_s result;
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
@@ -568,6 +625,13 @@ struct procResult_s LightTextProc(proc_t *proc) {
     return result;
 }
 
+/*
+=====================
+FindHiddenSquare
+
+The next hidden square of a row from a column in a direction, or -1.
+=====================
+*/
 s32 FindHiddenSquare(s32 row, s32 col, s32 dir) {
     s32 limit;
 
@@ -586,6 +650,13 @@ s32 FindHiddenSquare(s32 row, s32 col, s32 dir) {
     return -1;
 }
 
+/*
+=====================
+SetSquareBlink
+
+Makes a square blink, or stop.
+=====================
+*/
 void SetSquareBlink(s32 row, s32 col, s32 blink) {
     switch (row) {
     case 0:
@@ -603,6 +674,13 @@ void SetSquareBlink(s32 row, s32 col, s32 blink) {
     }
 }
 
+/*
+=====================
+SetSquareLetter
+
+Puts a letter into solveBoard and shows it on its square.
+=====================
+*/
 void SetSquareLetter(s32 row, s32 col, u8 letter) {
     if (letter < 65 || letter >= 91) {
         return;
@@ -624,6 +702,13 @@ void SetSquareLetter(s32 row, s32 col, u8 letter) {
     }
 }
 
+/*
+=====================
+NextSolveSquare
+
+Moves the solving cursor to the next hidden square.
+=====================
+*/
 void NextSolveSquare(void) {
     SetSquareBlink(solveRow, solveCol, 0);
     do {
@@ -642,6 +727,13 @@ void NextSolveSquare(void) {
     }
 }
 
+/*
+=====================
+PrevSolveSquare
+
+Moves the solving cursor to the hidden square before.
+=====================
+*/
 void PrevSolveSquare(void) {
     SetSquareBlink(solveRow, solveCol, 0);
     for (;;) {
@@ -667,6 +759,13 @@ void PrevSolveSquare(void) {
     }
 }
 
+/*
+=====================
+ResetSquares
+
+Takes the colour and the blinking off every square.
+=====================
+*/
 void ResetSquares(void) {
     s32 i;
 
@@ -694,6 +793,13 @@ void ResetSquares(void) {
     }
 }
 
+/*
+=====================
+RevealPuzzle
+
+Shows every letter of the puzzle on its square.
+=====================
+*/
 void RevealPuzzle(void) {
     s32 i;
 
@@ -741,6 +847,13 @@ void RevealPuzzle(void) {
     }
 }
 
+/*
+=====================
+GreyHiddenSquares
+
+Shows each hidden square blank and grey.
+=====================
+*/
 void GreyHiddenSquares(void) {
     s32 i;
 
@@ -780,6 +893,14 @@ void GreyHiddenSquares(void) {
     }
 }
 
+/*
+=====================
+CursorProc
+
+The cursor over the hidden squares as a puzzle is solved; the ROM's message calls it the "cursor
+proc".
+=====================
+*/
 struct procResult_s CursorProc(proc_t *proc) {
     struct procResult_s result;
     s32 unused[4];   /* NOTE: unused in the original; guess: its type, the frame shows at most 16 bytes */
@@ -838,6 +959,13 @@ struct procResult_s CursorProc(proc_t *proc) {
     return result;
 }
 
+/*
+=====================
+DrawPointer
+
+The draw function of a player's pointer.
+=====================
+*/
 void DrawPointer(obj_t *obj, frame_t *frame) {
     switch (func_80016638()) {
     case 0:
@@ -853,6 +981,13 @@ void DrawPointer(obj_t *obj, frame_t *frame) {
     }
 }
 
+/*
+=====================
+GetSquareColor
+
+A square's colour, or -1 in the first half of each blink.
+=====================
+*/
 s32 GetSquareColor(tile_t *arg0) {
     s32 result;
 
@@ -869,6 +1004,13 @@ s32 GetSquareColor(tile_t *arg0) {
     return result;
 }
 
+/*
+=====================
+DrawSquares
+
+Draws a row of the board's squares, the blank ones or the others.
+=====================
+*/
 void DrawSquares(tile_t *tiles, s32 count, s32 arg2) {
     s32 i;
 
@@ -901,6 +1043,13 @@ void DrawSquares(tile_t *tiles, s32 count, s32 arg2) {
     }
 }
 
+/*
+=====================
+DrawBoard
+
+The draw function of the board.
+=====================
+*/
 void DrawBoard(obj_t *obj, frame_t *frame) {
     switch (func_800166C0()) {
     case 0:
@@ -934,6 +1083,13 @@ void DrawBoard(obj_t *obj, frame_t *frame) {
     }
 }
 
+/*
+=====================
+LightPlayer
+
+Makes the score of one player blink.
+=====================
+*/
 void LightPlayer(s32 player) {
     s32 i;
 
@@ -944,6 +1100,13 @@ void LightPlayer(s32 player) {
     D_80057BB0[player].blinkLeft = D_80057BB0[player].blinkFrames;
 }
 
+/*
+=====================
+UnlightPlayers
+
+Stops every score blinking.
+=====================
+*/
 void UnlightPlayers(void) {
     s32 i;
 
@@ -952,6 +1115,13 @@ void UnlightPlayers(void) {
     }
 }
 
+/*
+=====================
+GetLayerColor
+
+A layer's colour: unk_14 in the first half of each blink.
+=====================
+*/
 s32 GetLayerColor(layer_t *layer) {
     s32 result;
 
@@ -968,6 +1138,13 @@ s32 GetLayerColor(layer_t *layer) {
     return result;
 }
 
+/*
+=====================
+SetScoreDigits
+
+Lays out the digit pictures of each player's round score or total.
+=====================
+*/
 void SetScoreDigits(s32 total) {
     s32 i;
     s32 j;
@@ -997,6 +1174,13 @@ void SetScoreDigits(s32 total) {
     }
 }
 
+/*
+=====================
+DrawScores
+
+The draw function of the scores.
+=====================
+*/
 void DrawScores(obj_t *obj, frame_t *frame) {
     s32 i;
     s32 j;
@@ -1127,6 +1311,13 @@ void func_80014A5C(obj_t *obj, frame_t *frame) {
     SetLightColor(1);
 }
 
+/*
+=====================
+DrawWheel
+
+The draw function of the wheel and its 24 wedges.
+=====================
+*/
 void DrawWheel(obj_t *obj, frame_t *frame) {
     s32 i;
 
@@ -1178,6 +1369,13 @@ void func_800153C4(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, &D_010E3748);
 }
 
+/*
+=====================
+MakeObj
+
+CreatObj for a proc, with a display list and no transform; the proc's data gets it.
+=====================
+*/
 obj_t *MakeObj(proc_t *proc, Gfx *dl, objDraw_t draw, s32 cls) {
     obj_t *obj;
     s32 parent;
@@ -1204,6 +1402,13 @@ obj_t *MakeObj(proc_t *proc, Gfx *dl, objDraw_t draw, s32 cls) {
     return obj;
 }
 
+/*
+=====================
+InitSquares
+
+Gives a row of squares their display lists and the pictures of the puzzle's punctuation.
+=====================
+*/
 void InitSquares(Gfx **dls, tile_t *tiles, s32 row, s32 count) {
     s32 i;
 
@@ -1247,6 +1452,13 @@ void InitSquares(Gfx **dls, tile_t *tiles, s32 row, s32 count) {
     }
 }
 
+/*
+=====================
+InitBoard
+
+Prints the puzzle, makes the board obj and lays out its squares.
+=====================
+*/
 void InitBoard(void) {
     obj_t *obj;
 
@@ -1271,6 +1483,13 @@ void InitBoard(void) {
     PlaySound(20);
 }
 
+/*
+=====================
+ClearSquares
+
+Gives a row of squares their display lists, all blank.
+=====================
+*/
 void ClearSquares(Gfx **dls, tile_t *tiles, s32 row, s32 count) {
     s32 i;
 
@@ -1283,6 +1502,13 @@ void ClearSquares(Gfx **dls, tile_t *tiles, s32 row, s32 count) {
     }
 }
 
+/*
+=====================
+StartBoardLights
+
+The proc that runs the lights of the board when a puzzle is solved.
+=====================
+*/
 void StartBoardLights(void) {
     proc_t *task;
     obj_t *sp14;
@@ -1319,6 +1545,13 @@ void func_80016098(void) {
     }
 }
 
+/*
+=====================
+ResetBoard
+
+Makes the board obj if need be and blanks every square.
+=====================
+*/
 void ResetBoard(void) {
     proc_t *child;
     obj_t *obj;
@@ -1343,6 +1576,13 @@ void ResetBoard(void) {
     ClearSquares(D_80057A90, D_800BA168, 3, 12);
 }
 
+/*
+=====================
+InitStage
+
+Makes the objs of the studio: the wheel, the board, the scores and a pointer for each player.
+=====================
+*/
 void InitStage(void) {
     proc_t *task;
     obj_t *obj;

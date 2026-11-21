@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+DrawImageAt
+
+Draws a picture moved by an offset.
+=====================
+*/
 void DrawImageAt(image_t *image, s32 lit, s32 dx, s32 dy) {
     u16 *texture;
 

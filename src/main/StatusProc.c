@@ -1,6 +1,14 @@
 #include "wof.h"
 
 
+/*
+=====================
+StatusProc
+
+The proc of the status screen of a turn: the player chooses to spin, buy a vowel or solve, and the
+player proc of the turn is told.
+=====================
+*/
 struct procResult_s StatusProc(proc_t *proc) {
     s32 event;
     s32 i;

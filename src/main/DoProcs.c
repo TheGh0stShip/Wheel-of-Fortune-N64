@@ -1,5 +1,13 @@
 #include "wof.h"
 
+/*
+=====================
+DoProcs
+
+Runs each live proc's handler once a frame, unless it sleeps or waits, and acts on what the handler
+returns. While the game is paused only the pause proc runs.
+=====================
+*/
 void DoProcs(void) {
     struct procResult_s res;
     proc_t *task;

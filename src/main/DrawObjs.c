@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+DrawObjs
+
+Calls the draw function of every live obj but those of class 5, which DrawTopObjs draws after.
+=====================
+*/
 void DrawObjs(frame_t *frame) {
     obj_t *node;
 

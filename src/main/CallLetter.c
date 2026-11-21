@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+CallLetter
+
+Calls a letter for the player: scores it by the wedge and returns how often it is in the puzzle.
+=====================
+*/
 s32 CallLetter(register s32 c, s32 kind) {
     u8 letter;
     s32 i;

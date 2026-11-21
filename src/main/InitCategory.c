@@ -1,6 +1,14 @@
 #include "wof.h"
 
 
+/*
+=====================
+InitCategory
+
+Lays out the category's letters on the screen and starts CategoryProc, which shows them one at a
+time.
+=====================
+*/
 void InitCategory(void) {
     s32 len;
     s32 x;

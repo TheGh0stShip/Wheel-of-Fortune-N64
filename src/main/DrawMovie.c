@@ -1,6 +1,13 @@
 #include "wof.h"
 #include "mpeg/proto.h"
 
+/*
+=====================
+DrawMovie
+
+The draw function of a movie, by its size.
+=====================
+*/
 void DrawMovie(obj_t *obj, frame_t *frame) {
     if (gameMode == 6) {
         return;

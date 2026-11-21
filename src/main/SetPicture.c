@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+SetPicture
+
+Copies a picture into a picture slot of both frames.
+=====================
+*/
 void SetPicture(s16 *arg0, s32 arg1) {
     s32 i;
     s32 unused;   /* NOTE: unused in the original */

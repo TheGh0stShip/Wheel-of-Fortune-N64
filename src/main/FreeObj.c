@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+FreeObj
+
+Unlinks an obj and marks it free.
+=====================
+*/
 s32 FreeObj(obj_t *obj) {
     obj_t *prev;
     obj_t *next;

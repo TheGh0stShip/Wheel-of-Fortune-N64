@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+ProcPostEvent
+
+Gives an event to every proc that waits for it, or for any, as a message, and wakes it.
+=====================
+*/
 void ProcPostEvent(s32 event) {
     struct procResult_s unused;  /* NOTE: unused in the original; DoProcs uses its own */
     proc_t *node;

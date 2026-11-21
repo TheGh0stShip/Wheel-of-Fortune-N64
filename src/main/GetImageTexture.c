@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+GetImageTexture
+
+Which of a picture's two textures to draw this frame, by how it flashes.
+=====================
+*/
 u16 *GetImageTexture(image_t *image, s32 lit) {
     u16 *result;
 

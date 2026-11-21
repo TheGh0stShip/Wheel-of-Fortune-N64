@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+FindProc
+
+The first proc whose class under a mask is a value.
+=====================
+*/
 proc_t *FindProc(s32 cls, s32 mask) {
     proc_t *node;
 

@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+MakeScreenObj
+
+MakeObj for a picture on the screen: placed in front of the camera.
+=====================
+*/
 obj_t *MakeScreenObj(proc_t *proc, Gfx *dl, objDraw_t draw, s32 cls) {
     obj_t *obj;
     s32 sp14;

@@ -15,12 +15,27 @@
 // the one message slot of siLockQ
 static OSMesg siLockMsg;
 
+/*
+=====================
+InitSiLock
+
+Makes the one-message queue that LockSi and UnlockSi pass between the controller reads and the
+rumble pak.
+=====================
+*/
 void InitSiLock(void) {
     siLockMade = 1;
     osCreateMesgQueue(&siLockQ, &siLockMsg, 1);
     osSendMesg(&siLockQ, 0, 0);
 }
 
+/*
+=====================
+LockSi
+
+Takes the SI lock, making it first if need be.
+=====================
+*/
 void LockSi(void) {
     OSMesg sp10;
 
@@ -30,10 +45,24 @@ void LockSi(void) {
     osRecvMesg(&siLockQ, &sp10, 1);
 }
 
+/*
+=====================
+UnlockSi
+
+Gives the SI lock back.
+=====================
+*/
 void UnlockSi(void) {
     osSendMesg(&siLockQ, 0, 0);
 }
 
+/*
+=====================
+StartGame
+
+Waits for the graphics, sets gameMode 2 and makes the procs and objs of a game.
+=====================
+*/
 void StartGame(void) {
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 
@@ -51,6 +80,13 @@ void StartGame(void) {
     StartApplause();
 }
 
+/*
+=====================
+GameStartProc
+
+Clears the menus, StartGame, then the camera and the movie that open a game.
+=====================
+*/
 struct procResult_s GameStartProc(proc_t *proc) {
     struct procResult_s result;
     obj_t *sp20;
@@ -87,10 +123,24 @@ struct procResult_s GameStartProc(proc_t *proc) {
     return result;
 }
 
+/*
+=====================
+BeginGame
+
+Creates GameStartProc, when the main menu starts a game.
+=====================
+*/
 void BeginGame(void) {
     CreatProc(GameStartProc, 0);
 }
 
+/*
+=====================
+OpeningProc
+
+Runs the opening: on START the menus, at its end the demo.
+=====================
+*/
 struct procResult_s OpeningProc(proc_t *proc) {
     f32 mtx[4][4];
     f32 rot[4][4];
@@ -452,6 +502,13 @@ void func_8000DF2C(obj_t *obj, frame_t *frame) {
     }
 }
 
+/*
+=====================
+LogoProc
+
+Shows the pictures before the opening for 3 seconds, then a movie, then StartOpening.
+=====================
+*/
 struct procResult_s LogoProc(proc_t *proc) {
     struct procResult_s result;
     obj_t *sp20;
@@ -486,6 +543,13 @@ struct procResult_s LogoProc(proc_t *proc) {
     return result;
 }
 
+/*
+=====================
+StartLogos
+
+Starts LogoProc; InitGame's choice when a controller is in.
+=====================
+*/
 void StartLogos(void) {
     proc_t *task;
     obj_t *sp14;
@@ -506,12 +570,26 @@ void func_8000E738(void) {
     result = MakeObj(0, 0, func_800289F4, 0x5030000);
 }
 
+/*
+=====================
+RestartOpening
+
+Starts the opening again after the demo.
+=====================
+*/
 void RestartOpening(void) {
     LoadSceneData();
     StartOpening();
     func_8002EDC0();
 }
 
+/*
+=====================
+StartOpening
+
+Starts the opening: the camera move of the studio, the wheel, the letters flying in.
+=====================
+*/
 void StartOpening(void) {
     proc_t *task;
     obj_t *obj;

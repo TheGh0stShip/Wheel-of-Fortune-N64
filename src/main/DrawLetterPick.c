@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+DrawLetterPick
+
+The draw function of the letters to call, the category and the bonus letters.
+=====================
+*/
 void DrawLetterPick(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 i;

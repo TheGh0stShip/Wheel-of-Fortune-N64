@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+ProcPostMessageClass
+
+ProcPostMessage to every proc of a class.
+=====================
+*/
 void ProcPostMessageClass(s32 msg, s32 cls, s32 mask, s32 wake) {
     proc_t *node;
 

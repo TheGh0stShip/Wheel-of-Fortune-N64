@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+AllocBlock
+
+A free data block of 0x50 bytes for a proc, which it then owns.
+=====================
+*/
 void *AllocBlock(s32 owner) {
     s32 i;
 

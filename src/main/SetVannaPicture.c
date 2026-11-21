@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+SetVannaPicture
+
+Copies Vanna's picture into this frame, mirrored for -1.
+=====================
+*/
 void SetVannaPicture(s16 *arg0, s32 arg1) {
     s32 i;
     s32 j;

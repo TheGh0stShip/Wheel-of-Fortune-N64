@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+RumbleThread
+
+The rumble thread: carries out the motor messages.
+=====================
+*/
 void RumbleThread(void *arg) {
     rumbleMsg_t *msg;
     s32 result;

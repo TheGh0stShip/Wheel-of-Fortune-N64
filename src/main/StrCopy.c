@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+StrCopy
+
+Copies a string.
+=====================
+*/
 u8 *StrCopy(u8 *dst, u8 *src) {
     s32 i;
 

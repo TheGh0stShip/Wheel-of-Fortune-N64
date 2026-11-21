@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+FreeObjClass
+
+Frees every obj of a class.
+=====================
+*/
 void FreeObjClass(s32 cls, s32 mask) {
     obj_t *node;
 

@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+CategoryProc
+
+Shows the category a letter at a time.
+=====================
+*/
 struct procResult_s CategoryProc(proc_t *proc) {
     s32 event;
     s32 index;

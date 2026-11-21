@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+NextPlayer
+
+Passes the turn to the next player, or for a new round to the round's first.
+=====================
+*/
 void NextPlayer(s32 newRound) {
     D_800B9980 = 0;
     jackpotWon = 0;

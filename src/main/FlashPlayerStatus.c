@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+FlashPlayerStatus
+
+Makes the status pictures of the player whose turn it is flash.
+=====================
+*/
 void FlashPlayerStatus(void) {
     s32 i;
 

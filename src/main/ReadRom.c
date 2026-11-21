@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+ReadRom
+
+Reads bytes from the cartridge by PI DMA and waits for them.
+=====================
+*/
 void ReadRom(s32 rom, void *ram, s32 size) {
     OSIoMesg dmaIoMesgBuf;
     OSMesg dummyMesg;

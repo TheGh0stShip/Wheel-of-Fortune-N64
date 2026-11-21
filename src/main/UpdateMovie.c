@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+UpdateMovie
+
+Points the movie obj at this frame's picture and decodes the next.
+=====================
+*/
 void UpdateMovie(proc_t *proc) {
     s32 diff;
     s32 unused;  /* NOTE: unused in the original */

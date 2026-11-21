@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+StartSolvePuzzle
+
+StartSolve, the cursor proc and SolvePuzzleProc.
+=====================
+*/
 void StartSolvePuzzle(void) {
     proc_t *task;
 

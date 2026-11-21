@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+ProcGetMessage
+
+Takes the last message queued for a proc, or 0 if none.
+=====================
+*/
 s32 ProcGetMessage(proc_t *proc) {
     if (proc == 0) {
         func_80009F38("ProcGetMessage: NULL proc\n");

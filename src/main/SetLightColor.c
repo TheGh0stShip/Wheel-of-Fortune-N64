@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+SetLightColor
+
+GSPLightColor on one of the six lights.
+=====================
+*/
 void SetLightColor(s32 light) {
     switch (light) {
     case 1:

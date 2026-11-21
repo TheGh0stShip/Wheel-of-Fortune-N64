@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+InitWheel
+
+Sets the 24 wedges of the wheel for the round.
+=====================
+*/
 void InitWheel(void) {
     s32 i;
     s32 value;

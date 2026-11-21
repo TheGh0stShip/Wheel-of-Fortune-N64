@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+PickMissLetter
+
+The last letter of a string that is not in the puzzle, or a space.
+=====================
+*/
 s32 PickMissLetter(u8 *letters) {
     s32 i;
     s32 len;

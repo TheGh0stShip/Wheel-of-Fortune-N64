@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+BonusLostProc
+
+The bonus puzzle was not solved: the camera, then ShowTotalProc.
+=====================
+*/
 struct procResult_s BonusLostProc(proc_t *proc) {
     s32 event;
     struct procResult_s ret;

@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+PauseProc
+
+START pauses and resumes; 30 seconds without a button in a game pause it too.
+=====================
+*/
 struct procResult_s PauseProc(proc_t *proc) {
     struct procResult_s sp10;
     proc_t *sp20;

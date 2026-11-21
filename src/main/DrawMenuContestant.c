@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+DrawMenuContestant
+
+The draw function of a contestant in the menus.
+=====================
+*/
 void DrawMenuContestant(obj_t *obj, frame_t *frame) {
     if (obj->image == 0) {
         return;

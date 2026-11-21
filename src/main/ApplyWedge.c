@@ -1,5 +1,13 @@
 #include "wof.h"
 
+/*
+=====================
+ApplyWedge
+
+Acts on curWedge: a final spin keeps its value, BANKRUPT clears the round's score, the jackpot round
+adds to the jackpot.
+=====================
+*/
 void ApplyWedge(s32 final) {
     if (final != 0) {
         finalSpinValue = GetWedgeValue();

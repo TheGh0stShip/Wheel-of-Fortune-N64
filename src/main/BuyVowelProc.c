@@ -1,6 +1,13 @@
 #include "wof.h"
 #include "rumble.h"
 
+/*
+=====================
+BuyVowelProc
+
+A person buys a vowel for 250.
+=====================
+*/
 struct procResult_s BuyVowelProc(proc_t *proc) {
     struct procResult_s ret;
     proc_t *task;

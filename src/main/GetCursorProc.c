@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+GetCursorProc
+
+Finds the cursor proc for SolvePuzzleProc, whose message it prints.
+=====================
+*/
 proc_t *GetCursorProc(void) {
     proc_t *result;
 

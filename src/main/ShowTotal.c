@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+ShowTotal
+
+Lays out the player's total in the middle of the screen.
+=====================
+*/
 void ShowTotal(void) {
     s32 glyph;
     s32 i;

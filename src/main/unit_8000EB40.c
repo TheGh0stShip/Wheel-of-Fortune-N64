@@ -9,6 +9,13 @@
 // the read-only data, which it opens. The header is not in this tree, so its line stands here.
 #ident "$Revision: 1.17 $"
 
+/*
+=====================
+DemoProc
+
+Plays the demo's movie and, when the demo ends, goes back to the opening or to the title on START.
+=====================
+*/
 struct procResult_s DemoProc(proc_t *proc) {
     struct procResult_s result;
     s32 event;
@@ -68,6 +75,13 @@ struct procResult_s DemoProc(proc_t *proc) {
 void func_8000EE50(s32 arg0, s32 arg1) {
 }
 
+/*
+=====================
+StartDemo
+
+Sets gameMode 3 and starts a game the machine plays.
+=====================
+*/
 void StartDemo(void) {
     s32 unused[4];  /* NOTE: unused in the original; guess: its type, the frame shows at most 16 bytes */
 

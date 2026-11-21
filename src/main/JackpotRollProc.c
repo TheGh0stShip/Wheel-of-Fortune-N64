@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+JackpotRollProc
+
+Rolls the old jackpot off and the new one on.
+=====================
+*/
 struct procResult_s JackpotRollProc(proc_t *proc) {
     s32 event;
     s32 i;

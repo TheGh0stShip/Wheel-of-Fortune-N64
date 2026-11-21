@@ -2,6 +2,13 @@
 #include "rumble.h"
 
 
+/*
+=====================
+FinalSpinTurnProc
+
+A person's turn in the final spin: a letter, then the solve.
+=====================
+*/
 struct procResult_s FinalSpinTurnProc(proc_t *proc) {
     struct procResult_s ret;
     proc_t *task;

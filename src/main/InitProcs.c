@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+InitProcs
+
+Clears procst and the data block owners.
+=====================
+*/
 void InitProcs(void) {
     s32 i;
 

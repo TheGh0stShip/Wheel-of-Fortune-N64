@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+PlayClip
+
+Plays a movie as a contestant's picture (ClipProc)
+=====================
+*/
 void PlayClip(s32 arg0, s32 *arg1, obj_t *arg2, s32 arg3, s32 arg4) {
     s32 unused;  /* NOTE: unused in the original */
     proc_t *task;

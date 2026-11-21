@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+PauseGame
+
+Pauses: gameMode 6, the sounds paused, the pause picture shown.
+=====================
+*/
 void PauseGame(void) {
     if (movieDone == 0) {
         return;

@@ -1,6 +1,14 @@
 #include "wof.h"
 
 
+/*
+=====================
+InitControllers
+
+Starts the rumble and controller threads and the controllers, and the motor of each rumble pak
+found; "Failure initing controllers" if osContInit fails.
+=====================
+*/
 void InitControllers(void) {
     s32 i;
     s32 j;

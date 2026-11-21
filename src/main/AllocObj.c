@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+AllocObj
+
+A free entry of objst, or 0 when none is left.
+=====================
+*/
 obj_t *AllocObj(void) {
     s32 i;
 

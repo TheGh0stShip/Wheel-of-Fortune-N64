@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+DrawConfetti
+
+The draw function of a piece of confetti.
+=====================
+*/
 void DrawConfetti(obj_t *obj, frame_t *frame) {
     s32 unused;  /* NOTE: unused in the original */
 

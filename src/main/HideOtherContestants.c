@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+HideOtherContestants
+
+Frees the pictures of every player but the one whose turn it is.
+=====================
+*/
 void HideOtherContestants(void) {
     s32 i;
     obj_t *sp14;

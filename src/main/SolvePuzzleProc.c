@@ -1,6 +1,14 @@
 #include "wof.h"
 
 
+/*
+=====================
+SolvePuzzleProc
+
+The proc of the letters as a puzzle is solved: the player picks a letter for each hidden square the
+cursor proc stands on.
+=====================
+*/
 struct procResult_s SolvePuzzleProc(proc_t *proc) {
     s32 event;
     struct procResult_s result;

@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+ShowLetter
+
+Puts a letter on the board wherever the puzzle has it.
+=====================
+*/
 void ShowLetter(register s32 letter) {
     u8 ch;
     s32 i;

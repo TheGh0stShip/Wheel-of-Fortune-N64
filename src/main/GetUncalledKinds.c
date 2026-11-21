@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+GetUncalledKinds
+
+Which kinds of letters are still uncalled: 4 both, 3 consonants, 2 vowels, 0 none.
+=====================
+*/
 s32 GetUncalledKinds(void) {
     s32 consonants;
     s32 vowels;

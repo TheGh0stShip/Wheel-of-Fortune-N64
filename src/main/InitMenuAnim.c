@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+InitMenuAnim
+
+InitAnim for a contestant shown in the menus, with its obj; prints InitAnim's first message.
+=====================
+*/
 void InitMenuAnim(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     proc_t *task;
     obj_t *obj;

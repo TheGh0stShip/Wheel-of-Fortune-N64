@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+NextTurn
+
+The turn passes to the next player.
+=====================
+*/
 void NextTurn(void) {
     proc_t *handle;
 

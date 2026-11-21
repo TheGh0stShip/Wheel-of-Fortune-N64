@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+StrChr
+
+Finds a character in a string, or 0.
+=====================
+*/
 u8 *StrChr(u8 *str, s32 c) {
     s32 i;
 

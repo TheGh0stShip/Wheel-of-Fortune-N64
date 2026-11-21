@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+CpuChooseAction
+
+The machine decides to solve, spin or buy a vowel.
+=====================
+*/
 void CpuChooseAction(proc_t *proc) {
     proc_t *task;
     s32 sp14;

@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+ClipProc
+
+Plays a movie as a contestant's picture; at its end, its event.
+=====================
+*/
 struct procResult_s ClipProc(proc_t *proc) {
     s32 event;
     struct procResult_s result;

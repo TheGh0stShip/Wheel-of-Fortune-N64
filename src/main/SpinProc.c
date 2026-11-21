@@ -2,6 +2,13 @@
 #include "rumble.h"
 
 
+/*
+=====================
+SpinProc
+
+A person spins: the wheel, the wedge, then a consonant.
+=====================
+*/
 struct procResult_s SpinProc(proc_t *proc) {
     struct procResult_s result;
     proc_t *task;

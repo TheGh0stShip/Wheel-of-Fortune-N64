@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+VannaAnimProc
+
+Plays Vanna's animation.
+=====================
+*/
 struct procResult_s VannaAnimProc(proc_t *proc) {
     struct procResult_s ret;
     s32 event;

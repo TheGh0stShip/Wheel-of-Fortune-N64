@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+GetLastObj
+
+The last obj of the list; named after GetObjBefore.
+=====================
+*/
 obj_t *GetLastObj(void) {
     obj_t *next;
     obj_t *node;

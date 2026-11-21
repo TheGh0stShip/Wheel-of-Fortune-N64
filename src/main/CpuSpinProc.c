@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+CpuSpinProc
+
+The machine spins.
+=====================
+*/
 struct procResult_s CpuSpinProc(proc_t *proc) {
     struct procResult_s result;
     proc_t *task;

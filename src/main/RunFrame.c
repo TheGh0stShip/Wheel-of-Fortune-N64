@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+RunFrame
+
+Waits for the retraces of a frame, runs DoProcs and sends the frame's graphics task.
+=====================
+*/
 void RunFrame(void) {
     s32 unused;  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
 

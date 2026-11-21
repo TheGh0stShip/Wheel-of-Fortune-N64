@@ -1,5 +1,13 @@
 #include "wof.h"
 
+/*
+=====================
+InitContestants
+
+Decodes the animations of the three contestants and of Vanna into memory and makes the contestants'
+objs.
+=====================
+*/
 void InitContestants(void) {
     obj_t *obj;
     s32 unused;  /* NOTE: unused in the original */

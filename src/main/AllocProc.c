@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+AllocProc
+
+A free entry of procst, or 0 when none is left.
+=====================
+*/
 proc_t *AllocProc(void) {
     s32 i;
 

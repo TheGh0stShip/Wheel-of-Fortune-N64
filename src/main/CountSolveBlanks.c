@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+CountSolveBlanks
+
+The squares of solveBoard still blank.
+=====================
+*/
 s32 CountSolveBlanks(void) {
     s32 i;
     s32 j;

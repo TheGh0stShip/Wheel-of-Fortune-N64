@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+ShowTotalProc
+
+Shows the winner's total and a movie, then the opening again.
+=====================
+*/
 struct procResult_s ShowTotalProc(proc_t *proc) {
     s32 event;
     struct procResult_s result;

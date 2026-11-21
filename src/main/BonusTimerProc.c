@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+BonusTimerProc
+
+Shows the seconds left to solve the bonus puzzle.
+=====================
+*/
 struct procResult_s BonusTimerProc(proc_t *proc) {
     s32 event;
     s32 tens;

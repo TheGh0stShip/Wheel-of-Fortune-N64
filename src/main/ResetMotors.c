@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+ResetMotors
+
+ResetMotor on each controller that has a rumble pak.
+=====================
+*/
 void ResetMotors(void) {
     s32 i;
 

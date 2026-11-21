@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+LoadMovie
+
+Reads a movie from the cartridge into the memory stack.
+=====================
+*/
 char *LoadMovie(s32 movie) {
     char *buf;
 

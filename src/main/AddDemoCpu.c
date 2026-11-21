@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+AddDemoCpu
+
+A machine turn proc for the demo, of skill 0.65.
+=====================
+*/
 void AddDemoCpu(s32 player) {
     proc_t *task;
     s32 unused;   /* NOTE: unused in the original */

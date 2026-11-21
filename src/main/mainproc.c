@@ -1,5 +1,14 @@
 #include "wof.h"
 
+/*
+=====================
+mainproc
+
+guess: mainproc of the SDK demos, the main thread. Starts the game, then handles the scheduler's
+messages: on each retrace it starts a controller read, on each finished graphics task it plays
+movieSound, and on the pre-NMI it stops the rumble.
+=====================
+*/
 void mainproc(void *arg) {
     OSScMsg *msg;
 

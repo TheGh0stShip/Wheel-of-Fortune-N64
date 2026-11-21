@@ -1,5 +1,12 @@
 #include "wof.h"
 
+/*
+=====================
+ReadControllers
+
+Reads the pads, runs the rumble, counts presses and gives the game its buttons.
+=====================
+*/
 void ReadControllers(void) {
     OSContPad *pad;
     u16 i;

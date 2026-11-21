@@ -1,6 +1,13 @@
 #include "wof.h"
 
 
+/*
+=====================
+LetterPickProc
+
+The cursor over the letters as a letter is called.
+=====================
+*/
 struct procResult_s LetterPickProc(proc_t *proc) {
     s32 event;
     struct procResult_s result;
