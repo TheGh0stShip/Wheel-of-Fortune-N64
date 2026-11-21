@@ -42,97 +42,97 @@ s32 movieSizes[38] = {
 
 // zero, then a mask: StartCelebration decodes movie 0x16 with it
 s32 celebrationMask[0x980] = {
-#include "assets/D_8006DDC4.inc.c"
+#include "assets/celebrationMask.inc.c"
 };
 
 s32 vannaWalkMask[1728] = {
-#include "assets/D_800703C4.inc.c"
+#include "assets/vannaWalkMask.inc.c"
 };
 
 s32 vannaAnim1Mask[1728] = {
-#include "assets/D_80071EC4.inc.c"
+#include "assets/vannaAnim1Mask.inc.c"
 };
 
 s32 vannaAnim5Mask[960] = {
-#include "assets/D_800739C4.inc.c"
+#include "assets/vannaAnim5Mask.inc.c"
 };
 
 s32 vannaAnim2Mask[1344] = {
-#include "assets/D_800748C4.inc.c"
+#include "assets/vannaAnim2Mask.inc.c"
 };
 
 s32 vannaTurnMask[768] = {
-#include "assets/D_80075DC4.inc.c"
+#include "assets/vannaTurnMask.inc.c"
 };
 
 s32 contestant0AnimMask[1024] = {
-#include "assets/D_800769C4.inc.c"
+#include "assets/contestant0AnimMask.inc.c"
 };
 
 s32 contestant0ClipMask1[1152] = {
-#include "assets/D_800779C4.inc.c"
+#include "assets/contestant0ClipMask1.inc.c"
 };
 
 s32 contestant0StillMask[128] = {
-#include "assets/D_80078BC4.inc.c"
+#include "assets/contestant0StillMask.inc.c"
 };
 
 s32 contestant1AnimMask[1152] = {
-#include "assets/D_80078DC4.inc.c"
+#include "assets/contestant1AnimMask.inc.c"
 };
 
 s32 contestant1StillMask[128] = {
-#include "assets/D_80079FC4.inc.c"
+#include "assets/contestant1StillMask.inc.c"
 };
 
 s32 contestant2AnimMask[1024] = {
-#include "assets/D_8007A1C4.inc.c"
+#include "assets/contestant2AnimMask.inc.c"
 };
 
 s32 contestant2StillMask[128] = {
-#include "assets/D_8007B1C4.inc.c"
+#include "assets/contestant2StillMask.inc.c"
 };
 
 s32 contestant2ClipMask0[768] = {
-#include "assets/D_8007B3C4.inc.c"
+#include "assets/contestant2ClipMask0.inc.c"
 };
 
 s32 contestant3AnimMask[768] = {
-#include "assets/D_8007BFC4.inc.c"
+#include "assets/contestant3AnimMask.inc.c"
 };
 
 s32 contestant3StillMask[128] = {
-#include "assets/D_8007CBC4.inc.c"
+#include "assets/contestant3StillMask.inc.c"
 };
 
 s32 contestant3ClipMask0[768] = {
-#include "assets/D_8007CDC4.inc.c"
+#include "assets/contestant3ClipMask0.inc.c"
 };
 
 s32 contestant4AnimMask[1280] = {
-#include "assets/D_8007D9C4.inc.c"
+#include "assets/contestant4AnimMask.inc.c"
 };
 
 s32 contestant4StillMask[128] = {
-#include "assets/D_8007EDC4.inc.c"
+#include "assets/contestant4StillMask.inc.c"
 };
 
 s32 contestant4ClipMask0[1152] = {
-#include "assets/D_8007EFC4.inc.c"
+#include "assets/contestant4ClipMask0.inc.c"
 };
 
 s32 contestant4ClipMask1[1152] = {
-#include "assets/D_800801C4.inc.c"
+#include "assets/contestant4ClipMask1.inc.c"
 };
 
 s32 contestant5AnimMask[896] = {
-#include "assets/D_800813C4.inc.c"
+#include "assets/contestant5AnimMask.inc.c"
 };
 
 s32 contestant5ClipMask0[512] = {
-#include "assets/D_800821C4.inc.c"
+#include "assets/contestant5ClipMask0.inc.c"
 };
 
 s32 contestant5StillMask[128] = {
-#include "assets/D_800829C4.inc.c"
+#include "assets/contestant5StillMask.inc.c"
 };
