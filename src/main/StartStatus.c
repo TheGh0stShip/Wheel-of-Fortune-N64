@@ -16,10 +16,10 @@ void StartStatus(void) {
     s32 j;
 
     for (i = 0; i < 3; i++) {
-        D_8005A4B8[i][0].flash = 0;
-        D_8005A4B8[i][1].flash = 0;
+        playerStatusImages[i][0].flash = 0;
+        playerStatusImages[i][1].flash = 0;
         for (j = 0; j < 7; j++) {
-            D_8005ADD0[i][j].flash = 0;
+            statusScoreImages[i][j].flash = 0;
         }
     }
     func_8002EDC0();

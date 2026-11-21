@@ -33,7 +33,7 @@ proc_t *InitVannaAnim(s32 arg0, s32 arg1) {
     }
     task = CreatProc(VannaAnimProc, 0xA000400);
     child = MakeObj(task, 0, DrawVanna, 0xA030000);
-    child->x = D_800B9988;
+    child->x = vannaX;
     task->data->vannaAnim.anim = id;
     task->data->vannaAnim.pictures = vannaClips[arg0].pictures;
     task->data->vannaAnim.count = vannaClips[arg0].count;

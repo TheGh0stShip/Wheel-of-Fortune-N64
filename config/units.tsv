@@ -165,8 +165,8 @@ func_8002842C	0x8002842C	0x128	match	game	src/main/func_8002842C.c
 func_80028554	0x80028554	0x128	match	game	src/main/func_80028554.c
 func_8002867C	0x8002867C	0x128	match	game	src/main/func_8002867C.c
 func_800287A4	0x800287A4	0x128	match	game	src/main/func_800287A4.c
-func_800288CC	0x800288CC	0x128	match	game	src/main/func_800288CC.c
-func_800289F4	0x800289F4	0x128	match	game	src/main/func_800289F4.c
+DrawBootScreen	0x800288CC	0x128	match	game	src/main/DrawBootScreen.c
+DrawNoController	0x800289F4	0x128	match	game	src/main/DrawNoController.c
 func_80028B1C	0x80028B1C	0x130	match	game	src/main/func_80028B1C.c
 InitActionCursor	0x80028C4C	0x78	match	game	src/main/InitActionCursor.c
 func_80028CC4	0x80028CC4	0x78	match	game	src/main/func_80028CC4.c

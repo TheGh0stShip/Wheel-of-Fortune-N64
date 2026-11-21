@@ -220,7 +220,7 @@ typedef struct {
     /* 0x0C */ s32 delay;       // frames until the stick moves the cursor again
 } mainMenu_t;    // size 0x10
 // The picture of a letter of the alphabet as BonusRoundProc shows the letter chosen:
-// D_8005BCC8[26].
+// bonusLetterImages[26].
 typedef struct {
     /* 0x00 */ u16 *unk_00;     // what texture of the image_t becomes
     /* 0x04 */ s32 width;
@@ -344,7 +344,7 @@ typedef struct {
     /* 0x1C */ s32 claimed;
 } wedge_t;    // size 0x20
 
-// The display lists of one wedge of the wheel. D_80057F08[7] points at the 24 of each kind of
+// The display lists of one wedge of the wheel. wedgeDls[7] points at the 24 of each kind of
 // round.
 typedef struct {
     /* 0x00 */ Gfx *unk_00;
@@ -358,15 +358,15 @@ typedef struct {
     /* 0x08 */ s32 used;
 } puzzle_t;    // size 0xC
 
-// The entries of D_80057808[]: the display list and the matrix of one of the objs StartOpening
+// The entries of titleLetters[]: the display list and the matrix of one of the objs StartOpening
 // makes, drawn by func_8000D6D8.
 typedef struct {
-    /* 0x00 */ Gfx *unk_00;
-    /* 0x04 */ Mtx *unk_04;
-    /* 0x08 */ f32 unk_08;
-} data80057808_t;    // size 0xC
+    /* 0x00 */ Gfx *dl;
+    /* 0x04 */ Mtx *mtx;
+    /* 0x08 */ f32 spread;
+} titleLetter_t;    // size 0xC
 
-// The entries of D_80057BB0[]. GetLayerColor gives the colour an entry is drawn in: color, or
+// The entries of scorePanels[]. GetLayerColor gives the colour an entry is drawn in: color, or
 // blinkColor for the first half of each blink while blink is set.
 typedef struct {
     /* 0x00 */ Gfx *dl;     // its display list
@@ -377,8 +377,8 @@ typedef struct {
     /* 0x14 */ s32 blinkColor;
 } layer_t;    // size 0x18
 
-// One square of the puzzle board. The four rows are D_800B9D08[12], D_800B9E58[14],
-// D_800B9FE0[14] and D_800BA168[12].
+// One square of the puzzle board. The four rows are topRow[12], secondRow[14],
+// thirdRow[14] and bottomRow[12].
 typedef struct {
     /* 0x00 */ Gfx *dl;     // its display list
     /* 0x04 */ u8  *image;     // the picture it shows
@@ -753,53 +753,53 @@ extern long long int D_800349B8[];  // rspbootTextStart
 extern long long int D_80034A88[];  // rspbootTextEnd, and the start of the graphics microcode
 extern long long int D_80037298[];  // aspMainTextStart
 extern ALSndPlayer *sndPlayer;
-extern s32 D_8004B71C[];            // the parameters of the custom reverb
+extern s32 reverbParams[];            // the parameters of the custom reverb
 extern u32 audFrameCt;              // audFrameCt
 extern u32 nextDMA;              // nextDMA
 extern u32 curAcmdList;              // curAcmdList
 extern s32 firstTime;
-extern Lights6 D_8004B7B8;          // the lights of every scene
+extern Lights6 sceneLights;          // the lights of every scene
 extern s32 D_8004B830;
 extern s32 D_8004B838;
 extern s32 debugflag;
 extern s32 D_8004B840;
 extern s32 D_8004B844;
-extern s32 D_8004B848[];
-extern s32 D_8004B860[];
-extern s32 D_8004B8C0[];
-extern s32 D_8004B920[];
-extern s32 D_8004B980[];
+extern s32 wheelStartAngles[];
+extern s32 firstRoundWedges[];
+extern s32 secondRoundWedges[];
+extern s32 jackpotRoundWedges[];
+extern s32 laterRoundWedges[];
 extern u8 alphabet[];          // "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 extern s8 vowelLetters[];
 extern s8 consonantLetters[];
 extern puzzle_t puzzles[];
 extern s32 siLockMade;
-extern data80057808_t D_80057808[];
-extern Gfx *D_800578B0[];
-extern Mtx *D_80057910[];
-extern s32 D_80057970[][3];
+extern titleLetter_t titleLetters[];
+extern Gfx *openingWedgeDls[];
+extern Mtx *openingWedgeMtxs[];
+extern s32 logoTiles[][3];
 extern Gfx *D_80057988[];
-extern u8 *D_800579BC[];           // the pictures of the letters, by character
-extern Gfx *D_800579F0[];           // D_800579F0 to D_80057A90: the display lists of the squares of each row
-extern Gfx *D_80057A20[];
-extern Gfx *D_80057A58[];
-extern u16 *D_80057A68[];
-extern Gfx *D_80057A90[];
+extern u8 *letterPictures[];           // the pictures of the letters, by character
+extern Gfx *topRowDls[];           // topRowDls to bottomRowDls: the display lists of the squares of each row
+extern Gfx *secondRowDls[];
+extern Gfx *thirdRowDls[];
+extern u16 *scoreDigitPictures[];
+extern Gfx *bottomRowDls[];
 extern Gfx *D_80057B50[][8];
-extern layer_t D_80057BB0[];
-extern wedgeDl_t *D_80057F08[];
-extern Gfx *D_80057F24[];
-extern Gfx *D_80057F34[];
-extern f32 D_80057F44;
-extern s32 D_80057F48;
+extern layer_t scorePanels[];
+extern wedgeDl_t *wedgeDls[];
+extern Gfx *backdropDls[];
+extern Gfx *backdropOverlays[];
+extern f32 pullScale;
+extern s32 minSpinSpeed;
 extern view_t views[];
-extern s32 D_800581F0[];
+extern s32 pointerAngles[];
 extern s32 D_800581F4;
-extern s32 D_800581FC[];
+extern s32 playerViews[];
 extern u8 consonantOrder[];          // "RSTLNCBDMHFYKJGPQVWXZ"
 extern u8 vowelOrder[];          // "EAIOU"
 extern movie_t movies[];
-extern char D_80058488[];           // "You are the BIG winner!"
+extern char winnerText[];           // "You are the BIG winner!"
 extern s32 D_800584A0[][2];         // [5], x and y of pictures 2 to 6 of the first menu
 extern menuItem_t mainMenu1[];
 extern image_t mainMenu1Images[];
@@ -813,44 +813,44 @@ extern image_t skillMenuImages[];
 extern menuItem_t roundsMenu[];
 extern image_t roundsMenuImages[];
 extern image_t marqueeImages[];
-extern vec_t D_8005A390;
-extern vec_t D_8005A39C[];
+extern vec_t frontContestantPos;
+extern vec_t contestantPos[];
 extern voice_t voices[];
-extern vec_t D_8005A474[];
+extern vec_t playerPos[];
 extern u8 defaultNames[][10];
-extern image_t D_8005A4B8[][2];
+extern image_t playerStatusImages[][2];
 extern image_t D_8005A5A8[];
-extern image_t D_8005A620[];
-extern image_t D_8005A760[];
+extern image_t bootScreenImages[];
+extern image_t noControllerImages[];
 extern image_t D_8005A7B0[];
 extern image_t actionImages[];
-extern u16 *D_8005A8C8[];
-extern u16 *D_8005A930[];
+extern u16 *calledLetterTextures[];
+extern u16 *letterTextures[];
 extern image_t letterImages[];
-extern u16 *D_8005ACE8[];
-extern image_t D_8005ADD0[][7];
-extern s32 D_8005B088[];
-extern u16 *D_8005B118[];
-extern s32 D_8005B148[];
+extern u16 *statusDigitTextures[];
+extern image_t statusScoreImages[][7];
+extern s32 bigCharWidths[];
+extern u16 *bigDigitTextures[];
+extern s32 bigDigitAdvances[];
 extern s32 D_8005B170;
 extern s32 D_8005B174;
-extern s32 D_8005B178[];
+extern s32 bigDigitWidths[];
 extern image_t D_8005B1A8[];
-extern image_t D_8005B2C0[];
-extern image_t D_8005B310[];
-extern image_t D_8005B360[];
-extern image_t D_8005B4C8[];
-extern u16 *D_8005B5A4[];
+extern image_t bonusTimerImages[];
+extern image_t retraceImages[];
+extern image_t rollingNumberImages[];
+extern image_t bigNumberImages[];
+extern u16 *categoryLetterTextures[];
 extern image_t D_8005B630[];
 extern image_t categoryImages[];
 extern s32 D_8005BA80[];
 extern image_t D_8005BAC0[];
-extern letterImage_t D_8005BCC8[];
-extern image_t D_8005BE00[];
+extern letterImage_t bonusLetterImages[];
+extern image_t bonusLetterSlots[];
 extern u8 *creditsText[];
 extern u8 *creditsTitles[];
 extern u8 givenLetters[];
-extern Gfx *D_8005C3A0[][2];        // [3], dl and secondDl of the obj of each contestant
+extern Gfx *contestantDls[][2];        // [3], dl and secondDl of the obj of each contestant
 extern clip_t contestantClips[][2];
 extern clip_t contestantMovies[][2];
 extern clip_t menuClips[];
@@ -859,16 +859,16 @@ extern s32 D_8005C8C8[];
 extern s32 D_8005C8FC[];
 extern s32 D_8005C908[];
 extern s32 D_8005C90C[];
-extern s32 D_8005C948[];
-extern f32 D_8005C958;
-extern f32 D_8005C95C;
+extern s32 confettiTextures[];
+extern f32 confettiGravity;
+extern f32 confettiDrag;
 extern camera_t openingPath[];
 extern s32 memEnd;
 extern s32 memStart;
-extern s32 D_8006DCEC;
-extern s32 D_8006DCF0;
-extern s32 D_8006DCF4;
-extern s32 D_8006DCF8;
+extern s32 staticRom;
+extern s32 staticSize;
+extern s32 sceneDataRom;
+extern s32 sceneDataSize;
 extern s32 sfxCtlRom;
 extern s32 sfxCtlRomEnd;
 extern s32 sfxTblRom;
@@ -934,7 +934,7 @@ extern OSMesg rumbleMsgBuf;
 extern u8 blocks[][0x50];       // [70], the data blocks of the procs: AllocBlock hands them out
 extern ALSeqFile *seqFile;
 extern s32 roundTime;
-extern s32 D_800B81E0;
+extern s32 backdrop;
 extern s32 *D_800B81E4;
 extern Gfx *glistp;
 extern s32 soundStates[];
@@ -942,7 +942,7 @@ extern s32 memStackTop;
 extern s32 movieSound;
 extern f32 cpuSkill;
 extern proc_t procst[];
-extern s32 D_800B9538;
+extern s32 prizeTaken;
 extern s32 finalSpinValue;
 extern s32 jackpot;
 extern u8 category[];
@@ -969,21 +969,21 @@ extern ALHeap audioHeap;
 extern s32 D_800B9974;
 extern s32 D_800B9980;
 extern s32 memStackFree;
-extern s32 D_800B9988;
-extern s16 *D_800B998C;
+extern s32 vannaX;
+extern s16 *moviePictures;
 extern player_t players[];
 extern OSMesgQueue D_800B9CD0;
 extern s32 shownJackpot;
 extern s32 gameOver;
-extern void *D_800B9CF4;
+extern void *sceneData;
 extern s32 canSpin;
 extern s32 canBuyVowel;
 extern s32 canSolve;
 extern s32 newFrame;
-extern tile_t D_800B9D08[];
-extern tile_t D_800B9E58[];
-extern tile_t D_800B9FE0[];
-extern tile_t D_800BA168[];
+extern tile_t topRow[];
+extern tile_t secondRow[];
+extern tile_t thirdRow[];
+extern tile_t bottomRow[];
 extern s32 curView;
 extern s32 pauseStart;
 extern AMDMABuffer dmaBuffs[];     // dmaBuffs[NUM_DMA_BUFFERS]
@@ -1010,7 +1010,7 @@ extern s32 memStackBase;
 extern s32 curMovie;
 extern rumbleMsg_t rumbleMsg;
 extern OSMesg gfxMsgBuf[];          // [8], the messages of gfxMsgQ
-extern s32 D_800BCA60;
+extern s32 contestantMemMark;
 extern AMAudioMgr __am;        // __am
 extern f32 wheelSpeed;
 extern s32 solveCol;
@@ -1035,20 +1035,20 @@ extern OSMesg D_800BEE00[];          // [8], the messages of D_800B9CD0
 extern s32 bonusMusicSlot;
 extern s32 D_800BEE24;
 extern s32 bonusConsonants;
-extern f32 D_800BEE2C;
-extern f32 D_800BEE30;
-extern f32 D_800BEE34;
-extern f32 D_800BEE3C;
-extern f32 D_800BEE40;
-extern f32 D_800BEE44;
+extern f32 camX;
+extern f32 camY;
+extern f32 camZ;
+extern f32 camRoll;
+extern f32 camPitch;
+extern f32 camHeading;
 extern s32 lastInputTime;
 extern s32 bonusVowels;
 extern s32 numProcs;
-extern s32 D_800BEE54;
+extern s32 vowelsOnlyAnnounced;
 extern u16 contPressed[];
 extern rumble_t rumbles[];
 extern OSMesgQueue *sched_cmdQ;      // the command queue of the scheduler
-extern u16 *D_800BEEA8[][8];
+extern u16 *scoreDigits[][8];
 extern gfxInfo_t gfxInfo[];
 extern s32 curPlayer;
 extern s32 contReading;
@@ -1189,10 +1189,10 @@ void func_8000D400( obj_t *obj, frame_t *frame );
 void func_8000D6D8( obj_t *obj, frame_t *frame );
 void func_8000D8B8( obj_t *obj, frame_t *frame );
 void func_8000DCA0( obj_t *obj, frame_t *frame );
-void func_8000DF2C( obj_t *obj, frame_t *frame );
+void DrawLogo( obj_t *obj, frame_t *frame );
 struct procResult_s LogoProc( proc_t *proc );
 void StartLogos( void );
-void func_8000E738( void );
+void ShowNoController( void );
 void RestartOpening( void );
 void StartOpening( void );
 struct procResult_s DemoProc( proc_t *proc );
@@ -1341,8 +1341,8 @@ void func_8002842C( obj_t *obj, frame_t *frame );
 void func_80028554( obj_t *obj, frame_t *frame );
 void func_8002867C( s32 arg0, s32 arg1 );
 void func_800287A4( obj_t *obj, frame_t *frame );
-void func_800288CC( obj_t *obj, frame_t *frame );
-void func_800289F4( obj_t *obj, frame_t *frame );
+void DrawBootScreen( obj_t *obj, frame_t *frame );
+void DrawNoController( obj_t *obj, frame_t *frame );
 void func_80028B1C( obj_t *obj, frame_t *frame );
 void InitActionCursor( proc_t *proc );
 void func_80028CC4( void );

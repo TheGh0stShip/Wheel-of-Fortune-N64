@@ -40,8 +40,8 @@ struct procResult_s ConfettiProc(proc_t *proc) {
     }
     i = 0;
     while (i < frameRetraces) {
-        proc->data->confetti.vy += D_8005C958;
-        proc->data->confetti.vx -= D_8005C95C;
+        proc->data->confetti.vy += confettiGravity;
+        proc->data->confetti.vx -= confettiDrag;
         proc->data->confetti.x += proc->data->confetti.vx;
         proc->data->confetti.y += proc->data->confetti.vy;
         i++;
@@ -53,7 +53,7 @@ struct procResult_s ConfettiProc(proc_t *proc) {
         ret.w[0] = 1;
         return ret;
     }
-    sprite->image = D_8005C948[proc->data->confetti.frame];
+    sprite->image = confettiTextures[proc->data->confetti.frame];
     ret.w[1] = 1;
     ret.w[0] = 0;
     return ret;

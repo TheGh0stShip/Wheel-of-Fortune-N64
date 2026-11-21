@@ -18,20 +18,20 @@ void InitWheel(void) {
     while (i < 24) {
         switch (round) {
         case 0:
-            value = D_8004B860[i];
+            value = firstRoundWedges[i];
             break;
         case 1:
-            value = D_8004B8C0[i];
+            value = secondRoundWedges[i];
             break;
         case 2:
-            value = D_8004B920[i];
+            value = jackpotRoundWedges[i];
             break;
         default:
-            value = D_8004B980[i];
+            value = laterRoundWedges[i];
         }
         wedges[i].claimed = 0;
         if (value == -10000) {
-            if (D_800B9538 != 0) {
+            if (prizeTaken != 0) {
                 wedges[i].value = -1;
                 StrCopy(wedges[i].name, "BANKRUPT");
                 wedges[i].unk_18 = 0;

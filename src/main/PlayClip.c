@@ -21,7 +21,7 @@ void PlayClip(s32 arg0, s32 *arg1, obj_t *arg2, s32 arg3, s32 arg4) {
     movieToMemory = 1;
     D_800B81E4 = arg1;
     curMovie = arg0;
-    D_800B998C = gfxInfo[curGfxInfo].frame.unk_0AC00[arg3];
+    moviePictures = gfxInfo[curGfxInfo].frame.unk_0AC00[arg3];
     SetCameraView(17);
     task = CreatProc(ClipProc, 0x5010000);
     task->data->clipPlay.obj = arg2;

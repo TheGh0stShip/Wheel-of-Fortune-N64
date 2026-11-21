@@ -33,7 +33,7 @@ void InitAudio( void ) {
     c.fxType = AL_FX_CUSTOM;
     c.outputRate = 0;
     c.heap = &audioHeap;
-    c.params = D_8004B71C;
+    c.params = reverbParams;
     amc.outputRate = OUTPUT_RATE;
     amc.framesPerField = 1;
     amc.maxACMDSize = MAX_RSP_CMDS;

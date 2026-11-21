@@ -46,7 +46,7 @@ void InitGame(void) {
     if (contPattern != 0) {
         StartLogos();
     } else {
-        func_8000E738();
+        ShowNoController();
     }
     InitOptions();
 }

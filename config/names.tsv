@@ -806,3 +806,84 @@ wof_demo	unit	0x8000EB40	invented	the demo the machine plays: DemoProc and Start
 wof_stage	unit	0x8000EF68	invented	the studio: the wheel and its pointers, the board and its squares, the scores, and InitStage
 wof_camera	unit	0x80016638	invented	the camera: its views, its moves and its draw function
 wof_menu	unit	0x80021E88	invented	the menus: their procs, their draw functions and the options they set
+reverbParams	global	0x8004B71C	invented	the parameters of the custom reverb InitAudio gives the synthesizer
+sceneLights	global	0x8004B7B8	invented	the lights DrawCamera sets for every scene
+wheelStartAngles	global	0x8004B848	invented	the angle the wheel starts each round at
+firstRoundWedges	global	0x8004B860	invented	the values of the 24 wedges of round 0
+secondRoundWedges	global	0x8004B8C0	invented	the values of the 24 wedges of round 1
+jackpotRoundWedges	global	0x8004B920	invented	the values of the 24 wedges of round 2, the jackpot round
+laterRoundWedges	global	0x8004B980	invented	the values of the 24 wedges of the later rounds
+titleLetter_t	type	wof.h	invented	one of the 14 letters of WHEEL OF FORTUNE that fly in during the opening
+titleLetters	global	0x80057808	invented	the 14 letters of WHEEL OF FORTUNE in the opening
+openingWedgeDls	global	0x800578B0	invented	the display lists of the 24 wedges StartOpening makes
+openingWedgeMtxs	global	0x80057910	invented	their matrices
+logoTiles	global	0x80057970	invented	the six 64 by 64 tiles of the picture LogoProc shows
+DrawLogo	function	0x8000DF2C	invented	the draw function of the picture LogoProc shows, in six tiles
+DrawBootScreen	function	0x800288CC	invented	the draw function of the first screen when a controller is in
+DrawNoController	function	0x800289F4	invented	the draw function of the screen shown when no controller is in
+ShowNoController	function	0x8000E738	invented	InitGame's choice when no controller is in: a screen and nothing more
+bootScreenImages	global	0x8005A620	invented	the pictures of DrawBootScreen
+noControllerImages	global	0x8005A760	invented	the pictures of DrawNoController
+letterPictures	global	0x800579BC	invented	the picture of each letter on a square of the board, by character
+topRowDls	global	0x800579F0	invented	the display lists of the squares of the board's top row
+secondRowDls	global	0x80057A20	invented	the display lists of the squares of the second row
+thirdRowDls	global	0x80057A58	invented	the display lists of the squares of the third row
+bottomRowDls	global	0x80057A90	invented	the display lists of the squares of the bottom row
+topRow	global	0x800B9D08	invented	the 12 squares of the board's top row
+secondRow	global	0x800B9E58	invented	the 14 squares of the second row
+thirdRow	global	0x800B9FE0	invented	the 14 squares of the third row
+bottomRow	global	0x800BA168	invented	the 12 squares of the bottom row
+scoreDigitPictures	global	0x80057A68	invented	the picture of each digit of the scores on the stage, by character
+scoreDigits	global	0x800BEEA8	invented	the pictures of the 8 places of each player's score on the stage
+scorePanels	global	0x80057BB0	invented	the panels of the three scores on the stage, which LightPlayer makes blink
+wedgeDls	global	0x80057F08	invented	the display lists of the wedges, for each kind of round
+backdropDls	global	0x80057F24	invented	the four backdrops of the studio
+backdropOverlays	global	0x80057F34	invented	what is drawn over each backdrop, if not 0
+backdrop	global	0x800B81E0	invented	which backdrop InitStage chose at random
+pullScale	global	0x80057F44	invented	the stick's reading is divided by it to give the wheel's pull, in degrees
+minSpinSpeed	global	0x80057F48	invented	the speed at which a swing of the wheel becomes a spin
+pointerAngles	global	0x800581F0	invented	the angle of each player's pointer on the wheel
+playerViews	global	0x800581FC	invented	the view of each player
+winnerText	global	0x80058488	invented	"You are the BIG winner!", which PlayMovie hands MakeMovieObj and nothing reads
+frontContestantPos	global	0x8005A390	invented	where the contestant chosen in the contestant menu stands
+contestantPos	global	0x8005A39C	invented	where each of the six contestants stands in the contestant menu
+playerPos	global	0x8005A474	invented	where the three players' contestants stand in the main menu
+playerStatusImages	global	0x8005A4B8	invented	the two pictures of each player on the status screen, which FlashPlayerStatus flashes
+statusScoreImages	global	0x8005ADD0	invented	the 7 places of each player's score on the screen
+statusDigitTextures	global	0x8005ACE8	invented	the texture of each digit of statusScoreImages, by character
+calledLetterTextures	global	0x8005A8C8	invented	the texture of each letter once it is called
+letterTextures	global	0x8005A930	invented	the texture of each letter not yet called
+bigDigitTextures	global	0x8005B118	invented	the textures of the large digits and the two signs around them
+bigDigitWidths	global	0x8005B178	invented	the width of each of them
+bigDigitAdvances	global	0x8005B148	invented	how far each of them moves the next
+bigCharWidths	global	0x8005B088	invented	the width of each digit, by character, to centre a number
+bigNumberImages	global	0x8005B4C8	invented	the places of the large number: the jackpot, or a total
+rollingNumberImages	global	0x8005B360	invented	the old jackpot as JackpotRollProc rolls it off
+bonusTimerImages	global	0x8005B2C0	invented	the two digits of BonusTimerProc
+retraceImages	global	0x8005B310	invented	the two digits of ShowRetracesProc
+categoryLetterTextures	global	0x8005B5A4	invented	the texture of each letter of the category, by character
+bonusLetterImages	global	0x8005BCC8	invented	the picture of each letter as the bonus round shows it chosen
+bonusLetterSlots	global	0x8005BE00	invented	the places of the letters chosen in the bonus round: 6 to 8 the consonants, 9 the vowel
+contestantDls	global	0x8005C3A0	invented	the two display lists of each player's contestant obj
+confettiTextures	global	0x8005C948	invented	the four frames of a piece of confetti
+confettiGravity	global	0x8005C958	invented	added to a piece's fall each retrace
+confettiDrag	global	0x8005C95C	invented	taken from a piece's sideways speed each retrace
+staticRom	global	0x8006DCEC	invented	where segment 1 is on the cartridge
+staticSize	global	0x8006DCF0	invented	its size
+sceneDataRom	global	0x8006DCF4	invented	where the block LoadSceneData reads is on the cartridge
+sceneDataSize	global	0x8006DCF8	invented	its size
+sceneData	global	0x800B9CF4	invented	the block LoadSceneData reads
+prizeTaken	global	0x800B9538	invented	set once the 10000 wedge was taken; InitWheel then puts BANKRUPT in its place
+vannaX	global	0x800B9988	invented	where InitVannaAnim puts Vanna's obj
+moviePictures	global	0x800B998C	invented	the memory a movie is decoded into
+camX	global	0x800BEE2C	invented	the camera obj's place and angles as createGfxTask found them
+camY	global	0x800BEE30	invented	
+camZ	global	0x800BEE34	invented	
+camRoll	global	0x800BEE3C	invented	
+camPitch	global	0x800BEE40	invented	
+camHeading	global	0x800BEE44	invented	
+vowelsOnlyAnnounced	global	0x800BEE54	invented	set once the turn proc has played the sound that only vowels are left
+contestantMemMark	global	0x800BCA60	invented	what PushMemStack returned before the contestants' animations were decoded
+dl	member	titleLetter_t	invented	the letter's display list
+mtx	member	titleLetter_t	invented	its matrix
+spread	member	titleLetter_t	invented	how far sideways the opening's lift moves it

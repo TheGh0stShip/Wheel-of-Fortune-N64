@@ -21,9 +21,9 @@ void DrawLetterPick(obj_t *obj, frame_t *frame) {
     i = 0;
     while (i < 26) {
         if (uncalled[i] == ' ') {
-            letterImages[i].texture = D_8005A8C8[i];
+            letterImages[i].texture = calledLetterTextures[i];
         } else {
-            letterImages[i].texture = D_8005A930[i];
+            letterImages[i].texture = letterTextures[i];
         }
         DrawImageAt(&letterImages[i], 1, -13, 0);
         i++;
@@ -35,7 +35,7 @@ void DrawLetterPick(obj_t *obj, frame_t *frame) {
     }
     i = 0;
     while (i < 10) {
-        DrawImage(&D_8005BE00[i], 1);
+        DrawImage(&bonusLetterSlots[i], 1);
         i++;
     }
 }

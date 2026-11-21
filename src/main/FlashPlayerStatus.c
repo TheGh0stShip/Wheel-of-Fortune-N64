@@ -14,9 +14,9 @@ void FlashPlayerStatus(void) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        D_8005A4B8[i][0].flash = i == curPlayer;
-        D_8005A4B8[i][0].flashLeft = D_8005A4B8[i][0].flashFrames;
-        D_8005A4B8[i][1].flash = i == curPlayer;
-        D_8005A4B8[i][1].flashLeft = D_8005A4B8[i][1].flashFrames;
+        playerStatusImages[i][0].flash = i == curPlayer;
+        playerStatusImages[i][0].flashLeft = playerStatusImages[i][0].flashFrames;
+        playerStatusImages[i][1].flash = i == curPlayer;
+        playerStatusImages[i][1].flashLeft = playerStatusImages[i][1].flashFrames;
     }
 }

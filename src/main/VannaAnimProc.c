@@ -35,7 +35,7 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
             proc->data->vannaAnim.unk_24 = 1;
             switch (proc->data->vannaAnim.anim) {
             case 0:
-                D_800B9988 = D_800B9988 + (lightDir * 40);
+                vannaX = vannaX + (lightDir * 40);
                 break;
             case 80:
                 proc->data->vannaAnim.frame = proc->data->vannaAnim.count - 1;
@@ -85,7 +85,7 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
                             proc->data->vannaAnim.unk_24 = 0;
                         } else {
                             if (proc->data->vannaAnim.loop < 0) {
-                                D_800B9988 = D_800B9988 + (lightDir * 44);
+                                vannaX = vannaX + (lightDir * 44);
                                 InitVannaAnim(0, 0);
                                 ret.w[1] = 0;
                                 ret.w[0] = 1;
@@ -94,7 +94,7 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
                                 switch (proc->data->vannaAnim.anim) {
                                 case 3:
                                     ProcPostEvent(49);
-                                    D_800B9988 = D_800B9988 + (lightDir * 44);
+                                    vannaX = vannaX + (lightDir * 44);
                                     lightDir = lightDir * -1;
                                     break;
                                 }
@@ -113,14 +113,14 @@ struct procResult_s VannaAnimProc(proc_t *proc) {
         }
         i = 1;
         while (i < 15) {
-            if (D_800B9988 < D_8005C90C[i]) {
-                if (D_800B9988 > D_8005C908[i]) {
+            if (vannaX < D_8005C90C[i]) {
+                if (vannaX > D_8005C908[i]) {
                     TurnSquares(i - 1);
                 }
             }
             i++;
         }
-        D_800B9988 = D_800B9988 + (lightDir * 24);
+        vannaX = vannaX + (lightDir * 24);
     } else {
 L384: ;
     }
@@ -128,8 +128,8 @@ L384: ;
     SetVannaPicture(frame, (proc->data->vannaAnim.mirror * lightDir));
     switch (proc->data->vannaAnim.anim) {
     case 0:
-        obj->x = D_8005C8C8[proc->data->vannaAnim.frame] * 4 * lightDir + D_800B9988;
-        if (((lightDir == 1) && ((D_800B9988 >= 921) && (proc->data->vannaAnim.frame == 1))) || ((lightDir == -1) && ((D_800B9988 < 100) && (proc->data->vannaAnim.frame == 1)))) {
+        obj->x = D_8005C8C8[proc->data->vannaAnim.frame] * 4 * lightDir + vannaX;
+        if (((lightDir == 1) && ((vannaX >= 921) && (proc->data->vannaAnim.frame == 1))) || ((lightDir == -1) && ((vannaX < 100) && (proc->data->vannaAnim.frame == 1)))) {
             InitVannaAnim(3, 0);
             ret.w[1] = 0;
             ret.w[0] = 1;
@@ -137,7 +137,7 @@ L384: ;
         }
         break;
     case 3:
-        obj->x = D_8005C8FC[proc->data->vannaAnim.frame] * 4 * lightDir + D_800B9988;
+        obj->x = D_8005C8FC[proc->data->vannaAnim.frame] * 4 * lightDir + vannaX;
         break;
     }
     ret.w[1] = 1;

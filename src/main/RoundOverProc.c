@@ -60,7 +60,7 @@ struct procResult_s RoundOverProc(proc_t *proc) {
             ShowJackpot();
         }
         obj = FindObj(0x4010000, -1);
-        obj->pitch = D_8004B848[round] - D_800581F4;
+        obj->pitch = wheelStartAngles[round] - D_800581F4;
         obj->pitch = obj->pitch - 360.0f;
         result.w[1] = 2;
         result.w[0] = 45;

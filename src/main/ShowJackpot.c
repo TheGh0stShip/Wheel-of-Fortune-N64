@@ -26,13 +26,13 @@ void ShowJackpot(void) {
         }
         i = 0;
         for (; i < 9; i++) {
-            D_8005B360[i].x = D_8005B4C8[i].x;
-            D_8005B360[i].width = D_8005B4C8[i].width;
-            D_8005B360[i].texture = D_8005B4C8[i].texture;
+            rollingNumberImages[i].x = bigNumberImages[i].x;
+            rollingNumberImages[i].width = bigNumberImages[i].width;
+            rollingNumberImages[i].texture = bigNumberImages[i].texture;
         }
         i = 0;
         for (; i < 9; i++) {
-            D_8005B4C8[i].texture = 0;
+            bigNumberImages[i].texture = 0;
         }
         x = jackpot;
         IntToStr(buf, x);
@@ -42,7 +42,7 @@ void ShowJackpot(void) {
         }
         x = 0;
         for (i = 0; i < len; i++) {
-            x = x + D_8005B088[buf[i]];
+            x = x + bigCharWidths[buf[i]];
         }
         x = x + D_8005B170;
         x = x + D_8005B174;
@@ -57,10 +57,10 @@ void ShowJackpot(void) {
             } else {
                 glyph = buf[pos++] - '0';
             }
-            D_8005B4C8[i].x = x;
-            D_8005B4C8[i].width = D_8005B178[glyph];
-            D_8005B4C8[i].texture = D_8005B118[glyph];
-            x = x + D_8005B148[glyph];
+            bigNumberImages[i].x = x;
+            bigNumberImages[i].width = bigDigitWidths[glyph];
+            bigNumberImages[i].texture = bigDigitTextures[glyph];
+            x = x + bigDigitAdvances[glyph];
         }
         if (shownJackpot != 0) {
             task = FindProc(0x6030000, -1);
@@ -70,9 +70,9 @@ void ShowJackpot(void) {
             CreatProc(JackpotRollProc, 0x6030000);
         } else {
             for (i = 0; i < 9; i++) {
-                D_8005B360[i].texture = 0;
-                D_8005B4C8[i].y = 45;
-                D_8005B4C8[i].height = 15;
+                rollingNumberImages[i].texture = 0;
+                bigNumberImages[i].y = 45;
+                bigNumberImages[i].height = 15;
             }
         }
         shownJackpot = jackpot;

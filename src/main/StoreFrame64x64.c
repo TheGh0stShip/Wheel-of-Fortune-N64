@@ -28,7 +28,7 @@ void StoreFrame64x64(u16 *arg0) {
     src = arg0;
     dst = gfxInfo[curGfxInfo].frame.unk_0AC00[0];
     if (movieToMemory != 0) {
-        dst = D_800B998C;
+        dst = moviePictures;
         mask = D_800B81E4;
         n = 4032;
         row = 126;
@@ -53,7 +53,7 @@ void StoreFrame64x64(u16 *arg0) {
             row -= 2;
             n -= 96;
         }
-        D_800B998C += 0x1000;
+        moviePictures += 0x1000;
         D_800B81E4 += 128;
         return;
     }

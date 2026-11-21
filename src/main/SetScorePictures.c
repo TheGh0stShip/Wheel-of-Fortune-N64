@@ -20,7 +20,7 @@ void SetScorePictures(s32 total) {
 
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 7; j++) {
-            D_8005ADD0[i][j].texture = 0;
+            statusScoreImages[i][j].texture = 0;
         }
         if (total != 0) {
             value = players[i].total;
@@ -32,9 +32,9 @@ void SetScorePictures(s32 total) {
         if (len >= 7) {
             len = 6;
         }
-        D_8005ADD0[i][6 - len].texture = D_01010FA0;
+        statusScoreImages[i][6 - len].texture = D_01010FA0;
         for (j = 0; j < len; j++) {
-            D_8005ADD0[i][j + 7 - len].texture = D_8005ACE8[buf[j]];
+            statusScoreImages[i][j + 7 - len].texture = statusDigitTextures[buf[j]];
         }
     }
     SetScoreDigits(total);

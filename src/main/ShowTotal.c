@@ -19,7 +19,7 @@ void ShowTotal(void) {
     u8 buf[32];
 
     for (i = 0; i < 9; i++) {
-        D_8005B4C8[i].texture = 0;
+        bigNumberImages[i].texture = 0;
     }
     x = players[curPlayer].total;
     IntToStr(buf, x);
@@ -29,7 +29,7 @@ void ShowTotal(void) {
     }
     x = 0;
     for (i = 0; i < len; i++) {
-        x = x + D_8005B088[buf[i]];
+        x = x + bigCharWidths[buf[i]];
     }
     x = x + D_8005B170;
     x = x + D_8005B174;
@@ -44,15 +44,15 @@ void ShowTotal(void) {
         } else {
             glyph = buf[pos++] - 48;
         }
-        D_8005B4C8[i].x = x;
-        D_8005B4C8[i].width = D_8005B178[glyph];
-        D_8005B4C8[i].texture = D_8005B118[glyph];
-        x = x + D_8005B148[glyph];
+        bigNumberImages[i].x = x;
+        bigNumberImages[i].width = bigDigitWidths[glyph];
+        bigNumberImages[i].texture = bigDigitTextures[glyph];
+        x = x + bigDigitAdvances[glyph];
     }
     i = 0;
     while (i < 9) {
-        D_8005B4C8[i].y = 112;
-        D_8005B4C8[i].height = 15;
+        bigNumberImages[i].y = 112;
+        bigNumberImages[i].height = 15;
         i++;
     }
 }

@@ -78,10 +78,10 @@ struct procResult_s StatusProc(proc_t *proc) {
             func_80028CC4();
             SetScorePictures(1);
             for (i = 0; i < 3; i++) {
-                D_8005A4B8[i][0].flash = 0;
-                D_8005A4B8[i][0].flashLeft = D_8005A4B8[i][0].flashFrames;
-                D_8005A4B8[i][1].flash = 0;
-                D_8005A4B8[i][1].flashLeft = D_8005A4B8[i][1].flashFrames;
+                playerStatusImages[i][0].flash = 0;
+                playerStatusImages[i][0].flashLeft = playerStatusImages[i][0].flashFrames;
+                playerStatusImages[i][1].flash = 0;
+                playerStatusImages[i][1].flashLeft = playerStatusImages[i][1].flashFrames;
             }
             result.w[1] = 2;
             if (gameOver != 0 || round == numRounds - 1) {

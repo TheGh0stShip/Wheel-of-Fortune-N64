@@ -19,7 +19,7 @@ void DecodeMovie(s32 movie, s32 count, s16 *arg2, s32 *arg3) {
         func_800A4E58(0);
     }
     movieToMemory = 1;
-    D_800B998C = arg2;
+    moviePictures = arg2;
     D_800B81E4 = arg3;
     curMovie = movie;
     movieMemMark = PushMemStack();

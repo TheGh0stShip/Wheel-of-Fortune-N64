@@ -61,8 +61,8 @@ struct procResult_s CpuTurnProc(proc_t *proc) {
                 }
                 return ret;
             }
-            if (D_800BEE54 == 0 && GetHiddenKinds() == 2) {
-                D_800BEE54 = 1;
+            if (vowelsOnlyAnnounced == 0 && GetHiddenKinds() == 2) {
+                vowelsOnlyAnnounced = 1;
                 PlaySound(6);
             }
             ProcPostMessage(proc, 28, 0);

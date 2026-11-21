@@ -15,7 +15,7 @@ void StartRound(void) {
     s32 i;
     s32 kind;
 
-    D_800BEE54 = 0;
+    vowelsOnlyAnnounced = 0;
     if (gameMode == 3) {
         round = 2;
     }

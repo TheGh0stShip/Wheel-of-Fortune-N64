@@ -49,7 +49,7 @@ struct procResult_s WheelPullProc(proc_t *proc) {
             return ret;
         }
     }
-    delta = proc->data->wheelPull.restPitch - playerPad.stick_x / D_80057F44;
+    delta = proc->data->wheelPull.restPitch - playerPad.stick_x / pullScale;
     if (delta > 0.0f) {
         delta = delta * -1.0f;
     }
@@ -63,7 +63,7 @@ struct procResult_s WheelPullProc(proc_t *proc) {
         ret.w[1] = 0;
         ret.w[0] = 0;
     }
-    if (D_80057F48 < wheelSpeed) {
+    if (minSpinSpeed < wheelSpeed) {
         ProcPostEvent(29);
         ret.w[1] = 0;
         ret.w[0] = 0;
@@ -107,7 +107,7 @@ struct procResult_s PointerProc(proc_t *proc) {
     if (target == 0) {
         return result;
     }
-    sp28 = target->pitch + (f32)D_800581F0[proc->cls & 255];
+    sp28 = target->pitch + (f32)pointerAngles[proc->cls & 255];
     sp30 = (s32)(sp28 / 5.0f);
     sp28 = sp28 - (f32)(sp30 * 5);
     if ((f64)((wheelSpeed / 60.0f) * (f32)frameRetraces) > 2.5) {
@@ -141,7 +141,7 @@ struct procResult_s PointerProc(proc_t *proc) {
         }
     }
     if ((proc->cls & 255) == curPlayer) {
-        SetWedge(target->pitch + (f32)D_800581F0[curPlayer] - sp28 + proc->data->pointer.offset);
+        SetWedge(target->pitch + (f32)pointerAngles[curPlayer] - sp28 + proc->data->pointer.offset);
     }
     proc->data->pointer.swing = (s32)(sp2C - actor->pitch);
     actor->pitch = sp2C;
@@ -482,16 +482,16 @@ struct procResult_s LightLetterProc(proc_t *proc) {
                 }
                 switch (row) {
                 case 0:
-                    D_800B9D08[col].color = 0x1111AAFF;
+                    topRow[col].color = 0x1111AAFF;
                     break;
                 case 1:
-                    D_800B9E58[col].color = 0x1111AAFF;
+                    secondRow[col].color = 0x1111AAFF;
                     break;
                 case 2:
-                    D_800B9FE0[col].color = 0x1111AAFF;
+                    thirdRow[col].color = 0x1111AAFF;
                     break;
                 case 3:
-                    D_800BA168[col].color = 0x1111AAFF;
+                    bottomRow[col].color = 0x1111AAFF;
                     break;
                 }
                 PlaySound(2);
@@ -521,22 +521,22 @@ Turns the lit squares of a column to show their letters.
 */
 void TurnSquares(s32 col) {
     if (col < 12) {
-        if (D_800B9D08[col].color == 0x1111AAFF) {
-            D_800B9D08[col].image = D_800B9D08[col].letterImage;
-            D_800B9D08[col].color = -1;
+        if (topRow[col].color == 0x1111AAFF) {
+            topRow[col].image = topRow[col].letterImage;
+            topRow[col].color = -1;
         }
-        if (D_800BA168[col].color == 0x1111AAFF) {
-            D_800BA168[col].image = D_800BA168[col].letterImage;
-            D_800BA168[col].color = -1;
+        if (bottomRow[col].color == 0x1111AAFF) {
+            bottomRow[col].image = bottomRow[col].letterImage;
+            bottomRow[col].color = -1;
         }
     }
-    if (D_800B9E58[col].color == 0x1111AAFF) {
-        D_800B9E58[col].image = D_800B9E58[col].letterImage;
-        D_800B9E58[col].color = -1;
+    if (secondRow[col].color == 0x1111AAFF) {
+        secondRow[col].image = secondRow[col].letterImage;
+        secondRow[col].color = -1;
     }
-    if (D_800B9FE0[col].color == 0x1111AAFF) {
-        D_800B9FE0[col].image = D_800B9FE0[col].letterImage;
-        D_800B9FE0[col].color = -1;
+    if (thirdRow[col].color == 0x1111AAFF) {
+        thirdRow[col].image = thirdRow[col].letterImage;
+        thirdRow[col].color = -1;
     }
 }
 
@@ -598,16 +598,16 @@ struct procResult_s LightTextProc(proc_t *proc) {
                 foundCol = proc->data->lightText.col - 1;
                 switch (foundRow) {
                 case 0:
-                    D_800B9D08[foundCol].color = 0x1111AAFF;
+                    topRow[foundCol].color = 0x1111AAFF;
                     break;
                 case 1:
-                    D_800B9E58[foundCol].color = 0x1111AAFF;
+                    secondRow[foundCol].color = 0x1111AAFF;
                     break;
                 case 2:
-                    D_800B9FE0[foundCol].color = 0x1111AAFF;
+                    thirdRow[foundCol].color = 0x1111AAFF;
                     break;
                 case 3:
-                    D_800BA168[foundCol].color = 0x1111AAFF;
+                    bottomRow[foundCol].color = 0x1111AAFF;
                     break;
                 }
                 PlaySound(2);
@@ -660,16 +660,16 @@ Makes a square blink, or stop.
 void SetSquareBlink(s32 row, s32 col, s32 blink) {
     switch (row) {
     case 0:
-        D_800B9D08[col].blink = blink;
+        topRow[col].blink = blink;
         return;
     case 1:
-        D_800B9E58[col].blink = blink;
+        secondRow[col].blink = blink;
         return;
     case 2:
-        D_800B9FE0[col].blink = blink;
+        thirdRow[col].blink = blink;
         return;
     case 3:
-        D_800BA168[col].blink = blink;
+        bottomRow[col].blink = blink;
         return;
     }
 }
@@ -688,16 +688,16 @@ void SetSquareLetter(s32 row, s32 col, u8 letter) {
     solveBoard[row][col] = curLetter;
     switch (row) {
     case 0:
-        D_800B9D08[col].image = D_800579BC[letter];
+        topRow[col].image = letterPictures[letter];
         return;
     case 1:
-        D_800B9E58[col].image = D_800579BC[letter];
+        secondRow[col].image = letterPictures[letter];
         return;
     case 2:
-        D_800B9FE0[col].image = D_800579BC[letter];
+        thirdRow[col].image = letterPictures[letter];
         return;
     case 3:
-        D_800BA168[col].image = D_800579BC[letter];
+        bottomRow[col].image = letterPictures[letter];
         return;
     }
 }
@@ -770,25 +770,25 @@ void ResetSquares(void) {
     s32 i;
 
     for (i = 0; i < 12; i++) {
-        D_800B9D08[i].color = -1;
-        D_800B9D08[i].blink = 0;
+        topRow[i].color = -1;
+        topRow[i].blink = 0;
     }
     i = 0;
     while (i < 14) {
-        D_800B9E58[i].color = -1;
-        D_800B9E58[i].blink = 0;
+        secondRow[i].color = -1;
+        secondRow[i].blink = 0;
         i++;
     }
     i = 0;
     while (i < 14) {
-        D_800B9FE0[i].color = -1;
-        D_800B9FE0[i].blink = 0;
+        thirdRow[i].color = -1;
+        thirdRow[i].blink = 0;
         i++;
     }
     i = 0;
     while (i < 12) {
-        D_800BA168[i].color = -1;
-        D_800BA168[i].blink = 0;
+        bottomRow[i].color = -1;
+        bottomRow[i].blink = 0;
         i++;
     }
 }
@@ -806,9 +806,9 @@ void RevealPuzzle(void) {
     for (i = 0; i < 12; i++) {
         if (puzzleText[0][i] >= 65) {
             if (puzzleText[0][i] < 91) {
-                D_800B9D08[i].image = D_800579BC[puzzleText[0][i]];
-                D_800B9D08[i].color = -1;
-                D_800B9D08[i].blink = 0;
+                topRow[i].image = letterPictures[puzzleText[0][i]];
+                topRow[i].color = -1;
+                topRow[i].blink = 0;
             }
         }
     }
@@ -816,9 +816,9 @@ void RevealPuzzle(void) {
     while (i < 14) {
         if (puzzleText[1][i] >= 65) {
             if (puzzleText[1][i] < 91) {
-                D_800B9E58[i].image = D_800579BC[puzzleText[1][i]];
-                D_800B9E58[i].color = -1;
-                D_800B9E58[i].blink = 0;
+                secondRow[i].image = letterPictures[puzzleText[1][i]];
+                secondRow[i].color = -1;
+                secondRow[i].blink = 0;
             }
         }
         i++;
@@ -827,9 +827,9 @@ void RevealPuzzle(void) {
     while (i < 14) {
         if (puzzleText[2][i] >= 65) {
             if (puzzleText[2][i] < 91) {
-                D_800B9FE0[i].image = D_800579BC[puzzleText[2][i]];
-                D_800B9FE0[i].color = -1;
-                D_800B9FE0[i].blink = 0;
+                thirdRow[i].image = letterPictures[puzzleText[2][i]];
+                thirdRow[i].color = -1;
+                thirdRow[i].blink = 0;
             }
         }
         i++;
@@ -838,9 +838,9 @@ void RevealPuzzle(void) {
     while (i < 12) {
         if (puzzleText[3][i] >= 65) {
             if (puzzleText[3][i] < 91) {
-                D_800BA168[i].image = D_800579BC[puzzleText[3][i]];
-                D_800BA168[i].color = -1;
-                D_800BA168[i].blink = 0;
+                bottomRow[i].image = letterPictures[puzzleText[3][i]];
+                bottomRow[i].color = -1;
+                bottomRow[i].blink = 0;
             }
         }
         i++;
@@ -859,35 +859,35 @@ void GreyHiddenSquares(void) {
 
     for (i = 0; i < 12; i++) {
         if (board[0][i] == '+') {
-            D_800B9D08[i].image = D_010A3388;
-            D_800B9D08[i].color = 0x88888888;
-            D_800B9D08[i].blink = 0;
+            topRow[i].image = D_010A3388;
+            topRow[i].color = 0x88888888;
+            topRow[i].blink = 0;
         }
     }
     i = 0;
     while (i < 14) {
         if (board[1][i] == '+') {
-            D_800B9E58[i].image = D_010A3388;
-            D_800B9E58[i].color = 0x88888888;
-            D_800B9E58[i].blink = 0;
+            secondRow[i].image = D_010A3388;
+            secondRow[i].color = 0x88888888;
+            secondRow[i].blink = 0;
         }
         i++;
     }
     i = 0;
     while (i < 14) {
         if (board[2][i] == '+') {
-            D_800B9FE0[i].image = D_010A3388;
-            D_800B9FE0[i].color = 0x88888888;
-            D_800B9FE0[i].blink = 0;
+            thirdRow[i].image = D_010A3388;
+            thirdRow[i].color = 0x88888888;
+            thirdRow[i].blink = 0;
         }
         i++;
     }
     i = 0;
     while (i < 12) {
         if (board[3][i] == '+') {
-            D_800BA168[i].image = D_010A3388;
-            D_800BA168[i].color = 0x88888888;
-            D_800BA168[i].blink = 0;
+            bottomRow[i].image = D_010A3388;
+            bottomRow[i].color = 0x88888888;
+            bottomRow[i].blink = 0;
         }
         i++;
     }
@@ -1067,16 +1067,16 @@ void DrawBoard(obj_t *obj, frame_t *frame) {
                             5, 5, G_TX_NOLOD, G_TX_NOLOD);
         gSPSetGeometryMode(glistp++, G_LIGHTING | G_CULL_BACK | G_SHADING_SMOOTH);
         gDPPipeSync(glistp++);
-        DrawSquares(D_800B9D08, 12, 1);
-        DrawSquares(D_800B9E58, 14, 1);
-        DrawSquares(D_800B9FE0, 14, 1);
-        DrawSquares(D_800BA168, 12, 1);
+        DrawSquares(topRow, 12, 1);
+        DrawSquares(secondRow, 14, 1);
+        DrawSquares(thirdRow, 14, 1);
+        DrawSquares(bottomRow, 12, 1);
         if (gameMode != 6) {
             gSPDisplayList(glistp++, D_01021A20);
-            DrawSquares(D_800B9D08, 12, 0);
-            DrawSquares(D_800B9E58, 14, 0);
-            DrawSquares(D_800B9FE0, 14, 0);
-            DrawSquares(D_800BA168, 12, 0);
+            DrawSquares(topRow, 12, 0);
+            DrawSquares(secondRow, 14, 0);
+            DrawSquares(thirdRow, 14, 0);
+            DrawSquares(bottomRow, 12, 0);
         }
         SetLightColor(2);
         gDPPipeSync(glistp++);
@@ -1094,10 +1094,10 @@ void LightPlayer(s32 player) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        D_80057BB0[i].blink = 0;
+        scorePanels[i].blink = 0;
     }
-    D_80057BB0[player].blink = 1;
-    D_80057BB0[player].blinkLeft = D_80057BB0[player].blinkFrames;
+    scorePanels[player].blink = 1;
+    scorePanels[player].blinkLeft = scorePanels[player].blinkFrames;
 }
 
 /*
@@ -1111,7 +1111,7 @@ void UnlightPlayers(void) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        D_80057BB0[i].blink = 0;
+        scorePanels[i].blink = 0;
     }
 }
 
@@ -1155,7 +1155,7 @@ void SetScoreDigits(s32 total) {
 
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 8; j++) {
-            D_800BEEA8[i][j] = D_010367A8;
+            scoreDigits[i][j] = D_010367A8;
         }
         if (total != 0) {
             value = players[i].total;
@@ -1167,9 +1167,9 @@ void SetScoreDigits(s32 total) {
         if (len >= 8) {
             len = 7;
         }
-        D_800BEEA8[i][7 - len] = D_01035FA8;
+        scoreDigits[i][7 - len] = D_01035FA8;
         for (j = 0; j < len; j++) {
-            D_800BEEA8[i][j + 8 - len] = D_80057A68[digits[j]];
+            scoreDigits[i][j + 8 - len] = scoreDigitPictures[digits[j]];
         }
     }
 }
@@ -1196,12 +1196,12 @@ void DrawScores(obj_t *obj, frame_t *frame) {
         gSPMatrix(glistp++, &frame->rotate[obj->index], G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
         gSPDisplayList(glistp++, D_01021AC8);
         for (i = 0; i < 3; i++) {
-            color = GetLayerColor(&D_80057BB0[i]);
+            color = GetLayerColor(&scorePanels[i]);
             gSPLightColor(glistp++, LIGHT_1, color);
             gSPLightColor(glistp++, LIGHT_3, color);
             gSPLightColor(glistp++, LIGHT_4, color);
             gSPLightColor(glistp++, LIGHT_5, color);
-            gSPDisplayList(glistp++, D_80057BB0[i].dl);
+            gSPDisplayList(glistp++, scorePanels[i].dl);
         }
         SetLightColor(1);
         SetLightColor(3);
@@ -1216,7 +1216,7 @@ void DrawScores(obj_t *obj, frame_t *frame) {
         gDPPipeSync(glistp++);
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 8; j++) {
-                if (D_800BEEA8[i][j] == D_010367A8) {
+                if (scoreDigits[i][j] == D_010367A8) {
                     gSPDisplayList(glistp++, D_80057B50[i][j]);
                 }
             }
@@ -1224,8 +1224,8 @@ void DrawScores(obj_t *obj, frame_t *frame) {
         i = 0;
         while (i < 3) {
             for (j = 0; j < 8; j++) {
-                if (D_800BEEA8[i][j] != D_010367A8) {
-                    gDPLoadTextureBlock(glistp++, D_800BEEA8[i][j], G_IM_FMT_RGBA, G_IM_SIZ_16b,
+                if (scoreDigits[i][j] != D_010367A8) {
+                    gDPLoadTextureBlock(glistp++, scoreDigits[i][j], G_IM_FMT_RGBA, G_IM_SIZ_16b,
                                         32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                                         G_TX_NOMIRROR | G_TX_CLAMP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
                     gDPPipeSync(glistp++);
@@ -1305,8 +1305,8 @@ void func_80014A5C(obj_t *obj, frame_t *frame) {
     SetLightColor(3);
     SetLightColor(4);
     SetLightColor(5);
-    if (D_80057F34[D_800B81E0] != 0) {
-        gSPDisplayList(glistp++, D_80057F34[D_800B81E0]);
+    if (backdropOverlays[backdrop] != 0) {
+        gSPDisplayList(glistp++, backdropOverlays[backdrop]);
     }
     SetLightColor(1);
 }
@@ -1334,10 +1334,10 @@ void DrawWheel(obj_t *obj, frame_t *frame) {
         gSPLightColor(glistp++, LIGHT_1, 0xC8C8C8FF);
         i = 0;
         while (i < 24) {
-            if (wedges[i].claimed != 0 && D_80057F08[round][i].unk_04 != 0) {
-                gSPDisplayList(glistp++, D_80057F08[round][i].unk_04);
+            if (wedges[i].claimed != 0 && wedgeDls[round][i].unk_04 != 0) {
+                gSPDisplayList(glistp++, wedgeDls[round][i].unk_04);
             } else {
-                gSPDisplayList(glistp++, D_80057F08[round][i].unk_00);
+                gSPDisplayList(glistp++, wedgeDls[round][i].unk_00);
             }
             i++;
         }
@@ -1446,7 +1446,7 @@ void InitSquares(Gfx **dls, tile_t *tiles, s32 row, s32 count) {
             break;
         default:
             tiles[i].image = D_010A3388;
-            tiles[i].letterImage = D_800579BC[puzzleText[row][i]];
+            tiles[i].letterImage = letterPictures[puzzleText[row][i]];
             tiles[i].color = 0x88888888;
         }
     }
@@ -1476,10 +1476,10 @@ void InitBoard(void) {
     if (obj == 0) {
         MakeObj(0, 0, DrawBoard, 0x1010000);
     }
-    InitSquares(D_800579F0, D_800B9D08, 0, 12);
-    InitSquares(D_80057A20, D_800B9E58, 1, 14);
-    InitSquares(D_80057A58, D_800B9FE0, 2, 14);
-    InitSquares(D_80057A90, D_800BA168, 3, 12);
+    InitSquares(topRowDls, topRow, 0, 12);
+    InitSquares(secondRowDls, secondRow, 1, 14);
+    InitSquares(thirdRowDls, thirdRow, 2, 14);
+    InitSquares(bottomRowDls, bottomRow, 3, 12);
     PlaySound(20);
 }
 
@@ -1570,10 +1570,10 @@ void ResetBoard(void) {
         }
     }
     obj->dl = D_01092090;
-    ClearSquares(D_800579F0, D_800B9D08, 0, 12);
-    ClearSquares(D_80057A20, D_800B9E58, 1, 14);
-    ClearSquares(D_80057A58, D_800B9FE0, 2, 14);
-    ClearSquares(D_80057A90, D_800BA168, 3, 12);
+    ClearSquares(topRowDls, topRow, 0, 12);
+    ClearSquares(secondRowDls, secondRow, 1, 14);
+    ClearSquares(thirdRowDls, thirdRow, 2, 14);
+    ClearSquares(bottomRowDls, bottomRow, 3, 12);
 }
 
 /*
@@ -1596,8 +1596,8 @@ void InitStage(void) {
     MakeObj(0, D_01024368, func_800144F0, 0xA000000);
     MakeObj(0, D_01135878, func_80014768, 0xA010100);
     MakeObj(0, D_01135FF8, func_80014768, 0xA010200);
-    D_800B81E0 = Random(4);
-    MakeObj(0, D_80057F24[D_800B81E0], func_80014A5C, 0xA000000);
+    backdrop = Random(4);
+    MakeObj(0, backdropDls[backdrop], func_80014A5C, 0xA000000);
     MakeObj(0, D_0112BBA8, func_800144F0, 0xA000000);
     MakeObj(0, D_010B3728, func_800144F0, 0xA000000);
     MakeObj(0, D_010A6098, func_80014208, 0xA000000);

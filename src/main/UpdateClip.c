@@ -25,7 +25,7 @@ void UpdateClip(proc_t *proc) {
     sp10 = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_0AC00[proc->data->clipPlay.slot]);
     sp10 = sp10 - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     proc->data->clipPlay.obj->image = sp34 + sp10;
-    D_800B998C = gfxInfo[curGfxInfo].frame.unk_0AC00[proc->data->clipPlay.slot];
+    moviePictures = gfxInfo[curGfxInfo].frame.unk_0AC00[proc->data->clipPlay.slot];
     if (movieDone == 0) {
         movieDone = func_8009D244();
     }

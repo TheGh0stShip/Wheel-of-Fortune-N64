@@ -20,7 +20,7 @@ void SetGameView(s32 view, s32 arg1) {
     }
     switch (view) {
     case 0:
-        SetView(sp10, D_800581FC[curPlayer]);
+        SetView(sp10, playerViews[curPlayer]);
         return;
     case 1:
         task = FindProc(0x2010000, 0xFFFF0000);

@@ -202,7 +202,7 @@ void DrawCamera(obj_t *obj, frame_t *frame) {
     }
     gSPMatrix(glistp++, &frame->projection, G_MTX_PROJECTION | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(glistp++, &frame->viewing, G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
-    gSPSetLights6(glistp++, D_8004B7B8);
+    gSPSetLights6(glistp++, sceneLights);
 }
 
 /*

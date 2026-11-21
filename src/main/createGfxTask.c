@@ -7,12 +7,12 @@ void createGfxTask(gfxInfo_t *info) {
 
     cam = FindObj(0x3000000, 0xFF000000);
     if (cam != 0) {
-        D_800BEE2C = cam->x;
-        D_800BEE30 = cam->y;
-        D_800BEE34 = cam->z;
-        D_800BEE3C = cam->roll;
-        D_800BEE40 = cam->pitch;
-        D_800BEE44 = cam->heading;
+        camX = cam->x;
+        camY = cam->y;
+        camZ = cam->z;
+        camRoll = cam->roll;
+        camPitch = cam->pitch;
+        camHeading = cam->heading;
     }
     frame = &info->frame;
     glistp = info->frame.glist;

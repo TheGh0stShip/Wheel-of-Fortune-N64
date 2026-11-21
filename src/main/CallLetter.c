@@ -69,7 +69,7 @@ s32 CallLetter(register s32 c, s32 kind) {
         if (GetWedgeValue() > 0) {
             if (GetWedgeValue() == 10000) {
                 players[curPlayer].prize += 10000;
-                D_800B9538 = 1;
+                prizeTaken = 1;
                 players[curPlayer].hasPrize = 1;
                 ClaimWedge();
             } else {

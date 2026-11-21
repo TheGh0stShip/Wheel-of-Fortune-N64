@@ -307,7 +307,7 @@ struct procResult_s func_8000C6C4(proc_t *proc) {
         }
     }
     index = proc->data->data8000C6C4.unk_08;
-    guTranslateF(mtx, (f32)D_800BEE24 * D_80057808[index].unk_08, (f32)D_800BEE24, 0);
+    guTranslateF(mtx, (f32)D_800BEE24 * titleLetters[index].spread, (f32)D_800BEE24, 0);
     guRotateRPYF(rot, -61.317f, 58.385f, -9.848f);
     guMtxCatF(mtx, rot, mtx);
     pos->x = (s32)mtx[3][0];
@@ -454,7 +454,7 @@ void func_8000D8B8(obj_t *obj, frame_t *frame) {
     gSPDisplayList(glistp++, D_010FA038);
     gSPLightColor(glistp++, LIGHT_1, 0xC8C8C8FF);
     for (i = 0; i < 24; i++) {
-        gSPDisplayList(glistp++, D_80057F08[0][i].unk_00);
+        gSPDisplayList(glistp++, wedgeDls[0][i].unk_00);
     }
     gSPMatrix(glistp++, &frame->translate[obj->index], G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPDisplayList(glistp++, obj->dl);
@@ -477,7 +477,14 @@ void func_8000DCA0(obj_t *obj, frame_t *frame) {
     gDPSetRenderMode(glistp++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
 }
 
-void func_8000DF2C(obj_t *obj, frame_t *frame) {
+/*
+=====================
+DrawLogo
+
+The draw function of the picture LogoProc shows, in six tiles of 64 by 64.
+=====================
+*/
+void DrawLogo(obj_t *obj, frame_t *frame) {
     s32 unused[2];  /* NOTE: unused in the original; guess: its type, the frame shows at most 8 bytes */
     s32 row;
     s32 col;
@@ -489,7 +496,7 @@ void func_8000DF2C(obj_t *obj, frame_t *frame) {
     gDPPipeSync(glistp++);
     for (row = 0; row < 2; row++) {
         for (col = 0; col < 3; col++) {
-            gDPLoadTextureBlock_4b(glistp++, D_80057970[row][col], G_IM_FMT_CI, 64, 64, 0,
+            gDPLoadTextureBlock_4b(glistp++, logoTiles[row][col], G_IM_FMT_CI, 64, 64, 0,
                                    G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP,
                                    G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             gDPPipeSync(glistp++);
@@ -533,7 +540,7 @@ struct procResult_s LogoProc(proc_t *proc) {
         }
     }
     FreeObj(sp20);
-    sp20 = MakeObj(0, 0, func_8000DF2C, 0x5020000);
+    sp20 = MakeObj(0, 0, DrawLogo, 0x5020000);
     sp20->x = 64;
     sp20->y = 110;
     proc->data->obj = sp20;
@@ -556,18 +563,25 @@ void StartLogos(void) {
 
     gameMode = 1;
     LoadSceneData();
-    sp14 = MakeObj(0, 0, func_800288CC, 0x5030000);
+    sp14 = MakeObj(0, 0, DrawBootScreen, 0x5030000);
     task = CreatProc(LogoProc, 0x8010000);
     task->data->obj = sp14;
 }
 
-void func_8000E738(void) {
+/*
+=====================
+ShowNoController
+
+InitGame's choice when no controller is in: a screen and nothing more.
+=====================
+*/
+void ShowNoController(void) {
     s32 unused;  /* NOTE: unused in the original */
     obj_t *result;
 
     gameMode = 1;
     LoadSceneData();
-    result = MakeObj(0, 0, func_800289F4, 0x5030000);
+    result = MakeObj(0, 0, DrawNoController, 0x5030000);
 }
 
 /*
@@ -606,8 +620,8 @@ void StartOpening(void) {
     for (i = 0; i < 14; i++) {
         task = CreatProc(func_8000C6C4, 0x8010000);
         task->data->data8000C6C4.unk_08 = i;
-        obj = MakeObj(task, D_80057808[i].unk_00, func_8000D6D8, 0x8010000);
-        obj->mtx = D_80057808[i].unk_04;
+        obj = MakeObj(task, titleLetters[i].dl, func_8000D6D8, 0x8010000);
+        obj->mtx = titleLetters[i].mtx;
     }
     task = CreatProc(func_8000C310, 0x8010000);
     obj = MakeObj(task, D_011356C0, func_8000D8B8, 0x8010000);
@@ -628,8 +642,8 @@ void StartOpening(void) {
     for (i = 0; i < 24; i++) {
         task = CreatProc(func_8000C50C, 0x8010000);
         task->data->data8000C50C.unk_08 = i;
-        obj = MakeObj(task, D_800578B0[i], func_8000D6D8, 0x8010000);
-        obj->mtx = D_80057910[i];
+        obj = MakeObj(task, openingWedgeDls[i], func_8000D6D8, 0x8010000);
+        obj->mtx = openingWedgeMtxs[i];
     }
     MakeObj(0, 0, func_800287A4, 0x5000000);
     openingFrames = 721;

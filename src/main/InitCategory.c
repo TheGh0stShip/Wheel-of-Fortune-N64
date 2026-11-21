@@ -55,7 +55,7 @@ void InitCategory(void) {
             categoryImages[n].dimTexture = D_01017A50;
             break;
         default:
-            categoryImages[n].dimTexture = D_8005B5A4[category[i]];
+            categoryImages[n].dimTexture = categoryLetterTextures[category[i]];
         }
         categoryImages[n].x = x;
         categoryImages[n].width = 12;

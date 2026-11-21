@@ -448,13 +448,13 @@ void SwitchImage(void) {
             func_80009F38("SwitchImage: could not find contestant");
         }
         if (i == contestantMenu[0].sel) {
-            obj->x = D_8005A390.unk_00;
-            obj->y = D_8005A390.unk_04;
-            obj->z = D_8005A390.unk_08;
+            obj->x = frontContestantPos.unk_00;
+            obj->y = frontContestantPos.unk_04;
+            obj->z = frontContestantPos.unk_08;
         } else {
-            obj->x = D_8005A39C[i].unk_00;
-            obj->y = D_8005A39C[i].unk_04;
-            obj->z = D_8005A39C[i].unk_08;
+            obj->x = contestantPos[i].unk_00;
+            obj->y = contestantPos[i].unk_04;
+            obj->z = contestantPos[i].unk_08;
         }
     }
 }
@@ -1021,9 +1021,9 @@ void StartContestantMenu(void) {
     contestantMenu[0].sel = players[curPlayer].contestant;
     for (i = 0; i < 6; i++) {
         if (i == contestantMenu[0].sel) {
-            InitMenuAnim(i, i, D_8005A390.unk_00, D_8005A390.unk_04, D_8005A390.unk_08);
+            InitMenuAnim(i, i, frontContestantPos.unk_00, frontContestantPos.unk_04, frontContestantPos.unk_08);
         } else {
-            InitMenuAnim(i, i, D_8005A39C[i].unk_00, D_8005A39C[i].unk_04, D_8005A39C[i].unk_08);
+            InitMenuAnim(i, i, contestantPos[i].unk_00, contestantPos[i].unk_04, contestantPos[i].unk_08);
         }
     }
 }
@@ -1066,7 +1066,7 @@ void StartMainMenu3(void) {
     }
     i = 0;
     while (i < 3) {
-        InitMenuAnim(players[i].contestant, i, D_8005A474[i].unk_00, D_8005A474[i].unk_04, D_8005A474[i].unk_08);
+        InitMenuAnim(players[i].contestant, i, playerPos[i].unk_00, playerPos[i].unk_04, playerPos[i].unk_08);
         switch (mainMenu1[i].sel) {
         case 0:
             mainMenu3Images[i * 3 + 2].texture = D_01158068;

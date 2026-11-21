@@ -20,7 +20,7 @@ void PlayMovie(s32 movie, s32 event, s32 x, s32 y) {
     curMovie = movie;
     movieToMemory = 0;
     task = CreatProc(MovieProc, 0x5010000);
-    task->data->moviePlay.obj = MakeMovieObj(task, D_80058488, x, y, movie);
+    task->data->moviePlay.obj = MakeMovieObj(task, winnerText, x, y, movie);
     task->data->moviePlay.sound = movies[movie].unk_04;
     task->data->moviePlay.event = event;
     movieMemMark = PushMemStack();

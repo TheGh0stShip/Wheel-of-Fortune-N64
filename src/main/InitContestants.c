@@ -26,7 +26,7 @@ void InitContestants(void) {
             players[i].contestant = i;
         }
     }
-    D_800BCA60 = PushMemStack();
+    contestantMemMark = PushMemStack();
     for (i = 0; i < 3; i++) {
         if (players[i].contestant >= 6) {
             func_80009F38("InitContestants: invalid image num");
@@ -50,10 +50,10 @@ void InitContestants(void) {
         i++;
     }
     lightDir = 1;
-    D_800B9988 = 0;
+    vannaX = 0;
     for (i = 0; i < 3; i++) {
-        obj = MakeObj(0, D_8005C3A0[i][0], DrawContestant, i | 0xA020000);
-        obj->secondDl = D_8005C3A0[i][1];
+        obj = MakeObj(0, contestantDls[i][0], DrawContestant, i | 0xA020000);
+        obj->secondDl = contestantDls[i][1];
         obj->image = 0;
     }
     func_80032B10();

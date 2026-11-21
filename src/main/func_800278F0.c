@@ -13,7 +13,7 @@ void func_800278F0(obj_t *obj, frame_t *frame) {
     while (i >= 0) {
         j = 0;
         while (j < 2) {
-            DrawImage(&D_8005A4B8[i][j], 1);
+            DrawImage(&playerStatusImages[i][j], 1);
             j++;
         }
         i--;
@@ -22,7 +22,7 @@ void func_800278F0(obj_t *obj, frame_t *frame) {
     while (i < 3) {
         j = 0;
         while (j < 7) {
-            DrawImage(&D_8005ADD0[i][j], 1);
+            DrawImage(&statusScoreImages[i][j], 1);
             j++;
         }
         i++;
@@ -38,8 +38,8 @@ void func_800278F0(obj_t *obj, frame_t *frame) {
             }
             j = 0;
             while (j < 9) {
-                DrawImage(&D_8005B4C8[j], 1);
-                DrawImage(&D_8005B360[j], 1);
+                DrawImage(&bigNumberImages[j], 1);
+                DrawImage(&rollingNumberImages[j], 1);
                 j++;
             }
         }
@@ -47,9 +47,9 @@ void func_800278F0(obj_t *obj, frame_t *frame) {
     i = 0;
     while (i < 26) {
         if (uncalled[i] == ' ') {
-            letterImages[i].texture = D_8005A8C8[i];
+            letterImages[i].texture = calledLetterTextures[i];
         } else {
-            letterImages[i].texture = D_8005A930[i];
+            letterImages[i].texture = letterTextures[i];
         }
         DrawImage(&letterImages[i], 1);
         i++;
