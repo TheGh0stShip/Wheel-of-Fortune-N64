@@ -10,10 +10,10 @@ LetterPickProc on the letter the machine chose.
 =====================
 */
 void StartCpuLetterPick(register s32 letter) {
-    u8 sp10;
+    u8 c;
     proc_t *task;
 
-    sp10 = letter;
+    c = letter;
     task = CreatProc(LetterPickProc, 0x5010000);
-    task->data->cursor.index = sp10 - 65;
+    task->data->cursor.index = c - 65;
 }

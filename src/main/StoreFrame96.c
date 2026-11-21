@@ -10,7 +10,7 @@ The same for a movie 96 pixels wide.
 =====================
 */
 void StoreFrame96(u16 *pixels) {
-    s32 sp10;
+    s32 offset;
     s32 y;
     s32 x;
     s32 k;
@@ -23,8 +23,8 @@ void StoreFrame96(u16 *pixels) {
     s32 base;
 
     base = 0x2000000;
-    sp10 = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_19C00);
-    sp10 = sp10 - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
+    offset = osVirtualToPhysical(gfxInfo[curGfxInfo].frame.unk_19C00);
+    offset = offset - osVirtualToPhysical(&gfxInfo[curGfxInfo].frame);
     src = pixels;
     dst = gfxInfo[curGfxInfo].frame.unk_19C00;
     n = 0;

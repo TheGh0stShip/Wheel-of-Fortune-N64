@@ -13,16 +13,16 @@ struct procResult_s PauseProc(proc_t *proc) {
     struct procResult_s result;
     proc_t *task;
     s32 unused;  /* NOTE: unused in the original */
-    s32 sp28;
+    s32 event;
 
     result.w[1] = 1;
     result.w[0] = 0;
     for (;;) {
-        sp28 = ProcGetMessage(proc);
-        if (sp28 == 0) {
+        event = ProcGetMessage(proc);
+        if (event == 0) {
             break;
         }
-        switch (sp28) {
+        switch (event) {
         case 8:
             lastInputTime = (s32)(osGetTime() / osClockRate);
         }

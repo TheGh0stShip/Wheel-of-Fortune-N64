@@ -83,9 +83,9 @@ struct procResult_s PointerProc(proc_t *proc) {
     struct procResult_s result;
     obj_t *actor;
     obj_t *target;
-    f32 sp28;
-    f32 sp2C;
-    s32 sp30;
+    f32 angle;
+    f32 deflection;
+    s32 pegs;
     s32 event;
 
     for (;;) {
@@ -107,11 +107,11 @@ struct procResult_s PointerProc(proc_t *proc) {
     if (target == 0) {
         return result;
     }
-    sp28 = target->pitch + (f32)pointerAngles[proc->cls & 255];
-    sp30 = (s32)(sp28 / 5.0f);
-    sp28 = sp28 - (f32)(sp30 * 5);
+    angle = target->pitch + (f32)pointerAngles[proc->cls & 255];
+    pegs = (s32)(angle / 5.0f);
+    angle = angle - (f32)(pegs * 5);
     if ((f64)((wheelSpeed / 60.0f) * (f32)frameRetraces) > 2.5) {
-        sp2C = sp28 * -4.0f + 30.0f;
+        deflection = angle * -4.0f + 30.0f;
         if ((proc->cls & 255) == curPlayer) {
             if (players[curPlayer].controller < 4) {
                 // RULE-EXCEPTION: R25, no prototype in scope: retail passes the 1.0 as a double
@@ -122,14 +122,14 @@ struct procResult_s PointerProc(proc_t *proc) {
             }
         }
     } else {
-        if ((f64)sp28 > -4.5 && sp28 < -1.0f) {
-            sp2C = sp28 * -10.0f;
+        if ((f64)angle > -4.5 && angle < -1.0f) {
+            deflection = angle * -10.0f;
         } else {
-            sp28 = 0;
-            sp2C = 0;
+            angle = 0;
+            deflection = 0;
         }
         if ((proc->cls & 255) == curPlayer) {
-            if (sp2C - actor->pitch < 0.0f) {
+            if (deflection - actor->pitch < 0.0f) {
                 if (proc->data->pointer.swing > 0) {
                     PlaySound(Random(2) + 25);
                     if (players[curPlayer].controller < 4) {
@@ -141,10 +141,10 @@ struct procResult_s PointerProc(proc_t *proc) {
         }
     }
     if ((proc->cls & 255) == curPlayer) {
-        SetWedge(target->pitch + (f32)pointerAngles[curPlayer] - sp28 + proc->data->pointer.offset);
+        SetWedge(target->pitch + (f32)pointerAngles[curPlayer] - angle + proc->data->pointer.offset);
     }
-    proc->data->pointer.swing = (s32)(sp2C - actor->pitch);
-    actor->pitch = sp2C;
+    proc->data->pointer.swing = (s32)(deflection - actor->pitch);
+    actor->pitch = deflection;
     return result;
 }
 

@@ -965,3 +965,17 @@ base	local	PlayContestantClip	invented	the address of segment 2, where the frame
 base	local	UpdateClip	invented	the address of segment 2, where the frame is
 base	local	StoreFrame96	invented	the address of segment 2, where the frame is
 obj	local	ConfettiBurstProc	invented	by its type
+slot	local	ApplauseProc	invented	the slot of the sound played
+event	local	ConfettiBurstProc	invented	
+i	local	ConfettiBurstProc	invented	
+roll	local	CpuChooseAction	invented	a random number from 0 to 1
+done	local	CpuChooseAction	invented	the share of the puzzle turned
+size	local	LoadSceneData	invented	
+owner	local	MakeScreenObj	invented	the id of the proc, 0 for none
+event	local	PauseProc	invented	
+c	local	StartCpuLetterPick	invented	the letter as a character
+offset	local	StoreFrame96	invented	the offset of the picture memory in the frame
+offset	local	UpdateClip	invented	the offset of the picture slot in the frame
+angle	local	PointerProc	invented	the wheel's angle under the pointer, then how far past a peg
+deflection	local	PointerProc	invented	how far a peg pushes the pointer
+pegs	local	PointerProc	invented	the pegs passed: the angle in fives of degrees

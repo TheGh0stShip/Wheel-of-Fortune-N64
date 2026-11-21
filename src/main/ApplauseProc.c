@@ -12,7 +12,7 @@ Plays the crowd's applause, as loud as applause asks.
 struct procResult_s ApplauseProc(proc_t *proc) {
     struct procResult_s result;
     s32 event;
-    s32 sp24;
+    s32 slot;
 
     result.w[1] = 1;
     result.w[0] = 0;
@@ -29,16 +29,16 @@ struct procResult_s ApplauseProc(proc_t *proc) {
     if (proc->data->applauseProc.played > 0) {
         switch (proc->data->applauseProc.played) {
         case 1:
-            sp24 = PlaySound(8);
+            slot = PlaySound(8);
             break;
         case 2:
-            sp24 = PlaySound(9);
+            slot = PlaySound(9);
             break;
         case 3:
-            sp24 = PlaySound(10);
+            slot = PlaySound(10);
             break;
         default:
-            sp24 = PlaySound(guRandom() % 3 + 16);
+            slot = PlaySound(guRandom() % 3 + 16);
         }
         if (applause == proc->data->applauseProc.played) {
             applause = 0;

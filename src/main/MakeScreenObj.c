@@ -12,13 +12,13 @@ MakeObj for a picture on the screen: placed in front of the camera.
 */
 obj_t *MakeScreenObj(proc_t *proc, Gfx *dl, objDraw_t draw, s32 cls) {
     obj_t *obj;
-    s32 sp14;
+    s32 owner;
 
-    sp14 = 0;
+    owner = 0;
     if (proc != 0) {
-        sp14 = proc->id;
+        owner = proc->id;
     }
-    obj = CreatObj(sp14, draw, cls);
+    obj = CreatObj(owner, draw, cls);
     if (obj == 0) {
         return obj;
     }

@@ -13,22 +13,22 @@ void CpuChooseAction(proc_t *proc) {
     proc_t *task;
     s32 sp14;
     f32 score;
-    f32 sp1C;
-    f32 sp20;
+    f32 roll;
+    f32 done;
 
     sp14 = 0;
-    sp20 = CheckPercentDone();
+    done = CheckPercentDone();
     task = FindProc(0x5000000, -1);
     if (canSolve != 0) {
         if (jackpotWon != 0) {
-            if (sp20 > 0.6) {
+            if (done > 0.6) {
                 curLetter = 50;
                 ProcPostMessage(proc, 14, 0);
                 ProcPostMessage(task, 27, 0);
                 return;
             }
         }
-        if (sp20 > 0.7 || canSpin == 0) {
+        if (done > 0.7 || canSpin == 0) {
             curLetter = 50;
             ProcPostMessage(proc, 14, 0);
             ProcPostMessage(task, 27, 0);
@@ -36,12 +36,12 @@ void CpuChooseAction(proc_t *proc) {
         }
     }
     if (canSpin != 0) {
-        sp1C = (f32)Random(100);
-        sp1C = sp1C / 100.0f;
+        roll = (f32)Random(100);
+        roll = roll / 100.0f;
         score = (f32)StrLen(cpuConsonants);
         score = score / 21.0f;
         score = score * 0.15;
-        score = score + sp1C;
+        score = score + roll;
         switch (GetUncalledKinds()) {
         case 4:
             if (score < proc->data->playerProc.skill || players[curPlayer].score < 250) {

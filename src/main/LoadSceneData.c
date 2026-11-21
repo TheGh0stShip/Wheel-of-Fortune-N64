@@ -12,12 +12,12 @@ starts with it.
 =====================
 */
 void LoadSceneData(void) {
-    s32 sp10;
+    s32 size;
 
-    sp10 = sceneDataSize;
+    size = sceneDataSize;
     while (pendingGfx != 0 && retraceCount < 100) {
     }
     PushMemStack();
-    sceneData = func_8000B924(sp10);
-    ReadRom(sceneDataRom, sceneData, sp10);
+    sceneData = func_8000B924(size);
+    ReadRom(sceneDataRom, sceneData, size);
 }

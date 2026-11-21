@@ -12,17 +12,17 @@ Throws confetti for a while.
 */
 struct procResult_s ConfettiBurstProc(proc_t *proc) {
     struct procResult_s result;
-    s32 sp30;
-    s32 sp34;
+    s32 event;
+    s32 i;
     obj_t *obj;
 
     obj = proc->data->obj;
     for (;;) {
-        sp30 = ProcGetMessage(proc);
-        if (sp30 == 0) {
+        event = ProcGetMessage(proc);
+        if (event == 0) {
             break;
         }
-        switch (sp30) {
+        switch (event) {
         case 8:
             proc->data->confettiBurst.countdown = 10;
             break;
@@ -44,13 +44,13 @@ struct procResult_s ConfettiBurstProc(proc_t *proc) {
             return result;
         }
     } else {
-        sp34 = 0;
+        i = 0;
         for (;;) {
-            if (sp34 >= 4) {
+            if (i >= 4) {
                 break;
             }
             AddConfetti(52, 15, 27, 15, 300, 150, 6, 3);
-            sp34++;
+            i++;
         }
     }
     result.w[1] = 1;
