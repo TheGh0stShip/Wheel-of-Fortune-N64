@@ -23,7 +23,7 @@ void MoveCursorUp(proc_t *proc) {
     }
     PlaySound(43);
     proc->data->cursor.index = proc->data->cursor.index - 13;
-    letterImages[proc->data->cursor.index].unk_1C = letterImages[proc->data->cursor.index].unk_14;
+    letterImages[proc->data->cursor.index].flashLeft = letterImages[proc->data->cursor.index].flashFrames;
     curLetter = proc->data->cursor.index + 65;
     proc->data->cursor.delay = 15;
 }

@@ -124,8 +124,8 @@ void SetImageFlash(image_t *images, s32 count, s32 flash) {
     s32 i;
 
     for (i = 0; i < count; i++) {
-        images[i].unk_10 = flash;
-        images[i].unk_1C = images[i].unk_14;
+        images[i].flash = flash;
+        images[i].flashLeft = images[i].flashFrames;
     }
 }
 
@@ -137,14 +137,14 @@ void InitMainFlash(proc_t *proc, image_t *images, menuItem_t *item, s32 on) {
     if (sel < 0 || sel >= item->rows) {
         func_80009F38("InitMainFlash: Invalid button");
     }
-    SetImageFlash(&images[item->unk_04], item->unk_08, on * 2);
+    SetImageFlash(&images[item->label], item->labelCount, on * 2);
     for (i = 0; i < item->rows * item->cols; i += item->cols) {
         if (on != 0 && i == sel * item->cols) {
-            SetImageFlash(&images[item->unk_0C + i], item->cols, 1);
+            SetImageFlash(&images[item->options + i], item->cols, 1);
         } else if (on == 0 && i == sel * item->cols && item->rows >= 2) {
-            SetImageFlash(&images[item->unk_0C + i], item->cols, 2);
+            SetImageFlash(&images[item->options + i], item->cols, 2);
         } else {
-            SetImageFlash(&images[item->unk_0C + i], item->cols, 0);
+            SetImageFlash(&images[item->options + i], item->cols, 0);
         }
     }
 }
@@ -158,7 +158,7 @@ void MenuUp(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
         if (proc->data->mainMenu.index < 0) {
             proc->data->mainMenu.index = count - 1;
         }
-    } while (items[proc->data->mainMenu.index].unk_00 == 0);
+    } while (items[proc->data->mainMenu.index].selectable == 0);
     proc->data->mainMenu.sel = items[proc->data->mainMenu.index].sel;
     if (items[proc->data->mainMenu.index].callback != 0) {
         items[proc->data->mainMenu.index].callback(proc->data->mainMenu.index);
@@ -176,7 +176,7 @@ void MenuDown(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
         if (proc->data->mainMenu.index >= count) {
             proc->data->mainMenu.index = 0;
         }
-    } while (items[proc->data->mainMenu.index].unk_00 == 0);
+    } while (items[proc->data->mainMenu.index].selectable == 0);
     proc->data->mainMenu.sel = items[proc->data->mainMenu.index].sel;
     if (items[proc->data->mainMenu.index].callback != 0) {
         items[proc->data->mainMenu.index].callback(proc->data->mainMenu.index);
@@ -187,7 +187,7 @@ void MenuDown(proc_t *proc, image_t *images, menuItem_t *items, s32 count) {
 
 void MenuLeft(proc_t *proc, image_t *images, menuItem_t *item, s32 skipAbsent) {
     PlaySound(43);
-    SetImageFlash(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols],
+    SetImageFlash(&images[item->options + proc->data->mainMenu.sel * item->cols],
                   item->cols, 0);
     proc->data->mainMenu.sel--;
     if (proc->data->mainMenu.sel < 0) {
@@ -202,14 +202,14 @@ void MenuLeft(proc_t *proc, image_t *images, menuItem_t *item, s32 skipAbsent) {
         }
     }
     item->sel = proc->data->mainMenu.sel;
-    SetImageFlash(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols],
+    SetImageFlash(&images[item->options + proc->data->mainMenu.sel * item->cols],
                   item->cols, 1);
     proc->data->mainMenu.delay = 15;
 }
 
 void MenuRight(proc_t *proc, image_t *images, menuItem_t *item, s32 skipAbsent) {
     PlaySound(43);
-    SetImageFlash(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols], item->cols, 0);
+    SetImageFlash(&images[item->options + proc->data->mainMenu.sel * item->cols], item->cols, 0);
     proc->data->mainMenu.sel++;
     if (proc->data->mainMenu.sel >= item->rows) {
         proc->data->mainMenu.sel = 0;
@@ -223,7 +223,7 @@ void MenuRight(proc_t *proc, image_t *images, menuItem_t *item, s32 skipAbsent) 
         }
     }
     item->sel = proc->data->mainMenu.sel;
-    SetImageFlash(&images[item->unk_0C + proc->data->mainMenu.sel * item->cols], item->cols, 1);
+    SetImageFlash(&images[item->options + proc->data->mainMenu.sel * item->cols], item->cols, 1);
     proc->data->mainMenu.delay = 15;
 }
 
@@ -315,24 +315,24 @@ struct procResult_s MainMenu1Proc(proc_t *proc) {
     if (cursor < 3) {
         switch (proc->data->mainMenu.sel) {
         case 0:
-            mainMenu1Images[(cursor * 4) + 10].unk_20 = D_01158068;
-            mainMenu1Images[(cursor * 4) + 10].unk_24 = D_0115B868;
+            mainMenu1Images[(cursor * 4) + 10].texture = D_01158068;
+            mainMenu1Images[(cursor * 4) + 10].dimTexture = D_0115B868;
             break;
         case 1:
-            mainMenu1Images[(cursor * 4) + 10].unk_20 = D_01158868;
-            mainMenu1Images[(cursor * 4) + 10].unk_24 = D_0115C068;
+            mainMenu1Images[(cursor * 4) + 10].texture = D_01158868;
+            mainMenu1Images[(cursor * 4) + 10].dimTexture = D_0115C068;
             break;
         case 2:
-            mainMenu1Images[(cursor * 4) + 10].unk_20 = D_01159068;
-            mainMenu1Images[(cursor * 4) + 10].unk_24 = D_0115C868;
+            mainMenu1Images[(cursor * 4) + 10].texture = D_01159068;
+            mainMenu1Images[(cursor * 4) + 10].dimTexture = D_0115C868;
             break;
         case 3:
-            mainMenu1Images[(cursor * 4) + 10].unk_20 = D_01159868;
-            mainMenu1Images[(cursor * 4) + 10].unk_24 = D_0115D068;
+            mainMenu1Images[(cursor * 4) + 10].texture = D_01159868;
+            mainMenu1Images[(cursor * 4) + 10].dimTexture = D_0115D068;
             break;
         case 4:
-            mainMenu1Images[(cursor * 4) + 10].unk_20 = D_01157868;
-            mainMenu1Images[(cursor * 4) + 10].unk_24 = D_0115B068;
+            mainMenu1Images[(cursor * 4) + 10].texture = D_01157868;
+            mainMenu1Images[(cursor * 4) + 10].dimTexture = D_0115B068;
             break;
         }
     }
@@ -728,38 +728,38 @@ void InitMarquee(void) {
     flag = 1;
     for (row = 0; row < 2; row++) {
         for (i = 0; i < 17; i++) {
-            marqueeImages[row * 35 + i].unk_10 = flag;
-            marqueeImages[row * 35 + i].unk_1C = 18 - i % 3 * 6;
-            marqueeImages[row * 35 + i].unk_14 = 18;
-            marqueeImages[row * 35 + i].unk_18 = 12;
+            marqueeImages[row * 35 + i].flash = flag;
+            marqueeImages[row * 35 + i].flashLeft = 18 - i % 3 * 6;
+            marqueeImages[row * 35 + i].flashFrames = 18;
+            marqueeImages[row * 35 + i].flashLit = 12;
         }
-        marqueeImages[row * 35 + i].unk_10 = flag;
-        marqueeImages[row * 35 + i].unk_1C = 18;
-        marqueeImages[row * 35 + i].unk_14 = 18;
-        marqueeImages[row * 35 + i].unk_18 = 12;
+        marqueeImages[row * 35 + i].flash = flag;
+        marqueeImages[row * 35 + i].flashLeft = 18;
+        marqueeImages[row * 35 + i].flashFrames = 18;
+        marqueeImages[row * 35 + i].flashLit = 12;
         k = 16;
         for (i = 18; i < 35; i++) {
-            marqueeImages[row * 35 + i].unk_10 = flag;
-            marqueeImages[row * 35 + i].unk_1C = k % 3 * 6 + 6;
-            marqueeImages[row * 35 + i].unk_14 = 18;
-            marqueeImages[row * 35 + i].unk_18 = 12;
+            marqueeImages[row * 35 + i].flash = flag;
+            marqueeImages[row * 35 + i].flashLeft = k % 3 * 6 + 6;
+            marqueeImages[row * 35 + i].flashFrames = 18;
+            marqueeImages[row * 35 + i].flashLit = 12;
             k++;
         }
     }
     row = 70;
     while (row < 118) {
         for (i = 0; i < 12; i++) {
-            marqueeImages[i + row].unk_10 = flag;
-            marqueeImages[i + row].unk_1C = 18 - i % 3 * 6;
-            marqueeImages[i + row].unk_14 = 18;
-            marqueeImages[i + row].unk_18 = 12;
+            marqueeImages[i + row].flash = flag;
+            marqueeImages[i + row].flashLeft = 18 - i % 3 * 6;
+            marqueeImages[i + row].flashFrames = 18;
+            marqueeImages[i + row].flashLit = 12;
         }
         k = 0;
         for (i = 12; i < 24; i++) {
-            marqueeImages[i + row].unk_10 = flag;
-            marqueeImages[i + row].unk_1C = k % 3 * 6 + 6;
-            marqueeImages[i + row].unk_14 = 18;
-            marqueeImages[i + row].unk_18 = 12;
+            marqueeImages[i + row].flash = flag;
+            marqueeImages[i + row].flashLeft = k % 3 * 6 + 6;
+            marqueeImages[i + row].flashFrames = 18;
+            marqueeImages[i + row].flashLit = 12;
             k++;
         }
         row += 24;
@@ -788,24 +788,24 @@ void StartMainMenu1(void) {
     for (i = 0; i < 3; i++) {
         switch (mainMenu1[i].sel) {
         case 0:
-            mainMenu1Images[i * 4 + 10].unk_20 = D_01158068;
-            mainMenu1Images[i * 4 + 10].unk_24 = D_0115B868;
+            mainMenu1Images[i * 4 + 10].texture = D_01158068;
+            mainMenu1Images[i * 4 + 10].dimTexture = D_0115B868;
             break;
         case 1:
-            mainMenu1Images[i * 4 + 10].unk_20 = D_01158868;
-            mainMenu1Images[i * 4 + 10].unk_24 = D_0115C068;
+            mainMenu1Images[i * 4 + 10].texture = D_01158868;
+            mainMenu1Images[i * 4 + 10].dimTexture = D_0115C068;
             break;
         case 2:
-            mainMenu1Images[i * 4 + 10].unk_20 = D_01159068;
-            mainMenu1Images[i * 4 + 10].unk_24 = D_0115C868;
+            mainMenu1Images[i * 4 + 10].texture = D_01159068;
+            mainMenu1Images[i * 4 + 10].dimTexture = D_0115C868;
             break;
         case 3:
-            mainMenu1Images[i * 4 + 10].unk_20 = D_01159868;
-            mainMenu1Images[i * 4 + 10].unk_24 = D_0115D068;
+            mainMenu1Images[i * 4 + 10].texture = D_01159868;
+            mainMenu1Images[i * 4 + 10].dimTexture = D_0115D068;
             break;
         case 4:
-            mainMenu1Images[i * 4 + 10].unk_20 = D_01157868;
-            mainMenu1Images[i * 4 + 10].unk_24 = D_0115B068;
+            mainMenu1Images[i * 4 + 10].texture = D_01157868;
+            mainMenu1Images[i * 4 + 10].dimTexture = D_0115B068;
             break;
         }
     }
@@ -828,32 +828,32 @@ void StartContestantMenu(void) {
     task = CreatProc(ContestantMenuProc, 0x5000000);
     MakeScreenObj(task, 0, DrawContestantMenu, 0x5000000);
     InitMarquee();
-    contestantMenuImages[0].unk_20 = D_800588A8[i][0][0];
-    contestantMenuImages[0].unk_24 = D_800588A8[i][0][1];
-    contestantMenuImages[7].unk_20 = D_800588A8[i][1][0];
-    contestantMenuImages[7].unk_24 = D_800588A8[i][1][1];
-    contestantMenuImages[8].unk_20 = D_800588A8[i][2][0];
-    contestantMenuImages[8].unk_24 = D_800588A8[i][2][1];
+    contestantMenuImages[0].texture = D_800588A8[i][0][0];
+    contestantMenuImages[0].dimTexture = D_800588A8[i][0][1];
+    contestantMenuImages[7].texture = D_800588A8[i][1][0];
+    contestantMenuImages[7].dimTexture = D_800588A8[i][1][1];
+    contestantMenuImages[8].texture = D_800588A8[i][2][0];
+    contestantMenuImages[8].dimTexture = D_800588A8[i][2][1];
     switch (mainMenu1[i].sel) {
     case 0:
-        contestantMenuImages[9].unk_20 = D_01158068;
-        contestantMenuImages[9].unk_24 = D_0115B868;
+        contestantMenuImages[9].texture = D_01158068;
+        contestantMenuImages[9].dimTexture = D_0115B868;
         break;
     case 1:
-        contestantMenuImages[9].unk_20 = D_01158868;
-        contestantMenuImages[9].unk_24 = D_0115C068;
+        contestantMenuImages[9].texture = D_01158868;
+        contestantMenuImages[9].dimTexture = D_0115C068;
         break;
     case 2:
-        contestantMenuImages[9].unk_20 = D_01159068;
-        contestantMenuImages[9].unk_24 = D_0115C868;
+        contestantMenuImages[9].texture = D_01159068;
+        contestantMenuImages[9].dimTexture = D_0115C868;
         break;
     case 3:
-        contestantMenuImages[9].unk_20 = D_01159868;
-        contestantMenuImages[9].unk_24 = D_01159868;
+        contestantMenuImages[9].texture = D_01159868;
+        contestantMenuImages[9].dimTexture = D_01159868;
         break;
     case 4:
-        contestantMenuImages[9].unk_20 = D_01157868;
-        contestantMenuImages[9].unk_24 = D_0115B068;
+        contestantMenuImages[9].texture = D_01157868;
+        contestantMenuImages[9].dimTexture = D_0115B068;
         break;
     }
     contestantMenu[0].sel = players[curPlayer].contestant;
@@ -900,24 +900,24 @@ void StartMainMenu3(void) {
         InitMenuAnim(players[i].contestant, i, D_8005A474[i].unk_00, D_8005A474[i].unk_04, D_8005A474[i].unk_08);
         switch (mainMenu1[i].sel) {
         case 0:
-            mainMenu3Images[i * 3 + 2].unk_20 = D_01158068;
-            mainMenu3Images[i * 3 + 2].unk_24 = D_01158068;
+            mainMenu3Images[i * 3 + 2].texture = D_01158068;
+            mainMenu3Images[i * 3 + 2].dimTexture = D_01158068;
             break;
         case 1:
-            mainMenu3Images[i * 3 + 2].unk_20 = D_01158868;
-            mainMenu3Images[i * 3 + 2].unk_24 = D_01158868;
+            mainMenu3Images[i * 3 + 2].texture = D_01158868;
+            mainMenu3Images[i * 3 + 2].dimTexture = D_01158868;
             break;
         case 2:
-            mainMenu3Images[i * 3 + 2].unk_20 = D_01159068;
-            mainMenu3Images[i * 3 + 2].unk_24 = D_01159068;
+            mainMenu3Images[i * 3 + 2].texture = D_01159068;
+            mainMenu3Images[i * 3 + 2].dimTexture = D_01159068;
             break;
         case 3:
-            mainMenu3Images[i * 3 + 2].unk_20 = D_01159868;
-            mainMenu3Images[i * 3 + 2].unk_24 = D_01159868;
+            mainMenu3Images[i * 3 + 2].texture = D_01159868;
+            mainMenu3Images[i * 3 + 2].dimTexture = D_01159868;
             break;
         case 4:
-            mainMenu3Images[i * 3 + 2].unk_20 = D_01157868;
-            mainMenu3Images[i * 3 + 2].unk_24 = D_01157868;
+            mainMenu3Images[i * 3 + 2].texture = D_01157868;
+            mainMenu3Images[i * 3 + 2].dimTexture = D_01157868;
             break;
         }
         i++;

@@ -10,7 +10,7 @@ void ShowTotal(void) {
     u8 buf[32];
 
     for (i = 0; i < 9; i++) {
-        D_8005B4C8[i].unk_20 = 0;
+        D_8005B4C8[i].texture = 0;
     }
     x = players[curPlayer].total;
     IntToStr(buf, x);
@@ -37,7 +37,7 @@ void ShowTotal(void) {
         }
         D_8005B4C8[i].x = x;
         D_8005B4C8[i].width = D_8005B178[glyph];
-        D_8005B4C8[i].unk_20 = D_8005B118[glyph];
+        D_8005B4C8[i].texture = D_8005B118[glyph];
         x = x + D_8005B148[glyph];
     }
     i = 0;

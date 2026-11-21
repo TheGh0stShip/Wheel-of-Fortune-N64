@@ -17,8 +17,8 @@ struct procResult_s CreditsProc(proc_t *proc) {
                 if (i >= 22) {
                     break;
                 }
-                categoryImages[i].unk_20 = 0;
-                categoryImages[i].unk_24 = 0;
+                categoryImages[i].texture = 0;
+                categoryImages[i].dimTexture = 0;
                 i++;
             }
             ResetMotors();

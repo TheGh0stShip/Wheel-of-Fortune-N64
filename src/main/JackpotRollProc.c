@@ -20,7 +20,7 @@ struct procResult_s JackpotRollProc(proc_t *proc) {
     count = proc->data->jackpotRoll.step;
     if (count >= 17) {
         for (i = 0; i < 9; i++) {
-            D_8005B360[i].unk_20 = 0;
+            D_8005B360[i].texture = 0;
         }
         sp20.w[1] = 0;
         sp20.w[0] = 0;
@@ -28,11 +28,11 @@ struct procResult_s JackpotRollProc(proc_t *proc) {
     }
     i = 0;
     while (i < 9) {
-        if (D_8005B360[i].unk_20 != 0) {
-            D_8005B360[i].unk_20 = D_8005B360[i].unk_20 + D_8005B360[i].width;
+        if (D_8005B360[i].texture != 0) {
+            D_8005B360[i].texture = D_8005B360[i].texture + D_8005B360[i].width;
             D_8005B360[i].height = 15 - count;
             if (D_8005B360[i].height <= 0) {
-                D_8005B360[i].unk_20 = 0;
+                D_8005B360[i].texture = 0;
             }
         }
         D_8005B4C8[i].y = 61 - count;

@@ -173,18 +173,18 @@ typedef struct {
 } vannaAnim_t;    // size 0x2C
 
 // A picture DrawImageAt draws: where it goes and how big it is. The tables of them start at
-// mainMenu1Images; what lies behind the size is not named yet.
+// mainMenu1Images.
 typedef struct {
     /* 0x00 */ s32 x;
     /* 0x04 */ s32 y;
     /* 0x08 */ s32 width;
     /* 0x0C */ s32 height;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ s32 unk_1C;
-    /* 0x20 */ u16 *unk_20;     // the two pictures GetImageTexture chooses from; 0: none
-    /* 0x24 */ u16 *unk_24;
+    /* 0x10 */ s32 flash;          // 0: lit, 1: flashing, 2: dim
+    /* 0x14 */ s32 flashFrames;    // the frames of one flash
+    /* 0x18 */ s32 flashLit;       // of those, the frames the lit texture shows
+    /* 0x1C */ s32 flashLeft;      // the frames left of this flash
+    /* 0x20 */ u16 *texture;     // the two textures GetImageTexture chooses from; 0: none
+    /* 0x24 */ u16 *dimTexture;
 } image_t;    // size 0x28
 
 
@@ -200,10 +200,10 @@ typedef struct {
 // pictures in the image_t table of its menu. The menus are mainMenu1[4], contestantMenu[2],
 // mainMenu3[4], skillMenu[2] and roundsMenu[2].
 typedef struct {
-    /* 0x00 */ s32  unk_00;                     // 0: the cursor passes the line by
-    /* 0x04 */ s32  unk_04;                     // the first picture of the label
-    /* 0x08 */ s32  unk_08;                     // how many pictures the label has
-    /* 0x0C */ s32  unk_0C;                     // the first picture of the first option
+    /* 0x00 */ s32  selectable;                     // 0: the cursor passes the line by
+    /* 0x04 */ s32  label;                     // the first picture of the label
+    /* 0x08 */ s32  labelCount;                     // how many pictures the label has
+    /* 0x0C */ s32  options;                     // the first picture of the first option
     /* 0x10 */ s32  rows;                       // how many options
     /* 0x14 */ s32  cols;                       // how many pictures an option has
     /* 0x18 */ s32  sel;                        // the chosen option
@@ -222,7 +222,7 @@ typedef struct {
 // The picture of a letter of the alphabet as BonusRoundProc shows the letter chosen:
 // D_8005BCC8[26].
 typedef struct {
-    /* 0x00 */ u16 *unk_00;     // what unk_20 of the image_t becomes
+    /* 0x00 */ u16 *unk_00;     // what texture of the image_t becomes
     /* 0x04 */ s32 width;
     /* 0x08 */ s32 height;
 } letterImage_t;    // size 0xC
@@ -804,7 +804,7 @@ extern s32 D_800584A0[][2];         // [5], x and y of pictures 2 to 6 of the fi
 extern menuItem_t mainMenu1[];
 extern image_t mainMenu1Images[];
 extern menuItem_t contestantMenu[];
-extern u16 *D_800588A8[][3][2];     // [3], for each contestant unk_20 and unk_24 of pictures 0, 7 and 8 of contestantMenuImages
+extern u16 *D_800588A8[][3][2];     // [3], for each contestant texture and dimTexture of pictures 0, 7 and 8 of contestantMenuImages
 extern image_t contestantMenuImages[];
 extern menuItem_t mainMenu3[];
 extern image_t mainMenu3Images[];

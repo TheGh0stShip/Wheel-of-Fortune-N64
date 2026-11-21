@@ -15,7 +15,7 @@ struct procResult_s StatusProc(proc_t *proc) {
             inputCount++;
             UnflashActions();
             proc->data->cursor.index = curLetter - 48;
-            actionImages[proc->data->cursor.index].unk_1C = actionImages[proc->data->cursor.index].unk_14;
+            actionImages[proc->data->cursor.index].flashLeft = actionImages[proc->data->cursor.index].flashFrames;
             break;
         case 8:
             UnflashActions();
@@ -24,7 +24,7 @@ struct procResult_s StatusProc(proc_t *proc) {
             ShowJackpot();
             SetScorePictures(0);
             for (i = 0; i < 26; i++) {
-                letterImages[i].unk_10 = 0;
+                letterImages[i].flash = 0;
             }
             result.w[1] = 2;
             result.w[0] = 40;
@@ -42,7 +42,7 @@ struct procResult_s StatusProc(proc_t *proc) {
             UnflashActions();
             SetScorePictures(0);
             InitActionCursor(proc);
-            actionImages[proc->data->cursor.index].unk_10 = 1;
+            actionImages[proc->data->cursor.index].flash = 1;
             proc->data->cursor.delay = 0;
             return result;
         case 15:
@@ -52,7 +52,7 @@ struct procResult_s StatusProc(proc_t *proc) {
             InitCategory();
             shownJackpot = 0;
             ShowJackpot();
-            actionImages[proc->data->cursor.index].unk_10 = 1;
+            actionImages[proc->data->cursor.index].flash = 1;
             proc->data->cursor.delay = 0;
             SetScorePictures(0);
         case 1:
@@ -67,10 +67,10 @@ struct procResult_s StatusProc(proc_t *proc) {
             func_80028CC4();
             SetScorePictures(1);
             for (i = 0; i < 3; i++) {
-                D_8005A4B8[i][0].unk_10 = 0;
-                D_8005A4B8[i][0].unk_1C = D_8005A4B8[i][0].unk_14;
-                D_8005A4B8[i][1].unk_10 = 0;
-                D_8005A4B8[i][1].unk_1C = D_8005A4B8[i][1].unk_14;
+                D_8005A4B8[i][0].flash = 0;
+                D_8005A4B8[i][0].flashLeft = D_8005A4B8[i][0].flashFrames;
+                D_8005A4B8[i][1].flash = 0;
+                D_8005A4B8[i][1].flashLeft = D_8005A4B8[i][1].flashFrames;
             }
             result.w[1] = 2;
             if (gameOver != 0 || round == numRounds - 1) {
@@ -110,11 +110,11 @@ struct procResult_s StatusProc(proc_t *proc) {
         func_80009F38("Status Proc: player proc does not exist\n");
     }
     if (finalSpin == 1) {
-        actionImages[proc->data->cursor.index].unk_10 = 0;
+        actionImages[proc->data->cursor.index].flash = 0;
         return result;
     }
     if (players[curPlayer].controller == 4) {
-        actionImages[proc->data->cursor.index].unk_10 = 1;
+        actionImages[proc->data->cursor.index].flash = 1;
         return result;
     }
     if ((buttonsPressed & 0xA000 & 0xFFFF) != 0) {
@@ -189,6 +189,6 @@ struct procResult_s StatusProc(proc_t *proc) {
     } else if (proc->data->cursor.index >= 4) {
         proc->data->cursor.index = 0;
     }
-    actionImages[proc->data->cursor.index].unk_10 = 1;
+    actionImages[proc->data->cursor.index].flash = 1;
     return result;
 }

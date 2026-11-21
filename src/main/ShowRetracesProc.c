@@ -14,9 +14,9 @@ struct procResult_s ShowRetracesProc(proc_t *proc) {
     } while (busy != 0);
     tens = frameRetraces / 10;
     ones = frameRetraces % 10;
-    D_8005B310[0].unk_20 = D_8005B118[tens];
+    D_8005B310[0].texture = D_8005B118[tens];
     D_8005B310[0].width = D_8005B178[tens];
-    D_8005B310[1].unk_20 = D_8005B118[ones];
+    D_8005B310[1].texture = D_8005B118[ones];
     D_8005B310[1].width = D_8005B178[ones];
     return result;
 }

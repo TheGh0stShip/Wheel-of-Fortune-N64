@@ -49,7 +49,7 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
             ret.w[0] = 6;
             return ret;
         case 6:
-            if (D_8005BE00[9].unk_20 != 0) {
+            if (D_8005BE00[9].texture != 0) {
                 if (CheckSolved(0) == 1) {
                     ProcPostEvent(10);
                     CreatProc(BonusWonProc, 0x6000000);
@@ -77,7 +77,7 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
             return ret;
         case 5:
             if (IsVowel(curLetter) != 0) {
-                if (D_8005BE00[9].unk_20 != 0) {
+                if (D_8005BE00[9].texture != 0) {
                     PlaySound(1);
                     StartLetterPick();
                     ret.w[1] = 2;
@@ -98,11 +98,11 @@ struct procResult_s BonusRoundProc(proc_t *proc) {
                 bonusConsonants++;
                 i = 6;
             }
-            while (i < 10 && D_8005BE00[i].unk_20 != 0) {
+            while (i < 10 && D_8005BE00[i].texture != 0) {
                 i++;
             }
             uncalled[curLetter - 65] = 32;
-            D_8005BE00[i].unk_20 = D_8005BCC8[curLetter - 65].unk_00;
+            D_8005BE00[i].texture = D_8005BCC8[curLetter - 65].unk_00;
             D_8005BE00[i].width = D_8005BCC8[curLetter - 65].width;
             D_8005BE00[i].height = D_8005BCC8[curLetter - 65].height;
             ShowLetter(curLetter);

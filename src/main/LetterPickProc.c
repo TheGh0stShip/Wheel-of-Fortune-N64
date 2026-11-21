@@ -16,11 +16,11 @@ struct procResult_s LetterPickProc(proc_t *proc) {
         switch (event) {
         case 8:
             InitLetterCursor(proc);
-            letterImages[proc->data->cursor.index].unk_10 = 1;
+            letterImages[proc->data->cursor.index].flash = 1;
             proc->data->cursor.delay = 0;
             return result;
         case 23:
-            letterImages[proc->data->cursor.index].unk_10 = 0;
+            letterImages[proc->data->cursor.index].flash = 0;
             ProcPostEvent(5);
             result.w[1] = 0;
             result.w[0] = 0;
@@ -37,9 +37,9 @@ struct procResult_s LetterPickProc(proc_t *proc) {
         }
     }
     curLetter = proc->data->cursor.index + 65;
-    letterImages[proc->data->cursor.index].unk_10 = 0;
+    letterImages[proc->data->cursor.index].flash = 0;
     if (players[curPlayer].controller == 4) {
-        letterImages[proc->data->cursor.index].unk_10 = 1;
+        letterImages[proc->data->cursor.index].flash = 1;
         return result;
     }
     if ((buttonsPressed & 0xA000) != 0) {
@@ -94,6 +94,6 @@ struct procResult_s LetterPickProc(proc_t *proc) {
     } else if (proc->data->cursor.index >= 26) {
         proc->data->cursor.index = 0;
     }
-    letterImages[proc->data->cursor.index].unk_10 = 1;
+    letterImages[proc->data->cursor.index].flash = 1;
     return result;
 }

@@ -36,7 +36,7 @@ struct procResult_s CategoryProc(proc_t *proc) {
         }
     }
     index = proc->data->categoryShow.index;
-    if (categoryImages[index].unk_24 == 0 || index >= 22) {
+    if (categoryImages[index].dimTexture == 0 || index >= 22) {
         if (round != 6) {
             PlaySound(curPlayer + 139);
         }
@@ -47,7 +47,7 @@ struct procResult_s CategoryProc(proc_t *proc) {
     }
     obj->x = categoryImages[index].x;
     obj->y = categoryImages[index].y - 4;
-    categoryImages[index].unk_20 = categoryImages[index].unk_24;
+    categoryImages[index].texture = categoryImages[index].dimTexture;
     if (index >= 16) {
         index = index % 16;
     }

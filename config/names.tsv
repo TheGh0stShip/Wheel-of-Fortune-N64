@@ -790,3 +790,13 @@ winSound	member	player_t	invented	the sound the contestant makes on winning the 
 letters	member	voice_t	invented	the first of the contestant's 26 sounds that call the letters
 freeSpinSound	member	voice_t	invented	what freeSpinSound of the player becomes
 winSound	member	voice_t	invented	what winSound of the player becomes
+flash	member	image_t	invented	0: lit, 1: flashing, 2: dim
+flashFrames	member	image_t	invented	the frames of one flash
+flashLit	member	image_t	invented	the frames of each flash that the lit texture shows
+flashLeft	member	image_t	invented	the frames left of this flash
+texture	member	image_t	invented	the lit texture; 0: nothing is drawn
+dimTexture	member	image_t	invented	the dim texture, of a dimmed or flashing picture
+selectable	member	menuItem_t	invented	0: the cursor passes the line by
+label	member	menuItem_t	invented	the first picture of the label
+labelCount	member	menuItem_t	invented	how many pictures the label has
+options	member	menuItem_t	invented	the first picture of the first option

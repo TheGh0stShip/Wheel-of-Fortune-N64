@@ -4,20 +4,20 @@ u16 *GetImageTexture(image_t *image, s32 lit) {
     u16 *result;
 
     if (lit != 0) {
-        result = image->unk_20;
+        result = image->texture;
     } else {
-        result = image->unk_24;
+        result = image->dimTexture;
     }
-    if (image->unk_10 == 1) {
-        if (image->unk_1C > image->unk_18) {
-            result = image->unk_24;
+    if (image->flash == 1) {
+        if (image->flashLeft > image->flashLit) {
+            result = image->dimTexture;
         }
-        image->unk_1C -= frameRetraces;
-        if (image->unk_1C < 0) {
-            image->unk_1C = image->unk_14;
+        image->flashLeft -= frameRetraces;
+        if (image->flashLeft < 0) {
+            image->flashLeft = image->flashFrames;
         }
-    } else if (image->unk_10 == 2) {
-        result = image->unk_24;
+    } else if (image->flash == 2) {
+        result = image->dimTexture;
     }
     return result;
 }

@@ -47,9 +47,9 @@ void func_800278F0(obj_t *obj, frame_t *frame) {
     i = 0;
     while (i < 26) {
         if (uncalled[i] == ' ') {
-            letterImages[i].unk_20 = D_8005A8C8[i];
+            letterImages[i].texture = D_8005A8C8[i];
         } else {
-            letterImages[i].unk_20 = D_8005A930[i];
+            letterImages[i].texture = D_8005A930[i];
         }
         DrawImage(&letterImages[i], 1);
         i++;

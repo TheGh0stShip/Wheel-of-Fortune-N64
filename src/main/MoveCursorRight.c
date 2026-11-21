@@ -14,7 +14,7 @@ void MoveCursorRight(proc_t *proc, s32 arg1, s32 arg2) {
         if (proc->data->cursor.index >= 26) {
             proc->data->cursor.index = 13;
         }
-        letterImages[proc->data->cursor.index].unk_1C = letterImages[proc->data->cursor.index].unk_14;
+        letterImages[proc->data->cursor.index].flashLeft = letterImages[proc->data->cursor.index].flashFrames;
     } else {
         if (proc->data->cursor.index != 3) {
             proc->data->cursor.index++;
@@ -22,7 +22,7 @@ void MoveCursorRight(proc_t *proc, s32 arg1, s32 arg2) {
                 proc->data->cursor.index = 0;
             }
         }
-        actionImages[proc->data->cursor.index].unk_1C = actionImages[proc->data->cursor.index].unk_14;
+        actionImages[proc->data->cursor.index].flashLeft = actionImages[proc->data->cursor.index].flashFrames;
     }
     curLetter = proc->data->cursor.index + 65;
     proc->data->cursor.delay = 15;

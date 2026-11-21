@@ -15,50 +15,50 @@ void InitCategory(void) {
     }
     i = 0;
     while (i < 22) {
-        categoryImages[i].unk_20 = 0;
-        categoryImages[i].unk_24 = 0;
+        categoryImages[i].texture = 0;
+        categoryImages[i].dimTexture = 0;
         i++;
     }
     x = 152 - len * 6;
     n = 0;
-    categoryImages[n].unk_24 = D_01017550;
+    categoryImages[n].dimTexture = D_01017550;
     categoryImages[n].x = x;
     categoryImages[n].width = 8;
     if (gameMode == 8) {
-        categoryImages[n].unk_20 = categoryImages[n].unk_24;
+        categoryImages[n].texture = categoryImages[n].dimTexture;
     }
     n++;
     x = x + 8;
     for (i = 0; i < len; i++) {
         switch (category[i]) {
         case '&':
-            categoryImages[n].unk_24 = D_01017750;
+            categoryImages[n].dimTexture = D_01017750;
             break;
         case '-':
-            categoryImages[n].unk_24 = D_010178D0;
+            categoryImages[n].dimTexture = D_010178D0;
             break;
         case ' ':
-            categoryImages[n].unk_24 = D_01017BD0;
+            categoryImages[n].dimTexture = D_01017BD0;
             break;
         case '/':
-            categoryImages[n].unk_24 = D_01017A50;
+            categoryImages[n].dimTexture = D_01017A50;
             break;
         default:
-            categoryImages[n].unk_24 = D_8005B5A4[category[i]];
+            categoryImages[n].dimTexture = D_8005B5A4[category[i]];
         }
         categoryImages[n].x = x;
         categoryImages[n].width = 12;
         if (gameMode == 8) {
-            categoryImages[n].unk_20 = categoryImages[n].unk_24;
+            categoryImages[n].texture = categoryImages[n].dimTexture;
         }
         n++;
         x = x + 12;
     }
-    categoryImages[n].unk_24 = D_01017650;
+    categoryImages[n].dimTexture = D_01017650;
     categoryImages[n].x = x;
     categoryImages[n].width = 8;
     if (gameMode == 8) {
-        categoryImages[n].unk_20 = categoryImages[n].unk_24;
+        categoryImages[n].texture = categoryImages[n].dimTexture;
         return;
     }
     task = CreatProc(CategoryProc, 0x6040000);
