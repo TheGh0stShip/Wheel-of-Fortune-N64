@@ -14,7 +14,7 @@
 
 // A stream: the memory the movie sits in, and how far it has been read. There is one, D_80107888.
 typedef struct {
-    /* 0x00 */ int           unk_00;    // never read or written
+    /* 0x00 */ int           unused00;  // NOTE: no code reads or writes it
     /* 0x04 */ int           pos;
     /* 0x08 */ unsigned char *data;
 } FILE;
