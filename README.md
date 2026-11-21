@@ -22,8 +22,9 @@ requires its SHA-1 to equal the retail ROM's.
   the rest, whose boundaries are not settled, and those functions still sit one per file.
 - The library is libultra (IDO 5.3, built from the `ultralib` reconstruction under `lib/ultralib`) and three
   libgcc functions: 305 C functions, all of which pass the rules.
-- Data is mostly not reconstructed: 24,237 bytes of it are linked from source, and about 260,000 bytes of the
-  image outside the code still come from the ROM.
+- Data is mostly not reconstructed: the gate links 24,694 data bytes from source. The other 247,628 bytes of
+  the image outside the code still come from the ROM; `./wof datamap` accounts for every one of them by range,
+  kind and owning object (`config/data.tsv`).
 
 Earlier versions of this file described the project as complete. That claim rested on ledgers produced by a
 toolchain that is not in this repository (`MATCHED.tsv`, `progress-*.tsv`, `source-accounted.tsv`,
